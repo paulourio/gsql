@@ -1,0 +1,78 @@
+version: "2"
+run:
+  concurrency: 10
+linters:
+  enable:
+    - asasalint
+    - bodyclose
+    - containedctx
+    - contextcheck
+    - dupl
+    - dupword
+    - errchk
+    - errchkjson
+    - errname
+    - errorlint
+    - exhaustive
+    - forcetypeassert
+    - gocheckcompilerdirectives
+    - gochecknoglobals
+    - gochecknoinits
+    - goconst
+    - gocritic
+    - godot
+    - godox
+    - goprintffuncname
+    - gosmopolitan
+    - govet
+    - iface
+    - inamedparam
+    - ineffassign
+    - ireturn
+    - misspell
+    - modernize
+    - musttag
+    - nolintlint
+    - paralleltest
+    - prealloc
+    - predeclared
+    - reassign
+    - revive
+    - staticcheck
+    - tagalign
+    - testifylint
+    - testpackage
+    - thelper
+    - tparallel
+    - unconvert
+    - unparam
+    - unused
+    - wrapcheck
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gci
+    - gofumpt
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+  settings:
+    gci:
+      sections:
+        - standard
+        - blank
+        - default
+        - prefix(github.com/paulourio/gsql)
