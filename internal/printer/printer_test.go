@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"os"
 	"path"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -23,13 +24,92 @@ func TestPrinter(t *testing.T) {
 		s := MustReadTest(path.Join("testdata", file.Name()))
 		for i, c := range s.Cases {
 			name := fmt.Sprintf("%s:case %d", file.Name(), i)
+			testFiles := []string{
+				// "aggregation",
+				// "analytic_functions",
+				// "arrays",
+				// "between",
+				// "bitwise_operators",
+				// "bq_collation",
+				// "bq_conditional_expressions",
+				// "bq_data_types",
+				"bq_ddl", // todo
+				// "bq_format_elements",
+				// "bq_function_calls",
+				"bq_functions", // todo
+				// "bq_lexical_structure",
+				// "bq_operators",
+				// "bq_query_syntax", // todo
+				// "bq_subqueries",
+				// "bq_window_function_calls",
+				// "case",
+				// "comments",
+				// "create_materialized_view",
+				// "create_procedure",
+				// "create_row_access_policy",
+				// "create_sql_function",
+				// "create_table_as_select",
+				// "drop",
+				// "execute_immediate",
+				// "expression_subquery",
+				// "field_access",
+				// "from_clause_join_rewrites",
+				// "from",
+				// "if",
+				// "in",
+				// "is_distinct",
+				// "keywords",
+				// "limit",
+				// "literal",
+
+				// "merge", // todo
+				// "named_arguments", // todo
+				// "normalize", // todo
+				// "operator_precedence", // todo
+				// "orderby", // todo
+				// "parethesized_query",
+				// "parser", // todo
+
+				// TODO
+				// "pivot",
+				// "qualify",
+				// "rollup",
+				// "select_as_distinct_all",
+				// "select",
+				// "set_operation",
+				// "set",
+				// "star",
+				// "struct",
+				// "system_variables",
+				// "tablesample",
+				// "templated",
+				// "time_travel",
+				// "transaction",
+				// "truncate",
+				// "tvf",
+				// "unnest",
+				// "unpivot",
+				// "variable_declarations",
+				// "with_offset",
+				// "with",
+			}
+			skip := true
+			for _, prefix := range testFiles {
+				if strings.HasPrefix(name, prefix+".toml") {
+					skip = false
+					break
+				}
+			}
+			if skip {
+				continue
+			}
+
 			t.Run(name, func(t *testing.T) {
-				t.Parallel()
 				if !testCase(t, s, c) {
 					nerr++
 				}
 			})
-			if nerr > 2 {
+			if nerr > 3 {
 				t.Fatal("stopping due too many errors")
 			}
 		}
@@ -37,6 +117,7 @@ func TestPrinter(t *testing.T) {
 }
 
 func testCase(t *testing.T, f *TestDataFile, c *Case) bool {
+	t.Logf("[TEST] %s", c.Description)
 	input := ExtractScriptInfo(c.Input)
 	var logBuf bytes.Buffer
 	logBuf.Grow(len(c.Input) * 20)

@@ -1,6 +1,5 @@
 # Tests cases of examples from BigQuery's documentation.
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -365,9 +364,7 @@ SELECT *
 SELECT *
   FROM Words
  WHERE value IN (
-         (
-           SELECT 'Intend'
-         ),
+         (SELECT 'Intend'),
          'Clarity'
        );
 
@@ -390,10 +387,8 @@ SELECT *
  | Clarity  |
  *----------*/
 -- Example with IN and a struct:
-SELECT (
-         SELECT AS STRUCT
-                Items.info
-       ) AS item
+SELECT (SELECT AS STRUCT
+               items.info) AS item
   FROM Items
  WHERE (info.shape, info.color) IN (
          ('round', 'blue')
@@ -419,14 +414,14 @@ X IS UNKNOWN 	,
 X IS NOT UNKNOWN 	,
 """
 formatted = """
-SELECT X IS TRUE,
-       X IS NOT TRUE,
-       X IS FALSE,
-       X IS NOT FALSE,
-       X IS NULL,
-       X IS NOT NULL,
-       X IS UNKNOWN,
-       X IS NOT UNKNOWN
+SELECT x IS TRUE,
+       x IS NOT TRUE,
+       x IS FALSE,
+       x IS NOT FALSE,
+       x IS NULL,
+       x IS NOT NULL,
+       x IS UNKNOWN,
+       x IS NOT UNKNOWN
 """
 
 [[cases]]
@@ -441,12 +436,12 @@ X << Y,
 X >> Y,
 """
 formatted = """
-SELECT ~X,
-       X | Y,
-       X ^ Y,
-       X & Y,
-       X << Y,
-       X >> Y
+SELECT ~x,
+       x | y,
+       x ^ y,
+       x & y,
+       x << y,
+       x >> y
 """
 
 [[cases]]

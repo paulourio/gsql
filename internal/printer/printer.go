@@ -61,450 +61,470 @@ func (p *Printer) visit(ctx Context, n googlesql.ASTNode, newline bool) {
 		p.println("")
 	}
 	switch m := n.(type) {
-	// case *googlesql.ASTAddColumnAction:
-	// 	p.VisitAddColumnAction(ctx, m)
-	// case *googlesql.ASTAddConstraintAction:
-	// 	p.VisitAddConstraintAction(ctx, m)
+	case *googlesql.ASTAddColumnAction:
+		p.VisitAddColumnAction(ctx, m)
+	case *googlesql.ASTAddConstraintAction:
+		p.VisitAddConstraintAction(ctx, m)
 	case *googlesql.ASTAlias:
 		p.VisitAlias(ctx, m)
-	// case *googlesql.ASTAlterActionList:
-	// 	p.VisitAlterActionList(ctx, m)
-	// case *googlesql.ASTAlterAllRowAccessPoliciesStatement:
-	// 	p.VisitAlterAllRowAccessPoliciesStatement(ctx, m)
-	// case *googlesql.ASTAlterColumnDropDefaultAction:
-	// 	p.VisitAlterColumnDropDefaultAction(ctx, m)
-	// case *googlesql.ASTAlterColumnDropNotNullAction:
-	// 	p.VisitAlterColumnDropNotNullAction(ctx, m)
-	// case *googlesql.ASTAlterColumnOptionsAction:
-	// 	p.VisitAlterColumnOptionsAction(ctx, m)
-	// case *googlesql.ASTAlterColumnSetDefaultAction:
-	// 	p.VisitAlterColumnSetDefaultAction(ctx, m)
-	// case *googlesql.ASTAlterColumnTypeAction:
-	// 	p.VisitAlterColumnTypeAction(ctx, m)
-	// case *googlesql.ASTAlterConstraintEnforcementAction:
-	// 	p.VisitAlterConstraintEnforcementAction(ctx, m)
-	// case *googlesql.ASTAlterConstraintSetOptionsAction:
-	// 	p.VisitAlterConstraintSetOptionsAction(ctx, m)
-	// case *googlesql.ASTAlterDatabaseStatement:
-	// 	p.VisitAlterDatabaseStatement(ctx, m)
-	// case *googlesql.ASTAlterEntityStatement:
-	// 	p.VisitAlterEntityStatement(ctx, m)
-	// case *googlesql.ASTAlterMaterializedViewStatement:
-	// 	p.VisitAlterMaterializedViewStatement(ctx, m)
-	// case *googlesql.ASTAlterPrivilegeRestrictionStatement:
-	// 	p.VisitAlterPrivilegeRestrictionStatement(ctx, m)
-	// case *googlesql.ASTAlterRowAccessPolicyStatement:
-	// 	p.VisitAlterRowAccessPolicyStatement(ctx, m)
-	// case *googlesql.ASTAlterSchemaStatement:
-	// 	p.VisitAlterSchemaStatement(ctx, m)
-	// case *googlesql.ASTAlterTableStatement:
-	// 	p.VisitAlterTableStatement(ctx, m)
-	// case *googlesql.ASTAlterViewStatement:
-	// 	p.VisitAlterViewStatement(ctx, m)
-	// case *googlesql.ASTAnalyticFunctionCall:
-	// 	p.VisitAnalyticFunctionCall(ctx, m)
-	// case *googlesql.ASTAndExpr:
-	// 	p.VisitAndExpr(ctx, m)
-	// case *googlesql.ASTArrayConstructor:
-	// 	p.VisitArrayConstructor(ctx, m)
-	// case *googlesql.ASTArrayElement:
-	// 	p.VisitArrayElement(ctx, m)
-	// case *googlesql.ASTArrayType:
-	// 	p.VisitArrayType(ctx, m)
-	// case *googlesql.ASTAssignmentFromStruct:
-	// 	p.VisitAssignmentFromStruct(ctx, m)
-	// case *googlesql.ASTBeginEndBlock:
-	// 	p.VisitBeginEndBlock(ctx, m)
-	// case *googlesql.ASTBeginStatement:
-	// 	p.VisitBeginStatementNode(ctx, m)
-	// case *googlesql.ASTBetweenExpression:
-	// 	p.VisitBetweenExpression(ctx, m)
+	case *googlesql.ASTAliasedGroupRows:
+		p.VisitAliasedGroupRows(ctx, m)
+	case *googlesql.ASTAliasedQuery:
+		p.VisitAliasedQuery(ctx, m)
+	case *googlesql.ASTAlterActionList:
+		p.VisitAlterActionList(ctx, m)
+	case *googlesql.ASTAlterAllRowAccessPoliciesStatement:
+		p.VisitAlterAllRowAccessPoliciesStatement(ctx, m)
+	case *googlesql.ASTAlterColumnDropDefaultAction:
+		p.VisitAlterColumnDropDefaultAction(ctx, m)
+	case *googlesql.ASTAlterColumnDropNotNullAction:
+		p.VisitAlterColumnDropNotNullAction(ctx, m)
+	case *googlesql.ASTAlterColumnOptionsAction:
+		p.VisitAlterColumnOptionsAction(ctx, m)
+	case *googlesql.ASTAlterColumnSetDefaultAction:
+		p.VisitAlterColumnSetDefaultAction(ctx, m)
+	case *googlesql.ASTAlterColumnTypeAction:
+		p.VisitAlterColumnTypeAction(ctx, m)
+	case *googlesql.ASTAlterConstraintEnforcementAction:
+		p.VisitAlterConstraintEnforcementAction(ctx, m)
+	case *googlesql.ASTAlterConstraintSetOptionsAction:
+		p.VisitAlterConstraintSetOptionsAction(ctx, m)
+	case *googlesql.ASTAlterDatabaseStatement:
+		p.VisitAlterDatabaseStatement(ctx, m)
+	case *googlesql.ASTAlterEntityStatement:
+		p.VisitAlterEntityStatement(ctx, m)
+	case *googlesql.ASTAlterMaterializedViewStatement:
+		p.VisitAlterMaterializedViewStatement(ctx, m)
+	case *googlesql.ASTAlterPrivilegeRestrictionStatement:
+		p.VisitAlterPrivilegeRestrictionStatement(ctx, m)
+	case *googlesql.ASTAlterRowAccessPolicyStatement:
+		p.VisitAlterRowAccessPolicyStatement(ctx, m)
+	case *googlesql.ASTAlterSchemaStatement:
+		p.VisitAlterSchemaStatement(ctx, m)
+	case *googlesql.ASTAlterTableStatement:
+		p.VisitAlterTableStatement(ctx, m)
+	case *googlesql.ASTAlterViewStatement:
+		p.VisitAlterViewStatement(ctx, m)
+	case *googlesql.ASTAnalyticFunctionCall:
+		p.VisitAnalyticFunctionCall(ctx, m)
+	case *googlesql.ASTAndExpr:
+		p.VisitAndExpr(ctx, m)
+	case *googlesql.ASTArrayConstructor:
+		p.VisitArrayConstructor(ctx, m)
+	case *googlesql.ASTArrayColumnSchema:
+		p.VisitArrayColumnSchema(ctx, m)
+	case *googlesql.ASTArrayElement:
+		p.VisitArrayElement(ctx, m)
+	case *googlesql.ASTArrayType:
+		p.VisitArrayType(ctx, m)
+	case *googlesql.ASTAssignmentFromStruct:
+		p.VisitAssignmentFromStruct(ctx, m)
+	case *googlesql.ASTBeginEndBlock:
+		p.VisitBeginEndBlock(ctx, m)
+	case *googlesql.ASTBeginStatement:
+		p.VisitBeginStatementNode(ctx, m)
+	case *googlesql.ASTBetweenExpression:
+		p.VisitBetweenExpression(ctx, m)
 	case *googlesql.ASTBigNumericLiteral:
 		p.VisitBigNumericLiteral(ctx, m)
-	// case *googlesql.ASTBinaryExpression:
-	// 	p.VisitBinaryExpression(ctx, m)
-	// case *googlesql.ASTBitwiseShiftExpression:
-	// 	p.VisitBitwiseShiftExpression(ctx, m)
+	case *googlesql.ASTBinaryExpression:
+		p.VisitBinaryExpression(ctx, m)
+	case *googlesql.ASTBitwiseShiftExpression:
+		p.VisitBitwiseShiftExpression(ctx, m)
 	case *googlesql.ASTBooleanLiteral:
 		p.VisitBoolLiteral(ctx, m)
 	case *googlesql.ASTBytesLiteral:
 		p.VisitBytesLiteral(ctx, m)
-	// case *googlesql.ASTCallStatement:
-	// 	p.VisitCallStatement(ctx, m)
-	// case *googlesql.ASTCaseNoValueExpression:
-	// 	p.VisitCaseNoValueExpression(ctx, m)
-	// case *googlesql.ASTCaseValueExpression:
-	// 	p.VisitCaseValueExpression(ctx, m)
-	// case *googlesql.ASTCastExpression:
-	// 	p.VisitCastExpression(ctx, m)
-	// case *googlesql.ASTClampedBetweenModifier:
-	// 	p.VisitClampedBetweenModifier(ctx, m)
-	// case *googlesql.ASTCloneDataSource:
-	// 	p.VisitCloneDataSource(ctx, m)
-	// case *googlesql.ASTClusterBy:
-	// 	p.VisitClusterBy(ctx, m)
-	// case *googlesql.ASTCollate:
-	// 	p.VisitCollate(ctx, m)
-	// case *googlesql.ASTColumnAttributeList:
-	// 	p.VisitColumnAttributeList(ctx, m)
-	// case *googlesql.ASTColumnDefinition:
-	// 	p.VisitColumnDefinition(ctx, m)
-	// case *googlesql.ASTColumnList:
-	// 	p.VisitColumnList(ctx, m)
-	// case *googlesql.ASTCommitStatement:
-	// 	p.VisitCommitStatement(ctx, m)
-	// case *googlesql.ASTConnectionClause:
-	// 	p.VisitConnectionClause(ctx, m)
-	// case *googlesql.ASTColumnSchema:
-	// 	p.VisitColumnSchema(ctx, m)
-	// case *googlesql.ASTCopyDataSource:
-	// 	p.VisitCopyDataSource(ctx, m)
-	// case *googlesql.ASTCreateExternalTableStatement:
-	// 	p.VisitCreateExternalTableStatement(ctx, m)
-	// case *googlesql.ASTCreateFunctionStatement:
-	// 	p.VisitCreateFunctionStatement(ctx, m)
-	// case *googlesql.ASTCreateMaterializedViewStatement:
-	// 	p.VisitCreateMaterializedViewStatement(ctx, m)
-	// case *googlesql.ASTCreateProcedureStatement:
-	// 	p.VisitCreateProcedureStatement(ctx, m)
-	// case *googlesql.ASTCreateRowAccessPolicyStatement:
-	// 	p.VisitCreateRowAccessPolicyStatement(ctx, m)
-	// case *googlesql.ASTCreateSchemaStatement:
-	// 	p.VisitCreateSchemaStatement(ctx, m)
-	// case *googlesql.ASTCreateSnapshotTableStatement:
-	// 	p.VisitCreateSnapshotTableStatement(ctx, m)
-	// case *googlesql.ASTCreateTableStatement:
-	// 	p.VisitCreateTableStatement(ctx, m)
-	// case *googlesql.ASTCreateTableFunctionStatement:
-	// 	p.VisitCreateTableFunctionStatement(ctx, m)
-	// case *googlesql.ASTCreateViewStatement:
-	// 	p.VisitCreateViewStatement(ctx, m)
+	case *googlesql.ASTCallStatement:
+		p.VisitCallStatement(ctx, m)
+	case *googlesql.ASTCaseNoValueExpression:
+		p.VisitCaseNoValueExpression(ctx, m)
+	case *googlesql.ASTCaseValueExpression:
+		p.VisitCaseValueExpression(ctx, m)
+	case *googlesql.ASTCastExpression:
+		p.VisitCastExpression(ctx, m)
+	case *googlesql.ASTClampedBetweenModifier:
+		p.VisitClampedBetweenModifier(ctx, m)
+	case *googlesql.ASTCloneDataSource:
+		p.VisitCloneDataSource(ctx, m)
+	case *googlesql.ASTClusterBy:
+		p.VisitClusterBy(ctx, m)
+	case *googlesql.ASTCollate:
+		p.VisitCollate(ctx, m)
+	case *googlesql.ASTColumnAttributeList:
+		p.VisitColumnAttributeList(ctx, m)
+	case *googlesql.ASTColumnDefinition:
+		p.VisitColumnDefinition(ctx, m)
+	case *googlesql.ASTColumnList:
+		p.VisitColumnList(ctx, m)
+	case *googlesql.ASTColumnSchema:
+		p.VisitColumnSchema(ctx, m)
+	case *googlesql.ASTColumnWithOptions:
+		p.VisitColumnWithOptions(ctx, m)
+	case *googlesql.ASTColumnWithOptionsList:
+		p.VisitColumnWithOptionsList(ctx, m)
+	case *googlesql.ASTCommitStatement:
+		p.VisitCommitStatement(ctx, m)
+	case *googlesql.ASTConnectionClause:
+		p.VisitConnectionClause(ctx, m)
+	case *googlesql.ASTCopyDataSource:
+		p.VisitCopyDataSource(ctx, m)
+	case *googlesql.ASTCreateExternalTableStatement:
+		p.VisitCreateExternalTableStatement(ctx, m)
+	case *googlesql.ASTCreateFunctionStatement:
+		p.VisitCreateFunctionStatement(ctx, m)
+	case *googlesql.ASTCreateMaterializedViewStatement:
+		p.VisitCreateMaterializedViewStatement(ctx, m)
+	case *googlesql.ASTCreateProcedureStatement:
+		p.VisitCreateProcedureStatement(ctx, m)
+	case *googlesql.ASTCreateRowAccessPolicyStatement:
+		p.VisitCreateRowAccessPolicyStatement(ctx, m)
+	case *googlesql.ASTCreateSchemaStatement:
+		p.VisitCreateSchemaStatement(ctx, m)
+	case *googlesql.ASTCreateSnapshotTableStatement:
+		p.VisitCreateSnapshotTableStatement(ctx, m)
+	case *googlesql.ASTCreateTableStatement:
+		p.VisitCreateTableStatement(ctx, m)
+	case *googlesql.ASTCreateTableFunctionStatement:
+		p.VisitCreateTableFunctionStatement(ctx, m)
+	case *googlesql.ASTCreateViewStatement:
+		p.VisitCreateViewStatement(ctx, m)
 	case *googlesql.ASTDateOrTimeLiteral:
 		p.VisitDateOrTimeLiteral(ctx, m)
-	// case *googlesql.ASTDescriptor:
-	// 	p.VisitDescriptor(ctx, m)
-	// case *googlesql.ASTDescriptorColumn:
-	// 	p.VisitDescriptorColumn(ctx, m)
-	// case *googlesql.ASTDescriptorColumnList:
-	// 	p.VisitDescriptorColumnList(ctx, m)
-	// case *googlesql.ASTDotIdentifier:
-	// 	p.VisitDotIdentifier(ctx, m)
-	// case *googlesql.ASTDotGeneralizedField:
-	// 	p.VisitDotGeneralizedField(ctx, m)
-	// case *googlesql.ASTDotStar:
-	// 	p.VisitDotStar(ctx, m)
-	// case *googlesql.ASTDotStarWithModifiers:
-	// 	p.VisitDotStarWithModifiers(ctx, m)
-	// case *googlesql.ASTDropAllRowAccessPoliciesStatement:
-	// 	p.VisitDropAllRowAccessPoliciesStatement(ctx, m)
-	// case *googlesql.ASTDropColumnAction:
-	// 	p.VisitDropColumnAction(ctx, m)
-	// case *googlesql.ASTDropConstraintAction:
-	// 	p.VisitDropConstraintAction(ctx, m)
-	// case *googlesql.ASTDropEntityStatement:
-	// 	p.VisitDropEntityStatement(ctx, m)
-	// case *googlesql.ASTDropFunctionStatement:
-	// 	p.VisitDropFunctionStatement(ctx, m)
-	// case *googlesql.ASTDropMaterializedViewStatement:
-	// 	p.VisitDropMaterializedViewStatement(ctx, m)
-	// case *googlesql.ASTDropPrimaryKeyAction:
-	// 	p.VisitDropPrimaryKeyAction(ctx, m)
-	// case *googlesql.ASTDropPrivilegeRestrictionStatement:
-	// 	p.VisitDropPrivilegeRestrictionStatement(ctx, m)
-	// case *googlesql.ASTDropRowAccessPolicyStatement:
-	// 	p.VisitDropRowAccessPolicyStatement(ctx, m)
-	// case *googlesql.ASTDropSearchIndexStatement:
-	// 	p.VisitDropSearchIndexStatement(ctx, m)
-	// case *googlesql.ASTDropSnapshotTableStatement:
-	// 	p.VisitDropSnapshotTableStatement(ctx, m)
-	// case *googlesql.ASTDropTableFunctionStatement:
-	// 	p.VisitDropTableFunctionStatement(ctx, m)
-	// case *googlesql.ASTDropStatement:
-	// 	p.VisitDropStatement(ctx, m)
-	// case *googlesql.ASTExceptionHandlerList:
-	// 	p.VisitExceptionHandlerListNode(ctx, m)
-	// case *googlesql.ASTExceptionHandler:
-	// 	p.VisitExceptionHandlerNode(ctx, m)
-	// case *googlesql.ASTExecuteIntoClause:
-	// 	p.VisitExecuteIntoClause(ctx, m)
-	// case *googlesql.ASTExecuteImmediateStatement:
-	// 	p.VisitExecuteImmediateStatement(ctx, m)
-	// case *googlesql.ASTExecuteUsingArgument:
-	// 	p.VisitExecuteUsingArgument(ctx, m)
-	// case *googlesql.ASTExecuteUsingClause:
-	// 	p.VisitExecuteUsingClause(ctx, m)
-	// case *googlesql.ASTExpressionSubquery:
-	// 	p.VisitExpressionSubquery(ctx, m)
-	// case *googlesql.ASTExtractExpression:
-	// 	p.VisitExtractExpression(ctx, m)
+	case *googlesql.ASTDescriptor:
+		p.VisitDescriptor(ctx, m)
+	case *googlesql.ASTDescriptorColumn:
+		p.VisitDescriptorColumn(ctx, m)
+	case *googlesql.ASTDescriptorColumnList:
+		p.VisitDescriptorColumnList(ctx, m)
+	case *googlesql.ASTDotIdentifier:
+		p.VisitDotIdentifier(ctx, m)
+	case *googlesql.ASTDotGeneralizedField:
+		p.VisitDotGeneralizedField(ctx, m)
+	case *googlesql.ASTDotStar:
+		p.VisitDotStar(ctx, m)
+	case *googlesql.ASTDotStarWithModifiers:
+		p.VisitDotStarWithModifiers(ctx, m)
+	case *googlesql.ASTDropAllRowAccessPoliciesStatement:
+		p.VisitDropAllRowAccessPoliciesStatement(ctx, m)
+	case *googlesql.ASTDropColumnAction:
+		p.VisitDropColumnAction(ctx, m)
+	case *googlesql.ASTDropConstraintAction:
+		p.VisitDropConstraintAction(ctx, m)
+	case *googlesql.ASTDropEntityStatement:
+		p.VisitDropEntityStatement(ctx, m)
+	case *googlesql.ASTDropFunctionStatement:
+		p.VisitDropFunctionStatement(ctx, m)
+	case *googlesql.ASTDropMaterializedViewStatement:
+		p.VisitDropMaterializedViewStatement(ctx, m)
+	case *googlesql.ASTDropPrimaryKeyAction:
+		p.VisitDropPrimaryKeyAction(ctx, m)
+	case *googlesql.ASTDropPrivilegeRestrictionStatement:
+		p.VisitDropPrivilegeRestrictionStatement(ctx, m)
+	case *googlesql.ASTDropRowAccessPolicyStatement:
+		p.VisitDropRowAccessPolicyStatement(ctx, m)
+	case *googlesql.ASTDropSearchIndexStatement:
+		p.VisitDropSearchIndexStatement(ctx, m)
+	case *googlesql.ASTDropSnapshotTableStatement:
+		p.VisitDropSnapshotTableStatement(ctx, m)
+	case *googlesql.ASTDropTableFunctionStatement:
+		p.VisitDropTableFunctionStatement(ctx, m)
+	case *googlesql.ASTDropStatement:
+		p.VisitDropStatement(ctx, m)
+	case *googlesql.ASTExceptionHandlerList:
+		p.VisitExceptionHandlerListNode(ctx, m)
+	case *googlesql.ASTExceptionHandler:
+		p.VisitExceptionHandlerNode(ctx, m)
+	case *googlesql.ASTExecuteIntoClause:
+		p.VisitExecuteIntoClause(ctx, m)
+	case *googlesql.ASTExecuteImmediateStatement:
+		p.VisitExecuteImmediateStatement(ctx, m)
+	case *googlesql.ASTExecuteUsingArgument:
+		p.VisitExecuteUsingArgument(ctx, m)
+	case *googlesql.ASTExecuteUsingClause:
+		p.VisitExecuteUsingClause(ctx, m)
+	case *googlesql.ASTExpressionSubquery:
+		p.VisitExpressionSubquery(ctx, m)
+	case *googlesql.ASTExtractExpression:
+		p.VisitExtractExpression(ctx, m)
 	case *googlesql.ASTFloatLiteral:
 		p.VisitFloatLiteral(ctx, m)
-	// case *googlesql.ASTFilterUsingClause:
-	// 	p.VisitFilterUsingClause(ctx, m)
-	// case *googlesql.ASTForeignKey:
-	// 	p.VisitForeignKey(ctx, m)
-	// case *googlesql.ASTForeignKeyReference:
-	// 	p.VisitForeignKeyReference(ctx, m)
-	// case *googlesql.ASTFormatClause:
-	// 	p.VisitFormatClause(ctx, m)
-	// case *googlesql.ASTForSystemTime:
-	// 	p.VisitForSystemTime(ctx, m)
+	case *googlesql.ASTFilterUsingClause:
+		p.VisitFilterUsingClause(ctx, m)
+	case *googlesql.ASTForeignKey:
+		p.VisitForeignKey(ctx, m)
+	case *googlesql.ASTForeignKeyReference:
+		p.VisitForeignKeyReference(ctx, m)
+	case *googlesql.ASTFormatClause:
+		p.VisitFormatClause(ctx, m)
+	case *googlesql.ASTForSystemTime:
+		p.VisitForSystemTime(ctx, m)
 	case *googlesql.ASTFromClause:
 		p.VisitFromClause(ctx, m)
 	case *googlesql.ASTFunctionCall:
 		p.VisitFunctionCall(ctx, m)
-	// case *googlesql.ASTFunctionDeclaration:
-	// 	p.VisitFunctionDeclaration(ctx, m)
-	// case *googlesql.ASTFunctionParameter:
-	// 	p.VisitFunctionParameter(ctx, m)
-	// case *googlesql.ASTFunctionParameters:
-	// 	p.VisitFunctionParameters(ctx, m)
+	case *googlesql.ASTFunctionDeclaration:
+		p.VisitFunctionDeclaration(ctx, m)
+	case *googlesql.ASTFunctionParameter:
+		p.VisitFunctionParameter(ctx, m)
+	case *googlesql.ASTFunctionParameters:
+		p.VisitFunctionParameters(ctx, m)
 	case *googlesql.ASTGeneralizedPathExpression:
 		p.VisitGeneralizedPathExpression(ctx, m)
-	// case *googlesql.ASTGranteeList:
-	// 	p.VisitGranteeList(ctx, m)
-	// case *googlesql.ASTGrantToClause:
-	// 	p.VisitGrantToClause(ctx, m)
-	// case *googlesql.ASTGroupBy:
-	// 	p.VisitGroupBy(ctx, m)
-	// case *googlesql.ASTGroupingItem:
-	// 	p.VisitGroupingItem(ctx, m)
-	// case *googlesql.ASTHavingModifier:
-	// 	p.VisitHavingModifier(ctx, m)
-	// case *googlesql.ASTHaving:
-	// 	p.VisitHaving(ctx, m)
-	// case *googlesql.ASTHint:
-	// 	p.VisitHint(ctx, m)
-	// case *googlesql.ASTHintedStatement:
-	// 	p.VisitHintedStatement(ctx, m)
+	case *googlesql.ASTGranteeList:
+		p.VisitGranteeList(ctx, m)
+	case *googlesql.ASTGrantToClause:
+		p.VisitGrantToClause(ctx, m)
+	case *googlesql.ASTGroupBy:
+		p.VisitGroupBy(ctx, m)
+	case *googlesql.ASTGroupingItem:
+		p.VisitGroupingItem(ctx, m)
+	case *googlesql.ASTHavingModifier:
+		p.VisitHavingModifier(ctx, m)
+	case *googlesql.ASTHaving:
+		p.VisitHaving(ctx, m)
+	case *googlesql.ASTHint:
+		p.VisitHint(ctx, m)
+	case *googlesql.ASTHintedStatement:
+		p.VisitHintedStatement(ctx, m)
 	case *googlesql.ASTIdentifier:
 		p.VisitIdentifier(ctx, m)
-	// case *googlesql.ASTIdentifierList:
-	// 	p.VisitIdentifierList(ctx, m)
-	// case *googlesql.ASTIfStatement:
-	// 	p.VisitIfStatement(ctx, m)
-	// case *googlesql.ASTInExpression:
-	// 	p.VisitInExpression(ctx, m)
-	// case *googlesql.ASTInList:
-	// 	p.VisitInList(ctx, m)
-	// case *googlesql.ASTIntervalExpr:
-	// 	p.VisitIntervalExpr(ctx, m)
+	case *googlesql.ASTIdentifierList:
+		p.VisitIdentifierList(ctx, m)
+	case *googlesql.ASTIfStatement:
+		p.VisitIfStatement(ctx, m)
+	case *googlesql.ASTInExpression:
+		p.VisitInExpression(ctx, m)
+	case *googlesql.ASTInList:
+		p.VisitInList(ctx, m)
+	case *googlesql.ASTIntervalExpr:
+		p.VisitIntervalExpr(ctx, m)
 	case *googlesql.ASTIntLiteral:
 		p.VisitIntLiteral(ctx, m)
-	// case *googlesql.ASTInsertStatement:
-	// 	p.VisitInsertStatement(ctx, m)
-	// case *googlesql.ASTInsertValuesRowList:
-	// 	p.VisitInsertValuesRowList(ctx, m)
-	// case *googlesql.ASTInsertValuesRow:
-	// 	p.VisitInsertValuesRow(ctx, m)
-	// case *googlesql.ASTJoin:
-	// 	p.VisitJoin(ctx, m)
-	// case *googlesql.ASTLimitOffset:
-	// 	p.VisitLimitOffset(ctx, m)
-	// case *googlesql.ASTMergeAction:
-	// 	p.VisitMergeAction(ctx, m)
-	// case *googlesql.ASTMergeStatement:
-	// 	p.VisitMergeStatement(ctx, m)
-	// case *googlesql.ASTMergeWhenClause:
-	// 	p.VisitMergeWhenClause(ctx, m)
-	// case *googlesql.ASTMergeWhenClauseList:
-	// 	p.VisitMergeWhenClauseList(ctx, m)
-	// case *googlesql.ASTModelClause:
-	// 	p.VisitModelClause(ctx, m)
-	// case *googlesql.ASTNamedArgument:
-	// 	p.VisitNamedArgument(ctx, m)
-	// case *googlesql.ASTNotNullColumnAttribute:
-	// 	p.VisitNotNullColumnAttribute(ctx, m)
+	case *googlesql.ASTInsertStatement:
+		p.VisitInsertStatement(ctx, m)
+	case *googlesql.ASTInsertValuesRowList:
+		p.VisitInsertValuesRowList(ctx, m)
+	case *googlesql.ASTInsertValuesRow:
+		p.VisitInsertValuesRow(ctx, m)
+	case *googlesql.ASTJoin:
+		p.VisitJoin(ctx, m)
+	case *googlesql.ASTJSONLiteral:
+		p.VisitJSONLiteral(ctx, m)
+	case *googlesql.ASTLimit:
+		p.VisitLimit(ctx, m)
+	case *googlesql.ASTLimitOffset:
+		p.VisitLimitOffset(ctx, m)
+	case *googlesql.ASTMergeAction:
+		p.VisitMergeAction(ctx, m)
+	case *googlesql.ASTMergeStatement:
+		p.VisitMergeStatement(ctx, m)
+	case *googlesql.ASTMergeWhenClause:
+		p.VisitMergeWhenClause(ctx, m)
+	case *googlesql.ASTMergeWhenClauseList:
+		p.VisitMergeWhenClauseList(ctx, m)
+	case *googlesql.ASTModelClause:
+		p.VisitModelClause(ctx, m)
+	case *googlesql.ASTNamedArgument:
+		p.VisitNamedArgument(ctx, m)
+	case *googlesql.ASTNotNullColumnAttribute:
+		p.VisitNotNullColumnAttribute(ctx, m)
 	case *googlesql.ASTNullLiteral:
 		p.VisitNullLiteral(ctx, m)
-	// case *googlesql.ASTNullOrder:
-	// 	p.VisitNullOrder(ctx, m)
+	case *googlesql.ASTNullOrder:
+		p.VisitNullOrder(ctx, m)
 	case *googlesql.ASTNumericLiteral:
 		p.VisitNumericLiteral(ctx, m)
-	// case *googlesql.ASTOnClause:
-	// 	p.VisitOnClause(ctx, m)
-	// case *googlesql.ASTOptionsList:
-	// 	p.VisitOptionsList(ctx, m)
-	// case *googlesql.ASTOptionsEntry:
-	// 	p.VisitOptionsEntry(ctx, m)
-	// case *googlesql.ASTOrExpr:
-	// 	p.VisitOrExpr(ctx, m)
-	// case *googlesql.ASTOrderBy:
-	// 	p.VisitOrderBy(ctx, m)
-	// case *googlesql.ASTOrderingExpression:
-	// 	p.VisitOrderingExpression(ctx, m)
-	// case *googlesql.ASTParameterAssignment:
-	// 	p.VisitParameterAssignment(ctx, m)
-	// case *googlesql.ASTParameterExpr:
-	// 	p.VisitParameterExpr(ctx, m)
-	// case *googlesql.ASTParenthesizedJoin:
-	// 	p.VisitParenthesizedJoin(ctx, m)
-	// case *googlesql.ASTPartitionBy:
-	// 	p.VisitPartitionBy(ctx, m)
-	// case *googlesql.ASTPathExpressionList:
-	// 	p.VisitPathExpressionList(ctx, m)
+	case *googlesql.ASTOnClause:
+		p.VisitOnClause(ctx, m)
+	case *googlesql.ASTOptionsList:
+		p.VisitOptionsList(ctx, m)
+	case *googlesql.ASTOptionsEntry:
+		p.VisitOptionsEntry(ctx, m)
+	case *googlesql.ASTOrExpr:
+		p.VisitOrExpr(ctx, m)
+	case *googlesql.ASTOrderBy:
+		p.VisitOrderBy(ctx, m)
+	case *googlesql.ASTOrderingExpression:
+		p.VisitOrderingExpression(ctx, m)
+	case *googlesql.ASTParameterAssignment:
+		p.VisitParameterAssignment(ctx, m)
+	case *googlesql.ASTParameterExpr:
+		p.VisitParameterExpr(ctx, m)
+	case *googlesql.ASTParenthesizedJoin:
+		p.VisitParenthesizedJoin(ctx, m)
+	case *googlesql.ASTPartitionBy:
+		p.VisitPartitionBy(ctx, m)
+	case *googlesql.ASTPathExpressionList:
+		p.VisitPathExpressionList(ctx, m)
 	case *googlesql.ASTPathExpression:
 		p.VisitPathExpression(ctx, m)
-	// case *googlesql.ASTPivotClause:
-	// 	p.VisitPivotClause(ctx, m)
-	// case *googlesql.ASTPivotExpression:
-	// 	p.VisitPivotExpression(ctx, m)
-	// case *googlesql.ASTPivotExpressionList:
-	// 	p.VisitPivotExpressionList(ctx, m)
-	// case *googlesql.ASTPivotValue:
-	// 	p.VisitPivotValue(ctx, m)
-	// case *googlesql.ASTPivotValueList:
-	// 	p.VisitPivotValueList(ctx, m)
-	// case *googlesql.ASTPrimaryKey:
-	// 	p.VisitPrimaryKey(ctx, m)
-	// case *googlesql.ASTPrimaryKeyColumnAttribute:
-	// 	p.VisitPrimaryKeyColumnAttribute(ctx, m)
-	// case *googlesql.ASTQualify:
-	// 	p.VisitQualify(ctx, m)
+	case *googlesql.ASTPivotClause:
+		p.VisitPivotClause(ctx, m)
+	case *googlesql.ASTPivotExpression:
+		p.VisitPivotExpression(ctx, m)
+	case *googlesql.ASTPivotExpressionList:
+		p.VisitPivotExpressionList(ctx, m)
+	case *googlesql.ASTPivotValue:
+		p.VisitPivotValue(ctx, m)
+	case *googlesql.ASTPivotValueList:
+		p.VisitPivotValueList(ctx, m)
+	case *googlesql.ASTPrimaryKey:
+		p.VisitPrimaryKey(ctx, m)
+	case *googlesql.ASTPrimaryKeyColumnAttribute:
+		p.VisitPrimaryKeyColumnAttribute(ctx, m)
+	case *googlesql.ASTPrimaryKeyElementList:
+		p.VisitPrimaryKeyElementList(ctx, m)
+	case *googlesql.ASTPrimaryKeyElement:
+		p.VisitPrimaryKeyElement(ctx, m)
+	case *googlesql.ASTQualify:
+		p.VisitQualify(ctx, m)
 	case *googlesql.ASTQuery:
 		p.VisitQuery(ctx, m)
 	case *googlesql.ASTQueryStatement:
 		p.VisitQueryStatement(ctx, m)
-	// case *googlesql.ASTRenameColumnAction:
-	// 	p.VisitRenameColumnAction(ctx, m)
-	// case *googlesql.ASTRenameToClause:
-	// 	p.VisitRenameToClause(ctx, m)
-	// case *googlesql.ASTRepeatableClause:
-	// 	p.VisitRepeatableClause(ctx, m)
-	// case *googlesql.ASTReturnStatement:
-	// 	p.VisitReturnStatement(ctx, m)
-	// case *googlesql.ASTRollbackStatement:
-	// 	p.VisitRollbackStatementNode(ctx, m)
-	// case *googlesql.ASTRollup:
-	// 	p.VisitRollup(ctx, m)
-	// case *googlesql.ASTSampleClause:
-	// 	p.VisitSampleClause(ctx, m)
-	// case *googlesql.ASTSampleSize:
-	// 	p.VisitSampleSize(ctx, m)
-	// case *googlesql.ASTSampleSuffix:
-	// 	p.VisitSampleSuffix(ctx, m)
-	// case *googlesql.ASTSetCollateClause:
-	// 	p.VisitSetCollateClause(ctx, m)
+	case *googlesql.ASTRenameColumnAction:
+		p.VisitRenameColumnAction(ctx, m)
+	case *googlesql.ASTRenameToClause:
+		p.VisitRenameToClause(ctx, m)
+	case *googlesql.ASTRepeatableClause:
+		p.VisitRepeatableClause(ctx, m)
+	case *googlesql.ASTReturnStatement:
+		p.VisitReturnStatement(ctx, m)
+	case *googlesql.ASTRollbackStatement:
+		p.VisitRollbackStatementNode(ctx, m)
+	case *googlesql.ASTRollup:
+		p.VisitRollup(ctx, m)
+	case *googlesql.ASTSampleClause:
+		p.VisitSampleClause(ctx, m)
+	case *googlesql.ASTSampleSize:
+		p.VisitSampleSize(ctx, m)
+	case *googlesql.ASTSampleSuffix:
+		p.VisitSampleSuffix(ctx, m)
+	case *googlesql.ASTSetCollateClause:
+		p.VisitSetCollateClause(ctx, m)
 	case *googlesql.ASTScript:
 		p.VisitScript(ctx, m)
 	case *googlesql.ASTSelect:
 		p.VisitSelect(ctx, m)
-	// case *googlesql.ASTSelectAs:
-	// 	p.VisitSelectAs(ctx, m)
+	case *googlesql.ASTSelectAs:
+		p.VisitSelectAs(ctx, m)
 	case *googlesql.ASTSelectColumn:
 		p.VisitSelectColumn(ctx, m)
 	case *googlesql.ASTSelectList:
 		p.VisitSelectList(ctx, m)
-	// case *googlesql.ASTSetOptionsAction:
-	// 	p.VisitSetOptionsAction(ctx, m)
-	// case *googlesql.ASTSetOperation:
-	// 	p.VisitSetOperation(ctx, m)
-	// case *googlesql.ASTSimpleColumnSchema:
-	// 	p.VisitSimpleColumnSchema(ctx, m)
-	// case *googlesql.ASTSimpleType:
-	// 	p.VisitSimpleType(ctx, m)
-	// case *googlesql.ASTSqlFunctionBody:
-	// 	p.VisitSQLFunctionBody(ctx, m)
-	// case *googlesql.ASTStar:
-	// 	p.VisitStar(ctx, m)
-	// case *googlesql.ASTStarModifiers:
-	// 	p.VisitStarModifiers(ctx, m)
-	// case *googlesql.ASTStarReplaceItem:
-	// 	p.VisitStarReplaceItem(ctx, m)
-	// case *googlesql.ASTStarWithModifiers:
-	// 	p.VisitStarWithModifiers(ctx, m)
+	case *googlesql.ASTSetOptionsAction:
+		p.VisitSetOptionsAction(ctx, m)
+	case *googlesql.ASTSetOperation:
+		p.VisitSetOperation(ctx, m)
+	case *googlesql.ASTSimpleColumnSchema:
+		p.VisitSimpleColumnSchema(ctx, m)
+	case *googlesql.ASTSimpleType:
+		p.VisitSimpleType(ctx, m)
+	case *googlesql.ASTSqlFunctionBody:
+		p.VisitSQLFunctionBody(ctx, m)
+	case *googlesql.ASTStar:
+		p.VisitStar(ctx, m)
+	case *googlesql.ASTStarModifiers:
+		p.VisitStarModifiers(ctx, m)
+	case *googlesql.ASTStarReplaceItem:
+		p.VisitStarReplaceItem(ctx, m)
+	case *googlesql.ASTStarWithModifiers:
+		p.VisitStarWithModifiers(ctx, m)
 	case *googlesql.ASTStatementList:
 		p.VisitStatementList(ctx, m)
 	case *googlesql.ASTStringLiteral:
 		p.VisitStringLiteral(ctx, m)
-	// case *googlesql.ASTStructColumnField:
-	// 	p.VisitStructColumnField(ctx, m)
-	// case *googlesql.ASTStructColumnSchema:
-	// 	p.VisitStructColumnSchema(ctx, m)
-	// case *googlesql.ASTStructConstructorArg:
-	// 	p.VisitStructConstructorArg(ctx, m)
-	// case *googlesql.ASTStructConstructorWithKeyword:
-	// 	p.VisitStructConstructorWithKeyword(ctx, m)
-	// case *googlesql.ASTStructConstructorWithParens:
-	// 	p.VisitStructConstructorWithParens(ctx, m)
-	// case *googlesql.ASTStructField:
-	// 	p.VisitStructField(ctx, m)
-	// case *googlesql.ASTStructType:
-	// 	p.VisitStructType(ctx, m)
-	// case *googlesql.ASTSystemVariableAssignment:
-	// 	p.VisitSystemVariableAssignment(ctx, m)
-	// case *googlesql.ASTSystemVariableExpr:
-	// 	p.VisitSystemVariableExpr(ctx, m)
-	// case *googlesql.ASTTableClause:
-	// 	p.VisitTableClause(ctx, m)
-	// case *googlesql.ASTTableConstraintBase:
-	// 	p.VisitTableConstraint(ctx, m)
-	// case *googlesql.ASTTableElementList:
-	// 	p.VisitTableElementList(ctx, m)
+	case *googlesql.ASTStructColumnField:
+		p.VisitStructColumnField(ctx, m)
+	case *googlesql.ASTStructColumnSchema:
+		p.VisitStructColumnSchema(ctx, m)
+	case *googlesql.ASTStructConstructorArg:
+		p.VisitStructConstructorArg(ctx, m)
+	case *googlesql.ASTStructConstructorWithKeyword:
+		p.VisitStructConstructorWithKeyword(ctx, m)
+	case *googlesql.ASTStructConstructorWithParens:
+		p.VisitStructConstructorWithParens(ctx, m)
+	case *googlesql.ASTStructField:
+		p.VisitStructField(ctx, m)
+	case *googlesql.ASTStructType:
+		p.VisitStructType(ctx, m)
+	case *googlesql.ASTSystemVariableAssignment:
+		p.VisitSystemVariableAssignment(ctx, m)
+	case *googlesql.ASTSystemVariableExpr:
+		p.VisitSystemVariableExpr(ctx, m)
+	case *googlesql.ASTTableClause:
+		p.VisitTableClause(ctx, m)
+	case *googlesql.ASTTableConstraint:
+		p.VisitTableConstraint(ctx, m)
+	case *googlesql.ASTTableElementList:
+		p.VisitTableElementList(ctx, m)
 	case *googlesql.ASTTablePathExpression:
 		p.VisitTablePathExpression(ctx, m)
-	// case *googlesql.ASTTableSubquery:
-	// 	p.VisitTableSubquery(ctx, m)
-	// case *googlesql.ASTTemplatedParameterType:
-	// 	p.VisitTemplatedParameterType(ctx, m)
-	// case *googlesql.ASTTrucateStatement:
-	// 	p.VisitTruncateStatement(ctx, m)
-	// case *googlesql.ASTTVFArgument:
-	// 	p.VisitTVFArgument(ctx, m)
-	// case *googlesql.ASTTVF:
-	// 	p.VisitTVF(ctx, m)
-	// case *googlesql.ASTTVFSchema:
-	// 	p.VisitTVFSchema(ctx, m)
-	// case *googlesql.ASTTVFSchemaColumn:
-	// 	p.VisitTVFSchemaColumn(ctx, m)
-	// case *googlesql.ASTTypeParameterList:
-	// 	p.VisitTypeParameterList(ctx, m)
-	// case *googlesql.ASTUnpivotClause:
-	// 	p.VisitUnpivotClause(ctx, m)
-	// case *googlesql.ASTUnaryExpression:
-	// 	p.VisitUnaryExpression(ctx, m)
-	// case *googlesql.ASTUnpivotInItemLabel:
-	// 	p.VisitUnpivotInItemLabel(ctx, m)
-	// case *googlesql.ASTUnpivotInItemList:
-	// 	p.VisitUnpivotInItemList(ctx, m)
-	// case *googlesql.ASTUnpivotInItem:
-	// 	p.VisitUnpivotInItem(ctx, m)
-	// case *googlesql.ASTUnnestExpression:
-	// 	p.VisitUnnestExpression(ctx, m)
-	// case *googlesql.ASTUpdateItem:
-	// 	p.VisitUpdateItem(ctx, m)
-	// case *googlesql.ASTUpdateItemList:
-	// 	p.VisitUpdateItemList(ctx, m)
-	// case *googlesql.ASTUpdateSetValue:
-	// 	p.VisitUpdateSetValue(ctx, m)
-	// case *googlesql.ASTUsingClause:
-	// 	p.VisitUsingClause(ctx, m)
-	// case *googlesql.ASTVariableDeclaration:
-	// 	p.VisitVariableDeclaration(ctx, m)
-	// case *googlesql.ASTSingleAssignment:
-	// 	p.VisitSingleAssignment(ctx, m)
+	case *googlesql.ASTTableSubquery:
+		p.VisitTableSubquery(ctx, m)
+	case *googlesql.ASTTemplatedParameterType:
+		p.VisitTemplatedParameterType(ctx, m)
+	case *googlesql.ASTTruncateStatement:
+		p.VisitTruncateStatement(ctx, m)
+	case *googlesql.ASTTVFArgument:
+		p.VisitTVFArgument(ctx, m)
+	case *googlesql.ASTTVF:
+		p.VisitTVF(ctx, m)
+	case *googlesql.ASTTVFSchema:
+		p.VisitTVFSchema(ctx, m)
+	case *googlesql.ASTTVFSchemaColumn:
+		p.VisitTVFSchemaColumn(ctx, m)
+	case *googlesql.ASTTypeParameterList:
+		p.VisitTypeParameterList(ctx, m)
+	case *googlesql.ASTUnpivotClause:
+		p.VisitUnpivotClause(ctx, m)
+	case *googlesql.ASTUnaryExpression:
+		p.VisitUnaryExpression(ctx, m)
+	case *googlesql.ASTUnpivotInItemLabel:
+		p.VisitUnpivotInItemLabel(ctx, m)
+	case *googlesql.ASTUnpivotInItemList:
+		p.VisitUnpivotInItemList(ctx, m)
+	case *googlesql.ASTUnpivotInItem:
+		p.VisitUnpivotInItem(ctx, m)
+	case *googlesql.ASTUnnestExpression:
+		p.VisitUnnestExpression(ctx, m)
+	case *googlesql.ASTUnnestExpressionWithOptAliasAndOffset:
+		p.VisitUnnestExpressionWithOptAliasAndOffset(ctx, m)
+	case *googlesql.ASTUpdateItem:
+		p.VisitUpdateItem(ctx, m)
+	case *googlesql.ASTUpdateItemList:
+		p.VisitUpdateItemList(ctx, m)
+	case *googlesql.ASTUpdateSetValue:
+		p.VisitUpdateSetValue(ctx, m)
+	case *googlesql.ASTUsingClause:
+		p.VisitUsingClause(ctx, m)
+	case *googlesql.ASTVariableDeclaration:
+		p.VisitVariableDeclaration(ctx, m)
+	case *googlesql.ASTSingleAssignment:
+		p.VisitSingleAssignment(ctx, m)
 	case *googlesql.ASTWhereClause:
 		p.VisitWhereClause(ctx, m)
-	// case *googlesql.ASTWindowClause:
-	// 	p.VisitWindowClause(ctx, m)
-	// case *googlesql.ASTWindowFrame:
-	// 	p.VisitWindowFrame(ctx, m)
-	// case *googlesql.ASTWindowFrameExpr:
-	// 	p.VisitWindowFrameExpr(ctx, m)
-	// case *googlesql.ASTWindowSpecification:
-	// 	p.VisitWindowSpecification(ctx, m)
-	// case *googlesql.ASTWithClause:
-	// 	p.VisitWithClause(ctx, m)
-	// case *googlesql.ASTWithClauseEntry:
-	// 	p.VisitWithClauseEntry(ctx, m)
-	// case *googlesql.ASTWithConnectionClause:
-	// 	p.VisitWithConnectionClause(ctx, m)
-	// case *googlesql.ASTWithOffset:
-	// 	p.VisitWithOffset(ctx, m)
-	// case *googlesql.ASTWithPartitionColumnsClause:
-	// 	p.VisitWithPartitionColumnsClause(ctx, m)
-	// case *googlesql.ASTWithWeight:
-	// 	p.VisitWithWeight(ctx, m)
+	case *googlesql.ASTWindowClause:
+		p.VisitWindowClause(ctx, m)
+	case *googlesql.ASTWindowFrame:
+		p.VisitWindowFrame(ctx, m)
+	case *googlesql.ASTWindowFrameExpr:
+		p.VisitWindowFrameExpr(ctx, m)
+	case *googlesql.ASTWindowSpecification:
+		p.VisitWindowSpecification(ctx, m)
+	case *googlesql.ASTWithClause:
+		p.VisitWithClause(ctx, m)
+	case *googlesql.ASTWithClauseEntry:
+		p.VisitWithClauseEntry(ctx, m)
+	case *googlesql.ASTWithConnectionClause:
+		p.VisitWithConnectionClause(ctx, m)
+	case *googlesql.ASTWithOffset:
+		p.VisitWithOffset(ctx, m)
+	case *googlesql.ASTWithPartitionColumnsClause:
+		p.VisitWithPartitionColumnsClause(ctx, m)
+	case *googlesql.ASTWithWeight:
+		p.VisitWithWeight(ctx, m)
 
 	default:
 		p.addError(&Error{
@@ -565,14 +585,11 @@ func (p *Printer) moveBeforeSuccessorOf(n googlesql.ASTNode) {
 	// with comment indentation at that level or higher.
 	max := e
 	parent := ast.Parent(n)
-	for ast.Defined(parent) && ast.Kind(parent) != googlesql.ASTNodeKindAstStatementList {
+	for ast.Defined(parent) && ast.Kind(parent) != ast.StatementList {
 		max = ast.GetParseLocationEndOffset(parent)
 		parent = ast.Parent(parent)
 	}
-	next := p.Tracker.MaybeNextPos(e)
-	if next > max {
-		next = max
-	}
+	next := min(p.Tracker.MaybeNextPos(e), max)
 	if next > 0 {
 		p.Writer.flushCommentsUpTo(next)
 	}
@@ -628,7 +645,6 @@ func (p *Printer) unnest() string {
 	aligned := alignNested(trimmed)
 	aligned = "\v" + aligned
 	aligned = strings.ReplaceAll(aligned, "\n", "\n\v")
-
 	return aligned
 }
 
@@ -658,6 +674,25 @@ func printNestedWithSep[T googlesql.ASTNode](ctx Context, p *Printer, items []T,
 	p.print(pp.unnest())
 }
 
+// printlnNestedWithSep receives a slice of googlesql.ASTNode items and print each
+// in a nested printer.
+// Since we cannot have generic methods, this is a function that receives
+// a printer as the first argument.  Otherwise, it would be a method.
+func printlnNestedWithSep[T googlesql.ASTNode](ctx Context, p *Printer, items []T, sep string) {
+	pp := p.nest()
+	for i, item := range items {
+		if i > 0 {
+			pp.println(sep)
+		}
+		pp.acceptNested(ctx, item)
+	}
+	s := pp.unnestLeft()
+	if strings.Trim(s, "\n\v\t") == "" {
+		return
+	}
+	p.print(s)
+}
+
 // acceptNested visits a node with a nested printer.
 func (p *Printer) acceptNested(ctx Context, n googlesql.ASTNode) {
 	pp := p.nest()
@@ -670,7 +705,11 @@ func (p *Printer) acceptNested(ctx Context, n googlesql.ASTNode) {
 func (p *Printer) acceptNestedLeft(ctx Context, n googlesql.ASTNode) {
 	pp := p.nest()
 	pp.accept(ctx, n)
-	p.print(pp.unnest())
+	s := pp.unnestLeft()
+	if strings.Trim(s, "\n\v\t") == "" {
+		return
+	}
+	p.print(s)
 }
 
 // acceptNestedString visits a node with a nested printer, and prints
@@ -730,7 +769,7 @@ func (p *Printer) printCloseParenIfNeeded(n ast.ParethesizedNode) {
 	}
 }
 
-func (p *Printer) printOpenParenIfNeededWithDepth(n googlesql.ASTQueryExpressionNode) {
+func (p *Printer) printOpenParenIfNeededWithDepth(n ast.ParethesizedNode) {
 	if p.isParenNeeded(n) {
 		p.print("(")
 		p.println("")
@@ -738,7 +777,7 @@ func (p *Printer) printOpenParenIfNeededWithDepth(n googlesql.ASTQueryExpression
 	}
 }
 
-func (p *Printer) printCloseParenIfNeededWithDepth(n googlesql.ASTQueryExpressionNode) {
+func (p *Printer) printCloseParenIfNeededWithDepth(n ast.ParethesizedNode) {
 	if p.isParenNeeded(n) {
 		p.println("")
 		p.decDepth()
@@ -748,6 +787,21 @@ func (p *Printer) printCloseParenIfNeededWithDepth(n googlesql.ASTQueryExpressio
 
 func (p *Printer) isParenNeeded(n ast.ParethesizedNode) bool {
 	if ast.Must(n.Parenthesized()) {
+		if ast.Kind(n) == ast.Query {
+			// We force Create table statement to be wrapped with paranthesis,
+			// which is generated by CreateTableStatement visitor.
+			// So if we are visiting the query definition of a create table
+			// we just return that we do not need to parenthesize.
+			if p := ast.Parent(n); ast.Defined(p) {
+				switch ast.Kind(p) {
+				case ast.CreateTableStatement,
+					ast.CreateViewStatement,
+					ast.CreateMaterializedViewStatement,
+					ast.CreateTableFunctionStatement:
+					return false
+				}
+			}
+		}
 		return true
 	}
 	if eval, ok := hasLowerPrecedence(ast.Must(n.Parent()), n); ok && eval {
@@ -777,7 +831,17 @@ func (p *Printer) identifier(s string) string {
 	if len(s) > 0 && s[0] == '`' {
 		return s
 	}
-	switch p.Writer.opts.IdentifierStyle {
+	if p.Writer.opts.IsPseudoColumn(s) {
+		return p.identifierWithCase(s, p.Writer.opts.PseudoColumnStyle)
+	}
+	return p.identifierWithCase(s, p.Writer.opts.IdentifierStyle)
+}
+
+func (p *Printer) tableName(s string) string {
+	if len(s) > 0 && s[0] == '`' {
+		return s
+	}
+	switch p.Writer.opts.TableNameStyle {
 	case format.AsIs:
 		return s
 	case format.UpperCase:
@@ -788,22 +852,23 @@ func (p *Printer) identifier(s string) string {
 	return ""
 }
 
-func (p *Printer) function(s string) string {
-	if s[0] == '`' {
+func (p *Printer) functionName(s string) string {
+	if len(s) > 0 && s[0] == '`' {
 		return s
 	}
-	name := p.fallbackFunction(s)
 	if p.Writer.opts.FunctionCatalog == format.BigQueryCatalog {
-		return bigqueryFunctions.GetWithFallback(s, name)
+		if name := bigqueryFunctions.GetWithFallback(s, ""); name != "" {
+			return p.applyStyle(name, p.Writer.opts.BuiltinFunctionNameStyle)
+		}
 	}
-	return name
+	return p.applyStyle(s, p.Writer.opts.FunctionNameStyle)
 }
 
-func (p *Printer) fallbackFunction(s string) string {
+func (p *Printer) applyStyle(s string, style format.PrintCase) string {
 	if s[0] == '`' {
 		return s
 	}
-	switch p.Writer.opts.FunctionNameStyle {
+	switch style {
 	case format.AsIs, format.Unspecified:
 		return s
 	case format.UpperCase:
@@ -849,6 +914,40 @@ func (p *Printer) identifierWithCase(s string, c format.PrintCase) string {
 		return s
 	}
 	switch c {
+	case format.AsIs:
+		return s
+	case format.UpperCase:
+		return strings.ToUpper(s)
+	case format.LowerCase:
+		return strings.ToLower(s)
+	case format.Unspecified:
+		return p.identifier(s)
+	}
+	return ""
+}
+
+func (p *Printer) systemVariable(s string) string {
+	if s[0] == '`' {
+		return s
+	}
+	switch p.Writer.opts.SystemVariableStyle {
+	case format.AsIs:
+		return s
+	case format.UpperCase:
+		return strings.ToUpper(s)
+	case format.LowerCase:
+		return strings.ToLower(s)
+	case format.Unspecified:
+		return p.identifier(s)
+	}
+	return ""
+}
+
+func (p *Printer) queryParameter(s string) string {
+	if s[0] == '`' {
+		return s
+	}
+	switch p.Writer.opts.QueryParameterStyle {
 	case format.AsIs:
 		return s
 	case format.UpperCase:
@@ -935,30 +1034,29 @@ func isInsideOfMergeStatement(n googlesql.ASTNode) bool {
 // of an ON clause directly. The node can be inside of other AndExpr
 // and OrExpr.
 func isInsideOfOnClause(n googlesql.ASTNode) bool {
-	for p := ast.Must(n.Parent()); p != nil; p = ast.Must(p.Parent()) {
+	for p := ast.Must(n.Parent()); ast.Defined(p); p = ast.Must(p.Parent()) {
 		kind := ast.Must(p.NodeKind())
-		if kind == googlesql.ASTNodeKindAstOnClause {
+		if kind == ast.OnClause {
 			return true
 		}
-		if kind != googlesql.ASTNodeKindAstAndExpr &&
-			kind != googlesql.ASTNodeKindAstOrExpr {
+		if kind != ast.AndExpr && kind != ast.OrExpr {
 			return false
 		}
 	}
 	return false
 }
 
-// isInsideOfWhereClause returns true when the current node is is inside
+// isInsideOfWhereClause returns true when the current node is inside
 // of a WHERE clause directly. The node can be inside of other AndExpr
 // and OrExpr.
 func isInsideOfWhereClause(n googlesql.ASTNode) bool {
-	for p := ast.Must(n.Parent()); p != nil; p = ast.Must(p.Parent()) {
-		kind := ast.Must(p.NodeKind())
-		if kind == googlesql.ASTNodeKindAstOnClause {
+	for p := ast.Must(n.Parent()); ast.Defined(p); p = ast.Must(p.Parent()) {
+		switch ast.Must(p.NodeKind()) {
+		case ast.WhereClause:
 			return true
-		}
-		if kind != googlesql.ASTNodeKindAstAndExpr &&
-			kind != googlesql.ASTNodeKindAstOrExpr {
+		case ast.AndExpr, ast.OrExpr:
+			continue
+		default:
 			return false
 		}
 	}

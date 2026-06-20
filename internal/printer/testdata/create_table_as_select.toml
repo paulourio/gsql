@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -23,9 +22,10 @@ create table t1 as select * from t2;
 """
 formatted = """
 CREATE TABLE t1
-AS
-SELECT *
-  FROM t2
+AS (
+  SELECT *
+    FROM t2
+)
 """
 
 [[cases]]
@@ -38,9 +38,10 @@ create table t1 like t2 as select * from t2;
 formatted = """
 CREATE TABLE t1
 LIKE t2
-AS
-SELECT *
-  FROM t2
+AS (
+  SELECT *
+    FROM t2
+)
 """
 
 [[cases]]
@@ -57,9 +58,10 @@ CREATE TABLE t1
   x INT64
 )
 LIKE t2
-AS
-SELECT *
-  FROM t2
+AS (
+  SELECT *
+    FROM t2
+)
 """
 
 [[cases]]
@@ -69,8 +71,9 @@ select 1 as a;
 """
 formatted = """
 CREATE TEMPORARY TABLE pkg1.`pkg2`.`t 2`
-AS
-SELECT 1 AS a
+AS (
+  SELECT 1 AS a
+)
 """
 
 [[cases]]
@@ -80,8 +83,9 @@ select 1 as a;
 """
 formatted = """
 CREATE PUBLIC TABLE pkg1.`pkg2`.`t 2`
-AS
-SELECT 1 AS a
+AS (
+  SELECT 1 AS a
+)
 """
 
 [[cases]]
@@ -91,8 +95,9 @@ select 1 as a;
 """
 formatted = """
 CREATE PRIVATE TABLE pkg1.`pkg2`.`t 2`
-AS
-SELECT 1 AS a
+AS (
+  SELECT 1 AS a
+)
 """
 
 [[cases]]
@@ -102,14 +107,15 @@ select 1 from t2 union all select 2 from t3 cross join t4
 """
 formatted = """
 CREATE TEMPORARY TABLE pkg1.`pkg2`.`t 2`
-AS
-SELECT 1
-  FROM t2
- UNION ALL
-SELECT 2
-  FROM t3
-       CROSS JOIN
-       t4
+AS (
+  SELECT 1
+    FROM t2
+   UNION ALL
+  SELECT 2
+    FROM t3
+         CROSS JOIN
+         t4
+)
 """
 
 [[cases]]
@@ -121,14 +127,15 @@ select * from tt
 """
 formatted = """
 CREATE TABLE t3
-AS
-WITH
-tt AS (
-SELECT *
-  FROM KeyValue
+AS (
+  WITH
+    tt AS (
+      SELECT *
+        FROM KeyValue
+    )
+  SELECT *
+    FROM tt
 )
-SELECT *
-  FROM tt
 """
 
 [[cases]]
@@ -140,15 +147,16 @@ select 3
 formatted = """
 CREATE TABLE t4
 OPTIONS (x=y)
-AS
-WITH
-t1 AS (
-SELECT 1
-),
-t2 AS (
-SELECT 2
+AS (
+  WITH
+    t1 AS (
+      SELECT 1
+    ),
+    t2 AS (
+      SELECT 2
+    )
+  SELECT 3
 )
-SELECT 3
 """
 
 [[cases]]
@@ -160,8 +168,9 @@ as select 1;
 formatted = """
 CREATE TABLE tt
 OPTIONS (x=1)
-AS
-SELECT 1
+AS (
+  SELECT 1
+)
 """
 
 [[cases]]
@@ -179,8 +188,9 @@ OPTIONS (
   zz  = ident,
   zzz = @@sysvar
 )
-AS
-SELECT 2
+AS (
+  SELECT 2
+)
 """
 
 [[cases]]
@@ -192,8 +202,9 @@ as select 2
 formatted = """
 CREATE TABLE tt
 OPTIONS ()
-AS
-SELECT 2
+AS (
+  SELECT 2
+)
 """
 
 [[cases]]
@@ -209,8 +220,9 @@ OPTIONS (
   y = a,
   z = b.c
 )
-AS
-SELECT 2
+AS (
+  SELECT 2
+)
 """
 
 [[cases]]
@@ -225,8 +237,9 @@ OPTIONS (
   y = 'b.c',
   z = `b.c`
 )
-AS
-SELECT 2
+AS (
+  SELECT 2
+)
 """
 
 [[cases]]
@@ -236,8 +249,9 @@ create table options as select 1 x;
 """
 formatted = """
 CREATE TABLE options
-AS
-SELECT 1 AS x
+AS (
+  SELECT 1 AS x
+)
 """
 
 [[cases]]
@@ -248,8 +262,9 @@ create table options OPTIONS (x=y) AS select 1 x;
 formatted = """
 CREATE TABLE options
 OPTIONS (x=y)
-AS
-SELECT 1 AS x
+AS (
+  SELECT 1 AS x
+)
 """
 
 [[cases]]
@@ -258,8 +273,7 @@ create or replace table xyz as (select 1)
 """
 formatted = """
 CREATE OR REPLACE TABLE xyz
-AS
-(
+AS (
   SELECT 1
 )
 """
@@ -270,8 +284,7 @@ create table if not exists xyz as (select 1)
 """
 formatted = """
 CREATE TABLE IF NOT EXISTS xyz
-AS
-(
+AS (
   SELECT 1
 )
 """
@@ -284,17 +297,18 @@ select * from q2
 """
 formatted = """
 CREATE TABLE t
-AS
-WITH
-q AS (
-SELECT 1
-),
-q2 AS (
-SELECT *
-  FROM q
+AS (
+  WITH
+    q AS (
+      SELECT 1
+    ),
+    q2 AS (
+      SELECT *
+        FROM q
+    )
+  SELECT *
+    FROM q2
 )
-SELECT *
-  FROM q2
 """
 
 [[cases]]
@@ -308,9 +322,10 @@ CREATE TABLE t1
   a   INT64,
   bbb STRING
 )
-AS
-SELECT 1    AS a,
-       'hi' AS b
+AS (
+  SELECT 1    AS a,
+         'hi' AS b
+)
 """
 
 [[cases]]
@@ -324,8 +339,9 @@ CREATE TEMPORARY TABLE t
   param1 INT64,
   param2 INT64
 )
-AS
-SELECT 1, 2, 3
+AS (
+  SELECT 1, 2, 3
+)
 """
 
 [[cases]]
@@ -336,9 +352,10 @@ select key, value from KeyValue
 formatted = """
 CREATE TABLE t1
 PARTITION BY key, value
-AS
-SELECT key, value
-  FROM KeyValue
+AS (
+  SELECT key, value
+    FROM KeyValue
+)
 """
 
 [[cases]]
@@ -353,9 +370,10 @@ CREATE TABLE t1
   bbb STRING
 )
 PARTITION BY b
-AS
-SELECT 1    AS a,
-       'hi' AS b
+AS (
+  SELECT 1    AS a,
+         'hi' AS b
+)
 """
 
 [[cases]]
@@ -366,9 +384,10 @@ select key, value from KeyValue
 formatted = """
 CREATE TABLE t1
 CLUSTER BY key, value
-AS
-SELECT key, value
-  FROM KeyValue
+AS (
+  SELECT key, value
+    FROM KeyValue
+)
 """
 
 [[cases]]
@@ -383,9 +402,10 @@ CREATE TABLE t1
   b STRING
 )
 CLUSTER BY b
-AS
-SELECT 1    AS a,
-       'hi' AS b
+AS (
+  SELECT 1    AS a,
+         'hi' AS b
+)
 """
 
 [[cases]]
@@ -406,9 +426,10 @@ CREATE TABLE t1
 PARTITION BY field_name
   CLUSTER BY a
 OPTIONS (key='value')
-AS
-SELECT 1    AS a,
-       'hi' AS b
+AS (
+  SELECT 1    AS a,
+         'hi' AS b
+)
 """
 
 [[cases]]
@@ -421,9 +442,10 @@ CREATE TABLE t1
   a INT64,
   b STRING
 )
-AS
-SELECT 1     AS a,
-       'foo' AS b
+AS (
+  SELECT 1     AS a,
+         'foo' AS b
+)
 """
 
 [[cases]]
@@ -456,27 +478,29 @@ partition by date(load_date) cluster by hash_key
 formatted = """
 CREATE TABLE t1
 (
-  hash_key     STRING NOT NULL,
+  hash_key     STRING
+               NOT NULL,
   load_date    TIMESTAMP,
-  business_key STRING NOT NULL,
+  business_key STRING
+               NOT NULL,
   elements     STRUCT<
                  key   STRING,
                  bar   DATE,
                  elems STRUCT<
                          cod    STRING,
-                         values ARRAY<
-                                  STRUCT<
-                                    key    STRING,
-                                    amount NUMERIC(19, 2)
-                                  >
-                                >
+                         values ARRAY<STRUCT<key STRING, amount NUMERIC(19, 2)>>
                        >,
                  lo    DATE
                >,
-  nums         ARRAY<INT64 NOT NULL>,
+  nums         ARRAY<
+                 INT64
+                 NOT NULL
+               >,
   nums2        ARRAY<
-                 BIGNUMERIC(34, 3) NOT NULL
-               > NOT NULL,
+                 BIGNUMERIC(34, 3)
+                 NOT NULL
+               >
+               NOT NULL,
   nullables    ARRAY<STRUCT<value FLOAT64>>,
   mixed        ARRAY<
                  STRUCT<
@@ -487,14 +511,15 @@ CREATE TABLE t1
 )
 PARTITION BY DATE(load_date)
   CLUSTER BY hash_key
-AS
-WITH
-cte AS (
-SELECT *
-  FROM abc
- WHERE TRUE
+AS (
+  WITH
+    cte AS (
+      SELECT *
+        FROM abc
+       WHERE TRUE
+    )
+  SELECT 1     AS a,
+         'foo' AS b
+    FROM cte
 )
-SELECT 1     AS a,
-       'foo' AS b
-  FROM cte
 """

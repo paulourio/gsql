@@ -29,6 +29,7 @@ func NewWriter(fopts *format.Options, comms []*extensions.Comment) *Writer {
 	}
 }
 
+// WithCapacity returns a sub-writer with the given capacity.
 func (w *Writer) WithCapacity(capacity int) *Writer {
 	return &Writer{
 		opts:      w.opts,
@@ -98,7 +99,7 @@ func (w *Writer) Format(s string) {
 			w.writeRunes(data)
 			return
 		}
-		if w.last == ' ' && data[0] == ' ' {
+		if w.last == ' ' || curr == ' ' {
 			w.writeRunes(data)
 		} else {
 			w.writeRunes(append([]rune{' '}, data...))

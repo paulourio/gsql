@@ -2,6 +2,7 @@ package format
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/go-playground/validator"
 	"github.com/goccy/go-googlesql"
@@ -34,11 +35,26 @@ type Options struct {
 	// AlignArrayOfValues bool `toml:"align_array_of_values"`
 	// AlignConsecutiveVariableDeclarations `toml:"align_consecutive_variable_declarations"`
 	// AlwaysBreakBeforeMultilineStrings bool `toml:"always_break_before_multiline_strings"`
-	AlignTrailingComments   bool `toml:"align_trailing_comments"`
+	AlignTrailingComments bool `toml:"align_trailing_comments"`
+	// ColumnListTrailingComma controls when to add a trailing comma to a
+	// column list.
 	ColumnListTrailingComma When `toml:"column_list_trailing_comma"`
 	// Indentation sets the minimum amount of indentation when certain
 	// expressions need to be split across lines.
-	Indentation    int  `toml:"indentation"`
+	Indentation int `toml:"indentation"`
+	// IndentCaseWhen enabled indents the expressions inside a CASE WHEN
+	// expression.
+	// true:
+	//  CASE
+	//    WHEN 1 = 1 THEN 1
+	//    WHEN 2 = 2 THEN 2
+	//  END
+	//
+	// false:
+	//  CASE
+	//  WHEN 1 = 1 THEN 1
+	//  WHEN 2 = 2 THEN 2
+	//  END
 	IndentCaseWhen bool `toml:"indent_case_when"`
 	// IndentWithClause enabled indents each with entry.
 	// true:
@@ -66,8 +82,13 @@ type Options struct {
 	// MinJoinsToSeparateInBlocks is the minimum number of consecutive
 	// joins in a from clause to format each join as a separate block,
 	// that is an empty line before and after each join.
-	MinJoinsToSeparateInBlocks    int `toml:"min_joins_to_separate_in_blocks"`
+	MinJoinsToSeparateInBlocks int `toml:"min_joins_to_separate_in_blocks"`
+	// MaxColumnsForSingleLineSelect in the maximum number of columns in a
+	// select list to format the select as a single line.
 	MaxColumnsForSingleLineSelect int `toml:"max_cols_for_single_line_select"`
+	// MaxParamsForSingleLineFunction in the maximum number of parameters in a
+	// function declaration to format the function as a single line.
+	MaxParamsForSingleLineFunction int `toml:"max_params_for_single_line_function"`
 	// SpaceInAngles                 bool `toml:"space_in_angles"`
 	// SpaceInParentheses bool `toml:"space_in_parentheses"`
 	// SpaceInBrackets bool `toml:"space_in_brackets"`
@@ -79,9 +100,22 @@ type Options struct {
 	// FunctionName sets how to style the name of function calls with
 	// unquoted names.
 	FunctionNameStyle PrintCase `toml:"function_name_style" validate:"print-case"`
+	// BuiltinFunctionNameStyle sets how to style the name of built-in
+	// function calls with unquoted names.
+	BuiltinFunctionNameStyle PrintCase `toml:"builtin_function_name_style" validate:"print-case"`
 	// IdentifierStyle sets how identifiers, such as column names and
 	// aliases should be printed.
 	IdentifierStyle PrintCase `toml:"identifier_style" validate:"print-case"`
+	// SystemVariableStyle sets how BigQuery's system @@variables should be printed.
+	SystemVariableStyle PrintCase `toml:"system_variable_style" validate:"print-case"`
+	// QueryParameterStyle sets how BigQuery's query @parameters should be printed.
+	QueryParameterStyle PrintCase `toml:"query_parameter_style" validate:"print-case"`
+	// PseudoColumnStyle sets how BigQuery's special pseudo-column names
+	// should be printed. Any column name that starts with an underscore
+	// is considered as a pseudo-column name.
+	PseudoColumnStyle PrintCase `toml:"pseudo_column_style" validate:"print-case"`
+	// TableNameStyle sets how table names should be printed.
+	TableNameStyle PrintCase `toml:"table_name_style" validate:"print-case"`
 	// KeywordStyle sets how keywords should be printed.
 	KeywordStyle PrintCase `toml:"keyword_style" validate:"print-case"`
 	// TypeStyle sets how type names should be printed.
@@ -96,6 +130,9 @@ type Options struct {
 	BytesStyle   StringStyle `toml:"bytes_style" validate:"string-style"`
 	// StringStyle sets how single-line strings should be printed.
 	StringStyle StringStyle `toml:"string_style" validate:"string-style"`
+
+	// pseudoColumns in a lookup mapping of pseudo-column names.
+	pseudoColumns map[string]struct{}
 }
 
 type FunctionCatalog string
@@ -136,6 +173,19 @@ const (
 	// It prefers "ab'bc" but allows 'ab"cd'.
 	PreferDoubleQuote StringStyle = "PREFER_DOUBLE_QUOTE"
 )
+
+// Init initializes internal data structures.
+func (p *Options) Init() {
+	p.pseudoColumns = make(map[string]struct{}, len(DefaultPseudoColumnNames))
+	for _, col := range DefaultPseudoColumnNames {
+		p.pseudoColumns[strings.ToUpper(col)] = struct{}{}
+	}
+}
+
+func (p *Options) IsPseudoColumn(name string) bool {
+	_, ok := p.pseudoColumns[strings.ToUpper(name)]
+	return ok
+}
 
 func (p *Options) Validate() error {
 	var err error
@@ -183,30 +233,38 @@ func validateStringStyle(fl validator.FieldLevel) bool {
 }
 
 func DefaultOptions() *Options {
-	return &Options{
-		SoftMaxColumns:                120,
-		NewlineBeforeClause:           true,
-		AlignLogicalWithClauses:       true,
-		AlignTrailingComments:         true,
-		ColumnListTrailingComma:       Auto,
-		Indentation:                   2,
-		IndentCaseWhen:                true,
-		IndentWithClause:              true,
-		IndentWithEntries:             true,
-		MinJoinsToSeparateInBlocks:    2,
-		MaxColumnsForSingleLineSelect: 120,
-		FunctionCatalog:               BigQueryCatalog,
-		FunctionNameStyle:             UpperCase,
-		IdentifierStyle:               LowerCase,
-		KeywordStyle:                  UpperCase,
-		TypeStyle:                     UpperCase,
-		BoolStyle:                     UpperCase,
-		HexStyle:                      LowerCase,
-		NumericStyle:                  LowerCase,
-		NullStyle:                     UpperCase,
-		BytesStyle:                    PreferSingleQuote,
-		StringStyle:                   PreferSingleQuote,
+	opts := &Options{
+		SoftMaxColumns:                 120,
+		NewlineBeforeClause:            true,
+		AlignLogicalWithClauses:        true,
+		AlignTrailingComments:          true,
+		ColumnListTrailingComma:        Auto,
+		Indentation:                    2,
+		IndentCaseWhen:                 true,
+		IndentWithClause:               true,
+		IndentWithEntries:              true,
+		MinJoinsToSeparateInBlocks:     2,
+		MaxColumnsForSingleLineSelect:  4,
+		MaxParamsForSingleLineFunction: 1,
+		FunctionCatalog:                BigQueryCatalog,
+		FunctionNameStyle:              AsIs,
+		BuiltinFunctionNameStyle:       UpperCase,
+		IdentifierStyle:                LowerCase,
+		QueryParameterStyle:            AsIs,
+		SystemVariableStyle:            AsIs,
+		PseudoColumnStyle:              UpperCase,
+		TableNameStyle:                 AsIs,
+		KeywordStyle:                   UpperCase,
+		TypeStyle:                      UpperCase,
+		BoolStyle:                      UpperCase,
+		HexStyle:                       LowerCase,
+		NumericStyle:                   LowerCase,
+		NullStyle:                      UpperCase,
+		BytesStyle:                     PreferSingleQuote,
+		StringStyle:                    PreferSingleQuote,
 	}
+	opts.Init()
+	return opts
 }
 
 func DefaultErrorMessagesOptions() *googlesql.ErrorMessageOptions {
@@ -232,4 +290,13 @@ func DefaultParserOptions() *googlesql.ParserOptions {
 		panic(fmt.Errorf("unable to set language options: %w", err))
 	}
 	return popts
+}
+
+var DefaultPseudoColumnNames = []string{
+	"_CHANGE_TYPE",
+	"_CHANGE_TIMESTAMP",
+	"_TABLE_SUFFIX",
+	"_PARTITIONDATE",
+	"_PARTITIONTIME",
+	"_FILE_NAME",
 }

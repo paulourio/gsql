@@ -1,6 +1,5 @@
 # Tests cases of examples from BigQuery's documentation.
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -46,11 +45,11 @@ SELECT ANY_VALUE(fruit HAVING MAX sold) AS a_highest_selling_fruit FROM Store;
 WITH
   Store AS (
     SELECT 20 AS sold, "apples" AS fruit
-    UNION ALL
+     UNION ALL
     SELECT 30 AS sold, "pears" AS fruit
-    UNION ALL
+     UNION ALL
     SELECT 30 AS sold, "bananas" AS fruit
-    UNION ALL
+     UNION ALL
     SELECT 10 AS sold, "oranges" AS fruit
   )
 SELECT ANY_VALUE(fruit HAVING MIN sold) AS a_lowest_selling_fruit FROM Store;
@@ -316,10 +315,10 @@ SELECT BIT_XOR(DISTINCT x) AS bit_xor FROM UNNEST([1234, 5678, 1234]) AS x;
 """
 formatted = """
 SELECT BIT_AND(x) AS bit_and
-  FROM UNNEST([0xF001, 0x00A1]) AS x;
+  FROM UNNEST([0xf001, 0x00a1]) AS x;
 
 SELECT BIT_OR(x) AS bit_or
-  FROM UNNEST([0xF001, 0x00A1]) AS x;
+  FROM UNNEST([0xf001, 0x00a1]) AS x;
 
 SELECT BIT_XOR(x) AS bit_xor
   FROM UNNEST([5678, 1234]) AS x;
@@ -622,42 +621,52 @@ FROM
 """
 formatted = """
 SELECT CORR(y, x) AS results
-  FROM UNNEST([
-                STRUCT(1.0 AS y, 5.0 AS x),
-                (3.0, 9.0),
-                (4.0, 7.0)
-              ]);
+  FROM UNNEST(
+         [
+           STRUCT(1.0 AS y, 5.0 AS x),
+           (3.0, 9.0),
+           (4.0, 7.0)
+         ]
+       );
 
 SELECT CORR(y, x) AS results
-  FROM UNNEST([
-                STRUCT(1.0 AS y, 5.0 AS x),
-                (3.0, 9.0),
-                (4.0, NULL)
-              ]);
+  FROM UNNEST(
+         [
+           STRUCT(1.0 AS y, 5.0 AS x),
+           (3.0, 9.0),
+           (4.0, NULL)
+         ]
+       );
 
 SELECT CORR(y, x) AS results
-  FROM UNNEST([
-                STRUCT(1.0 AS y, NULL AS x),
-                (9.0, 3.0)
-              ]);
+  FROM UNNEST(
+         [
+           STRUCT(1.0 AS y, NULL AS x),
+           (9.0, 3.0)
+         ]
+       );
 
 SELECT CORR(y, x) AS results
-  FROM UNNEST([
-                STRUCT(1.0 AS y, NULL AS x),
-                (9.0, NULL)
-              ]);
+  FROM UNNEST(
+         [
+           STRUCT(1.0 AS y, NULL AS x),
+           (9.0, NULL)
+         ]
+       );
 
 SELECT CORR(y, x) AS results
-  FROM UNNEST([
-                STRUCT(1.0 AS y, 5.0 AS x),
-                (3.0, 9.0),
-                (4.0, 7.0),
-                (5.0, 1.0),
-                (
-                  7.0,
-                  CAST('Infinity' AS FLOAT64)
-                )
-              ]);
+  FROM UNNEST(
+         [
+           STRUCT(1.0 AS y, 5.0 AS x),
+           (3.0, 9.0),
+           (4.0, 7.0),
+           (5.0, 1.0),
+           (
+             7.0,
+             CAST('Infinity' AS FLOAT64)
+           )
+         ]
+       );
 
 SELECT CORR(x, y) AS results
   FROM (
@@ -728,19 +737,21 @@ FROM
   );
 """
 formatted = """
-SELECT country, HLL_COUNT.EXTRACT(HLL_sketch) AS distinct_customers_with_open_invoice
+SELECT country, HLL_COUNT.EXTRACT(hll_sketch) AS distinct_customers_with_open_invoice
   FROM (
          SELECT country, HLL_COUNT.INIT(customer_id) AS hll_sketch
-           FROM UNNEST(ARRAY<
-                         STRUCT<country STRING, customer_id STRING, invoice_id STRING>
-                       >[
-                         ('UA', 'customer_id_1', 'invoice_id_11'),
-                         ('BR', 'customer_id_3', 'invoice_id_31'),
-                         ('CZ', 'customer_id_2', 'invoice_id_22'),
-                         ('CZ', 'customer_id_2', 'invoice_id_23'),
-                         ('BR', 'customer_id_3', 'invoice_id_31'),
-                         ('UA', 'customer_id_2', 'invoice_id_24')
-                       ])
+           FROM UNNEST(
+                  ARRAY<
+                    STRUCT<country STRING, customer_id STRING, invoice_id STRING>
+                  >[
+                    ('UA', 'customer_id_1', 'invoice_id_11'),
+                    ('BR', 'customer_id_3', 'invoice_id_31'),
+                    ('CZ', 'customer_id_2', 'invoice_id_22'),
+                    ('CZ', 'customer_id_2', 'invoice_id_23'),
+                    ('BR', 'customer_id_3', 'invoice_id_31'),
+                    ('UA', 'customer_id_2', 'invoice_id_24')
+                  ]
+                )
           GROUP BY country
        )
 """
@@ -761,16 +772,18 @@ SELECT a,
        BIT_COUNT(a)    AS a_bits,
        FORMAT('%T', b) AS b,
        BIT_COUNT(b)    AS b_bits
-  FROM UNNEST([
-                STRUCT(0 AS a, b'' AS b),
-                (0, b'\\x00'),
-                (5, b'\\x05'),
-                (8, b'\\x00\\x08'),
-                (0xFFFF, b'\\xFF\\xFF'),
-                (-2, b'\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFE'),
-                (-1, b'\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF'),
-                (NULL, b'\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF')
-              ]) AS x
+  FROM UNNEST(
+         [
+           STRUCT(0 AS a, b'' AS b),
+           (0, b'\\x00'),
+           (5, b'\\x05'),
+           (8, b'\\x00\\x08'),
+           (0xffff, b'\\xFF\\xFF'),
+           (-2, b'\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFE'),
+           (-1, b'\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF'),
+           (NULL, b'\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF\\xFF')
+         ]
+       ) AS x
 """
 
 [[cases]]
@@ -1025,14 +1038,10 @@ SELECT CODE_POINTS_TO_BYTES(
                         code
 
                     END
-               FROM (
-                      SELECT code,
-                             CODE_POINTS_TO_BYTES(
-                               [code]
-                             ) AS chr
-                    )
+               FROM (SELECT code,
+                            CODE_POINTS_TO_BYTES([code]) AS chr)
            )
-           ORDER BY OFFSET
+           ORDER BY offset
          )
        ) AS encoded_string
   FROM UNNEST(TO_CODE_POINTS(b'Test String!')) AS code WITH OFFSET
@@ -1059,10 +1068,8 @@ WITH
     SELECT word
       FROM UNNEST(['foo', 'bar', 'baz', 'giraffe', 'llama']) AS word
   )
-SELECT CODE_POINTS_TO_STRING(
-         [code_point]
-       )        AS letter,
-       COUNT(*) AS letter_count
+SELECT CODE_POINTS_TO_STRING([code_point]) AS letter,
+       COUNT(*)                            AS letter_count
   FROM Words,
        UNNEST(TO_CODE_POINTS(word)) AS code_point
  GROUP BY 1
@@ -1098,7 +1105,7 @@ WITH
     SELECT COLLATE('a', 'und:ci') AS char1,
            COLLATE('Z', 'und:ci') AS char2
   )
-SELECT (Words.char1 < Words.char2) AS a_less_than_Z
+SELECT (words.char1 < words.char2) AS a_less_than_z
   FROM Words;
 
 /* In this example, the weight of a is greater than the weight of Z.
@@ -1109,7 +1116,7 @@ WITH
     SELECT 'a' AS char1,
            'Z' AS char2
   )
-SELECT (Words.char1 < Words.char2) AS a_less_than_Z
+SELECT (words.char1 < words.char2) AS a_less_than_z
   FROM Words;
 """
 
@@ -1188,7 +1195,9 @@ WITH
     SELECT 'tHisEisEaESentence' AS value,
            'E'                  AS delimiters
   )
-SELECT value, delimiters, INITCAP(value, delimiters) AS initcap_value
+SELECT value,
+       delimiters,
+       INITCAP(value, delimiters) AS initcap_value
   FROM example;
 /*----------------------+------------+----------------------*
  | value                | delimiters | initcap_value        |
@@ -1265,12 +1274,16 @@ FROM UNNEST([
  *-----------------+-----+---------+-------------------------*/
 """
 formatted = """
-SELECT t, len, FORMAT('%T', LPAD(t, len)) AS LPAD
-  FROM UNNEST([
-                STRUCT('abc' AS t, 5 AS len),
-                ('abc', 2),
-                ('例子', 4)
-              ]);
+SELECT t,
+       len,
+       FORMAT('%T', LPAD(t, len)) AS lpad
+  FROM UNNEST(
+         [
+           STRUCT('abc' AS t, 5 AS len),
+           ('abc', 2),
+           ('例子', 4)
+         ]
+       );
 
 /*------+-----+----------*
  | t    | len | LPAD     |
@@ -1282,12 +1295,14 @@ SELECT t, len, FORMAT('%T', LPAD(t, len)) AS LPAD
 SELECT t,
        len,
        pattern,
-       FORMAT('%T', LPAD(t, len, pattern)) AS LPAD
-  FROM UNNEST([
-                STRUCT('abc' AS t, 8 AS len, 'def' AS pattern),
-                ('abc', 5, '-'),
-                ('例子', 5, '中文')
-              ]);
+       FORMAT('%T', LPAD(t, len, pattern)) AS lpad
+  FROM UNNEST(
+         [
+           STRUCT('abc' AS t, 8 AS len, 'def' AS pattern),
+           ('abc', 5, '-'),
+           ('例子', 5, '中文')
+         ]
+       );
 
 /*------+-----+---------+--------------*
  | t    | len | pattern | LPAD         |
@@ -1298,12 +1313,14 @@ SELECT t,
  *------+-----+---------+--------------*/
 SELECT FORMAT('%T', t) AS t,
        len,
-       FORMAT('%T', LPAD(t, len)) AS LPAD
-  FROM UNNEST([
-                STRUCT(b'abc' AS t, 5 AS len),
-                (b'abc', 2),
-                (b'\\xab\\xcd\\xef', 4)
-              ]);
+       FORMAT('%T', LPAD(t, len)) AS lpad
+  FROM UNNEST(
+         [
+           STRUCT(b'abc' AS t, 5 AS len),
+           (b'abc', 2),
+           (b'\\xab\\xcd\\xef', 4)
+         ]
+       );
 
 /*-----------------+-----+------------------*
  | t               | len | LPAD             |
@@ -1315,12 +1332,14 @@ SELECT FORMAT('%T', t) AS t,
 SELECT FORMAT('%T', t) AS t,
        len,
        FORMAT('%T', pattern)               AS pattern,
-       FORMAT('%T', LPAD(t, len, pattern)) AS LPAD
-  FROM UNNEST([
-                STRUCT(b'abc' AS t, 8 AS len, b'def' AS pattern),
-                (b'abc', 5, b'-'),
-                (b'\\xab\\xcd\\xef', 5, b'\\x00')
-              ]);
+       FORMAT('%T', LPAD(t, len, pattern)) AS lpad
+  FROM UNNEST(
+         [
+           STRUCT(b'abc' AS t, 8 AS len, b'def' AS pattern),
+           (b'abc', 5, b'-'),
+           (b'\\xab\\xcd\\xef', 5, b'\\x00')
+         ]
+       );
 /*-----------------+-----+---------+-------------------------*
  | t               | len | pattern | LPAD                    |
  |-----------------|-----|---------|-------------------------|
@@ -1388,10 +1407,9 @@ FROM
   UNNEST(addresses) AS email;
 """
 formatted = """
-SELECT email, REGEXP_CONTAINS(email, r'@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+') AS is_valid
-  FROM (
-         SELECT ['foo@example.com', 'bar@example.org', 'www.example.net'] AS addresses
-       ),
+SELECT email,
+       REGEXP_CONTAINS(email, r'@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+') AS is_valid
+  FROM (SELECT ['foo@example.com', 'bar@example.org', 'www.example.net'] AS addresses),
        UNNEST(addresses) AS email;
 
 -- Performs a full match, using ^ and $. Due to regular expression operator
@@ -1400,9 +1418,7 @@ SELECT email, REGEXP_CONTAINS(email, r'@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+') AS is_v
 SELECT email,
        REGEXP_CONTAINS(email, r'^([\\w.+-]+@foo\\.com|[\\w.+-]+@bar\\.org)$') AS valid_email_address,
        REGEXP_CONTAINS(email, r'^[\\w.+-]+@foo\\.com|[\\w.+-]+@bar\\.org$')   AS without_parentheses
-  FROM (
-         SELECT ['a@foo.com', 'a@foo.computer', 'b@bar.org', '!b@bar.org', 'c@buz.net'] AS addresses
-       ),
+  FROM (SELECT ['a@foo.com', 'a@foo.computer', 'b@bar.org', '!b@bar.org', 'c@buz.net'] AS addresses),
        UNNEST(addresses) AS email;
 """
 
@@ -1441,9 +1457,7 @@ select
 formatted = """
 SELECT date                           AS original,
        DATE_TRUNC(date, WEEK(MONDAY)) AS truncated
-  FROM (
-         SELECT DATE('2017-11-05') AS date
-       );
+  FROM (SELECT DATE('2017-11-05') AS date);
 
 SELECT DATE_TRUNC('2015-06-15', ISOYEAR)       AS isoyear_boundary,
        EXTRACT(ISOYEAR FROM DATE '2015-06-15') AS isoyear_number;

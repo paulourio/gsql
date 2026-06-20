@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -42,7 +41,7 @@ input = "Select * FROM `Samples` Where ID =1"
 formatted = """
 SELECT *
   FROM `Samples`
- WHERE ID = 1
+ WHERE id = 1
 """
 
 [[cases]]
@@ -57,8 +56,8 @@ ID    =1 -- 2
 formatted = """
 SELECT *
        /* key */
-  FROM `Samples`  /*tablesample system (1 percent)*/
- WHERE ID = 1  -- 2
+  FROM `Samples` /*tablesample system (1 percent)*/
+ WHERE id = 1 -- 2
 """
 
 [[cases]]
@@ -70,9 +69,9 @@ Where
 ID    =1 -- 2
 """
 formatted = """
-SELECT *  -- key,
-  FROM `Samples`  /*tablesample system (1 percent)*/
- WHERE ID = 1  -- 2
+SELECT * -- key,
+  FROM `Samples` /*tablesample system (1 percent)*/
+ WHERE id = 1 -- 2
 """
 
 [[cases]]
@@ -91,14 +90,14 @@ from Samples  -- TABLESAMPLE SYSTEM (1 PERCENT)
 """
 formatted = """
 -- Comment before statement.
-SELECT key1,  -- key2,
+SELECT key1, -- key2,
        -- key3,
        ROUND(x, /*precision=*/ 4) AS value
        -- , key4
-  FROM Samples  -- TABLESAMPLE SYSTEM (1 PERCENT)
+  FROM Samples -- TABLESAMPLE SYSTEM (1 PERCENT)
        -- between from and where, in a separate line.
  WHERE -- between where and the first expression
-       id = 1  /* description */
+       id = 1 /* description */
 """
 
 # This case should be improved.  Currently, between some blocks make the overall
@@ -137,35 +136,35 @@ group by -- 12
 """
 formatted = """
 -- 1
-SELECT /* 2 */ key1,  /* 3 */
+SELECT /* 2 */ key1, /* 3 */
        -- 4
        key2
        /* 5 */
-  FROM /* 6 */ table  /* 7 */
+  FROM /* 6 */ table /* 7 */
        -- 8
- WHERE -- 9
-       expr  -- 10
+ WHERE      -- 9
+       expr -- 10
 -- 11
-  GROUP BY -- 12
-           ROW_NUMBER() OVER (/* partition by 1 */) = 1  -- 13
+  GROUP BY                                              -- 12
+           ROW_NUMBER() OVER (/* partition by 1 */) = 1 -- 13
         -- 15
- HAVING -- 16
-        expr1  -- 17
+ HAVING       -- 16
+        expr1 -- 17
         -- 18
-QUALIFY -- 19
-        1  -- 20
+QUALIFY   -- 19
+        1 -- 20
         -- 21
  WINDOW -- 22
         name AS (),
         -- 23
-        name2 AS ()  /* aaa */
+        name2 AS () /* aaa */
         -- 23a
         -- 24
-  ORDER BY -- 25
-           expr  -- 26
+  ORDER BY      -- 25
+           expr -- 26
         -- 27
-  LIMIT -- 28
-        1  -- 29
+  LIMIT   -- 28
+        1 -- 29
 -- 30
 """
 
@@ -174,8 +173,5 @@ input = """
 select \"""abc # \""", \""" def -- \""", \""" ghi /* \""", \""" */ jkl \"""
 """
 formatted = """
-SELECT \"""abc # \""",
-       \""" def -- \""",
-       \""" ghi /* \""",
-       \""" */ jkl \"""
+SELECT '''abc # ''', ''' def -- ''', ''' ghi /* ''', ''' */ jkl '''
 """

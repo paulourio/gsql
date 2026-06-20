@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -37,8 +36,7 @@ group by language
 order by language
 """
 formatted = """
-SELECT lang AS language,
-       COUNT(*)
+SELECT lang AS language, COUNT(*)
   FROM language
  WHERE language LIKE 'sv%'
  GROUP BY language
@@ -54,8 +52,7 @@ where function like 'sv%'
 group by function order by function
 """
 formatted = """
-SELECT func AS function,
-       COUNT(*)
+SELECT func AS function, COUNT(*)
   FROM function
  WHERE function LIKE 'sv%'
  GROUP BY function
@@ -71,8 +68,7 @@ where returns like 'sv%'
 group by returns order by returns
 """
 formatted = """
-SELECT func AS returns,
-       COUNT(*)
+SELECT func AS returns, COUNT(*)
   FROM returns
  WHERE returns LIKE 'sv%'
  GROUP BY returns
@@ -86,9 +82,7 @@ select safe_cast from (select 1 as safe_cast)
 """
 formatted = """
 SELECT safe_cast
-  FROM (
-         SELECT 1 AS safe_cast
-       )
+  FROM (SELECT 1 AS safe_cast)
 """
 
 [[cases]]
@@ -109,16 +103,14 @@ SELECT date_add,
        datetime_sub,
        time_add,
        time_sub
-  FROM (
-         SELECT 1 AS date_add,
-                1 AS date_sub,
-                1 AS timestamp_add,
-                1 AS timestamp_sub,
-                1 AS datetime_add,
-                1 AS datetime_sub,
-                1 AS time_ad,
-                1 AS time_sub
-       )
+  FROM (SELECT 1 AS date_add,
+               1 AS date_sub,
+               1 AS timestamp_add,
+               1 AS timestamp_sub,
+               1 AS datetime_add,
+               1 AS datetime_sub,
+               1 AS time_ad,
+               1 AS time_sub)
 """
 
 [[cases]]

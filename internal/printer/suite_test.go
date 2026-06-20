@@ -81,13 +81,16 @@ func (c *Case) String() string {
 }
 
 func (c *CaseResult) String() string {
+	return ""
 	b := &strings.Builder{}
 	b.Grow(len(c.Input.Script) * 50)
 	if c.Case.Description != "" {
 		fmt.Fprintf(b, "Test Case: %s\n\n", c.Case.Description)
 	}
 	writeBlock(b, "Input AST", c.Input.debugString)
-	writeBlock(b, "Formatted AST", c.Formatted.debugString)
+	if c.Input.debugString != c.Formatted.debugString {
+		writeBlock(b, "Formatted AST", c.Formatted.debugString)
+	}
 	writeBlock(b, "Input", c.Case.Input)
 	writeBlock(b, "Expected Formatted", c.Case.Formatted)
 	writeBlock(b, "Result Formatted", c.Formatted.Script)

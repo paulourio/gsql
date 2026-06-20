@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -78,11 +77,11 @@ select case (SELECT a1) when a2 then 5 end;
 """
 formatted = """
 SELECT CASE
-         (
-           SELECT a1
-         )
+         (SELECT a1)
 
-         WHEN a2 THEN
+         WHEN
+           a2
+         THEN
            5
 
        END
@@ -97,7 +96,7 @@ select case a1+57 when sqrt(a2/5) then concat(c,d)
 formatted = """
 SELECT CASE a1 + 57
          WHEN SQRT(a2 / 5) THEN CONCAT(c, d)
-         WHEN       a3 * 4 THEN 'ddd'
+         WHEN a3 * 4       THEN 'ddd'
                            ELSE IF(a4 = 6, 'aaa', 'bbb')
        END
 """
@@ -127,8 +126,8 @@ else '4' end;
 formatted = """
 SELECT CASE
          WHEN field > 100 THEN '1'
-         WHEN field >  50 THEN '2'
-         WHEN field >  10 THEN '3'
+         WHEN field > 50  THEN '2'
+         WHEN field > 10  THEN '3'
                           ELSE '4'
        END
 """
@@ -146,10 +145,30 @@ else null end;
 formatted = """
 SELECT CASE
          WHEN field > 100 THEN '1'
-         WHEN  field > 50 THEN '2'
-         WHEN       value THEN '3'
-         WHEN  MAX(value) THEN '3'
+         WHEN field > 50  THEN '2'
+         WHEN value       THEN '3'
+         WHEN MAX(value)  THEN '3'
                           ELSE NULL
+       END
+"""
+
+[[cases]]
+description = "Cases with multiple binary expressions"
+input = """
+select
+case
+when a and b or (c and IFNULL(coalesce(d, e), false))
+then 1
+when a and b then 2
+when a then 3
+else 4 end
+"""
+formatted = """
+SELECT CASE
+         WHEN a AND b OR (c AND IFNULL(COALESCE(d, e), FALSE)) THEN 1
+         WHEN a AND b                                          THEN 2
+         WHEN a                                                THEN 3
+                                                               ELSE 4
        END
 """
 
@@ -165,13 +184,19 @@ else '4' end;
 """
 formatted = """
 SELECT CASE
-         WHEN field > 100 THEN
+         WHEN
+           field > 100
+         THEN
            '1'
 
-         WHEN field > 50 THEN
+         WHEN
+           field > 50
+         THEN
            '2'
 
-         WHEN value THEN
+         WHEN
+           value
+         THEN
            '3'
 
          WHEN
@@ -205,7 +230,7 @@ then
       when not def then '3'
       else MAX(x)
       end
-  when (select 2) IS DISTINCT FROM (select 3)
+  when (select 2) IS DISTINCT FROM (select 3 from unnest(x) where y > 1)
   then
     case value
     when 1 then '1'
@@ -213,6 +238,8 @@ then
     else '3'
     end
   when x then ifnull(x, 'value2')
+  when (select max(value) from unnest(my_arr) as x where x > 0) IS DISTINCT FROM (select min(value) from unnest(my_arr) as x where x > 0)
+  THEN (select max(value) from unnest(my_arr) as x where x > 0) - (select min(value) from unnest(my_arr) as x where x > 0)
     else coalesce(field, 'value')
   end
 when (select value from unnest(values) where cod=1) IS DISTINCT FROM 2 then '1'
@@ -237,9 +264,7 @@ SELECT CASE
            ) > 100
          THEN
            CASE
-             (
-               SELECT 1
-             )
+             (SELECT 1)
 
              WHEN
                (
@@ -249,16 +274,16 @@ SELECT CASE
                ) > 100
              THEN
                CASE
-                 WHEN     abc THEN '2'
+                 WHEN abc     THEN '2'
                  WHEN NOT def THEN '3'
                               ELSE MAX(x)
                END
 
              WHEN
-               (
-                 SELECT 2
-               ) IS DISTINCT FROM (
+               (SELECT 2) IS DISTINCT FROM (
                  SELECT 3
+                   FROM UNNEST(x)
+                  WHERE y > 1
                )
              THEN
                CASE value
@@ -267,8 +292,31 @@ SELECT CASE
                         ELSE '3'
                END
 
-             WHEN x THEN
+             WHEN
+               x
+             THEN
                IFNULL(x, 'value2')
+
+             WHEN
+               (
+                 SELECT MAX(value)
+                   FROM UNNEST(my_arr) AS x
+                  WHERE x > 0
+               ) IS DISTINCT FROM (
+                 SELECT MIN(value)
+                   FROM UNNEST(my_arr) AS x
+                  WHERE x > 0
+               )
+             THEN
+               (
+                 SELECT MAX(value)
+                   FROM UNNEST(my_arr) AS x
+                  WHERE x > 0
+               ) - (
+                 SELECT MIN(value)
+                   FROM UNNEST(my_arr) AS x
+                  WHERE x > 0
+               )
 
              ELSE
                COALESCE(field, 'value')

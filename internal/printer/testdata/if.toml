@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -59,9 +58,10 @@ IF x > y THEN
   SELECT 1;
 
   CREATE TABLE t
-  AS
-  SELECT a, b
-    FROM t2;
+  AS (
+    SELECT a, b
+      FROM t2
+  );
 
   DROP TABLE t;
 END IF
@@ -83,9 +83,10 @@ IF x > y THEN
   SELECT 1;
 
   CREATE TABLE t
-  AS
-  SELECT a, b
-    FROM t2;
+  AS (
+    SELECT a, b
+      FROM t2
+  );
 
   IF
     (
@@ -161,8 +162,9 @@ IF x > y THEN
       DROP TABLE t2;
 
       CREATE VIEW v
-      AS
-      SELECT 1 AS x;
+      AS (
+        SELECT 1 AS x
+      );
     END IF;
   END IF;
 ELSE
@@ -240,8 +242,9 @@ THEN
       DROP TABLE t2;
 
       CREATE VIEW v
-      AS
-      SELECT 1 AS x;
+      AS (
+        SELECT 1 AS x
+      );
     END IF;
   END IF;
 ELSE
@@ -271,9 +274,7 @@ end if
 """
 formatted = """
 IF
-  EXISTS(
-    SELECT 1
-  )
+  EXISTS(SELECT 1)
 THEN
   SELECT 1;
 END IF
@@ -487,13 +488,13 @@ else select ElseIf;
 end if;
 """
 formatted = """
-DECLARE ElseIf INT64 DEFAULT 3;
+DECLARE elseif INT64 DEFAULT 3;
 
-IF ElseIf THEN
+IF elseif THEN
   SELECT 1;
-ELSEIF ElseIf THEN
+ELSEIF elseif THEN
   SELECT 2;
 ELSE
-  SELECT ElseIf;
+  SELECT elseif;
 END IF;
 """

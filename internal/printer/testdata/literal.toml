@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -20,10 +19,10 @@ hex_style = "UPPER_CASE"
 [[cases]]
 input = """select Null, True, "x", b"y", 1, 1.0"""
 formatted = """
-SELECT Null,
-       True,
-       "x",
-       b"y",
+SELECT NULL,
+       TRUE,
+       'x',
+       b'y',
        1,
        1.0
 """
@@ -46,17 +45,16 @@ input = """select 'abc', 'a\\b', "def", '\\\\x53', '\\\\u1235', "\\\\U00012346";
 formatted = """
 SELECT 'abc',
        'a\\b',
-       "def",
+       'def',
        '\\\\x53',
        '\\\\u1235',
-       "\\\\U00012346"
+       '\\\\U00012346'
 """
 
 [[cases]]
 input = """select \"""line1\""", '''line1''';"""
 formatted = """
-SELECT \"""line1\""",
-       '''line1'''
+SELECT '''line1''', '''line1'''
 """
 
 [[cases]]
@@ -64,10 +62,7 @@ input = """select '''abc'\\\\''def''', '''abc''\\\\'def''',
 \"""abc"\\\\""def\""", \"""abc""\\\\"def\"""
 ;"""
 formatted = """
-SELECT '''abc'\\\\''def''',
-       '''abc''\\\\'def''',
-       \"""abc"\\\\""def\""",
-       \"""abc""\\\\"def\"""
+SELECT '''abc'\\\\''def''', '''abc''\\\\'def''', '''abc"\\\\""def''', '''abc""\\\\"def'''
 """
 
 [[cases]]
@@ -120,9 +115,9 @@ select
   ,'\\U0010FFFF'  as long_UTF8_char
 """
 formatted = """
-SELECT '\\x53'       AS OneHexByte,
-       '\\X41'       AS AnotherHexByte,
-       '\\001'       AS OneOctalByte,
+SELECT '\\x53'       AS onehexbyte,
+       '\\X41'       AS anotherhexbyte,
+       '\\001'       AS oneoctalbyte,
        '\\a...'      AS a,
        '\\b...'      AS b,
        '\\f...'      AS f,
@@ -135,13 +130,12 @@ SELECT '\\x53'       AS OneHexByte,
        '\\"...'      AS single_double_quote,
        '\\'...'      AS single_single_quote,
        '\\`...'      AS single_back_tick,
-       "\\"..."      AS double_double_quote,
+       '\\"...'      AS double_double_quote,
        "\\'..."      AS double_single_quote,
-       "\\`..."      AS double_back_tick,
-       '\\uabcd'     AS short_UTF8_char,
-       '\\U0010FFFF' AS long_UTF8_char
+       '\\`...'      AS double_back_tick,
+       '\\uabcd'     AS short_utf8_char,
+       '\\U0010FFFF' AS long_utf8_char
 """
-
 
 [[cases]]
 input = """
@@ -149,11 +143,11 @@ select b'abc', B"def", B'"', B"'", B'`', B"`"
 """
 formatted = """
 SELECT b'abc',
-       B"def",
-       B'"',
-       B"'",
-       B'`',
-       B"`"
+       b'def',
+       b'"',
+       b"'",
+       b'`',
+       b'`'
 """
 
 [[cases]]
@@ -161,12 +155,12 @@ input = """
 select b\"""abc\""", B'''def''', B\"""'''a'''\""", b'''"a"''', B'''`''', B\"""`\"""
 """
 formatted = """
-SELECT b\"""abc\""",
-       B'''def''',
-       B\"""'''a'''\""",
+SELECT b'''abc''',
+       b'''def''',
+       b\"""'''a'''\""",
        b'''"a"''',
-       B'''`''',
-       B\"""`\"""
+       b'''`''',
+       b'''`'''
 """
 
 [[cases]]
@@ -191,8 +185,8 @@ SELECT
   b"\\`..." AS double_back_tick
 """
 formatted = """
-SELECT b'\\x53'  AS OneHexByte,
-       b'\\001'  AS OneOctalByte,
+SELECT b'\\x53'  AS onehexbyte,
+       b'\\001'  AS oneoctalbyte,
        b'\\a...' AS a,
        b'\\b...' AS b,
        b'\\f...' AS f,
@@ -205,34 +199,27 @@ SELECT b'\\x53'  AS OneHexByte,
        b'\\"...' AS single_double_quote,
        b'\\'...' AS single_single_quote,
        b'\\`...' AS single_back_tick,
-       b"\\"..." AS double_double_quote,
+       b'\\"...' AS double_double_quote,
        b"\\'..." AS double_single_quote,
-       b"\\`..." AS double_back_tick
+       b'\\`...' AS double_back_tick
 """
 
-
 [[cases]]
-description = 'Zero length strings'
+description = "Zero length strings"
 input = """
 select '', "", \"""\""", ''''''
 """
 formatted = """
-SELECT '',
-       "",
-       \"""\""",
-       ''''''
+SELECT '', '', '''''', ''''''
 """
 
 [[cases]]
-description = 'Zero length bytes'
+description = "Zero length bytes"
 input = """
 select b'', B"", b'''''', B\"""\"""
 """
 formatted = """
-SELECT b'',
-       B"",
-       b'''''',
-       B\"""\"""
+SELECT b'', b'', b'''''', b''''''
 """
 
 [[cases]]
@@ -245,15 +232,15 @@ select rb\"""1\""",
        rb'''f\\(abc,(.*),def\\?'''
 """
 formatted = """
-SELECT rb\"""1\""",
-       rb\"""\\x53\""",
-       rb\"""\\x123\""",
+SELECT rb'''1''',
+       rb'''\\x53''',
+       rb'''\\x123''',
        rb'''\\001''',
        rb'''a\\444A''',
        rb'''a\\e''',
        rb'''\\ea''',
-       rb\"""\\U1234\""",
-       RB\"""\\u\""",
+       rb'''\\U1234''',
+       rb'''\\u''',
        rb'''\\xc2\\\\''',
        rb'''|\\xc2|\\\\''',
        rb'''f\\(abc,(.*),def\\?'''
@@ -267,13 +254,13 @@ select r'a\\'b', r"a\\"b",
 """
 formatted = """
 SELECT r'a\\'b',
-       r"a\\"b",
+       r'a\\"b',
        r'''a\\'''b''',
        r'''a'\\''b''',
        r'''a''\\'b''',
-       r\"""a\\\"""b\""",
-       r\"""a"\\""b\""",
-       r\"""a""\\"b\"""
+       r'''a\\\"""b''',
+       r'''a"\\""b''',
+       r'''a""\\"b'''
 """
 
 [[cases]]
@@ -296,9 +283,9 @@ SELECT r'''...
            ...''',
        r'''...\\
            ...''',
-       br'''...
+       rb'''...
             ...''',
-       br'''...\\
+       rb'''...\\
             ...''',
        rb'''...
             ...''',
@@ -327,16 +314,15 @@ SELECT r'''...
       ...''',
        r'''...\\
       ...''',
-       br'''...
+       rb'''...
       ...''',
-       br'''...\\
+       rb'''...\\
       ...''',
        rb'''...
       ...''',
        rb'''...\\
       ...'''
 """
-
 
 [[cases]]
 input = """
@@ -347,19 +333,18 @@ select 0x1, 0xabc, 0XABC, 0xABC, 0Xabc,
 """
 formatted = """
 SELECT 0x1,
-       0xABC,
-       0xABC,
-       0xABC,
-       0xABC,
-       -0x01A      AS a,
-       -0x01A      AS b,
-       +0x02A      AS c,
-       +0x02A      AS d,
+       0xabc,
+       0xabc,
+       0xabc,
+       0xabc,
+       -0x01a      AS a,
+       -0x01a      AS b,
+       +0x02a      AS c,
+       +0x02a      AS d,
        0x000000001 AS e,
-       0x0123456789ABCDEF,
-       0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+       0x0123456789abcdef,
+       0xffffffffffffffffffffffffffffffffffffffff
 """
-
 
 [[cases]]
 input = """
@@ -370,14 +355,12 @@ limit 0x3
 offset 0x4
 """
 formatted = """
-SELECT a,
-       SUM(b)
+SELECT a, SUM(b)
   FROM foo
  GROUP BY 0x1
  ORDER BY 0x2
  LIMIT 0x3 OFFSET 0x4
 """
-
 
 [[cases]]
 input = """
@@ -411,17 +394,17 @@ SELECT NUMERIC '1.1',
        NUMERIC '0.123',
        NUMERIC '456.0',
        NUMERIC '123',
-       NUMERIC "123",
+       NUMERIC '123',
        NUMERIC '0',
        NUMERIC '-1.1',
        NUMERIC '-0.123',
        NUMERIC '-456.0',
        NUMERIC '-123',
-       NUMERIC "-123",
+       NUMERIC '-123',
        NUMERIC '0.999999999',
        NUMERIC '99999999999999999999999999999.999999999',
        NUMERIC '-0.999999999',
-       NUMERIC "-99999999999999999999999999999.999999999",
+       NUMERIC '-99999999999999999999999999999.999999999',
        NUMERIC '-0',
        NUMERIC '+5',
        NUMERIC '+5.123',
@@ -432,7 +415,6 @@ SELECT NUMERIC '1.1',
        NUMERIC '+',
        NUMERIC '-'
 """
-
 
 [[cases]]
 input = """
@@ -466,13 +448,13 @@ SELECT BIGNUMERIC '1.1',
        BIGNUMERIC '0.123',
        BIGNUMERIC '456.0',
        BIGNUMERIC '123',
-       BIGNUMERIC "123",
+       BIGNUMERIC '123',
        BIGNUMERIC '0',
        BIGNUMERIC '-1.1',
        BIGNUMERIC '-0.123',
        BIGNUMERIC '-456.0',
        BIGNUMERIC '-123',
-       BIGNUMERIC "-123",
+       BIGNUMERIC '-123',
        BIGNUMERIC '0.99999999999999999999999999999999999999',
        BIGNUMERIC '578960446186580977117854925043439539266.34992332820282019728792003956564819967',
        BIGNUMERIC '-0.99999999999999999999999999999999999999',
@@ -494,8 +476,7 @@ select BIGNUMERIC '100.1'
 +BIGNUMERIC '200',  - BIGNUMERIC '100'
 """
 formatted = """
-SELECT BIGNUMERIC '100.1' + BIGNUMERIC '200',
-       -BIGNUMERIC '100'
+SELECT BIGNUMERIC '100.1' + BIGNUMERIC '200', -BIGNUMERIC '100'
 """
 
 [[cases]]
@@ -528,9 +509,9 @@ SELECT JSON "true",
        JSON "-123"
 """
 formatted = """
-SELECT JSON "true",
+SELECT JSON 'true',
        JSON '\\'value\\'',
-       JSON "t",
+       JSON 't',
        JSON 'true',
        JSON "'v'",
        JSON 'null',
@@ -542,8 +523,8 @@ SELECT JSON "true",
        JSON '0.123',
        JSON '456.0',
        JSON '123',
-       JSON "123",
+       JSON '123',
        JSON '-1.1',
        JSON '-123',
-       JSON "-123"
+       JSON '-123'
 """

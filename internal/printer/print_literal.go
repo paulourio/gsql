@@ -13,7 +13,7 @@ import (
 func (p *Printer) VisitBigNumericLiteral(ctx Context, n *googlesql.ASTBigNumericLiteral) {
 	p.moveBefore(n)
 	p.print(p.keyword("BIGNUMERIC"))
-	p.print(strings.ToLower(ast.Must(ast.Must(n.StringLiteral()).StringValue())))
+	p.accept(ctx, ast.Must(n.StringLiteral()))
 }
 
 func (p *Printer) VisitBoolLiteral(ctx Context, n *googlesql.ASTBooleanLiteral) {
@@ -23,9 +23,12 @@ func (p *Printer) VisitBoolLiteral(ctx Context, n *googlesql.ASTBooleanLiteral) 
 
 func (p *Printer) VisitBytesLiteral(ctx Context, n *googlesql.ASTBytesLiteral) {
 	p.moveBefore(n)
-	s, err := FormatBytes(ast.Must(n.BytesValue()), p.Writer.opts.BytesStyle)
+	val := p.nodeInput(n)
+	s, err := FormatBytes(val, p.Writer.opts.BytesStyle)
 	if err != nil {
-		panic(err)
+		p.addError(&Error{
+			Msg: fmt.Sprintf("%v: %q", err, val),
+		})
 	}
 	p.print(strings.ReplaceAll(s, "\n", lineBreakPlaceholder))
 }
@@ -40,19 +43,18 @@ func (p *Printer) VisitDateOrTimeLiteral(ctx Context, n *googlesql.ASTDateOrTime
 	if pos < 0 {
 		panic("invalid date time literal")
 	}
-	token := strings.ToUpper(viewString(input, 0, pos))
-	switch token {
-	case "DATE":
+	switch ast.Must(n.TypeKind()) {
+	case ast.Date:
 		p.print(p.keyword("DATE"))
-	case "DATETIME":
+	case ast.Datetime:
 		p.print(p.keyword("DATETIME"))
-	case "TIME":
+	case ast.Time:
 		p.print(p.keyword("TIME"))
-	case "TIMESTAMP":
+	case ast.Timestamp:
 		p.print(p.keyword("TIMESTAMP"))
 	default:
 		p.addError(&Error{
-			Msg: fmt.Sprintf("failed to parse date time kind: %s", token),
+			Msg: fmt.Sprintf("failed to parse date time kind: %v", ast.Must(n.TypeKind())),
 		})
 	}
 	p.accept(ctx, ast.Must(n.StringLiteral()))
@@ -71,6 +73,13 @@ func (p *Printer) VisitIntLiteral(ctx Context, n *googlesql.ASTIntLiteral) {
 	} else {
 		p.print("0x" + formatPrintStyle(v[2:], p.Writer.opts.HexStyle))
 	}
+	p.movePast(n)
+}
+
+func (p *Printer) VisitJSONLiteral(ctx Context, n *googlesql.ASTJSONLiteral) {
+	p.moveBefore(n)
+	p.print(p.keyword("JSON"))
+	p.accept(ctx, ast.Must(n.StringLiteral()))
 	p.movePast(n)
 }
 
@@ -94,14 +103,17 @@ func formatPrintStyle(s string, style format.PrintCase) string {
 func (p *Printer) VisitNumericLiteral(ctx Context, n *googlesql.ASTNumericLiteral) {
 	p.moveBefore(n)
 	p.print(p.keyword("NUMERIC"))
-	p.print(strings.ToLower(ast.Must(ast.Must(n.StringLiteral()).StringValue())))
+	p.accept(ctx, ast.Must(n.StringLiteral()))
 }
 
 func (p *Printer) VisitStringLiteral(ctx Context, n *googlesql.ASTStringLiteral) {
 	p.moveBefore(n)
-	s, err := FormatString(ast.Must(n.StringValue()), p.Writer.opts.StringStyle)
+	val := p.nodeInput(n)
+	s, err := FormatString(val, p.Writer.opts.StringStyle)
 	if err != nil {
-		panic(err)
+		p.addError(&Error{
+			Msg: fmt.Sprintf("%v: %q", err, val),
+		})
 	}
 	p.print(strings.ReplaceAll(s, "\n", lineBreakPlaceholder))
 }

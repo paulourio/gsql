@@ -1,6 +1,5 @@
 # Tests cases of examples from BigQuery's documentation.
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -43,8 +42,8 @@ FROM Numbers
 formatted = """
 WITH
   Numbers AS (
-    SELECT 90 AS A,
-           2  AS B
+    SELECT 90 AS a,
+           2  AS b
      UNION ALL
     SELECT 50, 8
      UNION ALL
@@ -52,9 +51,9 @@ WITH
      UNION ALL
     SELECT 50, 10
   )
-SELECT A,
-       B,
-       CASE A
+SELECT a,
+       b,
+       CASE a
          WHEN 90 THEN 'red'
          WHEN 50 THEN 'blue'
                  ELSE 'green'
@@ -91,16 +90,16 @@ FROM Numbers
 formatted = """
 WITH
   Numbers AS (
-    SELECT 10 AS A,
-           20 AS B
+    SELECT 10 AS a,
+           20 AS b
      UNION ALL
     SELECT 50, 30
      UNION ALL
     SELECT 60, 60
   )
-SELECT A,
-       B,
-       IF(A < B, 'true', 'false') AS result
+SELECT a,
+       b,
+       IF(a < b, 'true', 'false') AS result
   FROM Numbers
 """
 

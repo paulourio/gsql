@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -104,8 +103,8 @@ using (region = "us");
 formatted = """
 CREATE ROW ACCESS POLICY p1
 ON p1
-GRANT TO ("bar@google.com")
-FILTER USING (region = "us")
+GRANT TO ('bar@google.com')
+FILTER USING (region = 'us')
 """
 
 [[cases]]

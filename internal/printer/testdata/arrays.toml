@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -34,11 +33,9 @@ select [x, f(x), x + f(x), (select x)]
 formatted = """
 SELECT [
          x,
-         F(x),
-         x + F(x),
-         (
-           SELECT x
-         )
+         f(x),
+         x + f(x),
+         (SELECT x)
        ]
 """
 
@@ -57,10 +54,10 @@ input = """
 select "a", 3, ["a", 3], ARRAY<string> [3, "a"]
 """
 formatted = """
-SELECT "a",
+SELECT 'a',
        3,
-       ["a", 3],
-       ARRAY<STRING>[3, "a"]
+       ['a', 3],
+       ARRAY<STRING>[3, 'a']
 """
 
 [[cases]]
@@ -79,10 +76,8 @@ select ARRAY[ARRAY(select 1), ARRAY[1, f(2), 1.0], 1 + ARRAY[1]]
 """
 formatted = """
 SELECT ARRAY[
-         ARRAY(
-           SELECT 1
-         ),
-         ARRAY[1, F(2), 1.0],
+         ARRAY(SELECT 1),
+         ARRAY[1, f(2), 1.0],
          1 + ARRAY[1]
        ]
 """
@@ -153,7 +148,7 @@ input = """
 select f(a), a.b[1 + 2 * (3 + 4)], 3
 """
 formatted = """
-SELECT F(a),
+SELECT f(a),
        a.b[1 + 2 * (3 + 4)],
        3
 """
@@ -170,10 +165,10 @@ SELECT a[-1],
 
 [[cases]]
 input = """
-select f(a).b[f(c)]
+select f(a).b[F(c)]
 """
 formatted = """
-SELECT F(a).b[F(c)]
+SELECT f(a).b[F(c)]
 """
 
 [[cases]]
@@ -205,7 +200,7 @@ input = """
 select a[ 1 ]+a[1+f(2)]
 """
 formatted = """
-SELECT a[1] + a[1 + F(2)]
+SELECT a[1] + a[1 + f(2)]
 """
 
 [[cases]]
@@ -253,7 +248,7 @@ input = """
 select function()[5]
 """
 formatted = """
-SELECT FUNCTION()[5]
+SELECT function()[5]
 """
 
 [[cases]]

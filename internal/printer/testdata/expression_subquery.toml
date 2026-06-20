@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -23,15 +22,9 @@ select (select 1), EXISTS(select 2), ARRAY(select 3)
 from T
 """
 formatted = """
-SELECT (
-         SELECT 1
-       ),
-       EXISTS(
-         SELECT 2
-       ),
-       ARRAY(
-         SELECT 3
-       )
+SELECT (SELECT 1),
+       EXISTS(SELECT 2),
+       ARRAY(SELECT 3)
   FROM T
 """
 
@@ -40,15 +33,13 @@ input = """
 select (((select 3) + (select x.y from z) + (select (1+2) from z)))
 """
 formatted = """
-SELECT ((
-         SELECT 3
-       ) + (
-         SELECT x.y
-           FROM z
-       ) + (
-         SELECT (1 + 2)
-           FROM z
-       ))
+SELECT ((SELECT 3) + (
+          SELECT x.y
+            FROM z
+        ) + (
+          SELECT (1 + 2)
+            FROM z
+        ))
 """
 
 [[cases]]
@@ -56,11 +47,7 @@ input = """
 select (select (select 1))
 """
 formatted = """
-SELECT (
-         SELECT (
-                  SELECT 1
-                )
-       )
+SELECT (SELECT (SELECT 1))
 """
 
 [[cases]]
@@ -71,23 +58,11 @@ where (select 3) = (select 4)
 group by (select 5), EXISTS(select 6)
 """
 formatted = """
-SELECT (
-         SELECT 1
-       ),
-       ARRAY(
-         SELECT 2
-       )
+SELECT (SELECT 1),
+       ARRAY(SELECT 2)
   FROM T
- WHERE (
-         SELECT 3
-       ) = (
-         SELECT 4
-       )
- GROUP BY (
-            SELECT 5
-          ), EXISTS(
-            SELECT 6
-          )
+ WHERE (SELECT 3) = (SELECT 4)
+ GROUP BY (SELECT 5), EXISTS(SELECT 6)
 """
 
 [[cases]]
@@ -116,19 +91,13 @@ WHERE
 """
 formatted = """
 SELECT *
-  FROM (
-         SELECT 1
-       ) AS singlerowscan_1
+  FROM (SELECT 1) AS singlerowscan_1
  WHERE EXISTS(
          SELECT CAST(-90.21638073702843 AS FLOAT64) AS a_3
-           FROM (
-                  SELECT 1
-                ) AS singlerowscan_2
+           FROM (SELECT 1) AS singlerowscan_2
           WHERE FALSE
        ) IN (
-         EXISTS(
-           SELECT 1
-         )
+         EXISTS(SELECT 1)
        )
 """
 
@@ -146,18 +115,12 @@ WHERE
 """
 formatted = """
 SELECT *
-  FROM (
-         SELECT 1
-       ) AS singlerowscan_1
+  FROM (SELECT 1) AS singlerowscan_1
  WHERE EXISTS(
          SELECT CAST(-90.21638073702843 AS FLOAT64) AS a_3
-           FROM (
-                  SELECT 1
-                ) AS singlerowscan_2
+           FROM (SELECT 1) AS singlerowscan_2
           WHERE FALSE
        ) IN (
-         ARRAY(
-           SELECT 1
-         )
+         ARRAY(SELECT 1)
        )
 """

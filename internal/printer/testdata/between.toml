@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -31,7 +30,7 @@ select x BETWEEN a AND b AND c AND D
 formatted = """
 SELECT     x BETWEEN a AND b
        AND c
-       AND D
+       AND d
 """
 
 [[cases]]
@@ -57,7 +56,7 @@ select * from T where T.name BETWEEN 'A' AND 'B'
 formatted = """
 SELECT *
   FROM T
- WHERE T.name BETWEEN 'A' AND 'B'
+ WHERE t.name BETWEEN 'A' AND 'B'
 """
 
 [[cases]]

@@ -1,7 +1,6 @@
 package ast
 
 import (
-	"iter"
 	"reflect"
 
 	"github.com/goccy/go-googlesql"
@@ -56,56 +55,26 @@ func ChildAs[T googlesql.ASTNode](n googlesql.ASTNode, i int) T {
 	return Must(n.Child(int32(i))).(T)
 }
 
-func Children(n googlesql.ASTNode) iter.Seq[googlesql.ASTNode] {
-	return func(yield func(googlesql.ASTNode) bool) {
-		numChildren := Must(n.NumChildren())
-		for i := range numChildren {
-			c := Must(n.Child(i))
-			if !yield(c) {
-				return
-			}
-		}
+func Children(n googlesql.ASTNode) []googlesql.ASTNode {
+	result := make([]googlesql.ASTNode, 0)
+	numChildren := Must(n.NumChildren())
+	for i := range numChildren {
+		c := Must(n.Child(i))
+		result = append(result, c)
 	}
+	return result
 }
 
-func EnumChildren(n googlesql.ASTNode) iter.Seq2[int, googlesql.ASTNode] {
-	return func(yield func(int, googlesql.ASTNode) bool) {
-		numChildren := Must(n.NumChildren())
-		for i := range numChildren {
-			c := Must(n.Child(i))
-			if !yield(int(i), c) {
-				return
-			}
+func ChildrenOfType[T googlesql.ASTNode](n googlesql.ASTNode) []T {
+	result := make([]T, 0)
+	numChildren := Must(n.NumChildren())
+	for i := range numChildren {
+		c := Must(n.Child(int32(i)))
+		if t, ok := c.(T); ok {
+			result = append(result, t)
 		}
 	}
-}
-
-func ChildrenOfType[T googlesql.ASTNode](n googlesql.ASTNode) iter.Seq[T] {
-	return func(yield func(T) bool) {
-		numChildren := Must(n.NumChildren())
-		for i := range numChildren {
-			c := Must(n.Child(int32(i)))
-			if t, ok := c.(T); ok {
-				if !yield(t) {
-					return
-				}
-			}
-		}
-	}
-}
-
-func EnumChildrenOfType[T googlesql.ASTNode](n googlesql.ASTNode) iter.Seq2[int, T] {
-	return func(yield func(int, T) bool) {
-		numChildren := Must(n.NumChildren())
-		for i := range numChildren {
-			c := Must(n.Child(i))
-			if t, ok := c.(T); ok {
-				if !yield(int(i), t) {
-					return
-				}
-			}
-		}
-	}
+	return result
 }
 
 // ChildrenByKind returns all children of a node with the given kind.
@@ -115,6 +84,10 @@ func ChildrenByKind(n googlesql.ASTNode, kind googlesql.ASTNodeKind) []googlesql
 		panic(err)
 	}
 	return result
+}
+
+func ChildrenExpressions(n googlesql.ASTNode) []googlesql.ASTExpressionNode {
+	return ChildrenOfType[googlesql.ASTExpressionNode](n)
 }
 
 func Parent(n googlesql.ASTNode) googlesql.ASTNode {

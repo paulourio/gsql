@@ -1,6 +1,5 @@
 # Tests cases of examples from BigQuery's documentation.
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -138,18 +137,14 @@ SELECT ['apple', 'pear', 'orange'] AS fruit;
 SELECT [TRUE, FALSE, TRUE] AS booleans;
 
 SELECT [a, b, c]
-  FROM (
-         SELECT 5   AS a,
-                37  AS b,
-                406 AS c
-       );
+  FROM (SELECT 5   AS a,
+               37  AS b,
+               406 AS c);
 
 SELECT [a, b, c]
-  FROM (
-         SELECT CAST(5 AS INT64)    AS a,
-                CAST(37 AS FLOAT64) AS b,
-                406                 AS c
-       );
+  FROM (SELECT CAST(5 AS INT64)    AS a,
+               CAST(37 AS FLOAT64) AS b,
+               406                 AS c);
 
 SELECT ARRAY<FLOAT64>[1, 2, 3] AS floats;
 

@@ -1,6 +1,5 @@
 # Tests cases of examples from BigQuery's documentation.
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -27,10 +26,8 @@ SELECT * FROM (SELECT "apple" AS fruit, "carrot" AS vegetable);
 """
 formatted = """
 SELECT *
-  FROM (
-         SELECT 'apple'  AS fruit,
-                'carrot' AS vegetable
-       )
+  FROM (SELECT 'apple'  AS fruit,
+               'carrot' AS vegetable)
 """
 
 [[cases]]
@@ -75,7 +72,7 @@ WITH
              ('Phoenix', 'Arizona')
            ] AS location
   )
-SELECT l.LOCATION[OFFSET(0)].*
+SELECT l.location[OFFSET(0)].*
   FROM locations AS l
 """
 
@@ -179,11 +176,9 @@ input = """
 SELECT ARRAY(SELECT AS STRUCT 1 a, 2 b)
 """
 formatted = """
-SELECT ARRAY(
-         SELECT AS STRUCT
-                1 AS a,
-                2 AS b
-       )
+SELECT ARRAY(SELECT AS STRUCT
+                    1 AS a,
+                    2 AS b)
 """
 
 [[cases]]
@@ -264,18 +259,20 @@ DECLARE before_replace_timestamp TIMESTAMP;
 
 -- Create table books.
 CREATE TABLE books
-AS
-SELECT 'Hamlet'              AS title,
-       'William Shakespeare' AS author;
+AS (
+  SELECT 'Hamlet'              AS title,
+         'William Shakespeare' AS author
+);
 
 -- Get current timestamp before table replacement.
 SET before_replace_timestamp = CURRENT_TIMESTAMP();
 
 -- Replace table with different schema(title and release_date).
 CREATE OR REPLACE TABLE books
-AS
-SELECT 'Hamlet'          AS title,
-       DATE '1603-01-01' AS release_date;
+AS (
+  SELECT 'Hamlet'          AS title,
+         DATE '1603-01-01' AS release_date
+);
 
 -- This query returns Hamlet, William Shakespeare as result.
 SELECT *
@@ -313,13 +310,14 @@ SELECT * FROM books FOR SYSTEM_TIME AS OF JOB_START_TIMESTAMP;
 
 """
 formatted = """
-DECLARE JOB_START_TIMESTAMP TIMESTAMP;
+DECLARE job_start_timestamp TIMESTAMP;
 
 -- Create table books.
 CREATE OR REPLACE TABLE books
-AS
-SELECT 'Hamlet'              AS title,
-       'William Shakespeare' AS author;
+AS (
+  SELECT 'Hamlet'              AS title,
+         'William Shakespeare' AS author
+);
 
 -- Insert two rows into the books.
 INSERT books
@@ -331,10 +329,10 @@ VALUES
 SELECT *
   FROM books;
 
-SET JOB_START_TIMESTAMP = (
+SET job_start_timestamp = (
   SELECT start_time
     FROM `region-us`.INFORMATION_SCHEMA.JOBS_BY_USER
-   WHERE job_type       = 'QUERY'
+   WHERE job_type = 'QUERY'
      AND statement_type = 'INSERT'
    ORDER BY start_time DESC
    LIMIT 1
@@ -343,7 +341,7 @@ SET JOB_START_TIMESTAMP = (
 -- This query only returns Hamlet, William Shakespeare as result.
 SELECT *
   FROM books
-       FOR SYSTEM_TIME AS OF JOB_START_TIMESTAMP;
+       FOR SYSTEM_TIME AS OF job_start_timestamp;
 """
 
 [[cases]]
@@ -420,10 +418,10 @@ WITH
   subQ1 AS (
     SELECT *
       FROM Roster
-     WHERE SchoolID = 52
+     WHERE schoolid = 52
   ),
   subQ2 AS (
-    SELECT SchoolID
+    SELECT schoolid
       FROM subQ1
   )
 SELECT DISTINCT *
@@ -455,24 +453,26 @@ FROM UNNEST(
 """
 formatted = """
 SELECT *
-  FROM UNNEST(ARRAY<
-                STRUCT<
-                  x INT64,
-                  y STRING,
-                  z STRUCT<a INT64, b INT64>
-                >
-              >[
-                (
-                  1,
-                  'foo',
-                  (10, 11)
-                ),
-                (
-                  3,
-                  'bar',
-                  (20, 21)
-                )
-              ])
+  FROM UNNEST(
+         ARRAY<
+           STRUCT<
+             x INT64,
+             y STRING,
+             z STRUCT<a INT64, b INT64>
+           >
+         >[
+           (
+             1,
+             'foo',
+             (10, 11)
+           ),
+           (
+             3,
+             'bar',
+             (20, 21)
+           )
+         ]
+       )
 """
 
 [[cases]]
@@ -488,7 +488,7 @@ WITH
   )
 SELECT results
   FROM Coordinates,
-       UNNEST(Coordinates.position) AS results
+       UNNEST(coordinates.position) AS results
 """
 
 [[cases]]
@@ -585,7 +585,7 @@ SELECT *
   FROM Produce
        UNPIVOT (
          sales
-         FOR quarter IN (Q1, Q2, Q3, Q4)
+         FOR quarter IN (q1, q2, q3, q4)
        )
 """
 
@@ -604,8 +604,8 @@ SELECT *
        UNPIVOT (
          (first_half_sales, second_half_sales)
          FOR semesters IN (
-           (Q1, Q2) AS 'semester_1',
-           (Q3, Q4) AS 'semester_2'
+           (q1, q2) AS 'semester_1',
+           (q3, q4) AS 'semester_2'
          )
        )
 """
@@ -628,12 +628,11 @@ SELECT Roster.LastName, TeamMascot.Mascot
 FROM Roster JOIN TeamMascot ON Roster.SchoolID = TeamMascot.SchoolID;
 """
 formatted = """
-SELECT Roster.LastName, TeamMascot.Mascot
+SELECT roster.lastname, teammascot.mascot
   FROM Roster
-
        JOIN
        TeamMascot
-       ON Roster.SchoolID = TeamMascot.SchoolID
+       ON roster.schoolid = teammascot.schoolid
 """
 
 [[cases]]
@@ -643,9 +642,8 @@ SELECT Roster.LastName, TeamMascot.Mascot
 FROM Roster CROSS JOIN TeamMascot;
 """
 formatted = """
-SELECT Roster.LastName, TeamMascot.Mascot
+SELECT roster.lastname, teammascot.mascot
   FROM Roster
-
        CROSS JOIN
        TeamMascot
 """
@@ -657,7 +655,7 @@ SELECT Roster.LastName, TeamMascot.Mascot
 FROM Roster, TeamMascot;
 """
 formatted = """
-SELECT Roster.LastName, TeamMascot.Mascot
+SELECT roster.lastname, teammascot.mascot
   FROM Roster,
        TeamMascot
 """
@@ -669,12 +667,11 @@ SELECT Roster.LastName, TeamMascot.Mascot
 FROM Roster FULL outer JOIN TeamMascot ON Roster.SchoolID = TeamMascot.SchoolID;
 """
 formatted = """
-SELECT Roster.LastName, TeamMascot.Mascot
+SELECT roster.lastname, teammascot.mascot
   FROM Roster
-
        FULL OUTER JOIN
        TeamMascot
-       ON Roster.SchoolID = TeamMascot.SchoolID
+       ON roster.schoolid = teammascot.schoolid
 """
 
 [[cases]]
@@ -684,12 +681,11 @@ SELECT Roster.LastName, TeamMascot.Mascot
 FROM Roster LEFT JOIN TeamMascot ON Roster.SchoolID = TeamMascot.SchoolID;
 """
 formatted = """
-SELECT Roster.LastName, TeamMascot.Mascot
+SELECT roster.lastname, teammascot.mascot
   FROM Roster
-
        LEFT JOIN
        TeamMascot
-       ON Roster.SchoolID = TeamMascot.SchoolID
+       ON roster.schoolid = teammascot.schoolid
 """
 
 [[cases]]
@@ -699,34 +695,31 @@ SELECT Roster.LastName, TeamMascot.Mascot
 FROM Roster RIGHT JOIN TeamMascot ON Roster.SchoolID = TeamMascot.SchoolID;
 """
 formatted = """
-SELECT Roster.LastName, TeamMascot.Mascot
+SELECT roster.lastname, teammascot.mascot
   FROM Roster
-
        RIGHT JOIN
        TeamMascot
-       ON Roster.SchoolID = TeamMascot.SchoolID
+       ON roster.schoolid = teammascot.schoolid
 """
 
 [[cases]]
 description = "Join operation: ON and USING equivalency"
 input = """
 SELECT x FROM A JOIN B USING (x);
-SELECT A.x FROM A JOIN B ON A.x = B.x;
+SELECT A.x FROM A JOIN B ON a.x = b.x;
 """
 formatted = """
 SELECT x
   FROM A
-
        JOIN
        B
        USING (x);
 
-SELECT A.x
+SELECT a.x
   FROM A
-
        JOIN
        B
-       ON A.x = B.x;
+       ON a.x = b.x;
 """
 
 [[cases]]
@@ -747,15 +740,16 @@ JOIN
 formatted = """
 SELECT *
   FROM Roster
-
        JOIN
-       UNNEST(ARRAY(
-         SELECT AS STRUCT
-                *
-           FROM PlayerStats
-          WHERE PlayerStats.OpponentID = Roster.SchoolID
-       )) AS PlayerMatches
-       ON PlayerMatches.LastName = 'Buchanan'
+       UNNEST(
+         ARRAY(
+           SELECT AS STRUCT
+                  *
+             FROM PlayerStats
+            WHERE playerstats.opponentid = roster.schoolid
+         )
+       ) AS playermatches
+       ON playermatches.lastname = 'Buchanan'
 """
 
 [[cases]]
@@ -780,18 +774,13 @@ LEFT JOIN
 
 """
 formatted = """
-SELECT A.name, item, ARRAY_LENGTH(A.items) AS item_count_for_name
-  FROM UNNEST([
-                STRUCT(
-                  'first' AS name,
-                  [1, 2, 3, 4] AS items
-                ),
-                STRUCT(
-                  'second' AS name,
-                  [] AS items
-                )
-              ]) AS A
-
+SELECT a.name, item, ARRAY_LENGTH(a.items) AS item_count_for_name
+  FROM UNNEST(
+         [
+           STRUCT('first' AS name, [1, 2, 3, 4] AS items),
+           STRUCT('second' AS name, [] AS items)
+         ]
+       ) AS a
        LEFT JOIN
        A.items AS item
 """
@@ -805,7 +794,7 @@ WHERE SchoolID = 52;
 formatted = """
 SELECT *
   FROM Roster
- WHERE SchoolID = 52
+ WHERE schoolid = 52
 """
 
 [[cases]]
@@ -817,8 +806,8 @@ WHERE STARTS_WITH(LastName, "Mc") OR STARTS_WITH(LastName, "Mac")
 formatted = """
 SELECT *
   FROM Roster
- WHERE STARTS_WITH(LastName, 'Mc')
-    OR STARTS_WITH(LastName, 'Mac')
+ WHERE STARTS_WITH(lastname, 'Mc')
+    OR STARTS_WITH(lastname, 'Mac')
 """
 
 [[cases]]
@@ -833,20 +822,17 @@ FROM Roster CROSS JOIN TeamMascot
 WHERE Roster.SchoolID = TeamMascot.SchoolID;
 """
 formatted = """
-SELECT Roster.LastName, TeamMascot.Mascot
+SELECT roster.lastname, teammascot.mascot
   FROM Roster
-
        INNER JOIN
        TeamMascot
-       ON Roster.SchoolID = TeamMascot.SchoolID;
+       ON roster.schoolid = teammascot.schoolid;
 
-SELECT Roster.LastName, TeamMascot.Mascot
+SELECT roster.lastname, teammascot.mascot
   FROM Roster
-
        CROSS JOIN
        TeamMascot
-
- WHERE Roster.SchoolID = TeamMascot.SchoolID;
+ WHERE roster.schoolid = teammascot.schoolid;
 """
 
 [[cases]]
@@ -865,9 +851,9 @@ GROUP BY LastName;
 formatted = """
 WITH
   PlayerStats AS (
-    SELECT 'Adams' AS LastName,
-           'Noam'  AS FirstName,
-           3       AS PointsScored
+    SELECT 'Adams' AS lastname,
+           'Noam'  AS firstname,
+           3       AS pointsscored
      UNION ALL
     SELECT 'Buchanan', 'Jie', 0
      UNION ALL
@@ -877,9 +863,9 @@ WITH
      UNION ALL
     SELECT 'Buchanan', 'Jie', 13
   )
-SELECT SUM(PointsScored) AS total_points, LastName
+SELECT SUM(pointsscored) AS total_points, lastname
   FROM PlayerStats
- GROUP BY LastName
+ GROUP BY lastname
 """
 
 [[cases]]
@@ -898,9 +884,9 @@ GROUP BY 2, 3;
 formatted = """
 WITH
   PlayerStats AS (
-    SELECT 'Adams' AS LastName,
-           'Noam'  AS FirstName,
-           3       AS PointsScored
+    SELECT 'Adams' AS lastname,
+           'Noam'  AS firstname,
+           3       AS pointsscored
      UNION ALL
     SELECT 'Buchanan', 'Jie', 0
      UNION ALL
@@ -910,7 +896,7 @@ WITH
      UNION ALL
     SELECT 'Buchanan', 'Jie', 13
   )
-SELECT SUM(PointsScored) AS total_points, LastName, FirstName
+SELECT SUM(pointsscored) AS total_points, lastname, firstname
   FROM PlayerStats
  GROUP BY 2, 3
 """
@@ -1040,10 +1026,10 @@ GROUP BY LastName
 HAVING SUM(PointsScored) > 15;
 """
 formatted = """
-SELECT LastName
+SELECT lastname
   FROM Roster
- GROUP BY LastName
-HAVING SUM(PointsScored) > 15
+ GROUP BY lastname
+HAVING SUM(pointsscored) > 15
 """
 
 [[cases]]
@@ -1055,9 +1041,9 @@ GROUP BY LastName
 HAVING ps > 0;
 """
 formatted = """
-SELECT LastName, SUM(PointsScored) AS ps
+SELECT lastname, SUM(pointsscored) AS ps
   FROM Roster
- GROUP BY LastName
+ GROUP BY lastname
 HAVING ps > 0
 """
 
@@ -1070,10 +1056,10 @@ GROUP BY LastName
 HAVING SUM(PointsScored) > 15;
 """
 formatted = """
-SELECT LastName, COUNT(*)
+SELECT lastname, COUNT(*)
   FROM PlayerStats
- GROUP BY LastName
-HAVING SUM(PointsScored) > 15
+ GROUP BY lastname
+HAVING SUM(pointsscored) > 15
 """
 
 [[cases]]
@@ -1160,41 +1146,41 @@ SELECT x, y
        )
  ORDER BY x DESC NULLS FIRST;
 
-SELECT LastName, PointsScored, OpponentID
+SELECT lastname, pointsscored, opponentid
   FROM PlayerStats
- ORDER BY SchoolID, LastName;
+ ORDER BY schoolid, lastname;
 
 SELECT *
   FROM Roster
  UNION ALL
 SELECT *
   FROM TeamMascot
- ORDER BY SchoolID;
+ ORDER BY schoolid;
 
 (
-  SELECT *
-    FROM Roster
-   UNION ALL
-  SELECT *
-    FROM TeamMascot
+    SELECT *
+      FROM Roster
+  UNION ALL
+    SELECT *
+      FROM TeamMascot
 )
-ORDER BY SchoolID;
+ORDER BY schoolid;
 
 SELECT *
   FROM Roster
- UNION ALL
+UNION ALL
 (
   SELECT *
     FROM TeamMascot
-   ORDER BY SchoolID
+   ORDER BY schoolid
 );
 
-SELECT SUM(PointsScored), LastName
+SELECT SUM(pointsscored), lastname
   FROM PlayerStats
- GROUP BY LastName
- ORDER BY LastName;
+ GROUP BY lastname
+ ORDER BY lastname;
 
-SELECT SUM(PointsScored), LastName
+SELECT SUM(pointsscored), lastname
   FROM PlayerStats
  GROUP BY 2
  ORDER BY 2;
@@ -1222,16 +1208,16 @@ formatted = """
               ORDER BY purchases DESC
         ) AS rank
    FROM Produce
-  WHERE Produce.category = 'vegetable'
-QUALIFY rank <= 3 ;
+  WHERE produce.category = 'vegetable'
+QUALIFY rank <= 3;
 
  SELECT item
    FROM Produce
-  WHERE Produce.category = 'vegetable'
+  WHERE produce.category = 'vegetable'
 QUALIFY RANK() OVER (
           PARTITION BY category
               ORDER BY purchases DESC
-        ) <= 3 ;
+        ) <= 3;
 """
 
 [[cases]]
@@ -1353,8 +1339,8 @@ SELECT *
 [[cases]]
 description = "WITH clause: non-recursive CTEs"
 input = """
-WITH subQ1 AS (SELECT SchoolID FROM Roster),
-     subQ2 AS (SELECT OpponentID FROM PlayerStats)
+WITH subQ1 AS (SELECT schoolid FROM Roster),
+     subQ2 AS (SELECT opponentid FROM PlayerStats)
 SELECT * FROM subQ1
 UNION ALL
 SELECT * FROM subQ2
@@ -1362,11 +1348,11 @@ SELECT * FROM subQ2
 formatted = """
 WITH
   subQ1 AS (
-    SELECT SchoolID
+    SELECT schoolid
       FROM Roster
   ),
   subQ2 AS (
-    SELECT OpponentID
+    SELECT opponentid
       FROM PlayerStats
   )
 SELECT *
@@ -1508,7 +1494,6 @@ WITH RECURSIVE
   T3 AS (
     SELECT *
       FROM T1
-
            INNER JOIN
            T2
            USING (n)
@@ -1572,7 +1557,6 @@ WITH RECURSIVE
     (
       SELECT n + 1
         FROM T1
-
              INNER JOIN
              T0
              USING (n)
@@ -1602,18 +1586,15 @@ WITH RECURSIVE
     )
     UNION ALL
     (
-      SELECT T1.n + T0.p
+      SELECT t1.n + t0.p
         FROM T1
-
              CROSS JOIN
              T0
-
-       WHERE T1.n < 4
+       WHERE t1.n < 4
     )
   )
 SELECT *
   FROM T1
-
        CROSS JOIN
        T0
  ORDER BY n
@@ -1629,17 +1610,18 @@ CREATE OR REPLACE TABLE `myproject.mydataset.new_table` AS
 """
 formatted = """
 CREATE OR REPLACE TABLE `myproject.mydataset.new_table`
-AS
-WITH RECURSIVE
-  T1 AS (
-    SELECT 1 AS n
-     UNION ALL
-    SELECT n + 1
-      FROM T1
-     WHERE n < 3
-  )
-SELECT *
-  FROM T1
+AS (
+  WITH RECURSIVE
+    T1 AS (
+      SELECT 1 AS n
+       UNION ALL
+      SELECT n + 1
+        FROM T1
+       WHERE n < 3
+    )
+  SELECT *
+    FROM T1
+)
 """
 
 [[cases]]
@@ -1649,7 +1631,7 @@ SELECT s.FirstName, s2.SongName
 FROM Singers AS s, (SELECT * FROM Songs) AS s2;
 """
 formatted = """
-SELECT s.FirstName, s2.SongName
+SELECT s.firstname, s2.songname
   FROM Singers AS s,
        (
          SELECT *
@@ -1664,8 +1646,8 @@ SELECT s.FirstName AS name, LOWER(s.FirstName) AS lname
 FROM Singers s;
 """
 formatted = """
-SELECT s.FirstName        AS name,
-       LOWER(s.FirstName) AS lname
+SELECT s.firstname        AS name,
+       LOWER(s.firstname) AS lname
   FROM Singers AS s
 """
 
@@ -1676,20 +1658,20 @@ SELECT FirstName, s.ReleaseDate
 FROM Singers s WHERE ReleaseDate = 1975;
 """
 formatted = """
-SELECT FirstName, s.ReleaseDate
+SELECT firstname, s.releasedate
   FROM Singers AS s
- WHERE ReleaseDate = 1975
+ WHERE releasedate = 1975
 """
 
 [[cases]]
 description = "Alias visibility"
 input = """
-SELECT LastName AS last, SingerID
+SELECT lastname as last, singerid
 FROM Singers
 ORDER BY last;
 """
 formatted = """
-SELECT LastName AS last, SingerID
+SELECT lastname AS last, singerid
   FROM Singers
  ORDER BY last
 """
@@ -1707,13 +1689,13 @@ SELECT 1 AS a,
 [[cases]]
 description = "Amibguous aliases"
 input = """
-SELECT FirstName AS name, LastName AS name,
+SELECT firstname as name, lastname as name,
 FROM Singers
 GROUP BY name;
 """
 formatted = """
-SELECT FirstName AS name,
-       LastName  AS name
+SELECT firstname AS name,
+       lastname  AS name
   FROM Singers
  GROUP BY name
 """
@@ -1733,8 +1715,8 @@ WITH
     SELECT 1 AS x,
            2 AS y
   )
-SELECT Coordinate.*
-  FROM Grid AS Coordinate
+SELECT coordinate.*
+  FROM Grid AS coordinate
 """
 
 [[cases]]
@@ -1744,10 +1726,8 @@ SELECT * FROM (SELECT AS VALUE STRUCT(123 AS a, FALSE AS b))
 """
 formatted = """
 SELECT *
-  FROM (
-         SELECT AS VALUE
-                STRUCT(123 AS a, FALSE AS b)
-       )
+  FROM (SELECT AS VALUE
+               STRUCT(123 AS a, FALSE AS b))
 """
 
 [[cases]]
@@ -1758,9 +1738,9 @@ FROM PlayerStats
 GROUP BY LastName;
 """
 formatted = """
-SELECT LastName, SUM(PointsScored)
+SELECT lastname, SUM(pointsscored)
   FROM PlayerStats
- GROUP BY LastName
+ GROUP BY lastname
 """
 
 [[cases]]
@@ -1773,11 +1753,11 @@ SELECT LastName, PointsScored
 FROM PlayerStats;
 """
 formatted = """
-SELECT Mascot   AS X,
-       SchoolID AS Y
+SELECT mascot   AS x,
+       schoolid AS y
   FROM TeamMascot
  UNION ALL
-SELECT LastName, PointsScored
+SELECT lastname, pointsscored
   FROM PlayerStats
 """
 
@@ -1791,11 +1771,11 @@ SELECT LastName
 FROM PlayerStats;
 """
 formatted = """
-   SELECT LastName
-     FROM Roster
+SELECT lastname
+  FROM Roster
 INTERSECT DISTINCT
-   SELECT LastName
-     FROM PlayerStats
+SELECT lastname
+  FROM PlayerStats
 """
 
 [[cases]]
@@ -1808,9 +1788,9 @@ SELECT LastName
 FROM PlayerStats;
 """
 formatted = """
-SELECT LastName
+SELECT lastname
   FROM Roster
 EXCEPT DISTINCT
-SELECT LastName
+SELECT lastname
   FROM PlayerStats
 """

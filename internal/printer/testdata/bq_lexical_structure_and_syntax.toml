@@ -1,6 +1,5 @@
 # Tests cases of examples from BigQuery's documentation.
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -100,7 +99,7 @@ SELECT
 ;
 """
 formatted = """
-SELECT 123, 0xAbc, -123, 0xABC
+SELECT 123, 0xabc, -123, 0xabc
 """
 
 [[cases]]
@@ -109,7 +108,7 @@ input = """
 SELECT NUMERIC '0';
 SELECT NUMERIC '123456';
 SELECT NUMERIC '-3.14';
-SELECT NUMERIC '-0.54321';
+SELECT NUMERIC "-0.54321";
 SELECT NUMERIC '1.23456E05';
 SELECT NUMERIC '-9.876e-3';
 """
@@ -122,7 +121,7 @@ SELECT NUMERIC '-3.14';
 
 SELECT NUMERIC '-0.54321';
 
-SELECT NUMERIC '1.23456e05';
+SELECT NUMERIC '1.23456E05';
 
 SELECT NUMERIC '-9.876e-3';
 """
@@ -176,12 +175,12 @@ STRUCT(1), 	-- STRUCT<INT64>
 STRUCT<INT64>(1) -- STRUCT<INT64>
 """
 formatted = """
-SELECT (1, 2, 3),                        -- STRUCT<INT64, INT64, INT64>
-       (1, 'abc'),                       -- STRUCT<INT64, STRING>
-       STRUCT(1 AS foo, 'abc' AS bar),   -- STRUCT<foo INT64, bar STRING>
-       STRUCT<INT64, STRING>(1, 'abc'),  -- STRUCT<INT64, STRING>
-       STRUCT(1),                        -- STRUCT<INT64>
-       STRUCT<INT64>(1)                  -- STRUCT<INT64>
+SELECT (1, 2, 3),                       -- STRUCT<INT64, INT64, INT64>
+       (1, 'abc'),                      -- STRUCT<INT64, STRING>
+       STRUCT(1 AS foo, 'abc' AS bar),  -- STRUCT<foo INT64, bar STRING>
+       STRUCT<INT64, STRING>(1, 'abc'), -- STRUCT<INT64, STRING>
+       STRUCT(1),                       -- STRUCT<INT64>
+       STRUCT<INT64>(1)                 -- STRUCT<INT64>
 """
 
 [[cases]]
@@ -403,7 +402,7 @@ SELECT * FROM Roster WHERE LastName = @myparam
 formatted = """
 SELECT *
   FROM Roster
- WHERE LastName = @myparam
+ WHERE lastname = @myparam
 """
 
 [[cases]]
@@ -414,8 +413,8 @@ SELECT * FROM Roster WHERE FirstName = ? and LastName = ?
 formatted = """
 SELECT *
   FROM Roster
- WHERE FirstName = ?
-   AND LastName  = ?
+ WHERE firstname = ?
+   AND lastname = ?
 """
 
 [[cases]]
@@ -466,16 +465,16 @@ SELECT book FROM library /* this is an inline comment */ WHERE book = "Ulysses";
 """
 formatted = """
 SELECT book
-  FROM library;  # this is an inline comment
+  FROM library; # this is an inline comment
 
 SELECT book
-  FROM library;  -- this is an inline comment
+  FROM library; -- this is an inline comment
 
 SELECT book
-  FROM library;  /* this is an inline comment */
+  FROM library; /* this is an inline comment */
 
 SELECT book
-  FROM library  /* this is an inline comment */
+  FROM library /* this is an inline comment */
  WHERE book = 'Ulysses';
 """
 

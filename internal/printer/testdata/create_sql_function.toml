@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -138,12 +137,12 @@ create function `mypackage.myFunc` ( )
 """
 formatted = """
 CREATE FUNCTION `mypackage.myFunc`()
-AS (
-  42
-)
 OPTIONS (
   a     = b,
   bruce = lee
+)
+AS (
+  42
 )
 """
 
@@ -158,12 +157,12 @@ create function `mypackage.myfunc` ( )
 """
 formatted = """
 CREATE FUNCTION `mypackage.myfunc`()
-AS (
-  42
-)
 OPTIONS (
   a     = b,
   bruce = lee
+)
+AS (
+  42
 )
 """
 
@@ -209,7 +208,11 @@ create function myfunc ( x int32, y int32 )
   as ( x * y ) ;
 """
 formatted = """
-CREATE FUNCTION myfunc(x INT32, y INT32)
+CREATE FUNCTION myfunc
+(
+  x INT32,
+  y INT32
+)
 RETURNS INT32
 AS (
   x * y
@@ -446,18 +449,12 @@ RETURNS
   >
 AS (
   CASE
-    (
-      SELECT 1
-    )
+    (SELECT 1)
 
     WHEN
-      (
-        SELECT 2
-      )
+      (SELECT 2)
     THEN
-      (
-        SELECT 3
-      )
+      (SELECT 3)
 
   END
 )
@@ -481,9 +478,7 @@ CREATE FUNCTION AddFunc
 AS (
   (
     SELECT x.y
-      FROM (
-             SELECT 1 AS y
-           ) AS x
+      FROM (SELECT 1 AS y) AS x
   )
 )
 """
@@ -497,11 +492,15 @@ create function AddFunc(x int64, y int64) as (x + y)
 options(param1=CONCAT(@test_param_string,'_param'));
 """
 formatted = """
-CREATE FUNCTION AddFunc(x INT64, y INT64)
+CREATE FUNCTION AddFunc
+(
+  x INT64,
+  y INT64
+)
+OPTIONS (param1=CONCAT(@test_param_string, '_param'))
 AS (
   x + y
 )
-OPTIONS (param1=CONCAT(@test_param_string, '_param'))
 """
 
 [[cases]]
@@ -513,7 +512,11 @@ create function fn(`a b` int32, `c d` int32)
 as (`a b` + `c d`)
 """
 formatted = """
-CREATE FUNCTION fn(`a b` INT32, `c d` INT32)
+CREATE FUNCTION fn
+(
+  `a b` INT32,
+  `c d` INT32
+)
 AS (
   `a b` + `c d`
 )
@@ -548,15 +551,19 @@ options(
                    "impressions.clicks.conversions") as paths));
 """
 formatted = """
-CREATE FUNCTION AddFunc(x INT64, y INT64)
-AS (
-  x + y
+CREATE FUNCTION AddFunc
+(
+  x INT64,
+  y INT64
 )
 OPTIONS (
   ui_hints = STRUCT(
-               "ui_hints.LegacySemanticType.CURRENCY" AS semantic_type,
-               ("impressions.clicks", "impressions.clicks.conversions") AS paths
+               'ui_hints.LegacySemanticType.CURRENCY' AS semantic_type,
+               ('impressions.clicks', 'impressions.clicks.conversions') AS paths
              )
+)
+AS (
+  x + y
 )
 """
 
@@ -572,18 +579,22 @@ options(ui_hints=STRUCT("CURRENCY" as semantic_type,
                          ("clicks2", "clicks2.conversions")] as paths));
 """
 formatted = """
-CREATE FUNCTION AddFunc(x INT64, y INT64)
-AS (
-  x + y
+CREATE FUNCTION AddFunc
+(
+  x INT64,
+  y INT64
 )
 OPTIONS (
   ui_hints = STRUCT(
-               "CURRENCY" AS semantic_type,
+               'CURRENCY' AS semantic_type,
                [
-                 ("impressions.clicks", "impressions.clicks.conversions"),
-                 ("clicks2", "clicks2.conversions")
+                 ('impressions.clicks', 'impressions.clicks.conversions'),
+                 ('clicks2', 'clicks2.conversions')
                ] AS paths
              )
+)
+AS (
+  x + y
 )
 """
 
@@ -613,7 +624,11 @@ CREATE TEMPORARY FUNCTION MakeStruct(x INT64, y STRING)
 RETURNS STRUCT<x INT64, y STRING> AS (STRUCT(x + 5, SUBSTR(y, 0, 10)));
 """
 formatted = """
-CREATE TEMPORARY FUNCTION MakeStruct(x INT64, y STRING)
+CREATE TEMPORARY FUNCTION MakeStruct
+(
+  x INT64,
+  y STRING
+)
 RETURNS
   STRUCT<x INT64, y STRING>
 AS (
@@ -631,7 +646,11 @@ RETURNS STRUCT<x DOUBLE> AS
 (IF(first > second, STRUCT(first), STRUCT(second)));
 """
 formatted = """
-CREATE TEMPORARY FUNCTION StructFromLarger(first INT64, second INT64)
+CREATE TEMPORARY FUNCTION StructFromLarger
+(
+  first  INT64,
+  second INT64
+)
 RETURNS
   STRUCT<x DOUBLE>
 AS (
@@ -721,10 +740,10 @@ CREATE FUNCTION fn(s STRING)
 RETURNS STRING
 DETERMINISTIC
 LANGUAGE testlang
-AS "return 'a';"
 OPTIONS (
   a     = b,
   bruce = lee,
   c     = @test_param_string
 )
+AS "return 'a';"
 """

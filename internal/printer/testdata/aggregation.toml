@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -155,7 +154,7 @@ input = """
 select x, string_agg(y order by y collate "en_US" desc) from T group by x
 """
 formatted = """
-SELECT x, STRING_AGG(y ORDER BY y COLLATE "en_US" DESC)
+SELECT x, STRING_AGG(y ORDER BY y COLLATE 'en_US' DESC)
   FROM T
  GROUP BY x
 """
@@ -174,7 +173,7 @@ input = """
 select anon_count(*, 0, 1 order by x) from T;
 """
 formatted = """
-SELECT ANON_COUNT(*, 0, 1 ORDER BY x)
+SELECT anon_count(*, 0, 1 ORDER BY x)
   FROM T
 """
 
@@ -202,7 +201,7 @@ input = """
 select anon_count(distinct) from T
 """
 formatted = """
-SELECT ANON_COUNT(DISTINCT )
+SELECT anon_count(DISTINCT )
   FROM T
 """
 
@@ -212,7 +211,7 @@ select array_agg(Key order by 1)
 from TestTable
 """
 formatted = """
-SELECT ARRAY_AGG(Key ORDER BY 1)
+SELECT ARRAY_AGG(key ORDER BY 1)
   FROM TestTable
 """
 

@@ -1,6 +1,5 @@
 # Tests cases of examples from BigQuery's documentation.
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -66,17 +65,13 @@ SELECT token, count
 SELECT token, count
   FROM CountTokensInText(
          paragraph => 'Would you prefer softball, baseball, or tennis? There is also swimming.',
-         tokens =>
-           ['baseball', 'football', 'tennis']
-         ,
+         tokens => ['baseball', 'football', 'tennis'],
          delimiters => ' .,!?()'
        );
 
 SELECT token, count
   FROM CountTokensInText(
-         tokens =>
-           ['baseball', 'football', 'tennis']
-         ,
+         tokens => ['baseball', 'football', 'tennis'],
          delimiters => ' .,!?()',
          paragraph => 'Would you prefer softball, baseball, or tennis? There is also swimming.'
        );
@@ -84,9 +79,7 @@ SELECT token, count
 SELECT token, count
   FROM CountTokensInText(
          'Would you prefer softball, baseball, or tennis? There is also swimming.',
-         tokens =>
-           ['baseball', 'football', 'tennis']
-         ,
+         tokens => ['baseball', 'football', 'tennis'],
          delimiters => ' .,!?()'
        );
 
@@ -102,7 +95,7 @@ SELECT token, count
 [[cases]]
 description = "SAFE. prefix"
 input = """
-SELECT SAFE.SUBSTR('foo', 0, -2) AS safe_output UNION ALL
+SELECT safe.substr('foo', 0, -2) AS safe_output UNION ALL
 SELECT SAFE.SUBSTR('bar', 0, 2) AS safe_output;
 """
 formatted = """
@@ -131,19 +124,23 @@ SELECT my_dataset.multiply_by_three(5) AS result;
 [[cases]]
 description = "The following example calls a persistent UDF from a different project."
 input = """
-CREATE FUNCTION `other_project`.other_dataset.other_function(x INT64, y INT64)
+CREATE FUNCTION `other_project`.Other_Dataset.OTHER_FUNCTION(x INT64, y INT64)
   AS (x * y * 2);
 
-SELECT `other_project`.other_dataset.other_function(3, 4); --returns 24
+SELECT `other_project`.Other_Dataset.OTHER_FUNCTION(3, 4); --returns 24
 
 """
 formatted = """
-CREATE FUNCTION `other_project`.other_dataset.other_function(x INT64, y INT64)
+CREATE FUNCTION `other_project`.Other_Dataset.OTHER_FUNCTION
+(
+  x INT64,
+  y INT64
+)
 AS (
   x * y * 2
 );
 
-SELECT `other_project`.other_dataset.other_function(3, 4);
+SELECT `other_project`.Other_Dataset.OTHER_FUNCTION(3, 4);
 --returns 24
 """
 

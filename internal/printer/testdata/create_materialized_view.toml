@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -29,9 +28,10 @@ as select c1, c2, c3, c4 from t2
 formatted = """
 CREATE MATERIALIZED VIEW mv
 PARTITION BY c1, c2 + CAST(c3 AS INT64)
-AS
-SELECT c1, c2, c3, c4
-  FROM t2
+AS (
+  SELECT c1, c2, c3, c4
+    FROM t2
+)
 """
 
 [[cases]]
@@ -46,9 +46,10 @@ as select * from t2
 formatted = """
 CREATE MATERIALIZED VIEW mv
 PARTITION BY c1, c2 + CAST(c3 AS INT64)
-AS
-SELECT *
-  FROM t2
+AS (
+  SELECT *
+    FROM t2
+)
 """
 
 [[cases]]
@@ -65,9 +66,10 @@ formatted = """
 CREATE MATERIALIZED VIEW mv
 PARTITION BY c1, c2 + CAST(c3 AS INT64)
 OPTIONS (foo=TRUE)
-AS
-SELECT *
-  FROM t2
+AS (
+  SELECT *
+    FROM t2
+)
 """
 
 [[cases]]
@@ -84,9 +86,10 @@ formatted = """
 CREATE MATERIALIZED VIEW mv
 PARTITION BY c1, c2 + CAST(c3 AS INT64)
   CLUSTER BY MOD(c1, 2)
-AS
-SELECT *
-  FROM t2
+AS (
+  SELECT *
+    FROM t2
+)
 """
 
 [[cases]]
@@ -101,9 +104,10 @@ as select * from t2
 formatted = """
 CREATE MATERIALIZED VIEW mv
 CLUSTER BY c1
-AS
-SELECT *
-  FROM t2
+AS (
+  SELECT *
+    FROM t2
+)
 """
 
 [[cases]]
@@ -117,19 +121,20 @@ formatted = """
 CREATE MATERIALIZED VIEW mv
 PARTITION BY c1
   CLUSTER BY c2
-AS
-SELECT timestamp AS c1,
-       string    AS c2,
-       int32     AS c3
-  FROM SimpleTypes
+AS (
+  SELECT timestamp AS c1,
+         string    AS c2,
+         int32     AS c3
+    FROM SimpleTypes
+)
 """
 
-# [[cases]]
-# input = """
-# CREATE MATERIALIZED VIEW rm1 OPTIONS (replica_interval_minutes = 300) AS REPLICA OF src_ds.src
-# """
-# formatted = """
-# CREATE MATERIALIZED VIEW rm1
-# OPTIONS (replica_interval_minutes=300)
-# AS REPLICA OF src_ds.src
-# """
+[[cases]]
+input = """
+CREATE MATERIALIZED VIEW rm1 OPTIONS (replica_interval_minutes = 300) AS REPLICA OF src_ds.src
+"""
+formatted = """
+CREATE MATERIALIZED VIEW rm1
+OPTIONS (replica_interval_minutes=300)
+AS REPLICA OF src_ds.src
+"""

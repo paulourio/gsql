@@ -1,6 +1,5 @@
 # Tests cases of examples from BigQuery's documentation.
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -60,7 +59,9 @@ ORDER BY character
 formatted = """
 -- With collation
 SELECT *
-  FROM UNNEST([COLLATE('B', 'und:ci'), 'b', 'a']) AS character
+  FROM UNNEST(
+         [COLLATE('B', 'und:ci'), 'b', 'a']
+       ) AS character
  ORDER BY character;
 
 /*-----------*
@@ -93,7 +94,8 @@ CREATE TABLE t(
 formatted = """
 CREATE TABLE t
 (
-  case_insensitive_column STRING COLLATE 'und:ci'
+  case_insensitive_column STRING
+                          COLLATE 'und:ci'
 )
 """
 
@@ -148,10 +150,13 @@ formatted = """
 -- Assume there's a table with this column declaration:
 CREATE TABLE table_a
 (
-  col_a STRING COLLATE 'und:ci',
-  col_b STRING COLLATE '',
+  col_a STRING
+        COLLATE 'und:ci',
+  col_b STRING
+        COLLATE '',
   col_c STRING,
-  col_d STRING COLLATE 'und:ci'
+  col_d STRING
+        COLLATE 'und:ci'
 );
 
 -- This runs. Column 'b' has a collation specification and the
@@ -203,14 +208,14 @@ WHERE t1_col_ci = 'abc'
 """
 formatted = """
 CREATE MATERIALIZED VIEW my_dataset.my_mv
-AS
-SELECT t1.col_ci    AS t1_col_ci,
-       t2.col_int64 AS t2_col_int64
-  FROM my_dataset.collated_table1 AS t1
-
-       JOIN
-       my_dataset.collated_table2 AS t2
-       ON t1.col_ci = t2.col_ci;
+AS (
+  SELECT t1.col_ci    AS t1_col_ci,
+         t2.col_int64 AS t2_col_int64
+    FROM my_dataset.collated_table1 AS t1
+         JOIN
+         my_dataset.collated_table2 AS t2
+         ON t1.col_ci = t2.col_ci
+);
 
 SELECT *
   FROM my_dataset.my_mv

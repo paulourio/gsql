@@ -1,6 +1,5 @@
 # Tests cases of examples from BigQuery's documentation.
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -40,7 +39,7 @@ SELECT username,
        (
          SELECT mascot
            FROM Mascots
-          WHERE Players.team = Mascots.team
+          WHERE players.team = mascots.team
        ) AS player_mascot
   FROM Players;
 
@@ -142,16 +141,16 @@ formatted = """
 SELECT mascot
   FROM Mascots
  WHERE NOT EXISTS(
-         SELECT username
-           FROM Players
-          WHERE Mascots.team = Players.team
+             SELECT username
+               FROM Players
+              WHERE mascots.team = players.team
        );
 
 SELECT username,
        (
          SELECT mascot
            FROM Mascots
-          WHERE Players.team = Mascots.team
+          WHERE players.team = mascots.team
        ) AS player_mascot
   FROM Players;
 """

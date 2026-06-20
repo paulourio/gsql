@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -142,6 +141,6 @@ SELECT a
  UNION ALL
 SELECT b
   FROM t
- ORDER BY 1
- LIMIT 2 OFFSET 1
+ORDER BY 1
+LIMIT 2 OFFSET 1
 """

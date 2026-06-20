@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/goccy/go-googlesql"
 
@@ -98,6 +99,7 @@ func WithFormatOptions(options *format.Options) SQLFormatterOption {
 			f.fmtOpts = format.DefaultOptions()
 			return nil
 		}
+		options.Init()
 		if err := options.Validate(); err != nil {
 			return fmt.Errorf("unable to validate format options: %w", err)
 		}
@@ -122,7 +124,7 @@ func (f *SQLFormatter) Close() {
 
 func (f *SQLFormatter) Format(input string) (string, error) {
 	if strings.TrimSpace(input) == "" {
-		return input, nil
+		return "", nil
 	}
 	comms, err := extensions.ExtractComments(input)
 	if err != nil {
@@ -139,10 +141,13 @@ func (f *SQLFormatter) Format(input string) (string, error) {
 			input = ph.Apply(input)
 		}
 	}
+	start := time.Now()
 	pout, err := googlesql.ParseScript(input, f.parserOpts, f.errMsgOpts)
 	if err != nil {
 		return "", fmt.Errorf("unable to parse script: %w", err)
 	}
+	slog.Info("Parsed script", slog.Duration("duration", time.Since(start)))
+	start = time.Now()
 
 	f.debug(strings.Repeat("\n", 4))
 	f.debug("# BigQuery Format\n\n")
@@ -166,6 +171,8 @@ func (f *SQLFormatter) Format(input string) (string, error) {
 	erasedInput := extensions.EraseComments(input, comms)
 	f.log("## Pre-processed input without comments\n\n")
 	f.logf("```\n%s\n```\n\n", erasedInput)
+	slog.Info("Extracted comments and template elements", slog.Duration("duration", time.Since(start)))
+	start = time.Now()
 
 	// The start location tracker is used to flush comments between the end
 	// of a node and the start of the "in-order successor" node of a start
@@ -181,12 +188,16 @@ func (f *SQLFormatter) Format(input string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to format script: %w", err)
 	}
+	slog.Info("Formatted script", slog.Duration("duration", time.Since(start)))
+
 	f.log("## Formatted print\n\n")
 	f.logf("```\n%s\n```\n\n", result)
+	start = time.Now()
 	reverted := result
 	for _, p := range placeholders.Placeholders {
 		reverted = p.Revert(reverted)
 	}
+	slog.Info("Reverted template elements", slog.Duration("duration", time.Since(start)))
 	if reverted != result {
 		f.log("## Result with template elements re-inserted\n\n")
 		f.logf("```\n%s\n```\n\n", result)
