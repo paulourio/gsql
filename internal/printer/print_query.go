@@ -2,6 +2,7 @@ package printer
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
 	"unicode"
 
@@ -556,8 +557,7 @@ func (p *Printer) VisitAndExpr(ctx Context, n *googlesql.ASTAndExpr) {
 	budget, _ := ctx.Int(KeyAlignBinaryOpBudget)
 	alignAnd := budget > 0
 	if simple && alignAnd {
-		budget--
-		ctx = ctx.WithValue(KeyAlignBinaryOpBudget, budget)
+		ctx = ctx.WithValue(KeyAlignBinaryOpBudget, budget-1)
 	}
 	// If no budget is active, setup a new budget
 	if alignAnd || inMerge || !simple && allTrue(mapIsAlignable(conjuncts)) {
@@ -623,7 +623,7 @@ func (p *Printer) VisitAndExpr(ctx Context, n *googlesql.ASTAndExpr) {
 	if alignWithClause {
 		p.print(pp.String())
 	} else {
-		p.print(pp.unnestLeft())
+		p.print(pp.unnest())
 	}
 }
 
@@ -702,6 +702,7 @@ func (p *Printer) VisitBinaryExpression(ctx Context, n *googlesql.ASTBinaryExpre
 		rhsAlign = " \v"
 	}
 	lhs := ast.Must(n.Lhs())
+	rhs := ast.Must(n.Rhs())
 	p.acceptNestedLeft(ctx, lhs)
 	p.movePast(lhs)
 	// We may have comments between the end of LHS and the beginning
@@ -709,7 +710,7 @@ func (p *Printer) VisitBinaryExpression(ctx Context, n *googlesql.ASTBinaryExpre
 	// position of binary op so we can flush comments on the right
 	// side of the operator.
 	b := ast.GetParseLocationEndOffset(lhs)
-	e := ast.GetParseLocationStartOffset(ast.Must(n.Rhs()))
+	e := ast.GetParseLocationStartOffset(rhs)
 	view := p.viewErasedInput(b, e)
 	binPos := indexFunc(view, unicode.IsSpace, false)
 	p.Writer.flushCommentsUpTo(b + binPos)
@@ -765,13 +766,14 @@ func (p *Printer) VisitBinaryExpression(ctx Context, n *googlesql.ASTBinaryExpre
 			p.print(lhsAlign + p.keyword("IS DISTINCT FROM") + " " + rhsAlign)
 		}
 	}
-	p.moveBefore(ast.Must(n.Rhs()))
+	p.moveBefore(n)
 	pp := p.nest()
-	pp.acceptNestedLeft(ctx, ast.Must(n.Rhs()))
-	pp.movePast(ast.Must(n.Rhs()))
+	pp.acceptNestedLeft(ctx, rhs)
+	pp.movePast(rhs)
 	p.print(pp.unnestLeft())
 	p.movePast(n)
 	p.printCloseParenIfNeeded(n)
+	slog.Info("BINARY EXPRESSION\n" + debugContent(p.String()))
 }
 
 func (p *Printer) VisitBitwiseShiftExpression(ctx Context, n *googlesql.ASTBitwiseShiftExpression) {

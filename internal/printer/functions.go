@@ -59,9 +59,26 @@ func (p *Printer) getFunctionSignature(n *googlesql.ASTFunctionCall) *FunctionSi
 	pp.accept(ctx, ast.Must(n.Function()))
 	name := strings.ToUpper(pp.String())
 	switch name {
+	case "DATE_DIFF":
+		return NewFunctionSignature(
+			NewFunctionParam("date_expression_a", format.Unspecified),
+			NewFunctionParam("date_expression_b", format.Unspecified),
+			NewFunctionParam("date_part", format.UpperCase),
+		)
 	case "DATE_TRUNC":
 		return NewFunctionSignature(
 			NewFunctionParam("date_expression", format.Unspecified),
+			NewFunctionParam("date_part", format.UpperCase),
+		)
+	case "DATETIME_DIFF":
+		return NewFunctionSignature(
+			NewFunctionParam("datetime_expression_a", format.Unspecified),
+			NewFunctionParam("datetime_expression_b", format.Unspecified),
+			NewFunctionParam("date_part", format.UpperCase),
+		)
+	case "DATETIME_TRUNC":
+		return NewFunctionSignature(
+			NewFunctionParam("datetime_expression", format.Unspecified),
 			NewFunctionParam("date_part", format.UpperCase),
 		)
 	case "LAST_DAY":
@@ -78,6 +95,28 @@ func (p *Printer) getFunctionSignature(n *googlesql.ASTFunctionCall) *FunctionSi
 		return NewFunctionSignature(
 			NewFunctionParam("value", format.Unspecified),
 			NewFunctionParam("normalization_mode", format.UpperCase),
+		)
+	case "TIME_DIFF":
+		return NewFunctionSignature(
+			NewFunctionParam("time_expression_a", format.Unspecified),
+			NewFunctionParam("time_expression_b", format.Unspecified),
+			NewFunctionParam("date_part", format.UpperCase),
+		)
+	case "TIME_TRUNC":
+		return NewFunctionSignature(
+			NewFunctionParam("time_expression", format.Unspecified),
+			NewFunctionParam("date_part", format.UpperCase),
+		)
+	case "TIMESTAMP_DIFF":
+		return NewFunctionSignature(
+			NewFunctionParam("timestamp_expression_a", format.Unspecified),
+			NewFunctionParam("timestamp_expression_b", format.Unspecified),
+			NewFunctionParam("date_part", format.UpperCase),
+		)
+	case "TIMESTAMP_TRUNC":
+		return NewFunctionSignature(
+			NewFunctionParam("timestamp_expression", format.Unspecified),
+			NewFunctionParam("date_part", format.UpperCase),
 		)
 	case "WEEK":
 		return NewFunctionSignature(
