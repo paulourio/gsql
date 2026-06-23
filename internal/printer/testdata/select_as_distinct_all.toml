@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -100,14 +99,10 @@ from (select as struct * from T1),
 """
 formatted = """
 SELECT 1,
-       (
-         SELECT AS STRUCT
-                123
-       ),
-       ARRAY(
-         SELECT AS STRUCT
-                4, 5
-       )
+       (SELECT AS STRUCT
+               123),
+       ARRAY(SELECT AS STRUCT
+                    4, 5)
   FROM (
          SELECT AS STRUCT
                 *
@@ -227,14 +222,10 @@ input = """
 select (select as value 1), (select as struct value)
 """
 formatted = """
-SELECT (
-         SELECT AS VALUE
-                1
-       ),
-       (
-         SELECT AS STRUCT
-                value
-       )
+SELECT (SELECT AS VALUE
+               1),
+       (SELECT AS STRUCT
+               value)
 """
 
 [[cases]]

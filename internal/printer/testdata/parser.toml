@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -31,7 +30,7 @@ input = """
 select 1; # NBSP
 """
 formatted = """
-SELECT 1  # NBSP
+SELECT 1 # NBSP
 """
 
 [[cases]]

@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -309,7 +308,7 @@ SELECT * FROM t PIVOT;
 """
 formatted = """
 SELECT *
-  FROM t AS PIVOT
+  FROM t AS pivot
 """
 
 [[cases]]
@@ -318,7 +317,7 @@ input = """
 SELECT PIVOT;
 """
 formatted = """
-SELECT PIVOT
+SELECT pivot
 """
 
 [[cases]]
@@ -332,7 +331,7 @@ SELECT *
        PIVOT (
          a
          FOR b IN (c)
-       ) AS PIVOT
+       ) AS pivot
 """
 
 [[cases]]
@@ -355,10 +354,7 @@ SELECT *
   FROM t
        PIVOT (
          SUM(a)
-         FOR b IN (
-           1 + 2 + 3,
-           4 + 5 + 6
-         )
+         FOR b IN (1 + 2 + 3, 4 + 5 + 6)
        )
 """
 
@@ -485,10 +481,10 @@ formatted = """
 SELECT *
   FROM (
          WITH
-         tt AS (
-         SELECT 1
-           FROM t
-         )
+           tt AS (
+             SELECT 1
+               FROM t
+           )
          SELECT *
            FROM tt
        )
@@ -511,7 +507,7 @@ SELECT *
   FROM (
          SELECT a, b
            FROM t1
-          UNION ALL
+         UNION ALL
          (
            SELECT c, d
              FROM t2

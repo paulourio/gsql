@@ -552,16 +552,15 @@ func (p *Printer) VisitAndExpr(ctx Context, n *googlesql.ASTAndExpr) {
 	conjuncts := ast.ChildrenExpressions(n)
 	inClause := isInsideOfWhereClause(n) || isInsideOfOnClause(n)
 	alignWithClause := p.Writer.opts.AlignLogicalWithClauses && inClause
-	inMerge := isInsideOfMergeStatement(n)
+	// inMerge := isInsideOfMergeStatement(n)
 	simple := isSimpleAndExpr(n)
 	budget, _ := ctx.Int(KeyAlignBinaryOpBudget)
-	alignAnd := budget > 0
-	if simple && alignAnd {
-		ctx = ctx.WithValue(KeyAlignBinaryOpBudget, budget-1)
-	}
+	// alignAnd := budget > 0
 	// If no budget is active, setup a new budget
-	if alignAnd || inMerge || !simple && allTrue(mapIsAlignable(conjuncts)) {
+	if allTrue(mapIsAlignable(conjuncts)) {
 		budget = 1
+		ctx = ctx.WithValue(KeyAlignBinaryOpBudget, budget)
+		slog.Info("ALIGNABLE and simple=", "simple", simple)
 	}
 	pp := p.nest()
 	pp.moveBefore(n)
@@ -595,7 +594,6 @@ func (p *Printer) VisitAndExpr(ctx Context, n *googlesql.ASTAndExpr) {
 				p1.print("\v")
 			}
 		}
-		ctx = ctx.WithValue(KeyAlignBinaryOpBudget, budget)
 		if simple {
 			p1.accept(ctx, conjunct)
 		} else {
@@ -603,6 +601,7 @@ func (p *Printer) VisitAndExpr(ctx Context, n *googlesql.ASTAndExpr) {
 		}
 		p1.movePastLine(conjunct)
 	}
+	slog.Info("AND Expr p1\n" + debugContent(p1.String()))
 	s := p1.unnestLeft()
 	if alignWithClause {
 		lines := strings.Split(s, "\n")
@@ -773,7 +772,6 @@ func (p *Printer) VisitBinaryExpression(ctx Context, n *googlesql.ASTBinaryExpre
 	p.print(pp.unnestLeft())
 	p.movePast(n)
 	p.printCloseParenIfNeeded(n)
-	slog.Info("BINARY EXPRESSION\n" + debugContent(p.String()))
 }
 
 func (p *Printer) VisitBitwiseShiftExpression(ctx Context, n *googlesql.ASTBitwiseShiftExpression) {
@@ -1221,6 +1219,7 @@ func (p *Printer) VisitJoin(ctx Context, n *googlesql.ASTJoin) {
 			pp.println("")
 		}
 		pp.moveBefore(n)
+		pp.moveBefore(ast.Must(n.JoinLocation()))
 		pp.println("\v")
 		pp.print(p.keyword(p.joinKeyword(n)))
 	}
@@ -1270,10 +1269,9 @@ func (p *Printer) joinKeyword(n *googlesql.ASTJoin) string {
 	case ast.LookupJoinHint:
 		kw.WriteString("LOOKUP ")
 	}
-	begin := ast.GetParseLocationStartOffset(n)
-	end := ast.GetParseLocationStartOffset(ast.Must(n.Rhs()))
-	str := strings.ToUpper(p.viewInput(begin, end))
-	if strings.Contains(str, "OUTER") {
+	begin, end := ast.GetParseLocationByteOffsets(ast.Must(n.JoinLocation()))
+	input := strings.ToUpper(p.viewErasedInput(begin, end))
+	if strings.Contains(input, "OUTER") {
 		kw.WriteString("OUTER ")
 	}
 	kw.WriteString("JOIN")
@@ -1569,9 +1567,11 @@ func (p *Printer) VisitPivotClause(ctx Context, n *googlesql.ASTPivotClause) {
 	p.print(p.keyword("PIVOT") + " (")
 	p.println("")
 	p.incDepth()
-	p.VisitPivotExpressionList(ctx, ast.ChildAs[*googlesql.ASTPivotExpressionList](n, 0))
+	p.acceptNestedLeft(ctx, ast.Must(n.PivotExpressions()))
 	p.println("")
-	p.visitPivotForExpression(ctx, n)
+	pp := p.nest()
+	pp.visitPivotForExpression(ctx, n)
+	p.print(pp.unnestLeft())
 	p.println("")
 	p.decDepth()
 	p.print(")")
@@ -1613,7 +1613,7 @@ func (p *Printer) visitPivotForExpression(ctx Context, n *googlesql.ASTPivotClau
 		p.println("")
 		p.incDepth()
 	}
-	p.accept(ctx, ast.ChildAs[*googlesql.ASTPivotValueList](n, 2))
+	p.acceptNestedLeft(ctx, ast.ChildAs[*googlesql.ASTPivotValueList](n, 2))
 	if !simpleValues {
 		p.println("")
 		p.decDepth()
@@ -1730,7 +1730,7 @@ func (p *Printer) VisitSelectAs(ctx Context, n *googlesql.ASTSelectAs) {
 		p.print(p.keyword("AS VALUE"))
 	case ast.TypeNameAsMode:
 		p.print(p.keyword("AS"))
-		p.accept(ctx, ast.Must(n.TypeName()))
+		p.accept(ctx.WithValue(KeyInTableName, true), ast.Must(n.TypeName()))
 	}
 	p.println("")
 }
@@ -1865,6 +1865,7 @@ func (p *Printer) VisitTableElementList(ctx Context, n *googlesql.ASTTableElemen
 }
 
 func (p *Printer) VisitTableSubquery(ctx Context, n *googlesql.ASTTableSubquery) {
+	ctx = ctx.WithValue(KeyInTableName, false)
 	p.moveBefore(n)
 	p.print("(")
 	simple := isSimpleTableSubquery(n)
@@ -1930,24 +1931,26 @@ func (p *Printer) VisitStructConstructorWithParens(ctx Context, n *googlesql.AST
 	p.print("(")
 	exprs := ast.ChildrenExpressions(n)
 	simple := allTrue(mapIsSimpleExprs(exprs))
+	pp := p.nest()
 	if !simple {
 		p.println("")
-		p.incDepth()
+		pp.incDepth()
 	}
 	for i, e := range exprs {
 		if i > 0 {
-			p.print(",")
+			pp.print(",")
 			if !simple {
-				p.println("")
+				pp.println("")
 			}
 		}
-		p.accept(ctx, e)
+		pp.accept(ctx, e)
 	}
 	if !simple {
-		p.println("")
-		p.decDepth()
+		pp.println("")
+		pp.decDepth()
 	}
-	p.print(")")
+	pp.print(")")
+	p.print(pp.unnestLeft())
 	p.printCloseParenIfNeededWithDepth(n)
 }
 
@@ -1993,7 +1996,7 @@ func (p *Printer) VisitTVF(ctx Context, n *googlesql.ASTTVF) {
 				pp.println("")
 			}
 		}
-		pp.accept(ctx, e)
+		pp.acceptNestedLeft(ctx, e)
 		pp.movePast(e)
 	}
 	p.print(pp.unnestLeft())

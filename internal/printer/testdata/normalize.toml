@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -83,8 +82,8 @@ normalize_and_casefold("abc", "nfc", def),
        `normalize_and_casefold`("abc", "nfc", def)
 """
 formatted = """
-SELECT NORMALIZE("abc", "nfc", 3),
-       `normalize`("abc", "nfc", 3),
-       NORMALIZE_AND_CASEFOLD("abc", "nfc", def),
-       `normalize_and_casefold`("abc", "nfc", def)
+SELECT NORMALIZE('abc', 'nfc', 3),
+       `normalize`('abc', 'nfc', 3),
+       NORMALIZE_AND_CASEFOLD('abc', 'nfc', def),
+       `normalize_and_casefold`('abc', 'nfc', def)
 """

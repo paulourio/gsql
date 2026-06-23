@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -101,7 +100,7 @@ SELECT *
            f,
            w AS '1',
            x AS '2',
-           y AS "3"
+           y AS '3'
          )
        )
 """
@@ -146,7 +145,6 @@ SELECT * FROM t1 INNER JOIN t2 UNPIVOT(a for b IN (c)) USING(x);
 formatted = """
 SELECT *
   FROM t1
-
        INNER JOIN
        t2
        UNPIVOT (
@@ -164,7 +162,6 @@ SELECT * FROM t1 CROSS JOIN t2 UNPIVOT(a for b in (c));
 formatted = """
 SELECT *
   FROM t1
-
        CROSS JOIN
        t2
        UNPIVOT (
@@ -267,7 +264,7 @@ SELECT *
   FROM t
        UNPIVOT (
          a
-         FOR b IN (C)
+         FOR b IN (c)
        )
        TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
 """
@@ -284,7 +281,7 @@ SELECT *
   FROM t
        UNPIVOT (
          a
-         FOR b IN (C)
+         FOR b IN (c)
        ) AS t_unpivot
        TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
 """
@@ -318,7 +315,7 @@ SELECT * FROM t UNPIVOT;
 """
 formatted = """
 SELECT *
-  FROM t AS UNPIVOT
+  FROM t AS unpivot
 """
 
 [[cases]]
@@ -330,7 +327,7 @@ SELECT * FROM t as  UNPIVOT;
 """
 formatted = """
 SELECT *
-  FROM t AS UNPIVOT
+  FROM t AS unpivot
 """
 
 [[cases]]

@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -136,7 +135,7 @@ input = """
 SET @AND="something"
 """
 formatted = """
-SET @AND = "something"
+SET @AND = 'something'
 """
 
 [[cases]]

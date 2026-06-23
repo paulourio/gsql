@@ -33,12 +33,12 @@ func NewSQLFormatter(opts ...SQLFormatterOption) (*SQLFormatter, error) {
 			"Unable to create compilation cache directory",
 			slog.String("cache", cache))
 	} else {
-		slog.Log(context.Background(), slog.LevelInfo,
+		slog.Log(context.Background(), slog.LevelDebug,
 			"Using compilation cache.", slog.String("cache", cache))
 	}
 	err := googlesql.Init(
-		googlesql.WithCompilationMode(googlesql.CompilationModeCompiler),
-		googlesql.WithCompilationCache(cache),
+	// googlesql.WithCompilationMode(googlesql.CompilationModeCompiler),
+	// googlesql.WithCompilationCache(cache),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("unable to initialize googlesql: %w", err)
@@ -50,6 +50,9 @@ func NewSQLFormatter(opts ...SQLFormatterOption) (*SQLFormatter, error) {
 	lopts, err := googlesql.NewLanguageOptionsMaximumFeatures()
 	if err != nil {
 		return nil, fmt.Errorf("unable to create language options: %w", err)
+	}
+	if err := lopts.EnableReservableKeyword("QUALIFY", true); err != nil {
+		return nil, fmt.Errorf("unable to enable reservable keyword: %w", err)
 	}
 	if err := popts.SetLanguageOptions(lopts); err != nil {
 		return nil, fmt.Errorf("unable to set language options: %w", err)
@@ -119,7 +122,7 @@ func WithErrorMessageOptions(opts *googlesql.ErrorMessageOptions) SQLFormatterOp
 }
 
 func (f *SQLFormatter) Close() {
-	googlesql.Close()
+	// googlesql.Close()
 }
 
 func (f *SQLFormatter) Format(input string) (string, error) {
@@ -146,7 +149,7 @@ func (f *SQLFormatter) Format(input string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("unable to parse script: %w", err)
 	}
-	slog.Info("Parsed script", slog.Duration("duration", time.Since(start)))
+	slog.Debug("Parsed script", slog.Duration("duration", time.Since(start)))
 	start = time.Now()
 
 	f.debug(strings.Repeat("\n", 4))
@@ -171,12 +174,13 @@ func (f *SQLFormatter) Format(input string) (string, error) {
 	erasedInput := extensions.EraseComments(input, comms)
 	f.log("## Pre-processed input without comments\n\n")
 	f.logf("```\n%s\n```\n\n", erasedInput)
-	slog.Info("Extracted comments and template elements", slog.Duration("duration", time.Since(start)))
+	slog.Debug("Extracted comments and template elements", slog.Duration("duration", time.Since(start)))
 	start = time.Now()
 
 	// The start location tracker is used to flush comments between the end
 	// of a node and the start of the "in-order successor" node of a start
 	// location tree.
+	// wrappedRoot := sql.Wrap(root)
 	tracker := printer.NewStartLocationTracker(input, root)
 	p := &printer.Printer{
 		Writer:        printer.NewWriter(f.fmtOpts, comms),
@@ -188,7 +192,7 @@ func (f *SQLFormatter) Format(input string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to format script: %w", err)
 	}
-	slog.Info("Formatted script", slog.Duration("duration", time.Since(start)))
+	slog.Debug("Formatted script", slog.Duration("duration", time.Since(start)))
 
 	f.log("## Formatted print\n\n")
 	f.logf("```\n%s\n```\n\n", result)
@@ -197,7 +201,7 @@ func (f *SQLFormatter) Format(input string) (string, error) {
 	for _, p := range placeholders.Placeholders {
 		reverted = p.Revert(reverted)
 	}
-	slog.Info("Reverted template elements", slog.Duration("duration", time.Since(start)))
+	slog.Debug("Reverted template elements", slog.Duration("duration", time.Since(start)))
 	if reverted != result {
 		f.log("## Result with template elements re-inserted\n\n")
 		f.logf("```\n%s\n```\n\n", result)

@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -23,7 +22,7 @@ input = """
 select parse_date(format_string => "%x", date_string => "12/25/08")
 """
 formatted = """
-SELECT PARSE_DATE(format_string => "%x", date_string => "12/25/08")
+SELECT PARSE_DATE(format_string => '%x', date_string => '12/25/08')
 """
 
 [[cases]]
@@ -35,7 +34,7 @@ input = """
 select parse_date(date_string => "12/25/08", format_string => "%x")
 """
 formatted = """
-SELECT PARSE_DATE(date_string => "12/25/08", format_string => "%x")
+SELECT PARSE_DATE(date_string => '12/25/08', format_string => '%x')
 """
 
 [[cases]]
@@ -49,11 +48,11 @@ select parse_date(
 """
 formatted = """
 SELECT PARSE_DATE(
-         format_string => CONCAT("%", "x"),
+         format_string => CONCAT('%', 'x'),
          date_string =>
            CONCAT(
              CAST(10 + 2 AS STRING),
-             "/25/08"
+             '/25/08'
            )
        )
 """
@@ -66,7 +65,7 @@ input = """
 select parse_date("%x", date_string => "12/25/08")
 """
 formatted = """
-SELECT PARSE_DATE("%x", date_string => "12/25/08")
+SELECT PARSE_DATE('%x', date_string => '12/25/08')
 """
 
 [[cases]]
@@ -78,7 +77,7 @@ select * from mytvf(date_string => "12/25/08", format_string => "%x")
 """
 formatted = """
 SELECT *
-  FROM mytvf(date_string => "12/25/08", format_string => "%x")
+  FROM mytvf(date_string => '12/25/08', format_string => '%x')
 """
 
 [[cases]]
@@ -98,8 +97,7 @@ SELECT *
          date_string =>
            '''
       field: value
-    '''
-         ,
+    ''',
          format_string =>
            (
              SELECT *
@@ -118,11 +116,9 @@ select * from mytvf("%x", date_string => (select 'abc' as input))
 formatted = """
 SELECT *
   FROM mytvf(
-         "%x",
+         '%x',
          date_string =>
-           (
-             SELECT 'abc' AS input
-           )
+           (SELECT 'abc' AS input)
        )
 """
 
@@ -137,9 +133,7 @@ formatted = """
 SELECT *
   FROM mytvf(
          date_string =>
-           (
-             SELECT 1
-           )
+           (SELECT 1)
        )
 """
 
@@ -151,7 +145,7 @@ input = """
 select parse_date(format_string => "%x", "12/25/08")
 """
 formatted = """
-SELECT PARSE_DATE(format_string => "%x", "12/25/08")
+SELECT PARSE_DATE(format_string => '%x', '12/25/08')
 """
 
 [[cases]]
@@ -162,7 +156,7 @@ input = """
 select parse_date(format_string => "%x")
 """
 formatted = """
-SELECT PARSE_DATE(format_string => "%x")
+SELECT PARSE_DATE(format_string => '%x')
 """
 
 [[cases]]
@@ -173,5 +167,5 @@ input = """
 select parse_date("%x", date_string => "12/25/08")
 """
 formatted = """
-SELECT PARSE_DATE("%x", date_string => "12/25/08")
+SELECT PARSE_DATE('%x', date_string => '12/25/08')
 """

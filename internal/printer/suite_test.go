@@ -81,7 +81,6 @@ func (c *Case) String() string {
 }
 
 func (c *CaseResult) String() string {
-	return ""
 	b := &strings.Builder{}
 	b.Grow(len(c.Input.Script) * 50)
 	if c.Case.Description != "" {

@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -21,7 +20,7 @@ input = """
 select uId from Users tablesample reservoir (100 rows) repeatable(10)
 """
 formatted = """
-SELECT uId
+SELECT uid
   FROM Users
        TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
 """
@@ -32,7 +31,7 @@ select uId from Users TABLESAMPLE RESERVOIR (cast(100 as int32) ROWS)
                                             REPEATABLE(cast(10 as int32))
 """
 formatted = """
-SELECT uId
+SELECT uid
   FROM Users
        TABLESAMPLE RESERVOIR (CAST(100 AS INT32) ROWS) REPEATABLE(CAST(10 AS INT32))
 """
@@ -42,7 +41,7 @@ input = """
 select uId from Users TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
 """
 formatted = """
-SELECT uId
+SELECT uid
   FROM Users
        TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
 """
@@ -53,7 +52,7 @@ select uId from Users TABLESAMPLE RESERVOIR (cast(@param1 as int32) ROWS)
                                             REPEATABLE(cast(@param2 as string))
 """
 formatted = """
-SELECT uId
+SELECT uid
   FROM Users
        TABLESAMPLE RESERVOIR (CAST(@param1 AS INT32) ROWS) REPEATABLE(CAST(@param2 AS STRING))
 """
@@ -63,7 +62,7 @@ input = """
 select uId from Users TABLESAMPLE RESERVOIR (@@sysvar1 ROWS) REPEATABLE(@@sysvar2)
 """
 formatted = """
-SELECT uId
+SELECT uid
   FROM Users
        TABLESAMPLE RESERVOIR (@@sysvar1 ROWS) REPEATABLE(@@sysvar2)
 """
@@ -73,8 +72,8 @@ input = """
 select uId from Users Reservoir TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
 """
 formatted = """
-SELECT uId
-  FROM Users AS Reservoir
+SELECT uid
+  FROM Users AS reservoir
        TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
 """
 
@@ -93,7 +92,7 @@ input = """
 select uId from Users TABLESAMPLE System(100 ROWS)
 """
 formatted = """
-SELECT uId
+SELECT uid
   FROM Users
        TABLESAMPLE SYSTEM (100 ROWS)
 """
@@ -103,7 +102,7 @@ input = """
 select uId from Users TABLESAMPLE system(0.1 Percent) repeatable (10)
 """
 formatted = """
-SELECT uId
+SELECT uid
   FROM Users
        TABLESAMPLE SYSTEM (0.1 PERCENT) REPEATABLE(10)
 """
@@ -116,7 +115,7 @@ from (select uId from Users) TABLESAMPLE BERNOULLI (100 ROWS) REPEATABLE(10)
 formatted = """
 SELECT *
   FROM (
-         SELECT uId
+         SELECT uid
            FROM Users
        )
        TABLESAMPLE BERNOULLI (100 ROWS) REPEATABLE(10)
@@ -161,8 +160,8 @@ select 4 Percent, 5 Repeatable
 from Users TABLESAMPLE RESERVOIR (0 PERCENT) REPEATABLE(1)
 """
 formatted = """
-SELECT 4 AS Percent,
-       5 AS Repeatable
+SELECT 4 AS percent,
+       5 AS repeatable
   FROM Users
        TABLESAMPLE RESERVOIR (0 PERCENT) REPEATABLE(1)
 """
@@ -294,7 +293,7 @@ from ( a TABLESAMPLE RESERVOIR (1 ROWS) JOIN
      ) TABLESAMPLE RESERVOIR (5.0 PERCENT)
 """
 formatted = """
-SELECT uId
+SELECT uid
   FROM (
          a
          TABLESAMPLE RESERVOIR (1 ROWS)

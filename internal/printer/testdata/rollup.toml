@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -21,8 +20,7 @@ input = """
 SELECT x, SUM(y) FROM T GROUP BY ROLLUP(x);
 """
 formatted = """
-SELECT x,
-       SUM(y)
+SELECT x, SUM(y)
   FROM T
  GROUP BY ROLLUP(x)
 """
@@ -36,7 +34,7 @@ formatted = """
 SELECT x,
        y,
        GROUPING(x) = 1,
-       IF(GROUPING(y) = 0, "foo", "bar")
+       IF(GROUPING(y) = 0, 'foo', 'bar')
   FROM T
  GROUP BY ROLLUP(x, y)
 """
@@ -46,8 +44,7 @@ input = """
 select x, SUM(y) FROM T GROUP @{hint_name=5} BY ROLLUP(x);
 """
 formatted = """
-SELECT x,
-       SUM(y)
+SELECT x, SUM(y)
   FROM T
  GROUP @{hint_name=5} BY ROLLUP(x)
 """
@@ -62,10 +59,7 @@ x + 2, y = 'foo', z), z, x, ROLLUP(y, x
 );
 """
 formatted = """
-SELECT x,
-       y,
-       z,
-       GROUPING(x)
+SELECT x, y, z, GROUPING(x)
   FROM T
  GROUP BY 1, 2, ROLLUP(x + 2, y = 'foo', z), z, x, ROLLUP(y, x)
 """

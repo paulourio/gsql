@@ -165,10 +165,28 @@ else 4 end
 """
 formatted = """
 SELECT CASE
-         WHEN a AND b OR (c AND IFNULL(COALESCE(d, e), FALSE)) THEN 1
-         WHEN a AND b                                          THEN 2
-         WHEN a                                                THEN 3
-                                                               ELSE 4
+         WHEN
+              a AND b
+           OR (
+                    c
+                AND IFNULL(COALESCE(d, e), FALSE)
+              )
+         THEN
+           1
+
+         WHEN
+           a AND b
+         THEN
+           2
+
+         WHEN
+           a
+         THEN
+           3
+
+         ELSE
+           4
+
        END
 """
 

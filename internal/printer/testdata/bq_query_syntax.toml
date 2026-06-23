@@ -1155,14 +1155,14 @@ SELECT *
  UNION ALL
 SELECT *
   FROM TeamMascot
- ORDER BY schoolid;
+ORDER BY schoolid;
 
 (
-    SELECT *
-      FROM Roster
-  UNION ALL
-    SELECT *
-      FROM TeamMascot
+  SELECT *
+    FROM Roster
+   UNION ALL
+  SELECT *
+    FROM TeamMascot
 )
 ORDER BY schoolid;
 

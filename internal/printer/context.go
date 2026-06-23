@@ -22,7 +22,7 @@ const (
 	KeyInFunctionName                             // bool
 	KeyIsSafeNamespace                            // bool, for "SAFE.X" functions.
 	KeyQueryParameter                             // bool
-	KeySystemVariable                            // bool
+	KeySystemVariable                             // bool
 	KeyInTableName                                // bool
 	KeyInTypeName                                 // bool
 	KeyInWithEntry                                // bool

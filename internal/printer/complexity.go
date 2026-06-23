@@ -193,7 +193,7 @@ func isSimpleAndExpr(n *googlesql.ASTAndExpr) bool {
 	parent := ast.Parent(n)
 	if ast.Defined(parent) {
 		switch ast.Kind(parent) {
-		case ast.MergeStatement, ast.MergeWhenClause:
+		case ast.MergeStatement:
 			// When inside a MERGE ... ON, force to be handled as a multi-line
 			// AND with aligned equal signs.
 			return false
@@ -202,7 +202,7 @@ func isSimpleAndExpr(n *googlesql.ASTAndExpr) bool {
 		}
 	}
 	conjuncts := ast.ChildrenOfType[googlesql.ASTExpressionNode](n)
-	return len(conjuncts) <= 4 && allTrue(mapIsSimpleExprs(conjuncts))
+	return len(conjuncts) <= 5 && allTrue(mapIsSimpleExprs2(conjuncts))
 }
 
 func isSimpleOrExpr(n *googlesql.ASTOrExpr) bool {

@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -60,7 +59,6 @@ SELECT 1
 SELECT 2
 """
 
-
 [[cases]]
 input = """
 select 1
@@ -72,7 +70,6 @@ SELECT 1
 EXCEPT ALL
 SELECT 2
 """
-
 
 [[cases]]
 input = """
@@ -93,9 +90,9 @@ INTERSECT ALL
 select 2
 """
 formatted = """
-   SELECT 1
+SELECT 1
 INTERSECT ALL
-   SELECT 2
+SELECT 2
 """
 
 [[cases]]
@@ -105,9 +102,9 @@ INTERSECT DISTINCT
 select 2
 """
 formatted = """
-   SELECT 1
+SELECT 1
 INTERSECT DISTINCT
-   SELECT 2
+SELECT 2
 """
 
 [[cases]]
@@ -167,11 +164,11 @@ INTERSECT ALL
 select 3
 """
 formatted = """
-   SELECT 1
+SELECT 1
 INTERSECT ALL
-   SELECT 2
+SELECT 2
 INTERSECT ALL
-   SELECT 3
+SELECT 3
 """
 
 [[cases]]
@@ -183,11 +180,11 @@ INTERSECT DISTINCT
 select 3
 """
 formatted = """
-   SELECT 1
+SELECT 1
 INTERSECT DISTINCT
-   SELECT 2
+SELECT 2
 INTERSECT DISTINCT
-   SELECT 3
+SELECT 3
 """
 
 [[cases]]
@@ -198,7 +195,7 @@ UNION ALL
 """
 formatted = """
 SELECT 1
- UNION ALL
+UNION ALL
 (
   SELECT 2
   EXCEPT ALL
@@ -213,12 +210,12 @@ INTERSECT ALL
 (select 2 INTERSECT DISTINCT select 3)
 """
 formatted = """
-   SELECT 1
+SELECT 1
 INTERSECT ALL
 (
-     SELECT 2
+  SELECT 2
   INTERSECT DISTINCT
-     SELECT 3
+  SELECT 3
 )
 """
 
@@ -232,9 +229,9 @@ UNION ALL
 """
 formatted = """
 SELECT 1
- UNION ALL
+UNION ALL
 (
-     SELECT 2
+  SELECT 2
   INTERSECT ALL
   (
     SELECT 3
@@ -263,9 +260,9 @@ INTERSECT  @{ key = 5 } ALL
 select 2
 """
 formatted = """
-   SELECT 1
+SELECT 1
 INTERSECT @{key=5} ALL
-   SELECT 2
+SELECT 2
 """
 
 [[cases]]
@@ -287,9 +284,9 @@ INTERSECT @{ key = 5 } DISTINCT
 select 2
 """
 formatted = """
-   SELECT 1
+SELECT 1
 INTERSECT @{key=5} DISTINCT
-   SELECT 2
+SELECT 2
 """
 
 [[cases]]
@@ -306,6 +303,6 @@ formatted = """
    UNION @{key=1} ALL
   SELECT 2
 )
- UNION @{key=2} ALL
+UNION @{key=2} ALL
 SELECT 3
 """

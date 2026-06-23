@@ -12,11 +12,14 @@ import (
 
 func (p *Printer) VisitAssignmentFromStruct(ctx Context, n *googlesql.ASTAssignmentFromStruct) {
 	p.moveBefore(n)
-	p.print(p.keyword("SET") + " (")
-	p.print(p.toString(ctx, ast.Must(n.Variables())) + ")")
-	p.print("=")
+	pp := p.nest()
+	pp.print(pp.keyword("SET") + " (")
+	pp.print(pp.toString(ctx, ast.Must(n.Variables())) + ")")
+	pp.print("=")
+	p.print(pp.unnestLeft())
 	p.accept(ctx, ast.Must(n.StructExpression()))
 	p.movePast(n)
+	slog.Info("SET ASSIGNMENT\n" + debugContent(p.String()))
 }
 
 func (p *Printer) VisitBeginEndBlock(ctx Context, n *googlesql.ASTBeginEndBlock) {
@@ -203,9 +206,11 @@ func (p *Printer) VisitIfStatement(ctx Context, n *googlesql.ASTIfStatement) {
 
 func (p *Printer) VisitParameterAssignment(ctx Context, n *googlesql.ASTParameterAssignment) {
 	p.moveBefore(n)
-	p.print(p.keyword("SET"))
-	p.accept(ctx, ast.Must(n.Parameter()))
-	p.print("=")
+	pp := p.nest()
+	pp.print(pp.keyword("SET"))
+	pp.accept(ctx, ast.Must(n.Parameter()))
+	pp.print("=")
+	p.print(pp.unnestLeft())
 	p.accept(ctx, ast.Must(n.Expression()))
 	p.moveBefore(n)
 }

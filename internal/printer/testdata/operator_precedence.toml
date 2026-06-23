@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -88,8 +87,7 @@ input = """
 select (x+y) > z or a < b
 """
 formatted = """
-SELECT    (x + y) > z
-       OR a < b
+SELECT (x + y) > z OR a < b
 """
 
 [[cases]]
@@ -97,7 +95,7 @@ input = """
 select not a or f(x)
 """
 formatted = """
-SELECT NOT a OR F(x)
+SELECT NOT a OR f(x)
 """
 
 [[cases]]

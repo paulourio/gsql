@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -28,13 +27,13 @@ WHEN MATCHED AND T.T1 = 5 THEN
 UPDATE SET T1 = T1 + 10, T2 = T.T1 + S.C1
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
- WHEN MATCHED AND T.T1 = 5 THEN
+ WHEN MATCHED AND t.t1 = 5 THEN
       UPDATE SET
-        T1 = T1 + 10,
-        T2 = T.T1 + S.C1
+        t1 = t1 + 10,
+        t2 = t.t1 + s.c1
 """
 
 [[cases]]
@@ -49,13 +48,13 @@ WHEN MATCHED AND T.T1 = 5 THEN
 UPDATE SET T1.(foo.bar) = T1.(foo.bar) + 10, T2 = T.T1 + S.C1
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
- WHEN MATCHED AND T.T1 = 5 THEN
+ WHEN MATCHED AND t.t1 = 5 THEN
       UPDATE SET
-        T1.(foo.bar) = T1.(foo.bar) + 10,
-        T2           = T.T1 + S.C1
+        t1.(foo.bar) = t1.(foo.bar) + 10,
+        t2           = t.t1 + s.c1
 """
 
 [[cases]]
@@ -70,13 +69,13 @@ WHEN MATCHED AND T.T1 = 5 THEN
 UPDATE SET T1.(foo.bar) = T1.(foo.bar) + 10, T2 = T.T1 + S.C1
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
- WHEN MATCHED AND T.T1 = 5 THEN
+ WHEN MATCHED AND t.t1 = 5 THEN
       UPDATE SET
-        T1.(foo.bar) = T1.(foo.bar) + 10,
-        T2           = T.T1 + S.C1
+        t1.(foo.bar) = t1.(foo.bar) + 10,
+        t2           = t.t1 + s.c1
 """
 
 [[cases]]
@@ -91,14 +90,14 @@ WHEN NOT MATCHED THEN
 INSERT(t1, t2, t3) VALUES(10, S.C3, S.C1 + S.C2)
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
  WHEN NOT MATCHED THEN
       INSERT
         (t1, t2, t3)
       VALUES
-        (10, S.C3, S.C1 + S.C2)
+        (10, s.c3, s.c1 + s.c2)
 """
 
 [[cases]]
@@ -113,7 +112,7 @@ WHEN NOT MATCHED BY SOURCE THEN
 DELETE
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
  WHEN NOT MATCHED BY SOURCE THEN
@@ -134,18 +133,18 @@ WHEN NOT MATCHED THEN
 INSERT(t1, t2, t3) VALUES(10, S.C3, S.C1 + S.C2)
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
- WHEN MATCHED AND T.T1 = 5 THEN
+ WHEN MATCHED AND t.t1 = 5 THEN
       UPDATE SET
-        T1 = T1 + 10,
-        T2 = T.T1 + S.C1
+        t1 = t1 + 10,
+        t2 = t.t1 + s.c1
  WHEN NOT MATCHED THEN
       INSERT
         (t1, t2, t3)
       VALUES
-        (10, S.C3, S.C1 + S.C2)
+        (10, s.c3, s.c1 + s.c2)
 """
 
 [[cases]]
@@ -162,13 +161,13 @@ WHEN NOT MATCHED BY SOURCE THEN
 DELETE
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
- WHEN MATCHED AND T.T1 = 5 THEN
+ WHEN MATCHED AND t.t1 = 5 THEN
       UPDATE SET
-        T1   = T1 + 10,
-        Tab2 = T.T1 + S.C1
+        t1   = t1 + 10,
+        tab2 = t.t1 + s.c1
  WHEN NOT MATCHED BY SOURCE THEN
       DELETE
 """
@@ -187,14 +186,14 @@ WHEN NOT MATCHED BY SOURCE THEN
 DELETE
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
  WHEN NOT MATCHED THEN
       INSERT
         (t1, t2, t3)
       VALUES
-        (10, S.C3, S.C1 + S.C2)
+        (10, s.c3, s.c1 + s.c2)
  WHEN NOT MATCHED BY SOURCE THEN
       DELETE
 """
@@ -216,7 +215,7 @@ WHEN NOT MATCHED BY SOURCE THEN
 DELETE
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
  WHEN NOT MATCHED THEN
@@ -286,18 +285,18 @@ WHEN NOT MATCHED BY SOURCE THEN
 DELETE
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
- WHEN MATCHED AND T.T1 = 5 THEN
+ WHEN MATCHED AND t.t1 = 5 THEN
       UPDATE SET
-        T1 = T1 + 10,
-        T2 = T.T1 + S.C1
+        t1 = t1 + 10,
+        t2 = t.t1 + s.c1
  WHEN NOT MATCHED THEN
       INSERT
         (t1, t2, t3)
       VALUES
-        (10, S.C3, S.C1 + S.C2)
+        (10, s.c3, s.c1 + s.c2)
  WHEN NOT MATCHED BY SOURCE THEN
       DELETE
 """
@@ -311,9 +310,9 @@ WHEN NOT MATCHED BY TARGET AND s1 > 10 THEN
 INSERT(t1) VALUES(10)
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
-   ON T.t1 = S.s1
+   ON t.t1 = s.s1
  WHEN NOT MATCHED BY TARGET AND s1 > 10 THEN
       INSERT
         (t1)
@@ -330,9 +329,9 @@ WHEN NOT MATCHED THEN
 INSERT(t1) VALUES(10)
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
-   ON T.t1 = S.s1
+   ON t.t1 = s.s1
  WHEN NOT MATCHED THEN
       INSERT
         (t1)
@@ -352,20 +351,20 @@ WHEN NOT MATCHED AND S.C2 = 20 THEN
 INSERT(t1, t2, t3) VALUES(10, S.C3, S.C1 + S.C2)
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING (
         SELECT *
           FROM Y
                JOIN
                Z
-               ON Y.C1 = Z.C1
-      ) AS S
+               ON y.c1 = z.c1
+      ) AS s
    ON t1 = s1
- WHEN NOT MATCHED AND S.C2 = 20 THEN
+ WHEN NOT MATCHED AND s.c2 = 20 THEN
       INSERT
         (t1, t2, t3)
       VALUES
-        (10, S.C3, S.C1 + S.C2)
+        (10, s.c3, s.c1 + s.c2)
 """
 
 [[cases]]
@@ -384,28 +383,24 @@ WHEN NOT MATCHED THEN
 INSERT(t1) VALUES(S.C2 * 100)
 """
 formatted = """
-MERGE T AS X
+MERGE INTO T AS x
 USING S
-   ON X.t1 = S.s1
- WHEN NOT MATCHED AND
-            S.C1 >                 100
-        AND s.c2 >                 IFNULL(a, b)
-        AND s.c2 IS DISTINCT FROM  2
-      THEN
+   ON x.t1 = s.s1
+ WHEN NOT MATCHED AND s.c1 > 100 AND s.c2 > IFNULL(a, b) AND s.c2 IS DISTINCT FROM 2 THEN
       INSERT
         (t1)
       VALUES
-        (S.C2)
- WHEN NOT MATCHED AND S.C1 > 50 THEN
+        (s.c2)
+ WHEN NOT MATCHED AND s.c1 > 50 THEN
       INSERT
         (t1)
       VALUES
-        (S.C2 * 10)
+        (s.c2 * 10)
  WHEN NOT MATCHED THEN
       INSERT
         (t1)
       VALUES
-        (S.C2 * 100)
+        (s.c2 * 100)
 """
 
 [[cases]]
@@ -424,29 +419,26 @@ WHEN NOT MATCHED AND S.C2 = 20 THEN
 INSERT(t1, t2, t3) VALUES(10, S.C3, S.C1 + S.C2)
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING (
         SELECT *
           FROM Y
                JOIN
                Z
-               ON Y.C1 = Z.C1
-      ) AS S
+               ON y.c1 = z.c1
+      ) AS s
    ON t1 = s1
- WHEN MATCHED AND
-            T.T1   = 5
-        AND S.Cat3 < 0
-      THEN
+ WHEN MATCHED AND t.t1 = 5 AND s.cat3 < 0 THEN
       UPDATE SET
-        T1 = T1 + 10,
-        T2 = T.T1 + S.C1
+        t1 = t1 + 10,
+        t2 = t.t1 + s.c1
  WHEN MATCHED THEN
       DELETE
- WHEN NOT MATCHED AND S.C2 = 20 THEN
+ WHEN NOT MATCHED AND s.c2 = 20 THEN
       INSERT
         (t1, t2, t3)
       VALUES
-        (10, S.C3, S.C1 + S.C2)
+        (10, s.c3, s.c1 + s.c2)
 """
 
 [[cases]]
@@ -461,7 +453,7 @@ WHEN NOT MATCHED THEN
   DELETE
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
  WHEN NOT MATCHED THEN
@@ -480,7 +472,7 @@ WHEN MATCHED THEN
   DELETE
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
  WHEN MATCHED THEN
@@ -499,7 +491,7 @@ WHEN NOT MATCHED BY SOURCE THEN
   INSERT ROW
 """
 formatted = """
-MERGE T
+MERGE INTO T
 USING S
    ON t1 = s1
  WHEN NOT MATCHED BY SOURCE THEN
@@ -518,9 +510,9 @@ when not matched by target then insert (key1, other_key2, value, hash_diff, upda
 values (d.key1, d.key2, d.value, d.hash_diff, current_timestamp())
 """
 formatted = """
-MERGE `table_id` AS t
+MERGE INTO `table_id` AS t
 USING `source` AS d
-   ON     t.key1       = d.key1
+   ON     t.key1 = d.key1
       AND t.other_key2 = d.other_key2
  WHEN MATCHED AND t.hash_diff != d.hash_diff THEN
       UPDATE SET

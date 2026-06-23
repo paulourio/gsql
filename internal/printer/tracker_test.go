@@ -23,13 +23,13 @@ func TestMain(m *testing.M) {
 	defer os.RemoveAll(cacheDir)
 
 	err = googlesql.Init(
-		googlesql.WithCompilationMode(googlesql.CompilationModeCompiler),
-		googlesql.WithCompilationCache(cacheDir),
+	// googlesql.WithCompilationMode(googlesql.CompilationModeCompiler),
+	// googlesql.WithCompilationCache(cacheDir),
 	)
 	if err != nil {
 		log.Fatalf("failed to init googlesql: %v", err)
 	}
-	defer googlesql.Close()
+	// defer googlesql.Close()
 
 	os.Exit(m.Run())
 }

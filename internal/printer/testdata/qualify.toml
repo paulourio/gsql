@@ -1,5 +1,4 @@
 [setup]
-
 [setup.language_options]
 disable_qualify_as_keyword = true
 
@@ -21,22 +20,21 @@ string_style = "AS_IS"
 
 [[cases]]
 input = """
-select f1, f2 from T AS QUALIFY
+SELECT * FROM `bigquery-public-data.samples.shakespeare` QUALIFY ROW_NUMBER() OVER () = 1
 """
 formatted = """
-SELECT f1,
-       f2
-  FROM T AS QUALIFY
+ SELECT *
+   FROM `bigquery-public-data.samples.shakespeare`
+QUALIFY ROW_NUMBER() OVER () = 1
 """
 
 [[cases]]
 input = """
-select f1, f2 from T QUALIFY WHERE true
+select f1, f2 from T `qualify` WHERE true
 """
 formatted = """
-SELECT f1,
-       f2
-  FROM T AS QUALIFY
+SELECT f1, f2
+  FROM T AS `qualify`
  WHERE TRUE
 """
 
@@ -45,10 +43,22 @@ input = """
 select f1, f2 from T WHERE true QUALIFY row_number() OVER (PARTITION BY f2 ORDER BY f3) = 1
 """
 formatted = """
- SELECT f1,
-        f2
+ SELECT f1, f2
    FROM T
   WHERE TRUE
+QUALIFY ROW_NUMBER() OVER (
+          PARTITION BY f2
+              ORDER BY f3
+        ) = 1
+"""
+
+[[cases]]
+input = """
+select f1, f2 from T QUALIFY row_number() OVER (PARTITION BY f2 ORDER BY f3) = 1
+"""
+formatted = """
+ SELECT f1, f2
+   FROM T
 QUALIFY ROW_NUMBER() OVER (
           PARTITION BY f2
               ORDER BY f3
@@ -60,8 +70,7 @@ input = """
 select f1, f2 from T GROUP BY f1, f2 QUALIFY row_number() OVER (PARTITION BY f2 ORDER BY f3) = 1
 """
 formatted = """
- SELECT f1,
-        f2
+ SELECT f1, f2
    FROM T
   GROUP BY f1, f2
 QUALIFY ROW_NUMBER() OVER (
@@ -75,8 +84,7 @@ input = """
 select f1, f2 from T HAVING SUM(f1) < 3 QUALIFY row_number() OVER (PARTITION BY f2 ORDER BY f3) = 1
 """
 formatted = """
- SELECT f1,
-        f2
+ SELECT f1, f2
    FROM T
  HAVING SUM(f1) < 3
 QUALIFY ROW_NUMBER() OVER (

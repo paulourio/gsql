@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -127,13 +126,10 @@ input = """
 select (1+2+3, 4+5+6), (fn(a+b), c+d), ((fn1(a+b), fn2(c+d)))
 """
 formatted = """
-SELECT (
-         1 + 2 + 3,
-         4 + 5 + 6
-       ),
-       (FN(a + b), c + d),
+SELECT (1 + 2 + 3, 4 + 5 + 6),
+       (fn(a + b), c + d),
        (
-         (FN1(a + b), FN2(c + d))
+         (fn1(a + b), fn2(c + d))
        )
 """
 
@@ -164,11 +160,7 @@ SELECT [
          (3, 4),
          (5, 6, 7)
        ],
-       (
-         [1],
-         [2, 3],
-         [4, 5, 6]
-       )
+       ([1], [2, 3], [4, 5, 6])
 """
 
 [[cases]]
@@ -258,9 +250,7 @@ select struct<f int32, y string>(x, (select 1) as def, 77)
 formatted = """
 SELECT STRUCT<f INT32, y STRING>(
          x,
-         (
-           SELECT 1
-         ) AS def,
+         (SELECT 1) AS def,
          77
        )
 """

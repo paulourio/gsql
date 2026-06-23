@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -46,9 +45,9 @@ formatted = """
 SELECT *
   FROM mytvf(
          (
-           SELECT Key
+           SELECT key
              FROM KeyValue
-            GROUP BY Key
+            GROUP BY key
          )
        )
 """
@@ -62,9 +61,9 @@ formatted = """
 SELECT *
   FROM mytvf(
          (
-           SELECT Key
+           SELECT key
              FROM KeyValue
-            GROUP BY Key
+            GROUP BY key
          ),
          1,
          2,
@@ -91,9 +90,9 @@ formatted = """
 SELECT *
   FROM mytvf(
          (
-           SELECT Key
+           SELECT key
              FROM KeyValue
-            GROUP BY Key
+            GROUP BY key
          ),
          1 + 2,
          3 + 4
@@ -108,9 +107,7 @@ select * from mytvf((select 1), 1 + 2, 3 + 4)
 formatted = """
 SELECT *
   FROM mytvf(
-         (
-           SELECT 1
-         ),
+         (SELECT 1),
          1 + 2,
          3 + 4
        )
@@ -125,13 +122,11 @@ formatted = """
 SELECT *
   FROM `MyTVF`(
          (
-           SELECT Key
+           SELECT key
              FROM KeyValue
-            GROUP BY Key
+            GROUP BY key
          ),
-         (
-           SELECT 1
-         )
+         (SELECT 1)
        )
 """
 
@@ -143,9 +138,7 @@ select * from mytvf((select 1), abs(1 + 2), abs(1 - 2))
 formatted = """
 SELECT *
   FROM mytvf(
-         (
-           SELECT 1
-         ),
+         (SELECT 1),
          ABS(1 + 2),
          ABS(1 - 2)
        )
@@ -163,9 +156,7 @@ select * from mytvf((select 1),
 formatted = """
 SELECT *
   FROM mytvf(
-         (
-           SELECT 1
-         ),
+         (SELECT 1),
          (
            SELECT 1
              FROM mytvf()
@@ -213,7 +204,7 @@ select (select * from mytvf(Key)) from KeyValue
 formatted = """
 SELECT (
          SELECT *
-           FROM mytvf(Key)
+           FROM mytvf(key)
        )
   FROM KeyValue
 """
@@ -227,9 +218,7 @@ formatted = """
 SELECT (
          SELECT *
            FROM mytvf(
-                  (
-                    SELECT Key
-                  )
+                  (SELECT key)
                 )
        )
   FROM KeyValue
@@ -252,7 +241,7 @@ select * from mytvf(MYTVF2() /* this second one is parsed as a function */ )
 """
 formatted = """
 SELECT *
-  FROM mytvf(MYTVF2()  /* this second one is parsed as a function */)
+  FROM mytvf(MYTVF2() /* this second one is parsed as a function */)
 """
 
 [[cases]]
@@ -264,7 +253,7 @@ formatted = """
 SELECT *
   FROM KeyValue
        JOIN
-       mytvf(Key)
+       mytvf(key)
        ON TRUE
 """
 
@@ -382,9 +371,7 @@ select * from mytvf (((select 1)))
 formatted = """
 SELECT *
   FROM mytvf(
-         (
-           SELECT 1
-         )
+         (SELECT 1)
        )
 """
 
@@ -415,9 +402,7 @@ select * from mytvf ((select 1) + 1)
 formatted = """
 SELECT *
   FROM mytvf(
-         (
-           SELECT 1
-         ) + 1
+         (SELECT 1) + 1
        )
 """
 
@@ -428,9 +413,7 @@ select * from mytvf (1+(select 1))
 formatted = """
 SELECT *
   FROM mytvf(
-         1 + (
-           SELECT 1
-         )
+         1 + (SELECT 1)
        )
 """
 
@@ -470,12 +453,8 @@ formatted = """
 SELECT *
   FROM IF(
          TRUE,
-         (
-           SELECT 1
-         ),
-         (
-           SELECT 2
-         )
+         (SELECT 1),
+         (SELECT 2)
        )
 """
 
@@ -487,12 +466,8 @@ formatted = """
 SELECT *
   FROM SAFE_CAST(
          TRUE,
-         (
-           SELECT 1
-         ),
-         (
-           SELECT 2
-         )
+         (SELECT 1),
+         (SELECT 2)
        )
 """
 
@@ -555,9 +530,7 @@ formatted = """
 SELECT *
   FROM tvf_two_relation_args_return_proto_value_table(
          TABLE keyvalue,
-         (
-           SELECT 3, 4
-         )
+         (SELECT 3, 4)
        ) AS mytvf
 """
 
@@ -572,9 +545,7 @@ formatted = """
 SELECT *
   FROM tvf_two_relation_args_return_proto_value_table(
          MODEL keyvalue,
-         (
-           SELECT 3, 4
-         )
+         (SELECT 3, 4)
        ) AS mytvf
 """
 
@@ -589,9 +560,7 @@ formatted = """
 SELECT *
   FROM tvf_two_relation_args_return_proto_value_table(
          CONNECTION keyvalue,
-         (
-           SELECT 3, 4
-         )
+         (SELECT 3, 4)
        ) AS mytvf
 """
 
@@ -648,7 +617,7 @@ SELECT *
   FROM tvf_one_relation_arg_with_fixed_output(
          TABLE t(
            1,
-           "abc",
+           'abc',
            [TRUE]
          )
        )
@@ -682,12 +651,8 @@ formatted = """
 SELECT *
   FROM SAFE_CAST(
          TRUE,
-         (
-           SELECT 1
-         ),
-         (
-           SELECT 2
-         )
+         (SELECT 1),
+         (SELECT 2)
        )
        TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
 """
@@ -783,9 +748,9 @@ my.dot.separated.tvf((select * from w))
 """
 formatted = """
 WITH
-w AS (
-SELECT 1 AS x
-)
+  w AS (
+    SELECT 1 AS x
+  )
 SELECT *
   FROM my.dot.separated.tvf(
          (
@@ -807,9 +772,9 @@ my.dot.separated.tvf((select * from (select * from w)))
 """
 formatted = """
 WITH
-w AS (
-SELECT 1 AS x
-)
+  w AS (
+    SELECT 1 AS x
+  )
 SELECT *
   FROM my.dot.separated.tvf(
          (
@@ -835,9 +800,9 @@ SELECT *
   FROM my.dot.separated.tvf(
          (
            WITH
-           w AS (
-           SELECT 1 AS x
-           )
+             w AS (
+               SELECT 1 AS x
+             )
            SELECT *
              FROM w
          )
@@ -883,10 +848,10 @@ formatted = """
 SELECT *
   FROM mytvf(
          (
-           SELECT Key
+           SELECT key
              FROM KeyValue
-            GROUP BY Key
+            GROUP BY key
          ),
-         DESCRIPTOR(Key)
+         DESCRIPTOR(key)
        )
 """

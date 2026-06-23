@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -72,7 +71,7 @@ SELECT a
  UNION ALL
 SELECT b
   FROM t
- ORDER BY 1
+ORDER BY 1
 """
 
 [[cases]]
@@ -170,7 +169,7 @@ order by col COLLATE "en_US" ASC
 formatted = """
 SELECT *
   FROM T
- ORDER BY col COLLATE "en_US" ASC
+ ORDER BY col COLLATE 'en_US' ASC
 """
 
 [[cases]]
@@ -188,14 +187,14 @@ SELECT *
 input = """
 select * from T
 order by col1 ASC,
-         col2 COLLATE "c2" DESC,
+         col2 COLLATE 'c2' DESC,
          3 DESC,
          4 COLLATE @c4 ASC
 """
 formatted = """
 SELECT *
   FROM T
- ORDER BY col1 ASC, col2 COLLATE "c2" DESC, 3 DESC, 4 COLLATE @c4 ASC
+ ORDER BY col1 ASC, col2 COLLATE 'c2' DESC, 3 DESC, 4 COLLATE @c4 ASC
 """
 
 [[cases]]
@@ -203,7 +202,7 @@ input = """
 select f() over (ORDER BY a COLLATE "en") from T
 """
 formatted = """
-SELECT F() OVER (ORDER BY a COLLATE "en")
+SELECT f() OVER (ORDER BY a COLLATE 'en')
   FROM T
 """
 
@@ -212,9 +211,9 @@ input = """
 select f() over(partition by a order by a COLLATE "en") from T
 """
 formatted = """
-SELECT F() OVER (
+SELECT f() OVER (
          PARTITION BY a
-             ORDER BY a COLLATE "en"
+             ORDER BY a COLLATE 'en'
        )
   FROM T
 """
@@ -227,7 +226,7 @@ select f() over (order by a COLLATE "ca" ASC,
                           4 COLLATE @c4 DESC)
 """
 formatted = """
-SELECT F() OVER (ORDER BY a COLLATE "ca" ASC, b COLLATE "cb" DESC, 3 COLLATE @c3 ASC, 4 COLLATE @c4 DESC)
+SELECT f() OVER (ORDER BY a COLLATE 'ca' ASC, b COLLATE 'cb' DESC, 3 COLLATE @c3 ASC, 4 COLLATE @c4 DESC)
 """
 
 [[cases]]
@@ -238,5 +237,5 @@ order by 1 COLLATE ""
 formatted = """
 SELECT *
   FROM T
- ORDER BY 1 COLLATE ""
+ ORDER BY 1 COLLATE ''
 """

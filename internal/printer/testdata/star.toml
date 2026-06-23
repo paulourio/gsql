@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -78,11 +77,11 @@ input = """
 select func().x.* except(b) replace(1 as d), z.* except(Y)
 """
 formatted = """
-SELECT FUNC().x.* EXCEPT(b)
+SELECT func().x.* EXCEPT(b)
        REPLACE(
          1 AS d
        ),
-       z.* EXCEPT(Y)
+       z.* EXCEPT(y)
 """
 
 [[cases]]
@@ -94,7 +93,7 @@ SELECT `func`().x.* EXCEPT(b)
        REPLACE(
          1 AS d
        ),
-       z.* EXCEPT(Y)
+       z.* EXCEPT(y)
 """
 
 [[cases]]
@@ -107,8 +106,8 @@ SELECT a.b.c,
        (a).*,
        a.b.*,
        (a + b).*,
-       F(a.b),
-       F(a.b).c
+       f(a.b),
+       f(a.b).c
   FROM A
 """
 
@@ -117,6 +116,6 @@ input = """
 SELECT a. /* this is a comment */ * FROM b
 """
 formatted = """
-SELECT a.*  /* this is a comment */
+SELECT a.* /* this is a comment */
   FROM b
 """

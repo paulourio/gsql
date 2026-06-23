@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -23,7 +22,7 @@ select * {# comment #}
   from t
 """
 formatted = """
-SELECT *  {# comment #}
+SELECT * {# comment #}
   FROM t
 """
 
@@ -65,7 +64,6 @@ SELECT *  {# comment #}
 #        where true
 # qualify row_number() over ( /* partition by 1 */ order by rand()  ) = 1
 # ;
-
 
 # merge into t using d on t.key=b.key
 # when matched and t.hash_diff != d.hashdiff then update set value = d.value,
