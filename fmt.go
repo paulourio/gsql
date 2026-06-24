@@ -123,6 +123,10 @@ func (f *SQLFormatter) Close() {
 }
 
 func (f *SQLFormatter) Format(input string) (string, error) {
+	return f.FormatWithOptions(input, f.fmtOpts)
+}
+
+func (f *SQLFormatter) FormatWithOptions(input string, fmtOpts *format.Options) (string, error) {
 	if strings.TrimSpace(input) == "" {
 		return "", nil
 	}
@@ -152,7 +156,7 @@ func (f *SQLFormatter) Format(input string) (string, error) {
 	f.debug(strings.Repeat("\n", 4))
 	f.debug("# BigQuery Format\n\n")
 	f.debug("## Options")
-	dopts, _ := json.MarshalIndent(f.fmtOpts, "", "  ")
+	dopts, _ := json.MarshalIndent(fmtOpts, "", "  ")
 	f.debug(string(dopts) + "\n\n")
 	root, err := pout.Script()
 	if err != nil {
@@ -180,7 +184,7 @@ func (f *SQLFormatter) Format(input string) (string, error) {
 	// wrappedRoot := sql.Wrap(root)
 	tracker := printer.NewStartLocationTracker(input, root)
 	p := &printer.Printer{
-		Writer:        printer.NewWriter(f.fmtOpts, comms),
+		Writer:        printer.NewWriter(fmtOpts, comms),
 		OriginalInput: input,
 		ErasedInput:   erasedInput,
 		Tracker:       tracker,

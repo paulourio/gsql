@@ -2,11 +2,19 @@ package format
 
 import (
 	"fmt"
+	"reflect"
+	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/go-playground/validator"
 	"github.com/goccy/go-googlesql"
 )
+
+type Style struct {
+	Name    string  `toml:"name"`
+	Options Options `toml:"options"`
+}
 
 type Options struct {
 	// MaxCol is a soft limit of the maximum number of characters to be
@@ -232,6 +240,19 @@ func validateStringStyle(fl validator.FieldLevel) bool {
 	}
 }
 
+func DefaultStyles() []Style {
+	return []Style{
+		{
+			Name:    "default",
+			Options: *DefaultOptions(),
+		},
+		{
+			Name:    "raw",
+			Options: *RawOptions(),
+		},
+	}
+}
+
 func DefaultOptions() *Options {
 	opts := &Options{
 		SoftMaxColumns:                 120,
@@ -250,6 +271,41 @@ func DefaultOptions() *Options {
 		FunctionNameStyle:              AsIs,
 		BuiltinFunctionNameStyle:       UpperCase,
 		IdentifierStyle:                LowerCase,
+		QueryParameterStyle:            AsIs,
+		SystemVariableStyle:            AsIs,
+		PseudoColumnStyle:              UpperCase,
+		TableNameStyle:                 AsIs,
+		KeywordStyle:                   UpperCase,
+		TypeStyle:                      UpperCase,
+		BoolStyle:                      UpperCase,
+		HexStyle:                       LowerCase,
+		NumericStyle:                   LowerCase,
+		NullStyle:                      UpperCase,
+		BytesStyle:                     PreferSingleQuote,
+		StringStyle:                    PreferSingleQuote,
+	}
+	opts.Init()
+	return opts
+}
+
+func RawOptions() *Options {
+	opts := &Options{
+		SoftMaxColumns:                 120,
+		NewlineBeforeClause:            true,
+		AlignLogicalWithClauses:        true,
+		AlignTrailingComments:          true,
+		ColumnListTrailingComma:        Auto,
+		Indentation:                    2,
+		IndentCaseWhen:                 true,
+		IndentWithClause:               true,
+		IndentWithEntries:              true,
+		MinJoinsToSeparateInBlocks:     2,
+		MaxColumnsForSingleLineSelect:  4,
+		MaxParamsForSingleLineFunction: 1,
+		FunctionCatalog:                BigQueryCatalog,
+		FunctionNameStyle:              AsIs,
+		BuiltinFunctionNameStyle:       UpperCase,
+		IdentifierStyle:                AsIs,
 		QueryParameterStyle:            AsIs,
 		SystemVariableStyle:            AsIs,
 		PseudoColumnStyle:              UpperCase,
@@ -300,3 +356,192 @@ var DefaultPseudoColumnNames = []string{
 	"_PARTITIONTIME",
 	"_FILE_NAME",
 }
+
+// fieldMeta holds the reflection metadata for a single Options field,
+// keyed by its TOML tag name.
+type fieldMeta struct {
+	index int
+	kind  reflect.Kind
+	typ   reflect.Type
+}
+
+var (
+	optionsFieldMap     map[string]fieldMeta
+	optionsFieldMapOnce sync.Once
+)
+
+// buildOptionsFieldMap uses reflection to build a map from TOML tag
+// names to struct field indices.
+func buildOptionsFieldMap() map[string]fieldMeta {
+	optionsFieldMapOnce.Do(func() {
+		t := reflect.TypeOf(Options{})
+		optionsFieldMap = make(map[string]fieldMeta, t.NumField())
+
+		for i := 0; i < t.NumField(); i++ {
+			f := t.Field(i)
+			if !f.IsExported() {
+				continue
+			}
+
+			tag := f.Tag.Get("toml")
+			if tag == "" || tag == "-" {
+				continue
+			}
+
+			// Strip TOML tag options (e.g. ",omitempty").
+			name, _, _ := strings.Cut(tag, ",")
+
+			optionsFieldMap[name] = fieldMeta{
+				index: i,
+				kind:  f.Type.Kind(),
+				typ:   f.Type,
+			}
+		}
+	})
+
+	return optionsFieldMap
+}
+
+// ApplyOverrides sets Options fields by their TOML key names.
+// Values are parsed according to the field type.
+func (o *Options) ApplyOverrides(overrides map[string]string) error {
+	fieldMap := buildOptionsFieldMap()
+	v := reflect.ValueOf(o).Elem()
+
+	for key, rawValue := range overrides {
+		meta, ok := fieldMap[key]
+		if !ok {
+			return fmt.Errorf("unknown option %q", key)
+		}
+
+		field := v.Field(meta.index)
+
+		if err := setField(field, meta, rawValue); err != nil {
+			return fmt.Errorf("setting option %q to %q: %w", key, rawValue, err)
+		}
+	}
+
+	return nil
+}
+
+// setField sets a single reflected field from a string value.
+func setField(field reflect.Value, meta fieldMeta, rawValue string) error {
+	// Handle our custom string types first.
+	switch meta.typ {
+	case reflect.TypeOf(PrintCase("")):
+		pc, err := parsePrintCase(rawValue)
+		if err != nil {
+			return err
+		}
+		field.SetString(string(pc))
+		return nil
+
+	case reflect.TypeOf(StringStyle("")):
+		ss, err := parseStringStyle(rawValue)
+		if err != nil {
+			return err
+		}
+		field.SetString(string(ss))
+		return nil
+
+	case reflect.TypeOf(When("")):
+		w, err := parseWhen(rawValue)
+		if err != nil {
+			return err
+		}
+		field.SetString(string(w))
+		return nil
+
+	case reflect.TypeOf(FunctionCatalog("")):
+		field.SetString(strings.ToUpper(rawValue))
+		return nil
+	}
+
+	// Fall back to basic kind dispatch.
+	switch meta.kind {
+	case reflect.Int:
+		n, err := strconv.Atoi(rawValue)
+		if err != nil {
+			return fmt.Errorf("expected integer: %w", err)
+		}
+		field.SetInt(int64(n))
+
+	case reflect.Bool:
+		b, err := parseBool(rawValue)
+		if err != nil {
+			return err
+		}
+		field.SetBool(b)
+
+	case reflect.String:
+		field.SetString(rawValue)
+
+	default:
+		return fmt.Errorf("unsupported field type %s", meta.typ)
+	}
+
+	return nil
+}
+
+// parsePrintCase accepts TOML canonical values (case-insensitive).
+func parsePrintCase(s string) (PrintCase, error) {
+	norm := strings.ToUpper(strings.TrimSpace(s))
+
+	switch PrintCase(norm) {
+	case Unspecified:
+		return Unspecified, nil
+	case AsIs:
+		return AsIs, nil
+	case LowerCase:
+		return LowerCase, nil
+	case UpperCase:
+		return UpperCase, nil
+	default:
+		return "", fmt.Errorf("invalid PrintCase %q (expected AS_IS, LOWER_CASE, or UPPER_CASE)", s)
+	}
+}
+
+// parseStringStyle accepts TOML canonical values (case-insensitive).
+func parseStringStyle(s string) (StringStyle, error) {
+	norm := strings.ToUpper(strings.TrimSpace(s))
+
+	switch StringStyle(norm) {
+	case AsIsStringStyle:
+		return AsIsStringStyle, nil
+	case PreferSingleQuote:
+		return PreferSingleQuote, nil
+	case PreferDoubleQuote:
+		return PreferDoubleQuote, nil
+	default:
+		return "", fmt.Errorf("invalid StringStyle %q (expected AS_IS, PREFER_SINGLE_QUOTE, or PREFER_DOUBLE_QUOTE)", s)
+	}
+}
+
+// parseWhen accepts TOML canonical values (case-insensitive).
+func parseWhen(s string) (When, error) {
+	norm := strings.ToUpper(strings.TrimSpace(s))
+
+	switch When(norm) {
+	case Never:
+		return Never, nil
+	case Always:
+		return Always, nil
+	case Auto:
+		return Auto, nil
+	default:
+		return "", fmt.Errorf("invalid When %q (expected NEVER, ALWAYS, or AUTO)", s)
+	}
+}
+
+// parseBool accepts true/false (case-insensitive).
+func parseBool(s string) (bool, error) {
+	switch strings.ToLower(strings.TrimSpace(s)) {
+	case "true":
+		return true, nil
+	case "false":
+		return false, nil
+	default:
+		return false, fmt.Errorf("invalid boolean %q (expected true or false)", s)
+	}
+}
+
