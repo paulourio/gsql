@@ -43,6 +43,7 @@ func TestPrinter(t *testing.T) {
 				"bq_subqueries",
 				"bq_window_function_calls",
 				"case",
+				"chained_function_calls",
 				"comments",
 				"create_materialized_view",
 				"create_procedure",
@@ -68,7 +69,6 @@ func TestPrinter(t *testing.T) {
 				"orderby",
 				"parethesized_query",
 				// "parser",
-
 				"pivot",
 				"qualify",
 				"rollup",
@@ -90,6 +90,7 @@ func TestPrinter(t *testing.T) {
 				"variable_declarations",
 				"with_offset",
 				"with",
+				"with_expressions",
 			}
 			skip := true
 			for _, prefix := range testFiles {

@@ -84,17 +84,3 @@ func visitGeneralCaseArgs[T googlesql.ASTExpressionNode](p *Printer, ctx Context
 	}
 	p.print(pp.unnestLeft())
 }
-
-func onlyBinaryExprOnCaseLHS[T googlesql.ASTExpressionNode](args []T) bool {
-	for i := 0; i < len(args)-1; i += 2 {
-		if !isSimpleExpr(args[i]) || astKind(args[i]) != googlesql.ASTNodeKindAstBinaryExpression {
-			return false
-		}
-	}
-	return true
-}
-
-func astKind(n googlesql.ASTNode) googlesql.ASTNodeKind {
-	k, _ := n.NodeKind()
-	return k
-}

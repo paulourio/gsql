@@ -12,7 +12,8 @@ import (
 )
 
 func (p *Printer) VisitAlias(ctx Context, n *googlesql.ASTAlias) {
-	if ast.Kind(ast.Parent(n)) != ast.WithOffset {
+	kind := ast.Kind(ast.Parent(n))
+	if kind != ast.WithOffset {
 		p.print(p.keyword("AS"))
 	}
 	p.accept(ctx, ast.Must(n.Identifier()))
@@ -78,6 +79,25 @@ func countJoins(n googlesql.ASTTableExpressionNode) int {
 }
 
 func (p *Printer) VisitFunctionCall(ctx Context, n *googlesql.ASTFunctionCall) {
+	args := ast.ChildrenExpressions(n)[1:] // First is the function name.
+	chained := ast.Must(n.IsChainedCall())
+	if chained && len(args) > 0 {
+		first := args[0]
+		args = args[1:]
+		var forceParen bool
+		switch ast.Kind(first) {
+		case ast.FloatLiteral, ast.IntLiteral:
+			forceParen = true
+		}
+		if forceParen {
+			p.print("(")
+		}
+		p.accept(ctx, first)
+		if forceParen {
+			p.print(")")
+		}
+		p.print(".")
+	}
 	p.moveBefore(n)
 	pp := p.nest()
 	pp.printOpenParenIfNeeded(n)
@@ -89,7 +109,6 @@ func (p *Printer) VisitFunctionCall(ctx Context, n *googlesql.ASTFunctionCall) {
 	pp = p.nest()
 	// If the function call has too many elements, we split in one line
 	// per element.
-	args := ast.ChildrenExpressions(n)[1:] // First is the function name.
 	// multiline := p.maybeMultilineFunctionCall(n)
 	simple := len(args) <= 4 &&
 		countFunctionCallElements(n) <= 1 &&
@@ -155,7 +174,10 @@ func (p *Printer) VisitFunctionCall(ctx Context, n *googlesql.ASTFunctionCall) {
 		pp2.println("")
 	}
 	pp2.acceptNestedLeft(ctx, ast.Must(n.LimitOffset()))
-	pp.print(pp2.unnestLeft())
+	// Avoid "COUNT(DISTINCT \v)"
+	if s := pp2.unnestLeft(); len(strings.TrimSpace(s)) > 0 {
+		pp.print(s)
+	}
 	if !simple {
 		pp.println("")
 		pp.decDepth()
@@ -240,20 +262,34 @@ func (p *Printer) VisitPathExpression(ctx Context, n *googlesql.ASTPathExpressio
 	children := ast.Children(n)
 	nchildren := len(children)
 	ctx = ctx.WithValue(KeyPathParts, nchildren)
+	// If in function name, it is a chained function call and the name
+	// has more than one part, then we need to force a parenthesis.
 	isFunctionName, _ := ctx.Bool(KeyInFunctionName)
-	if isFunctionName && nchildren == 2 &&
-		ast.Kind(children[0]) == ast.Identifier &&
-		ast.Kind(children[1]) == ast.Identifier {
-		namespace := children[0].(*googlesql.ASTIdentifier)
-		if strings.EqualFold(ast.Must(namespace.GetAsString()), "SAFE") {
-			ctx = ctx.WithValue(KeyIsSafeNamespace, true)
+	var forceParen bool
+	if isFunctionName && nchildren > 1 {
+		if fn, ok := ast.Parent(n).(*googlesql.ASTFunctionCall); ok {
+			forceParen = ast.Must(fn.IsChainedCall())
 		}
+		if nchildren == 2 &&
+			ast.Kind(children[0]) == ast.Identifier &&
+			ast.Kind(children[1]) == ast.Identifier {
+			namespace := children[0].(*googlesql.ASTIdentifier)
+			if strings.EqualFold(ast.Must(namespace.GetAsString()), "SAFE") {
+				ctx = ctx.WithValue(KeyIsSafeNamespace, true)
+			}
+		}
+	}
+	if forceParen {
+		p.print("(")
 	}
 	for i, name := range children {
 		if i > 0 {
 			p.print(".")
 		}
 		p.accept(ctx, name)
+	}
+	if forceParen {
+		p.print(")")
 	}
 	p.printCloseParenIfNeeded(n)
 }
@@ -791,21 +827,23 @@ func (p *Printer) VisitCaseNoValueExpression(ctx Context, n *googlesql.ASTCaseNo
 	args := ast.ChildrenExpressions(n)
 	argsSimple := caseArgsGetIsSimple(args)
 	simple := allTrue(argsSimple)
-	p.print(p.keyword("CASE"))
+	pp := p.nest()
+	pp.print(pp.keyword("CASE"))
 	ctx = ctx.WithValue(KeySimpleCase, simple)
 	if p.Writer.opts.IndentCaseWhen || !simple {
-		p.println("")
-		p.incDepth()
+		pp.println("")
+		pp.incDepth()
 	}
-	pp := p.nest()
-	visitCaseArgs(pp, ctx, args)
-	p.print(pp.unnest())
-	if p.Writer.opts.IndentCaseWhen || !simple {
-		p.println("")
-		p.decDepth()
+	p1 := pp.nest()
+	visitCaseArgs(p1, ctx, args)
+	pp.print(p1.unnestLeft())
+	if pp.Writer.opts.IndentCaseWhen || !simple {
+		pp.println("")
+		pp.decDepth()
 	}
-	p.print(p.keyword("END"))
-	p.printCloseParenIfNeededWithDepth(n)
+	pp.print(pp.keyword("END"))
+	pp.printCloseParenIfNeededWithDepth(n)
+	p.print(pp.unnestLeft())
 }
 
 func (p *Printer) VisitCaseValueExpression(ctx Context, n *googlesql.ASTCaseValueExpression) {
@@ -815,29 +853,31 @@ func (p *Printer) VisitCaseValueExpression(ctx Context, n *googlesql.ASTCaseValu
 	argsSimple := caseArgsGetIsSimple(args)
 	simple := allTrue(argsSimple)
 	pp := p.nest()
-	pp.print(pp.keyword("CASE"))
+	p1 := pp.nest()
+	p1.print(p1.keyword("CASE"))
 	ctx = ctx.WithValue(KeySimpleCase, simple)
 	if simple {
-		pp.acceptNestedLeft(ctx, args[0])
+		p1.acceptNestedLeft(ctx, args[0])
 	} else {
+		p1.println("")
+		p1.acceptNestedLeft(ctx, args[0])
+		p1.println("")
+		p1.println(" ")
+	}
+	pp.print(strings.TrimLeft(p1.unnestLeft(), "\v"))
+	if pp.Writer.opts.IndentCaseWhen || !simple {
 		pp.println("")
-		pp.acceptNestedLeft(ctx, args[0])
+		pp.incDepth()
+	}
+	p1 = pp.nest()
+	visitCaseArgs(p1, ctx, args[1:])
+	pp.print(p1.unnest())
+	if pp.Writer.opts.IndentCaseWhen || !simple {
 		pp.println("")
-		pp.println(" ")
+		pp.decDepth()
 	}
-	p.print(strings.TrimLeft(pp.unnestLeft(), "\v"))
-	if p.Writer.opts.IndentCaseWhen || !simple {
-		p.println("")
-		p.incDepth()
-	}
-	pp = p.nest()
-	visitCaseArgs(pp, ctx, args[1:])
-	p.print(pp.unnest())
-	if p.Writer.opts.IndentCaseWhen || !simple {
-		p.println("")
-		p.decDepth()
-	}
-	p.print(p.keyword("END"))
+	pp.print(pp.keyword("END"))
+	p.print(pp.unnestLeft())
 	p.printCloseParenIfNeededWithDepth(n)
 }
 
@@ -920,7 +960,19 @@ func (p *Printer) VisitDescriptorColumnList(ctx Context, n *googlesql.ASTDescrip
 
 func (p *Printer) VisitDotIdentifier(ctx Context, n *googlesql.ASTDotIdentifier) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Expr()))
+	expr := ast.Must(n.Expr())
+	var innerParen bool
+	switch ast.Kind(expr) {
+	case ast.IntLiteral, ast.FloatLiteral:
+		innerParen = true
+	}
+	if innerParen {
+		p.print("(")
+	}
+	p.accept(ctx, expr)
+	if innerParen {
+		p.print(")")
+	}
 	p.print(".")
 	p.accept(ctx, ast.Must(n.Name()))
 }
@@ -2304,6 +2356,38 @@ func (p *Printer) VisitWithClauseEntry(ctx Context, n *googlesql.ASTWithClauseEn
 	// Only one of AliasQuery or AliasGroupRows are specified in a valid AST.
 	p.accept(ctx, ast.Must(n.AliasedQuery()))
 	p.accept(ctx, ast.Must(n.AliasedGroupRows()))
+}
+
+func (p *Printer) VisitWithExpression(ctx Context, n *googlesql.ASTWithExpression) {
+	p.moveBefore(n)
+	p.println(p.keyword("WITH") + "(")
+	p.incDepth()
+	pp := p.nest()
+	pp.visitWithExprVariables(ctx, ast.Must(n.Variables()))
+	p.print(pp.unnestLeft())
+	p.println(",")
+	p.acceptNestedLeft(ctx, ast.Must(n.Expression()))
+	p.println("")
+	p.decDepth()
+	p.print(")")
+	p.movePast(n)
+}
+
+func (p *Printer) visitWithExprVariables(ctx Context, n *googlesql.ASTSelectList) {
+	pp := p.nest()
+	for i, v := range ast.ChildrenOfType[*googlesql.ASTSelectColumn](n) {
+		if i > 0 {
+			pp.println(",")
+		}
+		alias := ast.Must(ast.Must(v.Alias()).Identifier())
+		pp.accept(ctx, alias)
+		p2 := pp.nest()
+		p2.print(p2.keyword("AS"))
+		p2.acceptNestedLeft(ctx, ast.Must(v.Expression()))
+		pp.print("\v" + strings.ReplaceAll(p2.String(), "\n", "\n\v"))
+	}
+	slog.Info("EXPR VARS\n" + debugContent(pp.String()))
+	p.print(pp.unnestLeft())
 }
 
 func (p *Printer) VisitWithOffset(ctx Context, n *googlesql.ASTWithOffset) {

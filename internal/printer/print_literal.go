@@ -22,15 +22,21 @@ func (p *Printer) VisitBoolLiteral(ctx Context, n *googlesql.ASTBooleanLiteral) 
 }
 
 func (p *Printer) VisitBytesLiteral(ctx Context, n *googlesql.ASTBytesLiteral) {
+	components := ast.ChildrenOfType[*googlesql.ASTBytesLiteralComponent](n)
 	p.moveBefore(n)
-	val := p.nodeInput(n)
-	s, err := FormatBytes(val, p.Writer.opts.BytesStyle)
-	if err != nil {
-		p.addError(&Error{
-			Msg: fmt.Sprintf("%v: %q", err, val),
-		})
+	for i, c := range components {
+		if i > 0 {
+			p.print(" ")
+		}
+		val := p.nodeInput(c)
+		s, err := FormatBytes(val, p.Writer.opts.BytesStyle)
+		if err != nil {
+			p.addError(&Error{
+				Msg: fmt.Sprintf("%v: %q", err, val),
+			})
+		}
+		p.print(strings.ReplaceAll(s, "\n", lineBreakPlaceholder))
 	}
-	p.print(strings.ReplaceAll(s, "\n", lineBreakPlaceholder))
 }
 
 func (p *Printer) VisitDateOrTimeLiteral(ctx Context, n *googlesql.ASTDateOrTimeLiteral) {
@@ -107,15 +113,21 @@ func (p *Printer) VisitNumericLiteral(ctx Context, n *googlesql.ASTNumericLitera
 }
 
 func (p *Printer) VisitStringLiteral(ctx Context, n *googlesql.ASTStringLiteral) {
+	components := ast.ChildrenOfType[*googlesql.ASTStringLiteralComponent](n)
 	p.moveBefore(n)
-	val := p.nodeInput(n)
-	s, err := FormatString(val, p.Writer.opts.StringStyle)
-	if err != nil {
-		p.addError(&Error{
-			Msg: fmt.Sprintf("%v: %q", err, val),
-		})
+	for i, c := range components {
+		if i > 0 {
+			p.print(" ")
+		}
+		val := p.nodeInput(c)
+		s, err := FormatString(val, p.Writer.opts.StringStyle)
+		if err != nil {
+			p.addError(&Error{
+				Msg: fmt.Sprintf("%v: %q", err, val),
+			})
+		}
+		p.print(strings.ReplaceAll(s, "\n", lineBreakPlaceholder))
 	}
-	p.print(strings.ReplaceAll(s, "\n", lineBreakPlaceholder))
 }
 
 func FormatBytes(s string, style format.StringStyle) (string, error) {

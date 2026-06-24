@@ -192,7 +192,7 @@ input = """
 select count(distinct) from T
 """
 formatted = """
-SELECT COUNT(DISTINCT )
+SELECT COUNT(DISTINCT)
   FROM T
 """
 
@@ -201,7 +201,7 @@ input = """
 select anon_count(distinct) from T
 """
 formatted = """
-SELECT anon_count(DISTINCT )
+SELECT anon_count(DISTINCT)
   FROM T
 """
 
