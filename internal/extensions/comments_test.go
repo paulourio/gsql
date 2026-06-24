@@ -8,8 +8,9 @@ import (
 	"testing"
 
 	"github.com/BurntSushi/toml"
-	"github.com/paulourio/bqlang/extensions"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/paulourio/gsql/internal/extensions"
 )
 
 func TestComments(t *testing.T) {

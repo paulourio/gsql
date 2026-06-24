@@ -194,6 +194,33 @@ oneline = true
 at_line_begin = true
 at_line_end = true
 
+[[cases]]
+input = """
+{{/* a comment */ -}}
+SELECT a,
+       {{- /* another comment */}} FROM T
+"""
+erased = """
+~~~~~~~~~~~~~~~~~~~~~
+SELECT~a,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~FROM~T
+"""
+
+[[cases.comments]]
+image = "{{/* a comment */ -}}"
+kind = "TEMPLATE"
+multiline = false
+oneline = true
+at_line_begin = true
+at_line_end = true
+
+[[cases.comments]]
+image = "{{- /* another comment */}}"
+kind = "TEMPLATE"
+multiline = false
+oneline = false
+at_line_begin = true
+at_line_end = false
 
 [[cases]]
 input = """

@@ -544,4 +544,3 @@ func parseBool(s string) (bool, error) {
 		return false, fmt.Errorf("invalid boolean %q (expected true or false)", s)
 	}
 }
-

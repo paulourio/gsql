@@ -18,7 +18,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String:     `S' : Script	<<  >>`,
+		String: `S' : Script	<<  >>`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
@@ -28,7 +28,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Script : Element	<< NewScript(X[0]) >>`,
+		String: `Script : Element	<< NewScript(X[0]) >>`,
 		Id:         "Script",
 		NTType:     1,
 		Index:      1,
@@ -38,7 +38,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Script : Script Element	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `Script : Script Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "Script",
 		NTType:     1,
 		Index:      2,
@@ -48,7 +48,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Script : Script TemplateComment	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `Script : Script TemplateComment	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "Script",
 		NTType:     1,
 		Index:      3,
@@ -58,7 +58,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Script : Script TemplateForBlock	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `Script : Script TemplateForBlock	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "Script",
 		NTType:     1,
 		Index:      4,
@@ -68,7 +68,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Script : Script TemplateIfBlock	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `Script : Script TemplateIfBlock	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "Script",
 		NTType:     1,
 		Index:      5,
@@ -78,7 +78,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Script : Script TemplateSetBlock	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `Script : Script TemplateSetBlock	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "Script",
 		NTType:     1,
 		Index:      6,
@@ -88,7 +88,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Script : Script TemplateVariable	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `Script : Script TemplateVariable	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "Script",
 		NTType:     1,
 		Index:      7,
@@ -98,7 +98,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element : TemplateForBlock	<<  >>`,
+		String: `Element : TemplateForBlock	<<  >>`,
 		Id:         "Element",
 		NTType:     2,
 		Index:      8,
@@ -108,7 +108,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element : TemplateIfBlock	<<  >>`,
+		String: `Element : TemplateIfBlock	<<  >>`,
 		Id:         "Element",
 		NTType:     2,
 		Index:      9,
@@ -118,7 +118,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element : TemplateSetBlock	<<  >>`,
+		String: `Element : TemplateSetBlock	<<  >>`,
 		Id:         "Element",
 		NTType:     2,
 		Index:      10,
@@ -128,7 +128,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element : TemplateComment	<<  >>`,
+		String: `Element : TemplateComment	<<  >>`,
 		Id:         "Element",
 		NTType:     2,
 		Index:      11,
@@ -138,7 +138,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element : TemplateVariable	<<  >>`,
+		String: `Element : TemplateVariable	<<  >>`,
 		Id:         "Element",
 		NTType:     2,
 		Index:      12,
@@ -148,7 +148,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element : Element2	<<  >>`,
+		String: `Element : Element2	<<  >>`,
 		Id:         "Element",
 		NTType:     2,
 		Index:      13,
@@ -158,7 +158,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : Comment	<<  >>`,
+		String: `Element2 : Comment	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      14,
@@ -168,7 +168,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : identifier	<<  >>`,
+		String: `Element2 : identifier	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      15,
@@ -178,7 +178,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : bytes_literal	<<  >>`,
+		String: `Element2 : bytes_literal	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      16,
@@ -188,7 +188,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : string_literal	<<  >>`,
+		String: `Element2 : string_literal	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      17,
@@ -198,7 +198,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : integer_literal	<<  >>`,
+		String: `Element2 : integer_literal	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      18,
@@ -208,7 +208,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : floating_point_literal	<<  >>`,
+		String: `Element2 : floating_point_literal	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      19,
@@ -218,7 +218,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : newline	<<  >>`,
+		String: `Element2 : newline	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      20,
@@ -228,7 +228,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "*"	<<  >>`,
+		String: `Element2 : "*"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      21,
@@ -238,7 +238,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "<"	<<  >>`,
+		String: `Element2 : "<"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      22,
@@ -248,7 +248,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : ">"	<<  >>`,
+		String: `Element2 : ">"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      23,
@@ -258,7 +258,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "["	<<  >>`,
+		String: `Element2 : "["	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      24,
@@ -268,7 +268,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "]"	<<  >>`,
+		String: `Element2 : "]"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      25,
@@ -278,7 +278,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "("	<<  >>`,
+		String: `Element2 : "("	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      26,
@@ -288,7 +288,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : ")"	<<  >>`,
+		String: `Element2 : ")"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      27,
@@ -298,7 +298,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : ","	<<  >>`,
+		String: `Element2 : ","	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      28,
@@ -308,7 +308,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "."	<<  >>`,
+		String: `Element2 : "."	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      29,
@@ -318,7 +318,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "|"	<<  >>`,
+		String: `Element2 : "|"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      30,
@@ -328,7 +328,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "^"	<<  >>`,
+		String: `Element2 : "^"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      31,
@@ -338,7 +338,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "&"	<<  >>`,
+		String: `Element2 : "&"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      32,
@@ -348,7 +348,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "<<"	<<  >>`,
+		String: `Element2 : "<<"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      33,
@@ -358,7 +358,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : ">>"	<<  >>`,
+		String: `Element2 : ">>"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      34,
@@ -368,7 +368,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "=>"	<<  >>`,
+		String: `Element2 : "=>"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      35,
@@ -378,7 +378,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "/"	<<  >>`,
+		String: `Element2 : "/"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      36,
@@ -388,7 +388,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "+"	<<  >>`,
+		String: `Element2 : "+"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      37,
@@ -398,7 +398,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "-"	<<  >>`,
+		String: `Element2 : "-"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      38,
@@ -408,7 +408,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "||"	<<  >>`,
+		String: `Element2 : "||"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      39,
@@ -418,7 +418,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "<>"	<<  >>`,
+		String: `Element2 : "<>"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      40,
@@ -428,7 +428,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "!="	<<  >>`,
+		String: `Element2 : "!="	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      41,
@@ -438,7 +438,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "="	<<  >>`,
+		String: `Element2 : "="	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      42,
@@ -448,7 +448,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "<"	<<  >>`,
+		String: `Element2 : "<"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      43,
@@ -458,7 +458,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "<="	<<  >>`,
+		String: `Element2 : "<="	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      44,
@@ -468,7 +468,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : ">"	<<  >>`,
+		String: `Element2 : ">"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      45,
@@ -478,7 +478,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : ">="	<<  >>`,
+		String: `Element2 : ">="	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      46,
@@ -488,7 +488,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : ";"	<<  >>`,
+		String: `Element2 : ";"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      47,
@@ -498,7 +498,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "."	<<  >>`,
+		String: `Element2 : "."	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      48,
@@ -508,7 +508,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "@"	<<  >>`,
+		String: `Element2 : "@"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      49,
@@ -518,7 +518,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "{"	<<  >>`,
+		String: `Element2 : "{"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      50,
@@ -528,7 +528,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "}"	<<  >>`,
+		String: `Element2 : "}"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      51,
@@ -538,7 +538,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "~"	<<  >>`,
+		String: `Element2 : "~"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      52,
@@ -548,7 +548,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "else"	<<  >>`,
+		String: `Element2 : "else"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      53,
@@ -558,7 +558,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "if"	<<  >>`,
+		String: `Element2 : "if"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      54,
@@ -568,7 +568,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "for"	<<  >>`,
+		String: `Element2 : "for"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      55,
@@ -578,7 +578,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "endfor"	<<  >>`,
+		String: `Element2 : "endfor"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      56,
@@ -588,7 +588,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "elif"	<<  >>`,
+		String: `Element2 : "elif"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      57,
@@ -598,7 +598,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "endif"	<<  >>`,
+		String: `Element2 : "endif"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      58,
@@ -608,7 +608,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "set"	<<  >>`,
+		String: `Element2 : "set"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      59,
@@ -618,7 +618,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Element2 : "?"	<<  >>`,
+		String: `Element2 : "?"	<<  >>`,
 		Id:         "Element2",
 		NTType:     3,
 		Index:      60,
@@ -628,7 +628,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Comment : comment	<< NewComment(X[0]) >>`,
+		String: `Comment : comment	<< NewComment(X[0]) >>`,
 		Id:         "Comment",
 		NTType:     4,
 		Index:      61,
@@ -638,7 +638,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateSetBlock : TemplateSetBlockPrefix template_block_end	<< UpdateLoc(X[0], X[1]) >>`,
+		String: `TemplateSetBlock : TemplateSetBlockPrefix template_block_end	<< UpdateLoc(X[0], X[1]) >>`,
 		Id:         "TemplateSetBlock",
 		NTType:     5,
 		Index:      62,
@@ -648,7 +648,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateSetBlockPrefix : template_block_start "set"	<< NewTemplateSetBlock(X[0]) >>`,
+		String: `TemplateSetBlockPrefix : template_block_start "set"	<< NewTemplateSetBlock(X[0]) >>`,
 		Id:         "TemplateSetBlockPrefix",
 		NTType:     6,
 		Index:      63,
@@ -658,7 +658,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateSetBlockPrefix : TemplateSetBlockPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `TemplateSetBlockPrefix : TemplateSetBlockPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateSetBlockPrefix",
 		NTType:     6,
 		Index:      64,
@@ -668,7 +668,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateIfBlock : TemplateIfBlockPrefix TemplateIfEnd	<< UpdateLoc(X[0], X[1]) >>`,
+		String: `TemplateIfBlock : TemplateIfBlockPrefix TemplateIfEnd	<< UpdateLoc(X[0], X[1]) >>`,
 		Id:         "TemplateIfBlock",
 		NTType:     7,
 		Index:      65,
@@ -680,6 +680,7 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `TemplateIfBlock : TemplateIfBlockPrefix TemplateElse Element TemplateIfEnd	<< func() (Attrib, error) {
           n, err := WithExtraChild(X[0], X[2])
+
           if err != nil { return nil, err }
 
           return UpdateLoc(n, X[3])
@@ -690,17 +691,16 @@ var productionsTable = ProdTab{
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return func() (Attrib, error) {
-				n, err := WithExtraChild(X[0], X[2])
-				if err != nil {
-					return nil, err
-				}
+          n, err := WithExtraChild(X[0], X[2])
 
-				return UpdateLoc(n, X[3])
-			}()
+          if err != nil { return nil, err }
+
+          return UpdateLoc(n, X[3])
+      }()
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateIfBlock : TemplateIfBlockPrefix TemplateElse TemplateIfEnd	<< UpdateLoc(X[0], X[2]) >>`,
+		String: `TemplateIfBlock : TemplateIfBlockPrefix TemplateElse TemplateIfEnd	<< UpdateLoc(X[0], X[2]) >>`,
 		Id:         "TemplateIfBlock",
 		NTType:     7,
 		Index:      67,
@@ -710,7 +710,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateIfBlockPrefix : TemplateIfBegin	<<  >>`,
+		String: `TemplateIfBlockPrefix : TemplateIfBegin	<<  >>`,
 		Id:         "TemplateIfBlockPrefix",
 		NTType:     8,
 		Index:      68,
@@ -720,7 +720,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateIfBlockPrefix : TemplateIfBlockPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `TemplateIfBlockPrefix : TemplateIfBlockPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateIfBlockPrefix",
 		NTType:     8,
 		Index:      69,
@@ -730,7 +730,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateIfBegin : TemplateIfBeginPrefix template_block_end	<< UpdateLoc(X[0], X[1]) >>`,
+		String: `TemplateIfBegin : TemplateIfBeginPrefix template_block_end	<< UpdateLoc(X[0], X[1]) >>`,
 		Id:         "TemplateIfBegin",
 		NTType:     9,
 		Index:      70,
@@ -740,7 +740,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateIfBeginPrefix : template_block_start "if"	<< NewTemplateIfBlock(X[0]) >>`,
+		String: `TemplateIfBeginPrefix : template_block_start "if"	<< NewTemplateIfBlock(X[0]) >>`,
 		Id:         "TemplateIfBeginPrefix",
 		NTType:     10,
 		Index:      71,
@@ -750,7 +750,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateIfBeginPrefix : TemplateIfBeginPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `TemplateIfBeginPrefix : TemplateIfBeginPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateIfBeginPrefix",
 		NTType:     10,
 		Index:      72,
@@ -760,7 +760,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateIfEnd : template_block_start "endif" template_block_end	<< X[2], nil >>`,
+		String: `TemplateIfEnd : template_block_start "endif" template_block_end	<< X[2], nil >>`,
 		Id:         "TemplateIfEnd",
 		NTType:     11,
 		Index:      73,
@@ -770,7 +770,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateElse : template_block_start "else" template_block_end	<< X[2], nil >>`,
+		String: `TemplateElse : template_block_start "else" template_block_end	<< X[2], nil >>`,
 		Id:         "TemplateElse",
 		NTType:     12,
 		Index:      74,
@@ -780,7 +780,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateForBlock : TemplateForBlockPrefix TemplateForEnd	<< UpdateLoc(X[0], X[1]) >>`,
+		String: `TemplateForBlock : TemplateForBlockPrefix TemplateForEnd	<< UpdateLoc(X[0], X[1]) >>`,
 		Id:         "TemplateForBlock",
 		NTType:     13,
 		Index:      75,
@@ -790,7 +790,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateForBlockPrefix : TemplateForBegin Element	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `TemplateForBlockPrefix : TemplateForBegin Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateForBlockPrefix",
 		NTType:     14,
 		Index:      76,
@@ -800,7 +800,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateForBlockPrefix : TemplateForBlockPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `TemplateForBlockPrefix : TemplateForBlockPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateForBlockPrefix",
 		NTType:     14,
 		Index:      77,
@@ -810,7 +810,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateForBegin : TemplateForBeginPrefix template_block_end	<< UpdateLoc(X[0], X[1]) >>`,
+		String: `TemplateForBegin : TemplateForBeginPrefix template_block_end	<< UpdateLoc(X[0], X[1]) >>`,
 		Id:         "TemplateForBegin",
 		NTType:     15,
 		Index:      78,
@@ -820,7 +820,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateForBeginPrefix : template_block_start "for"	<< NewTemplateForBlock(X[0]) >>`,
+		String: `TemplateForBeginPrefix : template_block_start "for"	<< NewTemplateForBlock(X[0]) >>`,
 		Id:         "TemplateForBeginPrefix",
 		NTType:     16,
 		Index:      79,
@@ -830,7 +830,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateForBeginPrefix : TemplateForBeginPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
+		String: `TemplateForBeginPrefix : TemplateForBeginPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateForBeginPrefix",
 		NTType:     16,
 		Index:      80,
@@ -840,7 +840,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateForEnd : template_block_start "endfor" template_block_end	<< X[2], nil >>`,
+		String: `TemplateForEnd : template_block_start "endfor" template_block_end	<< X[2], nil >>`,
 		Id:         "TemplateForEnd",
 		NTType:     17,
 		Index:      81,
@@ -850,7 +850,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateComment : template_comment	<< NewTemplateComment(X[0]) >>`,
+		String: `TemplateComment : template_comment	<< NewTemplateComment(X[0]) >>`,
 		Id:         "TemplateComment",
 		NTType:     18,
 		Index:      82,
@@ -860,7 +860,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateVariable : TemplateVariablePrefix template_variable_end	<< NewTemplateVariable(X[0], X[1]) >>`,
+		String: `TemplateVariable : TemplateVariablePrefix template_variable_end	<< NewTemplateVariable(X[0], X[1]) >>`,
 		Id:         "TemplateVariable",
 		NTType:     19,
 		Index:      83,
@@ -870,7 +870,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateVariablePrefix : template_variable_start	<<  >>`,
+		String: `TemplateVariablePrefix : template_variable_start	<<  >>`,
 		Id:         "TemplateVariablePrefix",
 		NTType:     20,
 		Index:      84,
@@ -880,7 +880,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `TemplateVariablePrefix : TemplateVariablePrefix Element	<<  >>`,
+		String: `TemplateVariablePrefix : TemplateVariablePrefix Element	<<  >>`,
 		Id:         "TemplateVariablePrefix",
 		NTType:     20,
 		Index:      85,

@@ -5,11 +5,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/paulourio/bqlang/extensions/ast"
-	"github.com/paulourio/bqlang/extensions/errors"
-	"github.com/paulourio/bqlang/extensions/lexer"
-	"github.com/paulourio/bqlang/extensions/parser"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/paulourio/gsql/internal/extensions/ast"
+	"github.com/paulourio/gsql/internal/extensions/errors"
+	"github.com/paulourio/gsql/internal/extensions/lexer"
+	"github.com/paulourio/gsql/internal/extensions/parser"
 )
 
 func TestParser(t *testing.T) {

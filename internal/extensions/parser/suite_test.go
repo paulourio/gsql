@@ -16,8 +16,7 @@ type TestDataFile struct {
 }
 
 // Setup defines the default configuration for a test case.
-type Setup struct {
-}
+type Setup struct{}
 
 // Case is a single test case specification.
 type Case struct {

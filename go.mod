@@ -6,9 +6,7 @@ require (
 	github.com/BurntSushi/toml v1.6.0
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/goccy/go-googlesql v0.3.0
-	github.com/goccy/go-zetasql v0.5.5
 	github.com/hashicorp/go-multierror v1.1.1
-	github.com/paulourio/bqlang v0.0.0-20250705104550-476919f65607
 	github.com/stretchr/testify v1.11.1
 )
 
@@ -20,8 +18,6 @@ require (
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/tetratelabs/wazero v1.12.0 // indirect
-	golang.org/x/exp v0.0.0-20230626212559-97b1e661b5df // indirect
-	golang.org/x/sys v0.46.0 // indirect
+	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

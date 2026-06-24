@@ -191,9 +191,9 @@ func TestApplyModeline_WithOverrides(t *testing.T) {
 	ml := &format.Modeline{
 		StyleName: "default",
 		Overrides: map[string]string{
-			"keyword_style":      "LOWER_CASE",
+			"keyword_style":       "LOWER_CASE",
 			"indent_with_entries": "false",
-			"soft_max_cols":      "80",
+			"soft_max_cols":       "80",
 		},
 	}
 	opts, err := format.ApplyModeline(cfg, ml)

@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/paulourio/bqlang/extensions/ast"
-	"github.com/paulourio/bqlang/extensions/errors"
-	"github.com/paulourio/bqlang/extensions/lexer"
-	"github.com/paulourio/bqlang/extensions/parser"
+	"github.com/paulourio/gsql/internal/extensions/ast"
+	"github.com/paulourio/gsql/internal/extensions/errors"
+	"github.com/paulourio/gsql/internal/extensions/lexer"
+	"github.com/paulourio/gsql/internal/extensions/parser"
 )
 
 type Comment struct {
@@ -48,6 +48,8 @@ func (k CommentKind) String() string {
 		return "DOUBLE_DASH"
 	case Pound:
 		return "POUND"
+	case Jinja2Comment:
+		return "TEMPLATE"
 	}
 	panic("unexpected kind")
 }
@@ -196,6 +198,9 @@ func (c *Comment) updateKind() error {
 		c.Kind = SlashStar
 		c.mustEndLine = false
 	case "{#":
+		c.Kind = Jinja2Comment
+		c.mustEndLine = false
+	case "{{":
 		c.Kind = Jinja2Comment
 		c.mustEndLine = false
 	default:

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/paulourio/bqlang/extensions/ast"
+	"github.com/paulourio/gsql/internal/extensions/ast"
 )
 
 var (

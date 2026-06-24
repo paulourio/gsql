@@ -177,6 +177,21 @@ Script [0-63]
 
 [[cases]]
 input = """
+{{/* comment */}}
+{{- /* left dash comment */}}
+{{- /* right dash comment */}}
+{{- /* both dash comment */ -}}
+"""
+dump = """
+Script [0-110]
+  TemplateComment [0-17]
+  TemplateComment [18-47]
+  TemplateComment [48-78]
+  TemplateComment [79-110]
+"""
+
+[[cases]]
+input = """
 {% set = value -%}
 
 {{ statement }}

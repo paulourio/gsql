@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	parseError "github.com/paulourio/bqlang/extensions/errors"
-	"github.com/paulourio/bqlang/extensions/token"
+	parseError "github.com/paulourio/gsql/internal/extensions/errors"
+	"github.com/paulourio/gsql/internal/extensions/token"
 )
 
 const (

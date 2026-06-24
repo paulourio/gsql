@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/paulourio/bqlang/extensions/token"
+	"github.com/paulourio/gsql/internal/extensions/token"
 )
 
 func FormatError(err error, sql string) string {

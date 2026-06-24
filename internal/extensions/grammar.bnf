@@ -49,6 +49,10 @@ _ascii_char:      '\x01'-'\x09' /* skip null (0x00) */
                 ;
 _unicode_byte:  '\u0080'-'\uFFFC'|'\uFFFE'-'\U0010FFFF' ;
 
+_letter : 'a'-'z'
+        | 'A'-'Z'
+        ;
+
 comment: '-''-'{_single_line_comment_char}['\n']
        | '#'{_single_line_comment_char}['\n']
        | '/''/'{_single_line_comment_char}['\n']
@@ -73,11 +77,17 @@ newline: '\n' ;
 template_block_start: '{''%'['-'] ;
 template_block_end:   ['-']'%''}' ;
 
-template_comment:        _template_comment_start{.}['-']'#''}' ;
-_template_comment_start: '{''#'['-'] ;
-_template_comment_end:   ['-']'#''}' ;
+template_comment: _jinja_template_comment_start{.}['-']'#''}'
+                | _go_template_comment_start{.}_go_template_comment_end
+                ;
 
-template_variable_start: '{''{'['-'] ;
+_go_template_comment_start: '{''{'['-'][' ']'/''*' ;
+_go_template_comment_end: '*''/'[' ']['-']'}''}' ;
+
+_jinja_template_comment_start: '{''#'['-'] ;
+_jinja_template_comment_end:   ['-']'#''}' ;
+
+template_variable_start: '{''{'['-'][' '] _letter ;
 template_variable_end:   ['-']'}''}' ;
 
 identifier: _unquoted_identifier|_bqtext ;
@@ -178,6 +188,7 @@ TemplateIfBlock:
       <<
       func() (Attrib, error) {
           n, err := WithExtraChild($0, $2)
+
           if err != nil { return nil, err }
 
           return UpdateLoc(n, $3)
