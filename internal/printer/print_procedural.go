@@ -2,7 +2,6 @@
 package printer
 
 import (
-	"log/slog"
 	"strings"
 
 	"github.com/goccy/go-googlesql"
@@ -19,7 +18,6 @@ func (p *Printer) VisitAssignmentFromStruct(ctx Context, n *googlesql.ASTAssignm
 	p.print(pp.unnestLeft())
 	p.accept(ctx, ast.Must(n.StructExpression()))
 	p.movePast(n)
-	slog.Info("SET ASSIGNMENT\n" + debugContent(p.String()))
 }
 
 func (p *Printer) VisitBeginEndBlock(ctx Context, n *googlesql.ASTBeginEndBlock) {
@@ -201,7 +199,6 @@ func (p *Printer) VisitIfStatement(ctx Context, n *googlesql.ASTIfStatement) {
 	}
 	p.println("")
 	p.print(p.keyword("END IF"))
-	slog.Info("IF STATEMENT\n" + debugContent(p.String()))
 }
 
 func (p *Printer) VisitParameterAssignment(ctx Context, n *googlesql.ASTParameterAssignment) {

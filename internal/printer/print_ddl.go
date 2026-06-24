@@ -2,7 +2,6 @@
 package printer
 
 import (
-	"log/slog"
 	"strings"
 
 	"github.com/goccy/go-googlesql"
@@ -503,7 +502,6 @@ func (p *Printer) VisitCreateTableFunctionStatement(ctx Context, n *googlesql.AS
 		p2.decDepth()
 		p.print(p2.unnestLeft())
 	}
-	slog.Info("CREATE TABLE FUNCTION STATEMENT\n" + debugContent(p.String()))
 	p.lnaccept(ctx, ast.Must(n.OptionsList()))
 	if q := ast.Must(n.Query()); ast.Defined(q) {
 		p.println("")
@@ -782,7 +780,6 @@ func (p *Printer) VisitFunctionParameter(ctx Context, n *googlesql.ASTFunctionPa
 	if ast.Must(n.IsNotAggregate()) {
 		pp.print(pp.keyword("NOT AGGREGATE"))
 	}
-	slog.Info("FUNCTION PARAMETER\n" + debugContent(pp.String()))
 	p.print(pp.String())
 	pp.movePast(n)
 }
@@ -815,7 +812,6 @@ func (p *Printer) VisitFunctionParameters(ctx Context, n *googlesql.ASTFunctionP
 		pp.println("")
 		pp.decDepth()
 		pp.print(")")
-		slog.Info("Function Parameters\n" + debugContent(pp.String()))
 		p.print(pp.unnestLeft())
 	}
 	p.movePast(n)

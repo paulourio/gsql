@@ -2,7 +2,6 @@ package printer
 
 import (
 	"fmt"
-	"log/slog"
 	"strings"
 	"unicode"
 
@@ -596,7 +595,6 @@ func (p *Printer) VisitAndExpr(ctx Context, n *googlesql.ASTAndExpr) {
 	if allTrue(mapIsAlignable(conjuncts)) {
 		budget = 1
 		ctx = ctx.WithValue(KeyAlignBinaryOpBudget, budget)
-		slog.Info("ALIGNABLE and simple=", "simple", simple)
 	}
 	pp := p.nest()
 	pp.moveBefore(n)
@@ -637,7 +635,6 @@ func (p *Printer) VisitAndExpr(ctx Context, n *googlesql.ASTAndExpr) {
 		}
 		p1.movePastLine(conjunct)
 	}
-	slog.Info("AND Expr p1\n" + debugContent(p1.String()))
 	s := p1.unnestLeft()
 	if alignWithClause {
 		lines := strings.Split(s, "\n")
@@ -2386,7 +2383,6 @@ func (p *Printer) visitWithExprVariables(ctx Context, n *googlesql.ASTSelectList
 		p2.acceptNestedLeft(ctx, ast.Must(v.Expression()))
 		pp.print("\v" + strings.ReplaceAll(p2.String(), "\n", "\n\v"))
 	}
-	slog.Info("EXPR VARS\n" + debugContent(pp.String()))
 	p.print(pp.unnestLeft())
 }
 

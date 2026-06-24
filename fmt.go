@@ -36,10 +36,7 @@ func NewSQLFormatter(opts ...SQLFormatterOption) (*SQLFormatter, error) {
 		slog.Log(context.Background(), slog.LevelDebug,
 			"Using compilation cache.", slog.String("cache", cache))
 	}
-	err := googlesql.Init(
-	// googlesql.WithCompilationMode(googlesql.CompilationModeCompiler),
-	// googlesql.WithCompilationCache(cache),
-	)
+	err := googlesql.Init()
 	if err != nil {
 		return nil, fmt.Errorf("unable to initialize googlesql: %w", err)
 	}
