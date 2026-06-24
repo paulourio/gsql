@@ -39,8 +39,15 @@ func main() {
 	}
 	flag.Parse()
 
-	// Suppress default slog output for the CLI.
-	slog.SetDefault(slog.New(slog.NewTextHandler(io.Discard, nil)))
+	// Set default slog output to $HOME/bqfmt.log with unquoted key-value pairs.
+	var logWriter io.Writer = io.Discard
+	if home, err := os.UserHomeDir(); err == nil {
+		logPath := filepath.Join(home, "bqfmt.log")
+		if logFile, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644); err == nil {
+			logWriter = logFile
+		}
+	}
+	slog.SetDefault(slog.New(NewUnquotedTextHandler(logWriter, slog.LevelDebug)))
 
 	formatter, err := gsql.NewSQLFormatter()
 	if err != nil {
