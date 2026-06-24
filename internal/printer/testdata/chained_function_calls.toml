@@ -1,0 +1,211 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = true
+column_list_trailing_comma = "AUTO"
+indentation = 1
+indent_case_when = true
+min_joins_to_separate_in_blocks = 2
+max_cols_for_single_line_select = 4
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "UPPER_CASE"
+null_style = "UPPER_CASE"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+
+[[cases]]
+input = """
+select f(1).g().h(2,3)
+"""
+formatted = """
+SELECT f(1).g().h(2, 3)
+"""
+
+[[cases]]
+input = """
+SELECT a.b.c(),
+       (a).b(),
+       (a.b).c(),
+       (a.b).(c.d)(),
+       a.b.(c.d)()
+"""
+formatted = """
+SELECT a.b.c(),
+       (a).b(),
+       (a.b).c(),
+       (a.b).(c.d)(),
+       a.b.(c.d)()
+"""
+
+[[cases]]
+input = """
+SELECT
+  true.x(),
+  null.x(),
+  "abc".x(),
+  "abc" "def".x(),       # Concatenated literals.
+  b"abc" b"def".x(),
+  DATE "2021-02-02".x(), # DATE and other prefixed literals.
+  NUMERIC "123".x(),
+  BIGNUMERIC "123".x(),
+  @param.x(),
+  ?.x(),
+  [2].x(),
+  a[2].x(),
+  ARRAY<INT64>[1,2].x(),
+  (x,y).x(),
+  STRUCT<INT64>(5).x(),
+  CASE WHEN true THEN 5 END.x(),
+  CAST(5 AS int32).x(),
+  WITH(y AS 5, y).x(),
+  INTERVAL 5 YEAR.x(),
+  (1).x(),               # Ints and floats only work inside parentheses.
+  (2.).x(),
+  (3.4).x(),
+  (1 + 2).x(),
+  (1+2).x(),             # Parenthesized expression
+  (select 1).x(),        # Scalar subquery
+  ARRAY(select 1).x(),   # Scalar ARRAY subquery
+"""
+formatted = """
+SELECT TRUE.x(),
+       NULL.x(),
+       'abc'.x(),
+       'abc' 'def'.x(), # Concatenated literals.
+       b'abc' b'def'.x(),
+       DATE '2021-02-02'.x(), # DATE and other prefixed literals.
+       NUMERIC '123'.x(),
+       BIGNUMERIC '123'.x(),
+       @param.x(),
+       ?.x(),
+       [2].x(),
+       a[2].x(),
+       ARRAY<INT64>[1, 2].x(),
+       (x, y).x(),
+       STRUCT<INT64>(5).x(),
+       CASE
+         WHEN TRUE THEN 5
+       END.x(),
+       CAST(5 AS INT32).x(),
+       WITH(
+         y AS 5,
+         y
+       ).x(),
+       INTERVAL 5 YEAR.x(),
+       (1).x(), # Ints and floats only work inside parentheses.
+       (2.).x(),
+       (3.4).x(),
+       (1 + 2).x(),
+       (1 + 2).x(),        # Parenthesized expression
+       (SELECT 1).x(),     # Scalar subquery
+       ARRAY(SELECT 1).x() # Scalar ARRAY subquery
+"""
+
+[[cases]]
+input = """
+select f(1,2).g(3)
+"""
+formatted = """
+SELECT f(1, 2).g(3)
+"""
+
+[[cases]]
+input = """
+select a.(b.c)(1, 2)
+"""
+formatted = """
+SELECT a.(b.c)(1, 2)
+"""
+
+[[cases]]
+input = """
+select x.coalesce() = y.coalesce() + z.coalesce()
+"""
+formatted = """
+SELECT x.COALESCE() = y.COALESCE() + z.COALESCE()
+"""
+
+[[cases]]
+input = """
+SELECT x().y() IS NOT NULL.z()
+"""
+formatted = """
+SELECT x().y() IS NOT NULL.z()
+"""
+
+[[cases]]
+input = """
+SELECT (x).y() LIKE (y).z(),
+       (x).y() IS DISTINCT FROM (y).z(),
+"""
+formatted = """
+SELECT (x).y() LIKE (y).z(), (x).y() IS DISTINCT FROM (y).z()
+"""
+
+[[cases]]
+input = """
+SELECT (x).y() IN (1,2).z(),
+       (x).y() IN (SELECT 123).z(),
+       (x).y() IN UNNEST(arr).z(),
+"""
+formatted = """
+SELECT (x).y() IN (1, 2).z(),
+       (x).y() IN (SELECT 123).z(),
+       (x).y() IN UNNEST(arr).z()
+"""
+
+[[cases]]
+input = """
+select descriptor(abc), abc.descriptor(),
+       func(descriptor(abc), abc.descriptor()),
+from func(descriptor(abc), abc.descriptor())
+"""
+formatted = """
+SELECT descriptor(abc),
+       abc.descriptor(),
+       func(descriptor(abc), abc.descriptor())
+  FROM func(
+         DESCRIPTOR(abc),
+         abc.descriptor()
+       )
+"""
+
+[[cases]]
+input = """
+SELECT (1).`new`,
+       (1).`new`(),
+       (1).`new` AS x,
+       `LEFT`(x),
+       x.`LEFT`,
+       x.`LEFT`(),
+       "abc".`LEFT`,
+       "abc".`LEFT`(),
+       "abc".count().count(DISTINCT).count(DISTINCT 123)
+"""
+formatted = """
+SELECT (1).`new`,
+       (1).`new`(),
+       (1).`new` AS x,
+       `LEFT`(x),
+       x.`LEFT`,
+       x.`LEFT`(),
+       'abc'.`LEFT`,
+       'abc'.`LEFT`(),
+       'abc'.COUNT().COUNT(DISTINCT).COUNT(DISTINCT 123)
+"""
+
+[[cases]]
+input = """
+SELECT true.f(x CLAMPED BETWEEN 0 AND 2),
+       true.f(`CLAMPED` BETWEEN 0 AND 2)
+"""
+formatted = """
+SELECT TRUE.f(x CLAMPED BETWEEN 0 AND 2),
+       TRUE.f(
+              `CLAMPED` BETWEEN 0 AND 2
+            )
+"""

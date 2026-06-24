@@ -1,0 +1,142 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = true
+column_list_trailing_comma = "AUTO"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "UPPER_CASE"
+null_style = "UPPER_CASE"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+
+[[cases]]
+input = """
+select WITH(a AS 2, bar AS 3 * 4, a + bar)
+"""
+formatted = """
+SELECT WITH(
+         a   AS 2,
+         bar AS 3 * 4,
+         a + bar
+       )
+"""
+
+[[cases]]
+input = """
+SELECT WITH(a AS "abc", b AS WITH(a AS "def", b AS "ghi", CONCAT(a, b)), CONCAT(a, b))
+"""
+formatted = """
+SELECT WITH(
+         a AS 'abc',
+         b AS WITH(
+                a AS 'def',
+                b AS 'ghi',
+                CONCAT(a, b)
+              ),
+         CONCAT(a, b)
+       )
+"""
+
+[[cases]]
+input = """
+SELECT WITH(len AS LENGTH(KeyValue.value),
+            sumk AS SUM(KeyValue.key),
+            len * sumk)
+"""
+formatted = """
+SELECT WITH(
+         len  AS LENGTH(keyvalue.value),
+         sumk AS SUM(keyvalue.key),
+         len * sumk
+       )
+"""
+
+[[cases]]
+input = """
+select WITH(k AS key, a AS afn_agg(k) over (), a * 2)
+from KeyValue;
+"""
+formatted = """
+SELECT WITH(
+         k AS key,
+         a AS afn_agg(k) OVER (),
+         a * 2
+       )
+  FROM KeyValue
+"""
+
+[[cases]]
+input = """
+SELECT WITH(thecount AS COUNT(KeyValue.key),
+            thesum AS SUM(KeyValue.key),
+            thesum / thecount)
+FROM KeyValue GROUP BY value;
+"""
+formatted = """
+SELECT WITH(
+         thecount AS COUNT(keyvalue.key),
+         thesum   AS SUM(keyvalue.key),
+         thesum / thecount
+       )
+  FROM KeyValue
+ GROUP BY value
+"""
+
+[[cases]]
+input = """
+select with(foo as (select sum(x) from unnest(my_array) as x with offset i where i < 5 order by x),
+          bar AS pow(foo, 3).ifnull(0),
+          STRUCT(bar AS bar_value, coalesce(foo, bar) AS foo_value)) from my_table
+"""
+formatted = """
+SELECT WITH(
+         foo AS (
+                  SELECT SUM(x)
+                    FROM UNNEST(my_array) AS x WITH OFFSET i
+                   WHERE i < 5
+                   ORDER BY x
+                ),
+         bar AS POW(foo, 3).IFNULL(0),
+         STRUCT(bar AS bar_value, COALESCE(foo, bar) AS foo_value)
+       )
+  FROM my_table
+"""
+
+[[cases]]
+input = """
+select with(foo as (select sum(x) from unnest(my_array) as x with offset i where i < 5 order by x),
+          bar AS case pow(foo, 3).ifnull(0) when 0 then 1 else 2 end,
+          STRUCT(bar AS bar_value, coalesce(foo, bar) AS foo_value,
+           bar * 2 AS bar2_value, (SELECT 2*SUM(x) FROM UNNEST(my_array)) AS sum2_value
+           ) ) .* from my_table
+"""
+formatted = """
+SELECT WITH(
+         foo AS (
+                  SELECT SUM(x)
+                    FROM UNNEST(my_array) AS x WITH OFFSET i
+                   WHERE i < 5
+                   ORDER BY x
+                ),
+         bar AS CASE POW(foo, 3).IFNULL(0)
+                  WHEN 0 THEN 1
+                         ELSE 2
+                END,
+         STRUCT(
+           bar AS bar_value,
+           COALESCE(foo, bar) AS foo_value,
+           bar * 2 AS bar2_value,
+           (
+             SELECT 2 * SUM(x)
+               FROM UNNEST(my_array)
+           ) AS sum2_value
+         )
+       ).*
+  FROM my_table
+"""
