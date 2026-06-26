@@ -277,6 +277,8 @@ func (p *Printer) visit(ctx Context, n googlesql.ASTNode, newline bool) {
 		p.VisitGrantToClause(ctx, m)
 	case *googlesql.ASTGroupBy:
 		p.VisitGroupBy(ctx, m)
+	case *googlesql.ASTGroupByAll:
+		p.VisitGroupByAll(ctx, m)
 	case *googlesql.ASTGroupingItem:
 		p.VisitGroupingItem(ctx, m)
 	case *googlesql.ASTHavingModifier:

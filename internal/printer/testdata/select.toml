@@ -68,3 +68,51 @@ SELECT COALESCE(a.key1, b.key1)         AS key1,
        USING (key1)
  GROUP BY 1, 2
 """
+
+[[cases]]
+input = """
+SELECT *
+FROM T
+GROUP BY ALL
+"""
+formatted = """
+SELECT *
+  FROM T
+ GROUP BY ALL
+"""
+
+[[cases]]
+input = """
+SELECT *
+FROM T
+GROUP BY `all`
+"""
+formatted = """
+SELECT *
+  FROM T
+ GROUP BY `all`
+"""
+
+[[cases]]
+input = """
+SELECT *
+FROM T
+GROUP  @{ key = 5 } BY `all`
+"""
+formatted = """
+SELECT *
+  FROM T
+ GROUP @{key=5} BY `all`
+"""
+
+[[cases]]
+input = """
+SELECT *
+FROM T
+GROUP  @{ key = 5 } BY all
+"""
+formatted = """
+SELECT *
+  FROM T
+ GROUP @{key=5} BY ALL
+"""

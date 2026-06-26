@@ -191,6 +191,7 @@ func (p *Printer) VisitGroupBy(ctx Context, n *googlesql.ASTGroupBy) {
 	p.accept(ctx, ast.Must(n.Hint()))
 	p.print(p.keyword("BY"))
 	pp := p.nest()
+	p.accept(ctx, ast.Must(n.All()))
 	printNestedWithSep(ctx, pp, ast.ChildrenOfType[*googlesql.ASTGroupingItem](n), ",")
 	p.print(pp.unnest())
 	s := ast.ParentAs[*googlesql.ASTSelect](n)
@@ -202,6 +203,12 @@ func (p *Printer) VisitGroupBy(ctx Context, n *googlesql.ASTGroupBy) {
 	if a > 0 {
 		p.moveAt(a)
 	}
+}
+
+func (p *Printer) VisitGroupByAll(ctx Context, n *googlesql.ASTGroupByAll) {
+	p.moveBefore(n)
+	p.print(p.keyword("ALL"))
+	p.movePast(n)
 }
 
 func (p *Printer) VisitGeneralizedPathExpression(ctx Context, n *googlesql.ASTGeneralizedPathExpression) {
