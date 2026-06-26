@@ -352,3 +352,46 @@ SELECT CASE
 
        END
 """
+
+[[cases]]
+description = "Cases with comments at the end of the line"
+input = """
+select
+case -- some comment
+  when s < 100 then 1   -- group 1
+  when s < 200 then 2   -- group 2
+  when s < 300 then 3   -- group 3
+  else 4                -- group 4
+end -- end comment
+"""
+formatted = """
+SELECT CASE
+         -- some comment
+         WHEN s < 100 THEN 1 -- group 1
+         WHEN s < 200 THEN 2 -- group 2
+         WHEN s < 300 THEN 3 -- group 3
+                      ELSE 4
+       END -- group 4
+-- end comment
+"""
+
+[[cases]]
+description = "Cases with comments at the end of the line"
+input = """
+select
+case value -- some comment
+  when s < 100 then 1   -- group 1
+  when s < 200 then 2   -- group 2
+  when s < 300 then 3   -- group 3
+  else 4                -- group 4
+end -- end comment
+"""
+formatted = """
+SELECT CASE value            -- some comment
+         WHEN s < 100 THEN 1 -- group 1
+         WHEN s < 200 THEN 2 -- group 2
+         WHEN s < 300 THEN 3 -- group 3
+                      ELSE 4
+       END -- group 4
+-- end comment
+"""

@@ -845,6 +845,7 @@ func (p *Printer) VisitCaseNoValueExpression(ctx Context, n *googlesql.ASTCaseNo
 		pp.println("")
 		pp.decDepth()
 	}
+	pp.movePastLine(n)
 	pp.print(pp.keyword("END"))
 	pp.printCloseParenIfNeededWithDepth(n)
 	p.print(pp.unnestLeft())
@@ -868,6 +869,7 @@ func (p *Printer) VisitCaseValueExpression(ctx Context, n *googlesql.ASTCaseValu
 		p1.println("")
 		p1.println(" ")
 	}
+	p1.movePastLine(args[0])
 	pp.print(strings.TrimLeft(p1.unnestLeft(), "\v"))
 	if pp.Writer.opts.IndentCaseWhen || !simple {
 		pp.println("")
@@ -880,6 +882,7 @@ func (p *Printer) VisitCaseValueExpression(ctx Context, n *googlesql.ASTCaseValu
 		pp.println("")
 		pp.decDepth()
 	}
+	pp.movePastLine(n)
 	pp.print(pp.keyword("END"))
 	p.print(pp.unnestLeft())
 	p.printCloseParenIfNeededWithDepth(n)

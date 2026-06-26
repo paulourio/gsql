@@ -31,6 +31,9 @@ import (
 //		END
 func visitCaseArgs[T googlesql.ASTExpressionNode](p *Printer, ctx Context, args []T) {
 	simple, _ := ctx.Bool(KeySimpleCase)
+	if len(args) > 0 {
+		p.moveBefore(args[0])
+	}
 	if simple {
 		visitSimpleCaseArgs(p, ctx, args)
 		return
@@ -47,11 +50,13 @@ func visitSimpleCaseArgs[T googlesql.ASTExpressionNode](p *Printer, ctx Context,
 		pp.acceptNestedLeft(ctx, lhs)
 		pp.print("\v" + pp.keyword("THEN"))
 		pp.acceptNestedLeft(ctx, rhs)
+		pp.movePastLine(rhs)
 		pp.println("")
 	}
 	if len(args) == 1 {
 		pp.print("\v\v" + pp.keyword("ELSE"))
 		pp.acceptNestedLeft(ctx, args[0])
+		pp.movePastLine(args[0])
 		pp.println("")
 	}
 	p.print(pp.unnestLeft())
@@ -70,6 +75,7 @@ func visitGeneralCaseArgs[T googlesql.ASTExpressionNode](p *Printer, ctx Context
 		pp.println(pp.keyword("THEN"))
 		pp.incDepth()
 		pp.acceptNestedLeft(ctx, rhs)
+		pp.movePastLine(rhs)
 		pp.println("")
 		pp.decDepth()
 		pp.println(" ")
@@ -78,6 +84,7 @@ func visitGeneralCaseArgs[T googlesql.ASTExpressionNode](p *Printer, ctx Context
 		pp.println(pp.keyword("ELSE"))
 		pp.incDepth()
 		pp.acceptNestedLeft(ctx, args[0])
+		pp.movePastLine(args[0])
 		pp.println("")
 		pp.println(" ")
 		pp.decDepth()
