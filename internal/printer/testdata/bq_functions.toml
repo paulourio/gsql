@@ -1195,9 +1195,7 @@ WITH
     SELECT 'tHisEisEaESentence' AS value,
            'E'                  AS delimiters
   )
-SELECT value,
-       delimiters,
-       INITCAP(value, delimiters) AS initcap_value
+SELECT value, delimiters, INITCAP(value, delimiters) AS initcap_value
   FROM example;
 /*----------------------+------------+----------------------*
  | value                | delimiters | initcap_value        |
@@ -1274,9 +1272,7 @@ FROM UNNEST([
  *-----------------+-----+---------+-------------------------*/
 """
 formatted = """
-SELECT t,
-       len,
-       FORMAT('%T', LPAD(t, len)) AS lpad
+SELECT t, len, FORMAT('%T', LPAD(t, len)) AS lpad
   FROM UNNEST(
          [
            STRUCT('abc' AS t, 5 AS len),
@@ -1407,8 +1403,7 @@ FROM
   UNNEST(addresses) AS email;
 """
 formatted = """
-SELECT email,
-       REGEXP_CONTAINS(email, r'@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+') AS is_valid
+SELECT email, REGEXP_CONTAINS(email, r'@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+') AS is_valid
   FROM (SELECT ['foo@example.com', 'bar@example.org', 'www.example.net'] AS addresses),
        UNNEST(addresses) AS email;
 

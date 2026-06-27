@@ -85,6 +85,7 @@ func newASTBeginEndBlock(r *googlesql.ASTBeginEndBlock) *BeginEndBlock {
 	}
 	return &BeginEndBlock{baseNode[*googlesql.ASTBeginEndBlock]{raw: r}}
 }
+func (n *BeginEndBlock) isStatement() {}
 
 func (n *BeginEndBlock) StatementListNode() *StatementList {
 	return newASTStatementList(must(n.raw.StatementListNode()))
@@ -105,6 +106,7 @@ func newASTBeginStatement(r *googlesql.ASTBeginStatement) *BeginStatement {
 	}
 	return &BeginStatement{baseNode[*googlesql.ASTBeginStatement]{raw: r}}
 }
+func (n *BeginStatement) isStatement() {}
 
 // RollbackStatement wraps *googlesql.ASTRollbackStatement.
 type RollbackStatement struct {
@@ -117,6 +119,7 @@ func newASTRollbackStatement(r *googlesql.ASTRollbackStatement) *RollbackStateme
 	}
 	return &RollbackStatement{baseNode[*googlesql.ASTRollbackStatement]{raw: r}}
 }
+func (n *RollbackStatement) isStatement() {}
 
 // CallStatement wraps *googlesql.ASTCallStatement.
 type CallStatement struct {
@@ -129,6 +132,7 @@ func newASTCallStatement(r *googlesql.ASTCallStatement) *CallStatement {
 	}
 	return &CallStatement{baseNode[*googlesql.ASTCallStatement]{raw: r}}
 }
+func (n *CallStatement) isStatement() {}
 
 func (n *CallStatement) ProcedureName() *PathExpression {
 	return newASTPathExpression(must(n.raw.ProcedureName()))
@@ -156,6 +160,7 @@ func newASTCommitStatement(r *googlesql.ASTCommitStatement) *CommitStatement {
 	}
 	return &CommitStatement{baseNode[*googlesql.ASTCommitStatement]{raw: r}}
 }
+func (n *CommitStatement) isStatement() {}
 
 // ExecuteIntoClause wraps *googlesql.ASTExecuteIntoClause.
 type ExecuteIntoClause struct {
@@ -224,6 +229,7 @@ func newASTExecuteImmediateStatement(r *googlesql.ASTExecuteImmediateStatement) 
 	}
 	return &ExecuteImmediateStatement{baseNode[*googlesql.ASTExecuteImmediateStatement]{raw: r}}
 }
+func (n *ExecuteImmediateStatement) isStatement() {}
 
 func (n *ExecuteImmediateStatement) SQL() ExpressionNode {
 	return wrapExpr(must(n.raw.Sql()))
@@ -291,6 +297,7 @@ func newASTIfStatement(r *googlesql.ASTIfStatement) *IfStatement {
 	}
 	return &IfStatement{baseNode[*googlesql.ASTIfStatement]{raw: r}}
 }
+func (n *IfStatement) isStatement() {}
 
 func (n *IfStatement) Condition() ExpressionNode {
 	return wrapExpr(must(n.raw.Condition()))
@@ -319,6 +326,7 @@ func newASTParameterAssignment(r *googlesql.ASTParameterAssignment) *ParameterAs
 	}
 	return &ParameterAssignment{baseNode[*googlesql.ASTParameterAssignment]{raw: r}}
 }
+func (n *ParameterAssignment) isStatement() {}
 
 func (n *ParameterAssignment) Parameter() *ParameterExpr {
 	return newASTParameterExpr(must(n.raw.Parameter()))
@@ -339,6 +347,7 @@ func newASTReturnStatement(r *googlesql.ASTReturnStatement) *ReturnStatement {
 	}
 	return &ReturnStatement{baseNode[*googlesql.ASTReturnStatement]{raw: r}}
 }
+func (n *ReturnStatement) isStatement() {}
 
 // SystemVariableAssignment wraps *googlesql.ASTSystemVariableAssignment.
 type SystemVariableAssignment struct {
@@ -351,6 +360,7 @@ func newASTSystemVariableAssignment(r *googlesql.ASTSystemVariableAssignment) *S
 	}
 	return &SystemVariableAssignment{baseNode[*googlesql.ASTSystemVariableAssignment]{raw: r}}
 }
+func (n *SystemVariableAssignment) isStatement() {}
 
 func (n *SystemVariableAssignment) SystemVariable() *SystemVariableExpr {
 	return newASTSystemVariableExpr(must(n.raw.SystemVariable()))
@@ -371,6 +381,7 @@ func newASTSingleAssignment(r *googlesql.ASTSingleAssignment) *SingleAssignment 
 	}
 	return &SingleAssignment{baseNode[*googlesql.ASTSingleAssignment]{raw: r}}
 }
+func (n *SingleAssignment) isStatement() {}
 
 func (n *SingleAssignment) Variable() *Identifier {
 	return newASTIdentifier(must(n.raw.Variable()))
@@ -391,6 +402,7 @@ func newASTVariableDeclaration(r *googlesql.ASTVariableDeclaration) *VariableDec
 	}
 	return &VariableDeclaration{baseNode[*googlesql.ASTVariableDeclaration]{raw: r}}
 }
+func (n *VariableDeclaration) isStatement() {}
 
 func (n *VariableDeclaration) VariableList() *IdentifierList {
 	return newASTIdentifierList(must(n.raw.VariableList()))

@@ -108,7 +108,7 @@ func TestPrinter(t *testing.T) {
 					nerr++
 				}
 			})
-			if nerr > 0 {
+			if nerr > 10 {
 				t.Fatal("stopping due too many errors")
 			}
 		}

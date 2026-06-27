@@ -375,7 +375,12 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newASTNotNullColumnAttribute(m)
 	case *googlesql.ASTPrimaryKeyColumnAttribute:
 		return newASTPrimaryKeyColumnAttribute(m)
+	case *googlesql.ASTForeignKeyColumnAttribute:
+		return newASTForeignKeyColumnAttribute(m)
+	case *googlesql.ASTHiddenColumnAttribute:
+		return newASTHiddenColumnAttribute(m)
 	case *googlesql.ASTColumnDefinition:
+
 		return newASTColumnDefinition(m)
 	case *googlesql.ASTColumnPosition:
 		return newASTColumnPosition(m)
@@ -598,9 +603,25 @@ func Wrap(n googlesql.ASTNode) Node {
 
 	// ── Fallback ──────────────────────────────────────────────────────────────
 	default:
+		if po, ok := n.(googlesql.ASTPipeOperatorNode); ok {
+			return newGenericPipeOperatorNode(po)
+		}
+		if ca, ok := n.(googlesql.ASTColumnAttributeNode); ok {
+			return newGenericColumnAttributeNode(ca)
+		}
+		if te, ok := n.(googlesql.ASTTableElementNode); ok {
+			return newGenericTableElementNode(te)
+		}
+		if aa, ok := n.(googlesql.ASTAlterActionNode); ok {
+			return newGenericAlterActionNode(aa)
+		}
+		if st, ok := n.(googlesql.ASTStatementNode); ok {
+			return newGenericStatementNode(st)
+		}
 		return newGenericNode(n)
 	}
 }
+
 
 // WalkNode visits every node in the sub-tree rooted at n in depth-first
 // pre-order.  If cb returns a non-nil error, WalkNode stops and returns that

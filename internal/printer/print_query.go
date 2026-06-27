@@ -190,7 +190,7 @@ func (p *Printer) visitGroupBy(ctx Context, n *sql.GroupBy) {
 	p.print(p.keyword("BY"))
 	pp := p.nest()
 	p.accept(ctx, n.All())
-	printNestedWithSepNode(ctx, pp, ChildrenOfType[*sql.GroupingItem](n), ",")
+	printNestedWithSepNode(ctx, pp, n.GroupingItems(), ",")
 	p.print(pp.unnest())
 	s := sql.ParentAs[*sql.Select](n)
 	a, _ := sql.LocationRange(
@@ -203,7 +203,7 @@ func (p *Printer) visitGroupBy(ctx Context, n *sql.GroupBy) {
 	}
 }
 
-func (p *Printer) visitGroupByAll(ctx Context, n *sql.GroupByAll) {
+func (p *Printer) visitGroupByAll(_ Context, n *sql.GroupByAll) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALL"))
 	p.movePast(n)
@@ -259,21 +259,21 @@ func (p *Printer) visitIdentifier(ctx Context, n *sql.Identifier) {
 func (p *Printer) visitPathExpression(ctx Context, n *sql.PathExpression) {
 	p.moveBefore(n)
 	p.printOpenParenIfNeeded(n)
-	children := n.Children()
-	nchildren := len(children)
-	ctx = ctx.WithValue(KeyPathParts, nchildren)
+	names := n.Names()
+	nnames := len(names)
+	ctx = ctx.WithValue(KeyPathParts, nnames)
 	// If in function name, it is a chained function call and the name
 	// has more than one part, then we need to force a parenthesis.
 	isFunctionName, _ := ctx.Bool(KeyInFunctionName)
 	var forceParen bool
-	if isFunctionName && nchildren > 1 {
+	if isFunctionName && nnames > 1 {
 		if fn, ok := n.Parent().(*sql.FunctionCall); ok {
 			forceParen = fn.IsChainedCall()
 		}
-		if nchildren == 2 &&
-			children[0].Kind() == sql.IdentifierKind &&
-			children[1].Kind() == sql.IdentifierKind {
-			namespace := children[0].(*sql.Identifier)
+		if nnames == 2 &&
+			names[0].Kind() == sql.IdentifierKind &&
+			names[1].Kind() == sql.IdentifierKind {
+			namespace := names[0]
 			if strings.EqualFold(namespace.GetAsString(), "SAFE") {
 				ctx = ctx.WithValue(KeyIsSafeNamespace, true)
 			}
@@ -282,7 +282,7 @@ func (p *Printer) visitPathExpression(ctx Context, n *sql.PathExpression) {
 	if forceParen {
 		p.print("(")
 	}
-	for i, name := range children {
+	for i, name := range names {
 		if i > 0 {
 			p.print(".")
 		}
@@ -360,10 +360,7 @@ func (p *Printer) visitQueryStatement(ctx Context, n *sql.QueryStatement) {
 }
 
 func (p *Printer) visitScript(ctx Context, n *sql.Script) {
-	for _, c := range n.Children() {
-		p.moveBefore(c)
-		p.accept(ctx, c)
-	}
+	p.accept(ctx, n.StatementList())
 }
 
 func (p *Printer) visitSelect(ctx Context, n *sql.Select) {
@@ -441,7 +438,7 @@ func (p *Printer) visitSelectList(ctx Context, n *sql.SelectList) {
 	pp := p.nest()
 	singleLine, _ := ctx.Bool(KeySingleLineCols)
 	var prev sql.Node
-	for i, c := range ChildrenOfType[*sql.SelectColumn](n) {
+	for i, c := range n.Columns() {
 		if i > 0 {
 			pp.print(",")
 			pp.movePastLine(prev)
@@ -476,7 +473,7 @@ func (p *Printer) visitStatementList(ctx Context, n *sql.StatementList) {
 		prevKind sql.NodeKind
 	)
 	p.moveBefore(n)
-	for i, c := range n.Children() {
+	for i, c := range n.Statements() {
 		currKind := c.Kind()
 		if i > 0 {
 			p.print(";")
@@ -585,7 +582,7 @@ func (p *Printer) visitAnalyticFunctionCall(ctx Context, n *sql.AnalyticFunction
 }
 
 func (p *Printer) visitAndExpr(ctx Context, n *sql.AndExpr) {
-	conjuncts := ChildrenExpressions(n)
+	conjuncts := n.Conjuncts()
 	inClause := sql.IsInsideOfWhereClause(n) || sql.IsInsideOfOnClause(n)
 	alignWithClause := p.Writer.opts.AlignLogicalWithClauses && inClause
 	// inMerge := isInsideOfMergeStatement(n)
@@ -672,18 +669,18 @@ func (p *Printer) visitArrayConstructor(ctx Context, n *sql.ArrayConstructor) {
 			pp.print(pp.keyword("ARRAY"))
 		}
 	}
-	children := ChildrenExpressions(n)
-	simple := len(children) <= 1 || allTrue(mapIsSimpleExprs(children))
+	elems := n.Elements()
+	simple := len(elems) <= 1 || allTrue(mapIsSimpleExprs(elems))
 	if simple {
 		pp.print("[")
-		printNestedWithSepNode(ctx, pp, children, ",")
+		printNestedWithSepNode(ctx, pp, elems, ",")
 		pp.print("]")
 	} else {
 		pp1 := pp.nest()
 		pp1.println("[")
 		pp1.incDepth()
 		pp12 := pp1.nest()
-		for i, elem := range ChildrenExpressions(n) {
+		for i, elem := range elems {
 			if i > 0 {
 				pp12.println(",")
 			}
@@ -794,9 +791,9 @@ func (p *Printer) visitBinaryExpression(ctx Context, n *sql.BinaryExpression) {
 		p.print(lhsAlign + "||" + rhsAlign)
 	case sql.DistinctOp:
 		if n.IsNot() {
-			p.print(lhsAlign + p.keyword("IS NOT DISTINCT FROM") + " " + rhsAlign)
+			p.print(lhsAlign + p.keyword("IS NOT DISTINCT FROM"))
 		} else {
-			p.print(lhsAlign + p.keyword("IS DISTINCT FROM") + " " + rhsAlign)
+			p.print(lhsAlign + p.keyword("IS DISTINCT FROM"))
 		}
 	}
 	p.moveBefore(n)
@@ -822,7 +819,7 @@ func (p *Printer) visitBitwiseShiftExpression(ctx Context, n *sql.BitwiseShiftEx
 func (p *Printer) visitCaseNoValueExpression(ctx Context, n *sql.CaseNoValueExpression) {
 	p.moveBefore(n)
 	p.printOpenParenIfNeededWithDepth(n)
-	args := ChildrenExpressions(n)
+	args := n.Arguments()
 	argsSimple := caseArgsGetIsSimple(args)
 	simple := allTrue(argsSimple)
 	pp := p.nest()
@@ -848,7 +845,7 @@ func (p *Printer) visitCaseNoValueExpression(ctx Context, n *sql.CaseNoValueExpr
 func (p *Printer) visitCaseValueExpression(ctx Context, n *sql.CaseValueExpression) {
 	p.moveBefore(n)
 	p.printOpenParenIfNeededWithDepth(n)
-	args := ChildrenExpressions(n)
+	args := n.Arguments()
 	argsSimple := caseArgsGetIsSimple(args)
 	simple := allTrue(argsSimple)
 	pp := p.nest()
@@ -911,7 +908,7 @@ func (p *Printer) visitClusterBy(ctx Context, n *sql.ClusterBy) {
 	p.print(p.keyword("CLUSTER"))
 	p1 := p.nest()
 	p1.print(p1.keyword("BY"))
-	printNestedWithSepNode(ctx, p1, ChildrenExpressions(n), ",")
+	printNestedWithSepNode(ctx, p1, n.ClusteringExpressions(), ",")
 	p.print(p1.unnest())
 }
 
@@ -923,7 +920,7 @@ func (p *Printer) visitCollate(ctx Context, n *sql.Collate) {
 
 func (p *Printer) visitColumnAttributeList(ctx Context, n *sql.ColumnAttributeList) {
 	p.moveBefore(n)
-	for _, val := range n.Children() {
+	for _, val := range n.Values() {
 		p.lnaccept(ctx, val)
 	}
 	p.movePast(n)
@@ -950,7 +947,7 @@ func (p *Printer) visitDescriptorColumn(ctx Context, n *sql.DescriptorColumn) {
 
 func (p *Printer) visitDescriptorColumnList(ctx Context, n *sql.DescriptorColumnList) {
 	p.moveBefore(n)
-	for i, c := range ChildrenOfType[*sql.DescriptorColumn](n) {
+	for i, c := range n.Columns() {
 		if i > 0 {
 			p.print(",")
 		}
@@ -1121,7 +1118,7 @@ func (p *Printer) visitGroupingItem(ctx Context, n *sql.GroupingItem) {
 
 func (p *Printer) visitIdentifierList(ctx Context, n *sql.IdentifierList) {
 	p.moveBefore(n)
-	printNestedWithSepNode(ctx, p, ChildrenOfType[*sql.Identifier](n), ",")
+	printNestedWithSepNode(ctx, p, n.IdentifierList(), ",")
 }
 
 func (p *Printer) visitInExpression(ctx Context, n *sql.InExpression) {
@@ -1168,7 +1165,7 @@ func (p *Printer) visitInExpression(ctx Context, n *sql.InExpression) {
 func (p *Printer) visitInList(ctx Context, n *sql.InList) {
 	p.moveBefore(n)
 	p.print("(")
-	elems := ChildrenExpressions(n)
+	elems := n.List()
 	simple := allTrue(mapIsSimpleExprs(elems))
 	if !simple {
 		p.println("")
@@ -1214,7 +1211,7 @@ func (p *Printer) visitHint(ctx Context, n *sql.Hint) {
 		p.print("@")
 		p.accept(ctx, shards)
 	}
-	entries := ChildrenOfType[*sql.HintEntry](n)
+	entries := n.HintEntries()
 	if len(entries) > 0 {
 		b.WriteString("@{")
 		for i, h := range entries {
@@ -1362,7 +1359,7 @@ func (p *Printer) visitMaybeClauseAligned(n sql.ExpressionNode, ctx Context) {
 	switch n.Kind() {
 	case sql.AndExprKind:
 		bin := n.(*sql.AndExpr)
-		for i, conjunct := range ChildrenExpressions(bin) {
+		for i, conjunct := range bin.Conjuncts() {
 			if i > 0 {
 				if p.Writer.opts.AlignLogicalWithClauses {
 					// Clear buffer and write AND as a clause.
@@ -1378,7 +1375,7 @@ func (p *Printer) visitMaybeClauseAligned(n sql.ExpressionNode, ctx Context) {
 		}
 	case sql.OrExprKind:
 		bin := n.(*sql.OrExpr)
-		for i, disjunct := range ChildrenExpressions(bin) {
+		for i, disjunct := range bin.Disjuncts() {
 			if i > 0 {
 				if p.Writer.opts.AlignLogicalWithClauses {
 					p.print(pp.unnest())
@@ -1437,7 +1434,7 @@ func (p *Printer) visitOnClause(ctx Context, n *sql.OnClause) {
 }
 
 func (p *Printer) visitOptionsList(ctx Context, n *sql.OptionsList) {
-	entries := ChildrenOfType[*sql.OptionsEntry](n)
+	entries := n.OptionsEntries()
 	simple := len(entries) <= 1 && allTrue(mapIsSimpleOptionsList(n))
 	ctx = ctx.WithValue(KeySimpleOptions, simple)
 	pp := p.nest()
@@ -1483,7 +1480,7 @@ func (p *Printer) visitOptionsEntry(ctx Context, n *sql.OptionsEntry) {
 }
 
 func (p *Printer) visitOrExpr(ctx Context, n *sql.OrExpr) {
-	disjuncts := ChildrenExpressions(n)
+	disjuncts := n.Disjuncts()
 	p1 := p.nest()
 	inClause := sql.IsInsideOfWhereClause(n) || sql.IsInsideOfOnClause(n)
 	simple := allTrue(mapIsSimpleExprs(disjuncts)) && (len(disjuncts) < 4)
@@ -1540,7 +1537,7 @@ func (p *Printer) visitOrderBy(ctx Context, n *sql.OrderBy) {
 	p1.accept(ctx, n.Hint())
 	p1.print(p1.keyword("BY"))
 	p1.moveBefore(n)
-	printNestedWithSepNode(ctx, p1, ChildrenOfType[*sql.OrderingExpression](n), ",")
+	printNestedWithSepNode(ctx, p1, n.OrderingExpressions(), ",")
 	p1.moveBeforeSuccessorOf(n)
 	p.print(p1.unnestLeft())
 }
@@ -1588,13 +1585,13 @@ func (p *Printer) visitPartitionBy(ctx Context, n *sql.PartitionBy) {
 	p1 := p.nest()
 	p1.accept(ctx, n.Hint())
 	p1.print(p1.keyword("BY"))
-	printNestedWithSepNode(ctx, p1, ChildrenExpressions(n), ",")
+	printNestedWithSepNode(ctx, p1, n.PartitioningExpressions(), ",")
 	p.print(p1.unnest())
 }
 
 func (p *Printer) visitPathExpressionList(ctx Context, n *sql.PathExpressionList) {
 	p.moveBefore(n)
-	exprs := ChildrenOfType[*sql.PathExpression](n)
+	exprs := n.PathExpressionList()
 	parens := len(exprs) > 1
 	if parens {
 		p.print("(")
@@ -1676,9 +1673,8 @@ func (p *Printer) visitPivotForExpression(ctx Context, n *sql.PivotClause) {
 
 func (p *Printer) visitPivotExpressionList(ctx Context, n *sql.PivotExpressionList) {
 	p.moveBefore(n)
-	exprs := ChildrenOfType[*sql.PivotExpression](n)
 	simple := allTrue(mapIsSimplePivotExpressionList(n))
-	for i, e := range exprs {
+	for i, e := range n.Expressions() {
 		if i > 0 {
 			p.print(",")
 			if !simple {
@@ -1700,7 +1696,7 @@ func (p *Printer) visitPivotValue(ctx Context, n *sql.PivotValue) {
 func (p *Printer) visitPivotValueList(ctx Context, n *sql.PivotValueList) {
 	p.moveBefore(n)
 	simple, _ := ctx.Bool(KeySimplePivotValues)
-	for i, v := range ChildrenOfType[*sql.PivotValue](n) {
+	for i, v := range n.Values() {
 		if i > 0 {
 			p.print(",")
 			if !simple {
@@ -1731,7 +1727,7 @@ func (p *Printer) visitRepeatableClause(ctx Context, n *sql.RepeatableClause) {
 func (p *Printer) visitRollup(ctx Context, n *sql.Rollup) {
 	p.print(p.keyword("ROLLUP"))
 	p.print("(")
-	for i, expr := range ChildrenExpressions(n) {
+	for i, expr := range n.Expressions() {
 		if i > 0 {
 			p.print(",")
 		}
@@ -1847,7 +1843,7 @@ func (p *Printer) visitStarModifiers(ctx Context, n *sql.StarModifiers) {
 	if el := n.ExceptList(); el != nil {
 		p.print(p.keyword("EXCEPT"))
 		p.print("(")
-		for i, e := range ChildrenOfType[*sql.Identifier](el) {
+		for i, e := range el.Identifiers() {
 			if i > 0 {
 				p.print(",")
 			}
@@ -1855,7 +1851,7 @@ func (p *Printer) visitStarModifiers(ctx Context, n *sql.StarModifiers) {
 		}
 		p.print(")")
 	}
-	items := ChildrenOfType[*sql.StarReplaceItem](n)
+	items := n.ReplaceItems()
 	if len(items) > 0 {
 		p.println("")
 		p.print(p.keyword("REPLACE"))
@@ -1955,7 +1951,7 @@ func (p *Printer) visitStructConstructorWithKeyword(ctx Context, n *sql.StructCo
 	} else {
 		p.print(p.keyword("STRUCT") + "(")
 	}
-	fields := ChildrenOfType[*sql.StructConstructorArg](n)
+	fields := n.Fields()
 	simple := allTrue(mapIsSimpleStructConstructorArg(fields))
 	if !simple {
 		p.println("")
@@ -1982,7 +1978,7 @@ func (p *Printer) visitStructConstructorWithParens(ctx Context, n *sql.StructCon
 	p.moveBefore(n)
 	p.printOpenParenIfNeededWithDepth(n)
 	p.print("(")
-	exprs := ChildrenExpressions(n)
+	exprs := n.FieldExpressions()
 	simple := allTrue(mapIsSimpleExprs(exprs))
 	pp := p.nest()
 	if !simple {
@@ -2034,7 +2030,7 @@ func (p *Printer) visitTVFArgument(ctx Context, n *sql.TVFArgument) {
 
 func (p *Printer) visitTVF(ctx Context, n *sql.TVF) {
 	p.moveBefore(n)
-	args := ChildrenOfType[*sql.TVFArgument](n)
+	args := n.ArgumentEntries()
 	simple := len(args) <= 4 && allTrue(mapIsSimpleTVFArguments(args))
 	p.print(p.functionName(p.toString(ctx.WithValue(KeyInFunctionName, true), n.Name())) + "(")
 	if !simple {
@@ -2084,7 +2080,7 @@ func (p *Printer) visitTVF(ctx Context, n *sql.TVF) {
 func (p *Printer) visitTypeParameterList(ctx Context, n *sql.TypeParameterList) {
 	p.moveBefore(n)
 	p.print("(")
-	printNestedWithSepNode(ctx, p, n.Children(), ",")
+	printNestedWithSepNode(ctx, p, n.Parameters(), ",")
 	p.print(")")
 }
 
@@ -2126,7 +2122,7 @@ func (p *Printer) visitUnnestExpression(ctx Context, n *sql.UnnestExpression) {
 	p.moveBefore(n)
 	pp := p.nest()
 	pp.print(pp.keyword("UNNEST") + "(")
-	if exprs := ChildrenOfType[*sql.ExpressionWithOptAlias](n); len(exprs) > 1 {
+	if exprs := n.Expressions(); len(exprs) > 1 {
 		pp.println("")
 		pp.incDepth()
 		printlnNestedWithSepNode(ctx, pp, exprs, ",")
@@ -2218,7 +2214,7 @@ func (p *Printer) visitUnpivotInItemLabel(ctx Context, n *sql.UnpivotInItemLabel
 func (p *Printer) visitUnpivotInItemList(ctx Context, n *sql.UnpivotInItemList) {
 	p.moveBefore(n)
 	simple, _ := ctx.Bool(KeySimpleUnpivotInTime)
-	for i, item := range ChildrenOfType[*sql.UnpivotInItem](n) {
+	for i, item := range n.InItems() {
 		if i > 0 {
 			p.print(",")
 			if !simple {
@@ -2233,13 +2229,13 @@ func (p *Printer) visitUnpivotInItemList(ctx Context, n *sql.UnpivotInItemList) 
 func (p *Printer) visitUsingClause(ctx Context, n *sql.UsingClause) {
 	p.moveBefore(n)
 	p.printClause(p.keyword("USING") + " (")
-	printNestedWithSepNode(ctx, p, ChildrenExpressions(n), ",")
+	printNestedWithSepNode(ctx, p, n.Keys(), ",")
 	p.print(")")
 }
 
 func (p *Printer) visitWindowClause(ctx Context, n *sql.WindowClause) {
 	p.moveBefore(n)
-	for i, w := range ChildrenOfType[*sql.WindowDefinition](n) {
+	for i, w := range n.Windows() {
 		if i > 0 {
 			p.println(",")
 		}
@@ -2348,7 +2344,7 @@ func (p *Printer) visitWithClause(ctx Context, n *sql.WithClause) {
 	if p.Writer.opts.IndentWithClause {
 		p.incDepth()
 	}
-	for i, e := range ChildrenOfType[*sql.WithClauseEntry](n) {
+	for i, e := range n.Entries() {
 		if i > 0 {
 			p.println(",")
 		}
@@ -2386,7 +2382,7 @@ func (p *Printer) visitWithExpression(ctx Context, n *sql.WithExpression) {
 
 func (p *Printer) visitWithExprVariables(ctx Context, n *sql.SelectList) {
 	pp := p.nest()
-	for i, v := range ChildrenOfType[*sql.SelectColumn](n) {
+	for i, v := range n.Columns() {
 		if i > 0 {
 			pp.println(",")
 		}

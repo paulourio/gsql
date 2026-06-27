@@ -115,7 +115,7 @@ func isSimpleExprInner(n sql.ExpressionNode, allowConstructors bool) bool {
 		if !allowConstructors {
 			return false
 		}
-		return allTrue(mapIsSimpleExprs2(ChildrenExpressions(n)))
+		return allTrue(mapIsSimpleExprs2(childrenExpressions(n)))
 	case sql.AndExprKind:
 		return isSimpleAndExpr(n.(*sql.AndExpr))
 	case sql.OrExprKind:
@@ -153,7 +153,7 @@ func isSimpleExprInner(n sql.ExpressionNode, allowConstructors bool) bool {
 		return isSimpleExpr2(b.IntervalValue())
 	case sql.FunctionCallKind:
 		f := n.(*sql.FunctionCall)
-		args := ChildrenExpressions(f)
+		args := f.Arguments()
 		elems := countFunctionCallElements(f)
 		return len(args) <= 4 && elems <= 1 && allTrue(mapIsSimpleExprs(args))
 	case sql.NamedArgumentKind:
@@ -201,7 +201,7 @@ func isSimpleExpr2(n sql.ExpressionNode) bool {
 		return isSimpleExpr2(b.Operand())
 	case sql.FunctionCallKind:
 		f := n.(*sql.FunctionCall)
-		args := ChildrenExpressions(f)
+		args := f.Arguments()
 		elems := countFunctionCallElements(f)
 		return len(args) <= 2 && elems <= 1 && allTrue(mapIsSimpleExprs2(args))
 	default:
@@ -224,7 +224,7 @@ func isSimpleAndExpr(n *sql.AndExpr) bool {
 			return false
 		}
 	}
-	conjuncts := ChildrenExpressions(n)
+	conjuncts := n.Conjuncts()
 	return len(conjuncts) <= 5 && allTrue(mapIsSimpleExprs2(conjuncts))
 }
 
@@ -232,7 +232,7 @@ func isSimpleOrExpr(n *sql.OrExpr) bool {
 	if n == nil {
 		return true
 	}
-	disjuncts := ChildrenExpressions(n)
+	disjuncts := n.Disjuncts()
 	parent := n.Parent()
 	if parent != nil {
 		switch parent.Kind() {
@@ -280,12 +280,16 @@ func isSimpleColumnSchemaNode(n sql.Node) (simpleType bool, simpleAttrs bool) {
 	}
 	// Dynamic check for type parameter lists and attributes using interfaces
 	// because concrete nodes might differ.
-	type withTypeParams interface { TypeParameters() *sql.TypeParameterList }
-	type withCollate   interface { Collate() *sql.Collate }
-	type withAttrs     interface { Attributes() *sql.ColumnAttributeList }
-	type withDefault   interface { DefaultExpression() sql.ExpressionNode }
-	type withGenerated interface { GeneratedColumnInfo() *sql.GeneratedColumnInfo }
-	type withOptions   interface { OptionsList() *sql.OptionsList }
+	type withTypeParams interface{ TypeParameters() *sql.TypeParameterList }
+	type withCollate interface{ Collate() *sql.Collate }
+	type withAttrs interface {
+		Attributes() *sql.ColumnAttributeList
+	}
+	type withDefault interface{ DefaultExpression() sql.ExpressionNode }
+	type withGenerated interface {
+		GeneratedColumnInfo() *sql.GeneratedColumnInfo
+	}
+	type withOptions interface{ OptionsList() *sql.OptionsList }
 
 	var tparams *sql.TypeParameterList
 	if w, ok := n.(withTypeParams); ok {
@@ -371,7 +375,7 @@ func (p *Printer) maybeSingleLineColumns(n *sql.Select) bool {
 	if n == nil {
 		return false
 	}
-	cols := ChildrenOfType[*sql.SelectColumn](n.SelectList())
+	cols := n.SelectList().Columns()
 	if len(cols) > p.Writer.opts.MaxColumnsForSingleLineSelect {
 		return false
 	}
@@ -438,7 +442,7 @@ func mapIsSimpleOptionsList(n *sql.OptionsList) []bool {
 	if n == nil {
 		return nil
 	}
-	entries := ChildrenOfType[*sql.OptionsEntry](n)
+	entries := n.OptionsEntries()
 	r := make([]bool, 0, len(entries))
 	for _, e := range entries {
 		r = append(r, isSimpleExpr(e.Value()))
@@ -451,7 +455,7 @@ func mapIsSimplePathExpressionList(n *sql.PathExpressionList) []bool {
 		return nil
 	}
 	r := make([]bool, 0, n.NumChildren())
-	for _, p := range ChildrenOfType[*sql.PathExpression](n) {
+	for _, p := range n.PathExpressionList() {
 		r = append(r, isSimpleExpr(p))
 	}
 	return r
@@ -462,7 +466,7 @@ func mapIsSimplePivotExpressionList(n *sql.PivotExpressionList) []bool {
 		return nil
 	}
 	r := make([]bool, 0, n.NumChildren())
-	for _, a := range ChildrenOfType[*sql.PivotExpression](n) {
+	for _, a := range n.Expressions() {
 		r = append(r, isSimpleExpr(a.Expression()) && a.Alias() == nil)
 	}
 	return r
@@ -481,7 +485,7 @@ func mapIsSimplePivotForExpression(n *sql.PivotClause) []bool {
 
 func mapIsSimplePivotValueList(n *sql.PivotValueList) []bool {
 	r := make([]bool, 0, n.NumChildren())
-	for _, a := range ChildrenOfType[*sql.PivotValue](n) {
+	for _, a := range n.Values() {
 		r = append(r, isSimpleExpr(a.Value()) && a.Alias() == nil)
 	}
 	return r
@@ -516,7 +520,7 @@ func mapIsSimpleUnpivotInItemList(n *sql.UnpivotInItemList) []bool {
 		return nil
 	}
 	r := make([]bool, 0, n.NumChildren())
-	for _, item := range ChildrenOfType[*sql.UnpivotInItem](n) {
+	for _, item := range n.InItems() {
 		simple := allTrue(mapIsSimplePathExpressionList(item.UnpivotColumns()))
 		r = append(r, simple && item.Alias() == nil)
 	}

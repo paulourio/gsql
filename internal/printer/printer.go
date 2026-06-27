@@ -1168,7 +1168,7 @@ func precedenceUnaryExpr(n *sql.UnaryExpression) int {
 	return -1
 }
 
-func ChildrenExpressions(n sql.Node) []sql.ExpressionNode {
+func childrenExpressions(n sql.Node) []sql.ExpressionNode {
 	if !sql.Defined(n) {
 		return nil
 	}
@@ -1176,19 +1176,6 @@ func ChildrenExpressions(n sql.Node) []sql.ExpressionNode {
 	for _, c := range n.Children() {
 		if e, ok := c.(sql.ExpressionNode); ok {
 			result = append(result, e)
-		}
-	}
-	return result
-}
-
-func ChildrenOfType[T sql.Node](n sql.Node) []T {
-	if !sql.Defined(n) {
-		return nil
-	}
-	var result []T
-	for _, c := range n.Children() {
-		if t, ok := c.(T); ok {
-			result = append(result, t)
 		}
 	}
 	return result

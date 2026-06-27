@@ -46,6 +46,17 @@ func (n *Query) LimitOffset() *LimitOffset {
 func (n *Query) LockMode() *LockMode { return newASTLockMode(must(n.raw.LockMode())) }
 func (n *Query) IsNested() bool      { return must(n.raw.IsNested()) }
 
+// PipeOperators returns all pipe operators.
+func (n *Query) PipeOperators() []PipeOperatorNode {
+	var result []PipeOperatorNode
+	for _, c := range n.Children() {
+		if op, ok := c.(PipeOperatorNode); ok {
+			result = append(result, op)
+		}
+	}
+	return result
+}
+
 // Script wraps *googlesql.ASTScript.
 type Script struct{ baseNode[*googlesql.ASTScript] }
 
@@ -574,6 +585,17 @@ func (n *TVF) SampleClause() *SampleClause {
 	return newASTSampleClause(must(n.raw.SampleClause()))
 }
 
+// ArgumentEntries returns all argument entries.
+func (n *TVF) ArgumentEntries() []*TVFArgument {
+	var result []*TVFArgument
+	for _, c := range n.Children() {
+		if a, ok := c.(*TVFArgument); ok {
+			result = append(result, a)
+		}
+	}
+	return result
+}
+
 // TableClause wraps *googlesql.ASTTableClause.
 type TableClause struct {
 	baseNode[*googlesql.ASTTableClause]
@@ -608,6 +630,17 @@ func newASTUnnestExpression(r *googlesql.ASTUnnestExpression) *UnnestExpression 
 func (n *UnnestExpression) isTableExpression() {}
 func (n *UnnestExpression) Expression() ExpressionNode {
 	return wrapExpr(must(n.raw.Expression()))
+}
+
+// Expressions returns all expressions.
+func (n *UnnestExpression) Expressions() []*ExpressionWithOptAlias {
+	var result []*ExpressionWithOptAlias
+	for _, c := range n.Children() {
+		if e, ok := c.(*ExpressionWithOptAlias); ok {
+			result = append(result, e)
+		}
+	}
+	return result
 }
 
 // UnnestExpressionWithOptAliasAndOffset wraps
@@ -671,14 +704,11 @@ func (n *GroupBy) AndOrderBy() bool { return must(n.raw.AndOrderBy()) }
 
 // GroupingItems: raw GroupingItems(i) returns *GroupingItem (concrete) → []*GroupingItem.
 func (n *GroupBy) GroupingItems() []*GroupingItem {
-	count := n.NumChildren()
-	result := make([]*GroupingItem, 0, count)
-	for i := range count {
-		item := must(n.raw.GroupingItems(int32(i)))
-		if item == nil {
-			break
+	var result []*GroupingItem
+	for _, c := range n.Children() {
+		if item, ok := c.(*GroupingItem); ok {
+			result = append(result, item)
 		}
-		result = append(result, newASTGroupingItem(item))
 	}
 	return result
 }
@@ -762,14 +792,11 @@ func (n *OrderBy) Hint() *Hint { return newASTHint(must(n.raw.Hint())) }
 
 // OrderingExpressions: raw OrderingExpressions(i) returns *OrderingExpression (concrete).
 func (n *OrderBy) OrderingExpressions() []*OrderingExpression {
-	count := n.NumChildren()
-	result := make([]*OrderingExpression, 0, count)
-	for i := range count {
-		e := must(n.raw.OrderingExpressions(int32(i)))
-		if e == nil {
-			break
+	var result []*OrderingExpression
+	for _, c := range n.Children() {
+		if e, ok := c.(*OrderingExpression); ok {
+			result = append(result, e)
 		}
-		result = append(result, newASTOrderingExpression(e))
 	}
 	return result
 }
@@ -1038,14 +1065,11 @@ func (n *Hint) NumShardsHint() *IntLiteral {
 
 // HintEntries: raw HintEntries(i) returns *HintEntry (concrete) → []*HintEntry.
 func (n *Hint) HintEntries() []*HintEntry {
-	count := n.NumChildren()
-	result := make([]*HintEntry, 0, count)
-	for i := range count {
-		e := must(n.raw.HintEntries(int32(i)))
-		if e == nil {
-			break
+	var result []*HintEntry
+	for _, c := range n.Children() {
+		if e, ok := c.(*HintEntry); ok {
+			result = append(result, e)
 		}
-		result = append(result, newASTHintEntry(e))
 	}
 	return result
 }
@@ -1280,6 +1304,20 @@ func newASTRollup(r *googlesql.ASTRollup) *Rollup {
 	return &Rollup{baseNode[*googlesql.ASTRollup]{raw: r}}
 }
 
+// Expressions returns rollup expressions.
+func (n *Rollup) Expressions() []ExpressionNode {
+	count := n.NumChildren()
+	result := make([]ExpressionNode, 0, count)
+	for i := range count {
+		e := must(n.raw.Expressions(int32(i)))
+		if e == nil {
+			break
+		}
+		result = append(result, wrapExpr(e))
+	}
+	return result
+}
+
 // Cube wraps *googlesql.ASTCube.
 type Cube struct{ baseNode[*googlesql.ASTCube] }
 
@@ -1288,6 +1326,20 @@ func newASTCube(r *googlesql.ASTCube) *Cube {
 		return nil
 	}
 	return &Cube{baseNode[*googlesql.ASTCube]{raw: r}}
+}
+
+// Expressions returns cube expressions.
+func (n *Cube) Expressions() []ExpressionNode {
+	count := n.NumChildren()
+	result := make([]ExpressionNode, 0, count)
+	for i := range count {
+		e := must(n.raw.Expressions(int32(i)))
+		if e == nil {
+			break
+		}
+		result = append(result, wrapExpr(e))
+	}
+	return result
 }
 
 // ─── Identifiers / Path expressions ──────────────────────────────────────────
@@ -1466,14 +1518,11 @@ func (n *StarModifiers) ExceptList() *StarExceptList {
 
 // ReplaceItems: raw returns *StarReplaceItem (concrete) → []*StarReplaceItem.
 func (n *StarModifiers) ReplaceItems() []*StarReplaceItem {
-	count := n.NumChildren()
-	result := make([]*StarReplaceItem, 0, count)
-	for i := range count {
-		item := must(n.raw.ReplaceItems(int32(i)))
-		if item == nil {
-			break
+	var result []*StarReplaceItem
+	for _, c := range n.Children() {
+		if item, ok := c.(*StarReplaceItem); ok {
+			result = append(result, item)
 		}
-		result = append(result, newASTStarReplaceItem(item))
 	}
 	return result
 }
@@ -1892,16 +1941,11 @@ func (n *ArrayConstructor) Type() *ArrayType {
 
 // Elements: raw Elements(i) returns ExpressionNode (interface) → []ExpressionNode.
 func (n *ArrayConstructor) Elements() []ExpressionNode {
-	count := n.NumChildren()
-	result := make([]ExpressionNode, 0, count)
-	for i := range count {
-		e := must(n.raw.Elements(int32(i)))
-		if !defined(e) {
-			break
-		}
-		result = append(result, wrapExpr(e))
+	var elems []ExpressionNode
+	for e := range childrenOfType[googlesql.ASTExpressionNode](n) {
+		elems = append(elems, wrapExpr(e))
 	}
-	return result
+	return elems
 }
 
 // ArrayElement wraps *googlesql.ASTArrayElement.
@@ -2281,6 +2325,20 @@ func newASTPivotExpressionList(r *googlesql.ASTPivotExpressionList) *PivotExpres
 	return &PivotExpressionList{baseNode[*googlesql.ASTPivotExpressionList]{raw: r}}
 }
 
+// Expressions returns all pivot expressions.
+func (n *PivotExpressionList) Expressions() []*PivotExpression {
+	count := n.NumChildren()
+	result := make([]*PivotExpression, 0, count)
+	for i := range count {
+		e := must(n.raw.Expressions(int32(i)))
+		if e == nil {
+			break
+		}
+		result = append(result, newASTPivotExpression(e))
+	}
+	return result
+}
+
 // PivotValueList wraps *googlesql.ASTPivotValueList.
 type PivotValueList struct {
 	baseNode[*googlesql.ASTPivotValueList]
@@ -2291,6 +2349,20 @@ func newASTPivotValueList(r *googlesql.ASTPivotValueList) *PivotValueList {
 		return nil
 	}
 	return &PivotValueList{baseNode[*googlesql.ASTPivotValueList]{raw: r}}
+}
+
+// Values returns all pivot values.
+func (n *PivotValueList) Values() []*PivotValue {
+	count := n.NumChildren()
+	result := make([]*PivotValue, 0, count)
+	for i := range count {
+		e := must(n.raw.Values(int32(i)))
+		if e == nil {
+			break
+		}
+		result = append(result, newASTPivotValue(e))
+	}
+	return result
 }
 
 // UnpivotClause wraps *googlesql.ASTUnpivotClause.
@@ -2355,6 +2427,20 @@ func newASTUnpivotInItemList(r *googlesql.ASTUnpivotInItemList) *UnpivotInItemLi
 		return nil
 	}
 	return &UnpivotInItemList{baseNode[*googlesql.ASTUnpivotInItemList]{raw: r}}
+}
+
+// InItems returns all unpivot IN items.
+func (n *UnpivotInItemList) InItems() []*UnpivotInItem {
+	count := n.NumChildren()
+	result := make([]*UnpivotInItem, 0, count)
+	for i := range count {
+		item := must(n.raw.InItems(int32(i)))
+		if item == nil {
+			break
+		}
+		result = append(result, newASTUnpivotInItem(item))
+	}
+	return result
 }
 
 // UnpivotInItemLabel wraps *googlesql.ASTUnpivotInItemLabel.
@@ -2736,6 +2822,20 @@ func newASTDescriptorColumnList(r *googlesql.ASTDescriptorColumnList) *Descripto
 	return &DescriptorColumnList{baseNode[*googlesql.ASTDescriptorColumnList]{raw: r}}
 }
 
+// Columns returns all columns.
+func (n *DescriptorColumnList) Columns() []*DescriptorColumn {
+	count := n.NumChildren()
+	result := make([]*DescriptorColumn, 0, count)
+	for i := range count {
+		c := must(n.raw.DescriptorColumnList(int32(i)))
+		if c == nil {
+			break
+		}
+		result = append(result, newASTDescriptorColumn(c))
+	}
+	return result
+}
+
 // ─── STATEMENT LIST ───────────────────────────────────────────────────────────
 
 // StatementList wraps *googlesql.ASTStatementList.
@@ -2748,6 +2848,16 @@ func newASTStatementList(r *googlesql.ASTStatementList) *StatementList {
 		return nil
 	}
 	return &StatementList{baseNode[*googlesql.ASTStatementList]{raw: r}}
+}
+
+func (n *StatementList) Statements() []StatementNode {
+	var result []StatementNode
+	for _, c := range n.Children() {
+		if stmt, ok := c.(StatementNode); ok {
+			result = append(result, stmt)
+		}
+	}
+	return result
 }
 
 // StructConstructorArg wraps *googlesql.ASTStructConstructorArg.
@@ -2828,6 +2938,17 @@ func (n *StructConstructorWithKeyword) StructType() *StructType {
 	return newASTStructType(must(n.raw.StructType()))
 }
 
+// Fields returns all struct constructor arguments.
+func (n *StructConstructorWithKeyword) Fields() []*StructConstructorArg {
+	var result []*StructConstructorArg
+	for _, c := range n.Children() {
+		if a, ok := c.(*StructConstructorArg); ok {
+			result = append(result, a)
+		}
+	}
+	return result
+}
+
 // StructConstructorWithParens wraps *googlesql.ASTStructConstructorWithParens.
 type StructConstructorWithParens struct {
 	baseNode[*googlesql.ASTStructConstructorWithParens]
@@ -2840,6 +2961,20 @@ func newASTStructConstructorWithParens(r *googlesql.ASTStructConstructorWithPare
 	return &StructConstructorWithParens{baseNode[*googlesql.ASTStructConstructorWithParens]{raw: r}}
 }
 func (n *StructConstructorWithParens) isExpression() {}
+
+// FieldExpressions returns all field expressions.
+func (n *StructConstructorWithParens) FieldExpressions() []ExpressionNode {
+	count := n.NumChildren()
+	result := make([]ExpressionNode, 0, count)
+	for i := range count {
+		e := must(n.raw.FieldExpressions(int32(i)))
+		if e == nil {
+			break
+		}
+		result = append(result, wrapExpr(e))
+	}
+	return result
+}
 
 // ModelClause wraps *googlesql.ASTModelClause.
 type ModelClause struct {

@@ -155,3 +155,18 @@ func newASTTypeParameterList(r *googlesql.ASTTypeParameterList) *TypeParameterLi
 	}
 	return &TypeParameterList{baseNode[*googlesql.ASTTypeParameterList]{raw: r}}
 }
+
+// Parameters returns all type parameters.
+func (n *TypeParameterList) Parameters() []Node {
+	count := n.NumChildren()
+	result := make([]Node, 0, count)
+	for i := range count {
+		p := must(n.raw.Parameters(int32(i)))
+		if p == nil {
+			break
+		}
+		result = append(result, Wrap(p))
+	}
+	return result
+}
+

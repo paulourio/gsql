@@ -61,6 +61,7 @@ func newASTInsertStatement(r *googlesql.ASTInsertStatement) *InsertStatement {
 	}
 	return &InsertStatement{baseNode[*googlesql.ASTInsertStatement]{raw: r}}
 }
+func (n *InsertStatement) isStatement()     {}
 func (n *InsertStatement) TargetPath() Node { return Wrap(must(n.raw.TargetPath())) }
 func (n *InsertStatement) ColumnList() *ColumnList {
 	return newASTColumnList(must(n.raw.ColumnList()))
@@ -211,6 +212,7 @@ func newASTMergeStatement(r *googlesql.ASTMergeStatement) *MergeStatement {
 	}
 	return &MergeStatement{baseNode[*googlesql.ASTMergeStatement]{raw: r}}
 }
+func (n *MergeStatement) isStatement() {}
 
 func (n *MergeStatement) TargetPath() *PathExpression {
 	return newASTPathExpression(must(n.raw.TargetPath()))
@@ -241,6 +243,7 @@ func newASTTruncateStatement(r *googlesql.ASTTruncateStatement) *TruncateStateme
 	}
 	return &TruncateStatement{baseNode[*googlesql.ASTTruncateStatement]{raw: r}}
 }
+func (n *TruncateStatement) isStatement() {}
 
 func (n *TruncateStatement) TargetPath() *PathExpression {
 	return newASTPathExpression(must(n.raw.TargetPath()))
@@ -260,6 +263,7 @@ func newASTAssignmentFromStruct(r *googlesql.ASTAssignmentFromStruct) *Assignmen
 	}
 	return &AssignmentFromStruct{baseNode[*googlesql.ASTAssignmentFromStruct]{raw: r}}
 }
+func (n *AssignmentFromStruct) isStatement() {}
 
 func (n *AssignmentFromStruct) Variables() *IdentifierList {
 	return newASTIdentifierList(must(n.raw.Variables()))

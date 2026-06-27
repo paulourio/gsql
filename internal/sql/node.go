@@ -98,6 +98,31 @@ type TypeNode interface {
 	isType()
 }
 
+// ColumnAttributeNode is the wrapped equivalent of googlesql.ASTColumnAttributeNode.
+type ColumnAttributeNode interface {
+	Node
+	isColumnAttribute()
+}
+
+// PipeOperatorNode is the wrapped equivalent of googlesql.ASTPipeOperatorNode.
+type PipeOperatorNode interface {
+	Node
+	isPipeOperator()
+}
+
+// TableElementNode is the wrapped equivalent of googlesql.ASTTableElementNode.
+type TableElementNode interface {
+	Node
+	isTableElement()
+}
+
+// AlterActionNode is the wrapped equivalent of googlesql.ASTAlterActionNode.
+type AlterActionNode interface {
+	Node
+	isAlterAction()
+}
+
+
 // CreateStatement is the interface satisfied by CREATE statement wrappers.
 type CreateStatement interface {
 	Node

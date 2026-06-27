@@ -159,6 +159,20 @@ func newASTColumnAttributeList(r *googlesql.ASTColumnAttributeList) *ColumnAttri
 	return &ColumnAttributeList{baseNode[*googlesql.ASTColumnAttributeList]{raw: r}}
 }
 
+// Values returns all column attributes.
+func (n *ColumnAttributeList) Values() []ColumnAttributeNode {
+	count := n.NumChildren()
+	result := make([]ColumnAttributeNode, 0, count)
+	for i := range count {
+		c := must(n.raw.Values(int32(i)))
+		if c == nil {
+			break
+		}
+		result = append(result, wrapColumnAttribute(c))
+	}
+	return result
+}
+
 // NotNullColumnAttribute wraps *googlesql.ASTNotNullColumnAttribute.
 type NotNullColumnAttribute struct {
 	baseNode[*googlesql.ASTNotNullColumnAttribute]
@@ -170,6 +184,7 @@ func newASTNotNullColumnAttribute(r *googlesql.ASTNotNullColumnAttribute) *NotNu
 	}
 	return &NotNullColumnAttribute{baseNode[*googlesql.ASTNotNullColumnAttribute]{raw: r}}
 }
+func (n *NotNullColumnAttribute) isColumnAttribute() {}
 
 // PrimaryKeyColumnAttribute wraps *googlesql.ASTPrimaryKeyColumnAttribute.
 type PrimaryKeyColumnAttribute struct {
@@ -182,7 +197,40 @@ func newASTPrimaryKeyColumnAttribute(r *googlesql.ASTPrimaryKeyColumnAttribute) 
 	}
 	return &PrimaryKeyColumnAttribute{baseNode[*googlesql.ASTPrimaryKeyColumnAttribute]{raw: r}}
 }
-func (n *PrimaryKeyColumnAttribute) Enforced() bool { return must(n.raw.Enforced()) }
+func (n *PrimaryKeyColumnAttribute) isColumnAttribute() {}
+func (n *PrimaryKeyColumnAttribute) Enforced() bool     { return must(n.raw.Enforced()) }
+
+// ForeignKeyColumnAttribute wraps *googlesql.ASTForeignKeyColumnAttribute.
+type ForeignKeyColumnAttribute struct {
+	baseNode[*googlesql.ASTForeignKeyColumnAttribute]
+}
+
+func newASTForeignKeyColumnAttribute(r *googlesql.ASTForeignKeyColumnAttribute) *ForeignKeyColumnAttribute {
+	if r == nil {
+		return nil
+	}
+	return &ForeignKeyColumnAttribute{baseNode[*googlesql.ASTForeignKeyColumnAttribute]{raw: r}}
+}
+func (n *ForeignKeyColumnAttribute) isColumnAttribute() {}
+func (n *ForeignKeyColumnAttribute) ConstraintName() *Identifier {
+	return newASTIdentifier(must(n.raw.ConstraintName()))
+}
+func (n *ForeignKeyColumnAttribute) Reference() *ForeignKeyReference {
+	return newASTForeignKeyReference(must(n.raw.Reference()))
+}
+
+// HiddenColumnAttribute wraps *googlesql.ASTHiddenColumnAttribute.
+type HiddenColumnAttribute struct {
+	baseNode[*googlesql.ASTHiddenColumnAttribute]
+}
+
+func newASTHiddenColumnAttribute(r *googlesql.ASTHiddenColumnAttribute) *HiddenColumnAttribute {
+	if r == nil {
+		return nil
+	}
+	return &HiddenColumnAttribute{baseNode[*googlesql.ASTHiddenColumnAttribute]{raw: r}}
+}
+func (n *HiddenColumnAttribute) isColumnAttribute() {}
 
 // ColumnDefinition wraps *googlesql.ASTColumnDefinition.
 type ColumnDefinition struct {
@@ -195,6 +243,7 @@ func newASTColumnDefinition(r *googlesql.ASTColumnDefinition) *ColumnDefinition 
 	}
 	return &ColumnDefinition{baseNode[*googlesql.ASTColumnDefinition]{raw: r}}
 }
+func (n *ColumnDefinition) isTableElement()   {}
 func (n *ColumnDefinition) Name() *Identifier { return newASTIdentifier(must(n.raw.Name())) }
 
 // Schema returns the column schema as Node.
@@ -250,11 +299,16 @@ func newASTTableElementList(r *googlesql.ASTTableElementList) *TableElementList 
 	return &TableElementList{baseNode[*googlesql.ASTTableElementList]{raw: r}}
 }
 
-// Elements returns all table element nodes as []Node.
-func (n *TableElementList) Elements() []Node {
-	var result []Node
-	for _, c := range n.Children() {
-		result = append(result, c)
+// Elements returns all table element nodes.
+func (n *TableElementList) Elements() []TableElementNode {
+	count := n.NumChildren()
+	result := make([]TableElementNode, 0, count)
+	for i := range count {
+		c := must(n.raw.Elements(int32(i)))
+		if c == nil {
+			break
+		}
+		result = append(result, wrapTableElement(c))
 	}
 	return result
 }
@@ -272,6 +326,7 @@ func newASTTableConstraint(r *googlesql.ASTTableConstraint) *TableConstraint {
 	}
 	return &TableConstraint{baseNode[*googlesql.ASTTableConstraint]{raw: r}}
 }
+func (n *TableConstraint) isTableElement() {}
 
 func (n *TableConstraint) ConstraintName() *Identifier {
 	return newASTIdentifier(must(n.raw.ConstraintName()))
@@ -288,8 +343,10 @@ func newASTPrimaryKey(r *googlesql.ASTPrimaryKey) *PrimaryKey {
 	}
 	return &PrimaryKey{baseNode[*googlesql.ASTPrimaryKey]{raw: r}}
 }
+func (n *PrimaryKey) isTableElement() {}
 
 func (n *PrimaryKey) ConstraintName() *Identifier {
+
 	return newASTIdentifier(must(n.raw.ConstraintName()))
 }
 
@@ -355,6 +412,7 @@ func newASTForeignKey(r *googlesql.ASTForeignKey) *ForeignKey {
 	}
 	return &ForeignKey{baseNode[*googlesql.ASTForeignKey]{raw: r}}
 }
+func (n *ForeignKey) isTableElement() {}
 
 func (n *ForeignKey) ConstraintName() *Identifier {
 	return newASTIdentifier(must(n.raw.ConstraintName()))
@@ -408,11 +466,16 @@ func newASTAlterActionList(r *googlesql.ASTAlterActionList) *AlterActionList {
 	return &AlterActionList{baseNode[*googlesql.ASTAlterActionList]{raw: r}}
 }
 
-// Actions returns all AlterActionNode children as []Node.
-func (n *AlterActionList) Actions() []Node {
-	var result []Node
-	for _, c := range n.Children() {
-		result = append(result, c)
+// Actions returns all AlterActionNode children.
+func (n *AlterActionList) Actions() []AlterActionNode {
+	count := n.NumChildren()
+	result := make([]AlterActionNode, 0, count)
+	for i := range count {
+		c := must(n.raw.Actions(int32(i)))
+		if c == nil {
+			break
+		}
+		result = append(result, wrapAlterAction(c))
 	}
 	return result
 }
@@ -428,6 +491,7 @@ func newASTAddColumnAction(r *googlesql.ASTAddColumnAction) *AddColumnAction {
 	}
 	return &AddColumnAction{baseNode[*googlesql.ASTAddColumnAction]{raw: r}}
 }
+func (n *AddColumnAction) isAlterAction()      {}
 func (n *AddColumnAction) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *AddColumnAction) ColumnDefinition() *ColumnDefinition {
 	return newASTColumnDefinition(must(n.raw.ColumnDefinition()))
@@ -444,6 +508,7 @@ func newASTAddConstraintAction(r *googlesql.ASTAddConstraintAction) *AddConstrai
 	}
 	return &AddConstraintAction{baseNode[*googlesql.ASTAddConstraintAction]{raw: r}}
 }
+func (n *AddConstraintAction) isAlterAction()      {}
 func (n *AddConstraintAction) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *AddConstraintAction) Constraint() Node    { return Wrap(must(n.raw.Constraint())) }
 
@@ -458,6 +523,7 @@ func newASTAlterColumnDropDefaultAction(r *googlesql.ASTAlterColumnDropDefaultAc
 	}
 	return &AlterColumnDropDefaultAction{baseNode[*googlesql.ASTAlterColumnDropDefaultAction]{raw: r}}
 }
+func (n *AlterColumnDropDefaultAction) isAlterAction()   {}
 func (n *AlterColumnDropDefaultAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *AlterColumnDropDefaultAction) ColumnName() *Identifier {
 	return newASTIdentifier(must(n.raw.ColumnName()))
@@ -474,6 +540,7 @@ func newASTAlterColumnDropNotNullAction(r *googlesql.ASTAlterColumnDropNotNullAc
 	}
 	return &AlterColumnDropNotNullAction{baseNode[*googlesql.ASTAlterColumnDropNotNullAction]{raw: r}}
 }
+func (n *AlterColumnDropNotNullAction) isAlterAction()   {}
 func (n *AlterColumnDropNotNullAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *AlterColumnDropNotNullAction) ColumnName() *Identifier {
 	return newASTIdentifier(must(n.raw.ColumnName()))
@@ -490,6 +557,7 @@ func newASTAlterColumnOptionsAction(r *googlesql.ASTAlterColumnOptionsAction) *A
 	}
 	return &AlterColumnOptionsAction{baseNode[*googlesql.ASTAlterColumnOptionsAction]{raw: r}}
 }
+func (n *AlterColumnOptionsAction) isAlterAction()   {}
 func (n *AlterColumnOptionsAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *AlterColumnOptionsAction) ColumnName() *Identifier {
 	return newASTIdentifier(must(n.raw.ColumnName()))
@@ -510,6 +578,7 @@ func newASTAlterColumnSetDefaultAction(r *googlesql.ASTAlterColumnSetDefaultActi
 	}
 	return &AlterColumnSetDefaultAction{baseNode[*googlesql.ASTAlterColumnSetDefaultAction]{raw: r}}
 }
+func (n *AlterColumnSetDefaultAction) isAlterAction()   {}
 func (n *AlterColumnSetDefaultAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *AlterColumnSetDefaultAction) ColumnName() *Identifier {
 	return newASTIdentifier(must(n.raw.ColumnName()))
@@ -530,6 +599,7 @@ func newASTAlterColumnTypeAction(r *googlesql.ASTAlterColumnTypeAction) *AlterCo
 	}
 	return &AlterColumnTypeAction{baseNode[*googlesql.ASTAlterColumnTypeAction]{raw: r}}
 }
+func (n *AlterColumnTypeAction) isAlterAction()   {}
 func (n *AlterColumnTypeAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *AlterColumnTypeAction) ColumnName() *Identifier {
 	return newASTIdentifier(must(n.raw.ColumnName()))
@@ -547,6 +617,7 @@ func newASTAlterConstraintEnforcementAction(r *googlesql.ASTAlterConstraintEnfor
 	}
 	return &AlterConstraintEnforcementAction{baseNode[*googlesql.ASTAlterConstraintEnforcementAction]{raw: r}}
 }
+func (n *AlterConstraintEnforcementAction) isAlterAction() {}
 
 // AlterConstraintSetOptionsAction wraps *googlesql.ASTAlterConstraintSetOptionsAction.
 type AlterConstraintSetOptionsAction struct {
@@ -559,6 +630,7 @@ func newASTAlterConstraintSetOptionsAction(r *googlesql.ASTAlterConstraintSetOpt
 	}
 	return &AlterConstraintSetOptionsAction{baseNode[*googlesql.ASTAlterConstraintSetOptionsAction]{raw: r}}
 }
+func (n *AlterConstraintSetOptionsAction) isAlterAction() {}
 
 // DropColumnAction wraps *googlesql.ASTDropColumnAction.
 type DropColumnAction struct {
@@ -571,6 +643,7 @@ func newASTDropColumnAction(r *googlesql.ASTDropColumnAction) *DropColumnAction 
 	}
 	return &DropColumnAction{baseNode[*googlesql.ASTDropColumnAction]{raw: r}}
 }
+func (n *DropColumnAction) isAlterAction()   {}
 func (n *DropColumnAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *DropColumnAction) ColumnName() *Identifier {
 	return newASTIdentifier(must(n.raw.ColumnName()))
@@ -587,6 +660,7 @@ func newASTDropConstraintAction(r *googlesql.ASTDropConstraintAction) *DropConst
 	}
 	return &DropConstraintAction{baseNode[*googlesql.ASTDropConstraintAction]{raw: r}}
 }
+func (n *DropConstraintAction) isAlterAction()   {}
 func (n *DropConstraintAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *DropConstraintAction) ConstraintName() *Identifier {
 	return newASTIdentifier(must(n.raw.ConstraintName()))
@@ -603,6 +677,7 @@ func newASTDropPrimaryKeyAction(r *googlesql.ASTDropPrimaryKeyAction) *DropPrima
 	}
 	return &DropPrimaryKeyAction{baseNode[*googlesql.ASTDropPrimaryKeyAction]{raw: r}}
 }
+func (n *DropPrimaryKeyAction) isAlterAction()   {}
 func (n *DropPrimaryKeyAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 
 // RenameColumnAction wraps *googlesql.ASTRenameColumnAction.
@@ -616,6 +691,7 @@ func newASTRenameColumnAction(r *googlesql.ASTRenameColumnAction) *RenameColumnA
 	}
 	return &RenameColumnAction{baseNode[*googlesql.ASTRenameColumnAction]{raw: r}}
 }
+func (n *RenameColumnAction) isAlterAction()   {}
 func (n *RenameColumnAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *RenameColumnAction) ColumnName() *Identifier {
 	return newASTIdentifier(must(n.raw.ColumnName()))
@@ -636,6 +712,7 @@ func newASTRenameToClause(r *googlesql.ASTRenameToClause) *RenameToClause {
 	}
 	return &RenameToClause{baseNode[*googlesql.ASTRenameToClause]{raw: r}}
 }
+func (n *RenameToClause) isAlterAction() {}
 
 func (n *RenameToClause) NewName() *PathExpression {
 	return newASTPathExpression(must(n.raw.NewName()))
@@ -652,6 +729,7 @@ func newASTSetCollateClause(r *googlesql.ASTSetCollateClause) *SetCollateClause 
 	}
 	return &SetCollateClause{baseNode[*googlesql.ASTSetCollateClause]{raw: r}}
 }
+func (n *SetCollateClause) isAlterAction()    {}
 func (n *SetCollateClause) Collate() *Collate { return newASTCollate(must(n.raw.Collate())) }
 
 // SetOptionsAction wraps *googlesql.ASTSetOptionsAction.
@@ -665,6 +743,7 @@ func newASTSetOptionsAction(r *googlesql.ASTSetOptionsAction) *SetOptionsAction 
 	}
 	return &SetOptionsAction{baseNode[*googlesql.ASTSetOptionsAction]{raw: r}}
 }
+func (n *SetOptionsAction) isAlterAction() {}
 
 func (n *SetOptionsAction) OptionsList() *OptionsList {
 	return newASTOptionsList(must(n.raw.OptionsList()))
@@ -685,6 +764,7 @@ func newASTAlterAllRowAccessPoliciesStatement(r *googlesql.ASTAlterAllRowAccessP
 	}
 	return &AlterAllRowAccessPoliciesStatement{baseNode[*googlesql.ASTAlterAllRowAccessPoliciesStatement]{raw: r}}
 }
+func (n *AlterAllRowAccessPoliciesStatement) isStatement() {}
 
 // AlterDatabaseStatement wraps *googlesql.ASTAlterDatabaseStatement.
 type AlterDatabaseStatement struct {
@@ -697,6 +777,7 @@ func newASTAlterDatabaseStatement(r *googlesql.ASTAlterDatabaseStatement) *Alter
 	}
 	return &AlterDatabaseStatement{baseNode[*googlesql.ASTAlterDatabaseStatement]{raw: r}}
 }
+func (n *AlterDatabaseStatement) isStatement() {}
 
 func (n *AlterDatabaseStatement) GetDdlTarget() *PathExpression {
 	return newASTPathExpression(must(n.raw.GetDdlTarget()))
@@ -717,6 +798,7 @@ func newASTAlterEntityStatement(r *googlesql.ASTAlterEntityStatement) *AlterEnti
 	}
 	return &AlterEntityStatement{baseNode[*googlesql.ASTAlterEntityStatement]{raw: r}}
 }
+func (n *AlterEntityStatement) isStatement() {}
 
 func (n *AlterEntityStatement) GetDdlTarget() *PathExpression {
 	return newASTPathExpression(must(n.raw.GetDdlTarget()))
@@ -737,6 +819,7 @@ func newASTAlterMaterializedViewStatement(r *googlesql.ASTAlterMaterializedViewS
 	}
 	return &AlterMaterializedViewStatement{baseNode[*googlesql.ASTAlterMaterializedViewStatement]{raw: r}}
 }
+func (n *AlterMaterializedViewStatement) isStatement() {}
 
 func (n *AlterMaterializedViewStatement) GetDdlTarget() *PathExpression {
 	return newASTPathExpression(must(n.raw.GetDdlTarget()))
@@ -757,6 +840,7 @@ func newASTAlterPrivilegeRestrictionStatement(r *googlesql.ASTAlterPrivilegeRest
 	}
 	return &AlterPrivilegeRestrictionStatement{baseNode[*googlesql.ASTAlterPrivilegeRestrictionStatement]{raw: r}}
 }
+func (n *AlterPrivilegeRestrictionStatement) isStatement() {}
 
 // AlterRowAccessPolicyStatement wraps *googlesql.ASTAlterRowAccessPolicyStatement.
 type AlterRowAccessPolicyStatement struct {
@@ -769,6 +853,7 @@ func newASTAlterRowAccessPolicyStatement(r *googlesql.ASTAlterRowAccessPolicySta
 	}
 	return &AlterRowAccessPolicyStatement{baseNode[*googlesql.ASTAlterRowAccessPolicyStatement]{raw: r}}
 }
+func (n *AlterRowAccessPolicyStatement) isStatement() {}
 
 func (n *AlterRowAccessPolicyStatement) GetDdlTarget() *PathExpression {
 	return newASTPathExpression(must(n.raw.GetDdlTarget()))
@@ -789,6 +874,7 @@ func newASTAlterSchemaStatement(r *googlesql.ASTAlterSchemaStatement) *AlterSche
 	}
 	return &AlterSchemaStatement{baseNode[*googlesql.ASTAlterSchemaStatement]{raw: r}}
 }
+func (n *AlterSchemaStatement) isStatement() {}
 
 func (n *AlterSchemaStatement) GetDdlTarget() *PathExpression {
 	return newASTPathExpression(must(n.raw.GetDdlTarget()))
@@ -809,6 +895,7 @@ func newASTAlterTableStatement(r *googlesql.ASTAlterTableStatement) *AlterTableS
 	}
 	return &AlterTableStatement{baseNode[*googlesql.ASTAlterTableStatement]{raw: r}}
 }
+func (n *AlterTableStatement) isStatement() {}
 
 func (n *AlterTableStatement) GetDdlTarget() *PathExpression {
 	return newASTPathExpression(must(n.raw.GetDdlTarget()))
@@ -829,6 +916,7 @@ func newASTAlterViewStatement(r *googlesql.ASTAlterViewStatement) *AlterViewStat
 	}
 	return &AlterViewStatement{baseNode[*googlesql.ASTAlterViewStatement]{raw: r}}
 }
+func (n *AlterViewStatement) isStatement() {}
 
 func (n *AlterViewStatement) GetDdlTarget() *PathExpression {
 	return newASTPathExpression(must(n.raw.GetDdlTarget()))
@@ -1138,6 +1226,7 @@ func newASTCreateExternalTableStatement(r *googlesql.ASTCreateExternalTableState
 	}
 	return &CreateExternalTableStatement{baseNode[*googlesql.ASTCreateExternalTableStatement]{raw: r}}
 }
+func (n *CreateExternalTableStatement) isStatement()        {}
 func (n *CreateExternalTableStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
 func (n *CreateExternalTableStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *CreateExternalTableStatement) Scope() Scope        { return must(n.raw.Scope()) }
@@ -1172,6 +1261,7 @@ func newASTCreateFunctionStatement(r *googlesql.ASTCreateFunctionStatement) *Cre
 	}
 	return &CreateFunctionStatement{baseNode[*googlesql.ASTCreateFunctionStatement]{raw: r}}
 }
+func (n *CreateFunctionStatement) isStatement()        {}
 func (n *CreateFunctionStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
 func (n *CreateFunctionStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *CreateFunctionStatement) Scope() Scope        { return must(n.raw.Scope()) }
@@ -1216,6 +1306,7 @@ func newASTCreateMaterializedViewStatement(r *googlesql.ASTCreateMaterializedVie
 	}
 	return &CreateMaterializedViewStatement{baseNode[*googlesql.ASTCreateMaterializedViewStatement]{raw: r}}
 }
+func (n *CreateMaterializedViewStatement) isStatement()        {}
 func (n *CreateMaterializedViewStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
 func (n *CreateMaterializedViewStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *CreateMaterializedViewStatement) Scope() Scope        { return must(n.raw.Scope()) }
@@ -1254,6 +1345,7 @@ func newASTCreateProcedureStatement(r *googlesql.ASTCreateProcedureStatement) *C
 	}
 	return &CreateProcedureStatement{baseNode[*googlesql.ASTCreateProcedureStatement]{raw: r}}
 }
+func (n *CreateProcedureStatement) isStatement()        {}
 func (n *CreateProcedureStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
 func (n *CreateProcedureStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *CreateProcedureStatement) Scope() Scope        { return must(n.raw.Scope()) }
@@ -1288,6 +1380,7 @@ func newASTCreateRowAccessPolicyStatement(r *googlesql.ASTCreateRowAccessPolicyS
 	}
 	return &CreateRowAccessPolicyStatement{baseNode[*googlesql.ASTCreateRowAccessPolicyStatement]{raw: r}}
 }
+func (n *CreateRowAccessPolicyStatement) isStatement()        {}
 func (n *CreateRowAccessPolicyStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
 func (n *CreateRowAccessPolicyStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *CreateRowAccessPolicyStatement) Scope() Scope        { return must(n.raw.Scope()) }
@@ -1318,6 +1411,7 @@ func newASTCreateSchemaStatement(r *googlesql.ASTCreateSchemaStatement) *CreateS
 	}
 	return &CreateSchemaStatement{baseNode[*googlesql.ASTCreateSchemaStatement]{raw: r}}
 }
+func (n *CreateSchemaStatement) isStatement()        {}
 func (n *CreateSchemaStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
 func (n *CreateSchemaStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *CreateSchemaStatement) Scope() Scope        { return must(n.raw.Scope()) }
@@ -1344,6 +1438,7 @@ func newASTCreateSnapshotTableStatement(r *googlesql.ASTCreateSnapshotTableState
 	}
 	return &CreateSnapshotTableStatement{baseNode[*googlesql.ASTCreateSnapshotTableStatement]{raw: r}}
 }
+func (n *CreateSnapshotTableStatement) isStatement()        {}
 func (n *CreateSnapshotTableStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
 func (n *CreateSnapshotTableStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *CreateSnapshotTableStatement) Scope() Scope        { return must(n.raw.Scope()) }
@@ -1370,6 +1465,7 @@ func newASTCreateTableStatement(r *googlesql.ASTCreateTableStatement) *CreateTab
 	}
 	return &CreateTableStatement{baseNode[*googlesql.ASTCreateTableStatement]{raw: r}}
 }
+func (n *CreateTableStatement) isStatement()        {}
 func (n *CreateTableStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
 func (n *CreateTableStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *CreateTableStatement) Scope() Scope        { return must(n.raw.Scope()) }
@@ -1421,6 +1517,7 @@ func newASTCreateTableFunctionStatement(r *googlesql.ASTCreateTableFunctionState
 	}
 	return &CreateTableFunctionStatement{baseNode[*googlesql.ASTCreateTableFunctionStatement]{raw: r}}
 }
+func (n *CreateTableFunctionStatement) isStatement()        {}
 func (n *CreateTableFunctionStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
 func (n *CreateTableFunctionStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *CreateTableFunctionStatement) Scope() Scope        { return must(n.raw.Scope()) }
@@ -1451,6 +1548,7 @@ func newASTCreateViewStatement(r *googlesql.ASTCreateViewStatement) *CreateViewS
 	}
 	return &CreateViewStatement{baseNode[*googlesql.ASTCreateViewStatement]{raw: r}}
 }
+func (n *CreateViewStatement) isStatement()        {}
 func (n *CreateViewStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
 func (n *CreateViewStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
 func (n *CreateViewStatement) Scope() Scope        { return must(n.raw.Scope()) }
@@ -1481,6 +1579,7 @@ func newASTDropAllRowAccessPoliciesStatement(r *googlesql.ASTDropAllRowAccessPol
 	}
 	return &DropAllRowAccessPoliciesStatement{baseNode[*googlesql.ASTDropAllRowAccessPoliciesStatement]{raw: r}}
 }
+func (n *DropAllRowAccessPoliciesStatement) isStatement() {}
 
 func (n *DropAllRowAccessPoliciesStatement) TableName() *PathExpression {
 	return newASTPathExpression(must(n.raw.TableName()))
@@ -1497,6 +1596,7 @@ func newASTDropEntityStatement(r *googlesql.ASTDropEntityStatement) *DropEntityS
 	}
 	return &DropEntityStatement{baseNode[*googlesql.ASTDropEntityStatement]{raw: r}}
 }
+func (n *DropEntityStatement) isStatement()     {}
 func (n *DropEntityStatement) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *DropEntityStatement) GetDdlTarget() *PathExpression {
 	return newASTPathExpression(must(n.raw.GetDdlTarget()))
@@ -1513,6 +1613,7 @@ func newASTDropFunctionStatement(r *googlesql.ASTDropFunctionStatement) *DropFun
 	}
 	return &DropFunctionStatement{baseNode[*googlesql.ASTDropFunctionStatement]{raw: r}}
 }
+func (n *DropFunctionStatement) isStatement()     {}
 func (n *DropFunctionStatement) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *DropFunctionStatement) Name() *PathExpression {
 	return newASTPathExpression(must(n.raw.Name()))
@@ -1529,6 +1630,7 @@ func newASTDropMaterializedViewStatement(r *googlesql.ASTDropMaterializedViewSta
 	}
 	return &DropMaterializedViewStatement{baseNode[*googlesql.ASTDropMaterializedViewStatement]{raw: r}}
 }
+func (n *DropMaterializedViewStatement) isStatement()     {}
 func (n *DropMaterializedViewStatement) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *DropMaterializedViewStatement) Name() *PathExpression {
 	return newASTPathExpression(must(n.raw.Name()))
@@ -1545,6 +1647,7 @@ func newASTDropPrivilegeRestrictionStatement(r *googlesql.ASTDropPrivilegeRestri
 	}
 	return &DropPrivilegeRestrictionStatement{baseNode[*googlesql.ASTDropPrivilegeRestrictionStatement]{raw: r}}
 }
+func (n *DropPrivilegeRestrictionStatement) isStatement() {}
 
 // DropRowAccessPolicyStatement wraps *googlesql.ASTDropRowAccessPolicyStatement.
 type DropRowAccessPolicyStatement struct {
@@ -1557,6 +1660,7 @@ func newASTDropRowAccessPolicyStatement(r *googlesql.ASTDropRowAccessPolicyState
 	}
 	return &DropRowAccessPolicyStatement{baseNode[*googlesql.ASTDropRowAccessPolicyStatement]{raw: r}}
 }
+func (n *DropRowAccessPolicyStatement) isStatement()     {}
 func (n *DropRowAccessPolicyStatement) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *DropRowAccessPolicyStatement) Name() *Identifier {
 	return newASTIdentifier(must(n.raw.Name()))
@@ -1577,6 +1681,7 @@ func newASTDropSearchIndexStatement(r *googlesql.ASTDropSearchIndexStatement) *D
 	}
 	return &DropSearchIndexStatement{baseNode[*googlesql.ASTDropSearchIndexStatement]{raw: r}}
 }
+func (n *DropSearchIndexStatement) isStatement()     {}
 func (n *DropSearchIndexStatement) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *DropSearchIndexStatement) Name() *PathExpression {
 	return newASTPathExpression(must(n.raw.Name()))
@@ -1593,6 +1698,7 @@ func newASTDropSnapshotTableStatement(r *googlesql.ASTDropSnapshotTableStatement
 	}
 	return &DropSnapshotTableStatement{baseNode[*googlesql.ASTDropSnapshotTableStatement]{raw: r}}
 }
+func (n *DropSnapshotTableStatement) isStatement()     {}
 func (n *DropSnapshotTableStatement) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *DropSnapshotTableStatement) Name() *PathExpression {
 	return newASTPathExpression(must(n.raw.Name()))
@@ -1609,6 +1715,7 @@ func newASTDropTableFunctionStatement(r *googlesql.ASTDropTableFunctionStatement
 	}
 	return &DropTableFunctionStatement{baseNode[*googlesql.ASTDropTableFunctionStatement]{raw: r}}
 }
+func (n *DropTableFunctionStatement) isStatement()     {}
 func (n *DropTableFunctionStatement) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *DropTableFunctionStatement) Name() *PathExpression {
 	return newASTPathExpression(must(n.raw.Name()))
@@ -1625,6 +1732,7 @@ func newASTDropStatement(r *googlesql.ASTDropStatement) *DropStatement {
 	}
 	return &DropStatement{baseNode[*googlesql.ASTDropStatement]{raw: r}}
 }
+func (n *DropStatement) isStatement()     {}
 func (n *DropStatement) IsIfExists() bool { return must(n.raw.IsIfExists()) }
 func (n *DropStatement) GetDdlTarget() *PathExpression {
 	return newASTPathExpression(must(n.raw.GetDdlTarget()))

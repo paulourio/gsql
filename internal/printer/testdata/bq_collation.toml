@@ -59,9 +59,7 @@ ORDER BY character
 formatted = """
 -- With collation
 SELECT *
-  FROM UNNEST(
-         [COLLATE('B', 'und:ci'), 'b', 'a']
-       ) AS character
+  FROM UNNEST([COLLATE('B', 'und:ci'), 'b', 'a']) AS character
  ORDER BY character;
 
 /*-----------*
