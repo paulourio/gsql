@@ -4,10 +4,8 @@ package printer
 import (
 	"strings"
 
-	"github.com/goccy/go-googlesql"
-
 	"github.com/paulourio/gsql/format"
-	"github.com/paulourio/gsql/internal/ast"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
 type FunctionSignature struct {
@@ -53,10 +51,10 @@ func (f *FunctionSignature) PrintCaseAt(pos int) format.PrintCase {
 	return f.Params[pos].style
 }
 
-func (p *Printer) getFunctionSignature(n *googlesql.ASTFunctionCall) *FunctionSignature {
+func (p *Printer) getFunctionSignature(n *sql.FunctionCall) *FunctionSignature {
 	ctx := &emptyCtx{}
 	pp := p.nest()
-	pp.accept(ctx, ast.Must(n.Function()))
+	pp.accept(ctx, n.Function())
 	name := strings.ToUpper(pp.String())
 	switch name {
 	case "DATE_DIFF":

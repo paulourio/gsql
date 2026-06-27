@@ -12,9 +12,9 @@ import (
 	"github.com/goccy/go-googlesql"
 
 	"github.com/paulourio/gsql/format"
-	"github.com/paulourio/gsql/internal/ast"
 	"github.com/paulourio/gsql/internal/extensions"
 	"github.com/paulourio/gsql/internal/printer"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
 type SQLFormatter struct {
@@ -163,7 +163,8 @@ func (f *SQLFormatter) FormatWithOptions(input string, fmtOpts *format.Options) 
 		return "", fmt.Errorf("unable to get root: %w", err)
 	}
 	f.debug("## Input AST\n\n")
-	f.debugf("```\n%s\n```\n", ast.Must(root.DebugString(100)))
+	ds, _ := root.DebugString(100)
+	f.debugf("```\n%s\n```\n", ds)
 	f.debug("## Input\n\n")
 	f.debugf("```\n%s\n```\n", inputOriginal)
 	f.log("## Preprocessed\n\n")
@@ -182,14 +183,14 @@ func (f *SQLFormatter) FormatWithOptions(input string, fmtOpts *format.Options) 
 	// of a node and the start of the "in-order successor" node of a start
 	// location tree.
 	// wrappedRoot := sql.Wrap(root)
-	tracker := printer.NewStartLocationTracker(input, root)
+	tracker := printer.NewStartLocationTracker(input, sql.Wrap(root))
 	p := &printer.Printer{
 		Writer:        printer.NewWriter(fmtOpts, comms),
 		OriginalInput: input,
 		ErasedInput:   erasedInput,
 		Tracker:       tracker,
 	}
-	result, err := p.Print(root)
+	result, err := p.Print(sql.Wrap(root))
 	if err != nil {
 		return "", fmt.Errorf("failed to format script: %w", err)
 	}

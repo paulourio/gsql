@@ -5,34 +5,32 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/goccy/go-googlesql"
-
-	"github.com/paulourio/gsql/internal/ast"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
-func (p *Printer) VisitAlias(ctx Context, n *googlesql.ASTAlias) {
-	kind := ast.Kind(ast.Parent(n))
-	if kind != ast.WithOffset {
+func (p *Printer) visitAlias(ctx Context, n *sql.Alias) {
+	kind := n.Parent().Kind()
+	if kind != sql.WithOffsetKind {
 		p.print(p.keyword("AS"))
 	}
-	p.accept(ctx, ast.Must(n.Identifier()))
+	p.accept(ctx, n.Identifier())
 }
 
-func (p *Printer) VisitAliasedGroupRows(ctx Context, n *googlesql.ASTAliasedGroupRows) {
+func (p *Printer) visitAliasedGroupRows(ctx Context, n *sql.AliasedGroupRows) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Alias()))
+	p.accept(ctx, n.Alias())
 	p.println("() " + p.keyword("AS") + " " + p.keyword("GROUP ROWS"))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitAliasedQuery(ctx Context, n *googlesql.ASTAliasedQuery) {
+func (p *Printer) visitAliasedQuery(ctx Context, n *sql.AliasedQuery) {
 	p.moveBefore(n)
-	p.accept(ctx.WithValue(KeyInWithEntry, true), ast.Must(n.Alias()))
+	p.accept(ctx.WithValue(KeyInWithEntry, true), n.Alias())
 	p.println(p.keyword("AS") + " (")
 	if p.Writer.opts.IndentWithEntries {
 		p.incDepth()
 	}
-	p.accept(ctx, ast.Must(n.Query()))
+	p.accept(ctx, n.Query())
 	p.println("")
 	if p.Writer.opts.IndentWithEntries {
 		p.decDepth()
@@ -41,22 +39,22 @@ func (p *Printer) VisitAliasedQuery(ctx Context, n *googlesql.ASTAliasedQuery) {
 	p.movePast(n)
 }
 
-func (p *Printer) VisitFromClause(ctx Context, n *googlesql.ASTFromClause) {
+func (p *Printer) visitFromClause(ctx Context, n *sql.FromClause) {
 	var count int
 	p.moveBefore(n)
-	expr := ast.Must(n.TableExpression())
-	if ast.Kind(expr) == ast.Join {
+	expr := n.TableExpression()
+	if expr.Kind() == sql.JoinKind {
 		count = countJoins(expr)
 		ctx = ctx.WithValue(KeyJoinCounts, count)
 	}
 	p.accept(ctx, expr)
-	s := ast.ParentAs[*googlesql.ASTSelect](n)
-	a, _ := ast.LocationRange(
-		ast.Must(s.WhereClause()),
-		ast.Must(s.GroupBy()),
-		ast.Must(s.Having()),
-		ast.Must(s.Qualify()),
-		ast.Must(s.WindowClause()),
+	s := sql.ParentAs[*sql.Select](n)
+	a, _ := sql.LocationRange(
+		s.WhereClause(),
+		s.GroupBy(),
+		s.Having(),
+		s.Qualify(),
+		s.WindowClause(),
 	)
 	if count >= p.Writer.opts.MinJoinsToSeparateInBlocks {
 		p.println("")
@@ -70,22 +68,22 @@ func (p *Printer) VisitFromClause(ctx Context, n *googlesql.ASTFromClause) {
 	}
 }
 
-func countJoins(n googlesql.ASTTableExpressionNode) int {
-	if ast.Kind(n) == ast.Join {
-		return 1 + countJoins(ast.ChildAs[googlesql.ASTTableExpressionNode](n, 0))
+func countJoins(n sql.TableExpressionNode) int {
+	if n.Kind() == sql.JoinKind {
+		return 1 + countJoins(n.Child(0).(sql.TableExpressionNode))
 	}
 	return 0
 }
 
-func (p *Printer) VisitFunctionCall(ctx Context, n *googlesql.ASTFunctionCall) {
-	args := ast.ChildrenExpressions(n)[1:] // First is the function name.
-	chained := ast.Must(n.IsChainedCall())
+func (p *Printer) visitFunctionCall(ctx Context, n *sql.FunctionCall) {
+	args := n.Arguments()
+	chained := n.IsChainedCall()
 	if chained && len(args) > 0 {
 		first := args[0]
 		args = args[1:]
 		var forceParen bool
-		switch ast.Kind(first) {
-		case ast.FloatLiteral, ast.IntLiteral:
+		switch first.Kind() {
+		case sql.FloatLiteralKind, sql.IntLiteralKind:
 			forceParen = true
 		}
 		if forceParen {
@@ -100,7 +98,7 @@ func (p *Printer) VisitFunctionCall(ctx Context, n *googlesql.ASTFunctionCall) {
 	p.moveBefore(n)
 	pp := p.nest()
 	pp.printOpenParenIfNeeded(n)
-	pp.acceptNestedString(ctx.WithValue(KeyInFunctionName, true), ast.Must(n.Function()))
+	pp.acceptNestedString(ctx.WithValue(KeyInFunctionName, true), n.Function())
 	// Get function signature, if available, to assist on rendering.
 	signature := p.getFunctionSignature(n)
 	// Strip off the alignment symbol at the beginning.
@@ -118,7 +116,7 @@ func (p *Printer) VisitFunctionCall(ctx Context, n *googlesql.ASTFunctionCall) {
 		pp.println("")
 		pp.incDepth()
 	}
-	if ast.Must(n.Distinct()) {
+	if n.Distinct() {
 		pp.print(pp.keyword("DISTINCT"))
 		if !simple {
 			pp.println("")
@@ -135,7 +133,7 @@ func (p *Printer) VisitFunctionCall(ctx Context, n *googlesql.ASTFunctionCall) {
 		// Format arguments in 'DATE_TRUNC(..., MONTH)' according to the
 		// function signature.
 		switch arg.(type) {
-		case *googlesql.ASTPathExpression:
+		case *sql.PathExpression:
 			printedArg := strings.Trim(pp2.toString(ctx, arg), "\n")
 			sigStyle := signature.PrintCaseAt(i)
 			pp2.print(pp2.identifierWithCase(printedArg, sigStyle))
@@ -143,15 +141,15 @@ func (p *Printer) VisitFunctionCall(ctx Context, n *googlesql.ASTFunctionCall) {
 			pp2.acceptNestedLeft(ctx, arg)
 		}
 	}
-	switch ast.Must(n.NullHandlingModifier()) {
-	case ast.DefaultNullHandling:
+	switch n.NullHandlingModifier() {
+	case sql.DefaultNullHandling:
 		// Nothing.
-	case ast.IgnoreNulls:
+	case sql.IgnoreNulls:
 		if !simple {
 			pp2.println("")
 		}
 		pp2.print(pp2.keyword("IGNORE NULLS"))
-	case ast.RespectNulls:
+	case sql.RespectNulls:
 		if !simple {
 			pp2.println("")
 		}
@@ -160,19 +158,19 @@ func (p *Printer) VisitFunctionCall(ctx Context, n *googlesql.ASTFunctionCall) {
 	if !simple {
 		pp2.println("")
 	}
-	pp2.accept(ctx, ast.Must(n.HavingModifier()))
+	pp2.accept(ctx, n.HavingModifier())
 	if !simple {
 		pp2.println("")
 	}
-	pp2.accept(ctx, ast.Must(n.ClampedBetweenModifier()))
+	pp2.accept(ctx, n.ClampedBetweenModifier())
 	if !simple {
 		pp2.println("")
 	}
-	pp2.acceptNestedLeft(ctx, ast.Must(n.OrderBy()))
+	pp2.acceptNestedLeft(ctx, n.OrderBy())
 	if !simple {
 		pp2.println("")
 	}
-	pp2.acceptNestedLeft(ctx, ast.Must(n.LimitOffset()))
+	pp2.acceptNestedLeft(ctx, n.LimitOffset())
 	// Avoid "COUNT(DISTINCT \v)"
 	if s := pp2.unnestLeft(); len(strings.TrimSpace(s)) > 0 {
 		pp.print(s)
@@ -186,53 +184,49 @@ func (p *Printer) VisitFunctionCall(ctx Context, n *googlesql.ASTFunctionCall) {
 	p.print(pp.unnest())
 }
 
-func (p *Printer) VisitGroupBy(ctx Context, n *googlesql.ASTGroupBy) {
+func (p *Printer) visitGroupBy(ctx Context, n *sql.GroupBy) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Hint()))
+	p.accept(ctx, n.Hint())
 	p.print(p.keyword("BY"))
 	pp := p.nest()
-	p.accept(ctx, ast.Must(n.All()))
-	printNestedWithSep(ctx, pp, ast.ChildrenOfType[*googlesql.ASTGroupingItem](n), ",")
+	p.accept(ctx, n.All())
+	printNestedWithSepNode(ctx, pp, ChildrenOfType[*sql.GroupingItem](n), ",")
 	p.print(pp.unnest())
-	s := ast.ParentAs[*googlesql.ASTSelect](n)
-	a, _ := ast.LocationRange(
-		ast.Must(s.Having()),
-		ast.Must(s.Qualify()),
-		ast.Must(s.WindowClause()),
+	s := sql.ParentAs[*sql.Select](n)
+	a, _ := sql.LocationRange(
+		s.Having(),
+		s.Qualify(),
+		s.WindowClause(),
 	)
 	if a > 0 {
 		p.moveAt(a)
 	}
 }
 
-func (p *Printer) VisitGroupByAll(ctx Context, n *googlesql.ASTGroupByAll) {
+func (p *Printer) visitGroupByAll(ctx Context, n *sql.GroupByAll) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALL"))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitGeneralizedPathExpression(ctx Context, n *googlesql.ASTGeneralizedPathExpression) {
-	switch ast.Kind(n) {
-	case ast.PathExpression:
-		p.accept(ctx, ast.Must(n.ASTExpression.Child(0)))
-	case ast.DotGeneralizedField:
-		p.accept(ctx, ast.Must(n.ASTExpression.Child(0)))
-	case ast.ArrayElement:
-		p.accept(ctx, ast.Must(n.ASTExpression.Child(0)))
+func (p *Printer) visitGeneralizedPathExpression(ctx Context, n sql.Node) {
+	switch n.Kind() {
+	case sql.PathExpressionKind, sql.DotGeneralizedFieldKind, sql.ArrayElementKind:
+		p.accept(ctx, n.Child(0))
 	default:
 		panic(&Error{
 			Msg: fmt.Sprintf("generalized path expression '%s' not implemented",
-				ast.Kind(n).String()),
+				n.Kind().String()),
 			Node:  n,
 			Input: &p.OriginalInput,
 		})
 	}
 }
 
-func (p *Printer) VisitIdentifier(ctx Context, n *googlesql.ASTIdentifier) {
+func (p *Printer) visitIdentifier(ctx Context, n *sql.Identifier) {
 	p.moveBefore(n)
-	value := ast.Must(ast.Must(n.GetAsIdString()).ToString())
-	if ast.Must(n.IsQuoted()) {
+	value := n.GetAsString()
+	if n.IsQuoted() {
 		value = "`" + value + "`"
 	}
 	if inSystemVariable, _ := ctx.Bool(KeySystemVariable); inSystemVariable {
@@ -262,10 +256,10 @@ func (p *Printer) VisitIdentifier(ctx Context, n *googlesql.ASTIdentifier) {
 	p.print(p.identifier(value))
 }
 
-func (p *Printer) VisitPathExpression(ctx Context, n *googlesql.ASTPathExpression) {
+func (p *Printer) visitPathExpression(ctx Context, n *sql.PathExpression) {
 	p.moveBefore(n)
 	p.printOpenParenIfNeeded(n)
-	children := ast.Children(n)
+	children := n.Children()
 	nchildren := len(children)
 	ctx = ctx.WithValue(KeyPathParts, nchildren)
 	// If in function name, it is a chained function call and the name
@@ -273,14 +267,14 @@ func (p *Printer) VisitPathExpression(ctx Context, n *googlesql.ASTPathExpressio
 	isFunctionName, _ := ctx.Bool(KeyInFunctionName)
 	var forceParen bool
 	if isFunctionName && nchildren > 1 {
-		if fn, ok := ast.Parent(n).(*googlesql.ASTFunctionCall); ok {
-			forceParen = ast.Must(fn.IsChainedCall())
+		if fn, ok := n.Parent().(*sql.FunctionCall); ok {
+			forceParen = fn.IsChainedCall()
 		}
 		if nchildren == 2 &&
-			ast.Kind(children[0]) == ast.Identifier &&
-			ast.Kind(children[1]) == ast.Identifier {
-			namespace := children[0].(*googlesql.ASTIdentifier)
-			if strings.EqualFold(ast.Must(namespace.GetAsString()), "SAFE") {
+			children[0].Kind() == sql.IdentifierKind &&
+			children[1].Kind() == sql.IdentifierKind {
+			namespace := children[0].(*sql.Identifier)
+			if strings.EqualFold(namespace.GetAsString(), "SAFE") {
 				ctx = ctx.WithValue(KeyIsSafeNamespace, true)
 			}
 		}
@@ -300,7 +294,7 @@ func (p *Printer) VisitPathExpression(ctx Context, n *googlesql.ASTPathExpressio
 	p.printCloseParenIfNeeded(n)
 }
 
-func (p *Printer) VisitQuery(ctx Context, n *googlesql.ASTQuery) {
+func (p *Printer) visitQuery(ctx Context, n *sql.Query) {
 	pp := p.nest()
 	// Normally a with entry has no indentation, but when rendering
 	// a WITH inside a WITH, we need to render the inner WITH at a
@@ -311,12 +305,12 @@ func (p *Printer) VisitQuery(ctx Context, n *googlesql.ASTQuery) {
 	}
 	pp.moveBefore(n)
 	pp.printOpenParenIfNeeded(n)
-	pp.accept(ctx, ast.Must(n.WithClause()))
-	q := ast.Must(n.QueryExpr())
+	pp.accept(ctx, n.WithClause())
+	q := n.QueryExpr()
 	pp.accept(ctx, q)
 	// OrderBy and Limit may be right-aligned when QueryExpr is a non-parenthesized Select.
-	alignClauses := ast.Kind(q) == ast.Select
-	if ob := ast.Must(n.OrderBy()); ast.Defined(ob) {
+	alignClauses := q.Kind() == sql.SelectKind
+	if ob := n.OrderBy(); ob != nil {
 		pp.println("")
 		if alignClauses {
 			pp.accept(ctx, ob)
@@ -326,7 +320,7 @@ func (p *Printer) VisitQuery(ctx Context, n *googlesql.ASTQuery) {
 			pp.print(strings.TrimLeft(p1.unnest(), "\v"))
 		}
 	}
-	if lo := ast.Must(n.LimitOffset()); ast.Defined(lo) {
+	if lo := n.LimitOffset(); lo != nil {
 		pp.println("")
 		if alignClauses {
 			pp.accept(ctx, lo)
@@ -336,7 +330,7 @@ func (p *Printer) VisitQuery(ctx Context, n *googlesql.ASTQuery) {
 			pp.print(strings.TrimLeft(p1.unnest(), "\v"))
 		}
 	}
-	if parent := ast.Parent(n); ast.Defined(parent) && ast.Kind(parent) != ast.QueryStatement {
+	if parent := n.Parent(); parent != nil && parent.Kind() != sql.QueryStatementKind {
 		pp.movePast(n)
 	}
 	if nestedWith {
@@ -346,83 +340,83 @@ func (p *Printer) VisitQuery(ctx Context, n *googlesql.ASTQuery) {
 	p.print(pp.unnest())
 }
 
-func withInsideWith(n *googlesql.ASTQuery) bool {
-	if !ast.Defined(ast.Must(n.WithClause())) {
+func withInsideWith(n *sql.Query) bool {
+	if n.WithClause() == nil {
 		return false
 	}
-	parent := ast.Parent(n)
+	parent := n.Parent()
 	if parent == nil {
 		return false
 	}
-	_, ok := parent.(*googlesql.ASTWithClauseEntry)
+	_, ok := parent.(*sql.WithClauseEntry)
 	return ok
 }
 
-func (p *Printer) VisitQueryStatement(ctx Context, n *googlesql.ASTQueryStatement) {
+func (p *Printer) visitQueryStatement(ctx Context, n *sql.QueryStatement) {
 	p.moveBefore(n)
 	p1 := p.nest()
-	p1.accept(ctx, ast.Must(n.Query()))
+	p1.accept(ctx, n.Query())
 	p.print(p1.unnest())
 }
 
-func (p *Printer) VisitScript(ctx Context, n *googlesql.ASTScript) {
-	for _, c := range ast.Children(n) {
+func (p *Printer) visitScript(ctx Context, n *sql.Script) {
+	for _, c := range n.Children() {
 		p.moveBefore(c)
 		p.accept(ctx, c)
 	}
 }
 
-func (p *Printer) VisitSelect(ctx Context, n *googlesql.ASTSelect) {
+func (p *Printer) visitSelect(ctx Context, n *sql.Select) {
 	p.moveBefore(n)
 	pp := p.nest()
 	pp.printOpenParenIfNeeded(n)
 	pp2 := pp.nest()
 	pp2.printClause(pp2.keyword("SELECT"))
 	pp3 := pp2.nest()
-	pp3.accept(ctx, ast.Must(n.Hint()))
+	pp3.accept(ctx, n.Hint())
 	singleLine := p.maybeSingleLineColumns(n)
 	ctx = ctx.WithValue(KeySingleLineCols, singleLine)
-	if ast.Must(n.Distinct()) {
+	if n.Distinct() {
 		pp3.print(pp3.keyword("DISTINCT"))
-		if ast.Must(n.SelectAs()) == nil && !singleLine {
+		if n.SelectAs() == nil && !singleLine {
 			pp3.println("")
 		}
 	}
-	pp3.accept(ctx, ast.Must(n.SelectAs()))
-	pp3.accept(ctx, ast.Must(n.SelectList()))
-	fc := ast.Must(n.FromClause())
-	w := ast.Must(n.WhereClause())
-	gb := ast.Must(n.GroupBy())
-	h := ast.Must(n.Having())
-	q := ast.Must(n.Qualify())
-	win := ast.Must(n.WindowClause())
-	if ast.Defined(fc) {
+	pp3.accept(ctx, n.SelectAs())
+	pp3.accept(ctx, n.SelectList())
+	fc := n.FromClause()
+	w := n.WhereClause()
+	gb := n.GroupBy()
+	h := n.Having()
+	q := n.Qualify()
+	win := n.WindowClause()
+	if fc != nil {
 		pp3.moveBefore(fc)
 	}
 	pp2.print(pp3.unnest())
-	if ast.Defined(fc) {
+	if fc != nil {
 		pp2.printClause(pp2.keyword("FROM"))
 		pp2.acceptNested(ctx, fc)
 	}
-	if ast.Defined(w) {
+	if w != nil {
 		pp2.lnaccept(ctx, w)
 	}
-	if ast.Defined(gb) {
+	if gb != nil {
 		pp2.moveBefore(gb)
 		pp2.printClause(pp2.keyword("GROUP") + " ")
 		pp2.acceptNestedLeft(ctx, gb)
 	}
-	if ast.Defined(h) {
+	if h != nil {
 		pp2.moveBefore(h)
 		pp2.printClause(pp2.keyword("HAVING"))
 		pp2.accept(ctx, h)
 	}
-	if ast.Defined(q) {
+	if q != nil {
 		pp2.moveBefore(q)
 		pp2.printClause(pp2.keyword("QUALIFY"))
 		pp2.accept(ctx, q)
 	}
-	if ast.Defined(win) {
+	if win != nil {
 		pp2.moveBefore(win)
 		pp2.printClause(pp2.keyword("WINDOW"))
 		pp2.acceptNested(ctx, win)
@@ -431,8 +425,8 @@ func (p *Printer) VisitSelect(ctx Context, n *googlesql.ASTSelect) {
 	// If this select is inside a Query node, we want to possibly align
 	// SELECT, FROM, WHERE and other clauses with Query's ORDER BY and LIMIT.
 	// Thus, we will not unnest is this case.
-	k := ast.Kind(ast.Parent(n))
-	if k == ast.Query || k == ast.SetOperation {
+	k := n.Parent().Kind()
+	if k == sql.QueryKind || k == sql.SetOperationKind {
 		pp.print(pp2.String())
 		p.print(pp.String())
 	} else {
@@ -443,11 +437,11 @@ func (p *Printer) VisitSelect(ctx Context, n *googlesql.ASTSelect) {
 	}
 }
 
-func (p *Printer) VisitSelectList(ctx Context, n *googlesql.ASTSelectList) {
+func (p *Printer) visitSelectList(ctx Context, n *sql.SelectList) {
 	pp := p.nest()
 	singleLine, _ := ctx.Bool(KeySingleLineCols)
-	var prev googlesql.ASTNode
-	for i, c := range ast.ChildrenOfType[*googlesql.ASTSelectColumn](n) {
+	var prev sql.Node
+	for i, c := range ChildrenOfType[*sql.SelectColumn](n) {
 		if i > 0 {
 			pp.print(",")
 			pp.movePastLine(prev)
@@ -465,25 +459,25 @@ func (p *Printer) VisitSelectList(ctx Context, n *googlesql.ASTSelectList) {
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) VisitSelectColumn(ctx Context, n *googlesql.ASTSelectColumn) {
+func (p *Printer) visitSelectColumn(ctx Context, n *sql.SelectColumn) {
 	pp := p.nest()
-	pp.accept(ctx, ast.Must(n.Expression()))
+	pp.accept(ctx, n.Expression())
 	p.print(pp.unnest())
-	if alias := ast.Must(n.Alias()); alias != nil {
+	if alias := n.Alias(); alias != nil {
 		pp = p.nest()
 		pp.accept(ctx, alias)
 		p.print(pp.unnest())
 	}
 }
 
-func (p *Printer) VisitStatementList(ctx Context, n *googlesql.ASTStatementList) {
+func (p *Printer) visitStatementList(ctx Context, n *sql.StatementList) {
 	var (
-		prev     googlesql.ASTNode
-		prevKind googlesql.ASTNodeKind
+		prev     sql.Node
+		prevKind sql.NodeKind
 	)
 	p.moveBefore(n)
-	for i, c := range ast.Children(n) {
-		currKind := ast.Kind(c)
+	for i, c := range n.Children() {
+		currKind := c.Kind()
 		if i > 0 {
 			p.print(";")
 			p.movePastLine(prev)
@@ -497,9 +491,9 @@ func (p *Printer) VisitStatementList(ctx Context, n *googlesql.ASTStatementList)
 		prev, prevKind = c, currKind
 	}
 	// Add trailing semicolon if needed.
-	num := ast.NumChildren(n)
-	parent := ast.Parent(n)
-	topLevel := !ast.Defined(parent) || ast.Kind(parent) == ast.Script
+	num := n.NumChildren()
+	parent := n.Parent()
+	topLevel := parent == nil || parent.Kind() == sql.ScriptKind
 	if num > 1 || (num > 0 && !topLevel) {
 		p.println(";")
 		if prev != nil {
@@ -509,34 +503,34 @@ func (p *Printer) VisitStatementList(ctx Context, n *googlesql.ASTStatementList)
 	p.movePastLine(n)
 }
 
-func canGroupStatements(last, curr googlesql.ASTNodeKind) bool {
+func canGroupStatements(last, curr sql.NodeKind) bool {
 	if curr != last {
 		return false
 	}
-	if curr == ast.VariableDeclaration || curr == ast.SingleAssignment {
+	if curr == sql.VariableDeclarationKind || curr == sql.SingleAssignmentKind {
 		return true
 	}
 	return false
 }
 
-func (p *Printer) VisitTablePathExpression(ctx Context, n *googlesql.ASTTablePathExpression) {
-	p.accept(ctx.WithValue(KeyInTableName, true), ast.Must(n.PathExpr()))
-	p.accept(ctx, ast.Must(n.UnnestExpr()))
-	p.accept(ctx, ast.Must(n.Hint()))
-	p.accept(ctx, ast.Must(n.Alias()))
-	p.accept(ctx, ast.Must(n.WithOffset()))
-	p.accept(ctx, ast.Must(n.PivotClause()))
-	p.accept(ctx, ast.Must(n.UnpivotClause()))
-	p.accept(ctx, ast.Must(n.ForSystemTime()))
-	p.accept(ctx, ast.Must(n.SampleClause()))
+func (p *Printer) visitTablePathExpression(ctx Context, n *sql.TablePathExpression) {
+	p.accept(ctx.WithValue(KeyInTableName, true), n.PathExpr())
+	p.accept(ctx, n.UnnestExpr())
+	p.accept(ctx, n.Hint())
+	p.accept(ctx, n.Alias())
+	p.accept(ctx, n.WithOffset())
+	p.accept(ctx, n.PivotClause())
+	p.accept(ctx, n.UnpivotClause())
+	p.accept(ctx, n.ForSystemTime())
+	p.accept(ctx, n.SampleClause())
 }
 
-func (p *Printer) VisitWhereClause(ctx Context, n *googlesql.ASTWhereClause) {
+func (p *Printer) visitWhereClause(ctx Context, n *sql.WhereClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("WHERE"))
-	e := ast.Must(n.Expression())
-	switch ast.Kind(e) {
-	case ast.AndExpr, ast.OrExpr:
+	e := n.Expression()
+	switch e.Kind() {
+	case sql.AndExprKind, sql.OrExprKind:
 		ctx = ctx.WithValue(KeyAlignBinaryOpBudget, 1)
 		p.accept(ctx, e)
 	default:
@@ -544,21 +538,21 @@ func (p *Printer) VisitWhereClause(ctx Context, n *googlesql.ASTWhereClause) {
 	}
 }
 
-func (p *Printer) VisitAnalyticFunctionCall(ctx Context, n *googlesql.ASTAnalyticFunctionCall) {
+func (p *Printer) visitAnalyticFunctionCall(ctx Context, n *sql.AnalyticFunctionCall) {
 	pp := p.nest()
 
 	pp.printOpenParenIfNeeded(n)
 
-	pp.accept(ctx, ast.Must(n.Function()))
+	pp.accept(ctx, n.Function())
 	pp.print(p.keyword("OVER") + " ")
 
-	ws := ast.Must(n.WindowSpec())
+	ws := n.WindowSpec()
 	elems := countWindowSpecElems(ws)
 
 	// We have the option of keeping parenthesis even when not necessary
 	// if we set requireParenthesis to p.nodeInput(ws)[0] == '('
 	requireParenthesis := true
-	if elems == 1 && ast.Must(ws.BaseWindowName()) != nil {
+	if elems == 1 && ws.BaseWindowName() != nil {
 		requireParenthesis = false
 	}
 
@@ -590,9 +584,9 @@ func (p *Printer) VisitAnalyticFunctionCall(ctx Context, n *googlesql.ASTAnalyti
 	p.print(pp.unnest())
 }
 
-func (p *Printer) VisitAndExpr(ctx Context, n *googlesql.ASTAndExpr) {
-	conjuncts := ast.ChildrenExpressions(n)
-	inClause := isInsideOfWhereClause(n) || isInsideOfOnClause(n)
+func (p *Printer) visitAndExpr(ctx Context, n *sql.AndExpr) {
+	conjuncts := ChildrenExpressions(n)
+	inClause := sql.IsInsideOfWhereClause(n) || sql.IsInsideOfOnClause(n)
 	alignWithClause := p.Writer.opts.AlignLogicalWithClauses && inClause
 	// inMerge := isInsideOfMergeStatement(n)
 	simple := isSimpleAndExpr(n)
@@ -666,11 +660,11 @@ func (p *Printer) VisitAndExpr(ctx Context, n *googlesql.ASTAndExpr) {
 	}
 }
 
-func (p *Printer) VisitArrayConstructor(ctx Context, n *googlesql.ASTArrayConstructor) {
+func (p *Printer) visitArrayConstructor(ctx Context, n *sql.ArrayConstructor) {
 	p.moveBefore(n)
 	pp := p.nest()
-	if t := ast.Must(n.Type()); t != nil {
-		typ := strings.Trim(p.toString(ctx, ast.Must(n.Type())), "\n")
+	if t := n.Type(); t != nil {
+		typ := strings.Trim(p.toString(ctx, n.Type()), "\n")
 		pp.print(typ)
 	} else {
 		s := pp.nodeInput(n)
@@ -678,18 +672,18 @@ func (p *Printer) VisitArrayConstructor(ctx Context, n *googlesql.ASTArrayConstr
 			pp.print(pp.keyword("ARRAY"))
 		}
 	}
-	children := ast.ChildrenExpressions(n)
+	children := ChildrenExpressions(n)
 	simple := len(children) <= 1 || allTrue(mapIsSimpleExprs(children))
 	if simple {
 		pp.print("[")
-		printNestedWithSep(ctx, pp, children, ",")
+		printNestedWithSepNode(ctx, pp, children, ",")
 		pp.print("]")
 	} else {
 		pp1 := pp.nest()
 		pp1.println("[")
 		pp1.incDepth()
 		pp12 := pp1.nest()
-		for i, elem := range ast.ChildrenExpressions(n) {
+		for i, elem := range ChildrenExpressions(n) {
 			if i > 0 {
 				pp12.println(",")
 			}
@@ -704,32 +698,32 @@ func (p *Printer) VisitArrayConstructor(ctx Context, n *googlesql.ASTArrayConstr
 	p.print(pp.unnest())
 }
 
-func (p *Printer) VisitArrayElement(ctx Context, n *googlesql.ASTArrayElement) {
+func (p *Printer) visitArrayElement(ctx Context, n *sql.ArrayElement) {
 	p.moveBefore(n)
 	p.printOpenParenIfNeeded(n)
-	p.accept(ctx, ast.Must(n.Array()))
+	p.accept(ctx, n.Array())
 	p.print("[")
-	p.accept(ctx, ast.Must(n.Position()))
+	p.accept(ctx, n.Position())
 	p.print("]")
 	p.printCloseParenIfNeeded(n)
 }
 
-func (p *Printer) VisitBetweenExpression(ctx Context, n *googlesql.ASTBetweenExpression) {
+func (p *Printer) visitBetweenExpression(ctx Context, n *sql.BetweenExpression) {
 	p.printOpenParenIfNeeded(n)
-	p.accept(ctx, ast.Must(n.Lhs()))
+	p.accept(ctx, n.LHS())
 	p.moveBefore(n)
-	if ast.Must(n.IsNot()) {
+	if n.IsNot() {
 		p.print(p.keyword("NOT BETWEEN") + " ")
 	} else {
 		p.print(p.keyword("BETWEEN") + " ")
 	}
-	p.accept(ctx, ast.Must(n.Low()))
+	p.accept(ctx, n.Low())
 	p.print(p.keyword("AND"))
-	p.accept(ctx, ast.Must(n.High()))
+	p.accept(ctx, n.High())
 	p.printCloseParenIfNeeded(n)
 }
 
-func (p *Printer) VisitBinaryExpression(ctx Context, n *googlesql.ASTBinaryExpression) {
+func (p *Printer) visitBinaryExpression(ctx Context, n *sql.BinaryExpression) {
 	p.printOpenParenIfNeeded(n)
 	var (
 		lhsAlign string
@@ -740,66 +734,66 @@ func (p *Printer) VisitBinaryExpression(ctx Context, n *googlesql.ASTBinaryExpre
 		lhsAlign = "\v"
 		rhsAlign = " \v"
 	}
-	lhs := ast.Must(n.Lhs())
-	rhs := ast.Must(n.Rhs())
+	lhs := n.LHS()
+	rhs := n.RHS()
 	p.acceptNestedLeft(ctx, lhs)
 	p.movePast(lhs)
 	// We may have comments between the end of LHS and the beginning
 	// of RHS.  Here we scan the comment-erased input to find the
 	// position of binary op so we can flush comments on the right
 	// side of the operator.
-	b := ast.GetParseLocationEndOffset(lhs)
-	e := ast.GetParseLocationStartOffset(rhs)
+	b := lhs.LocationEnd()
+	e := rhs.LocationStart()
 	view := p.viewErasedInput(b, e)
 	binPos := indexFunc(view, unicode.IsSpace, false)
 	p.Writer.flushCommentsUpTo(b + binPos)
-	switch ast.Must(n.Op()) {
-	case ast.NotSetOp:
+	switch n.Op() {
+	case sql.NotSetBinaryOp:
 		p.print("<UNKNOWN OPERATOR>")
-	case ast.LikeOp:
-		if ast.Must(n.IsNot()) {
+	case sql.LikeOp:
+		if n.IsNot() {
 			p.print(lhsAlign + p.keyword("NOT LIKE") + rhsAlign)
 		} else {
 			p.print(lhsAlign + p.keyword("LIKE") + rhsAlign)
 		}
-	case ast.IsOp:
-		if ast.Must(n.IsNot()) {
+	case sql.IsOp:
+		if n.IsNot() {
 			p.print(lhsAlign + p.keyword("IS NOT") + rhsAlign)
 		} else {
 			p.print(lhsAlign + p.keyword("IS") + rhsAlign)
 		}
-	case ast.EqOp:
+	case sql.EqOp:
 		p.print(lhsAlign + "=" + rhsAlign)
-	case ast.NeOp:
+	case sql.NEOp:
 		p.print(lhsAlign + "!=" + rhsAlign)
-	case ast.Ne2Op:
+	case sql.NE2Op:
 		p.print(lhsAlign + "<>" + rhsAlign)
-	case ast.GtOp:
+	case sql.GTOp:
 		p.print(lhsAlign + ">" + rhsAlign)
-	case ast.LtOp:
+	case sql.LTOp:
 		p.print(lhsAlign + "<" + rhsAlign)
-	case ast.GeOp:
+	case sql.GEOp:
 		p.print(lhsAlign + ">=" + rhsAlign)
-	case ast.LeOp:
+	case sql.LEOp:
 		p.print(lhsAlign + "<=" + rhsAlign)
-	case ast.BitwiseOrOp:
+	case sql.BitwiseOrOp:
 		p.print(lhsAlign + "|" + rhsAlign)
-	case ast.BitwiseXorOp:
+	case sql.BitwiseXorOp:
 		p.print(lhsAlign + "^" + rhsAlign)
-	case ast.BitwiseAndOp:
+	case sql.BitwiseAndOp:
 		p.print(lhsAlign + "&" + rhsAlign)
-	case ast.PlusOp:
+	case sql.PlusBinaryOp:
 		p.print(lhsAlign + "+" + rhsAlign)
-	case ast.MinusOp:
+	case sql.MinusBinaryOp:
 		p.print(lhsAlign + "-" + rhsAlign)
-	case ast.MultiplyOp:
+	case sql.MultiplyOp:
 		p.print(lhsAlign + "*" + rhsAlign)
-	case ast.DivideOp:
+	case sql.DivideOp:
 		p.print(lhsAlign + "/" + rhsAlign)
-	case ast.ConcatOp:
+	case sql.ConcatOpOp:
 		p.print(lhsAlign + "||" + rhsAlign)
-	case ast.DistinctOp:
-		if ast.Must(n.IsNot()) {
+	case sql.DistinctOp:
+		if n.IsNot() {
 			p.print(lhsAlign + p.keyword("IS NOT DISTINCT FROM") + " " + rhsAlign)
 		} else {
 			p.print(lhsAlign + p.keyword("IS DISTINCT FROM") + " " + rhsAlign)
@@ -814,21 +808,21 @@ func (p *Printer) VisitBinaryExpression(ctx Context, n *googlesql.ASTBinaryExpre
 	p.printCloseParenIfNeeded(n)
 }
 
-func (p *Printer) VisitBitwiseShiftExpression(ctx Context, n *googlesql.ASTBitwiseShiftExpression) {
+func (p *Printer) visitBitwiseShiftExpression(ctx Context, n *sql.BitwiseShiftExpression) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Lhs()))
-	if ast.Must(n.IsLeftShift()) {
+	p.accept(ctx, n.LHS())
+	if n.IsLeftShift() {
 		p.print("<<")
 	} else {
 		p.print(">>")
 	}
-	p.accept(ctx, ast.Must(n.Rhs()))
+	p.accept(ctx, n.RHS())
 }
 
-func (p *Printer) VisitCaseNoValueExpression(ctx Context, n *googlesql.ASTCaseNoValueExpression) {
+func (p *Printer) visitCaseNoValueExpression(ctx Context, n *sql.CaseNoValueExpression) {
 	p.moveBefore(n)
 	p.printOpenParenIfNeededWithDepth(n)
-	args := ast.ChildrenExpressions(n)
+	args := ChildrenExpressions(n)
 	argsSimple := caseArgsGetIsSimple(args)
 	simple := allTrue(argsSimple)
 	pp := p.nest()
@@ -851,10 +845,10 @@ func (p *Printer) VisitCaseNoValueExpression(ctx Context, n *googlesql.ASTCaseNo
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) VisitCaseValueExpression(ctx Context, n *googlesql.ASTCaseValueExpression) {
+func (p *Printer) visitCaseValueExpression(ctx Context, n *sql.CaseValueExpression) {
 	p.moveBefore(n)
 	p.printOpenParenIfNeededWithDepth(n)
-	args := ast.ChildrenExpressions(n)
+	args := ChildrenExpressions(n)
 	argsSimple := caseArgsGetIsSimple(args)
 	simple := allTrue(argsSimple)
 	pp := p.nest()
@@ -888,75 +882,75 @@ func (p *Printer) VisitCaseValueExpression(ctx Context, n *googlesql.ASTCaseValu
 	p.printCloseParenIfNeededWithDepth(n)
 }
 
-func (p *Printer) VisitCastExpression(ctx Context, n *googlesql.ASTCastExpression) {
+func (p *Printer) visitCastExpression(ctx Context, n *sql.CastExpression) {
 	pp := p.nest()
 	pp.moveBefore(n)
-	if ast.Must(n.IsSafeCast()) {
+	if n.IsSafeCast() {
 		pp.print(p.keyword("SAFE_CAST") + "(")
 	} else {
 		pp.print(p.keyword("CAST") + "(")
 	}
-	pp.accept(ctx, ast.Must(n.Expr()))
+	pp.accept(ctx, n.Expr())
 	pp.print(p.keyword("AS"))
-	pp.accept(ctx, ast.Must(n.Type()))
-	pp.accept(ctx, ast.Must(n.Format()))
+	pp.accept(ctx, n.Type())
+	pp.accept(ctx, n.Format())
 	pp.print(")")
 	p.print(pp.unnest())
 }
 
-func (p *Printer) VisitClampedBetweenModifier(ctx Context, n *googlesql.ASTClampedBetweenModifier) {
+func (p *Printer) visitClampedBetweenModifier(ctx Context, n *sql.ClampedBetweenModifier) {
 	p.moveBefore(n)
 	p.print(p.keyword("CLAMPED BETWEEN"))
-	p.accept(ctx, ast.Must(n.Low()))
+	p.accept(ctx, n.Low())
 	p.print(p.keyword("AND"))
-	p.accept(ctx, ast.Must(n.High()))
+	p.accept(ctx, n.High())
 }
 
-func (p *Printer) VisitClusterBy(ctx Context, n *googlesql.ASTClusterBy) {
+func (p *Printer) visitClusterBy(ctx Context, n *sql.ClusterBy) {
 	p.moveBefore(n)
 	p.print(p.keyword("CLUSTER"))
 	p1 := p.nest()
 	p1.print(p1.keyword("BY"))
-	printNestedWithSep(ctx, p1, ast.ChildrenExpressions(n), ",")
+	printNestedWithSepNode(ctx, p1, ChildrenExpressions(n), ",")
 	p.print(p1.unnest())
 }
 
-func (p *Printer) VisitCollate(ctx Context, n *googlesql.ASTCollate) {
+func (p *Printer) visitCollate(ctx Context, n *sql.Collate) {
 	p.moveBefore(n)
 	p.print(p.keyword("COLLATE"))
-	p.accept(ctx, ast.Must(n.CollationName()))
+	p.accept(ctx, n.CollationName())
 }
 
-func (p *Printer) VisitColumnAttributeList(ctx Context, n *googlesql.ASTColumnAttributeList) {
+func (p *Printer) visitColumnAttributeList(ctx Context, n *sql.ColumnAttributeList) {
 	p.moveBefore(n)
-	for _, val := range ast.ChildrenOfType[googlesql.ASTColumnAttributeNode](n) {
+	for _, val := range n.Children() {
 		p.lnaccept(ctx, val)
 	}
 	p.movePast(n)
 }
 
-func (p *Printer) VisitConnectionClause(ctx Context, n *googlesql.ASTConnectionClause) {
+func (p *Printer) visitConnectionClause(ctx Context, n *sql.ConnectionClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("CONNECTION"))
-	p.accept(ctx, ast.Must(n.ConnectionPath()))
+	p.accept(ctx, n.ConnectionPath())
 }
 
-func (p *Printer) VisitDescriptor(ctx Context, n *googlesql.ASTDescriptor) {
+func (p *Printer) visitDescriptor(ctx Context, n *sql.Descriptor) {
 	p.moveBefore(n)
 	p.print(p.keyword("DESCRIPTOR") + "(")
-	p.accept(ctx, ast.Must(n.Columns()))
+	p.accept(ctx, n.Columns())
 	p.print(")")
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDescriptorColumn(ctx Context, n *googlesql.ASTDescriptorColumn) {
+func (p *Printer) visitDescriptorColumn(ctx Context, n *sql.DescriptorColumn) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Name()))
+	p.accept(ctx, n.Name())
 }
 
-func (p *Printer) VisitDescriptorColumnList(ctx Context, n *googlesql.ASTDescriptorColumnList) {
+func (p *Printer) visitDescriptorColumnList(ctx Context, n *sql.DescriptorColumnList) {
 	p.moveBefore(n)
-	for i, c := range ast.ChildrenOfType[*googlesql.ASTDescriptorColumn](n) {
+	for i, c := range ChildrenOfType[*sql.DescriptorColumn](n) {
 		if i > 0 {
 			p.print(",")
 		}
@@ -965,12 +959,12 @@ func (p *Printer) VisitDescriptorColumnList(ctx Context, n *googlesql.ASTDescrip
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDotIdentifier(ctx Context, n *googlesql.ASTDotIdentifier) {
+func (p *Printer) visitDotIdentifier(ctx Context, n *sql.DotIdentifier) {
 	p.moveBefore(n)
-	expr := ast.Must(n.Expr())
+	expr := n.Expr()
 	var innerParen bool
-	switch ast.Kind(expr) {
-	case ast.IntLiteral, ast.FloatLiteral:
+	switch expr.Kind() {
+	case sql.IntLiteralKind, sql.FloatLiteralKind:
 		innerParen = true
 	}
 	if innerParen {
@@ -981,31 +975,31 @@ func (p *Printer) VisitDotIdentifier(ctx Context, n *googlesql.ASTDotIdentifier)
 		p.print(")")
 	}
 	p.print(".")
-	p.accept(ctx, ast.Must(n.Name()))
+	p.accept(ctx, n.Name())
 }
 
-func (p *Printer) VisitDotGeneralizedField(ctx Context, n *googlesql.ASTDotGeneralizedField) {
+func (p *Printer) visitDotGeneralizedField(ctx Context, n *sql.DotGeneralizedField) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Expr()))
+	p.accept(ctx, n.Expr())
 	p.print(".(")
-	p.accept(ctx, ast.Must(n.Path()))
+	p.accept(ctx, n.Path())
 	p.print(")")
 }
 
-func (p *Printer) VisitDotStar(ctx Context, n *googlesql.ASTDotStar) {
+func (p *Printer) visitDotStar(ctx Context, n *sql.DotStar) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Expr()))
+	p.accept(ctx, n.Expr())
 	p.print(".*")
 }
 
-func (p *Printer) VisitDotStarWithModifiers(ctx Context, n *googlesql.ASTDotStarWithModifiers) {
+func (p *Printer) visitDotStarWithModifiers(ctx Context, n *sql.DotStarWithModifiers) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Expr()))
+	p.accept(ctx, n.Expr())
 	p.print(".*")
-	p.accept(ctx, ast.Must(n.Modifiers()))
+	p.accept(ctx, n.Modifiers())
 }
 
-func (p *Printer) VisitExpressionSubquery(ctx Context, n *googlesql.ASTExpressionSubquery) {
+func (p *Printer) visitExpressionSubquery(ctx Context, n *sql.ExpressionSubquery) {
 	p.moveBefore(n)
 	// We have three cases to handle:
 	// 1) Simple queries:
@@ -1024,20 +1018,20 @@ func (p *Printer) VisitExpressionSubquery(ctx Context, n *googlesql.ASTExpressio
 		isInNot, _ := ctx.Bool(KeyInUnaryNot)
 		// If in a SingleAssignment, we still need to verify whether this is the
 		// direct assignment query or not.
-		parentKind := ast.Kind(ast.Parent(n))
-		if isAssign && parentKind != ast.SingleAssignment {
+		parentKind := n.Parent().Kind()
+		if isAssign && parentKind != sql.SingleAssignmentKind {
 			isAssign = false
 		}
-		shouldNest := !(isInNot && parentKind == ast.UnaryExpression) && !isAssign
+		shouldNest := !(isInNot && parentKind == sql.UnaryExpressionKind) && !isAssign
 		pp := p.nest()
 		if shouldNest {
-			pp.printSubqueryOpenWithModifier(ast.Must(n.Modifier()), true)
+			pp.printSubqueryOpenWithModifier(n.Modifier(), true)
 		} else {
-			p.printSubqueryOpenWithModifier(ast.Must(n.Modifier()), true)
+			p.printSubqueryOpenWithModifier(n.Modifier(), true)
 		}
 		pp.incDepth()
-		pp.accept(ctx, ast.Must(n.Hint()))
-		pp.accept(ctx, ast.Must(n.Query()))
+		pp.accept(ctx, n.Hint())
+		pp.accept(ctx, n.Query())
 		pp.decDepth()
 		if isAssign {
 			pp.println("")
@@ -1049,29 +1043,29 @@ func (p *Printer) VisitExpressionSubquery(ctx Context, n *googlesql.ASTExpressio
 			p.print(")")
 		}
 	} else {
-		p.printSubqueryOpenWithModifier(ast.Must(n.Modifier()), false)
-		p.accept(ctx, ast.Must(n.Hint()))
-		p.accept(ctx, ast.Must(n.Query()))
+		p.printSubqueryOpenWithModifier(n.Modifier(), false)
+		p.accept(ctx, n.Hint())
+		p.accept(ctx, n.Query())
 		p.print(")")
 	}
 }
 
-func (p *Printer) printSubqueryOpenWithModifier(modifier googlesql.ASTExpressionSubqueryEnums_Modifier, breakline bool) {
+func (p *Printer) printSubqueryOpenWithModifier(modifier sql.SubqueryModifier, breakline bool) {
 	print := p.print
 	if breakline {
 		print = p.println
 	}
 	switch modifier {
-	case ast.NoneExpressionSubquery:
+	case sql.NoneModifier:
 		print("(")
-	case ast.ArrayExpressionSubquery:
+	case sql.Array:
 		print(p.keyword("ARRAY") + "(")
-	case ast.ExistsExpressionSubquery:
+	case sql.Exists:
 		print(p.keyword("EXISTS") + "(")
 	}
 }
 
-func (p *Printer) VisitExtractExpression(ctx Context, n *googlesql.ASTExtractExpression) {
+func (p *Printer) visitExtractExpression(ctx Context, n *sql.ExtractExpression) {
 	p.moveBefore(n)
 	p.print(p.keyword("EXTRACT") + "(")
 	simple := isSimpleExpr(n)
@@ -1080,7 +1074,7 @@ func (p *Printer) VisitExtractExpression(ctx Context, n *googlesql.ASTExtractExp
 		p.incDepth()
 	}
 	// We handle the LHS date part as a type name.
-	p.print(p.typename(p.toString(ctx, ast.Must(n.LhsExpr()))))
+	p.print(p.typename(p.toString(ctx, n.LHSExpr())))
 	if !simple {
 		p.println("")
 		p.decDepth()
@@ -1090,8 +1084,8 @@ func (p *Printer) VisitExtractExpression(ctx Context, n *googlesql.ASTExtractExp
 		p.println("")
 		p.incDepth()
 	}
-	p.accept(ctx, ast.Must(n.RhsExpr()))
-	if tz := ast.Must(n.TimeZoneExpr()); tz != nil {
+	p.accept(ctx, n.RHSExpr())
+	if tz := n.TimeZoneExpr(); tz != nil {
 		p.print(p.keyword("AT TIME ZONE"))
 		p.accept(ctx, tz)
 	}
@@ -1102,54 +1096,54 @@ func (p *Printer) VisitExtractExpression(ctx Context, n *googlesql.ASTExtractExp
 	p.print(")")
 }
 
-func (p *Printer) VisitFormatClause(ctx Context, n *googlesql.ASTFormatClause) {
+func (p *Printer) visitFormatClause(ctx Context, n *sql.FormatClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("FORMAT"))
-	p.accept(ctx, ast.Must(n.Format()))
-	if tz := ast.Must(n.TimeZoneExpr()); tz != nil {
+	p.accept(ctx, n.Format())
+	if tz := n.TimeZoneExpr(); tz != nil {
 		p.print(p.keyword("AT TIME ZONE"))
-		p.accept(ctx, ast.Must(n.TimeZoneExpr()))
+		p.accept(ctx, n.TimeZoneExpr())
 	}
 }
 
-func (p *Printer) VisitForSystemTime(ctx Context, n *googlesql.ASTForSystemTime) {
+func (p *Printer) visitForSystemTime(ctx Context, n *sql.ForSystemTime) {
 	p.moveBefore(n)
 	p.println("")
 	p.print(p.keyword("FOR SYSTEM_TIME AS OF"))
-	p.accept(ctx, ast.Must(n.Expression()))
+	p.accept(ctx, n.Expression())
 }
 
-func (p *Printer) VisitGroupingItem(ctx Context, n *googlesql.ASTGroupingItem) {
+func (p *Printer) visitGroupingItem(ctx Context, n *sql.GroupingItem) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Expression()))
-	p.accept(ctx, ast.Must(n.Rollup()))
+	p.accept(ctx, n.Expression())
+	p.accept(ctx, n.Rollup())
 }
 
-func (p *Printer) VisitIdentifierList(ctx Context, n *googlesql.ASTIdentifierList) {
+func (p *Printer) visitIdentifierList(ctx Context, n *sql.IdentifierList) {
 	p.moveBefore(n)
-	printNestedWithSep(ctx, p, ast.ChildrenOfType[*googlesql.ASTIdentifier](n), ",")
+	printNestedWithSepNode(ctx, p, ChildrenOfType[*sql.Identifier](n), ",")
 }
 
-func (p *Printer) VisitInExpression(ctx Context, n *googlesql.ASTInExpression) {
+func (p *Printer) visitInExpression(ctx Context, n *sql.InExpression) {
 	pp := p.nest()
 	pp.moveBefore(n)
 	pp.printOpenParenIfNeeded(n)
-	pp.acceptNestedLeft(ctx, ast.Must(n.Lhs()))
-	inloc := ast.Must(n.InLocation())
+	pp.acceptNestedLeft(ctx, n.LHS())
+	inloc := n.InLocation()
 	pp.moveBefore(inloc)
-	if ast.Must(n.IsNot()) {
+	if n.IsNot() {
 		pp.print(pp.keyword("NOT IN"))
 	} else {
 		pp.print(pp.keyword("IN"))
 	}
 	pp.movePast(inloc)
-	pp.acceptNestedLeft(ctx, ast.Must(n.Hint()))
+	pp.acceptNestedLeft(ctx, n.Hint())
 	// Exactly one of InList, UnnestExpr, or Query is present.
-	pp.acceptNestedLeft(ctx, ast.Must(n.InList()))
-	pp.acceptNestedLeft(ctx, ast.Must(n.UnnestExpr()))
+	pp.acceptNestedLeft(ctx, n.InList())
+	pp.acceptNestedLeft(ctx, n.UnnestExpr())
 	// A query may be IN (SELECT 1) or IN ((SELECT 1)), where the first
 	// is parsed as not parenthesized but the seconde one is.
-	if q := ast.Must(n.Query()); ast.Defined(q) {
+	if q := n.Query(); q != nil {
 		simple := isSimpleQuery(q)
 		if simple {
 			pp.print("(")
@@ -1171,10 +1165,10 @@ func (p *Printer) VisitInExpression(ctx Context, n *googlesql.ASTInExpression) {
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) VisitInList(ctx Context, n *googlesql.ASTInList) {
+func (p *Printer) visitInList(ctx Context, n *sql.InList) {
 	p.moveBefore(n)
 	p.print("(")
-	elems := ast.ChildrenExpressions(n)
+	elems := ChildrenExpressions(n)
 	simple := allTrue(mapIsSimpleExprs(elems))
 	if !simple {
 		p.println("")
@@ -1197,13 +1191,13 @@ func (p *Printer) VisitInList(ctx Context, n *googlesql.ASTInList) {
 	p.print(")")
 }
 
-func (p *Printer) VisitIntervalExpr(ctx Context, n *googlesql.ASTIntervalExpr) {
+func (p *Printer) visitIntervalExpr(ctx Context, n *sql.IntervalExpr) {
 	p.moveBefore(n)
 	p.print(p.keyword("INTERVAL"))
-	p.accept(ctx, ast.Must(n.IntervalValue()))
+	p.accept(ctx, n.IntervalValue())
 	pp := p.nest()
-	pp.accept(ctx, ast.Must(n.DatePartName()))
-	if to := ast.Must(n.DatePartNameTo()); to != nil {
+	pp.accept(ctx, n.DatePartName())
+	if to := n.DatePartNameTo(); to != nil {
 		pp.print(pp.keyword("TO"))
 		pp.accept(ctx, to)
 	}
@@ -1211,124 +1205,124 @@ func (p *Printer) VisitIntervalExpr(ctx Context, n *googlesql.ASTIntervalExpr) {
 	p.movePast(n)
 }
 
-func (p *Printer) VisitHint(ctx Context, n *googlesql.ASTHint) {
+func (p *Printer) visitHint(ctx Context, n *sql.Hint) {
 	// We use a strings builder here because we don't want automatic
 	// spaces between token separators.
 	var b strings.Builder
 	p.moveBefore(n)
-	if shards := ast.Must(n.NumShardsHint()); shards != nil {
+	if shards := n.NumShardsHint(); shards != nil {
 		p.print("@")
 		p.accept(ctx, shards)
 	}
-	entries := ast.ChildrenOfType[*googlesql.ASTHintEntry](n)
+	entries := ChildrenOfType[*sql.HintEntry](n)
 	if len(entries) > 0 {
 		b.WriteString("@{")
 		for i, h := range entries {
 			if i > 0 {
 				p.print(",")
 			}
-			b.WriteString(p.toString(ctx, ast.Must(h.Name())))
+			b.WriteString(p.toString(ctx, h.Name()))
 			b.WriteString("=")
-			b.WriteString(p.toString(ctx, ast.Must(h.Value())))
+			b.WriteString(p.toString(ctx, h.Value()))
 		}
 		b.WriteString("}")
 	}
 	p.print(b.String())
 }
 
-func (p *Printer) VisitHintedStatement(ctx Context, n *googlesql.ASTHintedStatement) {
-	p.accept(ctx, ast.Must(n.Hint()))
+func (p *Printer) visitHintedStatement(ctx Context, n *sql.HintedStatement) {
+	p.accept(ctx, n.Hint())
 	p.println("")
-	p.accept(ctx, ast.Must(n.Statement()))
+	p.accept(ctx, n.Statement())
 }
 
-func (p *Printer) VisitHavingModifier(ctx Context, n *googlesql.ASTHavingModifier) {
+func (p *Printer) visitHavingModifier(ctx Context, n *sql.HavingModifier) {
 	p.moveBefore(n)
 	p.print(p.keyword("HAVING"))
-	switch ast.Must(n.ModifierKind()) {
-	case ast.NotSetHavingModifier:
+	switch n.ModifierKind() {
+	case sql.NotSetHavingModifier:
 		// Nothing.
-	case ast.MinHavingModifier:
+	case sql.MinHavingModifier:
 		p.print(p.keyword("MIN"))
-	case ast.MaxHavingModifier:
+	case sql.MaxHavingModifier:
 		p.print(p.keyword("MAX"))
 	}
 
-	p.accept(ctx, ast.Must(n.Expr()))
+	p.accept(ctx, n.Expr())
 }
 
-func (p *Printer) VisitHaving(ctx Context, n *googlesql.ASTHaving) {
+func (p *Printer) visitHaving(ctx Context, n *sql.Having) {
 	p.moveBefore(n)
-	p.visitMaybeClauseAligned(ast.Must(n.Expression()), ctx)
+	p.visitMaybeClauseAligned(n.Expression(), ctx)
 }
 
-func (p *Printer) VisitJoin(ctx Context, n *googlesql.ASTJoin) {
+func (p *Printer) visitJoin(ctx Context, n *sql.Join) {
 	// We should keep in mind that, in the AST, joins are structured
 	// from the last on the top to the first on the bottom.
 	count, _ := ctx.Int(KeyJoinCounts)
 	pp := p.nest()
-	pp.acceptNestedLeft(ctx, ast.Must(n.Lhs()))
-	pp.movePast(ast.Must(n.Lhs()))
-	switch ast.Must(n.JoinType()) {
-	case ast.CommaJoinType:
+	pp.acceptNestedLeft(ctx, n.LHS())
+	pp.movePast(n.LHS())
+	switch n.JoinType() {
+	case sql.Comma:
 		pp.print(",")
-	case ast.DefaultJoinType, ast.CrossJoinType, ast.FullJoinType,
-		ast.InnerJoinType, ast.LeftJoinType, ast.RightJoinType:
+	case sql.DefaultJoinType, sql.Cross, sql.FullJoin,
+		sql.InnerJoin, sql.LeftJoin, sql.RightJoin:
 		if count >= p.Writer.opts.MinJoinsToSeparateInBlocks {
 			pp.println("")
 		}
 		pp.moveBefore(n)
-		pp.moveBefore(ast.Must(n.JoinLocation()))
+		pp.moveBefore(n.JoinLocation())
 		pp.println("\v")
 		pp.print(p.keyword(p.joinKeyword(n)))
 	}
-	pp.accept(ctx, ast.Must(n.Hint()))
+	pp.accept(ctx, n.Hint())
 	pp.println("")
 	pp2 := p.nest()
-	pp2.acceptNestedLeft(ctx, ast.Must(n.Rhs()))
-	pp2.movePast(ast.Must(n.Rhs()))
+	pp2.acceptNestedLeft(ctx, n.RHS())
+	pp2.movePast(n.RHS())
 	pp.print(pp2.unnest())
-	if oc := ast.Must(n.OnClause()); oc != nil {
+	if oc := n.OnClause(); oc != nil {
 		pp.println("")
 		pp.acceptNested(ctx, oc)
 	}
-	if uc := ast.Must(n.UsingClause()); uc != nil {
+	if uc := n.UsingClause(); uc != nil {
 		pp.println("")
 		pp.acceptNested(ctx, uc)
 	}
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) joinKeyword(n *googlesql.ASTJoin) string {
+func (p *Printer) joinKeyword(n *sql.Join) string {
 	var kw strings.Builder
 	// Capacity for the largest keyword possible: NATURAL RIGHT OUTER JOIN.
 	kw.Grow(24)
-	if ast.Must(n.Natural()) {
+	if n.Natural() {
 		kw.WriteString("NATURAL ")
 	}
-	switch ast.Must(n.JoinType()) {
-	case ast.CrossJoinType:
+	switch n.JoinType() {
+	case sql.Cross:
 		kw.WriteString("CROSS ")
-	case ast.FullJoinType:
+	case sql.FullJoin:
 		kw.WriteString("FULL ")
-	case ast.InnerJoinType:
+	case sql.InnerJoin:
 		kw.WriteString("INNER ")
-	case ast.LeftJoinType:
+	case sql.LeftJoin:
 		kw.WriteString("LEFT ")
-	case ast.RightJoinType:
+	case sql.RightJoin:
 		kw.WriteString("RIGHT ")
-	case ast.DefaultJoinType, ast.CommaJoinType:
+	case sql.DefaultJoinType, sql.Comma:
 		// Nothing.
 	}
-	switch ast.Must(n.JoinHint()) {
-	case ast.NoJoinHint:
+	switch n.JoinHint() {
+	case sql.NoJoinHint:
 		// Nothing.
-	case ast.HashJoinHint:
+	case sql.Hash:
 		kw.WriteString("HASH ")
-	case ast.LookupJoinHint:
+	case sql.Lookup:
 		kw.WriteString("LOOKUP ")
 	}
-	begin, end := ast.GetParseLocationByteOffsets(ast.Must(n.JoinLocation()))
+	begin, end := n.JoinLocation().Location()
 	input := strings.ToUpper(p.viewErasedInput(begin, end))
 	if strings.Contains(input, "OUTER") {
 		kw.WriteString("OUTER ")
@@ -1337,23 +1331,23 @@ func (p *Printer) joinKeyword(n *googlesql.ASTJoin) string {
 	return kw.String()
 }
 
-func (p *Printer) VisitLimit(ctx Context, n *googlesql.ASTLimit) {
+func (p *Printer) visitLimit(ctx Context, n *sql.Limit) {
 	p.moveBefore(n)
-	if all := ast.Must(n.All()); ast.Defined(all) {
+	if all := n.All(); all != nil {
 		p.moveBefore(all)
 		p.print(p.keyword("ALL"))
 		p.movePast(all)
 	}
-	p.accept(ctx, ast.Must(n.Expression()))
+	p.accept(ctx, n.Expression())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitLimitOffset(ctx Context, n *googlesql.ASTLimitOffset) {
+func (p *Printer) visitLimitOffset(ctx Context, n *sql.LimitOffset) {
 	p.moveBefore(n)
 	p.print(p.keyword("LIMIT"))
 	pp := p.nest()
-	pp.accept(ctx, ast.Must(n.Limit()))
-	if os := ast.Must(n.Offset()); ast.Defined(os) {
+	pp.accept(ctx, n.Limit())
+	if os := n.Offset(); os != nil {
 		pp.print(p.keyword("OFFSET"))
 		pp.accept(ctx, os)
 	}
@@ -1361,14 +1355,14 @@ func (p *Printer) VisitLimitOffset(ctx Context, n *googlesql.ASTLimitOffset) {
 	p.moveBeforeSuccessorOf(n)
 }
 
-func (p *Printer) visitMaybeClauseAligned(n googlesql.ASTExpressionNode, ctx Context) {
+func (p *Printer) visitMaybeClauseAligned(n sql.ExpressionNode, ctx Context) {
 	pp := p.nest()
 	// If the WHERE clause contains AND or OR, we will format them
 	// as if they were clauses, right-aligned with the WHERE clause.
-	switch ast.Kind(n) {
-	case ast.AndExpr:
-		bin := n.(*googlesql.ASTAndExpr)
-		for i, conjunct := range ast.ChildrenExpressions(bin) {
+	switch n.Kind() {
+	case sql.AndExprKind:
+		bin := n.(*sql.AndExpr)
+		for i, conjunct := range ChildrenExpressions(bin) {
 			if i > 0 {
 				if p.Writer.opts.AlignLogicalWithClauses {
 					// Clear buffer and write AND as a clause.
@@ -1382,9 +1376,9 @@ func (p *Printer) visitMaybeClauseAligned(n googlesql.ASTExpressionNode, ctx Con
 			}
 			pp.acceptNested(ctx, conjunct)
 		}
-	case ast.OrExpr:
-		bin := n.(*googlesql.ASTOrExpr)
-		for i, disjunct := range ast.ChildrenExpressions(bin) {
+	case sql.OrExprKind:
+		bin := n.(*sql.OrExpr)
+		for i, disjunct := range ChildrenExpressions(bin) {
 			if i > 0 {
 				if p.Writer.opts.AlignLogicalWithClauses {
 					p.print(pp.unnest())
@@ -1403,47 +1397,47 @@ func (p *Printer) visitMaybeClauseAligned(n googlesql.ASTExpressionNode, ctx Con
 	p.print(pp.unnest())
 }
 
-func (p *Printer) VisitModelClause(ctx Context, n *googlesql.ASTModelClause) {
+func (p *Printer) visitModelClause(ctx Context, n *sql.ModelClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("MODEL"))
-	p.accept(ctx, ast.Must(n.ModelPath()))
+	p.accept(ctx, n.ModelPath())
 }
 
-func (p *Printer) VisitNamedArgument(ctx Context, n *googlesql.ASTNamedArgument) {
+func (p *Printer) visitNamedArgument(ctx Context, n *sql.NamedArgument) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Name()))
+	p.accept(ctx, n.Name())
 	p.print("=>")
-	expr := ast.Must(n.Expr())
+	expr := n.Expr()
 	simple := isSimpleExpr(expr)
 	if !simple {
 		p.println("")
 		p.incDepth()
 	}
-	p.accept(ctx, ast.Must(n.Expr()))
+	p.accept(ctx, n.Expr())
 	if !simple {
 		p.println("")
 		p.decDepth()
 	}
 }
 
-func (p *Printer) VisitNullOrder(ctx Context, n *googlesql.ASTNullOrder) {
-	if ast.Must(n.NullsFirst()) {
+func (p *Printer) visitNullOrder(ctx Context, n *sql.NullOrder) {
+	if n.NullsFirst() {
 		p.print(p.keyword("NULLS FIRST"))
 	} else {
 		p.print(p.keyword("NULLS LAST"))
 	}
 }
 
-func (p *Printer) VisitOnClause(ctx Context, n *googlesql.ASTOnClause) {
+func (p *Printer) visitOnClause(ctx Context, n *sql.OnClause) {
 	p1 := p.nest()
 	p1.printClause(p1.keyword("ON"))
 	p1.moveBefore(n)
-	p1.accept(ctx, ast.Must(n.Expression()))
+	p1.accept(ctx, n.Expression())
 	p.print(p1.unnestLeft())
 }
 
-func (p *Printer) VisitOptionsList(ctx Context, n *googlesql.ASTOptionsList) {
-	entries := ast.ChildrenOfType[*googlesql.ASTOptionsEntry](n)
+func (p *Printer) visitOptionsList(ctx Context, n *sql.OptionsList) {
+	entries := ChildrenOfType[*sql.OptionsEntry](n)
 	simple := len(entries) <= 1 && allTrue(mapIsSimpleOptionsList(n))
 	ctx = ctx.WithValue(KeySimpleOptions, simple)
 	pp := p.nest()
@@ -1472,12 +1466,12 @@ func (p *Printer) VisitOptionsList(ctx Context, n *googlesql.ASTOptionsList) {
 	p.print(pp.unnest())
 }
 
-func (p *Printer) VisitOptionsEntry(ctx Context, n *googlesql.ASTOptionsEntry) {
-	keys := KnownOptionKeys(ast.ParentAs[*googlesql.ASTOptionsList](n))
+func (p *Printer) visitOptionsEntry(ctx Context, n *sql.OptionsEntry) {
+	keys := KnownOptionKeys(sql.ParentAs[*sql.OptionsList](n))
 	simple, _ := ctx.Bool(KeySimpleOptions)
 	pp := p.nest()
-	key := keys.Get(pp.toString(ctx, ast.Must(n.Name())))
-	value := pp.toUnnestedString(ctx, ast.Must(n.Value()))
+	key := keys.Get(pp.toString(ctx, n.Name()))
+	value := pp.toUnnestedString(ctx, n.Value())
 	if simple {
 		pp.print(key + "=" + value)
 	} else {
@@ -1488,10 +1482,10 @@ func (p *Printer) VisitOptionsEntry(ctx Context, n *googlesql.ASTOptionsEntry) {
 	p.print(pp.String())
 }
 
-func (p *Printer) VisitOrExpr(ctx Context, n *googlesql.ASTOrExpr) {
-	disjuncts := ast.ChildrenExpressions(n)
+func (p *Printer) visitOrExpr(ctx Context, n *sql.OrExpr) {
+	disjuncts := ChildrenExpressions(n)
 	p1 := p.nest()
-	inClause := isInsideOfWhereClause(n) || isInsideOfOnClause(n)
+	inClause := sql.IsInsideOfWhereClause(n) || sql.IsInsideOfOnClause(n)
 	simple := allTrue(mapIsSimpleExprs(disjuncts)) && (len(disjuncts) < 4)
 	p.moveBefore(n)
 	if p.isParenNeeded(n) {
@@ -1518,7 +1512,7 @@ func (p *Printer) VisitOrExpr(ctx Context, n *googlesql.ASTOrExpr) {
 				}
 			}
 		}
-		if ast.Kind(disjunct) == ast.AndExpr {
+		if disjunct.Kind() == sql.AndExprKind {
 			p1.accept(ctx, disjunct)
 		} else {
 			p1.acceptNested(ctx, disjunct)
@@ -1535,72 +1529,72 @@ func (p *Printer) VisitOrExpr(ctx Context, n *googlesql.ASTOrExpr) {
 	}
 }
 
-func (p *Printer) VisitOrderBy(ctx Context, n *googlesql.ASTOrderBy) {
+func (p *Printer) visitOrderBy(ctx Context, n *sql.OrderBy) {
 	p.moveBefore(n)
-	if ast.Kind(ast.Parent(n)) == ast.Query {
+	if n.Parent().Kind() == sql.QueryKind {
 		p.printClause(p.keyword("ORDER"))
 	} else {
 		p.print(p.keyword("ORDER"))
 	}
 	p1 := p.nest()
-	p1.accept(ctx, ast.Must(n.Hint()))
+	p1.accept(ctx, n.Hint())
 	p1.print(p1.keyword("BY"))
 	p1.moveBefore(n)
-	printNestedWithSep(ctx, p1, ast.ChildrenOfType[*googlesql.ASTOrderingExpression](n), ",")
+	printNestedWithSepNode(ctx, p1, ChildrenOfType[*sql.OrderingExpression](n), ",")
 	p1.moveBeforeSuccessorOf(n)
 	p.print(p1.unnestLeft())
 }
 
-func (p *Printer) VisitOrderingExpression(ctx Context, n *googlesql.ASTOrderingExpression) {
+func (p *Printer) visitOrderingExpression(ctx Context, n *sql.OrderingExpression) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Expression()))
-	p.accept(ctx, ast.Must(n.Collate()))
-	switch ast.Must(n.OrderingSpec()) {
-	case ast.NotSetOrderingSpec:
+	p.accept(ctx, n.Expression())
+	p.accept(ctx, n.Collate())
+	switch n.OrderingSpec() {
+	case sql.NotSetSpec:
 		// No op.
-	case ast.AscOrderingSpec:
+	case sql.Asc:
 		p.print(p.keyword("ASC"))
-	case ast.DescOrderingSpec:
+	case sql.Desc:
 		p.print(p.keyword("DESC"))
 	}
-	p.accept(ctx, ast.Must(n.NullOrder()))
+	p.accept(ctx, n.NullOrder())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitParameterExpr(ctx Context, n *googlesql.ASTParameterExpr) {
+func (p *Printer) visitParameterExpr(ctx Context, n *sql.ParameterExpr) {
 	p.moveBefore(n)
-	if ast.Must(n.Position()) == 0 {
+	if n.Position() == 0 {
 		p.print("@")
-		p.accept(ctx.WithValue(KeyQueryParameter, true), ast.Must(n.Name()))
+		p.accept(ctx.WithValue(KeyQueryParameter, true), n.Name())
 	} else {
 		p.print("?")
 	}
 }
 
-func (p *Printer) VisitParenthesizedJoin(ctx Context, n *googlesql.ASTParenthesizedJoin) {
+func (p *Printer) visitParenthesizedJoin(ctx Context, n *sql.ParenthesizedJoin) {
 	p.moveBefore(n)
 	p.println("(")
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.Join()))
+	p.accept(ctx, n.Join())
 	p.decDepth()
 	p.println("")
 	p.print(")")
-	p.accept(ctx, ast.Must(n.SampleClause()))
+	p.accept(ctx, n.SampleClause())
 }
 
-func (p *Printer) VisitPartitionBy(ctx Context, n *googlesql.ASTPartitionBy) {
+func (p *Printer) visitPartitionBy(ctx Context, n *sql.PartitionBy) {
 	p.moveBefore(n)
 	p.print(p.keyword("PARTITION"))
 	p1 := p.nest()
-	p1.accept(ctx, ast.Must(n.Hint()))
+	p1.accept(ctx, n.Hint())
 	p1.print(p1.keyword("BY"))
-	printNestedWithSep(ctx, p1, ast.ChildrenExpressions(n), ",")
+	printNestedWithSepNode(ctx, p1, ChildrenExpressions(n), ",")
 	p.print(p1.unnest())
 }
 
-func (p *Printer) VisitPathExpressionList(ctx Context, n *googlesql.ASTPathExpressionList) {
+func (p *Printer) visitPathExpressionList(ctx Context, n *sql.PathExpressionList) {
 	p.moveBefore(n)
-	exprs := ast.ChildrenOfType[*googlesql.ASTPathExpression](n)
+	exprs := ChildrenOfType[*sql.PathExpression](n)
 	parens := len(exprs) > 1
 	if parens {
 		p.print("(")
@@ -1620,13 +1614,13 @@ func (p *Printer) VisitPathExpressionList(ctx Context, n *googlesql.ASTPathExpre
 	}
 }
 
-func (p *Printer) VisitPivotClause(ctx Context, n *googlesql.ASTPivotClause) {
+func (p *Printer) visitPivotClause(ctx Context, n *sql.PivotClause) {
 	p.moveBefore(n)
 	p.println("")
 	p.print(p.keyword("PIVOT") + " (")
 	p.println("")
 	p.incDepth()
-	p.acceptNestedLeft(ctx, ast.Must(n.PivotExpressions()))
+	p.acceptNestedLeft(ctx, n.PivotExpressions())
 	p.println("")
 	pp := p.nest()
 	pp.visitPivotForExpression(ctx, n)
@@ -1634,18 +1628,18 @@ func (p *Printer) VisitPivotClause(ctx Context, n *googlesql.ASTPivotClause) {
 	p.println("")
 	p.decDepth()
 	p.print(")")
-	p.accept(ctx, ast.Must(n.OutputAlias()))
+	p.accept(ctx, n.OutputAlias())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitPivotExpression(ctx Context, n *googlesql.ASTPivotExpression) {
+func (p *Printer) visitPivotExpression(ctx Context, n *sql.PivotExpression) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Expression()))
-	p.accept(ctx, ast.Must(n.Alias()))
+	p.accept(ctx, n.Expression())
+	p.accept(ctx, n.Alias())
 	p.movePast(n)
 }
 
-func (p *Printer) visitPivotForExpression(ctx Context, n *googlesql.ASTPivotClause) {
+func (p *Printer) visitPivotForExpression(ctx Context, n *sql.PivotClause) {
 	// For the structure "FOR <lhs> IN (<rhs>)":
 	//   simple(<lhs>)                  => format <lhs> in single line
 	//   simple(<lhs>) & simple(<rhs>)  => format <rhs> in single line
@@ -1662,7 +1656,7 @@ func (p *Printer) visitPivotForExpression(ctx Context, n *googlesql.ASTPivotClau
 		p.println("")
 		p.incDepth()
 	}
-	p.accept(ctx, ast.Must(n.ForExpression()))
+	p.accept(ctx, n.ForExpression())
 	if !simpleLHS {
 		p.println("")
 		p.decDepth()
@@ -1672,7 +1666,7 @@ func (p *Printer) visitPivotForExpression(ctx Context, n *googlesql.ASTPivotClau
 		p.println("")
 		p.incDepth()
 	}
-	p.acceptNestedLeft(ctx, ast.ChildAs[*googlesql.ASTPivotValueList](n, 2))
+	p.acceptNestedLeft(ctx, n.Child(2).(*sql.PivotValueList))
 	if !simpleValues {
 		p.println("")
 		p.decDepth()
@@ -1680,9 +1674,9 @@ func (p *Printer) visitPivotForExpression(ctx Context, n *googlesql.ASTPivotClau
 	p.print(")")
 }
 
-func (p *Printer) VisitPivotExpressionList(ctx Context, n *googlesql.ASTPivotExpressionList) {
+func (p *Printer) visitPivotExpressionList(ctx Context, n *sql.PivotExpressionList) {
 	p.moveBefore(n)
-	exprs := ast.ChildrenOfType[*googlesql.ASTPivotExpression](n)
+	exprs := ChildrenOfType[*sql.PivotExpression](n)
 	simple := allTrue(mapIsSimplePivotExpressionList(n))
 	for i, e := range exprs {
 		if i > 0 {
@@ -1696,17 +1690,17 @@ func (p *Printer) VisitPivotExpressionList(ctx Context, n *googlesql.ASTPivotExp
 	p.movePast(n)
 }
 
-func (p *Printer) VisitPivotValue(ctx Context, n *googlesql.ASTPivotValue) {
+func (p *Printer) visitPivotValue(ctx Context, n *sql.PivotValue) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Value()))
-	p.accept(ctx, ast.Must(n.Alias()))
+	p.accept(ctx, n.Value())
+	p.accept(ctx, n.Alias())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitPivotValueList(ctx Context, n *googlesql.ASTPivotValueList) {
+func (p *Printer) visitPivotValueList(ctx Context, n *sql.PivotValueList) {
 	p.moveBefore(n)
 	simple, _ := ctx.Bool(KeySimplePivotValues)
-	for i, v := range ast.ChildrenOfType[*googlesql.ASTPivotValue](n) {
+	for i, v := range ChildrenOfType[*sql.PivotValue](n) {
 		if i > 0 {
 			p.print(",")
 			if !simple {
@@ -1718,26 +1712,26 @@ func (p *Printer) VisitPivotValueList(ctx Context, n *googlesql.ASTPivotValueLis
 	p.movePast(n)
 }
 
-func (p *Printer) VisitQualify(ctx Context, n *googlesql.ASTQualify) {
+func (p *Printer) visitQualify(ctx Context, n *sql.Qualify) {
 	pp := p.nest()
 	pp.moveBefore(n)
-	pp.visitMaybeClauseAligned(ast.Must(n.Expression()), ctx)
+	pp.visitMaybeClauseAligned(n.Expression(), ctx)
 	pp.moveBeforeSuccessorOf(n)
 	p.print(pp.unnest())
 }
 
-func (p *Printer) VisitRepeatableClause(ctx Context, n *googlesql.ASTRepeatableClause) {
+func (p *Printer) visitRepeatableClause(ctx Context, n *sql.RepeatableClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("REPEATABLE"))
 	p.print("(")
-	p.accept(ctx, ast.Must(n.Argument()))
+	p.accept(ctx, n.Argument())
 	p.print(")")
 }
 
-func (p *Printer) VisitRollup(ctx Context, n *googlesql.ASTRollup) {
+func (p *Printer) visitRollup(ctx Context, n *sql.Rollup) {
 	p.print(p.keyword("ROLLUP"))
 	p.print("(")
-	for i, expr := range ast.ChildrenExpressions(n) {
+	for i, expr := range ChildrenExpressions(n) {
 		if i > 0 {
 			p.print(",")
 		}
@@ -1746,75 +1740,75 @@ func (p *Printer) VisitRollup(ctx Context, n *googlesql.ASTRollup) {
 	p.print(")")
 }
 
-func (p *Printer) VisitSampleClause(ctx Context, n *googlesql.ASTSampleClause) {
+func (p *Printer) visitSampleClause(ctx Context, n *sql.SampleClause) {
 	p.moveBefore(n)
 	p.println("")
 	p.print(p.keyword("TABLESAMPLE"))
 	// Sample method is an identifier, but here I decided to treat it
 	// like a keyworctx.
-	p.print(p.keyword(p.toString(ctx, ast.Must(n.SampleMethod()))) + " ")
+	p.print(p.keyword(p.toString(ctx, n.SampleMethod())) + " ")
 	p.print("(")
-	p.accept(ctx, ast.Must(n.SampleSize()))
+	p.accept(ctx, n.SampleSize())
 	p.print(")")
-	p.accept(ctx, ast.Must(n.SampleSuffix()))
+	p.accept(ctx, n.SampleSuffix())
 }
 
-func (p *Printer) VisitSampleSize(ctx Context, n *googlesql.ASTSampleSize) {
+func (p *Printer) visitSampleSize(ctx Context, n *sql.SampleSize) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Size()))
-	switch ast.Must(n.Unit()) {
-	case ast.NotSetUnit:
+	p.accept(ctx, n.Size())
+	switch n.Unit() {
+	case sql.NotSetUnit:
 		// Nothing.
-	case ast.RowsUnit:
+	case sql.RowsSampleSize:
 		p.print(p.keyword("ROWS"))
-	case ast.PercentUnit:
+	case sql.Percent:
 		p.print(p.keyword("PERCENT"))
 	}
-	p.accept(ctx, ast.Must(n.PartitionBy()))
+	p.accept(ctx, n.PartitionBy())
 }
 
-func (p *Printer) VisitSampleSuffix(ctx Context, n *googlesql.ASTSampleSuffix) {
+func (p *Printer) visitSampleSuffix(ctx Context, n *sql.SampleSuffix) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Weight()))
-	p.accept(ctx, ast.Must(n.Repeat()))
+	p.accept(ctx, n.Weight())
+	p.accept(ctx, n.Repeat())
 }
 
-func (p *Printer) VisitSelectAs(ctx Context, n *googlesql.ASTSelectAs) {
-	switch ast.Must(n.AsMode()) {
-	case ast.NotSetAsMode:
+func (p *Printer) visitSelectAs(ctx Context, n *sql.SelectAs) {
+	switch n.AsMode() {
+	case sql.NotSetSelectAsMode:
 		// Nothing.
-	case ast.StructAsMode:
+	case sql.StructSelectAsMode:
 		p.println(p.keyword("AS STRUCT"))
-	case ast.ValueAsMode:
+	case sql.ValueSelectAsMode:
 		p.print(p.keyword("AS VALUE"))
-	case ast.TypeNameAsMode:
+	case sql.TypeNameSelectAsMode:
 		p.print(p.keyword("AS"))
-		p.accept(ctx.WithValue(KeyInTableName, true), ast.Must(n.TypeName()))
+		p.accept(ctx.WithValue(KeyInTableName, true), n.TypeName())
 	}
 	p.println("")
 }
 
-func (p *Printer) VisitSetOperation(ctx Context, n *googlesql.ASTSetOperation) {
+func (p *Printer) visitSetOperation(ctx Context, n *sql.SetOperation) {
 	p.printOpenParenIfNeeded(n)
 	// indentUnion remains true as long queries are not parenthesized.
 	// When indentUnion is true, UNION is printed with a space before it, to
 	// align with SELECT keyword.
 	indentUnion := true
-	for i, query := range ast.ChildrenOfType[googlesql.ASTQueryExpressionNode](n) {
-		indentUnion = indentUnion && !ast.Must(query.Parenthesized())
+	for i, query := range n.Inputs() {
+		indentUnion = indentUnion && !query.Parenthesized()
 		if i > 0 {
-			m := ast.ChildAs[*googlesql.ASTSetOperationMetadata](ast.Must(n.Metadata()), i-1)
-			switch optype := ast.Must(ast.Must(m.OpType()).Value()); optype {
-			case ast.NotSetSetOperation:
+			m := n.Metadata().Child(i - 1).(*sql.SetOperationMetadata)
+			switch optype := m.OpType().Value(); optype {
+			case sql.NotSetSetOp:
 				p.print(p.keyword("<UNKNOWN SET OPERATOR>"))
-			case ast.UnionSetOperation:
+			case sql.UnionOp:
 				if indentUnion {
 					p.print(" ")
 				}
 				p.print(p.keyword("UNION"))
-			case ast.ExceptSetOperation:
+			case sql.ExceptOp:
 				p.print(p.keyword("EXCEPT"))
-			case ast.IntersectSetOperation:
+			case sql.IntersectOp:
 				p.print(p.keyword("INTERSECT"))
 			default:
 				p.addError(&Error{
@@ -1823,11 +1817,11 @@ func (p *Printer) VisitSetOperation(ctx Context, n *googlesql.ASTSetOperation) {
 					Input: &p.OriginalInput,
 				})
 			}
-			p.accept(ctx, ast.Must(m.Hint()))
-			switch settype := ast.Must(ast.Must(m.AllOrDistinct()).Value()); settype {
-			case ast.AllSetOperation:
+			p.accept(ctx, m.Hint())
+			switch settype := m.AllOrDistinct().Value(); settype {
+			case sql.All:
 				p.print(p.keyword("ALL"))
-			case ast.DistinctSetOperation:
+			case sql.Distinct:
 				p.print(p.keyword("DISTINCT"))
 			default:
 				p.addError(&Error{
@@ -1844,16 +1838,16 @@ func (p *Printer) VisitSetOperation(ctx Context, n *googlesql.ASTSetOperation) {
 	p.printCloseParenIfNeeded(n)
 }
 
-func (p *Printer) VisitStar(ctx Context, n *googlesql.ASTStar) {
+func (p *Printer) visitStar(ctx Context, n *sql.Star) {
 	p.moveBefore(n)
-	p.print(ast.Must(n.Image()))
+	p.print(n.Image())
 }
 
-func (p *Printer) VisitStarModifiers(ctx Context, n *googlesql.ASTStarModifiers) {
-	if el := ast.Must(n.ExceptList()); el != nil {
+func (p *Printer) visitStarModifiers(ctx Context, n *sql.StarModifiers) {
+	if el := n.ExceptList(); el != nil {
 		p.print(p.keyword("EXCEPT"))
 		p.print("(")
-		for i, e := range ast.ChildrenOfType[*googlesql.ASTIdentifier](el) {
+		for i, e := range ChildrenOfType[*sql.Identifier](el) {
 			if i > 0 {
 				p.print(",")
 			}
@@ -1861,7 +1855,7 @@ func (p *Printer) VisitStarModifiers(ctx Context, n *googlesql.ASTStarModifiers)
 		}
 		p.print(")")
 	}
-	items := ast.ChildrenOfType[*googlesql.ASTStarReplaceItem](n)
+	items := ChildrenOfType[*sql.StarReplaceItem](n)
 	if len(items) > 0 {
 		p.println("")
 		p.print(p.keyword("REPLACE"))
@@ -1880,22 +1874,22 @@ func (p *Printer) VisitStarModifiers(ctx Context, n *googlesql.ASTStarModifiers)
 	}
 }
 
-func (p *Printer) VisitStarReplaceItem(ctx Context, n *googlesql.ASTStarReplaceItem) {
-	p.accept(ctx, ast.Must(n.Expression()))
-	if a := ast.Must(n.Alias()); a != nil {
+func (p *Printer) visitStarReplaceItem(ctx Context, n *sql.StarReplaceItem) {
+	p.accept(ctx, n.Expression())
+	if a := n.Alias(); a != nil {
 		p.print(p.keyword("AS"))
-		p.accept(ctx, ast.Must(n.Alias()))
+		p.accept(ctx, n.Alias())
 	}
 }
 
-func (p *Printer) VisitStarWithModifiers(ctx Context, n *googlesql.ASTStarWithModifiers) {
+func (p *Printer) visitStarWithModifiers(ctx Context, n *sql.StarWithModifiers) {
 	p.moveBefore(n)
 	p.print("*")
-	p.accept(ctx, ast.Must(n.Modifiers()))
+	p.accept(ctx, n.Modifiers())
 }
 
-func (p *Printer) VisitTableElementList(ctx Context, n *googlesql.ASTTableElementList) {
-	elems := ast.ChildrenOfType[googlesql.ASTTableElementNode](n)
+func (p *Printer) visitTableElementList(ctx Context, n *sql.TableElementList) {
+	elems := n.Elements()
 	p.moveBefore(n)
 	if len(elems) == 0 {
 		p.movePast(n)
@@ -1906,7 +1900,7 @@ func (p *Printer) VisitTableElementList(ctx Context, n *googlesql.ASTTableElemen
 	p.println("")
 	p.incDepth()
 	pp := p.nest()
-	var prev googlesql.ASTNode
+	var prev sql.Node
 	for i, e := range elems {
 		if i > 0 {
 			pp.print(",")
@@ -1923,7 +1917,7 @@ func (p *Printer) VisitTableElementList(ctx Context, n *googlesql.ASTTableElemen
 	p.movePast(n)
 }
 
-func (p *Printer) VisitTableSubquery(ctx Context, n *googlesql.ASTTableSubquery) {
+func (p *Printer) visitTableSubquery(ctx Context, n *sql.TableSubquery) {
 	ctx = ctx.WithValue(KeyInTableName, false)
 	p.moveBefore(n)
 	p.print("(")
@@ -1932,36 +1926,36 @@ func (p *Printer) VisitTableSubquery(ctx Context, n *googlesql.ASTTableSubquery)
 		p.println("")
 		p.incDepth()
 	}
-	p.acceptNested(ctx, ast.Must(n.Subquery()))
+	p.acceptNested(ctx, n.Subquery())
 	if !simple {
 		p.println("")
 		p.decDepth()
 	}
 	p.print(")")
-	p.accept(ctx, ast.Must(n.PivotClause()))
-	p.accept(ctx, ast.Must(n.UnpivotClause()))
-	p.accept(ctx, ast.Must(n.SampleClause()))
-	p.accept(ctx, ast.Must(n.Alias()))
+	p.accept(ctx, n.PivotClause())
+	p.accept(ctx, n.UnpivotClause())
+	p.accept(ctx, n.SampleClause())
+	p.accept(ctx, n.Alias())
 }
 
-func (p *Printer) VisitStructConstructorArg(ctx Context, n *googlesql.ASTStructConstructorArg) {
+func (p *Printer) visitStructConstructorArg(ctx Context, n *sql.StructConstructorArg) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Expression()))
-	p.accept(ctx, ast.Must(n.Alias()))
+	p.accept(ctx, n.Expression())
+	p.accept(ctx, n.Alias())
 }
 
-func (p *Printer) VisitStructConstructorWithKeyword(ctx Context, n *googlesql.ASTStructConstructorWithKeyword) {
+func (p *Printer) visitStructConstructorWithKeyword(ctx Context, n *sql.StructConstructorWithKeyword) {
 	p.moveBefore(n)
 	p.printOpenParenIfNeededWithDepth(n)
-	if ast.Must(n.StructType()) != nil {
+	if structType := n.StructType(); structType != nil {
 		pp := p.nest()
-		pp.accept(ctx, ast.Must(n.StructType()))
+		pp.accept(ctx, structType)
 		typ := pp.unnest()
 		p.print(typ + "(")
 	} else {
 		p.print(p.keyword("STRUCT") + "(")
 	}
-	fields := ast.ChildrenOfType[*googlesql.ASTStructConstructorArg](n)
+	fields := ChildrenOfType[*sql.StructConstructorArg](n)
 	simple := allTrue(mapIsSimpleStructConstructorArg(fields))
 	if !simple {
 		p.println("")
@@ -1984,11 +1978,11 @@ func (p *Printer) VisitStructConstructorWithKeyword(ctx Context, n *googlesql.AS
 	p.printCloseParenIfNeededWithDepth(n)
 }
 
-func (p *Printer) VisitStructConstructorWithParens(ctx Context, n *googlesql.ASTStructConstructorWithParens) {
+func (p *Printer) visitStructConstructorWithParens(ctx Context, n *sql.StructConstructorWithParens) {
 	p.moveBefore(n)
 	p.printOpenParenIfNeededWithDepth(n)
 	p.print("(")
-	exprs := ast.ChildrenExpressions(n)
+	exprs := ChildrenExpressions(n)
 	simple := allTrue(mapIsSimpleExprs(exprs))
 	pp := p.nest()
 	if !simple {
@@ -2013,36 +2007,36 @@ func (p *Printer) VisitStructConstructorWithParens(ctx Context, n *googlesql.AST
 	p.printCloseParenIfNeededWithDepth(n)
 }
 
-func (p *Printer) VisitSystemVariableExpr(ctx Context, n *googlesql.ASTSystemVariableExpr) {
+func (p *Printer) visitSystemVariableExpr(ctx Context, n *sql.SystemVariableExpr) {
 	p.moveBefore(n)
 	p.printOpenParenIfNeeded(n)
 	p.print("@@")
-	p.accept(ctx.WithValue(KeySystemVariable, true), ast.Must(n.Path()))
+	p.accept(ctx.WithValue(KeySystemVariable, true), n.Path())
 	p.printCloseParenIfNeeded(n)
 }
 
-func (p *Printer) VisitTableClause(ctx Context, n *googlesql.ASTTableClause) {
+func (p *Printer) visitTableClause(ctx Context, n *sql.TableClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("TABLE"))
-	p.accept(ctx, ast.Must(n.TablePath()))
-	p.accept(ctx, ast.Must(n.Tvf()))
+	p.accept(ctx, n.TablePath())
+	p.accept(ctx, n.Tvf())
 }
 
-func (p *Printer) VisitTVFArgument(ctx Context, n *googlesql.ASTTVFArgument) {
+func (p *Printer) visitTVFArgument(ctx Context, n *sql.TVFArgument) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Expr()))
-	p.accept(ctx, ast.Must(n.TableClause()))
-	p.accept(ctx, ast.Must(n.ModelClause()))
-	p.accept(ctx, ast.Must(n.ConnectionClause()))
-	p.accept(ctx, ast.Must(n.Descriptor()))
+	p.accept(ctx, n.Expr())
+	p.accept(ctx, n.TableClause())
+	p.accept(ctx, n.ModelClause())
+	p.accept(ctx, n.ConnectionClause())
+	p.accept(ctx, n.Descriptor())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitTVF(ctx Context, n *googlesql.ASTTVF) {
+func (p *Printer) visitTVF(ctx Context, n *sql.TVF) {
 	p.moveBefore(n)
-	args := ast.ChildrenOfType[*googlesql.ASTTVFArgument](n)
+	args := ChildrenOfType[*sql.TVFArgument](n)
 	simple := len(args) <= 4 && allTrue(mapIsSimpleTVFArguments(args))
-	p.print(p.functionName(p.toString(ctx.WithValue(KeyInFunctionName, true), ast.Must(n.Name()))) + "(")
+	p.print(p.functionName(p.toString(ctx.WithValue(KeyInFunctionName, true), n.Name())) + "(")
 	if !simple {
 		p.println("")
 		p.incDepth()
@@ -2059,12 +2053,12 @@ func (p *Printer) VisitTVF(ctx Context, n *googlesql.ASTTVF) {
 		pp.movePast(e)
 	}
 	p.print(pp.unnestLeft())
-	if b, e := ast.LocationRange(
-		ast.Must(n.Hint()),
-		ast.Must(n.Alias()),
-		ast.Must(n.PivotClause()),
-		ast.Must(n.UnpivotClause()),
-		ast.Must(n.SampleClause()),
+	if b, e := sql.LocationRange(
+		n.Hint(),
+		n.Alias(),
+		n.PivotClause(),
+		n.UnpivotClause(),
+		n.SampleClause(),
 	); e > 0 {
 		// There will be more elements to render, flush comments up to
 		// the beginning of next element.
@@ -2079,57 +2073,67 @@ func (p *Printer) VisitTVF(ctx Context, n *googlesql.ASTTVF) {
 		p.decDepth()
 	}
 	p.print(")")
-	p.accept(ctx, ast.Must(n.Hint()))
-	p.accept(ctx, ast.Must(n.Alias()))
-	p.accept(ctx, ast.Must(n.PivotClause()))
-	p.accept(ctx, ast.Must(n.UnpivotClause()))
-	p.accept(ctx, ast.Must(n.SampleClause()))
+	p.accept(ctx, n.Hint())
+	p.accept(ctx, n.Alias())
+	p.accept(ctx, n.PivotClause())
+	p.accept(ctx, n.UnpivotClause())
+	p.accept(ctx, n.SampleClause())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitTypeParameterList(ctx Context, n *googlesql.ASTTypeParameterList) {
+func (p *Printer) visitTypeParameterList(ctx Context, n *sql.TypeParameterList) {
 	p.moveBefore(n)
 	p.print("(")
-	printNestedWithSep(ctx, p, ast.Children(n), ",")
+	printNestedWithSepNode(ctx, p, n.Children(), ",")
 	p.print(")")
 }
 
-func (p *Printer) VisitUnaryExpression(ctx Context, n *googlesql.ASTUnaryExpression) {
+func (p *Printer) visitUnaryExpression(ctx Context, n *sql.UnaryExpression) {
 	p.moveBefore(n)
-	switch ast.Must(n.Op()) {
-	case ast.NotSetUnaryOp:
+	switch n.Op() {
+	case sql.NotSetUnaryOp:
 		p.Writer.addUnary(p.keyword("<UNKNOWN OPERATOR>"))
-	case ast.NotUnaryOp:
+	case sql.NotUnaryOp:
 		p.Writer.addUnary(p.keyword("NOT"))
-	case ast.BitwiseNotUnaryOp:
+	case sql.BitwiseNotOp:
 		p.Writer.addUnary("~")
-	case ast.MinusUnaryOp:
+	case sql.MinusUnaryOp:
 		p.Writer.addUnary("-")
-	case ast.PlusUnaryOp:
+	case sql.PlusUnaryOp:
 		p.Writer.addUnary("+")
 	}
-	p.accept(ctx, ast.Must(n.Operand()))
-	switch ast.Must(n.Op()) {
-	case ast.IsUnknownUnaryOp:
+	p.accept(ctx, n.Operand())
+	switch n.Op() {
+	case sql.IsUnknownOp:
 		p.Writer.addUnary(p.keyword("IS UNKNOWN"))
-	case ast.IsNotUnknownUnaryOp:
+	case sql.IsNotUnknownOp:
 		p.Writer.addUnary(p.keyword("IS NOT UNKNOWN"))
 	}
 	p.movePast(n)
 }
 
-func (p *Printer) VisitUnnestExpression(ctx Context, n *googlesql.ASTUnnestExpression) {
+func (p *Printer) visitExpressionWithOptAlias(ctx Context, n *sql.ExpressionWithOptAlias) {
+	p.moveBefore(n)
+	p.accept(ctx, n.Expression())
+	if alias := n.OptionalAlias(); alias != nil {
+		p.print(p.keyword("AS"))
+		p.accept(ctx, alias)
+	}
+	p.movePast(n)
+}
+
+func (p *Printer) visitUnnestExpression(ctx Context, n *sql.UnnestExpression) {
 	p.moveBefore(n)
 	pp := p.nest()
 	pp.print(pp.keyword("UNNEST") + "(")
-	if exprs := ast.ChildrenOfType[*googlesql.ASTExpressionWithOptAlias](n); len(exprs) > 1 {
+	if exprs := ChildrenOfType[*sql.ExpressionWithOptAlias](n); len(exprs) > 1 {
 		pp.println("")
 		pp.incDepth()
-		printlnNestedWithSep(ctx, pp, exprs, ",")
+		printlnNestedWithSepNode(ctx, pp, exprs, ",")
 		pp.println("")
 		pp.decDepth()
 	} else {
-		expr := ast.Must(n.Expression())
+		expr := n.Expression()
 		if isSimpleExpr(expr) {
 			pp.accept(ctx, expr)
 		} else {
@@ -2145,45 +2149,45 @@ func (p *Printer) VisitUnnestExpression(ctx Context, n *googlesql.ASTUnnestExpre
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) VisitUnnestExpressionWithOptAliasAndOffset(
-	ctx Context, n *googlesql.ASTUnnestExpressionWithOptAliasAndOffset,
+func (p *Printer) visitUnnestExpressionWithOptAliasAndOffset(
+	ctx Context, n *sql.UnnestExpressionWithOptAliasAndOffset,
 ) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.UnnestExpression()))
-	if alias := ast.Must(n.OptionalAlias()); ast.Defined(alias) {
+	p.accept(ctx, n.UnnestExpression())
+	if alias := n.OptionalAlias(); alias != nil {
 		p.accept(ctx, alias)
 	}
-	if offset := ast.Must(n.OptionalWithOffset()); ast.Defined(offset) {
+	if offset := n.OptionalWithOffset(); offset != nil {
 		p.accept(ctx, offset)
 	}
 	p.movePast(n)
 }
 
-func (p *Printer) VisitUnpivotClause(ctx Context, n *googlesql.ASTUnpivotClause) {
+func (p *Printer) visitUnpivotClause(ctx Context, n *sql.UnpivotClause) {
 	p.moveBefore(n)
 	p.println("")
-	switch ast.Must(n.NullFilter()) {
-	case ast.UnspecifiedNullFilter:
+	switch n.NullFilter() {
+	case sql.UnspecifiedNullFilter:
 		p.println(p.keyword("UNPIVOT") + " (")
-	case ast.IncludeNullFilter:
+	case sql.IncludeNullFilter:
 		p.println(p.keyword("UNPIVOT INCLUDE NULLS") + " (")
-	case ast.ExcludeNullFilter:
+	case sql.ExcludeNullFilter:
 		p.println(p.keyword("UNPIVOT EXCLUDE NULLS") + " (")
 	}
-	inItems := ast.Must(n.UnpivotInItems())
+	inItems := n.UnpivotInItems()
 	simple := allTrue(mapIsSimpleUnpivotInItemList(inItems))
 	ctx = ctx.WithValue(KeySimpleUnpivotInTime, simple)
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.UnpivotOutputValueColumns()))
+	p.accept(ctx, n.UnpivotOutputValueColumns())
 	p.println("")
 	p.print(p.keyword("FOR"))
-	p.accept(ctx, ast.Must(n.UnpivotOutputNameColumn()))
+	p.accept(ctx, n.UnpivotOutputNameColumn())
 	p.print(p.keyword("IN") + " (")
 	if !simple {
 		p.println("")
 		p.incDepth()
 	}
-	p.accept(ctx, ast.Must(n.UnpivotInItems()))
+	p.accept(ctx, n.UnpivotInItems())
 	if !simple {
 		p.println("")
 		p.decDepth()
@@ -2191,30 +2195,30 @@ func (p *Printer) VisitUnpivotClause(ctx Context, n *googlesql.ASTUnpivotClause)
 	p.println(")")
 	p.decDepth()
 	p.print(")")
-	p.accept(ctx, ast.Must(n.OutputAlias()))
+	p.accept(ctx, n.OutputAlias())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitUnpivotInItem(ctx Context, n *googlesql.ASTUnpivotInItem) {
+func (p *Printer) visitUnpivotInItem(ctx Context, n *sql.UnpivotInItem) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.UnpivotColumns()))
-	p.accept(ctx, ast.Must(n.Alias()))
+	p.accept(ctx, n.UnpivotColumns())
+	p.accept(ctx, n.Alias())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitUnpivotInItemLabel(ctx Context, n *googlesql.ASTUnpivotInItemLabel) {
+func (p *Printer) visitUnpivotInItemLabel(ctx Context, n *sql.UnpivotInItemLabel) {
 	p.moveBefore(n)
-	if label := ast.Must(n.Label()); label != nil {
+	if label := n.Label(); label != nil {
 		p.print(p.keyword("AS"))
-		p.accept(ctx, ast.Must(n.Label()))
+		p.accept(ctx, n.Label())
 	}
 	p.movePast(n)
 }
 
-func (p *Printer) VisitUnpivotInItemList(ctx Context, n *googlesql.ASTUnpivotInItemList) {
+func (p *Printer) visitUnpivotInItemList(ctx Context, n *sql.UnpivotInItemList) {
 	p.moveBefore(n)
 	simple, _ := ctx.Bool(KeySimpleUnpivotInTime)
-	for i, item := range ast.ChildrenOfType[*googlesql.ASTUnpivotInItem](n) {
+	for i, item := range ChildrenOfType[*sql.UnpivotInItem](n) {
 		if i > 0 {
 			p.print(",")
 			if !simple {
@@ -2226,22 +2230,22 @@ func (p *Printer) VisitUnpivotInItemList(ctx Context, n *googlesql.ASTUnpivotInI
 	p.movePast(n)
 }
 
-func (p *Printer) VisitUsingClause(ctx Context, n *googlesql.ASTUsingClause) {
+func (p *Printer) visitUsingClause(ctx Context, n *sql.UsingClause) {
 	p.moveBefore(n)
 	p.printClause(p.keyword("USING") + " (")
-	printNestedWithSep(ctx, p, ast.ChildrenExpressions(n), ",")
+	printNestedWithSepNode(ctx, p, ChildrenExpressions(n), ",")
 	p.print(")")
 }
 
-func (p *Printer) VisitWindowClause(ctx Context, n *googlesql.ASTWindowClause) {
+func (p *Printer) visitWindowClause(ctx Context, n *sql.WindowClause) {
 	p.moveBefore(n)
-	for i, w := range ast.ChildrenOfType[*googlesql.ASTWindowDefinition](n) {
+	for i, w := range ChildrenOfType[*sql.WindowDefinition](n) {
 		if i > 0 {
 			p.println(",")
 		}
-		p.accept(ctx, ast.Must(w.Name()))
+		p.accept(ctx, w.Name())
 		p.print(p.keyword("AS") + " ")
-		ws := ast.Must(w.WindowSpec())
+		ws := w.WindowSpec()
 		count := countWindowSpecElems(ws)
 		p.print("(")
 		if count > 0 {
@@ -2256,54 +2260,54 @@ func (p *Printer) VisitWindowClause(ctx Context, n *googlesql.ASTWindowClause) {
 	p.moveBeforeSuccessorOf(n)
 }
 
-func (p *Printer) VisitWindowFrame(ctx Context, n *googlesql.ASTWindowFrame) {
+func (p *Printer) visitWindowFrame(ctx Context, n *sql.WindowFrame) {
 	p.moveBefore(n)
-	switch ast.Must(n.FrameUnit()) {
-	case ast.RowsFrameUnit:
+	switch n.FrameUnit() {
+	case sql.RowsFrameUnit:
 		p.print(p.keyword("ROWS"))
-	case ast.RangeFrameUnit:
+	case sql.Range:
 		p.print(p.keyword("RANGE"))
 	default:
 		p.addError(&Error{
-			Msg: fmt.Sprintf("Unknown frame unit id %d", ast.Must(n.FrameUnit())),
+			Msg: fmt.Sprintf("Unknown frame unit id %d", n.FrameUnit()),
 		})
 	}
 	pp := p.nest()
-	if ast.Must(n.EndExpr()) != nil {
+	if n.EndExpr() != nil {
 		pp.print(p.keyword("BETWEEN"))
-		pp.accept(ctx, ast.Must(n.StartExpr()))
+		pp.accept(ctx, n.StartExpr())
 		pp.print(p.keyword("AND"))
-		pp.accept(ctx, ast.Must(n.EndExpr()))
+		pp.accept(ctx, n.EndExpr())
 	} else {
-		pp.accept(ctx, ast.Must(n.StartExpr()))
+		pp.accept(ctx, n.StartExpr())
 	}
 	p.print(pp.unnest())
 }
 
-func (p *Printer) VisitWindowFrameExpr(ctx Context, n *googlesql.ASTWindowFrameExpr) {
+func (p *Printer) visitWindowFrameExpr(ctx Context, n *sql.WindowFrameExpr) {
 	p.moveBefore(n)
 	// Unfortunately FrameUnit enum is incorrect the wrapper.
-	switch ast.Must(n.BoundaryType()) {
-	case ast.UnboundedPrecedingBoundaryType:
+	switch n.BoundaryType() {
+	case sql.UnboundedPreceding:
 		p.print(p.keyword("UNBOUNDED PRECEDING"))
-	case ast.OffsetPrecedingBoundaryType:
-		p.acceptNestedLeft(ctx, ast.Must(n.Expression()))
+	case sql.OffsetPreceding:
+		p.acceptNestedLeft(ctx, n.Expression())
 		p.print(p.keyword("PRECEDING"))
-	case ast.CurrentRowBoundaryType:
+	case sql.CurrentRow:
 		p.print(p.keyword("CURRENT ROW"))
-	case ast.OffsetFollowingBoundaryType:
-		p.acceptNestedLeft(ctx, ast.Must(n.Expression()))
+	case sql.OffsetFollowing:
+		p.acceptNestedLeft(ctx, n.Expression())
 		p.print(p.keyword("FOLLOWING"))
-	case ast.UnboundedFollowingBoundaryType:
+	case sql.UnboundedFollowing:
 		p.print(p.keyword("UNBOUNDED FOLLOWING"))
 	}
 }
 
-func (p *Printer) VisitWindowSpecification(ctx Context, n *googlesql.ASTWindowSpecification) {
+func (p *Printer) visitWindowSpecification(ctx Context, n *sql.WindowSpecification) {
 	forceAcrossLines := true
 	p.moveBefore(n)
 	pp := p.nest()
-	wn := ast.Must(n.BaseWindowName())
+	wn := n.BaseWindowName()
 	if wn != nil {
 		pp.accept(ctx, wn)
 		if forceAcrossLines {
@@ -2311,18 +2315,18 @@ func (p *Printer) VisitWindowSpecification(ctx Context, n *googlesql.ASTWindowSp
 		}
 	}
 	pp2 := pp.nest()
-	pb := ast.Must(n.PartitionBy())
+	pb := n.PartitionBy()
 	if pb != nil {
 		pp2.accept(ctx, pb)
 	}
-	ob := ast.Must(n.OrderBy())
+	ob := n.OrderBy()
 	if ob != nil {
 		if forceAcrossLines && pb != nil {
 			pp2.println("")
 		}
 		pp2.accept(ctx, ob)
 	}
-	if wf := ast.Must(n.WindowFrame()); wf != nil {
+	if wf := n.WindowFrame(); wf != nil {
 		if forceAcrossLines && (pb != nil || ob != nil) {
 			pp2.println("")
 		}
@@ -2333,10 +2337,10 @@ func (p *Printer) VisitWindowSpecification(ctx Context, n *googlesql.ASTWindowSp
 	p.print(pp.unnest())
 }
 
-func (p *Printer) VisitWithClause(ctx Context, n *googlesql.ASTWithClause) {
+func (p *Printer) visitWithClause(ctx Context, n *sql.WithClause) {
 	p.moveBefore(n)
 	p.println("")
-	if ast.Must(n.Recursive()) {
+	if n.Recursive() {
 		p.println(p.keyword("WITH RECURSIVE"))
 	} else {
 		p.println(p.keyword("WITH"))
@@ -2344,7 +2348,7 @@ func (p *Printer) VisitWithClause(ctx Context, n *googlesql.ASTWithClause) {
 	if p.Writer.opts.IndentWithClause {
 		p.incDepth()
 	}
-	for i, e := range ast.ChildrenOfType[*googlesql.ASTWithClauseEntry](n) {
+	for i, e := range ChildrenOfType[*sql.WithClauseEntry](n) {
 		if i > 0 {
 			p.println(",")
 		}
@@ -2359,51 +2363,51 @@ func (p *Printer) VisitWithClause(ctx Context, n *googlesql.ASTWithClause) {
 	p.movePast(n)
 }
 
-func (p *Printer) VisitWithClauseEntry(ctx Context, n *googlesql.ASTWithClauseEntry) {
+func (p *Printer) visitWithClauseEntry(ctx Context, n *sql.WithClauseEntry) {
 	// Only one of AliasQuery or AliasGroupRows are specified in a valid AST.
-	p.accept(ctx, ast.Must(n.AliasedQuery()))
-	p.accept(ctx, ast.Must(n.AliasedGroupRows()))
+	p.accept(ctx, n.AliasedQuery())
+	p.accept(ctx, n.AliasedGroupRows())
 }
 
-func (p *Printer) VisitWithExpression(ctx Context, n *googlesql.ASTWithExpression) {
+func (p *Printer) visitWithExpression(ctx Context, n *sql.WithExpression) {
 	p.moveBefore(n)
 	p.println(p.keyword("WITH") + "(")
 	p.incDepth()
 	pp := p.nest()
-	pp.visitWithExprVariables(ctx, ast.Must(n.Variables()))
+	pp.visitWithExprVariables(ctx, n.Variables())
 	p.print(pp.unnestLeft())
 	p.println(",")
-	p.acceptNestedLeft(ctx, ast.Must(n.Expression()))
+	p.acceptNestedLeft(ctx, n.Expression())
 	p.println("")
 	p.decDepth()
 	p.print(")")
 	p.movePast(n)
 }
 
-func (p *Printer) visitWithExprVariables(ctx Context, n *googlesql.ASTSelectList) {
+func (p *Printer) visitWithExprVariables(ctx Context, n *sql.SelectList) {
 	pp := p.nest()
-	for i, v := range ast.ChildrenOfType[*googlesql.ASTSelectColumn](n) {
+	for i, v := range ChildrenOfType[*sql.SelectColumn](n) {
 		if i > 0 {
 			pp.println(",")
 		}
-		alias := ast.Must(ast.Must(v.Alias()).Identifier())
+		alias := v.Alias().Identifier()
 		pp.accept(ctx, alias)
 		p2 := pp.nest()
 		p2.print(p2.keyword("AS"))
-		p2.acceptNestedLeft(ctx, ast.Must(v.Expression()))
+		p2.acceptNestedLeft(ctx, v.Expression())
 		pp.print("\v" + strings.ReplaceAll(p2.String(), "\n", "\n\v"))
 	}
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) VisitWithOffset(ctx Context, n *googlesql.ASTWithOffset) {
+func (p *Printer) visitWithOffset(ctx Context, n *sql.WithOffset) {
 	p.moveBefore(n)
 	p.print(p.keyword("WITH OFFSET"))
-	p.accept(ctx, ast.Must(n.Alias()))
+	p.accept(ctx, n.Alias())
 }
 
-func (p *Printer) VisitWithWeight(ctx Context, n *googlesql.ASTWithWeight) {
+func (p *Printer) visitWithWeight(ctx Context, n *sql.WithWeight) {
 	p.moveBefore(n)
 	p.print(p.keyword("WITH WEIGHT"))
-	p.accept(ctx, ast.Must(n.Alias()))
+	p.accept(ctx, n.Alias())
 }

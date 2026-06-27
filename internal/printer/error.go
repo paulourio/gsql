@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/paulourio/gsql/internal/ast"
-
-	"github.com/goccy/go-googlesql"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
 // Error represents and error during printing at a specific node.
@@ -15,7 +13,7 @@ import (
 type Error struct {
 	Msg   string
 	Err   error
-	Node  googlesql.ASTNode
+	Node  sql.Node
 	Input *string
 }
 
@@ -27,10 +25,16 @@ var (
 
 func (e *Error) Error() string {
 	parts := []string{"PrinterError"}
-	if e.Node != nil {
-		parts = append(parts, fmt.Sprintf("at %s (%s)",
-			ast.Must(e.Node.GetLocationString()),
-			ast.Must(e.Node.GetNodeKindString())))
+	if e.Node != nil && e.Node.Raw() != nil {
+		locStr, err := e.Node.Raw().GetLocationString()
+		if err != nil {
+			panic(err)
+		}
+		kindStr, err := e.Node.Raw().GetNodeKindString()
+		if err != nil {
+			panic(err)
+		}
+		parts = append(parts, fmt.Sprintf("at %s (%s)", locStr, kindStr))
 	}
 	if e.Msg != "" {
 		parts = append(parts, e.Msg)
@@ -39,7 +43,7 @@ func (e *Error) Error() string {
 		parts = append(parts, e.Err.Error())
 	}
 	if e.Node != nil && e.Input != nil {
-		begin, end := ast.GetParseLocationByteOffsets(e.Node)
+		begin, end := e.Node.Location()
 		s := (*e.Input)[begin:end]
 		parts = append(parts, s)
 	}

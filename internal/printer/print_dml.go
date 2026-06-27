@@ -5,14 +5,12 @@ package printer
 import (
 	"strings"
 
-	"github.com/goccy/go-googlesql"
-
-	"github.com/paulourio/gsql/internal/ast"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
-func (p *Printer) VisitColumnList(ctx Context, n *googlesql.ASTColumnList) {
+func (p *Printer) visitColumnList(ctx Context, n *sql.ColumnList) {
 	p.moveBefore(n)
-	cols := ast.ChildrenOfType[*googlesql.ASTIdentifier](n)
+	cols := n.Identifiers()
 	simple := len(cols) <= 4
 	p.print("(")
 	if !simple {
@@ -36,33 +34,33 @@ func (p *Printer) VisitColumnList(ctx Context, n *googlesql.ASTColumnList) {
 	p.movePast(n)
 }
 
-func (p *Printer) VisitInsertStatement(ctx Context, n *googlesql.ASTInsertStatement) {
-	cl := ast.Must(n.ColumnList())
+func (p *Printer) visitInsertStatement(ctx Context, n *sql.InsertStatement) {
+	cl := n.ColumnList()
 	p.moveBefore(n)
-	begin := ast.GetParseLocationStartOffset(n)
-	end := ast.GetParseLocationStartOffset(ast.Must(n.TargetPath()))
+	begin := n.LocationStart()
+	end := n.TargetPath().LocationStart()
 	input := strings.ToUpper(p.viewErasedInput(begin, end))
 	if strings.Contains(input, "INTO") {
 		p.print(p.keyword("INSERT INTO"))
 	} else {
 		p.print(p.keyword("INSERT"))
 	}
-	p.accept(ctx.WithValue(KeyInTableName, true), ast.Must(n.TargetPath()))
+	p.accept(ctx.WithValue(KeyInTableName, true), n.TargetPath())
 	if cl != nil {
 		p.println("")
 		p.incDepth()
-		p.accept(ctx, ast.Must(n.ColumnList()))
+		p.accept(ctx, cl)
 		p.println("")
 		p.decDepth()
 	}
-	if q := ast.Must(n.Query()); q != nil {
+	if q := n.Query(); q != nil {
 		p.println("")
 		p.acceptNested(ctx, q)
 	} else {
 		p.println("")
 		p.println(p.keyword("VALUES"))
 		p.incDepth()
-		p.accept(ctx, ast.Must(n.Rows()))
+		p.accept(ctx, n.Rows())
 		p.println("")
 		p.decDepth()
 	}
@@ -70,9 +68,9 @@ func (p *Printer) VisitInsertStatement(ctx Context, n *googlesql.ASTInsertStatem
 	p.movePast(n)
 }
 
-func (p *Printer) VisitInsertValuesRowList(ctx Context, n *googlesql.ASTInsertValuesRowList) {
+func (p *Printer) visitInsertValuesRowList(ctx Context, n *sql.InsertValuesRowList) {
 	p.moveBefore(n)
-	for i, r := range ast.ChildrenOfType[*googlesql.ASTInsertValuesRow](n) {
+	for i, r := range n.Rows() {
 		if i > 0 {
 			p.println(",")
 		}
@@ -81,9 +79,9 @@ func (p *Printer) VisitInsertValuesRowList(ctx Context, n *googlesql.ASTInsertVa
 	p.movePast(n)
 }
 
-func (p *Printer) VisitInsertValuesRow(ctx Context, n *googlesql.ASTInsertValuesRow) {
+func (p *Printer) visitInsertValuesRow(ctx Context, n *sql.InsertValuesRow) {
 	p.moveBefore(n)
-	values := ast.ChildrenOfType[googlesql.ASTExpressionNode](n)
+	values := n.Values()
 	simple := len(values) <= 4 && allTrue(mapIsSimpleExprs(values))
 	p.print("(")
 	if !simple {
@@ -107,57 +105,57 @@ func (p *Printer) VisitInsertValuesRow(ctx Context, n *googlesql.ASTInsertValues
 	p.movePast(n)
 }
 
-func (p *Printer) VisitMergeStatement(ctx Context, n *googlesql.ASTMergeStatement) {
+func (p *Printer) visitMergeStatement(ctx Context, n *sql.MergeStatement) {
 	pp := p.nest()
 	pp.moveBefore(n)
 	pp.print(pp.keyword("MERGE") + " ")
 	p1 := pp.nest()
 	p1.print(p1.keyword("INTO"))
-	p1.acceptNested(ctx.WithValue(KeyInTableName, true), ast.Must(n.TargetPath()))
+	p1.acceptNested(ctx.WithValue(KeyInTableName, true), n.TargetPath())
 	pp.print(p1.unnest())
-	pp.accept(ctx, ast.Must(n.Alias()))
+	pp.accept(ctx, n.Alias())
 	pp.println("")
 	pp.print(pp.keyword("USING") + " ")
-	pp.acceptNested(ctx.WithValue(KeyInTableName, true), ast.Must(n.TableExpression()))
+	pp.acceptNested(ctx.WithValue(KeyInTableName, true), n.TableExpression())
 	pp.println("")
 	pp.print(pp.keyword("ON") + " ")
-	pp.acceptNested(ctx, ast.Must(n.MergeCondition()))
+	pp.acceptNested(ctx, n.MergeCondition())
 	p.println("")
-	pp.accept(ctx, ast.Must(n.WhenClauses()))
+	pp.accept(ctx, n.WhenClauses())
 	pp.movePast(n)
 	p.print(pp.unnest())
 }
 
-func (p *Printer) VisitMergeAction(ctx Context, n *googlesql.ASTMergeAction) {
+func (p *Printer) visitMergeAction(ctx Context, n *sql.MergeAction) {
 	p.moveBefore(n)
-	switch ast.Must(n.ActionType()) {
-	case googlesql.ASTMergeActionEnums_ActionTypeNotSet:
+	switch n.ActionType() {
+	case sql.NotSetMergeAction:
 		// Nothing.
-	case googlesql.ASTMergeActionEnums_ActionTypeInsert:
+	case sql.InsertAction:
 		p.visitMergeActionInsert(ctx, n)
-	case googlesql.ASTMergeActionEnums_ActionTypeUpdate:
+	case sql.UpdateMergeAction:
 		p.visitMergeActionUpdate(ctx, n)
-	case googlesql.ASTMergeActionEnums_ActionTypeDelete:
+	case sql.DeleteAction:
 		p.visitMergeActionDelete(ctx, n)
 	}
 	p.movePast(n)
 }
 
-func (p *Printer) visitMergeActionDelete(ctx Context, n *googlesql.ASTMergeAction) {
+func (p *Printer) visitMergeActionDelete(ctx Context, n *sql.MergeAction) {
 	p.println(p.keyword("DELETE"))
 }
 
-func (p *Printer) visitMergeActionInsert(ctx Context, n *googlesql.ASTMergeAction) {
-	cl := ast.Must(n.InsertColumnList())
-	ir := ast.Must(n.InsertRow())
-	if cl == nil && ir != nil && ast.Must(ir.NumChildren()) == 0 {
+func (p *Printer) visitMergeActionInsert(ctx Context, n *sql.MergeAction) {
+	cl := n.InsertColumnList()
+	ir := n.InsertRow()
+	if cl == nil && ir != nil && ir.NumChildren() == 0 {
 		p.println(p.keyword("INSERT ROW"))
 		return
 	}
 	p.println(p.keyword("INSERT"))
 	if cl != nil {
 		p.incDepth()
-		p.accept(ctx, ast.Must(n.InsertColumnList()))
+		p.accept(ctx, cl)
 		p.println("")
 		p.decDepth()
 	}
@@ -165,23 +163,23 @@ func (p *Printer) visitMergeActionInsert(ctx Context, n *googlesql.ASTMergeActio
 		p.println("")
 		p.println(p.keyword("VALUES"))
 		p.incDepth()
-		p.accept(ctx, ast.Must(n.InsertRow()))
+		p.accept(ctx, ir)
 		p.println("")
 		p.decDepth()
 	}
 }
 
-func (p *Printer) visitMergeActionUpdate(ctx Context, n *googlesql.ASTMergeAction) {
+func (p *Printer) visitMergeActionUpdate(ctx Context, n *sql.MergeAction) {
 	p.println(p.keyword("UPDATE SET"))
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.UpdateItemList()))
+	p.accept(ctx, n.UpdateItemList())
 	p.println("")
 	p.decDepth()
 }
 
-func (p *Printer) VisitMergeWhenClauseList(ctx Context, n *googlesql.ASTMergeWhenClauseList) {
+func (p *Printer) visitMergeWhenClauseList(ctx Context, n *sql.MergeWhenClauseList) {
 	p.moveBefore(n)
-	for _, c := range ast.ChildrenOfType[*googlesql.ASTMergeWhenClause](n) {
+	for _, c := range n.Clauses() {
 		p.println("")
 		p.print(p.keyword("WHEN") + " ")
 		p.acceptNested(ctx, c)
@@ -190,18 +188,18 @@ func (p *Printer) VisitMergeWhenClauseList(ctx Context, n *googlesql.ASTMergeWhe
 	p.movePast(n)
 }
 
-func (p *Printer) VisitMergeWhenClause(ctx Context, n *googlesql.ASTMergeWhenClause) {
+func (p *Printer) visitMergeWhenClause(ctx Context, n *sql.MergeWhenClause) {
 	p.moveBefore(n)
-	switch ast.Must(n.MatchType()) {
-	case googlesql.ASTMergeWhenClauseEnums_MatchTypeNotSet:
+	switch n.MatchType() {
+	case sql.NotSetMatchType:
 		// Nothing.
-	case googlesql.ASTMergeWhenClauseEnums_MatchTypeMatched:
+	case sql.Matched:
 		p.print(p.keyword("MATCHED"))
-	case googlesql.ASTMergeWhenClauseEnums_MatchTypeNotMatchedBySource:
+	case sql.NotMatchedBySource:
 		p.print(p.keyword("NOT MATCHED BY SOURCE"))
-	case googlesql.ASTMergeWhenClauseEnums_MatchTypeNotMatchedByTarget:
-		start := ast.GetParseLocationStartOffset(n)
-		next := ast.GetParseLocationStartOffset(ast.Must(n.Action()))
+	case sql.NotMatchedByTarget:
+		start := n.LocationStart()
+		next := n.Action().LocationStart()
 		input := strings.ToUpper(p.viewErasedInput(start, next))
 		if strings.Contains(input, "TARGET") {
 			p.print(p.keyword("NOT MATCHED BY TARGET"))
@@ -209,7 +207,7 @@ func (p *Printer) VisitMergeWhenClause(ctx Context, n *googlesql.ASTMergeWhenCla
 			p.print(p.keyword("NOT MATCHED"))
 		}
 	}
-	if cond := ast.Must(n.SearchCondition()); cond != nil {
+	if cond := n.SearchCondition(); cond != nil {
 		if isSimpleExpr(cond) {
 			p.print(p.keyword("AND"))
 			p.accept(ctx, cond)
@@ -223,26 +221,26 @@ func (p *Printer) VisitMergeWhenClause(ctx Context, n *googlesql.ASTMergeWhenCla
 		}
 	}
 	p.println(p.keyword("THEN"))
-	p.accept(ctx, ast.Must(n.Action()))
+	p.accept(ctx, n.Action())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitTruncateStatement(ctx Context, n *googlesql.ASTTruncateStatement) {
+func (p *Printer) visitTruncateStatement(ctx Context, n *sql.TruncateStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("TRUNCATE TABLE"))
-	p.accept(ctx.WithValue(KeyInTableName, true), ast.Must(n.TargetPath()))
-	if w := ast.Must(n.Where()); w != nil {
+	p.accept(ctx.WithValue(KeyInTableName, true), n.TargetPath())
+	if w := n.Where(); w != nil {
 		p.println("")
 		p.print(p.keyword("WHERE"))
-		p.accept(ctx, ast.Must(n.Where()))
+		p.accept(ctx, w)
 	}
 	p.movePast(n)
 }
 
-func (p *Printer) VisitUpdateItemList(ctx Context, n *googlesql.ASTUpdateItemList) {
+func (p *Printer) visitUpdateItemList(ctx Context, n *sql.UpdateItemList) {
 	p.moveBefore(n)
 	pp := p.nest()
-	items := ast.ChildrenOfType[*googlesql.ASTUpdateItem](n)
+	items := n.Items()
 	for i, item := range items {
 		if i > 0 {
 			pp.println(",")
@@ -253,21 +251,21 @@ func (p *Printer) VisitUpdateItemList(ctx Context, n *googlesql.ASTUpdateItemLis
 	p.movePast(n)
 }
 
-func (p *Printer) VisitUpdateItem(ctx Context, n *googlesql.ASTUpdateItem) {
+func (p *Printer) visitUpdateItem(ctx Context, n *sql.UpdateItem) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.SetValue()))
-	p.accept(ctx, ast.Must(n.InsertStatement()))
-	p.accept(ctx, ast.Must(n.DeleteStatement()))
-	p.accept(ctx, ast.Must(n.UpdateStatement()))
+	p.accept(ctx, n.SetValue())
+	p.accept(ctx, n.InsertStatement())
+	p.accept(ctx, n.DeleteStatement())
+	p.accept(ctx, n.UpdateStatement())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitUpdateSetValue(ctx Context, n *googlesql.ASTUpdateSetValue) {
+func (p *Printer) visitUpdateSetValue(ctx Context, n *sql.UpdateSetValue) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Path()))
+	p.accept(ctx, n.Path())
 	pp := p.nest()
 	pp.print("=")
-	pp.acceptNested(ctx, ast.Must(n.Value()))
+	pp.acceptNested(ctx, n.Value())
 	p.print(pp.unnest())
 	p.movePast(n)
 }

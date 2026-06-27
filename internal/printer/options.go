@@ -2,38 +2,39 @@
 package printer
 
 import (
-	"github.com/goccy/go-googlesql"
-
-	"github.com/paulourio/gsql/internal/ast"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
-func KnownOptionKeys(n *googlesql.ASTOptionsList) StringMapSet {
-	parent := ast.Parent(n)
-	if !ast.Defined(parent) {
+func KnownOptionKeys(n *sql.OptionsList) StringMapSet {
+	if n == nil {
+		return nil
+	}
+	parent := n.Parent()
+	if parent == nil {
 		return nil
 	}
 	// TODO: set options for all in
 	// https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#table_option_list
-	switch ast.Kind(parent) {
-	case ast.CreateExternalTableStatement:
+	switch parent.Kind() {
+	case sql.CreateExternalTableStatementKind:
 		return createExternalTableOptions
-	case ast.CreateFunctionStatement:
+	case sql.CreateFunctionStatementKind:
 		return createFunctionOptions
-	case ast.CreateMaterializedViewStatement:
+	case sql.CreateMaterializedViewStatementKind:
 		return createMaterializedViewOptions
-	case ast.CreateProcedureStatement:
+	case sql.CreateProcedureStatementKind:
 		return createProcedureOptions
-	case ast.CreateTableFunctionStatement:
+	case sql.CreateTableFunctionStatementKind:
 		return createTableFunctionOptions
-	case ast.CreateTableStatement:
+	case sql.CreateTableStatementKind:
 		return createTableOptions
-	case ast.CreateSchemaStatement:
+	case sql.CreateSchemaStatementKind:
 		return createSchemaOptions
-	case ast.CreateSnapshotTableStatement:
+	case sql.CreateSnapshotTableStatementKind:
 		return createSnapshotTableOptions
-	case ast.CreateViewStatement:
+	case sql.CreateViewStatementKind:
 		return createViewOptions
-	case ast.SimpleColumnSchema:
+	case sql.SimpleColumnSchemaKind:
 		return simpleColumnOptions
 	}
 	return nil
@@ -93,7 +94,7 @@ var createMaterializedViewOptions = NewStringMapSet(
 )
 
 var createProcedureOptions = NewStringMapSet(
-	"strict_mode",     // bOOL
+	"strict_mode",     // BOOL
 	"description",     // STRING
 	"engine",          // STRING
 	"runtime_version", // STRING
@@ -108,7 +109,7 @@ var createProcedureOptions = NewStringMapSet(
 )
 
 var createReservationOptions = NewStringMapSet(
-	"strict_mode",     // bOOL
+	"strict_mode",     // BOOL
 	"description",     // STRING
 	"engine",          // STRING
 	"runtime_version", // STRING

@@ -11,7 +11,6 @@ import (
 	"github.com/goccy/go-googlesql"
 
 	"github.com/paulourio/gsql/format"
-	"github.com/paulourio/gsql/internal/ast"
 )
 
 type WriteStringer interface {
@@ -64,7 +63,7 @@ func ExtractScriptInfo(script string) *ScriptInfo {
 	var ds string
 	s, err := parseScript(script)
 	if err == nil {
-		ds = ast.Must(s.DebugString(100))
+		ds = must(s.DebugString(100))
 	}
 	return &ScriptInfo{
 		Script:           script,
@@ -134,7 +133,7 @@ func MaybeFormattedAST(script string) string {
 	if err != nil {
 		return ""
 	}
-	return ast.Must(ast.Must(z.Script()).DebugString(1000))
+	return must(must(z.Script()).DebugString(1000))
 }
 
 func parseScript(script string) (*googlesql.ASTScript, error) {
@@ -152,7 +151,7 @@ func parseScript(script string) (*googlesql.ASTScript, error) {
 	if err != nil {
 		return nil, err
 	}
-	return ast.Must(z.Script()), nil
+	return must(z.Script()), nil
 }
 
 func cleanupDebugString(ds string) string {
@@ -165,6 +164,13 @@ func removeParseLocation(ds string) string {
 
 func removeValues(ds string) string {
 	return valuesPat.ReplaceAllLiteralString(ds, "")
+}
+
+func must[T any](val T, err error) T {
+	if err != nil {
+		panic(err)
+	}
+	return val
 }
 
 var (

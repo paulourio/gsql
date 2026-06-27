@@ -1,7 +1,7 @@
 package printer
 
 import (
-	"github.com/goccy/go-googlesql"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
 // Case When are printed in two forms:
@@ -29,7 +29,7 @@ import (
 //		  ELSE
 //			...
 //		END
-func visitCaseArgs[T googlesql.ASTExpressionNode](p *Printer, ctx Context, args []T) {
+func visitCaseArgs[T sql.ExpressionNode](p *Printer, ctx Context, args []T) {
 	simple, _ := ctx.Bool(KeySimpleCase)
 	if len(args) > 0 {
 		p.moveBefore(args[0])
@@ -41,7 +41,7 @@ func visitCaseArgs[T googlesql.ASTExpressionNode](p *Printer, ctx Context, args 
 	visitGeneralCaseArgs(p, ctx, args)
 }
 
-func visitSimpleCaseArgs[T googlesql.ASTExpressionNode](p *Printer, ctx Context, args []T) {
+func visitSimpleCaseArgs[T sql.ExpressionNode](p *Printer, ctx Context, args []T) {
 	var lhs, rhs T
 	pp := p.nest()
 	for len(args) >= 2 {
@@ -62,7 +62,7 @@ func visitSimpleCaseArgs[T googlesql.ASTExpressionNode](p *Printer, ctx Context,
 	p.print(pp.unnestLeft())
 }
 
-func visitGeneralCaseArgs[T googlesql.ASTExpressionNode](p *Printer, ctx Context, args []T) {
+func visitGeneralCaseArgs[T sql.ExpressionNode](p *Printer, ctx Context, args []T) {
 	var lhs, rhs T
 	pp := p.nest()
 	for len(args) >= 2 {

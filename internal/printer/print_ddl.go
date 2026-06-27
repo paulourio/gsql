@@ -4,35 +4,33 @@ package printer
 import (
 	"strings"
 
-	"github.com/goccy/go-googlesql"
-
-	"github.com/paulourio/gsql/internal/ast"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
-func (p *Printer) VisitAddColumnAction(ctx Context, n *googlesql.ASTAddColumnAction) {
+func (p *Printer) visitAddColumnAction(ctx Context, n *sql.AddColumnAction) {
 	p.moveBefore(n)
 	p.print(p.keyword("ADD COLUMN"))
 
-	if ast.Must(n.IsIfNotExists()) {
+	if n.IsIfNotExists() {
 		p.print(p.keyword("IF NOT EXISTS"))
 	}
 
-	p.accept(ctx, ast.Must(n.ColumnDefinition()))
+	p.accept(ctx, n.ColumnDefinition())
 }
 
-func (p *Printer) VisitAddConstraintAction(ctx Context, n *googlesql.ASTAddConstraintAction) {
+func (p *Printer) visitAddConstraintAction(ctx Context, n *sql.AddConstraintAction) {
 	p.moveBefore(n)
 	p.print(p.keyword("ADD"))
-	if ast.Must(n.IsIfNotExists()) {
+	if n.IsIfNotExists() {
 		p.print(p.keyword("IF NOT EXISTS"))
 	}
-	p.accept(ctx, ast.Must(n.Constraint()))
+	p.accept(ctx, n.Constraint())
 }
 
-func (p *Printer) VisitAlterActionList(ctx Context, n *googlesql.ASTAlterActionList) {
+func (p *Printer) visitAlterActionList(ctx Context, n *sql.AlterActionList) {
 	p.moveBefore(n)
 	p.println("")
-	for i, a := range ast.ChildrenOfType[googlesql.ASTAlterActionNode](n) {
+	for i, a := range n.Actions() {
 		if i > 0 {
 			p.println(",")
 		}
@@ -40,16 +38,16 @@ func (p *Printer) VisitAlterActionList(ctx Context, n *googlesql.ASTAlterActionL
 	}
 }
 
-func (p *Printer) VisitAlterAllRowAccessPoliciesStatement(ctx Context, n *googlesql.ASTAlterAllRowAccessPoliciesStatement) {
+func (p *Printer) visitAlterAllRowAccessPoliciesStatement(ctx Context, n *sql.AlterAllRowAccessPoliciesStatement) {
 }
 
-func (p *Printer) VisitAlterColumnDropDefaultAction(ctx Context, n *googlesql.ASTAlterColumnDropDefaultAction) {
+func (p *Printer) visitAlterColumnDropDefaultAction(ctx Context, n *sql.AlterColumnDropDefaultAction) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER COLUMN"))
-	if ast.Must(n.IsIfExists()) {
+	if n.IsIfExists() {
 		p.print(p.keyword("IF EXISTS"))
 	}
-	p.accept(ctx, ast.Must(n.ColumnName()))
+	p.accept(ctx, n.ColumnName())
 	p.println("")
 	p.incDepth()
 	p.println(p.keyword("DROP DEFAULT"))
@@ -57,13 +55,13 @@ func (p *Printer) VisitAlterColumnDropDefaultAction(ctx Context, n *googlesql.AS
 	p.movePast(n)
 }
 
-func (p *Printer) VisitAlterColumnDropNotNullAction(ctx Context, n *googlesql.ASTAlterColumnDropNotNullAction) {
+func (p *Printer) visitAlterColumnDropNotNullAction(ctx Context, n *sql.AlterColumnDropNotNullAction) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER COLUMN"))
-	if ast.Must(n.IsIfExists()) {
+	if n.IsIfExists() {
 		p.print(p.keyword("IF EXISTS"))
 	}
-	p.accept(ctx, ast.Must(n.ColumnName()))
+	p.accept(ctx, n.ColumnName())
 	p.println("")
 	p.incDepth()
 	p.println(p.keyword("DROP NOT NULL"))
@@ -71,150 +69,150 @@ func (p *Printer) VisitAlterColumnDropNotNullAction(ctx Context, n *googlesql.AS
 	p.movePast(n)
 }
 
-func (p *Printer) VisitAlterColumnOptionsAction(ctx Context, n *googlesql.ASTAlterColumnOptionsAction) {
+func (p *Printer) visitAlterColumnOptionsAction(ctx Context, n *sql.AlterColumnOptionsAction) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER COLUMN"))
-	if ast.Must(n.IsIfExists()) {
+	if n.IsIfExists() {
 		p.print(p.keyword("IF EXISTS"))
 	}
-	p.accept(ctx, ast.Must(n.ColumnName()))
+	p.accept(ctx, n.ColumnName())
 	p.println("")
 	p.incDepth()
 	p.print(p.keyword("SET"))
-	p.accept(ctx, ast.Must(n.OptionsList()))
+	p.accept(ctx, n.OptionsList())
 	p.println("")
 	p.decDepth()
 }
 
-func (p *Printer) VisitAlterColumnSetDefaultAction(ctx Context, n *googlesql.ASTAlterColumnSetDefaultAction) {
+func (p *Printer) visitAlterColumnSetDefaultAction(ctx Context, n *sql.AlterColumnSetDefaultAction) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER COLUMN"))
-	if ast.Must(n.IsIfExists()) {
+	if n.IsIfExists() {
 		p.print(p.keyword("IF EXISTS"))
 	}
-	p.accept(ctx, ast.Must(n.ColumnName()))
+	p.accept(ctx, n.ColumnName())
 	p.println("")
 	p.incDepth()
 	p.print(p.keyword("SET DEFAULT"))
-	p.accept(ctx, ast.Must(n.DefaultExpression()))
+	p.accept(ctx, n.DefaultExpression())
 	p.println("")
 	p.decDepth()
 }
 
-func (p *Printer) VisitAlterColumnTypeAction(ctx Context, n *googlesql.ASTAlterColumnTypeAction) {
+func (p *Printer) visitAlterColumnTypeAction(ctx Context, n *sql.AlterColumnTypeAction) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER COLUMN"))
-	if ast.Must(n.IsIfExists()) {
+	if n.IsIfExists() {
 		p.print(p.keyword("IF EXISTS"))
 	}
-	p.accept(ctx, ast.Must(n.ColumnName()))
+	p.accept(ctx, n.ColumnName())
 	p.println("")
 	p.incDepth()
 	p.print(p.keyword("SET DATA TYPE"))
-	p.accept(ctx, ast.Must(n.Schema()))
+	p.accept(ctx, n.Schema())
 	p.println("")
 	p.decDepth()
 }
 
-func (p *Printer) VisitAlterConstraintEnforcementAction(ctx Context, n *googlesql.ASTAlterConstraintEnforcementAction) {
+func (p *Printer) visitAlterConstraintEnforcementAction(ctx Context, n *sql.AlterConstraintEnforcementAction) {
 }
 
-func (p *Printer) VisitAlterConstraintSetOptionsAction(ctx Context, n *googlesql.ASTAlterConstraintSetOptionsAction) {
+func (p *Printer) visitAlterConstraintSetOptionsAction(ctx Context, n *sql.AlterConstraintSetOptionsAction) {
 }
 
-func (p *Printer) VisitAlterDatabaseStatement(ctx Context, n *googlesql.ASTAlterDatabaseStatement) {
+func (p *Printer) visitAlterDatabaseStatement(ctx Context, n *sql.AlterDatabaseStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER DATABASE"))
-	p.accept(ctx, ast.Must(n.GetDdlTarget()))
+	p.accept(ctx, n.GetDdlTarget())
 	p.println("")
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.ActionList()))
+	p.accept(ctx, n.ActionList())
 	p.println("")
 	p.decDepth()
 }
 
-func (p *Printer) VisitAlterEntityStatement(ctx Context, n *googlesql.ASTAlterEntityStatement) {
+func (p *Printer) visitAlterEntityStatement(ctx Context, n *sql.AlterEntityStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER ENTITY"))
-	p.accept(ctx, ast.Must(n.GetDdlTarget()))
+	p.accept(ctx, n.GetDdlTarget())
 	p.println("")
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.ActionList()))
+	p.accept(ctx, n.ActionList())
 	p.println("")
 	p.decDepth()
 }
 
-func (p *Printer) VisitAlterMaterializedViewStatement(ctx Context, n *googlesql.ASTAlterMaterializedViewStatement) {
+func (p *Printer) visitAlterMaterializedViewStatement(ctx Context, n *sql.AlterMaterializedViewStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER MATERIALIZED VIEW"))
-	p.accept(ctx, ast.Must(n.GetDdlTarget()))
+	p.accept(ctx, n.GetDdlTarget())
 	p.println("")
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.ActionList()))
+	p.accept(ctx, n.ActionList())
 	p.println("")
 	p.decDepth()
 }
 
-func (p *Printer) VisitAlterPrivilegeRestrictionStatement(ctx Context, n *googlesql.ASTAlterPrivilegeRestrictionStatement) {
+func (p *Printer) visitAlterPrivilegeRestrictionStatement(ctx Context, n *sql.AlterPrivilegeRestrictionStatement) {
 }
 
-func (p *Printer) VisitAlterRowAccessPolicyStatement(ctx Context, n *googlesql.ASTAlterRowAccessPolicyStatement) {
+func (p *Printer) visitAlterRowAccessPolicyStatement(ctx Context, n *sql.AlterRowAccessPolicyStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER ROW ACCESS POLICY"))
-	p.accept(ctx, ast.Must(n.GetDdlTarget()))
+	p.accept(ctx, n.GetDdlTarget())
 	p.println("")
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.ActionList()))
+	p.accept(ctx, n.ActionList())
 	p.println("")
 	p.decDepth()
 }
 
-func (p *Printer) VisitAlterSchemaStatement(ctx Context, n *googlesql.ASTAlterSchemaStatement) {
+func (p *Printer) visitAlterSchemaStatement(ctx Context, n *sql.AlterSchemaStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER SCHEMA"))
-	p.accept(ctx, ast.Must(n.GetDdlTarget()))
+	p.accept(ctx, n.GetDdlTarget())
 	p.println("")
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.ActionList()))
+	p.accept(ctx, n.ActionList())
 	p.println("")
 	p.decDepth()
 }
 
-func (p *Printer) VisitAlterTableStatement(ctx Context, n *googlesql.ASTAlterTableStatement) {
+func (p *Printer) visitAlterTableStatement(ctx Context, n *sql.AlterTableStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER TABLE"))
-	p.accept(ctx.WithValue(KeyInTableName, true), ast.Must(n.GetDdlTarget()))
+	p.accept(ctx.WithValue(KeyInTableName, true), n.GetDdlTarget())
 	p.println("")
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.ActionList()))
+	p.accept(ctx, n.ActionList())
 	p.println("")
 	p.decDepth()
 	p.movePast(n)
 }
 
-func (p *Printer) VisitAlterViewStatement(ctx Context, n *googlesql.ASTAlterViewStatement) {
+func (p *Printer) visitAlterViewStatement(ctx Context, n *sql.AlterViewStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("ALTER VIEW"))
-	p.accept(ctx, ast.Must(n.GetDdlTarget()))
+	p.accept(ctx, n.GetDdlTarget())
 	p.println("")
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.ActionList()))
+	p.accept(ctx, n.ActionList())
 	p.println("")
 	p.decDepth()
 	p.movePast(n)
 }
 
-func (p *Printer) VisitCloneDataSource(ctx Context, n *googlesql.ASTCloneDataSource) {
+func (p *Printer) visitCloneDataSource(ctx Context, n *sql.CloneDataSource) {
 	p.moveBefore(n)
 	p.print(p.keyword("CLONE"))
-	p.accept(ctx, ast.Must(n.PathExpr()))
-	p.accept(ctx, ast.Must(n.ForSystemTime()))
-	p.lnaccept(ctx, ast.Must(n.WhereClause()))
+	p.accept(ctx, n.PathExpr())
+	p.accept(ctx, n.ForSystemTime())
+	p.lnaccept(ctx, n.WhereClause())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitColumnWithOptionsList(ctx Context, n *googlesql.ASTColumnWithOptionsList) {
-	children := ast.ChildrenOfType[*googlesql.ASTColumnWithOptions](n)
+func (p *Printer) visitColumnWithOptionsList(ctx Context, n *sql.ColumnWithOptionsList) {
+	children := n.Entries()
 	if len(children) == 0 {
 		return
 	}
@@ -233,42 +231,42 @@ func (p *Printer) VisitColumnWithOptionsList(ctx Context, n *googlesql.ASTColumn
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) VisitColumnWithOptions(ctx Context, n *googlesql.ASTColumnWithOptions) {
+func (p *Printer) visitColumnWithOptions(ctx Context, n *sql.ColumnWithOptions) {
 	pp := p.nest()
-	pp.accept(ctx, ast.Must(n.Name()))
-	pp.accept(ctx, ast.Must(n.OptionsList()))
+	pp.accept(ctx, n.Name())
+	pp.accept(ctx, n.OptionsList())
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) VisitCopyDataSource(ctx Context, n *googlesql.ASTCopyDataSource) {
+func (p *Printer) visitCopyDataSource(ctx Context, n *sql.CopyDataSource) {
 	p.moveBefore(n)
 	p.print(p.keyword("COPY"))
-	p.accept(ctx, ast.Must(n.PathExpr()))
-	p.accept(ctx, ast.Must(n.ForSystemTime()))
-	p.lnaccept(ctx, ast.Must(n.WhereClause()))
+	p.accept(ctx, n.PathExpr())
+	p.accept(ctx, n.ForSystemTime())
+	p.lnaccept(ctx, n.WhereClause())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitCreateExternalTableStatement(ctx Context, n *googlesql.ASTCreateExternalTableStatement) {
+func (p *Printer) visitCreateExternalTableStatement(ctx Context, n *sql.CreateExternalTableStatement) {
 	p.moveBefore(n)
-	cs := createStatementKeywords(n.ASTCreateStatement, false, false, "EXTERNAL TABLE")
+	cs := createStatementKeywords(n, false, false, "EXTERNAL TABLE")
 	p.print(p.keyword(cs))
-	p.accept(ctx.WithValue(KeyInTableName, true), ast.Must(n.GetDdlTarget()))
-	p.lnaccept(ctx, ast.Must(n.TableElementList()))
-	p.lnaccept(ctx, ast.Must(n.WithConnectionClause()))
-	p.lnaccept(ctx, ast.Must(n.WithPartitionColumnsClause()))
-	p.lnaccept(ctx, ast.Must(n.OptionsList()))
+	p.accept(ctx.WithValue(KeyInTableName, true), n.GetDdlTarget())
+	p.lnaccept(ctx, n.TableElementList())
+	p.lnaccept(ctx, n.WithConnectionClause())
+	p.lnaccept(ctx, n.WithPartitionColumnsClause())
+	p.lnaccept(ctx, n.OptionsList())
 }
 
-func (p *Printer) VisitCreateFunctionStatement(ctx Context, n *googlesql.ASTCreateFunctionStatement) {
+func (p *Printer) visitCreateFunctionStatement(ctx Context, n *sql.CreateFunctionStatement) {
 	pp := p.nest()
 	pp.moveBefore(n)
 	pp.print(pp.keyword(createFunctionKeywords(n)))
-	pp.accept(ctx, ast.Must(n.FunctionDeclaration()))
-	if typ := ast.Must(n.ReturnType()); ast.Defined(typ) {
+	pp.accept(ctx, n.FunctionDeclaration())
+	if typ := n.ReturnType(); typ != nil {
 		pp.print(pp.keyword("RETURNS"))
 		if isSimpleType(typ) {
-			pp.accept(ctx, ast.Must(n.ReturnType()))
+			pp.accept(ctx, n.ReturnType())
 		} else {
 			pp.println("")
 			pp.incDepth()
@@ -278,55 +276,55 @@ func (p *Printer) VisitCreateFunctionStatement(ctx Context, n *googlesql.ASTCrea
 		}
 	}
 	p.print(pp.unnestLeft())
-	switch ast.Must(n.DeterminismLevel()) {
-	case ast.UnspecifiedDeterminismLevel:
+	switch n.DeterminismLevel() {
+	case sql.UnspecifiedDeterminism:
 		// Nothing.
-	case ast.DeterministicDeterminismLevel:
+	case sql.Deterministic:
 		p.println("")
 		p.println(p.keyword("DETERMINISTIC"))
-	case ast.NotDeterministicDeterminismLevel:
+	case sql.NotDeterministic:
 		p.println("")
 		p.println(p.keyword("NOT DETERMINISTIC"))
-	case ast.ImmutableDeterminismLevel:
+	case sql.Immutable:
 		p.println("")
 		p.println(p.keyword("IMMUTABLE"))
-	case ast.StableDeterminismLevel:
+	case sql.Stable:
 		p.println("")
 		p.println(p.keyword("STABLE"))
-	case ast.VolatileDeterminismLevel:
+	case sql.Volatile:
 		p.println("")
 		p.println(p.keyword("VOLATILE"))
 	}
-	if lang := ast.Must(n.Language()); ast.Defined(lang) {
+	if lang := n.Language(); lang != nil {
 		p.println("")
 		p.print(p.keyword("LANGUAGE"))
 		p.moveBefore(lang)
 		p.accept(ctx, lang)
 		p.println("")
 	}
-	p.lnaccept(ctx, ast.Must(n.WithConnectionClause()))
-	if opt := ast.Must(n.OptionsList()); ast.Defined(opt) {
+	p.lnaccept(ctx, n.WithConnectionClause())
+	if opt := n.OptionsList(); opt != nil {
 		p.println("")
-		p.accept(ctx, ast.Must(n.OptionsList()))
+		p.accept(ctx, n.OptionsList())
 	}
-	if code := ast.Must(n.Code()); ast.Defined(code) {
+	if code := n.Code(); code != nil {
 		p.println("")
 		p.print("AS")
 		p.accept(ctx, code)
 	}
-	p.accept(ctx, ast.Must(n.SqlFunctionBody()))
+	p.accept(ctx, n.SQLFunctionBody())
 }
 
-func (p *Printer) VisitCreateMaterializedViewStatement(ctx Context, n *googlesql.ASTCreateMaterializedViewStatement) {
+func (p *Printer) visitCreateMaterializedViewStatement(ctx Context, n *sql.CreateMaterializedViewStatement) {
 	p.moveBefore(n)
 	// TODO: implement mat view
-	// ast.Must(n.Recursive()) is not available.
-	cs := createStatementKeywords(n.ASTCreateStatement, false, ast.Must(n.Recursive()), "MATERIALIZED VIEW")
+	// n.Recursive() is not available.
+	cs := createStatementKeywords(n, false, n.Recursive(), "MATERIALIZED VIEW")
 	p.print(p.keyword(cs))
-	p.accept(ctx, ast.Must(n.GetDdlTarget()))
+	p.accept(ctx, n.GetDdlTarget())
 	// PartitionBy and ClusterBy are the only ones aligned together.
-	pb := ast.Must(n.PartitionBy())
-	cb := ast.Must(n.ClusterBy())
+	pb := n.PartitionBy()
+	cb := n.ClusterBy()
 	if pb != nil || cb != nil {
 		pp := p.nest()
 		if pb != nil {
@@ -339,54 +337,54 @@ func (p *Printer) VisitCreateMaterializedViewStatement(ctx Context, n *googlesql
 		p.println("")
 		p.print(pp.unnest())
 	}
-	if opt := ast.Must(n.OptionsList()); opt != nil {
+	if opt := n.OptionsList(); opt != nil {
 		p.println("")
 		p.accept(ctx, opt)
 	}
-	if q := ast.Must(n.Query()); q != nil {
+	if q := n.Query(); q != nil {
 		p.println("")
 		p.println(p.keyword("AS") + " (")
 		pp := p.nest()
 		pp.incDepth()
-		pp.accept(ctx, ast.Must(n.Query()))
+		pp.accept(ctx, n.Query())
 		pp.println("")
 		pp.decDepth()
 		pp.println(")")
 		p.print(pp.unnest())
 	}
-	if rep := ast.Must(n.ReplicaSource()); ast.Defined(rep) {
+	if rep := n.ReplicaSource(); rep != nil {
 		p.println("")
 		p.print(p.keyword("AS REPLICA OF"))
 		p.accept(ctx, rep)
 	}
 }
 
-func (p *Printer) VisitCreateProcedureStatement(ctx Context, n *googlesql.ASTCreateProcedureStatement) {
+func (p *Printer) visitCreateProcedureStatement(ctx Context, n *sql.CreateProcedureStatement) {
 	p.moveBefore(n)
 	p1 := p.nest()
-	p1.print(p.keyword(createStatementKeywords(n.ASTCreateStatement, false, false, "PROCEDURE")))
-	p1.accept(ctx.WithValue(KeyInFunctionName, true), ast.Must(n.GetDdlTarget()))
-	p1.accept(ctx, ast.Must(n.Parameters()))
+	p1.print(p.keyword(createStatementKeywords(n, false, false, "PROCEDURE")))
+	p1.accept(ctx.WithValue(KeyInFunctionName, true), n.GetDdlTarget())
+	p1.accept(ctx, n.Parameters())
 	p.print(p1.unnestLeft())
-	switch ast.Must(n.ExternalSecurity()) {
-	case ast.DefinerSQLSecurity:
+	switch n.ExternalSecurity() {
+	case sql.SQLSecurityDefiner:
 		p.println("")
 		p.println(p.keyword("SQL SECURITY DEFINER"))
-	case ast.InvokerSQLSecurity:
+	case sql.SQLSecurityInvoker:
 		p.println("")
 		p.println(p.keyword("SQL SECURITY INVOKER"))
 	}
-	p.lnaccept(ctx, ast.Must(n.OptionsList()))
+	p.lnaccept(ctx, n.OptionsList())
 	p.println("")
 	pp := p.nest()
-	pp.lnaccept(ctx, ast.Must(n.Body()))
+	pp.lnaccept(ctx, n.Body())
 	p.print(pp.unnest())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitCreateRowAccessPolicyStatement(ctx Context, n *googlesql.ASTCreateRowAccessPolicyStatement) {
+func (p *Printer) visitCreateRowAccessPolicyStatement(ctx Context, n *sql.CreateRowAccessPolicyStatement) {
 	p.moveBefore(n)
-	p.print(p.keyword(createStatementKeywords(n.ASTCreateStatement, false, false, "ROW ACCESS POLICY")))
+	p.print(p.keyword(createStatementKeywords(n, false, false, "ROW ACCESS POLICY")))
 	// For BigQuery, the syntax is
 	//
 	//   CREATE [OR REPLACE] ROW ACCESS POLICY [IF NOT EXISTS]
@@ -396,83 +394,83 @@ func (p *Printer) VisitCreateRowAccessPolicyStatement(ctx Context, n *googlesql.
 	// identifier.  However, when Name() is nil, both Name() and
 	// DdlTarget() are nil, so we need to access the DDL target manually
 	// as the first child.
-	if name := ast.Must(n.Name()); name != nil {
-		p.accept(ctx, ast.Must(n.Name()))
+	if name := n.Name(); name != nil {
+		p.accept(ctx, n.Name())
 		p.println("")
 		p.print(p.keyword("ON"))
-		p.accept(ctx, ast.Must(n.GetDdlTarget()))
+		p.accept(ctx, n.GetDdlTarget())
 	} else {
 		p.println("")
 		p.print(p.keyword("ON"))
-		p.accept(ctx, ast.Must(n.Child(0)))
+		p.accept(ctx, n.Child(0))
 	}
-	p.lnaccept(ctx, ast.Must(n.GrantTo()))
-	p.lnaccept(ctx, ast.Must(n.FilterUsing()))
+	p.lnaccept(ctx, n.GrantTo())
+	p.lnaccept(ctx, n.FilterUsing())
 }
 
-func (p *Printer) VisitCreateSchemaStatement(ctx Context, n *googlesql.ASTCreateSchemaStatement) {
+func (p *Printer) visitCreateSchemaStatement(ctx Context, n *sql.CreateSchemaStatement) {
 	p.moveBefore(n)
-	p.print(p.keyword(createStatementKeywords(n.ASTCreateStatement, false, false, "SCHEMA")))
-	p.accept(ctx, ast.Must(n.Name()))
-	if c := ast.Must(n.Collate()); c != nil {
+	p.print(p.keyword(createStatementKeywords(n, false, false, "SCHEMA")))
+	p.accept(ctx, n.Name())
+	if c := n.Collate(); c != nil {
 		p.println("")
 		p.print(p.keyword("DEFAULT"))
 		p.accept(ctx, c)
 	}
-	if opt := ast.Must(n.OptionsList()); opt != nil {
+	if opt := n.OptionsList(); opt != nil {
 		p.println("")
 		p.accept(ctx, opt)
 	}
 	p.movePast(n)
 }
 
-func (p *Printer) VisitCreateSnapshotTableStatement(ctx Context, n *googlesql.ASTCreateSnapshotTableStatement) {
+func (p *Printer) visitCreateSnapshotTableStatement(ctx Context, n *sql.CreateSnapshotTableStatement) {
 	p.moveBefore(n)
-	p.print(p.keyword(createStatementKeywords(n.ASTCreateStatement, false, false, "SNAPSHOT TABLE")))
-	p.accept(ctx.WithValue(KeyInTableName, true), ast.Must(n.GetDdlTarget()))
-	p.lnaccept(ctx, ast.Must(n.CloneDataSource()))
-	p.lnaccept(ctx, ast.Must(n.OptionsList()))
+	p.print(p.keyword(createStatementKeywords(n, false, false, "SNAPSHOT TABLE")))
+	p.accept(ctx.WithValue(KeyInTableName, true), n.GetDdlTarget())
+	p.lnaccept(ctx, n.CloneDataSource())
+	p.lnaccept(ctx, n.OptionsList())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitCreateTableStatement(ctx Context, n *googlesql.ASTCreateTableStatement) {
+func (p *Printer) visitCreateTableStatement(ctx Context, n *sql.CreateTableStatement) {
 	p1 := p.nest()
 	p1.moveBefore(n)
 	p1.print(p1.keyword(createTableKeywords(n)))
-	p1.accept(ctx.WithValue(KeyInTableName, true), ast.Must(n.Name()))
-	p1.accept(ctx, ast.Must(n.TableElementList()))
-	p1.lnaccept(ctx, ast.Must(n.CopyDataSource()))
-	p1.lnaccept(ctx, ast.Must(n.CloneDataSource()))
-	if like := ast.Must(n.LikeTableName()); ast.Defined(like) {
+	p1.accept(ctx.WithValue(KeyInTableName, true), n.Name())
+	p1.accept(ctx, n.TableElementList())
+	p1.lnaccept(ctx, n.CopyDataSource())
+	p1.lnaccept(ctx, n.CloneDataSource())
+	if like := n.LikeTableName(); like != nil {
 		p1.println("")
 		p1.print(p1.keyword("LIKE"))
 		p1.accept(ctx, like)
 	}
-	if co := ast.Must(n.Collate()); ast.Defined(co) {
+	if co := n.Collate(); co != nil {
 		p1.println("")
 		p1.print(p1.keyword("DEFAULT"))
 		p1.accept(ctx, co)
 	}
 	// PartitionBy and ClusterBy are the only ones aligned together.
-	pb := ast.Must(n.PartitionBy())
-	cb := ast.Must(n.ClusterBy())
-	if ast.Defined(pb) || ast.Defined(cb) {
+	pb := n.PartitionBy()
+	cb := n.ClusterBy()
+	if pb != nil || cb != nil {
 		pp := p1.nest()
-		if ast.Defined(pb) {
+		if pb != nil {
 			pp.accept(ctx, pb)
 		}
-		if ast.Defined(cb) {
+		if cb != nil {
 			pp.println("")
 			pp.accept(ctx, cb)
 		}
 		p1.println("")
 		p1.print(pp.unnest())
 	}
-	if opt := ast.Must(n.OptionsList()); ast.Defined(opt) {
+	if opt := n.OptionsList(); opt != nil {
 		p1.println("")
 		p1.accept(ctx, opt)
 	}
-	if q := ast.Must(n.Query()); ast.Defined(q) {
+	if q := n.Query(); q != nil {
 		p1.println("")
 		p1.println(p1.keyword("AS") + " (")
 		p2 := p1.nest()
@@ -486,13 +484,13 @@ func (p *Printer) VisitCreateTableStatement(ctx Context, n *googlesql.ASTCreateT
 	p.print(p1.unnestLeft())
 }
 
-func (p *Printer) VisitCreateTableFunctionStatement(ctx Context, n *googlesql.ASTCreateTableFunctionStatement) {
+func (p *Printer) visitCreateTableFunctionStatement(ctx Context, n *sql.CreateTableFunctionStatement) {
 	p.moveBefore(n)
 	pp := p.nest()
-	pp.print(pp.keyword(createStatementKeywords(n.ASTCreateStatement, false, false, "TABLE FUNCTION")))
+	pp.print(pp.keyword(createStatementKeywords(n, false, false, "TABLE FUNCTION")))
 	p.print(pp.unnestLeft())
-	p.accept(ctx, ast.Must(n.FunctionDeclaration()))
-	if ret := ast.Must(n.ReturnTvfSchema()); ast.Defined(ret) {
+	p.accept(ctx, n.FunctionDeclaration())
+	if ret := n.ReturnTvfSchema(); ret != nil {
 		p.println("")
 		p2 := p.nest()
 		p2.println(p2.keyword("RETURNS"))
@@ -502,8 +500,8 @@ func (p *Printer) VisitCreateTableFunctionStatement(ctx Context, n *googlesql.AS
 		p2.decDepth()
 		p.print(p2.unnestLeft())
 	}
-	p.lnaccept(ctx, ast.Must(n.OptionsList()))
-	if q := ast.Must(n.Query()); ast.Defined(q) {
+	p.lnaccept(ctx, n.OptionsList())
+	if q := n.Query(); q != nil {
 		p.println("")
 		p.println(p.keyword("AS") + " (")
 		p1 := p.nest()
@@ -514,21 +512,21 @@ func (p *Printer) VisitCreateTableFunctionStatement(ctx Context, n *googlesql.AS
 	}
 }
 
-func (p *Printer) VisitCreateViewStatement(ctx Context, n *googlesql.ASTCreateViewStatement) {
+func (p *Printer) visitCreateViewStatement(ctx Context, n *sql.CreateViewStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword(createViewKeywords(n)))
-	p.accept(ctx.WithValue(KeyInTableName, true), ast.Must(n.Name()))
-	p.lnaccept(ctx, ast.Must(n.ColumnWithOptionsList()))
-	switch ast.Must(n.SqlSecurity()) {
-	case ast.DefinerSQLSecurity:
+	p.accept(ctx.WithValue(KeyInTableName, true), n.Name())
+	p.lnaccept(ctx, n.ColumnWithOptionsList())
+	switch n.SQLSecurity() {
+	case sql.SQLSecurityDefiner:
 		p.println("")
 		p.println(p.keyword("SQL SECURITY DEFINER"))
-	case ast.InvokerSQLSecurity:
+	case sql.SQLSecurityInvoker:
 		p.println("")
 		p.println(p.keyword("SQL SECURITY INVOKER"))
 	}
-	p.lnaccept(ctx, ast.Must(n.OptionsList()))
-	if q := ast.Must(n.Query()); ast.Defined(q) {
+	p.lnaccept(ctx, n.OptionsList())
+	if q := n.Query(); q != nil {
 		p.println("")
 		p.println(p.keyword("AS") + " (")
 		p1 := p.nest()
@@ -540,102 +538,102 @@ func (p *Printer) VisitCreateViewStatement(ctx Context, n *googlesql.ASTCreateVi
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropAllRowAccessPoliciesStatement(ctx Context, n *googlesql.ASTDropAllRowAccessPoliciesStatement) {
+func (p *Printer) visitDropAllRowAccessPoliciesStatement(ctx Context, n *sql.DropAllRowAccessPoliciesStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("DROP ALL ROW ACCESS POLICIES ON "))
-	p.print(p.identifier(p.toString(ctx, ast.Must(n.TableName()))))
+	p.print(p.identifier(p.toString(ctx, n.TableName())))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropColumnAction(ctx Context, n *googlesql.ASTDropColumnAction) {
+func (p *Printer) visitDropColumnAction(ctx Context, n *sql.DropColumnAction) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropKeyword(n, "COLUMN")))
-	p.print(p.identifier(p.toString(ctx, ast.Must(n.ColumnName()))))
+	p.print(p.identifier(p.toString(ctx, n.ColumnName())))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropConstraintAction(ctx Context, n *googlesql.ASTDropConstraintAction) {
+func (p *Printer) visitDropConstraintAction(ctx Context, n *sql.DropConstraintAction) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropKeyword(n, "CONSTRAINT")))
-	p.print(p.identifier(p.toString(ctx, ast.Must(n.ConstraintName()))))
+	p.print(p.identifier(p.toString(ctx, n.ConstraintName())))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropEntityStatement(ctx Context, n *googlesql.ASTDropEntityStatement) {
+func (p *Printer) visitDropEntityStatement(ctx Context, n *sql.DropEntityStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropKeyword(n, "ENTITY")))
-	p.print(p.identifier(p.toString(ctx, ast.Must(n.GetDdlTarget()))))
+	p.print(p.identifier(p.toString(ctx, n.GetDdlTarget())))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropFunctionStatement(ctx Context, n *googlesql.ASTDropFunctionStatement) {
+func (p *Printer) visitDropFunctionStatement(ctx Context, n *sql.DropFunctionStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropKeyword(n, "FUNCTION")))
-	p.print(p.identifier(p.toString(ctx, ast.Must(n.Name()))))
+	p.print(p.identifier(p.toString(ctx, n.Name())))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropMaterializedViewStatement(ctx Context, n *googlesql.ASTDropMaterializedViewStatement) {
+func (p *Printer) visitDropMaterializedViewStatement(ctx Context, n *sql.DropMaterializedViewStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropKeyword(n, "MATERIALIZED VIEW")))
-	p.print(p.identifier(p.toString(ctx, ast.Must(n.Name()))))
+	p.print(p.identifier(p.toString(ctx, n.Name())))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropPrimaryKeyAction(ctx Context, n *googlesql.ASTDropPrimaryKeyAction) {
+func (p *Printer) visitDropPrimaryKeyAction(ctx Context, n *sql.DropPrimaryKeyAction) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropKeyword(n, "PRIMARY KEY")))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropPrivilegeRestrictionStatement(ctx Context, n *googlesql.ASTDropPrivilegeRestrictionStatement) {
+func (p *Printer) visitDropPrivilegeRestrictionStatement(ctx Context, n *sql.DropPrivilegeRestrictionStatement) {
 }
 
-func (p *Printer) VisitDropRowAccessPolicyStatement(ctx Context, n *googlesql.ASTDropRowAccessPolicyStatement) {
+func (p *Printer) visitDropRowAccessPolicyStatement(ctx Context, n *sql.DropRowAccessPolicyStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropKeyword(n, "ROW ACCESS POLICY")))
-	p.print(p.identifier(p.toString(ctx, ast.Must(n.Name()))))
+	p.print(p.identifier(p.toString(ctx, n.Name())))
 	p.print(p.keyword("ON"))
-	p.accept(ctx, ast.Must(n.TableName()))
+	p.accept(ctx, n.TableName())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropSearchIndexStatement(ctx Context, n *googlesql.ASTDropSearchIndexStatement) {
+func (p *Printer) visitDropSearchIndexStatement(ctx Context, n *sql.DropSearchIndexStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropKeyword(n, "SEARCH INDEX")))
-	p.print(p.identifier(p.toString(ctx, ast.Must(n.Name()))))
+	p.print(p.identifier(p.toString(ctx, n.Name())))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropSnapshotTableStatement(ctx Context, n *googlesql.ASTDropSnapshotTableStatement) {
+func (p *Printer) visitDropSnapshotTableStatement(ctx Context, n *sql.DropSnapshotTableStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropKeyword(n, "SNAPSHOT TABLE")))
-	p.print(p.identifier(p.toString(ctx, ast.Must(n.Name()))))
+	p.print(p.identifier(p.toString(ctx, n.Name())))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropTableFunctionStatement(ctx Context, n *googlesql.ASTDropTableFunctionStatement) {
+func (p *Printer) visitDropTableFunctionStatement(ctx Context, n *sql.DropTableFunctionStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropKeyword(n, "TABLE FUNCTION")))
-	p.print(p.identifier(p.toString(ctx, ast.Must(n.Name()))))
+	p.print(p.identifier(p.toString(ctx, n.Name())))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitDropStatement(ctx Context, n *googlesql.ASTDropStatement) {
+func (p *Printer) visitDropStatement(ctx Context, n *sql.DropStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropStatementKeyword(n)))
-	p.accept(ctx.WithValue(KeyInTableName, true), ast.Must(n.GetDdlTarget()))
-	switch ast.Must(n.DropMode()) {
-	case ast.RestrictDropMode:
+	p.accept(ctx.WithValue(KeyInTableName, true), n.GetDdlTarget())
+	switch n.DropMode() {
+	case sql.RestrictDropMode:
 		p.print(p.keyword("RESTRICT"))
-	case ast.CascadeDropMode:
+	case sql.CascadeDropMode:
 		p.print(p.keyword("CASCADE"))
 	}
 	p.movePast(n)
 }
 
 type DropStatementKeyworder interface {
-	IsIfExists() (bool, error)
+	IsIfExists() bool
 }
 
 func dropKeyword(n DropStatementKeyworder, object string) string {
@@ -643,60 +641,60 @@ func dropKeyword(n DropStatementKeyworder, object string) string {
 	b.Grow(20)
 	b.WriteString("DROP ")
 	b.WriteString(object)
-	if ast.Must(n.IsIfExists()) {
+	if n.IsIfExists() {
 		b.WriteString(" IF EXISTS")
 	}
 	return b.String()
 }
 
-func dropStatementKeyword(n *googlesql.ASTDropStatement) string {
+func dropStatementKeyword(n *sql.DropStatement) string {
 	var b strings.Builder
 	b.Grow(23)
 	b.WriteString("DROP")
-	switch ast.Must(n.SchemaObjectKind()) {
-	case googlesql.SchemaObjectKindSchemaObjectKindSwitchMustHaveADefault:
+	switch n.SchemaObjectKind() {
+	case sql.SchemaObjectKindSwitchMustHaveADefault:
 		b.WriteString(" <UNKNOWN SCHEMA OBJECT>")
-	case googlesql.SchemaObjectKindKInvalidSchemaObjectKind:
+	case sql.InvalidSchemaObjectKind:
 		b.WriteString(" <INVALID SCHEMA OBJECT>")
-	case googlesql.SchemaObjectKindKAggregateFunction:
+	case sql.AggregateFunction:
 		b.WriteString(" AGGREGATE FUNCTION")
-	case googlesql.SchemaObjectKindKConstant:
+	case sql.Constant:
 		b.WriteString(" CONSTANT")
-	case googlesql.SchemaObjectKindKDatabase:
+	case sql.Database:
 		b.WriteString(" DATABASE")
-	case googlesql.SchemaObjectKindKExternalTable:
+	case sql.ExternalTable:
 		b.WriteString(" EXTERNAL TABLE")
-	case googlesql.SchemaObjectKindKFunction:
+	case sql.FunctionSchemaObject:
 		b.WriteString(" FUNCTION")
-	case googlesql.SchemaObjectKindKIndex:
+	case sql.IndexSchemaObject:
 		b.WriteString(" INDEX")
-	case googlesql.SchemaObjectKindKMaterializedView:
+	case sql.MaterializedView:
 		b.WriteString(" MATERIALIZED VIEW")
-	case googlesql.SchemaObjectKindKModel:
+	case sql.Model:
 		b.WriteString(" MODEL")
-	case googlesql.SchemaObjectKindKProcedure:
+	case sql.Procedure:
 		b.WriteString(" PROCEDURE")
-	case googlesql.SchemaObjectKindKSchema:
+	case sql.Schema:
 		b.WriteString(" SCHEMA")
-	case googlesql.SchemaObjectKindKTable:
+	case sql.TableSchemaObject:
 		b.WriteString(" TABLE")
-	case googlesql.SchemaObjectKindKTableFunction:
+	case sql.TableFunction:
 		b.WriteString(" TABLE FUNCTION")
-	case googlesql.SchemaObjectKindKView:
+	case sql.View:
 		b.WriteString(" VIEW")
-	case googlesql.SchemaObjectKindKSnapshotTable:
+	case sql.SnapshotTable:
 		b.WriteString(" SNAPSHOT TABLE")
 	}
-	if ast.Must(n.IsIfExists()) {
+	if n.IsIfExists() {
 		b.WriteString(" IF EXISTS")
 	}
 	return b.String()
 }
 
-func (p *Printer) VisitFilterUsingClause(ctx Context, n *googlesql.ASTFilterUsingClause) {
+func (p *Printer) visitFilterUsingClause(ctx Context, n *sql.FilterUsingClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("FILTER USING") + " (")
-	expr := ast.Must(n.Predicate())
+	expr := n.Predicate()
 	simple := isSimpleExpr(expr)
 	if simple {
 		p.accept(ctx, expr)
@@ -711,37 +709,37 @@ func (p *Printer) VisitFilterUsingClause(ctx Context, n *googlesql.ASTFilterUsin
 	}
 }
 
-func (p *Printer) VisitForeignKey(ctx Context, n *googlesql.ASTForeignKey) {
+func (p *Printer) visitForeignKey(ctx Context, n *sql.ForeignKey) {
 	p.moveBefore(n)
 	p.print(p.keyword("CONSTRAINT"))
-	p.accept(ctx, ast.Must(n.ConstraintName()))
+	p.accept(ctx, n.ConstraintName())
 	p.print(p.keyword("FOREIGN KEY") + " ")
-	p.accept(ctx, ast.Must(n.ColumnList()))
-	p.lnaccept(ctx, ast.Must(n.Reference()))
+	p.accept(ctx, n.ColumnList())
+	p.lnaccept(ctx, n.Reference())
 }
 
-func (p *Printer) VisitForeignKeyReference(ctx Context, n *googlesql.ASTForeignKeyReference) {
+func (p *Printer) visitForeignKeyReference(ctx Context, n *sql.ForeignKeyReference) {
 	p.moveBefore(n)
 	p.print(p.keyword("REFERENCES"))
-	p.accept(ctx, ast.Must(n.TableName()))
+	p.accept(ctx, n.TableName())
 	p.print(" ")
-	p.accept(ctx, ast.Must(n.ColumnList()))
-	if ast.Must(n.Enforced()) {
+	p.accept(ctx, n.ColumnList())
+	if n.Enforced() {
 		p.print(p.keyword("ENFORCED"))
 	} else {
 		p.print(p.keyword("NOT ENFORCED"))
 	}
 }
 
-func (p *Printer) VisitFunctionDeclaration(ctx Context, n *googlesql.ASTFunctionDeclaration) {
+func (p *Printer) visitFunctionDeclaration(ctx Context, n *sql.FunctionDeclaration) {
 	p.moveBefore(n)
-	p.accept(ctx.WithValue(KeyInFunctionName, true), ast.Must(n.Name()))
-	p.accept(ctx, ast.Must(n.Parameters()))
+	p.accept(ctx.WithValue(KeyInFunctionName, true), n.Name())
+	p.accept(ctx, n.Parameters())
 	p.println("")
 	p.movePast(n)
 }
 
-func (p *Printer) VisitFunctionParameter(ctx Context, n *googlesql.ASTFunctionParameter) {
+func (p *Printer) visitFunctionParameter(ctx Context, n *sql.FunctionParameter) {
 	p.moveBefore(n)
 	simpleParams, _ := ctx.Bool(KeyFunctionParamsSimple)
 	procParams, _ := ctx.Bool(KeyProcedureParams)
@@ -749,54 +747,54 @@ func (p *Printer) VisitFunctionParameter(ctx Context, n *googlesql.ASTFunctionPa
 	if procParams {
 		pp.print("\v")
 	}
-	switch ast.Must(n.ProcedureParameterMode()) {
-	case ast.InParameterMode:
+	switch n.ProcedureParameterMode() {
+	case sql.InParameterMode:
 		pp.print(pp.keyword("IN"))
-	case ast.OutParameterMode:
+	case sql.OutParameterMode:
 		pp.print(pp.keyword("OUT"))
-	case ast.InoutParameterMode:
+	case sql.InOutParameterMode:
 		pp.print(pp.keyword("INOUT"))
 	}
 	if !simpleParams && procParams {
-		pp.acceptNested(ctx, ast.Must(n.Name()))
+		pp.acceptNested(ctx, n.Name())
 	} else {
-		pp.accept(ctx, ast.Must(n.Name()))
+		pp.accept(ctx, n.Name())
 	}
-	if c := ast.Must(n.Type()); ast.Defined(c) {
+	if c := n.Type(); c != nil {
 		pp.acceptNestedLeft(ctx, c)
 	}
-	if c := ast.Must(n.TemplatedParameterType()); ast.Defined(c) {
+	if c := n.TemplatedParameterType(); c != nil {
 		pp.acceptNestedLeft(ctx, c)
 	}
-	if c := ast.Must(n.TvfSchema()); ast.Defined(c) {
+	if c := n.TvfSchema(); c != nil {
 		pp.acceptNestedLeft(ctx, c)
 	}
-	if c := ast.Must(n.Alias()); ast.Defined(c) {
+	if c := n.Alias(); c != nil {
 		pp.acceptNestedLeft(ctx, c)
 	}
-	if c := ast.Must(n.DefaultValue()); ast.Defined(c) {
+	if c := n.DefaultValue(); c != nil {
 		pp.acceptNestedLeft(ctx, c)
 	}
-	if ast.Must(n.IsNotAggregate()) {
+	if n.IsNotAggregate() {
 		pp.print(pp.keyword("NOT AGGREGATE"))
 	}
 	p.print(pp.String())
 	pp.movePast(n)
 }
 
-func (p *Printer) VisitFunctionParameters(ctx Context, n *googlesql.ASTFunctionParameters) {
-	entries := ast.ChildrenOfType[*googlesql.ASTFunctionParameter](n)
+func (p *Printer) visitFunctionParameters(ctx Context, n *sql.FunctionParameters) {
+	entries := n.Entries()
 	simple := len(entries) <= p.Writer.opts.MaxParamsForSingleLineFunction && allTrue(mapIsSimpleFunctionParameters(entries))
 	ctx = ctx.WithValue(KeyFunctionParamsSimple, simple)
-	parent := ast.Parent(n)
-	if ast.Defined(parent) {
+	parent := n.Parent()
+	if parent != nil {
 		// This will allow indenting "IN/OUT/INOUT" in procedure parameters.
-		ctx = ctx.WithValue(KeyProcedureParams, ast.Kind(parent) == ast.CreateProcedureStatement)
+		ctx = ctx.WithValue(KeyProcedureParams, parent.Kind() == sql.CreateProcedureStatementKind)
 	}
 	p.moveBefore(n)
 	if simple {
 		p.print("(")
-		printNestedWithSep(ctx, p, entries, ",")
+		printNestedWithSepNode(ctx, p, entries, ",")
 		p.print(")")
 	} else {
 		p.println("")
@@ -817,14 +815,14 @@ func (p *Printer) VisitFunctionParameters(ctx Context, n *googlesql.ASTFunctionP
 	p.movePast(n)
 }
 
-func (p *Printer) VisitGranteeList(ctx Context, n *googlesql.ASTGranteeList) {
+func (p *Printer) visitGranteeList(ctx Context, n *sql.GranteeList) {
 	p.moveBefore(n)
-	exprs := ast.ChildrenOfType[googlesql.ASTExpressionNode](n)
+	exprs := n.Grantees()
 	simple := len(exprs) == 1
 	if simple {
 		p.print(p.toString(ctx, exprs[0]))
 	} else {
-		var prev googlesql.ASTNode
+		var prev sql.Node
 		p.println("")
 		p.incDepth()
 		for i, e := range exprs {
@@ -841,125 +839,125 @@ func (p *Printer) VisitGranteeList(ctx Context, n *googlesql.ASTGranteeList) {
 	}
 }
 
-func (p *Printer) VisitGrantToClause(ctx Context, n *googlesql.ASTGrantToClause) {
+func (p *Printer) visitGrantToClause(ctx Context, n *sql.GrantToClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("GRANT TO") + " (")
-	p.accept(ctx, ast.Must(n.GranteeList()))
+	p.accept(ctx, n.GranteeList())
 	p.print(")")
 }
 
-func (p *Printer) VisitPrimaryKey(ctx Context, n *googlesql.ASTPrimaryKey) {
+func (p *Printer) visitPrimaryKey(ctx Context, n *sql.PrimaryKey) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.ConstraintName()))
+	p.accept(ctx, n.ConstraintName())
 	p.print(p.keyword("PRIMARY KEY") + " ")
-	p.accept(ctx, ast.Must(n.ElementList()))
-	if ast.Must(n.Enforced()) {
+	p.accept(ctx, n.ElementList())
+	if n.Enforced() {
 		p.print(p.keyword("ENFORCED"))
 	} else {
 		p.print(p.keyword("NOT ENFORCED"))
 	}
 }
 
-func (p *Printer) VisitPrimaryKeyColumnAttribute(ctx Context, n *googlesql.ASTPrimaryKeyColumnAttribute) {
+func (p *Printer) visitPrimaryKeyColumnAttribute(ctx Context, n *sql.PrimaryKeyColumnAttribute) {
 	p.moveBefore(n)
-	if ast.Must(n.Enforced()) {
+	if n.Enforced() {
 		p.print(p.keyword("ENFORCED"))
 	} else {
 		p.print(p.keyword("NOT ENFORCED"))
 	}
 }
 
-func (p *Printer) VisitPrimaryKeyElementList(ctx Context, n *googlesql.ASTPrimaryKeyElementList) {
+func (p *Printer) visitPrimaryKeyElementList(ctx Context, n *sql.PrimaryKeyElementList) {
 	p.moveBefore(n)
-	entries := ast.ChildrenOfType[*googlesql.ASTPrimaryKeyElement](n)
+	entries := n.Elements()
 	p.print("(")
-	printNestedWithSep(ctx, p, entries, ",")
+	printNestedWithSepNode(ctx, p, entries, ",")
 	p.movePast(n)
 	p.print(")")
 }
 
-func (p *Printer) VisitPrimaryKeyElement(ctx Context, n *googlesql.ASTPrimaryKeyElement) {
+func (p *Printer) visitPrimaryKeyElement(ctx Context, n *sql.PrimaryKeyElement) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Column()))
-	switch ast.Must(n.OrderingSpec()) {
-	case ast.AscOrderingSpec:
+	p.accept(ctx, n.Column())
+	switch n.OrderingSpec() {
+	case sql.Asc:
 		p.print(p.keyword("ASC"))
-	case ast.DescOrderingSpec:
+	case sql.Desc:
 		p.print(p.keyword("DESC"))
 	}
-	p.accept(ctx, ast.Must(n.NullOrder()))
+	p.accept(ctx, n.NullOrder())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitRenameColumnAction(ctx Context, n *googlesql.ASTRenameColumnAction) {
+func (p *Printer) visitRenameColumnAction(ctx Context, n *sql.RenameColumnAction) {
 	p.moveBefore(n)
 	p.print(p.keyword("RENAME COLUMN"))
-	if ast.Must(n.IsIfExists()) {
+	if n.IsIfExists() {
 		p.print(p.keyword("IF EXISTS"))
 	}
-	p.accept(ctx, ast.Must(n.ColumnName()))
+	p.accept(ctx, n.ColumnName())
 	p.print(p.keyword("TO"))
-	p.accept(ctx, ast.Must(n.NewColumnName()))
+	p.accept(ctx, n.NewColumnName())
 }
 
-func (p *Printer) VisitRenameToClause(ctx Context, n *googlesql.ASTRenameToClause) {
+func (p *Printer) visitRenameToClause(ctx Context, n *sql.RenameToClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("RENAME TO"))
-	p.accept(ctx, ast.Must(n.NewName()))
+	p.accept(ctx, n.NewName())
 }
 
-func (p *Printer) VisitSetCollateClause(ctx Context, n *googlesql.ASTSetCollateClause) {
+func (p *Printer) visitSetCollateClause(ctx Context, n *sql.SetCollateClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("SET DEFAULT"))
-	p.accept(ctx, ast.Must(n.Collate()))
+	p.accept(ctx, n.Collate())
 }
 
-func (p *Printer) VisitSetOptionsAction(ctx Context, n *googlesql.ASTSetOptionsAction) {
+func (p *Printer) visitSetOptionsAction(ctx Context, n *sql.SetOptionsAction) {
 	p.moveBefore(n)
 	p.print(p.keyword("SET"))
-	p.accept(ctx, ast.Must(n.OptionsList()))
+	p.accept(ctx, n.OptionsList())
 }
 
-func (p *Printer) VisitSQLFunctionBody(ctx Context, n *googlesql.ASTSqlFunctionBody) {
+func (p *Printer) visitSQLFunctionBody(ctx Context, n *sql.SQLFunctionBody) {
 	p.moveBefore(n)
 	p.println("")
 	p.println(p.keyword("AS") + " (")
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.Expression()))
+	p.accept(ctx, n.Expression())
 	p.println("")
 	p.decDepth()
 	p.movePast(n)
 	p.println(")")
 }
 
-func createFunctionKeywords(n *googlesql.ASTCreateFunctionStatement) string {
+func createFunctionKeywords(n *sql.CreateFunctionStatement) string {
 	return createStatementKeywords(
-		n.ASTCreateStatement, ast.Must(n.IsAggregate()), false, "FUNCTION")
+		n, n.IsAggregate(), false, "FUNCTION")
 }
 
-func createTableKeywords(n *googlesql.ASTCreateTableStatement) string {
-	return createStatementKeywords(n.ASTCreateStatement, false, false, "TABLE")
+func createTableKeywords(n *sql.CreateTableStatement) string {
+	return createStatementKeywords(n, false, false, "TABLE")
 }
 
-func createViewKeywords(n *googlesql.ASTCreateViewStatement) string {
-	return createStatementKeywords(n.ASTCreateStatement, false, ast.Must(n.Recursive()), "VIEW")
+func createViewKeywords(n *sql.CreateViewStatement) string {
+	return createStatementKeywords(n, false, n.Recursive(), "VIEW")
 }
 
-func createStatementKeywords(n *googlesql.ASTCreateStatement, agg, recursive bool, object string) string {
+func createStatementKeywords(n sql.CreateStatement, agg, recursive bool, object string) string {
 	var b strings.Builder
 	b.Grow(47)
 	b.WriteString("CREATE ")
-	if ast.Must(n.IsOrReplace()) {
+	if n.IsOrReplace() {
 		b.WriteString("OR REPLACE ")
 	}
-	switch ast.Must(n.Scope()) {
-	case ast.DefaultScope:
+	switch n.Scope() {
+	case sql.DefaultScope:
 		// Nothing.
-	case ast.PrivateScope:
+	case sql.Private:
 		b.WriteString("PRIVATE ")
-	case ast.PublicScope:
+	case sql.Public:
 		b.WriteString("PUBLIC ")
-	case ast.TemporaryScope:
+	case sql.Temporary:
 		b.WriteString("TEMPORARY ")
 	}
 	if agg {
@@ -969,42 +967,42 @@ func createStatementKeywords(n *googlesql.ASTCreateStatement, agg, recursive boo
 		b.WriteString("RECURSIVE ")
 	}
 	b.WriteString(object)
-	if ast.Must(n.IsIfNotExists()) {
+	if n.IsIfNotExists() {
 		b.WriteString(" IF NOT EXISTS")
 	}
 	return b.String()
 }
 
-func (p *Printer) VisitNotNullColumnAttribute(ctx Context, n *googlesql.ASTNotNullColumnAttribute) {
+func (p *Printer) visitNotNullColumnAttribute(ctx Context, n *sql.NotNullColumnAttribute) {
 	p.moveBefore(n)
 	p.print(p.keyword("NOT NULL"))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitTableConstraint(ctx Context, n *googlesql.ASTTableConstraint) {
+func (p *Printer) visitTableConstraint(ctx Context, n *sql.TableConstraint) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.ConstraintName()))
+	p.accept(ctx, n.ConstraintName())
 }
 
-func (p *Printer) VisitWithConnectionClause(ctx Context, n *googlesql.ASTWithConnectionClause) {
+func (p *Printer) visitWithConnectionClause(ctx Context, n *sql.WithConnectionClause) {
 	p.moveBefore(n)
 	kw := "WITH"
-	parent := ast.Parent(n)
-	if ast.Defined(parent) {
-		if f, ok := parent.(*googlesql.ASTCreateFunctionStatement); ok {
-			if ast.Must(f.IsRemote()) {
+	parent := n.Parent()
+	if parent != nil {
+		if f, ok := parent.(*sql.CreateFunctionStatement); ok {
+			if f.IsRemote() {
 				kw = "REMOTE WITH"
 			}
 		}
 	}
 	p.print(p.keyword(kw))
-	p.accept(ctx, ast.Must(n.ConnectionClause()))
+	p.accept(ctx, n.ConnectionClause())
 }
 
-func (p *Printer) VisitWithPartitionColumnsClause(ctx Context, n *googlesql.ASTWithPartitionColumnsClause) {
+func (p *Printer) visitWithPartitionColumnsClause(ctx Context, n *sql.WithPartitionColumnsClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("WITH PARTITION COLUMNS") + " ")
 	pp := p.nest()
-	pp.accept(ctx, ast.Must(n.TableElementList()))
+	pp.accept(ctx, n.TableElementList())
 	p.print(pp.String())
 }

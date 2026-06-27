@@ -4,25 +4,23 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccy/go-googlesql"
-
 	"github.com/paulourio/gsql/format"
-	"github.com/paulourio/gsql/internal/ast"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
-func (p *Printer) VisitBigNumericLiteral(ctx Context, n *googlesql.ASTBigNumericLiteral) {
+func (p *Printer) visitBigNumericLiteral(ctx Context, n *sql.BigNumericLiteral) {
 	p.moveBefore(n)
 	p.print(p.keyword("BIGNUMERIC"))
-	p.accept(ctx, ast.Must(n.StringLiteral()))
+	p.accept(ctx, n.StringLiteral())
 }
 
-func (p *Printer) VisitBoolLiteral(ctx Context, n *googlesql.ASTBooleanLiteral) {
+func (p *Printer) visitBoolLiteral(ctx Context, n *sql.BooleanLiteral) {
 	p.moveBefore(n)
-	p.print(formatPrintStyle(ast.Must(n.Image()), p.Writer.opts.BoolStyle))
+	p.print(formatPrintStyle(n.Image(), p.Writer.opts.BoolStyle))
 }
 
-func (p *Printer) VisitBytesLiteral(ctx Context, n *googlesql.ASTBytesLiteral) {
-	components := ast.ChildrenOfType[*googlesql.ASTBytesLiteralComponent](n)
+func (p *Printer) visitBytesLiteral(ctx Context, n *sql.BytesLiteral) {
+	components := n.Components()
 	p.moveBefore(n)
 	for i, c := range components {
 		if i > 0 {
@@ -39,7 +37,7 @@ func (p *Printer) VisitBytesLiteral(ctx Context, n *googlesql.ASTBytesLiteral) {
 	}
 }
 
-func (p *Printer) VisitDateOrTimeLiteral(ctx Context, n *googlesql.ASTDateOrTimeLiteral) {
+func (p *Printer) visitDateOrTimeLiteral(ctx Context, n *sql.DateOrTimeLiteral) {
 	p.moveBefore(n)
 	// There's a bug in the mapping of TypeKind to actual type.
 	// For instance, TIMESTAMP (11) is being mapped as NUMERIC (19).
@@ -49,31 +47,31 @@ func (p *Printer) VisitDateOrTimeLiteral(ctx Context, n *googlesql.ASTDateOrTime
 	if pos < 0 {
 		panic("invalid date time literal")
 	}
-	switch ast.Must(n.TypeKind()) {
-	case ast.Date:
+	switch n.TypeKind() {
+	case sql.Date:
 		p.print(p.keyword("DATE"))
-	case ast.Datetime:
+	case sql.Datetime:
 		p.print(p.keyword("DATETIME"))
-	case ast.Time:
+	case sql.Time:
 		p.print(p.keyword("TIME"))
-	case ast.Timestamp:
+	case sql.Timestamp:
 		p.print(p.keyword("TIMESTAMP"))
 	default:
 		p.addError(&Error{
-			Msg: fmt.Sprintf("failed to parse date time kind: %v", ast.Must(n.TypeKind())),
+			Msg: fmt.Sprintf("failed to parse date time kind: %v", n.TypeKind()),
 		})
 	}
-	p.accept(ctx, ast.Must(n.StringLiteral()))
+	p.accept(ctx, n.StringLiteral())
 }
 
-func (p *Printer) VisitFloatLiteral(ctx Context, n *googlesql.ASTFloatLiteral) {
+func (p *Printer) visitFloatLiteral(ctx Context, n *sql.FloatLiteral) {
 	p.moveBefore(n)
-	p.print(strings.ToLower(ast.Must(n.Image())))
+	p.print(strings.ToLower(n.Image()))
 }
 
-func (p *Printer) VisitIntLiteral(ctx Context, n *googlesql.ASTIntLiteral) {
+func (p *Printer) visitIntLiteral(ctx Context, n *sql.IntLiteral) {
 	p.moveBefore(n)
-	v := ast.Must(n.Image())
+	v := n.Image()
 	if !maybeHexValue(v) {
 		p.print(v)
 	} else {
@@ -82,16 +80,16 @@ func (p *Printer) VisitIntLiteral(ctx Context, n *googlesql.ASTIntLiteral) {
 	p.movePast(n)
 }
 
-func (p *Printer) VisitJSONLiteral(ctx Context, n *googlesql.ASTJSONLiteral) {
+func (p *Printer) visitJSONLiteral(ctx Context, n *sql.JSONLiteral) {
 	p.moveBefore(n)
 	p.print(p.keyword("JSON"))
-	p.accept(ctx, ast.Must(n.StringLiteral()))
+	p.accept(ctx, n.StringLiteral())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitNullLiteral(ctx Context, n *googlesql.ASTNullLiteral) {
+func (p *Printer) visitNullLiteral(ctx Context, n *sql.NullLiteral) {
 	p.moveBefore(n)
-	p.print(formatPrintStyle(ast.Must(n.Image()), p.Writer.opts.NullStyle))
+	p.print(formatPrintStyle(n.Image(), p.Writer.opts.NullStyle))
 }
 
 func formatPrintStyle(s string, style format.PrintCase) string {
@@ -106,14 +104,14 @@ func formatPrintStyle(s string, style format.PrintCase) string {
 	panic(fmt.Sprintf("invalid print style %#v", style))
 }
 
-func (p *Printer) VisitNumericLiteral(ctx Context, n *googlesql.ASTNumericLiteral) {
+func (p *Printer) visitNumericLiteral(ctx Context, n *sql.NumericLiteral) {
 	p.moveBefore(n)
 	p.print(p.keyword("NUMERIC"))
-	p.accept(ctx, ast.Must(n.StringLiteral()))
+	p.accept(ctx, n.StringLiteral())
 }
 
-func (p *Printer) VisitStringLiteral(ctx Context, n *googlesql.ASTStringLiteral) {
-	components := ast.ChildrenOfType[*googlesql.ASTStringLiteralComponent](n)
+func (p *Printer) visitStringLiteral(ctx Context, n *sql.StringLiteral) {
+	components := n.Components()
 	p.moveBefore(n)
 	for i, c := range components {
 		if i > 0 {

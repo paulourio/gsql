@@ -10,8 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/paulourio/gsql/internal/ast"
 	"github.com/paulourio/gsql/internal/printer"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
 func TestMain(m *testing.M) {
@@ -34,7 +34,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func parseSQL(t *testing.T, sql string) googlesql.ASTNode {
+func parseSQL(t *testing.T, sqlStr string) sql.Node {
 	t.Helper()
 	popts, err := googlesql.NewParserOptions()
 	if err != nil {
@@ -47,7 +47,7 @@ func parseSQL(t *testing.T, sql string) googlesql.ASTNode {
 	if err := popts.SetLanguageOptions(lopts); err != nil {
 		t.Fatalf("unable to set language options: %v", err)
 	}
-	pout, err := googlesql.ParseScript(sql, popts, nil)
+	pout, err := googlesql.ParseScript(sqlStr, popts, nil)
 	if err != nil {
 		t.Fatalf("unable to parse script: %v", err)
 	}
@@ -55,7 +55,7 @@ func parseSQL(t *testing.T, sql string) googlesql.ASTNode {
 	if err != nil {
 		t.Fatalf("unable to get script: %v", err)
 	}
-	return root
+	return sql.Wrap(root)
 }
 
 func TestLocationTracker(t *testing.T) {
@@ -139,17 +139,17 @@ func TestLineTrackerSpan(t *testing.T) {
 	require.Equal(t, 0, s)
 	require.Equal(t, 2, e)
 
-	stmtList := ast.Child(root, 0)
-	queryStmt := ast.Child(stmtList, 0)
-	query := ast.Child(queryStmt, 0)
-	sel := ast.Child(query, 0)
+	stmtList := root.Child(0)
+	queryStmt := stmtList.Child(0)
+	query := queryStmt.Child(0)
+	sel := query.Child(0)
 
-	numSelChildren := ast.NumChildren(sel)
+	numSelChildren := sel.NumChildren()
 	require.Equal(t, 3, numSelChildren)
 
-	selectList := ast.Child(sel, 0)
-	fromClause := ast.Child(sel, 1)
-	whereClause := ast.Child(sel, 2)
+	selectList := sel.Child(0)
+	fromClause := sel.Child(1)
+	whereClause := sel.Child(2)
 
 	// selectList: "1" at line 0
 	slStart, slEnd := lt.Span(selectList)

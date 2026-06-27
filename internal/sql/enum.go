@@ -115,13 +115,13 @@ const (
 	Temporary    Scope = googlesql.ASTCreateStatementEnums_ScopeTemporary
 )
 
-// SqlSecurity enums.
-type SqlSecurity = googlesql.ASTCreateStatementEnums_SqlSecurity
+// SQLSecurity enums.
+type SQLSecurity = googlesql.ASTCreateStatementEnums_SqlSecurity
 
 const (
-	SQLSecurityUnspecifiedSecurity SqlSecurity = googlesql.ASTCreateStatementEnums_SqlSecuritySqlSecurityUnspecified
-	SQLSecurityDefiner             SqlSecurity = googlesql.ASTCreateStatementEnums_SqlSecuritySqlSecurityDefiner
-	SQLSecurityInvoker             SqlSecurity = googlesql.ASTCreateStatementEnums_SqlSecuritySqlSecurityInvoker
+	SQLSecurityUnspecifiedSecurity SQLSecurity = googlesql.ASTCreateStatementEnums_SqlSecuritySqlSecurityUnspecified
+	SQLSecurityDefiner             SQLSecurity = googlesql.ASTCreateStatementEnums_SqlSecuritySqlSecurityDefiner
+	SQLSecurityInvoker             SQLSecurity = googlesql.ASTCreateStatementEnums_SqlSecuritySqlSecurityInvoker
 )
 
 // DropMode enums.

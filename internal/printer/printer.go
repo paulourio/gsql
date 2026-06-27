@@ -7,11 +7,10 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/goccy/go-googlesql"
 	"github.com/hashicorp/go-multierror"
 
 	"github.com/paulourio/gsql/format"
-	"github.com/paulourio/gsql/internal/ast"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
 type Printer struct {
@@ -23,9 +22,9 @@ type Printer struct {
 	err error
 }
 
-func (p *Printer) Print(root googlesql.ASTNode) (string, error) {
+func (p *Printer) Print(root sql.Node) (string, error) {
 	ctx := &emptyCtx{}
-	p.accept(ctx, root)
+	p.visit(ctx, root, false)
 	p.Writer.FlushLine()
 	// Flush any remaining extensions.
 	if len(p.Writer.comments.comments) > 0 {
@@ -42,498 +41,536 @@ func (p *Printer) Print(root googlesql.ASTNode) (string, error) {
 	return result, p.err
 }
 
-// accept visits a node on current line.
-func (p *Printer) accept(ctx Context, n googlesql.ASTNode) {
+// accept visits a sql.Node on the current line.
+// Nil nodes are silently ignored.
+func (p *Printer) accept(ctx Context, n sql.Node) {
+	if !sql.Defined(n) {
+		return
+	}
 	p.visit(ctx, n, false)
 }
 
-// accept visits a node in a new line. If the node is not defined, no
-// line is created.
-func (p *Printer) lnaccept(ctx Context, n googlesql.ASTNode) {
+// lnaccept visits a sql.Node on a new line.
+// If the node is nil, no new line is emitted.
+func (p *Printer) lnaccept(ctx Context, n sql.Node) {
+	if !sql.Defined(n) {
+		return
+	}
 	p.visit(ctx, n, true)
 }
 
-func (p *Printer) visit(ctx Context, n googlesql.ASTNode, newline bool) {
-	if !ast.Defined(n) {
+func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
+	if !sql.Defined(n) {
 		return
 	}
 	if newline {
 		p.println("")
 	}
-	switch m := n.(type) {
-	case *googlesql.ASTAddColumnAction:
-		p.VisitAddColumnAction(ctx, m)
-	case *googlesql.ASTAddConstraintAction:
-		p.VisitAddConstraintAction(ctx, m)
-	case *googlesql.ASTAlias:
-		p.VisitAlias(ctx, m)
-	case *googlesql.ASTAliasedGroupRows:
-		p.VisitAliasedGroupRows(ctx, m)
-	case *googlesql.ASTAliasedQuery:
-		p.VisitAliasedQuery(ctx, m)
-	case *googlesql.ASTAlterActionList:
-		p.VisitAlterActionList(ctx, m)
-	case *googlesql.ASTAlterAllRowAccessPoliciesStatement:
-		p.VisitAlterAllRowAccessPoliciesStatement(ctx, m)
-	case *googlesql.ASTAlterColumnDropDefaultAction:
-		p.VisitAlterColumnDropDefaultAction(ctx, m)
-	case *googlesql.ASTAlterColumnDropNotNullAction:
-		p.VisitAlterColumnDropNotNullAction(ctx, m)
-	case *googlesql.ASTAlterColumnOptionsAction:
-		p.VisitAlterColumnOptionsAction(ctx, m)
-	case *googlesql.ASTAlterColumnSetDefaultAction:
-		p.VisitAlterColumnSetDefaultAction(ctx, m)
-	case *googlesql.ASTAlterColumnTypeAction:
-		p.VisitAlterColumnTypeAction(ctx, m)
-	case *googlesql.ASTAlterConstraintEnforcementAction:
-		p.VisitAlterConstraintEnforcementAction(ctx, m)
-	case *googlesql.ASTAlterConstraintSetOptionsAction:
-		p.VisitAlterConstraintSetOptionsAction(ctx, m)
-	case *googlesql.ASTAlterDatabaseStatement:
-		p.VisitAlterDatabaseStatement(ctx, m)
-	case *googlesql.ASTAlterEntityStatement:
-		p.VisitAlterEntityStatement(ctx, m)
-	case *googlesql.ASTAlterMaterializedViewStatement:
-		p.VisitAlterMaterializedViewStatement(ctx, m)
-	case *googlesql.ASTAlterPrivilegeRestrictionStatement:
-		p.VisitAlterPrivilegeRestrictionStatement(ctx, m)
-	case *googlesql.ASTAlterRowAccessPolicyStatement:
-		p.VisitAlterRowAccessPolicyStatement(ctx, m)
-	case *googlesql.ASTAlterSchemaStatement:
-		p.VisitAlterSchemaStatement(ctx, m)
-	case *googlesql.ASTAlterTableStatement:
-		p.VisitAlterTableStatement(ctx, m)
-	case *googlesql.ASTAlterViewStatement:
-		p.VisitAlterViewStatement(ctx, m)
-	case *googlesql.ASTAnalyticFunctionCall:
-		p.VisitAnalyticFunctionCall(ctx, m)
-	case *googlesql.ASTAndExpr:
-		p.VisitAndExpr(ctx, m)
-	case *googlesql.ASTArrayConstructor:
-		p.VisitArrayConstructor(ctx, m)
-	case *googlesql.ASTArrayColumnSchema:
-		p.VisitArrayColumnSchema(ctx, m)
-	case *googlesql.ASTArrayElement:
-		p.VisitArrayElement(ctx, m)
-	case *googlesql.ASTArrayType:
-		p.VisitArrayType(ctx, m)
-	case *googlesql.ASTAssignmentFromStruct:
-		p.VisitAssignmentFromStruct(ctx, m)
-	case *googlesql.ASTBeginEndBlock:
-		p.VisitBeginEndBlock(ctx, m)
-	case *googlesql.ASTBeginStatement:
-		p.VisitBeginStatementNode(ctx, m)
-	case *googlesql.ASTBetweenExpression:
-		p.VisitBetweenExpression(ctx, m)
-	case *googlesql.ASTBigNumericLiteral:
-		p.VisitBigNumericLiteral(ctx, m)
-	case *googlesql.ASTBinaryExpression:
-		p.VisitBinaryExpression(ctx, m)
-	case *googlesql.ASTBitwiseShiftExpression:
-		p.VisitBitwiseShiftExpression(ctx, m)
-	case *googlesql.ASTBooleanLiteral:
-		p.VisitBoolLiteral(ctx, m)
-	case *googlesql.ASTBytesLiteral:
-		p.VisitBytesLiteral(ctx, m)
-	case *googlesql.ASTCallStatement:
-		p.VisitCallStatement(ctx, m)
-	case *googlesql.ASTCaseNoValueExpression:
-		p.VisitCaseNoValueExpression(ctx, m)
-	case *googlesql.ASTCaseValueExpression:
-		p.VisitCaseValueExpression(ctx, m)
-	case *googlesql.ASTCastExpression:
-		p.VisitCastExpression(ctx, m)
-	case *googlesql.ASTClampedBetweenModifier:
-		p.VisitClampedBetweenModifier(ctx, m)
-	case *googlesql.ASTCloneDataSource:
-		p.VisitCloneDataSource(ctx, m)
-	case *googlesql.ASTClusterBy:
-		p.VisitClusterBy(ctx, m)
-	case *googlesql.ASTCollate:
-		p.VisitCollate(ctx, m)
-	case *googlesql.ASTColumnAttributeList:
-		p.VisitColumnAttributeList(ctx, m)
-	case *googlesql.ASTColumnDefinition:
-		p.VisitColumnDefinition(ctx, m)
-	case *googlesql.ASTColumnList:
-		p.VisitColumnList(ctx, m)
-	case *googlesql.ASTColumnSchema:
-		p.VisitColumnSchema(ctx, m)
-	case *googlesql.ASTColumnWithOptions:
-		p.VisitColumnWithOptions(ctx, m)
-	case *googlesql.ASTColumnWithOptionsList:
-		p.VisitColumnWithOptionsList(ctx, m)
-	case *googlesql.ASTCommitStatement:
-		p.VisitCommitStatement(ctx, m)
-	case *googlesql.ASTConnectionClause:
-		p.VisitConnectionClause(ctx, m)
-	case *googlesql.ASTCopyDataSource:
-		p.VisitCopyDataSource(ctx, m)
-	case *googlesql.ASTCreateExternalTableStatement:
-		p.VisitCreateExternalTableStatement(ctx, m)
-	case *googlesql.ASTCreateFunctionStatement:
-		p.VisitCreateFunctionStatement(ctx, m)
-	case *googlesql.ASTCreateMaterializedViewStatement:
-		p.VisitCreateMaterializedViewStatement(ctx, m)
-	case *googlesql.ASTCreateProcedureStatement:
-		p.VisitCreateProcedureStatement(ctx, m)
-	case *googlesql.ASTCreateRowAccessPolicyStatement:
-		p.VisitCreateRowAccessPolicyStatement(ctx, m)
-	case *googlesql.ASTCreateSchemaStatement:
-		p.VisitCreateSchemaStatement(ctx, m)
-	case *googlesql.ASTCreateSnapshotTableStatement:
-		p.VisitCreateSnapshotTableStatement(ctx, m)
-	case *googlesql.ASTCreateTableStatement:
-		p.VisitCreateTableStatement(ctx, m)
-	case *googlesql.ASTCreateTableFunctionStatement:
-		p.VisitCreateTableFunctionStatement(ctx, m)
-	case *googlesql.ASTCreateViewStatement:
-		p.VisitCreateViewStatement(ctx, m)
-	case *googlesql.ASTDateOrTimeLiteral:
-		p.VisitDateOrTimeLiteral(ctx, m)
-	case *googlesql.ASTDescriptor:
-		p.VisitDescriptor(ctx, m)
-	case *googlesql.ASTDescriptorColumn:
-		p.VisitDescriptorColumn(ctx, m)
-	case *googlesql.ASTDescriptorColumnList:
-		p.VisitDescriptorColumnList(ctx, m)
-	case *googlesql.ASTDotIdentifier:
-		p.VisitDotIdentifier(ctx, m)
-	case *googlesql.ASTDotGeneralizedField:
-		p.VisitDotGeneralizedField(ctx, m)
-	case *googlesql.ASTDotStar:
-		p.VisitDotStar(ctx, m)
-	case *googlesql.ASTDotStarWithModifiers:
-		p.VisitDotStarWithModifiers(ctx, m)
-	case *googlesql.ASTDropAllRowAccessPoliciesStatement:
-		p.VisitDropAllRowAccessPoliciesStatement(ctx, m)
-	case *googlesql.ASTDropColumnAction:
-		p.VisitDropColumnAction(ctx, m)
-	case *googlesql.ASTDropConstraintAction:
-		p.VisitDropConstraintAction(ctx, m)
-	case *googlesql.ASTDropEntityStatement:
-		p.VisitDropEntityStatement(ctx, m)
-	case *googlesql.ASTDropFunctionStatement:
-		p.VisitDropFunctionStatement(ctx, m)
-	case *googlesql.ASTDropMaterializedViewStatement:
-		p.VisitDropMaterializedViewStatement(ctx, m)
-	case *googlesql.ASTDropPrimaryKeyAction:
-		p.VisitDropPrimaryKeyAction(ctx, m)
-	case *googlesql.ASTDropPrivilegeRestrictionStatement:
-		p.VisitDropPrivilegeRestrictionStatement(ctx, m)
-	case *googlesql.ASTDropRowAccessPolicyStatement:
-		p.VisitDropRowAccessPolicyStatement(ctx, m)
-	case *googlesql.ASTDropSearchIndexStatement:
-		p.VisitDropSearchIndexStatement(ctx, m)
-	case *googlesql.ASTDropSnapshotTableStatement:
-		p.VisitDropSnapshotTableStatement(ctx, m)
-	case *googlesql.ASTDropTableFunctionStatement:
-		p.VisitDropTableFunctionStatement(ctx, m)
-	case *googlesql.ASTDropStatement:
-		p.VisitDropStatement(ctx, m)
-	case *googlesql.ASTExceptionHandlerList:
-		p.VisitExceptionHandlerListNode(ctx, m)
-	case *googlesql.ASTExceptionHandler:
-		p.VisitExceptionHandlerNode(ctx, m)
-	case *googlesql.ASTExecuteIntoClause:
-		p.VisitExecuteIntoClause(ctx, m)
-	case *googlesql.ASTExecuteImmediateStatement:
-		p.VisitExecuteImmediateStatement(ctx, m)
-	case *googlesql.ASTExecuteUsingArgument:
-		p.VisitExecuteUsingArgument(ctx, m)
-	case *googlesql.ASTExecuteUsingClause:
-		p.VisitExecuteUsingClause(ctx, m)
-	case *googlesql.ASTExpressionSubquery:
-		p.VisitExpressionSubquery(ctx, m)
-	case *googlesql.ASTExtractExpression:
-		p.VisitExtractExpression(ctx, m)
-	case *googlesql.ASTFloatLiteral:
-		p.VisitFloatLiteral(ctx, m)
-	case *googlesql.ASTFilterUsingClause:
-		p.VisitFilterUsingClause(ctx, m)
-	case *googlesql.ASTForeignKey:
-		p.VisitForeignKey(ctx, m)
-	case *googlesql.ASTForeignKeyReference:
-		p.VisitForeignKeyReference(ctx, m)
-	case *googlesql.ASTFormatClause:
-		p.VisitFormatClause(ctx, m)
-	case *googlesql.ASTForSystemTime:
-		p.VisitForSystemTime(ctx, m)
-	case *googlesql.ASTFromClause:
-		p.VisitFromClause(ctx, m)
-	case *googlesql.ASTFunctionCall:
-		p.VisitFunctionCall(ctx, m)
-	case *googlesql.ASTFunctionDeclaration:
-		p.VisitFunctionDeclaration(ctx, m)
-	case *googlesql.ASTFunctionParameter:
-		p.VisitFunctionParameter(ctx, m)
-	case *googlesql.ASTFunctionParameters:
-		p.VisitFunctionParameters(ctx, m)
-	case *googlesql.ASTGeneralizedPathExpression:
-		p.VisitGeneralizedPathExpression(ctx, m)
-	case *googlesql.ASTGranteeList:
-		p.VisitGranteeList(ctx, m)
-	case *googlesql.ASTGrantToClause:
-		p.VisitGrantToClause(ctx, m)
-	case *googlesql.ASTGroupBy:
-		p.VisitGroupBy(ctx, m)
-	case *googlesql.ASTGroupByAll:
-		p.VisitGroupByAll(ctx, m)
-	case *googlesql.ASTGroupingItem:
-		p.VisitGroupingItem(ctx, m)
-	case *googlesql.ASTHavingModifier:
-		p.VisitHavingModifier(ctx, m)
-	case *googlesql.ASTHaving:
-		p.VisitHaving(ctx, m)
-	case *googlesql.ASTHint:
-		p.VisitHint(ctx, m)
-	case *googlesql.ASTHintedStatement:
-		p.VisitHintedStatement(ctx, m)
-	case *googlesql.ASTIdentifier:
-		p.VisitIdentifier(ctx, m)
-	case *googlesql.ASTIdentifierList:
-		p.VisitIdentifierList(ctx, m)
-	case *googlesql.ASTIfStatement:
-		p.VisitIfStatement(ctx, m)
-	case *googlesql.ASTInExpression:
-		p.VisitInExpression(ctx, m)
-	case *googlesql.ASTInList:
-		p.VisitInList(ctx, m)
-	case *googlesql.ASTIntervalExpr:
-		p.VisitIntervalExpr(ctx, m)
-	case *googlesql.ASTIntLiteral:
-		p.VisitIntLiteral(ctx, m)
-	case *googlesql.ASTInsertStatement:
-		p.VisitInsertStatement(ctx, m)
-	case *googlesql.ASTInsertValuesRowList:
-		p.VisitInsertValuesRowList(ctx, m)
-	case *googlesql.ASTInsertValuesRow:
-		p.VisitInsertValuesRow(ctx, m)
-	case *googlesql.ASTJoin:
-		p.VisitJoin(ctx, m)
-	case *googlesql.ASTJSONLiteral:
-		p.VisitJSONLiteral(ctx, m)
-	case *googlesql.ASTLimit:
-		p.VisitLimit(ctx, m)
-	case *googlesql.ASTLimitOffset:
-		p.VisitLimitOffset(ctx, m)
-	case *googlesql.ASTMergeAction:
-		p.VisitMergeAction(ctx, m)
-	case *googlesql.ASTMergeStatement:
-		p.VisitMergeStatement(ctx, m)
-	case *googlesql.ASTMergeWhenClause:
-		p.VisitMergeWhenClause(ctx, m)
-	case *googlesql.ASTMergeWhenClauseList:
-		p.VisitMergeWhenClauseList(ctx, m)
-	case *googlesql.ASTModelClause:
-		p.VisitModelClause(ctx, m)
-	case *googlesql.ASTNamedArgument:
-		p.VisitNamedArgument(ctx, m)
-	case *googlesql.ASTNotNullColumnAttribute:
-		p.VisitNotNullColumnAttribute(ctx, m)
-	case *googlesql.ASTNullLiteral:
-		p.VisitNullLiteral(ctx, m)
-	case *googlesql.ASTNullOrder:
-		p.VisitNullOrder(ctx, m)
-	case *googlesql.ASTNumericLiteral:
-		p.VisitNumericLiteral(ctx, m)
-	case *googlesql.ASTOnClause:
-		p.VisitOnClause(ctx, m)
-	case *googlesql.ASTOptionsList:
-		p.VisitOptionsList(ctx, m)
-	case *googlesql.ASTOptionsEntry:
-		p.VisitOptionsEntry(ctx, m)
-	case *googlesql.ASTOrExpr:
-		p.VisitOrExpr(ctx, m)
-	case *googlesql.ASTOrderBy:
-		p.VisitOrderBy(ctx, m)
-	case *googlesql.ASTOrderingExpression:
-		p.VisitOrderingExpression(ctx, m)
-	case *googlesql.ASTParameterAssignment:
-		p.VisitParameterAssignment(ctx, m)
-	case *googlesql.ASTParameterExpr:
-		p.VisitParameterExpr(ctx, m)
-	case *googlesql.ASTParenthesizedJoin:
-		p.VisitParenthesizedJoin(ctx, m)
-	case *googlesql.ASTPartitionBy:
-		p.VisitPartitionBy(ctx, m)
-	case *googlesql.ASTPathExpressionList:
-		p.VisitPathExpressionList(ctx, m)
-	case *googlesql.ASTPathExpression:
-		p.VisitPathExpression(ctx, m)
-	case *googlesql.ASTPivotClause:
-		p.VisitPivotClause(ctx, m)
-	case *googlesql.ASTPivotExpression:
-		p.VisitPivotExpression(ctx, m)
-	case *googlesql.ASTPivotExpressionList:
-		p.VisitPivotExpressionList(ctx, m)
-	case *googlesql.ASTPivotValue:
-		p.VisitPivotValue(ctx, m)
-	case *googlesql.ASTPivotValueList:
-		p.VisitPivotValueList(ctx, m)
-	case *googlesql.ASTPrimaryKey:
-		p.VisitPrimaryKey(ctx, m)
-	case *googlesql.ASTPrimaryKeyColumnAttribute:
-		p.VisitPrimaryKeyColumnAttribute(ctx, m)
-	case *googlesql.ASTPrimaryKeyElementList:
-		p.VisitPrimaryKeyElementList(ctx, m)
-	case *googlesql.ASTPrimaryKeyElement:
-		p.VisitPrimaryKeyElement(ctx, m)
-	case *googlesql.ASTQualify:
-		p.VisitQualify(ctx, m)
-	case *googlesql.ASTQuery:
-		p.VisitQuery(ctx, m)
-	case *googlesql.ASTQueryStatement:
-		p.VisitQueryStatement(ctx, m)
-	case *googlesql.ASTRenameColumnAction:
-		p.VisitRenameColumnAction(ctx, m)
-	case *googlesql.ASTRenameToClause:
-		p.VisitRenameToClause(ctx, m)
-	case *googlesql.ASTRepeatableClause:
-		p.VisitRepeatableClause(ctx, m)
-	case *googlesql.ASTReturnStatement:
-		p.VisitReturnStatement(ctx, m)
-	case *googlesql.ASTRollbackStatement:
-		p.VisitRollbackStatementNode(ctx, m)
-	case *googlesql.ASTRollup:
-		p.VisitRollup(ctx, m)
-	case *googlesql.ASTSampleClause:
-		p.VisitSampleClause(ctx, m)
-	case *googlesql.ASTSampleSize:
-		p.VisitSampleSize(ctx, m)
-	case *googlesql.ASTSampleSuffix:
-		p.VisitSampleSuffix(ctx, m)
-	case *googlesql.ASTSetCollateClause:
-		p.VisitSetCollateClause(ctx, m)
-	case *googlesql.ASTScript:
-		p.VisitScript(ctx, m)
-	case *googlesql.ASTSelect:
-		p.VisitSelect(ctx, m)
-	case *googlesql.ASTSelectAs:
-		p.VisitSelectAs(ctx, m)
-	case *googlesql.ASTSelectColumn:
-		p.VisitSelectColumn(ctx, m)
-	case *googlesql.ASTSelectList:
-		p.VisitSelectList(ctx, m)
-	case *googlesql.ASTSetOptionsAction:
-		p.VisitSetOptionsAction(ctx, m)
-	case *googlesql.ASTSetOperation:
-		p.VisitSetOperation(ctx, m)
-	case *googlesql.ASTSimpleColumnSchema:
-		p.VisitSimpleColumnSchema(ctx, m)
-	case *googlesql.ASTSimpleType:
-		p.VisitSimpleType(ctx, m)
-	case *googlesql.ASTSqlFunctionBody:
-		p.VisitSQLFunctionBody(ctx, m)
-	case *googlesql.ASTStar:
-		p.VisitStar(ctx, m)
-	case *googlesql.ASTStarModifiers:
-		p.VisitStarModifiers(ctx, m)
-	case *googlesql.ASTStarReplaceItem:
-		p.VisitStarReplaceItem(ctx, m)
-	case *googlesql.ASTStarWithModifiers:
-		p.VisitStarWithModifiers(ctx, m)
-	case *googlesql.ASTStatementList:
-		p.VisitStatementList(ctx, m)
-	case *googlesql.ASTStringLiteral:
-		p.VisitStringLiteral(ctx, m)
-	case *googlesql.ASTStructColumnField:
-		p.VisitStructColumnField(ctx, m)
-	case *googlesql.ASTStructColumnSchema:
-		p.VisitStructColumnSchema(ctx, m)
-	case *googlesql.ASTStructConstructorArg:
-		p.VisitStructConstructorArg(ctx, m)
-	case *googlesql.ASTStructConstructorWithKeyword:
-		p.VisitStructConstructorWithKeyword(ctx, m)
-	case *googlesql.ASTStructConstructorWithParens:
-		p.VisitStructConstructorWithParens(ctx, m)
-	case *googlesql.ASTStructField:
-		p.VisitStructField(ctx, m)
-	case *googlesql.ASTStructType:
-		p.VisitStructType(ctx, m)
-	case *googlesql.ASTSystemVariableAssignment:
-		p.VisitSystemVariableAssignment(ctx, m)
-	case *googlesql.ASTSystemVariableExpr:
-		p.VisitSystemVariableExpr(ctx, m)
-	case *googlesql.ASTTableClause:
-		p.VisitTableClause(ctx, m)
-	case *googlesql.ASTTableConstraint:
-		p.VisitTableConstraint(ctx, m)
-	case *googlesql.ASTTableElementList:
-		p.VisitTableElementList(ctx, m)
-	case *googlesql.ASTTablePathExpression:
-		p.VisitTablePathExpression(ctx, m)
-	case *googlesql.ASTTableSubquery:
-		p.VisitTableSubquery(ctx, m)
-	case *googlesql.ASTTemplatedParameterType:
-		p.VisitTemplatedParameterType(ctx, m)
-	case *googlesql.ASTTruncateStatement:
-		p.VisitTruncateStatement(ctx, m)
-	case *googlesql.ASTTVFArgument:
-		p.VisitTVFArgument(ctx, m)
-	case *googlesql.ASTTVF:
-		p.VisitTVF(ctx, m)
-	case *googlesql.ASTTVFSchema:
-		p.VisitTVFSchema(ctx, m)
-	case *googlesql.ASTTVFSchemaColumn:
-		p.VisitTVFSchemaColumn(ctx, m)
-	case *googlesql.ASTTypeParameterList:
-		p.VisitTypeParameterList(ctx, m)
-	case *googlesql.ASTUnpivotClause:
-		p.VisitUnpivotClause(ctx, m)
-	case *googlesql.ASTUnaryExpression:
-		p.VisitUnaryExpression(ctx, m)
-	case *googlesql.ASTUnpivotInItemLabel:
-		p.VisitUnpivotInItemLabel(ctx, m)
-	case *googlesql.ASTUnpivotInItemList:
-		p.VisitUnpivotInItemList(ctx, m)
-	case *googlesql.ASTUnpivotInItem:
-		p.VisitUnpivotInItem(ctx, m)
-	case *googlesql.ASTUnnestExpression:
-		p.VisitUnnestExpression(ctx, m)
-	case *googlesql.ASTUnnestExpressionWithOptAliasAndOffset:
-		p.VisitUnnestExpressionWithOptAliasAndOffset(ctx, m)
-	case *googlesql.ASTUpdateItem:
-		p.VisitUpdateItem(ctx, m)
-	case *googlesql.ASTUpdateItemList:
-		p.VisitUpdateItemList(ctx, m)
-	case *googlesql.ASTUpdateSetValue:
-		p.VisitUpdateSetValue(ctx, m)
-	case *googlesql.ASTUsingClause:
-		p.VisitUsingClause(ctx, m)
-	case *googlesql.ASTVariableDeclaration:
-		p.VisitVariableDeclaration(ctx, m)
-	case *googlesql.ASTSingleAssignment:
-		p.VisitSingleAssignment(ctx, m)
-	case *googlesql.ASTWhereClause:
-		p.VisitWhereClause(ctx, m)
-	case *googlesql.ASTWindowClause:
-		p.VisitWindowClause(ctx, m)
-	case *googlesql.ASTWindowFrame:
-		p.VisitWindowFrame(ctx, m)
-	case *googlesql.ASTWindowFrameExpr:
-		p.VisitWindowFrameExpr(ctx, m)
-	case *googlesql.ASTWindowSpecification:
-		p.VisitWindowSpecification(ctx, m)
-	case *googlesql.ASTWithClause:
-		p.VisitWithClause(ctx, m)
-	case *googlesql.ASTWithClauseEntry:
-		p.VisitWithClauseEntry(ctx, m)
-	case *googlesql.ASTWithConnectionClause:
-		p.VisitWithConnectionClause(ctx, m)
-	case *googlesql.ASTWithExpression:
-		p.VisitWithExpression(ctx, m)
-	case *googlesql.ASTWithOffset:
-		p.VisitWithOffset(ctx, m)
-	case *googlesql.ASTWithPartitionColumnsClause:
-		p.VisitWithPartitionColumnsClause(ctx, m)
-	case *googlesql.ASTWithWeight:
-		p.VisitWithWeight(ctx, m)
+	switch n.Kind() {
+	case sql.AddColumnActionKind:
+		p.visitAddColumnAction(ctx, n.(*sql.AddColumnAction))
+	case sql.AddConstraintActionKind:
+		p.visitAddConstraintAction(ctx, n.(*sql.AddConstraintAction))
+	case sql.AliasKind:
+		p.visitAlias(ctx, n.(*sql.Alias))
+	case sql.AliasedGroupRowsKind:
+		p.visitAliasedGroupRows(ctx, n.(*sql.AliasedGroupRows))
+	case sql.AliasedQueryKind:
+		p.visitAliasedQuery(ctx, n.(*sql.AliasedQuery))
+	case sql.AlterActionListKind:
+		p.visitAlterActionList(ctx, n.(*sql.AlterActionList))
+	case sql.AlterAllRowAccessPoliciesStatementKind:
+		p.visitAlterAllRowAccessPoliciesStatement(ctx, n.(*sql.AlterAllRowAccessPoliciesStatement))
+	case sql.AlterColumnDropDefaultActionKind:
+		p.visitAlterColumnDropDefaultAction(ctx, n.(*sql.AlterColumnDropDefaultAction))
+	case sql.AlterColumnDropNotNullActionKind:
+		p.visitAlterColumnDropNotNullAction(ctx, n.(*sql.AlterColumnDropNotNullAction))
+	case sql.AlterColumnOptionsActionKind:
+		p.visitAlterColumnOptionsAction(ctx, n.(*sql.AlterColumnOptionsAction))
+	case sql.AlterColumnSetDefaultActionKind:
+		p.visitAlterColumnSetDefaultAction(ctx, n.(*sql.AlterColumnSetDefaultAction))
+	case sql.AlterColumnTypeActionKind:
+		p.visitAlterColumnTypeAction(ctx, n.(*sql.AlterColumnTypeAction))
+	case sql.AlterConstraintEnforcementActionKind:
+		p.visitAlterConstraintEnforcementAction(ctx, n.(*sql.AlterConstraintEnforcementAction))
+	case sql.AlterConstraintSetOptionsActionKind:
+		p.visitAlterConstraintSetOptionsAction(ctx, n.(*sql.AlterConstraintSetOptionsAction))
+	case sql.AlterDatabaseStatementKind:
+		p.visitAlterDatabaseStatement(ctx, n.(*sql.AlterDatabaseStatement))
+	case sql.AlterEntityStatementKind:
+		p.visitAlterEntityStatement(ctx, n.(*sql.AlterEntityStatement))
+	case sql.AlterMaterializedViewStatementKind:
+		p.visitAlterMaterializedViewStatement(ctx, n.(*sql.AlterMaterializedViewStatement))
+	case sql.AlterPrivilegeRestrictionStatementKind:
+		p.visitAlterPrivilegeRestrictionStatement(ctx, n.(*sql.AlterPrivilegeRestrictionStatement))
+	case sql.AlterRowAccessPolicyStatementKind:
+		p.visitAlterRowAccessPolicyStatement(ctx, n.(*sql.AlterRowAccessPolicyStatement))
+	case sql.AlterSchemaStatementKind:
+		p.visitAlterSchemaStatement(ctx, n.(*sql.AlterSchemaStatement))
+	case sql.AlterTableStatementKind:
+		p.visitAlterTableStatement(ctx, n.(*sql.AlterTableStatement))
+	case sql.AlterViewStatementKind:
+		p.visitAlterViewStatement(ctx, n.(*sql.AlterViewStatement))
+	case sql.AnalyticFunctionCallKind:
+		p.visitAnalyticFunctionCall(ctx, n.(*sql.AnalyticFunctionCall))
+	case sql.AndExprKind:
+		p.visitAndExpr(ctx, n.(*sql.AndExpr))
+	case sql.ArrayConstructorKind:
+		p.visitArrayConstructor(ctx, n.(*sql.ArrayConstructor))
+	case sql.ArrayColumnSchemaKind:
+		if ac, ok := n.(*sql.ArrayColumnSchema); ok {
+			p.visitArrayColumnSchema(ctx, ac)
+		} else {
+			p.visitColumnSchema(ctx, n.(*sql.ColumnSchema))
+		}
+	case sql.ArrayElementKind:
+		if ae, ok := n.(*sql.ArrayElement); ok {
+			p.visitArrayElement(ctx, ae)
+		} else {
+			p.visitGeneralizedPathExpression(ctx, n)
+		}
+	case sql.ArrayTypeKind:
+		p.visitArrayType(ctx, n.(*sql.ArrayType))
+	case sql.AssignmentFromStructKind:
+		p.visitAssignmentFromStruct(ctx, n.(*sql.AssignmentFromStruct))
+	case sql.BeginEndBlockKind:
+		p.visitBeginEndBlock(ctx, n.(*sql.BeginEndBlock))
+	case sql.BeginStatementKind:
+		p.visitBeginStatementNode(ctx, n.(*sql.BeginStatement))
+	case sql.BetweenExpressionKind:
+		p.visitBetweenExpression(ctx, n.(*sql.BetweenExpression))
+	case sql.BignumericLiteralKind:
+		p.visitBigNumericLiteral(ctx, n.(*sql.BigNumericLiteral))
+	case sql.BinaryExpressionKind:
+		p.visitBinaryExpression(ctx, n.(*sql.BinaryExpression))
+	case sql.BitwiseShiftExpressionKind:
+		p.visitBitwiseShiftExpression(ctx, n.(*sql.BitwiseShiftExpression))
+	case sql.BooleanLiteralKind:
+		p.visitBoolLiteral(ctx, n.(*sql.BooleanLiteral))
+	case sql.BytesLiteralKind:
+		p.visitBytesLiteral(ctx, n.(*sql.BytesLiteral))
+	case sql.CallStatementKind:
+		p.visitCallStatement(ctx, n.(*sql.CallStatement))
+	case sql.CaseNoValueExpressionKind:
+		p.visitCaseNoValueExpression(ctx, n.(*sql.CaseNoValueExpression))
+	case sql.CaseValueExpressionKind:
+		p.visitCaseValueExpression(ctx, n.(*sql.CaseValueExpression))
+	case sql.CastExpressionKind:
+		p.visitCastExpression(ctx, n.(*sql.CastExpression))
+	case sql.ClampedBetweenModifierKind:
+		p.visitClampedBetweenModifier(ctx, n.(*sql.ClampedBetweenModifier))
+	case sql.CloneDataSourceKind:
+		p.visitCloneDataSource(ctx, n.(*sql.CloneDataSource))
+	case sql.ClusterByKind:
+		p.visitClusterBy(ctx, n.(*sql.ClusterBy))
+	case sql.CollateKind:
+		p.visitCollate(ctx, n.(*sql.Collate))
+	case sql.ColumnAttributeListKind:
+		p.visitColumnAttributeList(ctx, n.(*sql.ColumnAttributeList))
+	case sql.ColumnDefinitionKind:
+		p.visitColumnDefinition(ctx, n.(*sql.ColumnDefinition))
+	case sql.ColumnListKind:
+		p.visitColumnList(ctx, n.(*sql.ColumnList))
+	case sql.ColumnWithOptionsKind:
+		p.visitColumnWithOptions(ctx, n.(*sql.ColumnWithOptions))
+	case sql.ColumnWithOptionsListKind:
+		p.visitColumnWithOptionsList(ctx, n.(*sql.ColumnWithOptionsList))
+	case sql.CommitStatementKind:
+		p.visitCommitStatement(ctx, n.(*sql.CommitStatement))
+	case sql.ConnectionClauseKind:
+		p.visitConnectionClause(ctx, n.(*sql.ConnectionClause))
+	case sql.CopyDataSourceKind:
+		p.visitCopyDataSource(ctx, n.(*sql.CopyDataSource))
+	case sql.CreateExternalTableStatementKind:
+		p.visitCreateExternalTableStatement(ctx, n.(*sql.CreateExternalTableStatement))
+	case sql.CreateFunctionStatementKind:
+		p.visitCreateFunctionStatement(ctx, n.(*sql.CreateFunctionStatement))
+	case sql.CreateMaterializedViewStatementKind:
+		p.visitCreateMaterializedViewStatement(ctx, n.(*sql.CreateMaterializedViewStatement))
+	case sql.CreateProcedureStatementKind:
+		p.visitCreateProcedureStatement(ctx, n.(*sql.CreateProcedureStatement))
+	case sql.CreateRowAccessPolicyStatementKind:
+		p.visitCreateRowAccessPolicyStatement(ctx, n.(*sql.CreateRowAccessPolicyStatement))
+	case sql.CreateSchemaStatementKind:
+		p.visitCreateSchemaStatement(ctx, n.(*sql.CreateSchemaStatement))
+	case sql.CreateSnapshotTableStatementKind:
+		p.visitCreateSnapshotTableStatement(ctx, n.(*sql.CreateSnapshotTableStatement))
+	case sql.CreateTableStatementKind:
+		p.visitCreateTableStatement(ctx, n.(*sql.CreateTableStatement))
+	case sql.CreateTableFunctionStatementKind:
+		p.visitCreateTableFunctionStatement(ctx, n.(*sql.CreateTableFunctionStatement))
+	case sql.CreateViewStatementKind:
+		p.visitCreateViewStatement(ctx, n.(*sql.CreateViewStatement))
+	case sql.DateOrTimeLiteralKind:
+		p.visitDateOrTimeLiteral(ctx, n.(*sql.DateOrTimeLiteral))
+	case sql.DescriptorKind:
+		p.visitDescriptor(ctx, n.(*sql.Descriptor))
+	case sql.DescriptorColumnKind:
+		p.visitDescriptorColumn(ctx, n.(*sql.DescriptorColumn))
+	case sql.DescriptorColumnListKind:
+		p.visitDescriptorColumnList(ctx, n.(*sql.DescriptorColumnList))
+	case sql.DotIdentifierKind:
+		p.visitDotIdentifier(ctx, n.(*sql.DotIdentifier))
+	case sql.DotGeneralizedFieldKind:
+		if dg, ok := n.(*sql.DotGeneralizedField); ok {
+			p.visitDotGeneralizedField(ctx, dg)
+		} else {
+			p.visitGeneralizedPathExpression(ctx, n)
+		}
+	case sql.DotStarKind:
+		p.visitDotStar(ctx, n.(*sql.DotStar))
+	case sql.DotStarWithModifiersKind:
+		p.visitDotStarWithModifiers(ctx, n.(*sql.DotStarWithModifiers))
+	case sql.DropAllRowAccessPoliciesStatementKind:
+		p.visitDropAllRowAccessPoliciesStatement(ctx, n.(*sql.DropAllRowAccessPoliciesStatement))
+	case sql.DropColumnActionKind:
+		p.visitDropColumnAction(ctx, n.(*sql.DropColumnAction))
+	case sql.DropConstraintActionKind:
+		p.visitDropConstraintAction(ctx, n.(*sql.DropConstraintAction))
+	case sql.DropEntityStatementKind:
+		p.visitDropEntityStatement(ctx, n.(*sql.DropEntityStatement))
+	case sql.DropFunctionStatementKind:
+		p.visitDropFunctionStatement(ctx, n.(*sql.DropFunctionStatement))
+	case sql.DropMaterializedViewStatementKind:
+		p.visitDropMaterializedViewStatement(ctx, n.(*sql.DropMaterializedViewStatement))
+	case sql.DropPrimaryKeyActionKind:
+		p.visitDropPrimaryKeyAction(ctx, n.(*sql.DropPrimaryKeyAction))
+	case sql.DropPrivilegeRestrictionStatementKind:
+		p.visitDropPrivilegeRestrictionStatement(ctx, n.(*sql.DropPrivilegeRestrictionStatement))
+	case sql.DropRowAccessPolicyStatementKind:
+		p.visitDropRowAccessPolicyStatement(ctx, n.(*sql.DropRowAccessPolicyStatement))
+	case sql.DropSearchIndexStatementKind:
+		p.visitDropSearchIndexStatement(ctx, n.(*sql.DropSearchIndexStatement))
+	case sql.DropSnapshotTableStatementKind:
+		p.visitDropSnapshotTableStatement(ctx, n.(*sql.DropSnapshotTableStatement))
+	case sql.DropTableFunctionStatementKind:
+		p.visitDropTableFunctionStatement(ctx, n.(*sql.DropTableFunctionStatement))
+	case sql.DropStatementKind:
+		p.visitDropStatement(ctx, n.(*sql.DropStatement))
+	case sql.ExceptionHandlerListKind:
+		p.visitExceptionHandlerListNode(ctx, n.(*sql.ExceptionHandlerList))
+	case sql.ExceptionHandlerKind:
+		p.visitExceptionHandlerNode(ctx, n.(*sql.ExceptionHandler))
+	case sql.ExecuteIntoClauseKind:
+		p.visitExecuteIntoClause(ctx, n.(*sql.ExecuteIntoClause))
+	case sql.ExecuteImmediateStatementKind:
+		p.visitExecuteImmediateStatement(ctx, n.(*sql.ExecuteImmediateStatement))
+	case sql.ExecuteUsingArgumentKind:
+		p.visitExecuteUsingArgument(ctx, n.(*sql.ExecuteUsingArgument))
+	case sql.ExecuteUsingClauseKind:
+		p.visitExecuteUsingClause(ctx, n.(*sql.ExecuteUsingClause))
+	case sql.ExpressionSubqueryKind:
+		p.visitExpressionSubquery(ctx, n.(*sql.ExpressionSubquery))
+	case sql.ExpressionWithOptAliasKind:
+		p.visitExpressionWithOptAlias(ctx, n.(*sql.ExpressionWithOptAlias))
+	case sql.ExtractExpressionKind:
+		p.visitExtractExpression(ctx, n.(*sql.ExtractExpression))
+	case sql.FloatLiteralKind:
+		p.visitFloatLiteral(ctx, n.(*sql.FloatLiteral))
+	case sql.FilterUsingClauseKind:
+		p.visitFilterUsingClause(ctx, n.(*sql.FilterUsingClause))
+	case sql.ForeignKeyKind:
+		if fk, ok := n.(*sql.ForeignKey); ok {
+			p.visitForeignKey(ctx, fk)
+		} else {
+			p.visitTableConstraint(ctx, n.(*sql.TableConstraint))
+		}
+	case sql.ForeignKeyReferenceKind:
+		p.visitForeignKeyReference(ctx, n.(*sql.ForeignKeyReference))
+	case sql.FormatClauseKind:
+		p.visitFormatClause(ctx, n.(*sql.FormatClause))
+	case sql.ForSystemTimeKind:
+		p.visitForSystemTime(ctx, n.(*sql.ForSystemTime))
+	case sql.FromClauseKind:
+		p.visitFromClause(ctx, n.(*sql.FromClause))
+	case sql.FunctionCallKind:
+		p.visitFunctionCall(ctx, n.(*sql.FunctionCall))
+	case sql.FunctionDeclarationKind:
+		p.visitFunctionDeclaration(ctx, n.(*sql.FunctionDeclaration))
+	case sql.FunctionParameterKind:
+		p.visitFunctionParameter(ctx, n.(*sql.FunctionParameter))
+	case sql.FunctionParametersKind:
+		p.visitFunctionParameters(ctx, n.(*sql.FunctionParameters))
 
+	case sql.GranteeListKind:
+		p.visitGranteeList(ctx, n.(*sql.GranteeList))
+	case sql.GrantToClauseKind:
+		p.visitGrantToClause(ctx, n.(*sql.GrantToClause))
+	case sql.GroupByKind:
+		p.visitGroupBy(ctx, n.(*sql.GroupBy))
+	case sql.GroupByAllKind:
+		p.visitGroupByAll(ctx, n.(*sql.GroupByAll))
+	case sql.GroupingItemKind:
+		p.visitGroupingItem(ctx, n.(*sql.GroupingItem))
+	case sql.HavingModifierKind:
+		p.visitHavingModifier(ctx, n.(*sql.HavingModifier))
+	case sql.HavingKind:
+		p.visitHaving(ctx, n.(*sql.Having))
+	case sql.HintKind:
+		p.visitHint(ctx, n.(*sql.Hint))
+	case sql.HintedStatementKind:
+		p.visitHintedStatement(ctx, n.(*sql.HintedStatement))
+	case sql.IdentifierKind:
+		p.visitIdentifier(ctx, n.(*sql.Identifier))
+	case sql.IdentifierListKind:
+		p.visitIdentifierList(ctx, n.(*sql.IdentifierList))
+	case sql.IfStatementKind:
+		p.visitIfStatement(ctx, n.(*sql.IfStatement))
+	case sql.InExpressionKind:
+		p.visitInExpression(ctx, n.(*sql.InExpression))
+	case sql.InListKind:
+		p.visitInList(ctx, n.(*sql.InList))
+	case sql.IntervalExprKind:
+		p.visitIntervalExpr(ctx, n.(*sql.IntervalExpr))
+	case sql.IntLiteralKind:
+		p.visitIntLiteral(ctx, n.(*sql.IntLiteral))
+	case sql.InsertStatementKind:
+		p.visitInsertStatement(ctx, n.(*sql.InsertStatement))
+	case sql.InsertValuesRowListKind:
+		p.visitInsertValuesRowList(ctx, n.(*sql.InsertValuesRowList))
+	case sql.InsertValuesRowKind:
+		p.visitInsertValuesRow(ctx, n.(*sql.InsertValuesRow))
+	case sql.JoinKind:
+		p.visitJoin(ctx, n.(*sql.Join))
+	case sql.JsonLiteralKind:
+		p.visitJSONLiteral(ctx, n.(*sql.JSONLiteral))
+	case sql.LimitKind:
+		p.visitLimit(ctx, n.(*sql.Limit))
+	case sql.LimitOffsetKind:
+		p.visitLimitOffset(ctx, n.(*sql.LimitOffset))
+	case sql.MergeActionKind:
+		p.visitMergeAction(ctx, n.(*sql.MergeAction))
+	case sql.MergeStatementKind:
+		p.visitMergeStatement(ctx, n.(*sql.MergeStatement))
+	case sql.MergeWhenClauseKind:
+		p.visitMergeWhenClause(ctx, n.(*sql.MergeWhenClause))
+	case sql.MergeWhenClauseListKind:
+		p.visitMergeWhenClauseList(ctx, n.(*sql.MergeWhenClauseList))
+	case sql.ModelClauseKind:
+		p.visitModelClause(ctx, n.(*sql.ModelClause))
+	case sql.NamedArgumentKind:
+		p.visitNamedArgument(ctx, n.(*sql.NamedArgument))
+	case sql.NotNullColumnAttributeKind:
+		p.visitNotNullColumnAttribute(ctx, n.(*sql.NotNullColumnAttribute))
+	case sql.NullLiteralKind:
+		p.visitNullLiteral(ctx, n.(*sql.NullLiteral))
+	case sql.NullOrderKind:
+		p.visitNullOrder(ctx, n.(*sql.NullOrder))
+	case sql.NumericLiteralKind:
+		p.visitNumericLiteral(ctx, n.(*sql.NumericLiteral))
+	case sql.OnClauseKind:
+		p.visitOnClause(ctx, n.(*sql.OnClause))
+	case sql.OptionsListKind:
+		p.visitOptionsList(ctx, n.(*sql.OptionsList))
+	case sql.OptionsEntryKind:
+		p.visitOptionsEntry(ctx, n.(*sql.OptionsEntry))
+	case sql.OrExprKind:
+		p.visitOrExpr(ctx, n.(*sql.OrExpr))
+	case sql.OrderByKind:
+		p.visitOrderBy(ctx, n.(*sql.OrderBy))
+	case sql.OrderingExpressionKind:
+		p.visitOrderingExpression(ctx, n.(*sql.OrderingExpression))
+	case sql.ParameterAssignmentKind:
+		p.visitParameterAssignment(ctx, n.(*sql.ParameterAssignment))
+	case sql.ParameterExprKind:
+		p.visitParameterExpr(ctx, n.(*sql.ParameterExpr))
+	case sql.ParenthesizedJoinKind:
+		p.visitParenthesizedJoin(ctx, n.(*sql.ParenthesizedJoin))
+	case sql.PartitionByKind:
+		p.visitPartitionBy(ctx, n.(*sql.PartitionBy))
+	case sql.PathExpressionListKind:
+		p.visitPathExpressionList(ctx, n.(*sql.PathExpressionList))
+	case sql.PathExpressionKind:
+		if pe, ok := n.(*sql.PathExpression); ok {
+			p.visitPathExpression(ctx, pe)
+		} else {
+			p.visitGeneralizedPathExpression(ctx, n)
+		}
+	case sql.PivotClauseKind:
+		p.visitPivotClause(ctx, n.(*sql.PivotClause))
+	case sql.PivotExpressionKind:
+		p.visitPivotExpression(ctx, n.(*sql.PivotExpression))
+	case sql.PivotExpressionListKind:
+		p.visitPivotExpressionList(ctx, n.(*sql.PivotExpressionList))
+	case sql.PivotValueKind:
+		p.visitPivotValue(ctx, n.(*sql.PivotValue))
+	case sql.PivotValueListKind:
+		p.visitPivotValueList(ctx, n.(*sql.PivotValueList))
+	case sql.PrimaryKeyKind:
+		if pk, ok := n.(*sql.PrimaryKey); ok {
+			p.visitPrimaryKey(ctx, pk)
+		} else {
+			p.visitTableConstraint(ctx, n.(*sql.TableConstraint))
+		}
+	case sql.PrimaryKeyColumnAttributeKind:
+		p.visitPrimaryKeyColumnAttribute(ctx, n.(*sql.PrimaryKeyColumnAttribute))
+	case sql.PrimaryKeyElementListKind:
+		p.visitPrimaryKeyElementList(ctx, n.(*sql.PrimaryKeyElementList))
+	case sql.PrimaryKeyElementKind:
+		p.visitPrimaryKeyElement(ctx, n.(*sql.PrimaryKeyElement))
+	case sql.QualifyKind:
+		p.visitQualify(ctx, n.(*sql.Qualify))
+	case sql.QueryKind:
+		p.visitQuery(ctx, n.(*sql.Query))
+	case sql.QueryStatementKind:
+		p.visitQueryStatement(ctx, n.(*sql.QueryStatement))
+	case sql.RenameColumnActionKind:
+		p.visitRenameColumnAction(ctx, n.(*sql.RenameColumnAction))
+	case sql.RenameToClauseKind:
+		p.visitRenameToClause(ctx, n.(*sql.RenameToClause))
+	case sql.RepeatableClauseKind:
+		p.visitRepeatableClause(ctx, n.(*sql.RepeatableClause))
+	case sql.ReturnStatementKind:
+		p.visitReturnStatement(ctx, n.(*sql.ReturnStatement))
+	case sql.RollbackStatementKind:
+		p.visitRollbackStatementNode(ctx, n.(*sql.RollbackStatement))
+	case sql.RollupKind:
+		p.visitRollup(ctx, n.(*sql.Rollup))
+	case sql.SampleClauseKind:
+		p.visitSampleClause(ctx, n.(*sql.SampleClause))
+	case sql.SampleSizeKind:
+		p.visitSampleSize(ctx, n.(*sql.SampleSize))
+	case sql.SampleSuffixKind:
+		p.visitSampleSuffix(ctx, n.(*sql.SampleSuffix))
+	case sql.SetCollateClauseKind:
+		p.visitSetCollateClause(ctx, n.(*sql.SetCollateClause))
+	case sql.ScriptKind:
+		p.visitScript(ctx, n.(*sql.Script))
+	case sql.SelectKind:
+		p.visitSelect(ctx, n.(*sql.Select))
+	case sql.SelectAsKind:
+		p.visitSelectAs(ctx, n.(*sql.SelectAs))
+	case sql.SelectColumnKind:
+		p.visitSelectColumn(ctx, n.(*sql.SelectColumn))
+	case sql.SelectListKind:
+		p.visitSelectList(ctx, n.(*sql.SelectList))
+	case sql.SetOptionsActionKind:
+		p.visitSetOptionsAction(ctx, n.(*sql.SetOptionsAction))
+	case sql.SetOperationKind:
+		p.visitSetOperation(ctx, n.(*sql.SetOperation))
+	case sql.SimpleColumnSchemaKind:
+		if sc, ok := n.(*sql.SimpleColumnSchema); ok {
+			p.visitSimpleColumnSchema(ctx, sc)
+		} else {
+			p.visitColumnSchema(ctx, n.(*sql.ColumnSchema))
+		}
+	case sql.SimpleTypeKind:
+		p.visitSimpleType(ctx, n.(*sql.SimpleType))
+	case sql.SQLFunctionBodyKind:
+		p.visitSQLFunctionBody(ctx, n.(*sql.SQLFunctionBody))
+	case sql.StarKind:
+		p.visitStar(ctx, n.(*sql.Star))
+	case sql.StarModifiersKind:
+		p.visitStarModifiers(ctx, n.(*sql.StarModifiers))
+	case sql.StarReplaceItemKind:
+		p.visitStarReplaceItem(ctx, n.(*sql.StarReplaceItem))
+	case sql.StarWithModifiersKind:
+		p.visitStarWithModifiers(ctx, n.(*sql.StarWithModifiers))
+	case sql.StatementListKind:
+		p.visitStatementList(ctx, n.(*sql.StatementList))
+	case sql.StringLiteralKind:
+		p.visitStringLiteral(ctx, n.(*sql.StringLiteral))
+	case sql.StructColumnFieldKind:
+		p.visitStructColumnField(ctx, n.(*sql.StructColumnField))
+	case sql.StructColumnSchemaKind:
+		if sc, ok := n.(*sql.StructColumnSchema); ok {
+			p.visitStructColumnSchema(ctx, sc)
+		} else {
+			p.visitColumnSchema(ctx, n.(*sql.ColumnSchema))
+		}
+	case sql.StructConstructorArgKind:
+		p.visitStructConstructorArg(ctx, n.(*sql.StructConstructorArg))
+	case sql.StructConstructorWithKeywordKind:
+		p.visitStructConstructorWithKeyword(ctx, n.(*sql.StructConstructorWithKeyword))
+	case sql.StructConstructorWithParensKind:
+		p.visitStructConstructorWithParens(ctx, n.(*sql.StructConstructorWithParens))
+	case sql.StructFieldKind:
+		p.visitStructField(ctx, n.(*sql.StructField))
+	case sql.StructTypeKind:
+		p.visitStructType(ctx, n.(*sql.StructType))
+	case sql.SystemVariableAssignmentKind:
+		p.visitSystemVariableAssignment(ctx, n.(*sql.SystemVariableAssignment))
+	case sql.SystemVariableExprKind:
+		p.visitSystemVariableExpr(ctx, n.(*sql.SystemVariableExpr))
+	case sql.TableClauseKind:
+		p.visitTableClause(ctx, n.(*sql.TableClause))
+
+	case sql.TableElementListKind:
+		p.visitTableElementList(ctx, n.(*sql.TableElementList))
+	case sql.TablePathExpressionKind:
+		p.visitTablePathExpression(ctx, n.(*sql.TablePathExpression))
+	case sql.TableSubqueryKind:
+		p.visitTableSubquery(ctx, n.(*sql.TableSubquery))
+	case sql.TemplatedParameterTypeKind:
+		p.visitTemplatedParameterType(ctx, n.(*sql.TemplatedParameterType))
+	case sql.TruncateStatementKind:
+		p.visitTruncateStatement(ctx, n.(*sql.TruncateStatement))
+	case sql.TVFArgumentKind:
+		p.visitTVFArgument(ctx, n.(*sql.TVFArgument))
+	case sql.TVFKind:
+		p.visitTVF(ctx, n.(*sql.TVF))
+	case sql.TVFSchemaKind:
+		p.visitTVFSchema(ctx, n.(*sql.TVFSchema))
+	case sql.TVFSchemaColumnKind:
+		p.visitTVFSchemaColumn(ctx, n.(*sql.TVFSchemaColumn))
+	case sql.TypeParameterListKind:
+		p.visitTypeParameterList(ctx, n.(*sql.TypeParameterList))
+	case sql.UnpivotClauseKind:
+		p.visitUnpivotClause(ctx, n.(*sql.UnpivotClause))
+	case sql.UnaryExpressionKind:
+		p.visitUnaryExpression(ctx, n.(*sql.UnaryExpression))
+	case sql.UnpivotInItemLabelKind:
+		p.visitUnpivotInItemLabel(ctx, n.(*sql.UnpivotInItemLabel))
+	case sql.UnpivotInItemListKind:
+		p.visitUnpivotInItemList(ctx, n.(*sql.UnpivotInItemList))
+	case sql.UnpivotInItemKind:
+		p.visitUnpivotInItem(ctx, n.(*sql.UnpivotInItem))
+	case sql.UnnestExpressionKind:
+		p.visitUnnestExpression(ctx, n.(*sql.UnnestExpression))
+	case sql.UnnestExpressionWithOptAliasAndOffsetKind:
+		p.visitUnnestExpressionWithOptAliasAndOffset(ctx, n.(*sql.UnnestExpressionWithOptAliasAndOffset))
+	case sql.UpdateItemKind:
+		p.visitUpdateItem(ctx, n.(*sql.UpdateItem))
+	case sql.UpdateItemListKind:
+		p.visitUpdateItemList(ctx, n.(*sql.UpdateItemList))
+	case sql.UpdateSetValueKind:
+		p.visitUpdateSetValue(ctx, n.(*sql.UpdateSetValue))
+	case sql.UsingClauseKind:
+		p.visitUsingClause(ctx, n.(*sql.UsingClause))
+	case sql.VariableDeclarationKind:
+		p.visitVariableDeclaration(ctx, n.(*sql.VariableDeclaration))
+	case sql.SingleAssignmentKind:
+		p.visitSingleAssignment(ctx, n.(*sql.SingleAssignment))
+	case sql.WhereClauseKind:
+		p.visitWhereClause(ctx, n.(*sql.WhereClause))
+	case sql.WindowClauseKind:
+		p.visitWindowClause(ctx, n.(*sql.WindowClause))
+	case sql.WindowFrameKind:
+		p.visitWindowFrame(ctx, n.(*sql.WindowFrame))
+	case sql.WindowFrameExprKind:
+		p.visitWindowFrameExpr(ctx, n.(*sql.WindowFrameExpr))
+	case sql.WindowSpecificationKind:
+		p.visitWindowSpecification(ctx, n.(*sql.WindowSpecification))
+	case sql.WithClauseKind:
+		p.visitWithClause(ctx, n.(*sql.WithClause))
+	case sql.WithClauseEntryKind:
+		p.visitWithClauseEntry(ctx, n.(*sql.WithClauseEntry))
+	case sql.WithConnectionClauseKind:
+		p.visitWithConnectionClause(ctx, n.(*sql.WithConnectionClause))
+	case sql.WithExpressionKind:
+		p.visitWithExpression(ctx, n.(*sql.WithExpression))
+	case sql.WithOffsetKind:
+		p.visitWithOffset(ctx, n.(*sql.WithOffset))
+	case sql.WithPartitionColumnsClauseKind:
+		p.visitWithPartitionColumnsClause(ctx, n.(*sql.WithPartitionColumnsClause))
+	case sql.WithWeightKind:
+		p.visitWithWeight(ctx, n.(*sql.WithWeight))
+	case sql.InferredTypeColumnSchemaKind:
+		p.visitColumnSchema(ctx, n.(*sql.ColumnSchema))
 	default:
 		p.addError(&Error{
 			Err:  nil,
-			Msg:  fmt.Sprintf("not implemented for %#v", n),
+			Msg:  fmt.Sprintf("not implemented for kind %v", n.Kind()),
 			Node: n,
 		})
 	}
@@ -544,12 +581,18 @@ func (p *Printer) addError(err error) {
 	log.Println("[ERROR]", err)
 }
 
-func (p *Printer) moveBefore(n googlesql.ASTNode) {
-	p.Writer.flushCommentsUpTo(ast.GetParseLocationStartOffset(n))
+func (p *Printer) moveBefore(n sql.Node) {
+	if !sql.Defined(n) {
+		return
+	}
+	p.Writer.flushCommentsUpTo(n.LocationStart())
 }
 
-func (p *Printer) movePast(n googlesql.ASTNode) {
-	p.Writer.flushCommentsUpTo(ast.GetParseLocationEndOffset(n))
+func (p *Printer) movePast(n sql.Node) {
+	if !sql.Defined(n) {
+		return
+	}
+	p.Writer.flushCommentsUpTo(n.LocationEnd())
 }
 
 func (p *Printer) moveAt(pos int) {
@@ -559,14 +602,16 @@ func (p *Printer) moveAt(pos int) {
 // movePastLine scans from the end of a node to the end of the line or
 // until the next node.
 // We do this limited to the end of the parent's end location.
-func (p *Printer) movePastLine(n googlesql.ASTNode) {
-	e := ast.GetParseLocationEndOffset(n)
+func (p *Printer) movePastLine(n sql.Node) {
+	if !sql.Defined(n) {
+		return
+	}
+	e := n.LocationEnd()
 	newlinePos := p.Tracker.Lines.NextLineBreak(e)
 	b := p.Tracker.MaybeNextPos(e)
 	if b == -1 || newlinePos == -1 {
-		// Only flush comments if at the top level.
-		parent := ast.Parent(n)
-		if parent == nil || ast.Kind(parent) == googlesql.ASTNodeKindAstScript {
+		parent := n.Parent()
+		if parent == nil || parent.Kind() == sql.ScriptKind {
 			if newlinePos > 0 {
 				p.Writer.flushCommentsUpTo(newlinePos)
 			} else {
@@ -580,18 +625,18 @@ func (p *Printer) movePastLine(n googlesql.ASTNode) {
 	}
 }
 
-// moveBeforeSuccessorOf move cursor to before the start of the
-// succeding start position.
-func (p *Printer) moveBeforeSuccessorOf(n googlesql.ASTNode) {
-	e := ast.GetParseLocationEndOffset(n)
-	// Limit this kind of comment flush up to the statement level.
-	// A statement list is flat aligned and we will not have problems
-	// with comment indentation at that level or higher.
+// moveBeforeSuccessorOf moves cursor to before the start of the
+// succeeding start position.
+func (p *Printer) moveBeforeSuccessorOf(n sql.Node) {
+	if !sql.Defined(n) {
+		return
+	}
+	e := n.LocationEnd()
 	max := e
-	parent := ast.Parent(n)
-	for ast.Defined(parent) && ast.Kind(parent) != ast.StatementList {
-		max = ast.GetParseLocationEndOffset(parent)
-		parent = ast.Parent(parent)
+	parent := n.Parent()
+	for parent != nil && parent.Kind() != sql.StatementListKind {
+		max = parent.LocationEnd()
+		parent = parent.Parent()
 	}
 	next := min(p.Tracker.MaybeNextPos(e), max)
 	if next > 0 {
@@ -663,11 +708,9 @@ func (p *Printer) unnestWithDepth(d int) string {
 	return aligned
 }
 
-// printNestedWithSep receives a slice of googlesql.ASTNode items and print each
-// in a nested printer.
-// Since we cannot have generic methods, this is a function that receives
-// a printer as the first argument.  Otherwise, it would be a method.
-func printNestedWithSep[T googlesql.ASTNode](ctx Context, p *Printer, items []T, sep string) {
+// printNestedWithSepNode prints sql.Node items separated by sep in a shared
+// nested printer.
+func printNestedWithSepNode[T sql.Node](ctx Context, p *Printer, items []T, sep string) {
 	pp := p.nest()
 	for i, item := range items {
 		if i > 0 {
@@ -678,11 +721,8 @@ func printNestedWithSep[T googlesql.ASTNode](ctx Context, p *Printer, items []T,
 	p.print(pp.unnest())
 }
 
-// printlnNestedWithSep receives a slice of googlesql.ASTNode items and print each
-// in a nested printer.
-// Since we cannot have generic methods, this is a function that receives
-// a printer as the first argument.  Otherwise, it would be a method.
-func printlnNestedWithSep[T googlesql.ASTNode](ctx Context, p *Printer, items []T, sep string) {
+// printlnNestedWithSepNode prints sql.Node items separated by sep, one per line.
+func printlnNestedWithSepNode[T sql.Node](ctx Context, p *Printer, items []T, sep string) {
 	pp := p.nest()
 	for i, item := range items {
 		if i > 0 {
@@ -697,16 +737,21 @@ func printlnNestedWithSep[T googlesql.ASTNode](ctx Context, p *Printer, items []
 	p.print(s)
 }
 
-// acceptNested visits a node with a nested printer.
-func (p *Printer) acceptNested(ctx Context, n googlesql.ASTNode) {
+// acceptNested visits a sql.Node with a nested printer.
+func (p *Printer) acceptNested(ctx Context, n sql.Node) {
+	if !sql.Defined(n) {
+		return
+	}
 	pp := p.nest()
 	pp.accept(ctx, n)
 	p.print(pp.unnest())
 }
 
-// acceptNestedLeft visits a node with a nested printer, and unnests
-// result with left alignment.
-func (p *Printer) acceptNestedLeft(ctx Context, n googlesql.ASTNode) {
+// acceptNestedLeft visits a sql.Node with a nested printer, unnested left.
+func (p *Printer) acceptNestedLeft(ctx Context, n sql.Node) {
+	if !sql.Defined(n) {
+		return
+	}
 	pp := p.nest()
 	pp.accept(ctx, n)
 	s := pp.unnestLeft()
@@ -716,25 +761,31 @@ func (p *Printer) acceptNestedLeft(ctx Context, n googlesql.ASTNode) {
 	p.print(s)
 }
 
-// acceptNestedString visits a node with a nested printer, and prints
-// result to current printer as a string.
-func (p *Printer) acceptNestedString(ctx Context, n googlesql.ASTNode) {
+// acceptNestedString visits a sql.Node with a nested printer, printing as string.
+func (p *Printer) acceptNestedString(ctx Context, n sql.Node) {
+	if !sql.Defined(n) {
+		return
+	}
 	pp := p.nest()
 	pp.accept(ctx, n)
 	p.print(pp.String())
 }
 
-// toString visits a node with a nested printer and returns its
-// string contents instead of writing to current printer.
-func (p *Printer) toString(ctx Context, n googlesql.ASTNode) string {
+// toString visits a sql.Node with a nested printer and returns its string.
+func (p *Printer) toString(ctx Context, n sql.Node) string {
+	if !sql.Defined(n) {
+		return ""
+	}
 	pp := p.nest()
 	pp.accept(ctx, n)
 	return pp.String()
 }
 
-// toUnnestedString visits a node with a nested printer and returns its
-// unnested string contents .
-func (p *Printer) toUnnestedString(ctx Context, n googlesql.ASTNode) string {
+// toUnnestedString visits a sql.Node with a nested printer and returns the unnested string.
+func (p *Printer) toUnnestedString(ctx Context, n sql.Node) string {
+	if !sql.Defined(n) {
+		return ""
+	}
 	pp := p.nest()
 	pp.accept(ctx, n)
 	return pp.unnest()
@@ -753,19 +804,19 @@ func (p *Printer) unnestLeft() string {
 	return "\v" + strings.ReplaceAll(aligned, "\n", "\n\v")
 }
 
-func (p *Printer) printOpenParenIfNeeded(n ast.ParethesizedNode) {
+func (p *Printer) printOpenParenIfNeeded(n sql.Node) {
 	if p.isParenNeeded(n) {
 		p.print("(")
-		if ast.Must(n.IsQueryExpression()) {
+		if qe, ok := n.Raw().(interface{ IsQueryExpression() (bool, error) }); ok && mustBool(qe.IsQueryExpression()) {
 			p.println("")
 			p.incDepth()
 		}
 	}
 }
 
-func (p *Printer) printCloseParenIfNeeded(n ast.ParethesizedNode) {
+func (p *Printer) printCloseParenIfNeeded(n sql.Node) {
 	if p.isParenNeeded(n) {
-		if ast.Must(n.IsQueryExpression()) {
+		if qe, ok := n.Raw().(interface{ IsQueryExpression() (bool, error) }); ok && mustBool(qe.IsQueryExpression()) {
 			p.println("")
 			p.decDepth()
 		}
@@ -773,7 +824,7 @@ func (p *Printer) printCloseParenIfNeeded(n ast.ParethesizedNode) {
 	}
 }
 
-func (p *Printer) printOpenParenIfNeededWithDepth(n ast.ParethesizedNode) {
+func (p *Printer) printOpenParenIfNeededWithDepth(n sql.Node) {
 	if p.isParenNeeded(n) {
 		p.print("(")
 		p.println("")
@@ -781,7 +832,7 @@ func (p *Printer) printOpenParenIfNeededWithDepth(n ast.ParethesizedNode) {
 	}
 }
 
-func (p *Printer) printCloseParenIfNeededWithDepth(n ast.ParethesizedNode) {
+func (p *Printer) printCloseParenIfNeededWithDepth(n sql.Node) {
 	if p.isParenNeeded(n) {
 		p.println("")
 		p.decDepth()
@@ -789,20 +840,26 @@ func (p *Printer) printCloseParenIfNeededWithDepth(n ast.ParethesizedNode) {
 	}
 }
 
-func (p *Printer) isParenNeeded(n ast.ParethesizedNode) bool {
-	parent := ast.Parent(n)
-	if ast.Must(n.Parenthesized()) {
-		if ast.Kind(n) == ast.Query {
-			// We force Create table statement to be wrapped with paranthesis,
-			// which is generated by CreateTableStatement visitor.
-			// So if we are visiting the query definition of a create table
-			// we just return that we do not need to parenthesize.
-			if ast.Defined(parent) {
-				switch ast.Kind(parent) {
-				case ast.CreateTableStatement,
-					ast.CreateViewStatement,
-					ast.CreateMaterializedViewStatement,
-					ast.CreateTableFunctionStatement:
+func mustBool(v bool, err error) bool {
+	if err != nil {
+		panic(err)
+	}
+	return v
+}
+
+func (p *Printer) isParenNeeded(n sql.Node) bool {
+	if !sql.Defined(n) {
+		return false
+	}
+	parent := n.Parent()
+	if n.Parenthesized() {
+		if n.Kind() == sql.QueryKind {
+			if parent != nil {
+				switch parent.Kind() {
+				case sql.CreateTableStatementKind,
+					sql.CreateViewStatementKind,
+					sql.CreateMaterializedViewStatementKind,
+					sql.CreateTableFunctionStatementKind:
 					return false
 				}
 			}
@@ -817,8 +874,11 @@ func (p *Printer) isParenNeeded(n ast.ParethesizedNode) bool {
 
 // hasParenAround checks if there is parenthesis just before the start
 // location of a node.
-func (p *Printer) hasParenAround(n googlesql.ASTNode) bool {
-	s := ast.GetParseLocationStartOffset(n)
+func (p *Printer) hasParenAround(n sql.Node) bool {
+	if !sql.Defined(n) {
+		return false
+	}
+	s := n.LocationStart()
 	if s == 0 {
 		return false
 	}
@@ -965,13 +1025,13 @@ func (p *Printer) queryParameter(s string) string {
 	return ""
 }
 
-func (p *Printer) nodeInput(n googlesql.ASTNode) string {
-	b, e := ast.GetParseLocationByteOffsets(n)
+func (p *Printer) nodeInput(n sql.Node) string {
+	b, e := n.Location()
 	return p.viewInput(b, e)
 }
 
-func (p *Printer) nodeErasedInput(n googlesql.ASTNode) string {
-	b, e := ast.GetParseLocationByteOffsets(n)
+func (p *Printer) nodeErasedInput(n sql.Node) string {
+	b, e := n.Location()
 	return p.viewErasedInput(b, e)
 }
 
@@ -1025,53 +1085,7 @@ func rowsTrimRight(s string) string {
 	return strings.Join(r, "\n")
 }
 
-// isInsideOfMergeStatement returns true when the current node is is inside
-// of a MERGE statement directly.
-func isInsideOfMergeStatement(n googlesql.ASTNode) bool {
-	p := ast.Must(n.Parent())
-	if !ast.Defined(p) {
-		return false
-	}
-	return ast.Must(p.NodeKind()) == googlesql.ASTNodeKindAstMergeStatement
-}
-
-// isInsideOfOnClause returns true when the current node is is inside
-// of an ON clause directly. The node can be inside of other AndExpr
-// and OrExpr.
-func isInsideOfOnClause(n googlesql.ASTNode) bool {
-	for p := ast.Must(n.Parent()); ast.Defined(p); p = ast.Must(p.Parent()) {
-		kind := ast.Must(p.NodeKind())
-		if kind == ast.OnClause {
-			return true
-		}
-		if kind != ast.AndExpr && kind != ast.OrExpr {
-			return false
-		}
-	}
-	return false
-}
-
-// isInsideOfWhereClause returns true when the current node is inside
-// of a WHERE clause directly. The node can be inside of other AndExpr
-// and OrExpr.
-func isInsideOfWhereClause(n googlesql.ASTNode) bool {
-	for p := ast.Must(n.Parent()); ast.Defined(p); p = ast.Must(p.Parent()) {
-		switch ast.Must(p.NodeKind()) {
-		case ast.WhereClause:
-			return true
-		case ast.AndExpr, ast.OrExpr:
-			continue
-		default:
-			return false
-		}
-	}
-	return false
-}
-
-// hasLowerPrecedence returns whether child has lower precedence than
-// parent.  This is mainly used to help on determine the necessity
-// for parenthesis when rendering expressions.
-func hasLowerPrecedence(parent, child googlesql.ASTNode) (eval bool, ok bool) {
+func hasLowerPrecedence(parent, child sql.Node) (eval bool, ok bool) {
 	p := precedenceNum(parent)
 	c := lowestPrecedenceBelow(child)
 	eval = p > 0 && c > 0 && p > c
@@ -1079,89 +1093,103 @@ func hasLowerPrecedence(parent, child googlesql.ASTNode) (eval bool, ok bool) {
 	return
 }
 
-func lowestPrecedenceBelow(n googlesql.ASTNode) int {
-	switch t := n.(type) {
-	case *googlesql.ASTBinaryExpression:
-		var (
-			min int = precedenceNum(n)
-			lhs int = precedenceNum(ast.Must(t.Lhs()))
-			rhs int = precedenceNum(ast.Must(t.Rhs()))
-		)
-		if lhs < min {
-			min = lhs
-		}
-		if rhs < min {
-			min = rhs
-		}
-		return min
-	default:
+func lowestPrecedenceBelow(n sql.Node) int {
+	if n == nil {
 		return 1000
 	}
+	if n.Kind() != sql.BinaryExpressionKind {
+		return 1000
+	}
+	t := n.(*sql.BinaryExpression)
+	min := precedenceNum(n)
+	if lhs := precedenceNum(t.LHS()); lhs < min {
+		min = lhs
+	}
+	if rhs := precedenceNum(t.RHS()); rhs < min {
+		min = rhs
+	}
+	return min
 }
 
-func precedenceNum(n googlesql.ASTNode) int {
-	switch ast.Kind(n) {
-	case googlesql.ASTNodeKindAstDotStar:
+func precedenceNum(n sql.Node) int {
+	if n == nil {
+		return 1000
+	}
+	switch n.Kind() {
+	case sql.DotStarKind:
 		return 1
-	case googlesql.ASTNodeKindAstOrExpr:
+	case sql.OrExprKind:
 		return 2
-	case googlesql.ASTNodeKindAstAndExpr:
+	case sql.AndExprKind:
 		return 3
-	case googlesql.ASTNodeKindAstUnaryExpression:
-		return precedenceUnaryExpr(n.(*googlesql.ASTUnaryExpression))
-	case googlesql.ASTNodeKindAstBinaryExpression:
-		return precedenceBinExpr(n.(*googlesql.ASTBinaryExpression))
-	case googlesql.ASTNodeKindAstBetweenExpression:
+	case sql.UnaryExpressionKind:
+		return precedenceUnaryExpr(n.(*sql.UnaryExpression))
+	case sql.BinaryExpressionKind:
+		return precedenceBinExpr(n.(*sql.BinaryExpression))
+	case sql.BetweenExpressionKind:
 		return 5
 	}
 	return 1000
 }
 
-func precedenceBinExpr(n *googlesql.ASTBinaryExpression) int {
-	switch ast.Must(n.Op()) {
-	case googlesql.ASTBinaryExpressionEnums_OpNotSet:
+func precedenceBinExpr(n *sql.BinaryExpression) int {
+	switch n.Op() {
+	case sql.NotSetBinaryOp:
 		return -1
-	case googlesql.ASTBinaryExpressionEnums_OpEq,
-		googlesql.ASTBinaryExpressionEnums_OpNe,
-		googlesql.ASTBinaryExpressionEnums_OpNe2,
-		googlesql.ASTBinaryExpressionEnums_OpGt,
-		googlesql.ASTBinaryExpressionEnums_OpGe,
-		googlesql.ASTBinaryExpressionEnums_OpLt,
-		googlesql.ASTBinaryExpressionEnums_OpLe,
-		googlesql.ASTBinaryExpressionEnums_OpLike,
-		googlesql.ASTBinaryExpressionEnums_OpDistinct,
-		googlesql.ASTBinaryExpressionEnums_OpIs:
+	case sql.EqOp, sql.NEOp, sql.NE2Op, sql.GTOp, sql.GEOp,
+		sql.LTOp, sql.LEOp, sql.LikeOp, sql.DistinctOp, sql.IsOp:
 		return 5
-	case googlesql.ASTBinaryExpressionEnums_OpBitwiseOr:
+	case sql.BitwiseOrOp:
 		return 6
-	case googlesql.ASTBinaryExpressionEnums_OpBitwiseXor:
+	case sql.BitwiseXorOp:
 		return 7
-	case googlesql.ASTBinaryExpressionEnums_OpBitwiseAnd:
+	case sql.BitwiseAndOp:
 		return 8
-	case googlesql.ASTBinaryExpressionEnums_OpPlus,
-		googlesql.ASTBinaryExpressionEnums_OpMinus:
+	case sql.PlusBinaryOp, sql.MinusBinaryOp:
 		return 9
-	case googlesql.ASTBinaryExpressionEnums_OpConcatOp:
+	case sql.ConcatOpOp:
 		return 10
-	case googlesql.ASTBinaryExpressionEnums_OpMultiply,
-		googlesql.ASTBinaryExpressionEnums_OpDivide:
+	case sql.MultiplyOp, sql.DivideOp:
 		return 11
 	}
 	return 1000
 }
 
-func precedenceUnaryExpr(n *googlesql.ASTUnaryExpression) int {
-	switch ast.Must(n.Op()) {
-	case googlesql.ASTUnaryExpressionEnums_OpNotSet:
+func precedenceUnaryExpr(n *sql.UnaryExpression) int {
+	switch n.Op() {
+	case sql.NotSetUnaryOp:
 		return 0
-	case googlesql.ASTUnaryExpressionEnums_OpNot:
+	case sql.NotUnaryOp:
 		return 4
-	case googlesql.ASTUnaryExpressionEnums_OpBitwiseNot,
-		googlesql.ASTUnaryExpressionEnums_OpMinus,
-		googlesql.ASTUnaryExpressionEnums_OpPlus,
-		googlesql.ASTUnaryExpressionEnums_OpIsUnknown,
-		googlesql.ASTUnaryExpressionEnums_OpIsNotUnknown:
+	case sql.BitwiseNotOp, sql.MinusUnaryOp, sql.PlusUnaryOp,
+		sql.IsUnknownOp, sql.IsNotUnknownOp:
 		return 12
 	}
 	return -1
+}
+
+func ChildrenExpressions(n sql.Node) []sql.ExpressionNode {
+	if !sql.Defined(n) {
+		return nil
+	}
+	var result []sql.ExpressionNode
+	for _, c := range n.Children() {
+		if e, ok := c.(sql.ExpressionNode); ok {
+			result = append(result, e)
+		}
+	}
+	return result
+}
+
+func ChildrenOfType[T sql.Node](n sql.Node) []T {
+	if !sql.Defined(n) {
+		return nil
+	}
+	var result []T
+	for _, c := range n.Children() {
+		if t, ok := c.(T); ok {
+			result = append(result, t)
+		}
+	}
+	return result
 }

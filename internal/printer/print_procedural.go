@@ -4,32 +4,30 @@ package printer
 import (
 	"strings"
 
-	"github.com/goccy/go-googlesql"
-
-	"github.com/paulourio/gsql/internal/ast"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
-func (p *Printer) VisitAssignmentFromStruct(ctx Context, n *googlesql.ASTAssignmentFromStruct) {
+func (p *Printer) visitAssignmentFromStruct(ctx Context, n *sql.AssignmentFromStruct) {
 	p.moveBefore(n)
 	pp := p.nest()
 	pp.print(pp.keyword("SET") + " (")
-	pp.print(pp.toString(ctx, ast.Must(n.Variables())) + ")")
+	pp.print(pp.toString(ctx, n.Variables()) + ")")
 	pp.print("=")
 	p.print(pp.unnestLeft())
-	p.accept(ctx, ast.Must(n.StructExpression()))
+	p.accept(ctx, n.StructExpression())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitBeginEndBlock(ctx Context, n *googlesql.ASTBeginEndBlock) {
+func (p *Printer) visitBeginEndBlock(ctx Context, n *sql.BeginEndBlock) {
 	p.moveBefore(n)
 	p.println(p.keyword("BEGIN"))
 	p.incDepth()
-	p.accept(ctx, ast.Must(n.StatementListNode()))
-	if ast.Must(n.HasExceptionHandler()) {
+	p.accept(ctx, n.StatementListNode())
+	if n.HasExceptionHandler() {
 		p.decDepth()
 		p.println(p.keyword("EXCEPTION WHEN ERROR THEN"))
 		p.incDepth()
-		p.accept(ctx, ast.Must(n.HandlerList()))
+		p.accept(ctx, n.HandlerList())
 	}
 	p.movePast(n)
 	p.println("")
@@ -37,33 +35,33 @@ func (p *Printer) VisitBeginEndBlock(ctx Context, n *googlesql.ASTBeginEndBlock)
 	p.println(p.keyword("END"))
 }
 
-func (p *Printer) VisitBeginStatementNode(ctx Context, n *googlesql.ASTBeginStatement) {
+func (p *Printer) visitBeginStatementNode(ctx Context, n *sql.BeginStatement) {
 	p.moveBefore(n)
 	p.println(p.keyword("BEGIN TRANSACTION"))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitRollbackStatementNode(ctx Context, n *googlesql.ASTRollbackStatement) {
+func (p *Printer) visitRollbackStatementNode(ctx Context, n *sql.RollbackStatement) {
 	p.moveBefore(n)
 	p.println(p.keyword("ROLLBACK TRANSACTION"))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitExceptionHandlerListNode(ctx Context, n *googlesql.ASTExceptionHandlerList) {
-	for _, node := range ast.ChildrenOfType[*googlesql.ASTExceptionHandler](n) {
+func (p *Printer) visitExceptionHandlerListNode(ctx Context, n *sql.ExceptionHandlerList) {
+	for _, node := range n.Handlers() {
 		p.accept(ctx, node)
 	}
 }
 
-func (p *Printer) VisitExceptionHandlerNode(ctx Context, n *googlesql.ASTExceptionHandler) {
-	p.accept(ctx, ast.Must(n.StatementList()))
+func (p *Printer) visitExceptionHandlerNode(ctx Context, n *sql.ExceptionHandler) {
+	p.accept(ctx, n.StatementList())
 }
 
-func (p *Printer) VisitCallStatement(ctx Context, n *googlesql.ASTCallStatement) {
+func (p *Printer) visitCallStatement(ctx Context, n *sql.CallStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("CALL"))
-	p.accept(ctx.WithValue(KeyInFunctionName, true), ast.Must(n.ProcedureName()))
-	args := ast.ChildrenOfType[*googlesql.ASTTVFArgument](n)
+	p.accept(ctx.WithValue(KeyInFunctionName, true), n.ProcedureName())
+	args := n.TVFArguments()
 	simple := len(args) <= 2 && allTrue(mapIsSimpleTVFArguments(args))
 	pp := p.nest()
 	for i, a := range args {
@@ -88,42 +86,42 @@ func (p *Printer) VisitCallStatement(ctx Context, n *googlesql.ASTCallStatement)
 	p.movePast(n)
 }
 
-func (p *Printer) VisitCommitStatement(ctx Context, n *googlesql.ASTCommitStatement) {
+func (p *Printer) visitCommitStatement(ctx Context, n *sql.CommitStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("COMMIT TRANSACTION"))
 	p.movePast(n)
 }
 
-func (p *Printer) VisitExecuteIntoClause(ctx Context, n *googlesql.ASTExecuteIntoClause) {
+func (p *Printer) visitExecuteIntoClause(ctx Context, n *sql.ExecuteIntoClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("INTO"))
-	p.accept(ctx, ast.Must(n.Identifiers()))
+	p.accept(ctx, n.Identifiers())
 }
 
-func (p *Printer) VisitExecuteImmediateStatement(ctx Context, n *googlesql.ASTExecuteImmediateStatement) {
+func (p *Printer) visitExecuteImmediateStatement(ctx Context, n *sql.ExecuteImmediateStatement) {
 	p.moveBefore(n)
 	p.println(p.keyword("EXECUTE IMMEDIATE"))
 	p.incDepth()
 	// In the future we may try to format the SQL contents when they're
 	// a single string containing a valid SQL.
-	p.accept(ctx, ast.Must(n.Sql()))
+	p.accept(ctx, n.SQL())
 	p.println("")
 	p.decDepth()
-	p.lnaccept(ctx, ast.Must(n.IntoClause()))
-	p.lnaccept(ctx, ast.Must(n.UsingClause()))
+	p.lnaccept(ctx, n.IntoClause())
+	p.lnaccept(ctx, n.UsingClause())
 }
 
-func (p *Printer) VisitExecuteUsingArgument(ctx Context, n *googlesql.ASTExecuteUsingArgument) {
+func (p *Printer) visitExecuteUsingArgument(ctx Context, n *sql.ExecuteUsingArgument) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Expression()))
-	p.accept(ctx, ast.Must(n.Alias()))
+	p.accept(ctx, n.Expression())
+	p.accept(ctx, n.Alias())
 }
 
-func (p *Printer) VisitExecuteUsingClause(ctx Context, n *googlesql.ASTExecuteUsingClause) {
+func (p *Printer) visitExecuteUsingClause(ctx Context, n *sql.ExecuteUsingClause) {
 	p.moveBefore(n)
 	p.println(p.keyword("USING"))
 	p.incDepth()
-	args := ast.ChildrenOfType[*googlesql.ASTExecuteUsingArgument](n)
+	args := n.Arguments()
 	for i, a := range args {
 		if i > 0 {
 			p.println(",")
@@ -134,25 +132,25 @@ func (p *Printer) VisitExecuteUsingClause(ctx Context, n *googlesql.ASTExecuteUs
 	p.decDepth()
 }
 
-func (p *Printer) VisitIfStatement(ctx Context, n *googlesql.ASTIfStatement) {
+func (p *Printer) visitIfStatement(ctx Context, n *sql.IfStatement) {
 	p.moveBefore(n)
-	cond := ast.Must(n.Condition())
+	cond := n.Condition()
 	pp := p.nest()
 	pp.println("")
 	if isSimpleExpr(cond) {
 		pp.print(pp.keyword("IF"))
-		pp.print(strings.TrimLeft(pp.toUnnestedString(ctx, ast.Must(n.Condition())), "\v"))
+		pp.print(strings.TrimLeft(pp.toUnnestedString(ctx, n.Condition()), "\v"))
 		pp.print(pp.keyword("THEN"))
 	} else {
 		pp.println(pp.keyword("IF"))
 		pp.incDepth()
-		pp.acceptNestedLeft(ctx, ast.Must(n.Condition()))
+		pp.acceptNestedLeft(ctx, n.Condition())
 		pp.println("")
 		pp.decDepth()
 		pp.print(p.keyword("THEN"))
 	}
 	p.print(pp.unnestLeft())
-	if then := ast.Must(n.ThenList()); ast.Defined(then) && ast.NumChildren(then) > 0 {
+	if then := n.ThenList(); then != nil && then.NumChildren() > 0 {
 		p.println("")
 		pp = p.nest()
 		pp.incDepth()
@@ -161,17 +159,17 @@ func (p *Printer) VisitIfStatement(ctx Context, n *googlesql.ASTIfStatement) {
 		pp.decDepth()
 		p.print(pp.unnestLeft())
 	}
-	if elseifs := ast.Must(n.ElseifClauses()); ast.Defined(elseifs) {
+	if elseifs := n.ElseifClauses(); elseifs != nil {
 		p.moveBefore(elseifs)
-		for _, e := range ast.ChildrenOfType[*googlesql.ASTElseifClause](elseifs) {
+		for _, e := range elseifs.Clauses() {
 			p.moveBefore(e)
 			p.println("")
 			pp = p.nest()
 			pp.print(pp.keyword("ELSEIF"))
-			pp.accept(ctx, ast.Must(e.Condition()))
+			pp.accept(ctx, e.Condition())
 			pp.print(pp.keyword("THEN"))
 			p.println(pp.unnestLeft())
-			if body := ast.Must(e.Body()); ast.Defined(body) && ast.NumChildren(body) > 0 {
+			if body := e.Body(); body != nil && body.NumChildren() > 0 {
 				pp = p.nest()
 				pp.incDepth()
 				pp.acceptNestedLeft(ctx, body)
@@ -183,11 +181,11 @@ func (p *Printer) VisitIfStatement(ctx Context, n *googlesql.ASTIfStatement) {
 		}
 		p.movePast(elseifs)
 	}
-	if e := ast.Must(n.ElseList()); ast.Defined(e) {
+	if e := n.ElseList(); e != nil {
 		p.println("")
 		p.println(p.keyword("ELSE"))
 		p.moveBefore(e)
-		if ast.NumChildren(e) > 0 {
+		if e.NumChildren() > 0 {
 			pp = p.nest()
 			pp.incDepth()
 			pp.acceptNestedLeft(ctx, e)
@@ -201,49 +199,49 @@ func (p *Printer) VisitIfStatement(ctx Context, n *googlesql.ASTIfStatement) {
 	p.print(p.keyword("END IF"))
 }
 
-func (p *Printer) VisitParameterAssignment(ctx Context, n *googlesql.ASTParameterAssignment) {
+func (p *Printer) visitParameterAssignment(ctx Context, n *sql.ParameterAssignment) {
 	p.moveBefore(n)
 	pp := p.nest()
 	pp.print(pp.keyword("SET"))
-	pp.accept(ctx, ast.Must(n.Parameter()))
+	pp.accept(ctx, n.Parameter())
 	pp.print("=")
 	p.print(pp.unnestLeft())
-	p.accept(ctx, ast.Must(n.Expression()))
+	p.accept(ctx, n.Expression())
 	p.moveBefore(n)
 }
 
-func (p *Printer) VisitReturnStatement(ctx Context, n *googlesql.ASTReturnStatement) {
+func (p *Printer) visitReturnStatement(ctx Context, n *sql.ReturnStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("RETURN"))
 }
 
-func (p *Printer) VisitSystemVariableAssignment(ctx Context, n *googlesql.ASTSystemVariableAssignment) {
+func (p *Printer) visitSystemVariableAssignment(ctx Context, n *sql.SystemVariableAssignment) {
 	p.moveBefore(n)
 	p.print(p.keyword("SET"))
-	p.accept(ctx, ast.Must(n.SystemVariable()))
+	p.accept(ctx, n.SystemVariable())
 	p.print("=")
-	p.accept(ctx, ast.Must(n.Expression()))
+	p.accept(ctx, n.Expression())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitSingleAssignment(ctx Context, n *googlesql.ASTSingleAssignment) {
+func (p *Printer) visitSingleAssignment(ctx Context, n *sql.SingleAssignment) {
 	p.moveBefore(n)
 	p.print(p.keyword("SET"))
-	p.accept(ctx, ast.Must(n.Variable()))
+	p.accept(ctx, n.Variable())
 	p.print("=")
-	p.accept(ctx.WithValue(KeyInSingleAssignment, true), ast.Must(n.Expression()))
+	p.accept(ctx.WithValue(KeyInSingleAssignment, true), n.Expression())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitVariableDeclaration(ctx Context, n *googlesql.ASTVariableDeclaration) {
+func (p *Printer) visitVariableDeclaration(ctx Context, n *sql.VariableDeclaration) {
 	p.moveBefore(n)
 	p.print(p.keyword("DECLARE"))
-	p.accept(ctx, ast.Must(n.VariableList()))
-	p.acceptNested(ctx, ast.Must(n.Type()))
-	if dv := ast.Must(n.DefaultValue()); dv != nil {
+	p.accept(ctx, n.VariableList())
+	p.acceptNested(ctx, n.Type())
+	if dv := n.DefaultValue(); dv != nil {
 		p.print(p.keyword("DEFAULT"))
 		p.moveBefore(dv)
-		p.acceptNested(ctx, ast.Must(n.DefaultValue()))
+		p.acceptNested(ctx, n.DefaultValue())
 	}
 	p.movePast(n)
 }

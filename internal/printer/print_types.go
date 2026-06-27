@@ -5,17 +5,15 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccy/go-googlesql"
-
-	"github.com/paulourio/gsql/internal/ast"
+	"github.com/paulourio/gsql/internal/sql"
 )
 
-func (p *Printer) VisitArrayColumnSchema(ctx Context, n *googlesql.ASTArrayColumnSchema) {
+func (p *Printer) visitArrayColumnSchema(ctx Context, n *sql.ArrayColumnSchema) {
 	p.moveBefore(n)
 	pp := p.nest()
 	p1 := pp.nest()
-	p1.accept(ctx.WithValue(KeyInTypeName, true), ast.Must(n.ElementSchema()))
-	p1.accept(ctx, ast.Must(n.TypeParameters()))
+	p1.accept(ctx.WithValue(KeyInTypeName, true), n.ElementSchema())
+	p1.accept(ctx, n.TypeParameters())
 	typespec := strings.TrimLeft(p1.unnestLeft(), "\v")
 	if strings.Contains(typespec, "\n") {
 		pp.println(pp.keyword("ARRAY") + "<")
@@ -26,15 +24,15 @@ func (p *Printer) VisitArrayColumnSchema(ctx Context, n *googlesql.ASTArrayColum
 	} else {
 		pp.print(pp.keyword("ARRAY") + "<" + typespec + ">")
 	}
-	pp.lnaccept(ctx, ast.Must(n.Collate()))
-	pp.lnaccept(ctx, ast.Must(n.GeneratedColumnInfo()))
-	pp.lnaccept(ctx, ast.Must(n.DefaultExpression()))
-	pp.lnaccept(ctx, ast.Must(n.Attributes()))
-	pp.lnaccept(ctx, ast.Must(n.OptionsList()))
+	pp.lnaccept(ctx, n.Collate())
+	pp.lnaccept(ctx, n.GeneratedColumnInfo())
+	pp.lnaccept(ctx, n.DefaultExpression())
+	pp.lnaccept(ctx, n.Attributes())
+	pp.lnaccept(ctx, n.OptionsList())
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) visitArrayColumnSchema(ctx Context, n *googlesql.ASTColumnSchema) {
+func (p *Printer) visitColumnSchemaAsArrayColumnSchema(ctx Context, n *sql.ColumnSchema) {
 	p.moveBefore(n)
 	pp := p.nest()
 	pp.print(pp.keyword("ARRAY") + "<")
@@ -42,30 +40,30 @@ func (p *Printer) visitArrayColumnSchema(ctx Context, n *googlesql.ASTColumnSche
 	if !simpleType {
 		pp.println("")
 		p2 := pp.nest()
-		p2.accept(ctx, ast.Must(n.TypeParameters()))
+		p2.accept(ctx, n.TypeParameters())
 		pp.print(p2.unnestLeft())
 	} else {
-		pp.accept(ctx, ast.Must(n.TypeParameters()))
+		pp.accept(ctx, n.TypeParameters())
 	}
 	pp.print(">")
-	pp.lnaccept(ctx, ast.Must(n.Collate()))
-	pp.lnaccept(ctx, ast.Must(n.GeneratedColumnInfo()))
-	pp.lnaccept(ctx, ast.Must(n.DefaultExpression()))
-	pp.lnaccept(ctx, ast.Must(n.Attributes()))
-	pp.lnaccept(ctx, ast.Must(n.OptionsList()))
+	pp.lnaccept(ctx, n.Collate())
+	pp.lnaccept(ctx, n.GeneratedColumnInfo())
+	pp.lnaccept(ctx, n.DefaultExpression())
+	pp.lnaccept(ctx, n.Attributes())
+	pp.lnaccept(ctx, n.OptionsList())
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) VisitArrayType(ctx Context, n *googlesql.ASTArrayType) {
+func (p *Printer) visitArrayType(ctx Context, n *sql.ArrayType) {
 	pp := p.nest()
 	pp.moveBefore(n)
 	simple := true
-	if et := ast.Must(n.ElementType()); et != nil {
+	if et := n.ElementType(); et != nil {
 		simple = isSimpleType(et)
 	}
 	pp2 := pp.nest()
-	pp2.accept(ctx, ast.Must(n.ElementType()))
-	pp2.accept(ctx, ast.Must(n.TypeParameters()))
+	pp2.accept(ctx, n.ElementType())
+	pp2.accept(ctx, n.TypeParameters())
 	if simple {
 		elemType := strings.Trim(pp2.String(), "\n")
 		pp.print(pp.keyword("ARRAY") + "<" + elemType + ">")
@@ -77,94 +75,72 @@ func (p *Printer) VisitArrayType(ctx Context, n *googlesql.ASTArrayType) {
 		pp.decDepth()
 		pp.print(">")
 	}
-	pp.accept(ctx, ast.Must(n.Collate()))
+	pp.accept(ctx, n.Collate())
 	p.print(pp.String())
 }
 
-func (p *Printer) VisitColumnDefinition(ctx Context, n *googlesql.ASTColumnDefinition) {
+func (p *Printer) visitColumnDefinition(ctx Context, n *sql.ColumnDefinition) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Name()))
+	p.accept(ctx, n.Name())
 	p.print("\v")
-	p.acceptNestedString(ctx, ast.Must(n.Schema()))
+	p.acceptNestedString(ctx, n.Schema())
 }
 
-func (p *Printer) VisitColumnSchema(ctx Context, n *googlesql.ASTColumnSchema) {
+func (p *Printer) visitColumnSchema(ctx Context, n *sql.ColumnSchema) {
 	p.moveBefore(n)
-	// In ZetaSQL, ASTColumnSchema is an abstract class, and its
-	// extensions are
-	//
-	//   - ASTArrayColumnSchema
-	//   - ASTInferredTypeColumnSchema
-	//   - ASTSimpleColumnSchema
-	//   - ASTStructColumnSchema
-	//
-	// However, in Go bindings, we have a struct ast.ColumnSchemaNode
-	// and ast.Nodes's of kind ast.ArrayColumnSchema,
-	// ast.InferredTypeColumnSchema, ast.StructColumnSchema, and
-	// ast.StructColumnSchema are mapped to *googlesql.ASTColumnSchema.
-	//
-	// Effectively, we cannot reach any of ast.ArrayColumnSchemaNode,
-	// ast.InferredTypeColumnSchemaNode, ast.StructColumnSchemaNode,
-	// or ast.ArrayColumnSchemaNode by walking with Child() methods.
-	//
-	// Issue: https://github.com/goccy/go-zetasql/issues/30
-	//
-	// We circumvent this issue by checking the node's kind and handling
-	// children accordingly.
-	switch ast.Kind(n) {
-	case ast.ArrayColumnSchema:
-		p.visitArrayColumnSchema(ctx, n)
-	case ast.InferredTypeColumnSchema:
+	switch n.Kind() {
+	case sql.ArrayColumnSchemaKind:
+		p.visitColumnSchemaAsArrayColumnSchema(ctx, n)
+	case sql.InferredTypeColumnSchemaKind:
 		p.visitInferredTypeColumnSchema(ctx, n)
-	case ast.SimpleColumnSchema:
-		panic("wtf")
-		// p.VisitSimpleColumnSchema(ctx, n.(*googlesql.ASTSimpleColumnSchema))
-	case ast.StructColumnSchema:
-		p.visitStructColumnSchema(ctx, n)
+	case sql.SimpleColumnSchemaKind:
+		panic("not implemented")
+	case sql.StructColumnSchemaKind:
+		p.visitColumnSchemaAsStructColumnSchema(ctx, n)
 	default:
-		panic(fmt.Errorf("unexpected kind for column schema node")) // Node: n
+		panic(fmt.Errorf("unexpected kind for column schema node"))
 	}
 	p.movePast(n)
 }
 
-func (p *Printer) visitInferredTypeColumnSchema(ctx Context, n *googlesql.ASTColumnSchema) {
-	p.addError(fmt.Errorf("not implemented")) // Node: n
+func (p *Printer) visitInferredTypeColumnSchema(ctx Context, n *sql.ColumnSchema) {
+	p.addError(fmt.Errorf("not implemented"))
 }
 
-func (p *Printer) VisitSimpleColumnSchema(ctx Context, n *googlesql.ASTSimpleColumnSchema) {
+func (p *Printer) visitSimpleColumnSchema(ctx Context, n *sql.SimpleColumnSchema) {
 	p.moveBefore(n)
 	pp := p.nest()
 	p1 := pp.nest()
-	p1.accept(ctx.WithValue(KeyInTypeName, true), ast.Must(n.TypeName()))
-	p1.accept(ctx, ast.Must(n.TypeParameters()))
+	p1.accept(ctx.WithValue(KeyInTypeName, true), n.TypeName())
+	p1.accept(ctx, n.TypeParameters())
 	pp.print(p1.unnestLeft())
-	pp.lnaccept(ctx, ast.Must(n.Collate()))
-	pp.lnaccept(ctx, ast.Must(n.Attributes()))
-	pp.lnaccept(ctx, ast.Must(n.OptionsList()))
+	pp.lnaccept(ctx, n.Collate())
+	pp.lnaccept(ctx, n.Attributes())
+	pp.lnaccept(ctx, n.OptionsList())
 	p.print(pp.unnest())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitSimpleType(ctx Context, n *googlesql.ASTSimpleType) {
+func (p *Printer) visitSimpleType(ctx Context, n *sql.SimpleType) {
 	p.moveBefore(n)
-	p.accept(ctx.WithValue(KeyInTypeName, true), ast.Must(n.TypeName()))
-	p.accept(ctx, ast.Must(n.TypeParameters()))
-	p.accept(ctx, ast.Must(n.Collate()))
+	p.accept(ctx.WithValue(KeyInTypeName, true), n.TypeName())
+	p.accept(ctx, n.TypeParameters())
+	p.accept(ctx, n.Collate())
 }
 
-func (p *Printer) VisitStructColumnField(ctx Context, n *googlesql.ASTStructColumnField) {
+func (p *Printer) visitStructColumnField(ctx Context, n *sql.StructColumnField) {
 	p.moveBefore(n)
 	// When a struct is inside an array, KeyInTypeName is true, so we need to
 	// override its value to avoid formatting the struct field name as a type name.
-	p.accept(ctx.WithValue(KeyInTypeName, false), ast.Must(n.Name()))
-	p.accept(ctx, ast.Must(n.Schema()))
+	p.accept(ctx.WithValue(KeyInTypeName, false), n.Name())
+	p.accept(ctx, n.Schema())
 	p.movePast(n)
 }
 
-func (p *Printer) VisitStructColumnSchema(ctx Context, n *googlesql.ASTStructColumnSchema) {
+func (p *Printer) visitStructColumnSchema(ctx Context, n *sql.StructColumnSchema) {
 	pp := p.nest()
 	pp.moveBefore(n)
-	fields := ast.ChildrenOfType[*googlesql.ASTStructColumnField](n)
+	fields := n.StructFields()
 	simple := isSimpleStructColumnSchema(fields)
 	if simple {
 		p2 := pp.nest()
@@ -190,17 +166,20 @@ func (p *Printer) VisitStructColumnSchema(ctx Context, n *googlesql.ASTStructCol
 		pp.println("")
 		pp.println(">")
 	}
-	pp.accept(ctx, ast.Must(n.Collate()))
-	pp.accept(ctx, ast.Must(n.Attributes()))
-	pp.accept(ctx, ast.Must(n.OptionsList()))
+	pp.accept(ctx, n.Collate())
+	pp.accept(ctx, n.Attributes())
+	pp.accept(ctx, n.OptionsList())
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) visitStructColumnSchema(ctx Context, n *googlesql.ASTColumnSchema) {
+func (p *Printer) visitColumnSchemaAsStructColumnSchema(ctx Context, n *sql.ColumnSchema) {
 	pp := p.nest()
 	simpleType, _ := isSimpleColumnSchema(n)
 	p1 := pp.nest()
-	fields := ast.ChildrenOfType[*googlesql.ASTStructColumnField](n)
+	var fields []*sql.StructColumnField
+	if sc, ok := sql.Wrap(n.Raw()).(*sql.StructColumnSchema); ok {
+		fields = sc.StructFields()
+	}
 	for i, f := range fields {
 		if i > 0 {
 			p1.println(",")
@@ -215,23 +194,22 @@ func (p *Printer) visitStructColumnSchema(ctx Context, n *googlesql.ASTColumnSch
 		pp.decDepth()
 		pp.print(">")
 	}
-	attrs := ast.ChildrenOfType[*googlesql.ASTColumnAttributeList](n)
-	if len(attrs) > 0 {
-		printNestedWithSep(ctx, pp, attrs, "")
+	if attrs := n.Attributes(); attrs != nil {
+		printNestedWithSepNode(ctx, pp, []*sql.ColumnAttributeList{attrs}, "")
 	}
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) VisitStructField(ctx Context, n *googlesql.ASTStructField) {
+func (p *Printer) visitStructField(ctx Context, n *sql.StructField) {
 	p.moveBefore(n)
-	p.accept(ctx, ast.Must(n.Name()))
-	p.acceptNested(ctx, ast.Must(n.Type()))
+	p.accept(ctx, n.Name())
+	p.acceptNested(ctx, n.Type())
 }
 
-func (p *Printer) VisitStructType(ctx Context, n *googlesql.ASTStructType) {
+func (p *Printer) visitStructType(ctx Context, n *sql.StructType) {
 	pp := p.nest()
 	pp.moveBefore(n)
-	fields := ast.ChildrenOfType[*googlesql.ASTStructField](n)
+	fields := n.StructFields()
 	simple := allTrue(mapIsSimpleStructFields(fields))
 	pp2 := pp.nest()
 	for i, f := range fields {
@@ -256,28 +234,28 @@ func (p *Printer) VisitStructType(ctx Context, n *googlesql.ASTStructType) {
 		pp3.decDepth()
 		pp3.print(">")
 	}
-	pp3.accept(ctx, ast.Must(n.TypeParameters()))
+	pp3.accept(ctx, n.TypeParameters())
 	pp.print(pp3.unnestLeft())
-	pp.lnaccept(ctx, ast.Must(n.Collate()))
+	pp.lnaccept(ctx, n.Collate())
 	p.print(pp.unnest())
 }
 
-func (p *Printer) VisitTemplatedParameterType(ctx Context, n *googlesql.ASTTemplatedParameterType) {
+func (p *Printer) visitTemplatedParameterType(ctx Context, n *sql.TemplatedParameterType) {
 	p.moveBefore(n)
-	switch ast.Must(n.Kind()) {
-	case ast.UninitializedTemplatedTypeKind:
+	switch n.TemplatedKind() {
+	case sql.UninitializedTypeKind:
 		p.print(p.keyword("<UNINITIALIZED TEMPLATED KIND>"))
-	case ast.AnyTypeTemplatedTypeKind:
+	case sql.AnyType:
 		p.print(p.keyword("ANY TYPE"))
-	case ast.AnyProtoTemplatedTypeKind:
+	case sql.AnyProto:
 		p.print(p.keyword("ANY PROTO"))
-	case ast.AnyEnumTemplatedTypeKind:
+	case sql.AnyEnum:
 		p.print(p.keyword("ANY ENUM"))
-	case ast.AnyStructTemplatedTypeKind:
+	case sql.AnyStruct:
 		p.print(p.keyword("ANY STRUCT"))
-	case ast.AnyArrayTemplatedTypeKind:
+	case sql.AnyArray:
 		p.print(p.keyword("ANY ARRAY"))
-	case ast.AnyTableTemplatedTypeKind:
+	case sql.AnyTable:
 		p.print(p.keyword("ANY TABLE"))
 	}
 	p.movePast(n)
@@ -285,10 +263,10 @@ func (p *Printer) VisitTemplatedParameterType(ctx Context, n *googlesql.ASTTempl
 
 // This is a patch to format TemplatedParameterTypes and Table types,
 // which are not accessible in go-zetasql for now.
-func (p *Printer) patchedVisitTemplatedParameterType(n *googlesql.ASTFunctionParameter) {
+func (p *Printer) patchedVisitTemplatedParameterType(n *sql.FunctionParameter) {
 	input := p.nodeErasedInput(n)
 	inputUpcase := strings.ToUpper(input)
-	field := p.toString(nil, ast.Must(n.Name()))
+	field := p.toString(nil, n.Name())
 	i := strings.Index(inputUpcase, strings.ToUpper(field))
 	// We just print whatever we find after the field name as a typename.
 	p.print(p.typename(strings.TrimSpace(input[i+len(field)+1:])))
@@ -305,8 +283,8 @@ func (p *Printer) patchedVisitTemplatedParameterType(n *googlesql.ASTFunctionPar
 	panic(fmt.Sprintf("Unsupported type in input %#v", input))
 }
 
-func (p *Printer) VisitTVFSchema(ctx Context, n *googlesql.ASTTVFSchema) {
-	cols := ast.ChildrenOfType[*googlesql.ASTTVFSchemaColumn](n)
+func (p *Printer) visitTVFSchema(ctx Context, n *sql.TVFSchema) {
+	cols := n.Columns()
 	simple := len(cols) <= 2 && allTrue(mapIsSimpleTVFSchema(cols))
 	pp := p.nest()
 	pp.moveBefore(n)
@@ -333,10 +311,10 @@ func (p *Printer) VisitTVFSchema(ctx Context, n *googlesql.ASTTVFSchema) {
 	p.print(pp.unnestLeft())
 }
 
-func (p *Printer) VisitTVFSchemaColumn(ctx Context, n *googlesql.ASTTVFSchemaColumn) {
+func (p *Printer) visitTVFSchemaColumn(ctx Context, n *sql.TVFSchemaColumn) {
 	pp := p.nest()
 	pp.moveBefore(n)
-	pp.accept(ctx, ast.Must(n.Name()))
-	pp.acceptNested(ctx, ast.Must(n.Type()))
+	pp.accept(ctx, n.Name())
+	pp.acceptNested(ctx, n.Type())
 	p.print(pp.String())
 }
