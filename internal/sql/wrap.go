@@ -601,6 +601,11 @@ func Wrap(n googlesql.ASTNode) Node {
 	case *googlesql.ASTVariableDeclaration:
 		return newASTVariableDeclaration(m)
 
+	// ── Debugging ───────────────────────────────────────────────────────────────
+
+	case *googlesql.ASTAssertStatement:
+		return newASTAssertStatement(m)
+
 	// ── Fallback ──────────────────────────────────────────────────────────────
 	default:
 		if po, ok := n.(googlesql.ASTPipeOperatorNode); ok {
@@ -621,7 +626,6 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newGenericNode(n)
 	}
 }
-
 
 // WalkNode visits every node in the sub-tree rooted at n in depth-first
 // pre-order.  If cb returns a non-nil error, WalkNode stops and returns that

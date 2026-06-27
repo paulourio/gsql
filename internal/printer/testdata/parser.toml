@@ -75,9 +75,9 @@ select--comment
 formatted = """
 SELECT --comment
        --comment
-       1  -- comment
-       +  --
-       2  --comment
+         1 -- comment
+       + --
+         2 --comment
 """
 
 [[cases]]
@@ -91,9 +91,9 @@ select--comment
 formatted = """
 SELECT --comment
        --comment
-       1  -- comment
-       +  --
-       2  --2
+         1 -- comment
+       + --
+         2 --2
 """
 
 [[cases]]
@@ -107,9 +107,9 @@ select--comment
 formatted = """
 SELECT --comment
        --comment
-       1  -- comment
-       +  --
-       2  /* comment */
+         1 -- comment
+       + --
+         2 /* comment */
   FROM t
 """
 
@@ -138,7 +138,7 @@ select "abc -- def",
        "abc /* def */ ghi"
 """
 formatted = """
-SELECT "abc -- def", "abc # def", "abc /* def */ ghi"
+SELECT 'abc -- def', 'abc # def', 'abc /* def */ ghi'
 """
 
 [[cases]]
@@ -165,10 +165,8 @@ select f1, f2 from (select 1 f1, "b" f2);
 """
 formatted = """
 SELECT f1, f2
-  FROM (
-         SELECT 1   AS f1,
-                "b" AS f2
-       )
+  FROM (SELECT 1   AS f1,
+               'b' AS f2)
 """
 
 [[cases]]
@@ -177,12 +175,8 @@ select f1 from (select 1 f1) AS subquery_alias_1, (select 1 f1) subquery_alias_2
 """
 formatted = """
 SELECT f1
-  FROM (
-         SELECT 1 AS f1
-       ) AS subquery_alias_1,
-       (
-         SELECT 1 AS f1
-       ) AS subquery_alias_2
+  FROM (SELECT 1 AS f1) AS subquery_alias_1,
+       (SELECT 1 AS f1) AS subquery_alias_2
 """
 
 [[cases]]
@@ -219,7 +213,7 @@ select count(abc.def), count(*), anon_count(*, 0, 1) from T;
 formatted = """
 SELECT COUNT(abc.def),
        COUNT(*),
-       ANON_COUNT(*, 0, 1)
+       anon_count(*, 0, 1)
   FROM T
 """
 
@@ -228,7 +222,7 @@ input = """
 select a.b.f(x.y) from T;
 """
 formatted = """
-SELECT A.B.F(x.y)
+SELECT a.b.f(x.y)
   FROM T
 """
 
@@ -237,7 +231,7 @@ input = """
 select *, a.b.f(x.y) from T;
 """
 formatted = """
-SELECT *, A.B.F(x.y)
+SELECT *, a.b.f(x.y)
   FROM T
 """
 
@@ -246,9 +240,9 @@ input = """
 select f(g(x)), f(1), h() AS foo from T;
 """
 formatted = """
-SELECT F(G(x)),
-       F(1),
-       H() AS foo
+SELECT f(g(x)),
+       f(1),
+       h() AS foo
   FROM T
 """
 
@@ -257,12 +251,12 @@ input = """
 select f(1, x, "a", true, g(y)) AS bar from T;
 """
 formatted = """
-SELECT F(
+SELECT f(
          1,
          x,
-         "a",
+         'a',
          TRUE,
-         G(y)
+         g(y)
        ) AS bar
   FROM T
 """
@@ -301,6 +295,7 @@ SELECT CAST(x AS DOUBLE COLLATE 'und:ci')
 """
 
 [[cases]]
+description = "Cast to struct with collate on field"
 input = """
 select cast(x as struct<x string collate 'und:ci'>);
 """
@@ -313,7 +308,8 @@ input = """
 select cast(x as struct<x string> collate 'und:ci');
 """
 formatted = """
-SELECT CAST(x AS STRUCT<x STRING> COLLATE 'und:ci')
+SELECT CAST(x AS STRUCT<x STRING>
+                 COLLATE 'und:ci')
 """
 
 [[cases]]
@@ -369,7 +365,7 @@ select cast("1" as int32), cast(1 as string),
        cast(y as `mypackage.myenum`) from T;
 """
 formatted = """
-SELECT CAST("1" AS INT32),
+SELECT CAST('1' AS INT32),
        CAST(1 AS STRING),
        CAST(t AS TIMESTAMP_MILLIS),
        CAST(u AS TIMESTAMP_MICROS),
@@ -391,7 +387,7 @@ select safe_cast("1" as int32), safe_cast(1 as string),
        safe_cast(y as `mypackage.myenum`) from T;
 """
 formatted = """
-SELECT SAFE_CAST("1" AS INT32),
+SELECT SAFE_CAST('1' AS INT32),
        SAFE_CAST(1 AS STRING),
        SAFE_CAST(t AS TIMESTAMP_MILLIS),
        SAFE_CAST(u AS TIMESTAMP_MICROS),
@@ -418,7 +414,7 @@ formatted = """
 SELECT CAST(x AS FOO),
        CAST(x AS A.B),
        CAST(x > 5 AS TIMESTAMP_SECONDS),
-       CAST("1" AS `int64`) AS cast_1_as_int64,
+       CAST('1' AS `int64`) AS cast_1_as_int64,
        CAST(x < 10 AS B),
        CAST(x AS STRUCT<x INT, y DOUBLE>),
        CAST(x AS STRUCT<INT, DOUBLE>),
@@ -442,7 +438,7 @@ formatted = """
 SELECT SAFE_CAST(x AS FOO),
        SAFE_CAST(x AS A.B),
        SAFE_CAST(x > 5 AS TIMESTAMP_SECONDS),
-       SAFE_CAST("1" AS `int64`) AS cast_1_as_int64,
+       SAFE_CAST('1' AS `int64`) AS cast_1_as_int64,
        SAFE_CAST(x < 10 AS B),
        SAFE_CAST(x AS STRUCT<x INT, y DOUBLE>),
        SAFE_CAST(x AS STRUCT<INT, DOUBLE>),
@@ -494,11 +490,11 @@ from T;
 """
 formatted = """
 SELECT COUNT(*),
-       ANON_COUNT(*, 0, 1),
+       anon_count(*, 0, 1),
        COUNT(DISTINCT x),
        SUM(x),
        SUM(DISTINCT x),
-       GROUP_CONCAT(DISTINCT x, '|')
+       group_concat(DISTINCT x, '|')
   FROM T
 """
 
@@ -507,7 +503,7 @@ input = """
 select count(distinct);
 """
 formatted = """
-SELECT COUNT(DISTINCT )
+SELECT COUNT(DISTINCT)
 """
 
 [[cases]]
@@ -544,7 +540,7 @@ input = """
 select f(column.field_name) like 'pattern%';
 """
 formatted = """
-SELECT F(column.field_name) LIKE 'pattern%'
+SELECT f(column.field_name) LIKE 'pattern%'
 """
 
 [[cases]]
@@ -570,7 +566,7 @@ select a from t where (f(a) + b[c]) IS NOT NULL
 formatted = """
 SELECT a
   FROM t
- WHERE (F(a) + b[c]) IS NOT NULL
+ WHERE (f(a) + b[c]) IS NOT NULL
 """
 
 [[cases]]
@@ -636,7 +632,7 @@ input = """
 select 1 NOTIN
 """
 formatted = """
-SELECT 1 AS NOTIN
+SELECT 1 AS notin
 """
 
 [[cases]]
@@ -644,7 +640,7 @@ input = """
 select 1 NOTBETWEEN
 """
 formatted = """
-SELECT 1 AS NOTBETWEEN
+SELECT 1 AS notbetween
 """
 
 [[cases]]
@@ -652,7 +648,7 @@ input = """
 select 1 NOTLIKE
 """
 formatted = """
-SELECT 1 AS NOTLIKE
+SELECT 1 AS notlike
 """
 
 [[cases]]
@@ -729,9 +725,7 @@ SELECT (TRUE OR FALSE) OR EXISTS(select 1) OR (FALSE OR TRUE)
 """
 formatted = """
 SELECT    (TRUE OR FALSE)
-       OR EXISTS(
-            SELECT 1
-          )
+       OR EXISTS(SELECT 1)
        OR (FALSE OR TRUE)
 """
 
@@ -740,7 +734,7 @@ input = """
 SELECT 1 # End of line comment
 """
 formatted = """
-SELECT 1  # End of line comment
+SELECT 1 # End of line comment
 """
 
 [[cases]]

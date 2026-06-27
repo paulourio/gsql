@@ -72,6 +72,13 @@ type ExpressionNode interface {
 	isExpression()
 }
 
+// LeafNode is the wrapped equivalent of googlesql.ASTLeafNode.
+type LeafNode interface {
+	ExpressionNode
+	isLeaf()
+}
+
+
 // StatementNode is the wrapped equivalent of googlesql.ASTStatementNode.
 type StatementNode interface {
 	Node

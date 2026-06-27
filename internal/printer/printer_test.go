@@ -16,7 +16,7 @@ import (
 )
 
 func TestPrinter(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	files, err := os.ReadDir("testdata")
 	assert.NoError(t, err)
 	nerr := 0
@@ -92,7 +92,7 @@ func TestPrinter(t *testing.T) {
 				"with",
 				"with_expressions",
 			}
-			skip := true
+			skip := false
 			for _, prefix := range testFiles {
 				if strings.HasPrefix(name, prefix+".toml") {
 					skip = false

@@ -1462,6 +1462,7 @@ func newASTStar(r *googlesql.ASTStar) *Star {
 	return &Star{baseNode[*googlesql.ASTStar]{raw: r}}
 }
 func (n *Star) isExpression() {}
+func (n *Star) isLeaf()       {}
 func (n *Star) Image() string { return must(n.raw.Image()) }
 
 // ExpressionWithOptAlias wraps *googlesql.ASTExpressionWithOptAlias.
@@ -2473,6 +2474,7 @@ func newASTIntLiteral(r *googlesql.ASTIntLiteral) *IntLiteral {
 	return &IntLiteral{baseNode[*googlesql.ASTIntLiteral]{raw: r}}
 }
 func (n *IntLiteral) isExpression() {}
+func (n *IntLiteral) isLeaf()       {}
 func (n *IntLiteral) IsHex() bool   { return must(n.raw.IsHex()) }
 func (n *IntLiteral) Image() string { return must(n.raw.Image()) }
 
@@ -2488,6 +2490,7 @@ func newASTFloatLiteral(r *googlesql.ASTFloatLiteral) *FloatLiteral {
 	return &FloatLiteral{baseNode[*googlesql.ASTFloatLiteral]{raw: r}}
 }
 func (n *FloatLiteral) isExpression() {}
+func (n *FloatLiteral) isLeaf()       {}
 func (n *FloatLiteral) Image() string { return must(n.raw.Image()) }
 
 // BooleanLiteral wraps *googlesql.ASTBooleanLiteral.
@@ -2502,6 +2505,7 @@ func newASTBooleanLiteral(r *googlesql.ASTBooleanLiteral) *BooleanLiteral {
 	return &BooleanLiteral{baseNode[*googlesql.ASTBooleanLiteral]{raw: r}}
 }
 func (n *BooleanLiteral) isExpression() {}
+func (n *BooleanLiteral) isLeaf()       {}
 func (n *BooleanLiteral) Value() bool   { return must(n.raw.Value()) }
 func (n *BooleanLiteral) Image() string { return must(n.raw.Image()) }
 
@@ -2517,6 +2521,7 @@ func newASTNullLiteral(r *googlesql.ASTNullLiteral) *NullLiteral {
 	return &NullLiteral{baseNode[*googlesql.ASTNullLiteral]{raw: r}}
 }
 func (n *NullLiteral) isExpression() {}
+func (n *NullLiteral) isLeaf()       {}
 func (n *NullLiteral) Image() string { return must(n.raw.Image()) }
 
 // StringLiteral wraps *googlesql.ASTStringLiteral.
@@ -2531,6 +2536,7 @@ func newASTStringLiteral(r *googlesql.ASTStringLiteral) *StringLiteral {
 	return &StringLiteral{baseNode[*googlesql.ASTStringLiteral]{raw: r}}
 }
 func (n *StringLiteral) isExpression()       {}
+func (n *StringLiteral) isLeaf()             {}
 func (n *StringLiteral) StringValue() string { return must(n.raw.StringValue()) }
 
 // Components: raw Components(i) returns *StringLiteralComponent (concrete).
@@ -2558,6 +2564,8 @@ func newASTStringLiteralComponent(r *googlesql.ASTStringLiteralComponent) *Strin
 	}
 	return &StringLiteralComponent{baseNode[*googlesql.ASTStringLiteralComponent]{raw: r}}
 }
+func (n *StringLiteralComponent) isExpression() {}
+func (n *StringLiteralComponent) isLeaf()       {}
 func (n *StringLiteralComponent) StringValue() string { return must(n.raw.StringValue()) }
 
 // BytesLiteral wraps *googlesql.ASTBytesLiteral.
@@ -2572,6 +2580,7 @@ func newASTBytesLiteral(r *googlesql.ASTBytesLiteral) *BytesLiteral {
 	return &BytesLiteral{baseNode[*googlesql.ASTBytesLiteral]{raw: r}}
 }
 func (n *BytesLiteral) isExpression()      {}
+func (n *BytesLiteral) isLeaf()            {}
 func (n *BytesLiteral) BytesValue() string { return must(n.raw.BytesValue()) }
 func (n *BytesLiteral) Components() []*BytesLiteralComponent {
 	count := n.NumChildren()
@@ -2597,6 +2606,8 @@ func newASTBytesLiteralComponent(r *googlesql.ASTBytesLiteralComponent) *BytesLi
 	}
 	return &BytesLiteralComponent{baseNode[*googlesql.ASTBytesLiteralComponent]{raw: r}}
 }
+func (n *BytesLiteralComponent) isExpression() {}
+func (n *BytesLiteralComponent) isLeaf()       {}
 func (n *BytesLiteralComponent) BytesValue() string { return must(n.raw.BytesValue()) }
 
 // NumericLiteral wraps *googlesql.ASTNumericLiteral.
@@ -2611,6 +2622,7 @@ func newASTNumericLiteral(r *googlesql.ASTNumericLiteral) *NumericLiteral {
 	return &NumericLiteral{baseNode[*googlesql.ASTNumericLiteral]{raw: r}}
 }
 func (n *NumericLiteral) isExpression() {}
+func (n *NumericLiteral) isLeaf()       {}
 func (n *NumericLiteral) StringLiteral() *StringLiteral {
 	return newASTStringLiteral(must(n.raw.StringLiteral()))
 }
@@ -2627,6 +2639,7 @@ func newASTBigNumericLiteral(r *googlesql.ASTBigNumericLiteral) *BigNumericLiter
 	return &BigNumericLiteral{baseNode[*googlesql.ASTBigNumericLiteral]{raw: r}}
 }
 func (n *BigNumericLiteral) isExpression() {}
+func (n *BigNumericLiteral) isLeaf()       {}
 func (n *BigNumericLiteral) StringLiteral() *StringLiteral {
 	return newASTStringLiteral(must(n.raw.StringLiteral()))
 }
@@ -2643,6 +2656,7 @@ func newASTJSONLiteral(r *googlesql.ASTJSONLiteral) *JSONLiteral {
 	return &JSONLiteral{baseNode[*googlesql.ASTJSONLiteral]{raw: r}}
 }
 func (n *JSONLiteral) isExpression() {}
+func (n *JSONLiteral) isLeaf()       {}
 func (n *JSONLiteral) StringLiteral() *StringLiteral {
 	return newASTStringLiteral(must(n.raw.StringLiteral()))
 }
@@ -2689,6 +2703,7 @@ func newASTMaxLiteral(r *googlesql.ASTMaxLiteral) *MaxLiteral {
 	return &MaxLiteral{baseNode[*googlesql.ASTMaxLiteral]{raw: r}}
 }
 func (n *MaxLiteral) isExpression() {}
+func (n *MaxLiteral) isLeaf()       {}
 
 // RangeLiteral wraps *googlesql.ASTRangeLiteral.
 type RangeLiteral struct {

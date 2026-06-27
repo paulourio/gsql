@@ -61,16 +61,11 @@ func (n *StructType) TypeParameters() *TypeParameterList {
 
 // StructFields: raw StructFields(i) returns *StructField (concrete) → []*StructField.
 func (n *StructType) StructFields() []*StructField {
-	count := n.NumChildren()
-	result := make([]*StructField, 0, count)
-	for i := range count {
-		f := must(n.raw.StructFields(int32(i)))
-		if f == nil {
-			break
-		}
-		result = append(result, newASTStructField(f))
+	var fields []*StructField
+	for f := range childrenOfType[*googlesql.ASTStructField](n) {
+		fields = append(fields, newASTStructField(f))
 	}
-	return result
+	return fields
 }
 
 // StructField wraps *googlesql.ASTStructField.
@@ -87,7 +82,9 @@ func newASTStructField(r *googlesql.ASTStructField) *StructField {
 func (n *StructField) Name() *Identifier { return newASTIdentifier(must(n.raw.Name())) }
 
 // Type: raw returns TypeNode (interface) → TypeNode.
-func (n *StructField) Type() TypeNode { return wrapType(must(n.raw.Type())) }
+func (n *StructField) Type() TypeNode {
+	return wrapType(must(n.raw.Type()))
+}
 
 // RangeType wraps *googlesql.ASTRangeType.
 type RangeType struct {
@@ -157,16 +154,10 @@ func newASTTypeParameterList(r *googlesql.ASTTypeParameterList) *TypeParameterLi
 }
 
 // Parameters returns all type parameters.
-func (n *TypeParameterList) Parameters() []Node {
-	count := n.NumChildren()
-	result := make([]Node, 0, count)
-	for i := range count {
-		p := must(n.raw.Parameters(int32(i)))
-		if p == nil {
-			break
-		}
-		result = append(result, Wrap(p))
+func (n *TypeParameterList) Parameters() []LeafNode {
+	var params []LeafNode
+	for p := range childrenOfType[googlesql.ASTLeafNode](n) {
+		params = append(params, wrapLeaf(p))
 	}
-	return result
+	return params
 }
-

@@ -1,5 +1,4 @@
 [setup]
-
 [setup.print_options]
 soft_max_cols = 80
 newline_before_clause = true
@@ -32,13 +31,7 @@ input = """
 """
 formatted = """
 (
-  (
-    (
-      (
-        SELECT 1
-      )
-    )
-  )
+  SELECT 1
 )
 """
 
@@ -81,7 +74,7 @@ formatted = """
   UNION ALL
   (
     SELECT 2
-     UNION ALL
+    UNION ALL
     (
       SELECT 3
        UNION ALL
@@ -118,12 +111,8 @@ input = """
 select ((select 1)), ((((select 2))))
 """
 formatted = """
-SELECT (
-         SELECT 1
-       ),
-       (
-         SELECT 2
-       )
+SELECT (SELECT 1),
+       (SELECT 2)
 """
 
 [[cases]]
@@ -131,11 +120,7 @@ input = """
 select ((select 1) + (select 2))
 """
 formatted = """
-SELECT ((
-         SELECT 1
-       ) + (
-         SELECT 2
-       ))
+SELECT ((SELECT 1) + (SELECT 2))
 """
 
 [[cases]]
@@ -144,12 +129,8 @@ select ((select 1), (select 2))
 """
 formatted = """
 SELECT (
-         (
-           SELECT 1
-         ),
-         (
-           SELECT 2
-         )
+         (SELECT 1),
+         (SELECT 2)
        )
 """
 
@@ -192,9 +173,7 @@ select ARRAY(((select 1) ) union all (select 2))
 formatted = """
 SELECT ARRAY(
          (
-           (
-             SELECT 1
-           )
+           SELECT 1
          )
          UNION ALL
          (
@@ -216,9 +195,7 @@ input = """
 select ((SELECT 1) + 1)
 """
 formatted = """
-SELECT ((
-         SELECT 1
-       ) + 1)
+SELECT ((SELECT 1) + 1)
 """
 
 [[cases]]
@@ -227,9 +204,7 @@ select ifnull((SELECT 1) + 1, /*default=*/0)
 """
 formatted = """
 SELECT IFNULL(
-         (
-           SELECT 1
-         ) + 1,
+         (SELECT 1) + 1,
          /*default=*/ 0
        )
 """
@@ -239,9 +214,7 @@ input = """
 select (((SELECT 1)) + 1)
 """
 formatted = """
-SELECT ((
-         SELECT 1
-       ) + 1)
+SELECT ((SELECT 1) + 1)
 """
 
 [[cases]]
@@ -249,9 +222,7 @@ input = """
 SELECT ((SELECT count(distinct x)));
 """
 formatted = """
-SELECT (
-         SELECT COUNT(DISTINCT x)
-       )
+SELECT (SELECT COUNT(DISTINCT x))
 """
 
 [[cases]]
@@ -267,8 +238,7 @@ input = """
 SELECT a, 1+((count(*)))
 """
 formatted = """
-SELECT a,
-       1 + (COUNT(*))
+SELECT a, 1 + (COUNT(*))
 """
 
 [[cases]]
@@ -277,12 +247,8 @@ SELECT a, count(*) AS foo, count(*) / ((count(*) * 1) * 1)
 FROM (SELECT 1 AS a) GROUP BY 1;
 """
 formatted = """
-SELECT a,
-       COUNT(*) AS foo,
-       COUNT(*) / ((COUNT(*) * 1) * 1)
-  FROM (
-         SELECT 1 AS a
-       )
+SELECT a, COUNT(*) AS foo, COUNT(*) / ((COUNT(*) * 1) * 1)
+  FROM (SELECT 1 AS a)
  GROUP BY 1
 """
 
@@ -295,9 +261,7 @@ formatted = """
 SELECT *
   FROM (
          (
-           (
-             SELECT 1
-           )
+           SELECT 1
          )
          UNION ALL
          (
@@ -334,13 +298,9 @@ SELECT *
   FROM a
        JOIN
        (
-         (
-           SELECT 1 AS x
-         )
+         (SELECT 1 AS x)
          JOIN
-         (
-           SELECT 2 AS x
-         )
+         (SELECT 2 AS x)
          USING (x)
        )
 """

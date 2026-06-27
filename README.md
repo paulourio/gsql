@@ -166,7 +166,7 @@ Formatting without comment is always idempotent, but formatting code preserving 
 
 #### Debugging statements
 
-- [ ] ASSERT
+- [x] ASSERT
 
 #### BigQuery ML SQL
 

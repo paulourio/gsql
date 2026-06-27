@@ -131,6 +131,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		}
 	case sql.ArrayTypeKind:
 		p.visitArrayType(ctx, n.(*sql.ArrayType))
+	case sql.AssertStatementKind:
+		p.visitAssertStatement(ctx, n.(*sql.AssertStatement))
 	case sql.AssignmentFromStructKind:
 		p.visitAssignmentFromStruct(ctx, n.(*sql.AssignmentFromStruct))
 	case sql.BeginEndBlockKind:

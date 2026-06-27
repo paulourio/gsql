@@ -28,6 +28,18 @@ func wrapExpr(raw googlesql.ASTExpressionNode) ExpressionNode {
 	return w.(ExpressionNode)
 }
 
+func wrapLeaf(raw googlesql.ASTLeafNode) LeafNode {
+	if !defined(raw) {
+		return nil
+	}
+	w := Wrap(raw)
+	if w == nil {
+		return nil
+	}
+	return w.(LeafNode)
+}
+
+
 func wrapTableExpr(raw googlesql.ASTTableExpressionNode) TableExpressionNode {
 	if !defined(raw) {
 		return nil
