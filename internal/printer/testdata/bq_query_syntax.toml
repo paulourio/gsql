@@ -1420,13 +1420,12 @@ SELECT *
            # q1 (in the query) resolves to my_query
            q4 AS (
              SELECT *
-               FROM q1
+               FROM q1 # q1 resolves to the WITH subquery on the previous line.
            )
-         # q1 resolves to the WITH subquery on the previous line.
          SELECT *
            FROM q1
-       );
-# q1 resolves to the third inner WITH subquery.
+       ) # q1 resolves to the third inner WITH subquery.
+;
 """
 
 [[cases]]

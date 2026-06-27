@@ -9,16 +9,17 @@ import (
 )
 
 type Writer struct {
-	opts                *format.Options
-	comments            *CommentsQueue
-	buffer              strings.Builder
-	formatted           strings.Builder
-	maxLength           int
-	depth               int
-	last                rune
-	lastWasUnary        bool // Last was a unary single chararacter.
-	noFlushInNextFormat bool // Disables line flushing in the next call to Format()
-	lastWasNewLine      bool
+	opts                 *format.Options
+	comments             *CommentsQueue
+	buffer               strings.Builder
+	formatted            strings.Builder
+	maxLength            int
+	depth                int
+	last                 rune
+	lastWasUnary         bool // Last was a unary single chararacter.
+	noFlushInNextFormat  bool // Disables line flushing in the next call to Format()
+	lastWasNewLine       bool
+	endedWithLineComment bool
 }
 
 func NewWriter(fopts *format.Options, comms []*extensions.Comment) *Writer {
@@ -49,6 +50,7 @@ func (w *Writer) Format(s string) {
 	if len(s) == 0 {
 		return
 	}
+	w.endedWithLineComment = false
 	defer func() {
 		w.lastWasNewLine = false
 		w.lastWasUnary = false
@@ -66,7 +68,7 @@ func (w *Writer) Format(s string) {
 	}
 	switch w.last {
 	case '\n':
-		w.writeRunes(append([]rune{'\n'}, data...))
+		w.writeRunes(data)
 	case '(', '[', '@', '.', '~', ' ', '\v', '\b':
 		w.writeRunes(data)
 	default:
@@ -127,11 +129,21 @@ func (w *Writer) FormatLine(s string) {
 // case some content remains in buffer.
 func (w *Writer) FlushLine() {
 	sfmt := w.formatted.String()
-	sz := len(sfmt)
-	if (sz == 0 || sfmt[sz-1] == '\n') && w.buffer.Len() == 0 {
+	sfmtTrimmed := strings.TrimRight(sfmt, "\v")
+	sz := len(sfmtTrimmed)
+	if (sz == 0 || sfmtTrimmed[sz-1] == '\n') && w.buffer.Len() == 0 {
 		return
 	}
-	w.formatted.WriteString(w.buffer.String())
+	bufStr := w.buffer.String()
+	bufTrimmed := strings.TrimRight(bufStr, "\v")
+	if len(bufTrimmed) > 0 && bufTrimmed[len(bufTrimmed)-1] == '\n' {
+		w.formatted.WriteString(bufStr)
+		w.buffer.Reset()
+		w.lastWasNewLine = true
+		w.last = '\n'
+		return
+	}
+	w.formatted.WriteString(bufStr)
 	w.formatted.WriteByte('\n')
 	w.buffer.Reset()
 	w.lastWasNewLine = true
@@ -169,6 +181,9 @@ func (w *Writer) flushCommentsUpTo(pos int) {
 		}
 		if c.MustEndLine() || c.AtLineEnd() {
 			w.FlushLine()
+		}
+		if c.MustEndLine() {
+			w.endedWithLineComment = true
 		}
 	}
 }

@@ -352,9 +352,8 @@ SELECT CASE
          WHEN s < 100 THEN 1 -- group 1
          WHEN s < 200 THEN 2 -- group 2
          WHEN s < 300 THEN 3 -- group 3
-                      ELSE 4
-       END -- group 4
--- end comment
+                      ELSE 4 -- group 4
+       END                   -- end comment
 """
 
 [[cases]]
@@ -373,7 +372,6 @@ SELECT CASE value            -- some comment
          WHEN s < 100 THEN 1 -- group 1
          WHEN s < 200 THEN 2 -- group 2
          WHEN s < 300 THEN 3 -- group 3
-                      ELSE 4
-       END -- group 4
--- end comment
+                      ELSE 4 -- group 4
+       END                   -- end comment
 """

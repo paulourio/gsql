@@ -49,9 +49,9 @@ SELECT # full line comment
        /* block
    comment */
        -- full line comment
-       1  # partial line comment
-       +  -- partial line comment
-       2  /*partial line block comment*/ + 3
+         1 # partial line comment
+       +   -- partial line comment
+         2 /*partial line block comment*/ + 3
 """
 
 [[cases]]

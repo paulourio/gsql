@@ -353,8 +353,8 @@ AS (
          prcp
     FROM `bigquery-public-data.noaa_gsod.gsod2017` AS weather
    WHERE prcp != 99.9 -- Filter unknown values
-     AND prcp > 0
-) -- Filter stations/days with no precipitation
+     AND prcp > 0     -- Filter stations/days with no precipitation
+)
 """
 
 [[cases]]

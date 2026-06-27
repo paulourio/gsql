@@ -35,7 +35,8 @@ func (p *Printer) Print(root sql.Node) (string, error) {
 	if p.Writer.opts.AlignTrailingComments {
 		result = alignTrailingComments(result)
 	}
-	result = strings.ReplaceAll(result, "\v", "") + "\n"
+	result = strings.ReplaceAll(result, "\v", "")
+	result = strings.TrimRight(result, "\n") + "\n"
 	result = strings.ReplaceAll(result, lineBreakPlaceholder, "\n")
 	result = rowsTrimRight(result)
 	return result, p.err
@@ -594,7 +595,38 @@ func (p *Printer) movePast(n sql.Node) {
 	if !sql.Defined(n) {
 		return
 	}
-	p.Writer.flushCommentsUpTo(n.LocationEnd())
+	pos := n.LocationEnd()
+	adjustedPos := pos
+	if p.OriginalInput != "" {
+		for _, comment := range p.Writer.comments.comments {
+			if comment.Start > adjustedPos {
+				startIdx := adjustedPos
+				if startIdx < 0 {
+					startIdx = 0
+				}
+				endIdx := comment.Start
+				if endIdx > len(p.OriginalInput) {
+					endIdx = len(p.OriginalInput)
+				}
+				hasNonHorizontalWhitespace := false
+				if startIdx < endIdx {
+					for idx := startIdx; idx < endIdx; idx++ {
+						c := p.OriginalInput[idx]
+						if c != ' ' && c != '\t' {
+							hasNonHorizontalWhitespace = true
+							break
+						}
+					}
+				}
+				if !hasNonHorizontalWhitespace {
+					adjustedPos = comment.Start + 1
+				} else {
+					break
+				}
+			}
+		}
+	}
+	p.Writer.flushCommentsUpTo(adjustedPos)
 }
 
 func (p *Printer) moveAt(pos int) {
@@ -656,7 +688,11 @@ func (p *Printer) println(s string) {
 
 func (p *Printer) String() string {
 	p.Writer.FlushLine()
-	return strings.Trim(p.Writer.formatted.String(), "\n")
+	str := p.Writer.formatted.String()
+	if p.Writer.endedWithLineComment {
+		return strings.TrimLeft(str, "\n")
+	}
+	return strings.Trim(str, "\n")
 }
 
 func (p *Printer) incDepth() {
@@ -694,9 +730,7 @@ func (p *Printer) nest() *Printer {
 func (p *Printer) unnest() string {
 	trimmed := p.String()
 	aligned := alignNested(trimmed)
-	aligned = "\v" + aligned
-	aligned = strings.ReplaceAll(aligned, "\n", "\n\v")
-	return aligned
+	return prefixLines(aligned, "\v")
 }
 
 // unnest flushes the buffer and returns the strings with alignment
@@ -704,10 +738,19 @@ func (p *Printer) unnest() string {
 func (p *Printer) unnestWithDepth(d int) string {
 	trimmed := p.String()
 	aligned := alignNested(trimmed)
-	aligned = "\v" + aligned
+	lines := strings.Split(aligned, "\n")
 	alignment := strings.Repeat("\v", d)
-	aligned = strings.ReplaceAll(aligned, "\n", "\n"+alignment)
-	return aligned
+	for i := 0; i < len(lines); i++ {
+		if i == len(lines)-1 && lines[i] == "" {
+			continue
+		}
+		if i == 0 {
+			lines[i] = "\v" + lines[i]
+		} else {
+			lines[i] = alignment + lines[i]
+		}
+	}
+	return strings.Join(lines, "\n")
 }
 
 // printNestedWithSepNode prints sql.Node items separated by sep in a shared
@@ -803,7 +846,18 @@ func debugContent(s string) string {
 // symbols at the beginning of each line.
 func (p *Printer) unnestLeft() string {
 	aligned := leftAlignNested(p.String())
-	return "\v" + strings.ReplaceAll(aligned, "\n", "\n\v")
+	return prefixLines(aligned, "\v")
+}
+
+func prefixLines(s string, prefix string) string {
+	lines := strings.Split(s, "\n")
+	for i := 0; i < len(lines); i++ {
+		if i == len(lines)-1 && lines[i] == "" {
+			continue
+		}
+		lines[i] = prefix + lines[i]
+	}
+	return strings.Join(lines, "\n")
 }
 
 func (p *Printer) printOpenParenIfNeeded(n sql.Node) {
@@ -1063,7 +1117,11 @@ func alignNested(s string) string {
 	w := tabwriter.NewWriter(&buf, 0, 0, 0, ' ', tabwriter.AlignRight)
 	fmt.Fprint(w, s)
 	w.Flush()
-	return strings.Trim(buf.String(), "\n")
+	res := buf.String()
+	if strings.HasSuffix(s, "\n") {
+		return strings.TrimLeft(res, "\n")
+	}
+	return strings.Trim(res, "\n")
 }
 
 func leftAlignNested(s string) string {
@@ -1071,7 +1129,11 @@ func leftAlignNested(s string) string {
 	w := tabwriter.NewWriter(&buf, 0, 0, 0, ' ', 0)
 	fmt.Fprint(w, s)
 	w.Flush()
-	return strings.Trim(buf.String(), "\n")
+	res := buf.String()
+	if strings.HasSuffix(s, "\n") {
+		return strings.TrimLeft(res, "\n")
+	}
+	return strings.Trim(res, "\n")
 }
 
 // rowsTrimRight returns string where each row has been right-trimmed.

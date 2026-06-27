@@ -612,7 +612,7 @@ func (p *Printer) visitAndExpr(ctx Context, n *sql.AndExpr) {
 				p1.println("")
 			}
 			if alignWithClause {
-				nlines := strings.Count(p1.String(), "\n") + 1
+				nlines := strings.Count(strings.TrimSuffix(p1.String(), "\n"), "\n") + 1
 				andLines = append(andLines, nlines)
 			} else {
 				if !simple {
