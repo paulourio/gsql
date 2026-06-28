@@ -147,6 +147,8 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newUnpivotInItemLabel(m)
 	case *googlesql.ASTUnpivotInItemList:
 		return newUnpivotInItemList(m)
+	case *googlesql.ASTUntilClause:
+		return newUntilClause(m)
 	case *googlesql.ASTUsingClause:
 		return newUsingClause(m)
 	case *googlesql.ASTWhereClause:
@@ -482,6 +484,8 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newDropTableFunctionStatement(m)
 	case *googlesql.ASTExecuteImmediateStatement:
 		return newExecuteImmediateStatement(m)
+	case *googlesql.ASTForInStatement:
+		return newForInStatement(m)
 	case *googlesql.ASTHintedStatement:
 		return newHintedStatement(m)
 	case *googlesql.ASTIfStatement:
@@ -498,6 +502,8 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newRaiseStatement(m)
 	case *googlesql.ASTReturnStatement:
 		return newReturnStatement(m)
+	case *googlesql.ASTRepeatStatement:
+		return newRepeatStatement(m)
 	case *googlesql.ASTRollbackStatement:
 		return newRollbackStatement(m)
 	case *googlesql.ASTSingleAssignment:

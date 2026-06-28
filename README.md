@@ -143,13 +143,13 @@ Formatting without comment is always idempotent, but formatting code preserving 
 - [x] CASE [search_expression]
 - [x] IF
 - [ ] Labels
-- [ ] Loops
+- [x] Loops
     - [x] LOOP
-    - [ ] REPEAT
+    - [x] REPEAT
     - [x] WHILE
     - [x] BREAK / LEAVE
     - [x] CONTINUE / ITERATE
-    - [ ] FOR...IN
+    - [x] FOR...IN
 - [x] Transactions
     - [x] BEGIN TRANSACTION
     - [x] COMMIT TRANSACTION

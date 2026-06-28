@@ -1,0 +1,537 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+[[cases]]
+input = """
+LOOP
+END LOOP
+"""
+formatted = """
+LOOP
+END LOOP
+"""
+
+[[cases]]
+input = """
+LOOP
+  SELECT 5;
+END LOOP
+"""
+formatted = """
+LOOP
+  SELECT 5;
+END LOOP
+"""
+
+[[cases]]
+input = """
+LOOP
+  SELECT 8;
+  SELECT 9;
+END LOOP;
+"""
+formatted = """
+LOOP
+  SELECT 8;
+
+  SELECT 9;
+END LOOP
+"""
+
+[[cases]]
+input = """
+LOOP
+  SELECT 5;
+
+  LOOP
+    SELECT 6;
+  END LOOP;
+END LOOP;
+"""
+formatted = """
+LOOP
+  SELECT 5;
+
+  LOOP
+    SELECT 6;
+  END LOOP;
+END LOOP
+"""
+
+[[cases]]
+input = """
+WHILE LOOP DO LOOP END LOOP; END WHILE
+"""
+formatted = """
+WHILE loop DO
+  LOOP
+  END LOOP;
+END WHILE
+"""
+
+[[cases]]
+input = """
+LOOP WHILE LOOP DO LOOP END LOOP; END WHILE; END LOOP
+"""
+formatted = """
+LOOP
+  WHILE loop DO
+    LOOP
+    END LOOP;
+  END WHILE;
+END LOOP
+"""
+
+[[cases]]
+input = """
+WHILE WHILE DO END WHILE;
+"""
+formatted = """
+WHILE while DO
+END WHILE
+"""
+
+[[cases]]
+input = """
+WHILE DO DO END WHILE;
+"""
+formatted = """
+WHILE do DO
+END WHILE
+"""
+
+[[cases]]
+input = """
+WHILE TRUE DO
+END WHILE
+"""
+formatted = """
+WHILE TRUE DO
+END WHILE
+"""
+
+[[cases]]
+input = """
+WHILE TRUE DO
+  SELECT 5;
+  SELECT 6;
+END WHILE
+"""
+formatted = """
+WHILE TRUE DO
+  SELECT 5;
+
+  SELECT 6;
+END WHILE
+"""
+
+[[cases]]
+description = "Nested loops"
+input = """
+LOOP
+  WHILE x >= 3 DO
+    WHILE y >= 4 DO
+      LOOP
+        SELECT x, y;
+      END LOOP;
+    END WHILE;
+  END WHILE;
+END LOOP;
+"""
+formatted = """
+LOOP
+  WHILE x >= 3 DO
+    WHILE y >= 4 DO
+      LOOP
+        SELECT x, y;
+      END LOOP;
+    END WHILE;
+  END WHILE;
+END LOOP
+"""
+
+[[cases]]
+input = """
+WHILE x = 3 DO
+  LOOP
+  END LOOP;
+END WHILE;
+"""
+formatted = """
+WHILE x = 3 DO
+  LOOP
+  END LOOP;
+END WHILE
+"""
+
+[[cases]]
+input = """
+LOOP
+  WHILE x = 3 DO
+    LOOP
+    END LOOP;
+  END WHILE;
+END LOOP
+"""
+formatted = """
+LOOP
+  WHILE x = 3 DO
+    LOOP
+    END LOOP;
+  END WHILE;
+END LOOP
+"""
+
+[[cases]]
+input = """
+REPEAT
+UNTIL TRUE
+END REPEAT
+"""
+formatted = """
+REPEAT
+
+  UNTIL TRUE
+END REPEAT
+"""
+
+[[cases]]
+input = """
+REPEAT
+  SELECT 3;
+  SELECT 5;
+UNTIL TRUE
+END REPEAT
+"""
+formatted = """
+REPEAT
+  SELECT 3;
+
+  SELECT 5;
+
+  UNTIL TRUE
+END REPEAT
+"""
+
+[[cases]]
+input = """
+REPEAT
+  REPEAT
+    SELECT x;
+  UNTIL x <= 3
+  END REPEAT;
+UNTIL TRUE
+END REPEAT;
+"""
+formatted = """
+REPEAT
+  REPEAT
+    SELECT x;
+
+    UNTIL x <= 3
+  END REPEAT;
+
+  UNTIL TRUE
+END REPEAT
+"""
+
+[[cases]]
+input = """
+LOOP
+  REPEAT
+    SELECT 5;
+    SELECT 6;
+  UNTIL FALSE
+  END REPEAT;
+END LOOP;
+"""
+formatted = """
+LOOP
+  REPEAT
+    SELECT 5;
+
+    SELECT 6;
+
+    UNTIL FALSE
+  END REPEAT;
+END LOOP
+"""
+
+[[cases]]
+input = """
+REPEAT
+  LOOP
+    WHILE x <= 3 DO
+      SELECT x;
+    END WHILE;
+  END LOOP;
+
+  UNTIL FALSE
+END REPEAT
+"""
+formatted = """
+REPEAT
+  LOOP
+    WHILE x <= 3 DO
+      SELECT x;
+    END WHILE;
+  END LOOP;
+
+  UNTIL FALSE
+END REPEAT
+"""
+
+[[cases]]
+input = """
+SELECT Key AS REPEAT FROM KeyValue AS UNTIL;
+"""
+formatted = """
+SELECT key AS repeat
+  FROM KeyValue AS until
+"""
+
+[[cases]]
+input = """
+repeat select x; select y; until false end repeat;
+"""
+formatted = """
+REPEAT
+  SELECT x;
+
+  SELECT y;
+
+  UNTIL FALSE
+END REPEAT
+"""
+
+[[cases]]
+description = "FOR...IN with empty body"
+input = """
+FOR x IN (SELECT 1)
+DO
+END FOR;
+"""
+formatted = """
+FOR x IN (SELECT 1)
+DO
+END FOR
+"""
+
+[[cases]]
+description = "FOR...IN with single line in body"
+input = """
+FOR x IN (SELECT 1)
+DO
+  SELECT x;
+END FOR
+"""
+formatted = """
+FOR x IN (SELECT 1)
+DO
+  SELECT x;
+END FOR
+"""
+
+[[cases]]
+description = "FOR...IN with multiple lines in body"
+input = """
+FOR x IN (SELECT 1, 2, 3)
+DO
+  SELECT x;
+  SELECT y;
+  SELECT 1;
+END FOR;
+"""
+formatted = """
+FOR x IN (SELECT 1, 2, 3)
+DO
+  SELECT x;
+
+  SELECT y;
+
+  SELECT 1;
+END FOR
+"""
+
+[[cases]]
+description = "FOR...IN with FROM in query"
+input = """
+FOR x IN (SELECT col1, col2 FROM tables.table1)
+DO
+  SELECT x;
+END FOR;
+"""
+formatted = """
+FOR x IN (
+  SELECT col1, col2
+    FROM tables.table1
+)
+DO
+  SELECT x;
+END FOR
+"""
+
+[[cases]]
+description = "FOR...IN with WITH in query"
+input = """
+FOR x IN (WITH dogs AS (SELECT * FROM animals.dogs) SELECT name, breed FROM dogs)
+DO
+  SELECT x.name;
+  SELECT x.breed;
+END FOR;
+"""
+formatted = """
+FOR x IN (
+  WITH
+    dogs AS (
+      SELECT *
+        FROM animals.dogs
+    )
+  SELECT name, breed
+    FROM dogs
+)
+DO
+  SELECT x.name;
+
+  SELECT x.breed;
+END FOR
+"""
+
+[[cases]]
+description = "FOR...IN with PIVOT in query"
+input = """
+FOR x IN (SELECT * FROM t PIVOT(SUM(a), SUM(b) FOR b IN (0, 1)))
+DO
+  SELECT x;
+END FOR;
+"""
+formatted = """
+FOR x IN (
+  SELECT *
+    FROM t
+         PIVOT (
+           SUM(a), SUM(b)
+           FOR b IN (0, 1)
+         )
+)
+DO
+  SELECT x;
+END FOR
+"""
+
+[[cases]]
+description = "FOR...IN with TABLESAMPLE in query"
+input = """
+FOR x IN (SELECT uId FROM Users TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10))
+DO
+  SELECT x;
+END FOR;
+"""
+formatted = """
+FOR x IN (
+  SELECT uid
+    FROM Users
+         TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
+)
+DO
+  SELECT x;
+END FOR
+"""
+
+[[cases]]
+description = "Nested FOR...IN"
+input = """
+FOR x IN (SELECT 1, 2, 3)
+DO
+  FOR y IN (SELECT 4, 5)
+  DO
+    SELECT x;
+    SELECT y;
+  END FOR;
+END FOR;
+"""
+formatted = """
+FOR x IN (SELECT 1, 2, 3)
+DO
+  FOR y IN (SELECT 4, 5)
+  DO
+    SELECT x;
+
+    SELECT y;
+  END FOR;
+END FOR
+"""
+
+[[cases]]
+description = "FOR...IN inside LOOP"
+input = """
+LOOP
+  FOR y IN (SELECT 1, 2)
+  DO
+    SELECT y;
+  END FOR;
+END LOOP;
+"""
+formatted = """
+LOOP
+  FOR y IN (SELECT 1, 2)
+  DO
+    SELECT y;
+  END FOR;
+END LOOP
+"""
+
+[[cases]]
+description = "REPEAT inside FOR inside WHILE"
+input = """
+WHILE TRUE DO
+  FOR y IN (SELECT 1, 2)
+  DO
+    REPEAT
+      SELECT 3, 4;
+    UNTIL FALSE
+    END REPEAT;
+  END FOR;
+END WHILE;
+"""
+formatted = """
+WHILE TRUE DO
+  FOR y IN (SELECT 1, 2)
+  DO
+    REPEAT
+      SELECT 3, 4;
+
+      UNTIL FALSE
+    END REPEAT;
+  END FOR;
+END WHILE
+"""
+
+[[cases]]
+description = "FOR...IN in lowercase"
+input = """
+for x in (select 1) do select x; select 2; end for;
+"""
+formatted = """
+FOR x IN (SELECT 1)
+DO
+  SELECT x;
+
+  SELECT 2;
+END FOR
+"""

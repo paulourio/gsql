@@ -1125,6 +1125,31 @@ func (n *InsertStatement) Returning() *ReturningClause {
 	return newReturningClause(must(n.raw.Returning()))
 }
 
+// ForInStatement wraps *googlesql.ASTForInStatement.
+type ForInStatement struct {
+	baseNode[*googlesql.ASTForInStatement]
+}
+
+func newForInStatement(r *googlesql.ASTForInStatement) *ForInStatement {
+	if r == nil {
+		return nil
+	}
+	return &ForInStatement{baseNode[*googlesql.ASTForInStatement]{raw: r}}
+}
+
+func (n *ForInStatement) isStatement() {}
+func (n *ForInStatement) Variable() *Identifier {
+	return newIdentifier(must(n.raw.Variable()))
+}
+
+func (n *ForInStatement) Query() *Query {
+	return newQuery(must(n.raw.Query()))
+}
+
+func (n *ForInStatement) Body() *StatementList {
+	return newStatementList(must(n.raw.Body()))
+}
+
 // MergeStatement wraps *googlesql.ASTMergeStatement.
 type MergeStatement struct {
 	baseNode[*googlesql.ASTMergeStatement]
@@ -1212,6 +1237,28 @@ func (n *RaiseStatement) isStatement() {}
 
 func (n *RaiseStatement) Message() ExpressionNode {
 	return wrapExpr(must(n.raw.Message()))
+}
+
+// RepeatStatement wraps *googlesql.ASTRepeatStatement.
+type RepeatStatement struct {
+	baseNode[*googlesql.ASTRepeatStatement]
+}
+
+func newRepeatStatement(r *googlesql.ASTRepeatStatement) *RepeatStatement {
+	if r == nil {
+		return nil
+	}
+	return &RepeatStatement{baseNode[*googlesql.ASTRepeatStatement]{raw: r}}
+}
+
+func (n *RepeatStatement) isStatement() {}
+
+func (n *RepeatStatement) Body() *StatementList {
+	return newStatementList(must(n.raw.Body()))
+}
+
+func (n *RepeatStatement) UntilClause() *UntilClause {
+	return newUntilClause(must(n.raw.UntilClause()))
 }
 
 // ReturnStatement wraps *googlesql.ASTReturnStatement.

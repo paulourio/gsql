@@ -436,6 +436,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitExecuteUsingArgument(ctx, n.(*sql.ExecuteUsingArgument))
 	case sql.ExecuteUsingClauseKind:
 		p.visitExecuteUsingClause(ctx, n.(*sql.ExecuteUsingClause))
+	case sql.ForInStatementKind:
+		p.visitForInStatement(ctx, n.(*sql.ForInStatement))
 	case sql.IfStatementKind:
 		p.visitIfStatement(ctx, n.(*sql.IfStatement))
 	case sql.LabelKind:
@@ -446,6 +448,10 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitRaiseStatement(ctx, n.(*sql.RaiseStatement))
 	case sql.ReturnStatementKind:
 		p.visitReturnStatement(ctx, n.(*sql.ReturnStatement))
+	case sql.RepeatStatementKind:
+		p.visitRepeatStatement(ctx, n.(*sql.RepeatStatement))
+	case sql.UntilClauseKind:
+		p.visitUntilClause(ctx, n.(*sql.UntilClause))
 	case sql.RollbackStatementKind:
 		p.visitRollbackStatementNode(ctx, n.(*sql.RollbackStatement))
 	case sql.SingleAssignmentKind:

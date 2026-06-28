@@ -968,6 +968,23 @@ func (n *UnpivotInItemList) InItems() []*UnpivotInItem {
 	return result
 }
 
+// UntilClause wraps *googlesql.ASTUntilClause.
+type UntilClause struct {
+	baseNode[*googlesql.ASTUntilClause]
+}
+
+func newUntilClause(r *googlesql.ASTUntilClause) *UntilClause {
+	if r == nil {
+		return nil
+	}
+	return &UntilClause{baseNode[*googlesql.ASTUntilClause]{raw: r}}
+}
+
+// Condition: raw returns ExpressionNode (interface) → ExpressionNode.
+func (n *UntilClause) Condition() ExpressionNode {
+	return wrapExpr(must(n.raw.Condition()))
+}
+
 // UsingClause wraps *googlesql.ASTUsingClause.
 type UsingClause struct {
 	baseNode[*googlesql.ASTUsingClause]

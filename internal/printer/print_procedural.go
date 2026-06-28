@@ -127,6 +127,39 @@ func (p *Printer) visitExecuteUsingClause(ctx Context, n *sql.ExecuteUsingClause
 	p.decDepth()
 }
 
+func (p *Printer) visitForInStatement(ctx Context, n *sql.ForInStatement) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.print(pp.keyword("FOR"))
+	pp.accept(ctx, n.Variable())
+	query := n.Query()
+	pp.print(pp.keyword("IN") + " (")
+	isSimpleQuery := isSimpleQuery(query)
+	if !isSimpleQuery {
+		pp.println("")
+		pp.incDepth()
+	}
+	pp.acceptNestedLeft(ctx, query)
+	if !isSimpleQuery {
+		pp.println("")
+		pp.decDepth()
+	}
+	p.print(strings.TrimLeft(pp.unnestLeft(), "\v"))
+	if !isSimpleQuery {
+		p.println("")
+		p.println(")")
+	} else {
+		p.println(")")
+	}
+	p.println(p.keyword("DO"))
+	p.incDepth()
+	p.acceptNestedLeft(ctx, n.Body())
+	p.println("")
+	p.decDepth()
+	p.println(p.keyword("END FOR"))
+	p.movePast(n)
+}
+
 func (p *Printer) visitIfStatement(ctx Context, n *sql.IfStatement) {
 	p.moveBefore(n)
 	cond := n.Condition()
@@ -224,6 +257,25 @@ func (p *Printer) visitRaiseStatement(ctx Context, n *sql.RaiseStatement) {
 func (p *Printer) visitReturnStatement(_ Context, n *sql.ReturnStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("RETURN"))
+}
+
+func (p *Printer) visitRepeatStatement(ctx Context, n *sql.RepeatStatement) {
+	p.moveBefore(n)
+	p.println(p.keyword("REPEAT"))
+	p.incDepth()
+	p.acceptNestedLeft(ctx, n.Body())
+	p.println("")
+	p.println(" ")
+	p.acceptNestedLeft(ctx, n.UntilClause())
+	p.println("")
+	p.decDepth()
+	p.println(p.keyword("END REPEAT"))
+}
+
+func (p *Printer) visitUntilClause(ctx Context, n *sql.UntilClause) {
+	p.moveBefore(n)
+	p.print(p.keyword("UNTIL"))
+	p.acceptNestedLeft(ctx, n.Condition())
 }
 
 func (p *Printer) visitRollbackStatementNode(_ Context, n *sql.RollbackStatement) {
