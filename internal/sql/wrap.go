@@ -600,6 +600,8 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newASTIfStatement(m)
 	case *googlesql.ASTParameterAssignment:
 		return newASTParameterAssignment(m)
+	case *googlesql.ASTRaiseStatement:
+		return newASTRaiseStatement(m)
 	case *googlesql.ASTReturnStatement:
 		return newASTReturnStatement(m)
 	case *googlesql.ASTSystemVariableAssignment:

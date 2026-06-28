@@ -336,6 +336,22 @@ func (n *ParameterAssignment) Expression() ExpressionNode {
 	return wrapExpr(must(n.raw.Expression()))
 }
 
+type RaiseStatement struct {
+	baseNode[*googlesql.ASTRaiseStatement]
+}
+
+func newASTRaiseStatement(r *googlesql.ASTRaiseStatement) *RaiseStatement {
+	if r == nil {
+		return nil
+	}
+	return &RaiseStatement{baseNode[*googlesql.ASTRaiseStatement]{raw: r}}
+}
+func (n *RaiseStatement) isStatement() {}
+
+func (n *RaiseStatement) Message() ExpressionNode {
+	return wrapExpr(must(n.raw.Message()))
+}
+
 // ReturnStatement wraps *googlesql.ASTReturnStatement.
 type ReturnStatement struct {
 	baseNode[*googlesql.ASTReturnStatement]

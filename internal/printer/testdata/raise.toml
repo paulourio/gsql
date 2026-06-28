@@ -1,0 +1,72 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = true
+column_list_trailing_comma = "AUTO"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "UPPER_CASE"
+null_style = "UPPER_CASE"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+
+[[cases]]
+input = """
+BEGIN EXCEPTION WHEN ERROR THEN raise;
+END;
+"""
+formatted = """
+BEGIN
+EXCEPTION WHEN ERROR THEN
+  RAISE;
+END
+"""
+
+[[cases]]
+description = "Raises in nested exception handlers"
+input = """
+BEGIN EXCEPTION WHEN ERROR THEN
+  BEGIN EXCEPTION WHEN ERROR THEN
+    RAISE;
+  END;
+  RAISE;
+END
+"""
+formatted = """
+BEGIN
+EXCEPTION WHEN ERROR THEN
+  BEGIN
+  EXCEPTION WHEN ERROR THEN
+    RAISE;
+  END;
+
+  RAISE;
+END
+"""
+
+[[cases]]
+description = "Raise with literal message"
+input = """
+raise using message = "test" ;
+"""
+formatted = """
+RAISE USING MESSAGE = 'test'
+"""
+
+[[cases]]
+description = "Raise statement in a larger script"
+input = """
+IF x < 0 THEN
+  RAISE using message = 'x is negative';
+END IF;
+"""
+formatted = """
+IF x < 0 THEN
+  RAISE USING MESSAGE = 'x is negative';
+END IF
+"""

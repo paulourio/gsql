@@ -423,6 +423,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitQuery(ctx, n.(*sql.Query))
 	case sql.QueryStatementKind:
 		p.visitQueryStatement(ctx, n.(*sql.QueryStatement))
+	case sql.RaiseStatementKind:
+		p.visitRaiseStatement(ctx, n.(*sql.RaiseStatement))
 	case sql.RenameColumnActionKind:
 		p.visitRenameColumnAction(ctx, n.(*sql.RenameColumnAction))
 	case sql.RenameToClauseKind:

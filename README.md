@@ -153,7 +153,7 @@ Formatting without comment is always idempotent, but formatting code preserving 
     - [x] BEGIN TRANSACTION
     - [x] COMMIT TRANSACTION
     - [x] ROLLBACK TRANSACTION
-- [ ] RAISE
+- [x] RAISE
 - [x] RETURN
 - [x] CALL
 

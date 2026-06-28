@@ -210,6 +210,17 @@ func (p *Printer) visitParameterAssignment(ctx Context, n *sql.ParameterAssignme
 	p.moveBefore(n)
 }
 
+func (p *Printer) visitRaiseStatement(ctx Context, n *sql.RaiseStatement) {
+	p.moveBefore(n)
+
+	p.print(p.keyword("RAISE"))
+	if m := n.Message(); m != nil {
+		p.print("USING MESSAGE =")
+		p.accept(ctx, m)
+	}
+	p.movePast(n)
+}
+
 func (p *Printer) visitReturnStatement(_ Context, n *sql.ReturnStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("RETURN"))
