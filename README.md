@@ -21,6 +21,7 @@ I develop this tooling mainly for use with BigQuery.
 - [x] Simple types:  BIGNUMERIC, BOOL, BYTES, BYTES, DATE, DATETIME, FLOAT64, INT64, INTERVAL, NUMERIC, STRING, TIME, TIMESTAMP
 - [x] ARRAY
 - [x] STRUCT
+- [x] RANGE
 - [x] GEOGRAPHY
 - [x] Templated types
 

@@ -1,4 +1,3 @@
-// Methods for procedural language.
 package printer
 
 import (
@@ -6,17 +5,6 @@ import (
 
 	"github.com/paulourio/gsql/internal/sql"
 )
-
-func (p *Printer) visitAssignmentFromStruct(ctx Context, n *sql.AssignmentFromStruct) {
-	p.moveBefore(n)
-	pp := p.nest()
-	pp.print(pp.keyword("SET") + " (")
-	pp.print(pp.toString(ctx, n.Variables()) + ")")
-	pp.print("=")
-	p.print(pp.unnestLeft())
-	p.accept(ctx, n.StructExpression())
-	p.movePast(n)
-}
 
 func (p *Printer) visitBeginEndBlock(ctx Context, n *sql.BeginEndBlock) {
 	p.moveBefore(n)
@@ -39,22 +27,6 @@ func (p *Printer) visitBeginStatementNode(_ Context, n *sql.BeginStatement) {
 	p.moveBefore(n)
 	p.println(p.keyword("BEGIN TRANSACTION"))
 	p.movePast(n)
-}
-
-func (p *Printer) visitRollbackStatementNode(_ Context, n *sql.RollbackStatement) {
-	p.moveBefore(n)
-	p.println(p.keyword("ROLLBACK TRANSACTION"))
-	p.movePast(n)
-}
-
-func (p *Printer) visitExceptionHandlerListNode(ctx Context, n *sql.ExceptionHandlerList) {
-	for _, node := range n.Handlers() {
-		p.accept(ctx, node)
-	}
-}
-
-func (p *Printer) visitExceptionHandlerNode(ctx Context, n *sql.ExceptionHandler) {
-	p.accept(ctx, n.StatementList())
 }
 
 func (p *Printer) visitCallStatement(ctx Context, n *sql.CallStatement) {
@@ -92,23 +64,32 @@ func (p *Printer) visitCommitStatement(_ Context, n *sql.CommitStatement) {
 	p.movePast(n)
 }
 
-func (p *Printer) visitExecuteIntoClause(ctx Context, n *sql.ExecuteIntoClause) {
-	p.moveBefore(n)
-	p.print(p.keyword("INTO"))
-	p.accept(ctx, n.Identifiers())
+func (p *Printer) visitExceptionHandlerNode(ctx Context, n *sql.ExceptionHandler) {
+	p.accept(ctx, n.StatementList())
+}
+
+func (p *Printer) visitExceptionHandlerListNode(ctx Context, n *sql.ExceptionHandlerList) {
+	for _, node := range n.Handlers() {
+		p.accept(ctx, node)
+	}
 }
 
 func (p *Printer) visitExecuteImmediateStatement(ctx Context, n *sql.ExecuteImmediateStatement) {
 	p.moveBefore(n)
 	p.println(p.keyword("EXECUTE IMMEDIATE"))
 	p.incDepth()
-	// In the future we may try to format the SQL contents when they're
-	// a single string containing a valid SQL.
+
 	p.accept(ctx, n.SQL())
 	p.println("")
 	p.decDepth()
 	p.lnaccept(ctx, n.IntoClause())
 	p.lnaccept(ctx, n.UsingClause())
+}
+
+func (p *Printer) visitExecuteIntoClause(ctx Context, n *sql.ExecuteIntoClause) {
+	p.moveBefore(n)
+	p.print(p.keyword("INTO"))
+	p.accept(ctx, n.Identifiers())
 }
 
 func (p *Printer) visitExecuteUsingArgument(ctx Context, n *sql.ExecuteUsingArgument) {
@@ -226,12 +207,9 @@ func (p *Printer) visitReturnStatement(_ Context, n *sql.ReturnStatement) {
 	p.print(p.keyword("RETURN"))
 }
 
-func (p *Printer) visitSystemVariableAssignment(ctx Context, n *sql.SystemVariableAssignment) {
+func (p *Printer) visitRollbackStatementNode(_ Context, n *sql.RollbackStatement) {
 	p.moveBefore(n)
-	p.print(p.keyword("SET"))
-	p.accept(ctx, n.SystemVariable())
-	p.print("=")
-	p.accept(ctx, n.Expression())
+	p.println(p.keyword("ROLLBACK TRANSACTION"))
 	p.movePast(n)
 }
 
@@ -241,6 +219,25 @@ func (p *Printer) visitSingleAssignment(ctx Context, n *sql.SingleAssignment) {
 	p.accept(ctx, n.Variable())
 	p.print("=")
 	p.accept(ctx.WithValue(KeyInSingleAssignment, true), n.Expression())
+	p.movePast(n)
+}
+
+func (p *Printer) visitSystemVariableAssignment(ctx Context, n *sql.SystemVariableAssignment) {
+	p.moveBefore(n)
+	p.print(p.keyword("SET"))
+	p.accept(ctx, n.SystemVariable())
+	p.print("=")
+	p.accept(ctx, n.Expression())
+	p.movePast(n)
+}
+
+func (p *Printer) visitTVFArgument(ctx Context, n *sql.TVFArgument) {
+	p.moveBefore(n)
+	p.accept(ctx, n.Expr())
+	p.accept(ctx, n.TableClause())
+	p.accept(ctx, n.ModelClause())
+	p.accept(ctx, n.ConnectionClause())
+	p.accept(ctx, n.Descriptor())
 	p.movePast(n)
 }
 

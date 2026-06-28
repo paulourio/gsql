@@ -1,0 +1,365 @@
+package sql
+
+import (
+	"github.com/goccy/go-googlesql"
+)
+
+// AddColumnAction wraps *googlesql.ASTAddColumnAction.
+type AddColumnAction struct {
+	baseNode[*googlesql.ASTAddColumnAction]
+}
+
+func newAddColumnAction(r *googlesql.ASTAddColumnAction) *AddColumnAction {
+	if r == nil {
+		return nil
+	}
+	return &AddColumnAction{baseNode[*googlesql.ASTAddColumnAction]{raw: r}}
+}
+
+func (n *AddColumnAction) isAlterAction() {}
+
+func (n *AddColumnAction) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+
+func (n *AddColumnAction) ColumnDefinition() *ColumnDefinition {
+	return newColumnDefinition(must(n.raw.ColumnDefinition()))
+}
+
+// AddConstraintAction wraps *googlesql.ASTAddConstraintAction.
+type AddConstraintAction struct {
+	baseNode[*googlesql.ASTAddConstraintAction]
+}
+
+func newAddConstraintAction(r *googlesql.ASTAddConstraintAction) *AddConstraintAction {
+	if r == nil {
+		return nil
+	}
+	return &AddConstraintAction{baseNode[*googlesql.ASTAddConstraintAction]{raw: r}}
+}
+
+func (n *AddConstraintAction) isAlterAction() {}
+
+func (n *AddConstraintAction) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+
+func (n *AddConstraintAction) Constraint() Node { return Wrap(must(n.raw.Constraint())) }
+
+// AlterActionList wraps *googlesql.ASTAlterActionList.
+type AlterActionList struct {
+	baseNode[*googlesql.ASTAlterActionList]
+}
+
+func newAlterActionList(r *googlesql.ASTAlterActionList) *AlterActionList {
+	if r == nil {
+		return nil
+	}
+	return &AlterActionList{baseNode[*googlesql.ASTAlterActionList]{raw: r}}
+}
+
+// Actions returns all AlterActionNode children.
+func (n *AlterActionList) Actions() []AlterActionNode {
+	count := n.NumChildren()
+	result := make([]AlterActionNode, 0, count)
+	for i := range count {
+		c := must(n.raw.Actions(int32(i)))
+		if c == nil {
+			break
+		}
+		result = append(result, wrapAlterAction(c))
+	}
+	return result
+}
+
+// AlterColumnDropDefaultAction wraps *googlesql.ASTAlterColumnDropDefaultAction.
+type AlterColumnDropDefaultAction struct {
+	baseNode[*googlesql.ASTAlterColumnDropDefaultAction]
+}
+
+func newAlterColumnDropDefaultAction(r *googlesql.ASTAlterColumnDropDefaultAction) *AlterColumnDropDefaultAction {
+	if r == nil {
+		return nil
+	}
+	return &AlterColumnDropDefaultAction{baseNode[*googlesql.ASTAlterColumnDropDefaultAction]{raw: r}}
+}
+
+func (n *AlterColumnDropDefaultAction) isAlterAction() {}
+
+func (n *AlterColumnDropDefaultAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+func (n *AlterColumnDropDefaultAction) ColumnName() *Identifier {
+	return newIdentifier(must(n.raw.ColumnName()))
+}
+
+// AlterColumnDropNotNullAction wraps *googlesql.ASTAlterColumnDropNotNullAction.
+type AlterColumnDropNotNullAction struct {
+	baseNode[*googlesql.ASTAlterColumnDropNotNullAction]
+}
+
+func newAlterColumnDropNotNullAction(r *googlesql.ASTAlterColumnDropNotNullAction) *AlterColumnDropNotNullAction {
+	if r == nil {
+		return nil
+	}
+	return &AlterColumnDropNotNullAction{baseNode[*googlesql.ASTAlterColumnDropNotNullAction]{raw: r}}
+}
+
+func (n *AlterColumnDropNotNullAction) isAlterAction() {}
+
+func (n *AlterColumnDropNotNullAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+func (n *AlterColumnDropNotNullAction) ColumnName() *Identifier {
+	return newIdentifier(must(n.raw.ColumnName()))
+}
+
+// AlterColumnOptionsAction wraps *googlesql.ASTAlterColumnOptionsAction.
+type AlterColumnOptionsAction struct {
+	baseNode[*googlesql.ASTAlterColumnOptionsAction]
+}
+
+func newAlterColumnOptionsAction(r *googlesql.ASTAlterColumnOptionsAction) *AlterColumnOptionsAction {
+	if r == nil {
+		return nil
+	}
+	return &AlterColumnOptionsAction{baseNode[*googlesql.ASTAlterColumnOptionsAction]{raw: r}}
+}
+
+func (n *AlterColumnOptionsAction) isAlterAction() {}
+
+func (n *AlterColumnOptionsAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+func (n *AlterColumnOptionsAction) ColumnName() *Identifier {
+	return newIdentifier(must(n.raw.ColumnName()))
+}
+
+func (n *AlterColumnOptionsAction) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// AlterColumnSetDefaultAction wraps *googlesql.ASTAlterColumnSetDefaultAction.
+type AlterColumnSetDefaultAction struct {
+	baseNode[*googlesql.ASTAlterColumnSetDefaultAction]
+}
+
+func newAlterColumnSetDefaultAction(r *googlesql.ASTAlterColumnSetDefaultAction) *AlterColumnSetDefaultAction {
+	if r == nil {
+		return nil
+	}
+	return &AlterColumnSetDefaultAction{baseNode[*googlesql.ASTAlterColumnSetDefaultAction]{raw: r}}
+}
+
+func (n *AlterColumnSetDefaultAction) isAlterAction() {}
+
+func (n *AlterColumnSetDefaultAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+func (n *AlterColumnSetDefaultAction) ColumnName() *Identifier {
+	return newIdentifier(must(n.raw.ColumnName()))
+}
+
+func (n *AlterColumnSetDefaultAction) DefaultExpression() ExpressionNode {
+	return wrapExpr(must(n.raw.DefaultExpression()))
+}
+
+// AlterColumnTypeAction wraps *googlesql.ASTAlterColumnTypeAction.
+type AlterColumnTypeAction struct {
+	baseNode[*googlesql.ASTAlterColumnTypeAction]
+}
+
+func newAlterColumnTypeAction(r *googlesql.ASTAlterColumnTypeAction) *AlterColumnTypeAction {
+	if r == nil {
+		return nil
+	}
+	return &AlterColumnTypeAction{baseNode[*googlesql.ASTAlterColumnTypeAction]{raw: r}}
+}
+
+func (n *AlterColumnTypeAction) isAlterAction() {}
+
+func (n *AlterColumnTypeAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+func (n *AlterColumnTypeAction) ColumnName() *Identifier {
+	return newIdentifier(must(n.raw.ColumnName()))
+}
+
+func (n *AlterColumnTypeAction) Schema() Node { return Wrap(must(n.raw.Schema())) }
+
+// AlterConstraintEnforcementAction wraps *googlesql.ASTAlterConstraintEnforcementAction.
+type AlterConstraintEnforcementAction struct {
+	baseNode[*googlesql.ASTAlterConstraintEnforcementAction]
+}
+
+func newAlterConstraintEnforcementAction(r *googlesql.ASTAlterConstraintEnforcementAction) *AlterConstraintEnforcementAction {
+	if r == nil {
+		return nil
+	}
+	return &AlterConstraintEnforcementAction{baseNode[*googlesql.ASTAlterConstraintEnforcementAction]{raw: r}}
+}
+
+func (n *AlterConstraintEnforcementAction) isAlterAction() {}
+
+// AlterConstraintSetOptionsAction wraps *googlesql.ASTAlterConstraintSetOptionsAction.
+type AlterConstraintSetOptionsAction struct {
+	baseNode[*googlesql.ASTAlterConstraintSetOptionsAction]
+}
+
+func newAlterConstraintSetOptionsAction(r *googlesql.ASTAlterConstraintSetOptionsAction) *AlterConstraintSetOptionsAction {
+	if r == nil {
+		return nil
+	}
+	return &AlterConstraintSetOptionsAction{baseNode[*googlesql.ASTAlterConstraintSetOptionsAction]{raw: r}}
+}
+
+func (n *AlterConstraintSetOptionsAction) isAlterAction() {}
+
+// DropColumnAction wraps *googlesql.ASTDropColumnAction.
+type DropColumnAction struct {
+	baseNode[*googlesql.ASTDropColumnAction]
+}
+
+func newDropColumnAction(r *googlesql.ASTDropColumnAction) *DropColumnAction {
+	if r == nil {
+		return nil
+	}
+	return &DropColumnAction{baseNode[*googlesql.ASTDropColumnAction]{raw: r}}
+}
+
+func (n *DropColumnAction) isAlterAction() {}
+
+func (n *DropColumnAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+func (n *DropColumnAction) ColumnName() *Identifier {
+	return newIdentifier(must(n.raw.ColumnName()))
+}
+
+// DropConstraintAction wraps *googlesql.ASTDropConstraintAction.
+type DropConstraintAction struct {
+	baseNode[*googlesql.ASTDropConstraintAction]
+}
+
+func newDropConstraintAction(r *googlesql.ASTDropConstraintAction) *DropConstraintAction {
+	if r == nil {
+		return nil
+	}
+	return &DropConstraintAction{baseNode[*googlesql.ASTDropConstraintAction]{raw: r}}
+}
+
+func (n *DropConstraintAction) isAlterAction() {}
+
+func (n *DropConstraintAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+func (n *DropConstraintAction) ConstraintName() *Identifier {
+	return newIdentifier(must(n.raw.ConstraintName()))
+}
+
+// DropPrimaryKeyAction wraps *googlesql.ASTDropPrimaryKeyAction.
+type DropPrimaryKeyAction struct {
+	baseNode[*googlesql.ASTDropPrimaryKeyAction]
+}
+
+func newDropPrimaryKeyAction(r *googlesql.ASTDropPrimaryKeyAction) *DropPrimaryKeyAction {
+	if r == nil {
+		return nil
+	}
+	return &DropPrimaryKeyAction{baseNode[*googlesql.ASTDropPrimaryKeyAction]{raw: r}}
+}
+
+func (n *DropPrimaryKeyAction) isAlterAction() {}
+
+func (n *DropPrimaryKeyAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+// MergeAction wraps *googlesql.ASTMergeAction.
+type MergeAction struct {
+	baseNode[*googlesql.ASTMergeAction]
+}
+
+func newMergeAction(r *googlesql.ASTMergeAction) *MergeAction {
+	if r == nil {
+		return nil
+	}
+	return &MergeAction{baseNode[*googlesql.ASTMergeAction]{raw: r}}
+}
+
+func (n *MergeAction) ActionType() MergeActionType { return must(n.raw.ActionType()) }
+
+func (n *MergeAction) InsertColumnList() *ColumnList {
+	return newColumnList(must(n.raw.InsertColumnList()))
+}
+
+func (n *MergeAction) InsertRow() *InsertValuesRow {
+	return newInsertValuesRow(must(n.raw.InsertRow()))
+}
+
+func (n *MergeAction) UpdateItemList() *UpdateItemList {
+	return newUpdateItemList(must(n.raw.UpdateItemList()))
+}
+
+// RenameColumnAction wraps *googlesql.ASTRenameColumnAction.
+type RenameColumnAction struct {
+	baseNode[*googlesql.ASTRenameColumnAction]
+}
+
+func newRenameColumnAction(r *googlesql.ASTRenameColumnAction) *RenameColumnAction {
+	if r == nil {
+		return nil
+	}
+	return &RenameColumnAction{baseNode[*googlesql.ASTRenameColumnAction]{raw: r}}
+}
+
+func (n *RenameColumnAction) isAlterAction() {}
+
+func (n *RenameColumnAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+func (n *RenameColumnAction) ColumnName() *Identifier {
+	return newIdentifier(must(n.raw.ColumnName()))
+}
+
+func (n *RenameColumnAction) NewColumnName() *Identifier {
+	return newIdentifier(must(n.raw.NewColumnName()))
+}
+
+// RenameToClause wraps *googlesql.ASTRenameToClause.
+type RenameToClause struct {
+	baseNode[*googlesql.ASTRenameToClause]
+}
+
+func newRenameToClause(r *googlesql.ASTRenameToClause) *RenameToClause {
+	if r == nil {
+		return nil
+	}
+	return &RenameToClause{baseNode[*googlesql.ASTRenameToClause]{raw: r}}
+}
+
+func (n *RenameToClause) isAlterAction() {}
+
+func (n *RenameToClause) NewName() *PathExpression {
+	return newPathExpression(must(n.raw.NewName()))
+}
+
+// SetCollateClause wraps *googlesql.ASTSetCollateClause.
+type SetCollateClause struct {
+	baseNode[*googlesql.ASTSetCollateClause]
+}
+
+func newSetCollateClause(r *googlesql.ASTSetCollateClause) *SetCollateClause {
+	if r == nil {
+		return nil
+	}
+	return &SetCollateClause{baseNode[*googlesql.ASTSetCollateClause]{raw: r}}
+}
+
+func (n *SetCollateClause) isAlterAction() {}
+
+func (n *SetCollateClause) Collate() *Collate { return newCollate(must(n.raw.Collate())) }
+
+// SetOptionsAction wraps *googlesql.ASTSetOptionsAction.
+type SetOptionsAction struct {
+	baseNode[*googlesql.ASTSetOptionsAction]
+}
+
+func newSetOptionsAction(r *googlesql.ASTSetOptionsAction) *SetOptionsAction {
+	if r == nil {
+		return nil
+	}
+	return &SetOptionsAction{baseNode[*googlesql.ASTSetOptionsAction]{raw: r}}
+}
+
+func (n *SetOptionsAction) isAlterAction() {}
+
+func (n *SetOptionsAction) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}

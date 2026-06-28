@@ -1,6 +1,8 @@
 package printer
 
-import "github.com/paulourio/gsql/internal/sql"
+import (
+	"github.com/paulourio/gsql/internal/sql"
+)
 
 func (p *Printer) visitAssertStatement(ctx Context, n *sql.AssertStatement) {
 	p.moveBefore(n)

@@ -1,5 +1,3 @@
-// This file contains printing functions specific for
-// Data Definition Language (DDL).
 package printer
 
 import (
@@ -8,29 +6,21 @@ import (
 	"github.com/paulourio/gsql/internal/sql"
 )
 
-func (p *Printer) visitColumnList(ctx Context, n *sql.ColumnList) {
+func (p *Printer) visitAssertRowsModified(ctx Context, n *sql.AssertRowsModified) {
 	p.moveBefore(n)
-	cols := n.Identifiers()
-	simple := len(cols) <= 4
-	p.print("(")
-	if !simple {
-		p.println("")
-		p.incDepth()
-	}
-	for i, c := range cols {
-		if i > 0 {
-			p.print(",")
-			if !simple {
-				p.println("")
-			}
-		}
-		p.accept(ctx, c)
-	}
-	if !simple {
-		p.println("")
-		p.decDepth()
-	}
-	p.print(")")
+	p.print(p.keyword("ASSERT_ROWS_MODIFIED"))
+	p.acceptNestedLeft(ctx, n.NumRows())
+	p.movePast(n)
+}
+
+func (p *Printer) visitAssignmentFromStruct(ctx Context, n *sql.AssignmentFromStruct) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.print(pp.keyword("SET") + " (")
+	pp.print(pp.toString(ctx, n.Variables()) + ")")
+	pp.print("=")
+	p.print(pp.unnestLeft())
+	p.accept(ctx, n.StructExpression())
 	p.movePast(n)
 }
 
@@ -67,21 +57,6 @@ func (p *Printer) visitDeleteStatement(ctx Context, n *sql.DeleteStatement) {
 	}
 	pp.movePast(n)
 	p.print(pp.unnestLeft())
-}
-
-func (p *Printer) visitReturningClause(ctx Context, n *sql.ReturningClause) {
-	p.moveBefore(n)
-	p.print(p.keyword("RETURNING"))
-	p.accept(ctx, n.SelectList())
-	p.accept(ctx, n.ActionAlias())
-	p.movePast(n)
-}
-
-func (p *Printer) visitAssertRowsModified(ctx Context, n *sql.AssertRowsModified) {
-	p.moveBefore(n)
-	p.print(p.keyword("ASSERT_ROWS_MODIFIED"))
-	p.acceptNestedLeft(ctx, n.NumRows())
-	p.movePast(n)
 }
 
 func (p *Printer) visitInsertStatement(ctx Context, n *sql.InsertStatement) {
@@ -127,17 +102,6 @@ func (p *Printer) visitInsertStatement(ctx Context, n *sql.InsertStatement) {
 	p.movePast(n)
 }
 
-func (p *Printer) visitInsertValuesRowList(ctx Context, n *sql.InsertValuesRowList) {
-	p.moveBefore(n)
-	for i, r := range n.Rows() {
-		if i > 0 {
-			p.println(",")
-		}
-		p.accept(ctx, r)
-	}
-	p.movePast(n)
-}
-
 func (p *Printer) visitInsertValuesRow(ctx Context, n *sql.InsertValuesRow) {
 	p.moveBefore(n)
 	values := n.Values()
@@ -164,32 +128,26 @@ func (p *Printer) visitInsertValuesRow(ctx Context, n *sql.InsertValuesRow) {
 	p.movePast(n)
 }
 
-func (p *Printer) visitMergeStatement(ctx Context, n *sql.MergeStatement) {
-	pp := p.nest()
-	pp.moveBefore(n)
-	pp.print(pp.keyword("MERGE") + " ")
-	p1 := pp.nest()
-	p1.print(p1.keyword("INTO"))
-	p1.acceptNested(ctx.WithValue(KeyInTableName, true), n.TargetPath())
-	pp.print(p1.unnest())
-	pp.accept(ctx, n.Alias())
-	pp.println("")
-	pp.print(pp.keyword("USING") + " ")
-	pp.acceptNested(ctx.WithValue(KeyInTableName, true), n.TableExpression())
-	pp.println("")
-	pp.print(pp.keyword("ON") + " ")
-	pp.acceptNested(ctx, n.MergeCondition())
-	p.println("")
-	pp.accept(ctx, n.WhenClauses())
-	pp.movePast(n)
-	p.print(pp.unnest())
+func (p *Printer) visitInsertValuesRowList(ctx Context, n *sql.InsertValuesRowList) {
+	p.moveBefore(n)
+	for i, r := range n.Rows() {
+		if i > 0 {
+			p.println(",")
+		}
+		p.accept(ctx, r)
+	}
+	p.movePast(n)
+}
+
+func (p *Printer) visitMergeActionDelete(_ Context, _ *sql.MergeAction) {
+	p.println(p.keyword("DELETE"))
 }
 
 func (p *Printer) visitMergeAction(ctx Context, n *sql.MergeAction) {
 	p.moveBefore(n)
 	switch n.ActionType() {
 	case sql.NotSetMergeAction:
-		// Nothing.
+
 	case sql.InsertAction:
 		p.visitMergeActionInsert(ctx, n)
 	case sql.UpdateMergeAction:
@@ -198,10 +156,6 @@ func (p *Printer) visitMergeAction(ctx Context, n *sql.MergeAction) {
 		p.visitMergeActionDelete(ctx, n)
 	}
 	p.movePast(n)
-}
-
-func (p *Printer) visitMergeActionDelete(_ Context, _ *sql.MergeAction) {
-	p.println(p.keyword("DELETE"))
 }
 
 func (p *Printer) visitMergeActionInsert(ctx Context, n *sql.MergeAction) {
@@ -236,22 +190,32 @@ func (p *Printer) visitMergeActionUpdate(ctx Context, n *sql.MergeAction) {
 	p.decDepth()
 }
 
-func (p *Printer) visitMergeWhenClauseList(ctx Context, n *sql.MergeWhenClauseList) {
-	p.moveBefore(n)
-	for _, c := range n.Clauses() {
-		p.println("")
-		p.print(p.keyword("WHEN") + " ")
-		p.acceptNested(ctx, c)
-	}
+func (p *Printer) visitMergeStatement(ctx Context, n *sql.MergeStatement) {
+	pp := p.nest()
+	pp.moveBefore(n)
+	pp.print(pp.keyword("MERGE") + " ")
+	p1 := pp.nest()
+	p1.print(p1.keyword("INTO"))
+	p1.acceptNested(ctx.WithValue(KeyInTableName, true), n.TargetPath())
+	pp.print(p1.unnest())
+	pp.accept(ctx, n.Alias())
+	pp.println("")
+	pp.print(pp.keyword("USING") + " ")
+	pp.acceptNested(ctx.WithValue(KeyInTableName, true), n.TableExpression())
+	pp.println("")
+	pp.print(pp.keyword("ON") + " ")
+	pp.acceptNested(ctx, n.MergeCondition())
 	p.println("")
-	p.movePast(n)
+	pp.accept(ctx, n.WhenClauses())
+	pp.movePast(n)
+	p.print(pp.unnest())
 }
 
 func (p *Printer) visitMergeWhenClause(ctx Context, n *sql.MergeWhenClause) {
 	p.moveBefore(n)
 	switch n.MatchType() {
 	case sql.NotSetMatchType:
-		// Nothing.
+
 	case sql.Matched:
 		p.print(p.keyword("MATCHED"))
 	case sql.NotMatchedBySource:
@@ -284,6 +248,25 @@ func (p *Printer) visitMergeWhenClause(ctx Context, n *sql.MergeWhenClause) {
 	p.movePast(n)
 }
 
+func (p *Printer) visitMergeWhenClauseList(ctx Context, n *sql.MergeWhenClauseList) {
+	p.moveBefore(n)
+	for _, c := range n.Clauses() {
+		p.println("")
+		p.print(p.keyword("WHEN") + " ")
+		p.acceptNested(ctx, c)
+	}
+	p.println("")
+	p.movePast(n)
+}
+
+func (p *Printer) visitReturningClause(ctx Context, n *sql.ReturningClause) {
+	p.moveBefore(n)
+	p.print(p.keyword("RETURNING"))
+	p.accept(ctx, n.SelectList())
+	p.accept(ctx, n.ActionAlias())
+	p.movePast(n)
+}
+
 func (p *Printer) visitTruncateStatement(ctx Context, n *sql.TruncateStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("TRUNCATE TABLE"))
@@ -293,20 +276,6 @@ func (p *Printer) visitTruncateStatement(ctx Context, n *sql.TruncateStatement) 
 		p.print(p.keyword("WHERE"))
 		p.accept(ctx, w)
 	}
-	p.movePast(n)
-}
-
-func (p *Printer) visitUpdateItemList(ctx Context, n *sql.UpdateItemList) {
-	p.moveBefore(n)
-	pp := p.nest()
-	items := n.Items()
-	for i, item := range items {
-		if i > 0 {
-			pp.println(",")
-		}
-		pp.accept(ctx, item)
-	}
-	p.print(pp.unnestLeft())
 	p.movePast(n)
 }
 
@@ -326,6 +295,20 @@ func (p *Printer) visitUpdateItem(ctx Context, n *sql.UpdateItem) {
 		p.decDepth()
 		p.print(")")
 	}
+	p.movePast(n)
+}
+
+func (p *Printer) visitUpdateItemList(ctx Context, n *sql.UpdateItemList) {
+	p.moveBefore(n)
+	pp := p.nest()
+	items := n.Items()
+	for i, item := range items {
+		if i > 0 {
+			pp.println(",")
+		}
+		pp.accept(ctx, item)
+	}
+	p.print(pp.unnestLeft())
 	p.movePast(n)
 }
 

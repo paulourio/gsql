@@ -68,16 +68,13 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.println("")
 	}
 	switch n.Kind() {
+
+	// ── print_ddl_alter.go ────────────────────────────────────────────────────────
 	case sql.AddColumnActionKind:
 		p.visitAddColumnAction(ctx, n.(*sql.AddColumnAction))
 	case sql.AddConstraintActionKind:
 		p.visitAddConstraintAction(ctx, n.(*sql.AddConstraintAction))
-	case sql.AliasKind:
-		p.visitAlias(ctx, n.(*sql.Alias))
-	case sql.AliasedGroupRowsKind:
-		p.visitAliasedGroupRows(ctx, n.(*sql.AliasedGroupRows))
-	case sql.AliasedQueryKind:
-		p.visitAliasedQuery(ctx, n.(*sql.AliasedQuery))
+
 	case sql.AlterActionListKind:
 		p.visitAlterActionList(ctx, n.(*sql.AlterActionList))
 	case sql.AlterAllRowAccessPoliciesStatementKind:
@@ -112,18 +109,443 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitAlterTableStatement(ctx, n.(*sql.AlterTableStatement))
 	case sql.AlterViewStatementKind:
 		p.visitAlterViewStatement(ctx, n.(*sql.AlterViewStatement))
-	case sql.AnalyticFunctionCallKind:
-		p.visitAnalyticFunctionCall(ctx, n.(*sql.AnalyticFunctionCall))
-	case sql.AndExprKind:
-		p.visitAndExpr(ctx, n.(*sql.AndExpr))
-	case sql.ArrayConstructorKind:
-		p.visitArrayConstructor(ctx, n.(*sql.ArrayConstructor))
+
+	case sql.DropColumnActionKind:
+		p.visitDropColumnAction(ctx, n.(*sql.DropColumnAction))
+	case sql.DropConstraintActionKind:
+		p.visitDropConstraintAction(ctx, n.(*sql.DropConstraintAction))
+
+	case sql.DropPrimaryKeyActionKind:
+		p.visitDropPrimaryKeyAction(ctx, n.(*sql.DropPrimaryKeyAction))
+
+	case sql.RenameColumnActionKind:
+		p.visitRenameColumnAction(ctx, n.(*sql.RenameColumnAction))
+	case sql.RenameToClauseKind:
+		p.visitRenameToClause(ctx, n.(*sql.RenameToClause))
+
+	case sql.SetCollateClauseKind:
+		p.visitSetCollateClause(ctx, n.(*sql.SetCollateClause))
+
+	case sql.SetOptionsActionKind:
+		p.visitSetOptionsAction(ctx, n.(*sql.SetOptionsAction))
+
+	// ── print_ddl_create.go ────────────────────────────────────────────────────────
 	case sql.ArrayColumnSchemaKind:
 		if ac, ok := n.(*sql.ArrayColumnSchema); ok {
 			p.visitArrayColumnSchema(ctx, ac)
 		} else {
 			p.visitColumnSchema(ctx, n.(*sql.ColumnSchema))
 		}
+
+	case sql.CloneDataSourceKind:
+		p.visitCloneDataSource(ctx, n.(*sql.CloneDataSource))
+
+	case sql.ColumnDefinitionKind:
+		p.visitColumnDefinition(ctx, n.(*sql.ColumnDefinition))
+
+	case sql.InferredTypeColumnSchemaKind:
+		p.visitColumnSchema(ctx, n.(*sql.ColumnSchema))
+	case sql.ColumnWithOptionsKind:
+		p.visitColumnWithOptions(ctx, n.(*sql.ColumnWithOptions))
+	case sql.ColumnWithOptionsListKind:
+		p.visitColumnWithOptionsList(ctx, n.(*sql.ColumnWithOptionsList))
+
+	case sql.ConnectionClauseKind:
+		p.visitConnectionClause(ctx, n.(*sql.ConnectionClause))
+	case sql.CopyDataSourceKind:
+		p.visitCopyDataSource(ctx, n.(*sql.CopyDataSource))
+	case sql.CreateExternalTableStatementKind:
+		p.visitCreateExternalTableStatement(ctx, n.(*sql.CreateExternalTableStatement))
+	case sql.CreateFunctionStatementKind:
+		p.visitCreateFunctionStatement(ctx, n.(*sql.CreateFunctionStatement))
+
+	case sql.CreateProcedureStatementKind:
+		p.visitCreateProcedureStatement(ctx, n.(*sql.CreateProcedureStatement))
+	case sql.CreateRowAccessPolicyStatementKind:
+		p.visitCreateRowAccessPolicyStatement(ctx, n.(*sql.CreateRowAccessPolicyStatement))
+	case sql.CreateSchemaStatementKind:
+		p.visitCreateSchemaStatement(ctx, n.(*sql.CreateSchemaStatement))
+	case sql.CreateSnapshotTableStatementKind:
+		p.visitCreateSnapshotTableStatement(ctx, n.(*sql.CreateSnapshotTableStatement))
+
+	case sql.CreateTableFunctionStatementKind:
+		p.visitCreateTableFunctionStatement(ctx, n.(*sql.CreateTableFunctionStatement))
+	case sql.CreateTableStatementKind:
+		p.visitCreateTableStatement(ctx, n.(*sql.CreateTableStatement))
+
+	case sql.CreateViewStatementKind:
+		p.visitCreateViewStatement(ctx, n.(*sql.CreateViewStatement))
+
+	case sql.FilterUsingClauseKind:
+		p.visitFilterUsingClause(ctx, n.(*sql.FilterUsingClause))
+	case sql.ForeignKeyKind:
+		if fk, ok := n.(*sql.ForeignKey); ok {
+			p.visitForeignKey(ctx, fk)
+		} else {
+			p.visitTableConstraint(ctx, n.(*sql.TableConstraint))
+		}
+	case sql.ForeignKeyReferenceKind:
+		p.visitForeignKeyReference(ctx, n.(*sql.ForeignKeyReference))
+
+	case sql.FunctionDeclarationKind:
+		p.visitFunctionDeclaration(ctx, n.(*sql.FunctionDeclaration))
+	case sql.FunctionParameterKind:
+		p.visitFunctionParameter(ctx, n.(*sql.FunctionParameter))
+	case sql.FunctionParametersKind:
+		p.visitFunctionParameters(ctx, n.(*sql.FunctionParameters))
+
+	case sql.GrantToClauseKind:
+		p.visitGrantToClause(ctx, n.(*sql.GrantToClause))
+	case sql.GranteeListKind:
+		p.visitGranteeList(ctx, n.(*sql.GranteeList))
+
+	case sql.PrimaryKeyKind:
+		if pk, ok := n.(*sql.PrimaryKey); ok {
+			p.visitPrimaryKey(ctx, pk)
+		} else {
+			p.visitTableConstraint(ctx, n.(*sql.TableConstraint))
+		}
+
+	case sql.PrimaryKeyElementKind:
+		p.visitPrimaryKeyElement(ctx, n.(*sql.PrimaryKeyElement))
+	case sql.PrimaryKeyElementListKind:
+		p.visitPrimaryKeyElementList(ctx, n.(*sql.PrimaryKeyElementList))
+
+	case sql.SQLFunctionBodyKind:
+		p.visitSQLFunctionBody(ctx, n.(*sql.SQLFunctionBody))
+	case sql.SimpleColumnSchemaKind:
+		if sc, ok := n.(*sql.SimpleColumnSchema); ok {
+			p.visitSimpleColumnSchema(ctx, sc)
+		} else {
+			p.visitColumnSchema(ctx, n.(*sql.ColumnSchema))
+		}
+
+	case sql.StructColumnFieldKind:
+		p.visitStructColumnField(ctx, n.(*sql.StructColumnField))
+	case sql.StructColumnSchemaKind:
+		if sc, ok := n.(*sql.StructColumnSchema); ok {
+			p.visitStructColumnSchema(ctx, sc)
+		} else {
+			p.visitColumnSchema(ctx, n.(*sql.ColumnSchema))
+		}
+
+	case sql.TableElementListKind:
+		p.visitTableElementList(ctx, n.(*sql.TableElementList))
+
+	case sql.WithConnectionClauseKind:
+		p.visitWithConnectionClause(ctx, n.(*sql.WithConnectionClause))
+
+	case sql.WithPartitionColumnsClauseKind:
+		p.visitWithPartitionColumnsClause(ctx, n.(*sql.WithPartitionColumnsClause))
+
+	// ── print_ddl_drop.go ────────────────────────────────────────────────────────
+	case sql.DropAllRowAccessPoliciesStatementKind:
+		p.visitDropAllRowAccessPoliciesStatement(ctx, n.(*sql.DropAllRowAccessPoliciesStatement))
+
+	case sql.DropEntityStatementKind:
+		p.visitDropEntityStatement(ctx, n.(*sql.DropEntityStatement))
+	case sql.DropFunctionStatementKind:
+		p.visitDropFunctionStatement(ctx, n.(*sql.DropFunctionStatement))
+	case sql.DropMaterializedViewStatementKind:
+		p.visitDropMaterializedViewStatement(ctx, n.(*sql.DropMaterializedViewStatement))
+
+	case sql.DropPrivilegeRestrictionStatementKind:
+		p.visitDropPrivilegeRestrictionStatement(ctx, n.(*sql.DropPrivilegeRestrictionStatement))
+	case sql.DropRowAccessPolicyStatementKind:
+		p.visitDropRowAccessPolicyStatement(ctx, n.(*sql.DropRowAccessPolicyStatement))
+	case sql.DropSearchIndexStatementKind:
+		p.visitDropSearchIndexStatement(ctx, n.(*sql.DropSearchIndexStatement))
+	case sql.DropSnapshotTableStatementKind:
+		p.visitDropSnapshotTableStatement(ctx, n.(*sql.DropSnapshotTableStatement))
+
+	case sql.DropStatementKind:
+		p.visitDropStatement(ctx, n.(*sql.DropStatement))
+	case sql.DropTableFunctionStatementKind:
+		p.visitDropTableFunctionStatement(ctx, n.(*sql.DropTableFunctionStatement))
+
+	// ── print_debug.go ────────────────────────────────────────────────────────
+	case sql.AssertStatementKind:
+		p.visitAssertStatement(ctx, n.(*sql.AssertStatement))
+
+	// ── print_dml.go ────────────────────────────────────────────────────────
+	case sql.AssertRowsModifiedKind:
+		p.visitAssertRowsModified(ctx, n.(*sql.AssertRowsModified))
+	case sql.AssignmentFromStructKind:
+		p.visitAssignmentFromStruct(ctx, n.(*sql.AssignmentFromStruct))
+
+	case sql.DeleteStatementKind:
+		p.visitDeleteStatement(ctx, n.(*sql.DeleteStatement))
+
+	case sql.InsertStatementKind:
+		p.visitInsertStatement(ctx, n.(*sql.InsertStatement))
+
+	case sql.InsertValuesRowKind:
+		p.visitInsertValuesRow(ctx, n.(*sql.InsertValuesRow))
+	case sql.InsertValuesRowListKind:
+		p.visitInsertValuesRowList(ctx, n.(*sql.InsertValuesRowList))
+
+	case sql.MergeActionKind:
+		p.visitMergeAction(ctx, n.(*sql.MergeAction))
+	case sql.MergeStatementKind:
+		p.visitMergeStatement(ctx, n.(*sql.MergeStatement))
+	case sql.MergeWhenClauseKind:
+		p.visitMergeWhenClause(ctx, n.(*sql.MergeWhenClause))
+	case sql.MergeWhenClauseListKind:
+		p.visitMergeWhenClauseList(ctx, n.(*sql.MergeWhenClauseList))
+
+	case sql.ReturningClauseKind:
+		p.visitReturningClause(ctx, n.(*sql.ReturningClause))
+
+	case sql.TruncateStatementKind:
+		p.visitTruncateStatement(ctx, n.(*sql.TruncateStatement))
+
+	case sql.UpdateItemKind:
+		p.visitUpdateItem(ctx, n.(*sql.UpdateItem))
+	case sql.UpdateItemListKind:
+		p.visitUpdateItemList(ctx, n.(*sql.UpdateItemList))
+	case sql.UpdateSetValueKind:
+		p.visitUpdateSetValue(ctx, n.(*sql.UpdateSetValue))
+	case sql.UpdateStatementKind:
+		p.visitUpdateStatement(ctx, n.(*sql.UpdateStatement))
+
+	// ── print_filter.go ────────────────────────────────────────────────────────
+	case sql.ClampedBetweenModifierKind:
+		p.visitClampedBetweenModifier(ctx, n.(*sql.ClampedBetweenModifier))
+
+	case sql.ClusterByKind:
+		p.visitClusterBy(ctx, n.(*sql.ClusterBy))
+	case sql.CollateKind:
+		p.visitCollate(ctx, n.(*sql.Collate))
+
+	case sql.ColumnListKind:
+		p.visitColumnList(ctx, n.(*sql.ColumnList))
+
+	case sql.DescriptorKind:
+		p.visitDescriptor(ctx, n.(*sql.Descriptor))
+	case sql.DescriptorColumnKind:
+		p.visitDescriptorColumn(ctx, n.(*sql.DescriptorColumn))
+	case sql.DescriptorColumnListKind:
+		p.visitDescriptorColumnList(ctx, n.(*sql.DescriptorColumnList))
+
+	case sql.ForSystemTimeKind:
+		p.visitForSystemTime(ctx, n.(*sql.ForSystemTime))
+	case sql.FormatClauseKind:
+		p.visitFormatClause(ctx, n.(*sql.FormatClause))
+
+	case sql.GroupByKind:
+		p.visitGroupBy(ctx, n.(*sql.GroupBy))
+	case sql.GroupByAllKind:
+		p.visitGroupByAll(ctx, n.(*sql.GroupByAll))
+	case sql.GroupingItemKind:
+		p.visitGroupingItem(ctx, n.(*sql.GroupingItem))
+
+	case sql.HavingKind:
+		p.visitHaving(ctx, n.(*sql.Having))
+	case sql.HavingModifierKind:
+		p.visitHavingModifier(ctx, n.(*sql.HavingModifier))
+
+	case sql.HintKind:
+		p.visitHint(ctx, n.(*sql.Hint))
+	case sql.HintedStatementKind:
+		p.visitHintedStatement(ctx, n.(*sql.HintedStatement))
+
+	case sql.LimitKind:
+		p.visitLimit(ctx, n.(*sql.Limit))
+	case sql.LimitOffsetKind:
+		p.visitLimitOffset(ctx, n.(*sql.LimitOffset))
+
+	case sql.NullOrderKind:
+		p.visitNullOrder(ctx, n.(*sql.NullOrder))
+
+	case sql.OnClauseKind:
+		p.visitOnClause(ctx, n.(*sql.OnClause))
+
+	case sql.OptionsEntryKind:
+		p.visitOptionsEntry(ctx, n.(*sql.OptionsEntry))
+	case sql.OptionsListKind:
+		p.visitOptionsList(ctx, n.(*sql.OptionsList))
+
+	case sql.OrderByKind:
+		p.visitOrderBy(ctx, n.(*sql.OrderBy))
+	case sql.OrderingExpressionKind:
+		p.visitOrderingExpression(ctx, n.(*sql.OrderingExpression))
+
+	case sql.PartitionByKind:
+		p.visitPartitionBy(ctx, n.(*sql.PartitionBy))
+
+	case sql.PivotClauseKind:
+		p.visitPivotClause(ctx, n.(*sql.PivotClause))
+	case sql.PivotExpressionKind:
+		p.visitPivotExpression(ctx, n.(*sql.PivotExpression))
+	case sql.PivotExpressionListKind:
+		p.visitPivotExpressionList(ctx, n.(*sql.PivotExpressionList))
+	case sql.PivotValueKind:
+		p.visitPivotValue(ctx, n.(*sql.PivotValue))
+	case sql.PivotValueListKind:
+		p.visitPivotValueList(ctx, n.(*sql.PivotValueList))
+
+	case sql.QualifyKind:
+		p.visitQualify(ctx, n.(*sql.Qualify))
+
+	case sql.RepeatableClauseKind:
+		p.visitRepeatableClause(ctx, n.(*sql.RepeatableClause))
+
+	case sql.RollupKind:
+		p.visitRollup(ctx, n.(*sql.Rollup))
+	case sql.SampleClauseKind:
+		p.visitSampleClause(ctx, n.(*sql.SampleClause))
+	case sql.SampleSizeKind:
+		p.visitSampleSize(ctx, n.(*sql.SampleSize))
+	case sql.SampleSuffixKind:
+		p.visitSampleSuffix(ctx, n.(*sql.SampleSuffix))
+
+	case sql.UnpivotClauseKind:
+		p.visitUnpivotClause(ctx, n.(*sql.UnpivotClause))
+
+	case sql.UnpivotInItemKind:
+		p.visitUnpivotInItem(ctx, n.(*sql.UnpivotInItem))
+	case sql.UnpivotInItemLabelKind:
+		p.visitUnpivotInItemLabel(ctx, n.(*sql.UnpivotInItemLabel))
+	case sql.UnpivotInItemListKind:
+		p.visitUnpivotInItemList(ctx, n.(*sql.UnpivotInItemList))
+
+	case sql.UsingClauseKind:
+		p.visitUsingClause(ctx, n.(*sql.UsingClause))
+
+	case sql.WhereClauseKind:
+		p.visitWhereClause(ctx, n.(*sql.WhereClause))
+	case sql.WindowClauseKind:
+		p.visitWindowClause(ctx, n.(*sql.WindowClause))
+	case sql.WindowFrameKind:
+		p.visitWindowFrame(ctx, n.(*sql.WindowFrame))
+	case sql.WindowFrameExprKind:
+		p.visitWindowFrameExpr(ctx, n.(*sql.WindowFrameExpr))
+	case sql.WindowSpecificationKind:
+		p.visitWindowSpecification(ctx, n.(*sql.WindowSpecification))
+
+	case sql.WithOffsetKind:
+		p.visitWithOffset(ctx, n.(*sql.WithOffset))
+
+	case sql.WithWeightKind:
+		p.visitWithWeight(ctx, n.(*sql.WithWeight))
+
+	// ── print_from.go ────────────────────────────────────────────────────────
+	case sql.AliasedGroupRowsKind:
+		p.visitAliasedGroupRows(ctx, n.(*sql.AliasedGroupRows))
+	case sql.AliasedQueryKind:
+		p.visitAliasedQuery(ctx, n.(*sql.AliasedQuery))
+
+	case sql.FromClauseKind:
+		p.visitFromClause(ctx, n.(*sql.FromClause))
+
+	case sql.JoinKind:
+		p.visitJoin(ctx, n.(*sql.Join))
+
+	case sql.ParenthesizedJoinKind:
+		p.visitParenthesizedJoin(ctx, n.(*sql.ParenthesizedJoin))
+
+	case sql.TVFKind:
+		p.visitTVF(ctx, n.(*sql.TVF))
+	case sql.TableClauseKind:
+		p.visitTableClause(ctx, n.(*sql.TableClause))
+
+	case sql.TablePathExpressionKind:
+		p.visitTablePathExpression(ctx, n.(*sql.TablePathExpression))
+	case sql.TableSubqueryKind:
+		p.visitTableSubquery(ctx, n.(*sql.TableSubquery))
+
+	case sql.UnnestExpressionKind:
+		p.visitUnnestExpression(ctx, n.(*sql.UnnestExpression))
+	case sql.UnnestExpressionWithOptAliasAndOffsetKind:
+		p.visitUnnestExpressionWithOptAliasAndOffset(ctx, n.(*sql.UnnestExpressionWithOptAliasAndOffset))
+
+	case sql.WithClauseKind:
+		p.visitWithClause(ctx, n.(*sql.WithClause))
+	case sql.WithClauseEntryKind:
+		p.visitWithClauseEntry(ctx, n.(*sql.WithClauseEntry))
+
+	case sql.WithExpressionKind:
+		p.visitWithExpression(ctx, n.(*sql.WithExpression))
+
+	// ── print_procedural.go ────────────────────────────────────────────────────────
+	case sql.BeginEndBlockKind:
+		p.visitBeginEndBlock(ctx, n.(*sql.BeginEndBlock))
+	case sql.BeginStatementKind:
+		p.visitBeginStatementNode(ctx, n.(*sql.BeginStatement))
+
+	case sql.CallStatementKind:
+		p.visitCallStatement(ctx, n.(*sql.CallStatement))
+
+	case sql.CommitStatementKind:
+		p.visitCommitStatement(ctx, n.(*sql.CommitStatement))
+
+	case sql.ExceptionHandlerKind:
+		p.visitExceptionHandlerNode(ctx, n.(*sql.ExceptionHandler))
+	case sql.ExceptionHandlerListKind:
+		p.visitExceptionHandlerListNode(ctx, n.(*sql.ExceptionHandlerList))
+
+	case sql.ExecuteImmediateStatementKind:
+		p.visitExecuteImmediateStatement(ctx, n.(*sql.ExecuteImmediateStatement))
+	case sql.ExecuteIntoClauseKind:
+		p.visitExecuteIntoClause(ctx, n.(*sql.ExecuteIntoClause))
+
+	case sql.ExecuteUsingArgumentKind:
+		p.visitExecuteUsingArgument(ctx, n.(*sql.ExecuteUsingArgument))
+	case sql.ExecuteUsingClauseKind:
+		p.visitExecuteUsingClause(ctx, n.(*sql.ExecuteUsingClause))
+
+	case sql.IfStatementKind:
+		p.visitIfStatement(ctx, n.(*sql.IfStatement))
+
+	case sql.ParameterAssignmentKind:
+		p.visitParameterAssignment(ctx, n.(*sql.ParameterAssignment))
+
+	case sql.RaiseStatementKind:
+		p.visitRaiseStatement(ctx, n.(*sql.RaiseStatement))
+
+	case sql.ReturnStatementKind:
+		p.visitReturnStatement(ctx, n.(*sql.ReturnStatement))
+
+	case sql.RollbackStatementKind:
+		p.visitRollbackStatementNode(ctx, n.(*sql.RollbackStatement))
+
+	case sql.SingleAssignmentKind:
+		p.visitSingleAssignment(ctx, n.(*sql.SingleAssignment))
+	case sql.SystemVariableAssignmentKind:
+		p.visitSystemVariableAssignment(ctx, n.(*sql.SystemVariableAssignment))
+
+	case sql.TVFArgumentKind:
+		p.visitTVFArgument(ctx, n.(*sql.TVFArgument))
+
+	case sql.VariableDeclarationKind:
+		p.visitVariableDeclaration(ctx, n.(*sql.VariableDeclaration))
+
+	// ── print_query.go ────────────────────────────────────────────────────────
+	case sql.QueryKind:
+		p.visitQuery(ctx, n.(*sql.Query))
+	case sql.QueryStatementKind:
+		p.visitQueryStatement(ctx, n.(*sql.QueryStatement))
+
+	case sql.ScriptKind:
+		p.visitScript(ctx, n.(*sql.Script))
+
+	case sql.SetOperationKind:
+		p.visitSetOperation(ctx, n.(*sql.SetOperation))
+
+	case sql.StatementListKind:
+		p.visitStatementList(ctx, n.(*sql.StatementList))
+
+	// ── print_select.go ────────────────────────────────────────────────────────
+	case sql.AliasKind:
+		p.visitAlias(ctx, n.(*sql.Alias))
+
+	case sql.AnalyticFunctionCallKind:
+		p.visitAnalyticFunctionCall(ctx, n.(*sql.AnalyticFunctionCall))
+	case sql.AndExprKind:
+		p.visitAndExpr(ctx, n.(*sql.AndExpr))
+	case sql.ArrayConstructorKind:
+		p.visitArrayConstructor(ctx, n.(*sql.ArrayConstructor))
+
 	case sql.ArrayElementKind:
 		if ae, ok := n.(*sql.ArrayElement); ok {
 			p.visitArrayElement(ctx, ae)
@@ -132,16 +554,7 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		}
 	case sql.ArrayTypeKind:
 		p.visitArrayType(ctx, n.(*sql.ArrayType))
-	case sql.AssertStatementKind:
-		p.visitAssertStatement(ctx, n.(*sql.AssertStatement))
-	case sql.AssertRowsModifiedKind:
-		p.visitAssertRowsModified(ctx, n.(*sql.AssertRowsModified))
-	case sql.AssignmentFromStructKind:
-		p.visitAssignmentFromStruct(ctx, n.(*sql.AssignmentFromStruct))
-	case sql.BeginEndBlockKind:
-		p.visitBeginEndBlock(ctx, n.(*sql.BeginEndBlock))
-	case sql.BeginStatementKind:
-		p.visitBeginStatementNode(ctx, n.(*sql.BeginStatement))
+
 	case sql.BetweenExpressionKind:
 		p.visitBetweenExpression(ctx, n.(*sql.BetweenExpression))
 	case sql.BignumericLiteralKind:
@@ -154,120 +567,39 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitBoolLiteral(ctx, n.(*sql.BooleanLiteral))
 	case sql.BytesLiteralKind:
 		p.visitBytesLiteral(ctx, n.(*sql.BytesLiteral))
-	case sql.CallStatementKind:
-		p.visitCallStatement(ctx, n.(*sql.CallStatement))
+
 	case sql.CaseNoValueExpressionKind:
 		p.visitCaseNoValueExpression(ctx, n.(*sql.CaseNoValueExpression))
 	case sql.CaseValueExpressionKind:
 		p.visitCaseValueExpression(ctx, n.(*sql.CaseValueExpression))
 	case sql.CastExpressionKind:
 		p.visitCastExpression(ctx, n.(*sql.CastExpression))
-	case sql.ClampedBetweenModifierKind:
-		p.visitClampedBetweenModifier(ctx, n.(*sql.ClampedBetweenModifier))
-	case sql.CloneDataSourceKind:
-		p.visitCloneDataSource(ctx, n.(*sql.CloneDataSource))
-	case sql.ClusterByKind:
-		p.visitClusterBy(ctx, n.(*sql.ClusterBy))
-	case sql.CollateKind:
-		p.visitCollate(ctx, n.(*sql.Collate))
+
 	case sql.ColumnAttributeListKind:
 		p.visitColumnAttributeList(ctx, n.(*sql.ColumnAttributeList))
-	case sql.ColumnDefinitionKind:
-		p.visitColumnDefinition(ctx, n.(*sql.ColumnDefinition))
-	case sql.ColumnListKind:
-		p.visitColumnList(ctx, n.(*sql.ColumnList))
-	case sql.ColumnWithOptionsKind:
-		p.visitColumnWithOptions(ctx, n.(*sql.ColumnWithOptions))
-	case sql.ColumnWithOptionsListKind:
-		p.visitColumnWithOptionsList(ctx, n.(*sql.ColumnWithOptionsList))
-	case sql.CommitStatementKind:
-		p.visitCommitStatement(ctx, n.(*sql.CommitStatement))
-	case sql.ConnectionClauseKind:
-		p.visitConnectionClause(ctx, n.(*sql.ConnectionClause))
-	case sql.CopyDataSourceKind:
-		p.visitCopyDataSource(ctx, n.(*sql.CopyDataSource))
-	case sql.CreateExternalTableStatementKind:
-		p.visitCreateExternalTableStatement(ctx, n.(*sql.CreateExternalTableStatement))
-	case sql.CreateFunctionStatementKind:
-		p.visitCreateFunctionStatement(ctx, n.(*sql.CreateFunctionStatement))
+
 	case sql.CreateMaterializedViewStatementKind:
 		p.visitCreateMaterializedViewStatement(ctx, n.(*sql.CreateMaterializedViewStatement))
-	case sql.CreateProcedureStatementKind:
-		p.visitCreateProcedureStatement(ctx, n.(*sql.CreateProcedureStatement))
-	case sql.CreateRowAccessPolicyStatementKind:
-		p.visitCreateRowAccessPolicyStatement(ctx, n.(*sql.CreateRowAccessPolicyStatement))
-	case sql.CreateSchemaStatementKind:
-		p.visitCreateSchemaStatement(ctx, n.(*sql.CreateSchemaStatement))
-	case sql.CreateSnapshotTableStatementKind:
-		p.visitCreateSnapshotTableStatement(ctx, n.(*sql.CreateSnapshotTableStatement))
-	case sql.CreateTableStatementKind:
-		p.visitCreateTableStatement(ctx, n.(*sql.CreateTableStatement))
-	case sql.CreateTableFunctionStatementKind:
-		p.visitCreateTableFunctionStatement(ctx, n.(*sql.CreateTableFunctionStatement))
-	case sql.CreateViewStatementKind:
-		p.visitCreateViewStatement(ctx, n.(*sql.CreateViewStatement))
+
 	case sql.DateOrTimeLiteralKind:
 		p.visitDateOrTimeLiteral(ctx, n.(*sql.DateOrTimeLiteral))
 	case sql.DefaultLiteralKind:
 		p.visitDefaultLiteral(ctx, n.(*sql.DefaultLiteral))
-	case sql.DeleteStatementKind:
-		p.visitDeleteStatement(ctx, n.(*sql.DeleteStatement))
-	case sql.DescriptorKind:
-		p.visitDescriptor(ctx, n.(*sql.Descriptor))
-	case sql.DescriptorColumnKind:
-		p.visitDescriptorColumn(ctx, n.(*sql.DescriptorColumn))
-	case sql.DescriptorColumnListKind:
-		p.visitDescriptorColumnList(ctx, n.(*sql.DescriptorColumnList))
-	case sql.DotIdentifierKind:
-		p.visitDotIdentifier(ctx, n.(*sql.DotIdentifier))
+
 	case sql.DotGeneralizedFieldKind:
 		if dg, ok := n.(*sql.DotGeneralizedField); ok {
 			p.visitDotGeneralizedField(ctx, dg)
 		} else {
 			p.visitGeneralizedPathExpression(ctx, n)
 		}
+	case sql.DotIdentifierKind:
+		p.visitDotIdentifier(ctx, n.(*sql.DotIdentifier))
+
 	case sql.DotStarKind:
 		p.visitDotStar(ctx, n.(*sql.DotStar))
 	case sql.DotStarWithModifiersKind:
 		p.visitDotStarWithModifiers(ctx, n.(*sql.DotStarWithModifiers))
-	case sql.DropAllRowAccessPoliciesStatementKind:
-		p.visitDropAllRowAccessPoliciesStatement(ctx, n.(*sql.DropAllRowAccessPoliciesStatement))
-	case sql.DropColumnActionKind:
-		p.visitDropColumnAction(ctx, n.(*sql.DropColumnAction))
-	case sql.DropConstraintActionKind:
-		p.visitDropConstraintAction(ctx, n.(*sql.DropConstraintAction))
-	case sql.DropEntityStatementKind:
-		p.visitDropEntityStatement(ctx, n.(*sql.DropEntityStatement))
-	case sql.DropFunctionStatementKind:
-		p.visitDropFunctionStatement(ctx, n.(*sql.DropFunctionStatement))
-	case sql.DropMaterializedViewStatementKind:
-		p.visitDropMaterializedViewStatement(ctx, n.(*sql.DropMaterializedViewStatement))
-	case sql.DropPrimaryKeyActionKind:
-		p.visitDropPrimaryKeyAction(ctx, n.(*sql.DropPrimaryKeyAction))
-	case sql.DropPrivilegeRestrictionStatementKind:
-		p.visitDropPrivilegeRestrictionStatement(ctx, n.(*sql.DropPrivilegeRestrictionStatement))
-	case sql.DropRowAccessPolicyStatementKind:
-		p.visitDropRowAccessPolicyStatement(ctx, n.(*sql.DropRowAccessPolicyStatement))
-	case sql.DropSearchIndexStatementKind:
-		p.visitDropSearchIndexStatement(ctx, n.(*sql.DropSearchIndexStatement))
-	case sql.DropSnapshotTableStatementKind:
-		p.visitDropSnapshotTableStatement(ctx, n.(*sql.DropSnapshotTableStatement))
-	case sql.DropTableFunctionStatementKind:
-		p.visitDropTableFunctionStatement(ctx, n.(*sql.DropTableFunctionStatement))
-	case sql.DropStatementKind:
-		p.visitDropStatement(ctx, n.(*sql.DropStatement))
-	case sql.ExceptionHandlerListKind:
-		p.visitExceptionHandlerListNode(ctx, n.(*sql.ExceptionHandlerList))
-	case sql.ExceptionHandlerKind:
-		p.visitExceptionHandlerNode(ctx, n.(*sql.ExceptionHandler))
-	case sql.ExecuteIntoClauseKind:
-		p.visitExecuteIntoClause(ctx, n.(*sql.ExecuteIntoClause))
-	case sql.ExecuteImmediateStatementKind:
-		p.visitExecuteImmediateStatement(ctx, n.(*sql.ExecuteImmediateStatement))
-	case sql.ExecuteUsingArgumentKind:
-		p.visitExecuteUsingArgument(ctx, n.(*sql.ExecuteUsingArgument))
-	case sql.ExecuteUsingClauseKind:
-		p.visitExecuteUsingClause(ctx, n.(*sql.ExecuteUsingClause))
+
 	case sql.ExpressionSubqueryKind:
 		p.visitExpressionSubquery(ctx, n.(*sql.ExpressionSubquery))
 	case sql.ExpressionWithOptAliasKind:
@@ -276,85 +608,28 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitExtractExpression(ctx, n.(*sql.ExtractExpression))
 	case sql.FloatLiteralKind:
 		p.visitFloatLiteral(ctx, n.(*sql.FloatLiteral))
-	case sql.FilterUsingClauseKind:
-		p.visitFilterUsingClause(ctx, n.(*sql.FilterUsingClause))
-	case sql.ForeignKeyKind:
-		if fk, ok := n.(*sql.ForeignKey); ok {
-			p.visitForeignKey(ctx, fk)
-		} else {
-			p.visitTableConstraint(ctx, n.(*sql.TableConstraint))
-		}
-	case sql.ForeignKeyReferenceKind:
-		p.visitForeignKeyReference(ctx, n.(*sql.ForeignKeyReference))
-	case sql.FormatClauseKind:
-		p.visitFormatClause(ctx, n.(*sql.FormatClause))
-	case sql.ForSystemTimeKind:
-		p.visitForSystemTime(ctx, n.(*sql.ForSystemTime))
-	case sql.FromClauseKind:
-		p.visitFromClause(ctx, n.(*sql.FromClause))
+
 	case sql.FunctionCallKind:
 		p.visitFunctionCall(ctx, n.(*sql.FunctionCall))
-	case sql.FunctionDeclarationKind:
-		p.visitFunctionDeclaration(ctx, n.(*sql.FunctionDeclaration))
-	case sql.FunctionParameterKind:
-		p.visitFunctionParameter(ctx, n.(*sql.FunctionParameter))
-	case sql.FunctionParametersKind:
-		p.visitFunctionParameters(ctx, n.(*sql.FunctionParameters))
 
-	case sql.GranteeListKind:
-		p.visitGranteeList(ctx, n.(*sql.GranteeList))
-	case sql.GrantToClauseKind:
-		p.visitGrantToClause(ctx, n.(*sql.GrantToClause))
-	case sql.GroupByKind:
-		p.visitGroupBy(ctx, n.(*sql.GroupBy))
-	case sql.GroupByAllKind:
-		p.visitGroupByAll(ctx, n.(*sql.GroupByAll))
-	case sql.GroupingItemKind:
-		p.visitGroupingItem(ctx, n.(*sql.GroupingItem))
-	case sql.HavingModifierKind:
-		p.visitHavingModifier(ctx, n.(*sql.HavingModifier))
-	case sql.HavingKind:
-		p.visitHaving(ctx, n.(*sql.Having))
-	case sql.HintKind:
-		p.visitHint(ctx, n.(*sql.Hint))
-	case sql.HintedStatementKind:
-		p.visitHintedStatement(ctx, n.(*sql.HintedStatement))
 	case sql.IdentifierKind:
 		p.visitIdentifier(ctx, n.(*sql.Identifier))
 	case sql.IdentifierListKind:
 		p.visitIdentifierList(ctx, n.(*sql.IdentifierList))
-	case sql.IfStatementKind:
-		p.visitIfStatement(ctx, n.(*sql.IfStatement))
+
 	case sql.InExpressionKind:
 		p.visitInExpression(ctx, n.(*sql.InExpression))
 	case sql.InListKind:
 		p.visitInList(ctx, n.(*sql.InList))
-	case sql.IntervalExprKind:
-		p.visitIntervalExpr(ctx, n.(*sql.IntervalExpr))
+
 	case sql.IntLiteralKind:
 		p.visitIntLiteral(ctx, n.(*sql.IntLiteral))
-	case sql.InsertStatementKind:
-		p.visitInsertStatement(ctx, n.(*sql.InsertStatement))
-	case sql.InsertValuesRowListKind:
-		p.visitInsertValuesRowList(ctx, n.(*sql.InsertValuesRowList))
-	case sql.InsertValuesRowKind:
-		p.visitInsertValuesRow(ctx, n.(*sql.InsertValuesRow))
-	case sql.JoinKind:
-		p.visitJoin(ctx, n.(*sql.Join))
+	case sql.IntervalExprKind:
+		p.visitIntervalExpr(ctx, n.(*sql.IntervalExpr))
+
 	case sql.JSONLiteralKind:
 		p.visitJSONLiteral(ctx, n.(*sql.JSONLiteral))
-	case sql.LimitKind:
-		p.visitLimit(ctx, n.(*sql.Limit))
-	case sql.LimitOffsetKind:
-		p.visitLimitOffset(ctx, n.(*sql.LimitOffset))
-	case sql.MergeActionKind:
-		p.visitMergeAction(ctx, n.(*sql.MergeAction))
-	case sql.MergeStatementKind:
-		p.visitMergeStatement(ctx, n.(*sql.MergeStatement))
-	case sql.MergeWhenClauseKind:
-		p.visitMergeWhenClause(ctx, n.(*sql.MergeWhenClause))
-	case sql.MergeWhenClauseListKind:
-		p.visitMergeWhenClauseList(ctx, n.(*sql.MergeWhenClauseList))
+
 	case sql.ModelClauseKind:
 		p.visitModelClause(ctx, n.(*sql.ModelClause))
 	case sql.NamedArgumentKind:
@@ -363,96 +638,33 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitNotNullColumnAttribute(ctx, n.(*sql.NotNullColumnAttribute))
 	case sql.NullLiteralKind:
 		p.visitNullLiteral(ctx, n.(*sql.NullLiteral))
-	case sql.NullOrderKind:
-		p.visitNullOrder(ctx, n.(*sql.NullOrder))
+
 	case sql.NumericLiteralKind:
 		p.visitNumericLiteral(ctx, n.(*sql.NumericLiteral))
-	case sql.OnClauseKind:
-		p.visitOnClause(ctx, n.(*sql.OnClause))
-	case sql.OptionsListKind:
-		p.visitOptionsList(ctx, n.(*sql.OptionsList))
-	case sql.OptionsEntryKind:
-		p.visitOptionsEntry(ctx, n.(*sql.OptionsEntry))
+
 	case sql.OrExprKind:
 		p.visitOrExpr(ctx, n.(*sql.OrExpr))
-	case sql.OrderByKind:
-		p.visitOrderBy(ctx, n.(*sql.OrderBy))
-	case sql.OrderingExpressionKind:
-		p.visitOrderingExpression(ctx, n.(*sql.OrderingExpression))
-	case sql.ParameterAssignmentKind:
-		p.visitParameterAssignment(ctx, n.(*sql.ParameterAssignment))
+
 	case sql.ParameterExprKind:
 		p.visitParameterExpr(ctx, n.(*sql.ParameterExpr))
-	case sql.ParenthesizedJoinKind:
-		p.visitParenthesizedJoin(ctx, n.(*sql.ParenthesizedJoin))
-	case sql.PartitionByKind:
-		p.visitPartitionBy(ctx, n.(*sql.PartitionBy))
-	case sql.PathExpressionListKind:
-		p.visitPathExpressionList(ctx, n.(*sql.PathExpressionList))
+
 	case sql.PathExpressionKind:
 		if pe, ok := n.(*sql.PathExpression); ok {
 			p.visitPathExpression(ctx, pe)
 		} else {
 			p.visitGeneralizedPathExpression(ctx, n)
 		}
-	case sql.PivotClauseKind:
-		p.visitPivotClause(ctx, n.(*sql.PivotClause))
-	case sql.PivotExpressionKind:
-		p.visitPivotExpression(ctx, n.(*sql.PivotExpression))
-	case sql.PivotExpressionListKind:
-		p.visitPivotExpressionList(ctx, n.(*sql.PivotExpressionList))
-	case sql.PivotValueKind:
-		p.visitPivotValue(ctx, n.(*sql.PivotValue))
-	case sql.PivotValueListKind:
-		p.visitPivotValueList(ctx, n.(*sql.PivotValueList))
-	case sql.PrimaryKeyKind:
-		if pk, ok := n.(*sql.PrimaryKey); ok {
-			p.visitPrimaryKey(ctx, pk)
-		} else {
-			p.visitTableConstraint(ctx, n.(*sql.TableConstraint))
-		}
+	case sql.PathExpressionListKind:
+		p.visitPathExpressionList(ctx, n.(*sql.PathExpressionList))
+
 	case sql.PrimaryKeyColumnAttributeKind:
 		p.visitPrimaryKeyColumnAttribute(ctx, n.(*sql.PrimaryKeyColumnAttribute))
-	case sql.PrimaryKeyElementListKind:
-		p.visitPrimaryKeyElementList(ctx, n.(*sql.PrimaryKeyElementList))
-	case sql.PrimaryKeyElementKind:
-		p.visitPrimaryKeyElement(ctx, n.(*sql.PrimaryKeyElement))
-	case sql.QualifyKind:
-		p.visitQualify(ctx, n.(*sql.Qualify))
-	case sql.QueryKind:
-		p.visitQuery(ctx, n.(*sql.Query))
-	case sql.QueryStatementKind:
-		p.visitQueryStatement(ctx, n.(*sql.QueryStatement))
-	case sql.RaiseStatementKind:
-		p.visitRaiseStatement(ctx, n.(*sql.RaiseStatement))
+
 	case sql.RangeLiteralKind:
 		p.visitRangeLiteral(ctx, n.(*sql.RangeLiteral))
 	case sql.RangeTypeKind:
 		p.visitRangeType(ctx, n.(*sql.RangeType))
-	case sql.RenameColumnActionKind:
-		p.visitRenameColumnAction(ctx, n.(*sql.RenameColumnAction))
-	case sql.RenameToClauseKind:
-		p.visitRenameToClause(ctx, n.(*sql.RenameToClause))
-	case sql.RepeatableClauseKind:
-		p.visitRepeatableClause(ctx, n.(*sql.RepeatableClause))
-	case sql.ReturnStatementKind:
-		p.visitReturnStatement(ctx, n.(*sql.ReturnStatement))
-	case sql.ReturningClauseKind:
-		p.visitReturningClause(ctx, n.(*sql.ReturningClause))
-	case sql.RollbackStatementKind:
-		p.visitRollbackStatementNode(ctx, n.(*sql.RollbackStatement))
-	case sql.RollupKind:
-		p.visitRollup(ctx, n.(*sql.Rollup))
-	case sql.SampleClauseKind:
-		p.visitSampleClause(ctx, n.(*sql.SampleClause))
-	case sql.SampleSizeKind:
-		p.visitSampleSize(ctx, n.(*sql.SampleSize))
-	case sql.SampleSuffixKind:
-		p.visitSampleSuffix(ctx, n.(*sql.SampleSuffix))
-	case sql.SetCollateClauseKind:
-		p.visitSetCollateClause(ctx, n.(*sql.SetCollateClause))
-	case sql.ScriptKind:
-		p.visitScript(ctx, n.(*sql.Script))
+
 	case sql.SelectKind:
 		p.visitSelect(ctx, n.(*sql.Select))
 	case sql.SelectAsKind:
@@ -461,20 +673,10 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitSelectColumn(ctx, n.(*sql.SelectColumn))
 	case sql.SelectListKind:
 		p.visitSelectList(ctx, n.(*sql.SelectList))
-	case sql.SetOptionsActionKind:
-		p.visitSetOptionsAction(ctx, n.(*sql.SetOptionsAction))
-	case sql.SetOperationKind:
-		p.visitSetOperation(ctx, n.(*sql.SetOperation))
-	case sql.SimpleColumnSchemaKind:
-		if sc, ok := n.(*sql.SimpleColumnSchema); ok {
-			p.visitSimpleColumnSchema(ctx, sc)
-		} else {
-			p.visitColumnSchema(ctx, n.(*sql.ColumnSchema))
-		}
+
 	case sql.SimpleTypeKind:
 		p.visitSimpleType(ctx, n.(*sql.SimpleType))
-	case sql.SQLFunctionBodyKind:
-		p.visitSQLFunctionBody(ctx, n.(*sql.SQLFunctionBody))
+
 	case sql.StarKind:
 		p.visitStar(ctx, n.(*sql.Star))
 	case sql.StarModifiersKind:
@@ -483,18 +685,10 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitStarReplaceItem(ctx, n.(*sql.StarReplaceItem))
 	case sql.StarWithModifiersKind:
 		p.visitStarWithModifiers(ctx, n.(*sql.StarWithModifiers))
-	case sql.StatementListKind:
-		p.visitStatementList(ctx, n.(*sql.StatementList))
+
 	case sql.StringLiteralKind:
 		p.visitStringLiteral(ctx, n.(*sql.StringLiteral))
-	case sql.StructColumnFieldKind:
-		p.visitStructColumnField(ctx, n.(*sql.StructColumnField))
-	case sql.StructColumnSchemaKind:
-		if sc, ok := n.(*sql.StructColumnSchema); ok {
-			p.visitStructColumnSchema(ctx, sc)
-		} else {
-			p.visitColumnSchema(ctx, n.(*sql.ColumnSchema))
-		}
+
 	case sql.StructConstructorArgKind:
 		p.visitStructConstructorArg(ctx, n.(*sql.StructConstructorArg))
 	case sql.StructConstructorWithKeywordKind:
@@ -505,87 +699,23 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitStructField(ctx, n.(*sql.StructField))
 	case sql.StructTypeKind:
 		p.visitStructType(ctx, n.(*sql.StructType))
-	case sql.SystemVariableAssignmentKind:
-		p.visitSystemVariableAssignment(ctx, n.(*sql.SystemVariableAssignment))
+
 	case sql.SystemVariableExprKind:
 		p.visitSystemVariableExpr(ctx, n.(*sql.SystemVariableExpr))
-	case sql.TableClauseKind:
-		p.visitTableClause(ctx, n.(*sql.TableClause))
 
-	case sql.TableElementListKind:
-		p.visitTableElementList(ctx, n.(*sql.TableElementList))
-	case sql.TablePathExpressionKind:
-		p.visitTablePathExpression(ctx, n.(*sql.TablePathExpression))
-	case sql.TableSubqueryKind:
-		p.visitTableSubquery(ctx, n.(*sql.TableSubquery))
-	case sql.TemplatedParameterTypeKind:
-		p.visitTemplatedParameterType(ctx, n.(*sql.TemplatedParameterType))
-	case sql.TruncateStatementKind:
-		p.visitTruncateStatement(ctx, n.(*sql.TruncateStatement))
-	case sql.TVFArgumentKind:
-		p.visitTVFArgument(ctx, n.(*sql.TVFArgument))
-	case sql.TVFKind:
-		p.visitTVF(ctx, n.(*sql.TVF))
 	case sql.TVFSchemaKind:
 		p.visitTVFSchema(ctx, n.(*sql.TVFSchema))
 	case sql.TVFSchemaColumnKind:
 		p.visitTVFSchemaColumn(ctx, n.(*sql.TVFSchemaColumn))
+	case sql.TemplatedParameterTypeKind:
+		p.visitTemplatedParameterType(ctx, n.(*sql.TemplatedParameterType))
+
 	case sql.TypeParameterListKind:
 		p.visitTypeParameterList(ctx, n.(*sql.TypeParameterList))
-	case sql.UnpivotClauseKind:
-		p.visitUnpivotClause(ctx, n.(*sql.UnpivotClause))
+
 	case sql.UnaryExpressionKind:
 		p.visitUnaryExpression(ctx, n.(*sql.UnaryExpression))
-	case sql.UnpivotInItemLabelKind:
-		p.visitUnpivotInItemLabel(ctx, n.(*sql.UnpivotInItemLabel))
-	case sql.UnpivotInItemListKind:
-		p.visitUnpivotInItemList(ctx, n.(*sql.UnpivotInItemList))
-	case sql.UnpivotInItemKind:
-		p.visitUnpivotInItem(ctx, n.(*sql.UnpivotInItem))
-	case sql.UnnestExpressionKind:
-		p.visitUnnestExpression(ctx, n.(*sql.UnnestExpression))
-	case sql.UnnestExpressionWithOptAliasAndOffsetKind:
-		p.visitUnnestExpressionWithOptAliasAndOffset(ctx, n.(*sql.UnnestExpressionWithOptAliasAndOffset))
-	case sql.UpdateItemKind:
-		p.visitUpdateItem(ctx, n.(*sql.UpdateItem))
-	case sql.UpdateItemListKind:
-		p.visitUpdateItemList(ctx, n.(*sql.UpdateItemList))
-	case sql.UpdateSetValueKind:
-		p.visitUpdateSetValue(ctx, n.(*sql.UpdateSetValue))
-	case sql.UpdateStatementKind:
-		p.visitUpdateStatement(ctx, n.(*sql.UpdateStatement))
-	case sql.UsingClauseKind:
-		p.visitUsingClause(ctx, n.(*sql.UsingClause))
-	case sql.VariableDeclarationKind:
-		p.visitVariableDeclaration(ctx, n.(*sql.VariableDeclaration))
-	case sql.SingleAssignmentKind:
-		p.visitSingleAssignment(ctx, n.(*sql.SingleAssignment))
-	case sql.WhereClauseKind:
-		p.visitWhereClause(ctx, n.(*sql.WhereClause))
-	case sql.WindowClauseKind:
-		p.visitWindowClause(ctx, n.(*sql.WindowClause))
-	case sql.WindowFrameKind:
-		p.visitWindowFrame(ctx, n.(*sql.WindowFrame))
-	case sql.WindowFrameExprKind:
-		p.visitWindowFrameExpr(ctx, n.(*sql.WindowFrameExpr))
-	case sql.WindowSpecificationKind:
-		p.visitWindowSpecification(ctx, n.(*sql.WindowSpecification))
-	case sql.WithClauseKind:
-		p.visitWithClause(ctx, n.(*sql.WithClause))
-	case sql.WithClauseEntryKind:
-		p.visitWithClauseEntry(ctx, n.(*sql.WithClauseEntry))
-	case sql.WithConnectionClauseKind:
-		p.visitWithConnectionClause(ctx, n.(*sql.WithConnectionClause))
-	case sql.WithExpressionKind:
-		p.visitWithExpression(ctx, n.(*sql.WithExpression))
-	case sql.WithOffsetKind:
-		p.visitWithOffset(ctx, n.(*sql.WithOffset))
-	case sql.WithPartitionColumnsClauseKind:
-		p.visitWithPartitionColumnsClause(ctx, n.(*sql.WithPartitionColumnsClause))
-	case sql.WithWeightKind:
-		p.visitWithWeight(ctx, n.(*sql.WithWeight))
-	case sql.InferredTypeColumnSchemaKind:
-		p.visitColumnSchema(ctx, n.(*sql.ColumnSchema))
+
 	default:
 		p.addError(&Error{
 			Err:  nil,

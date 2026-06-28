@@ -1,0 +1,129 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = true
+column_list_trailing_comma = "AUTO"
+indentation = 1
+indent_case_when = true
+min_joins_to_separate_in_blocks = 2
+max_cols_for_single_line_select = 4
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "UPPER_CASE"
+null_style = "UPPER_CASE"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+
+[[cases]]
+input = """
+break
+"""
+formatted = """
+BREAK
+"""
+
+[[cases]]
+input = """
+continue
+"""
+formatted = """
+CONTINUE
+"""
+
+[[cases]]
+input = """
+iterate
+"""
+formatted = """
+ITERATE
+"""
+
+[[cases]]
+input = """
+loop break ;end loop
+"""
+formatted = """
+LOOP
+  BREAK;
+END LOOP
+"""
+
+[[cases]]
+input = """
+while true do break; end while
+"""
+formatted = """
+WHILE TRUE DO
+  BREAK;
+END WHILE
+"""
+
+[[cases]]
+input = """
+while true do leave; end while
+"""
+formatted = """
+WHILE TRUE DO
+  LEAVE;
+END WHILE
+"""
+
+[[cases]]
+input = """
+LOOP
+  SELECT 5;
+  BREAK;
+END LOOP;
+"""
+formatted = """
+LOOP
+  SELECT 5;
+  BREAK;
+END LOOP;
+"""
+
+[[cases]]
+input = """
+LOOP
+  IF x THEN
+    BREAK;
+  ELSE
+    CONTINUE;
+  END IF;
+END LOOP;
+"""
+formatted = """
+LOOP
+  IF x THEN
+    BREAK;
+  ELSE
+    CONTINUE;
+  END IF;
+END LOOP;
+"""
+
+[[cases]]
+input = """
+LOOP
+  WHILE x DO
+    IF y THEN
+      BREAK;
+    END IF;
+    CONTINUE;
+  END WHILE;
+END LOOP;
+"""
+formatted = """
+LOOP
+  WHILE x DO
+    IF y THEN
+      BREAK;
+    END IF;
+
+    CONTINUE;
+  END WHILE;
+END LOOP;
+"""
