@@ -34,6 +34,56 @@ func (p *Printer) visitColumnList(ctx Context, n *sql.ColumnList) {
 	p.movePast(n)
 }
 
+func (p *Printer) visitDeleteStatement(ctx Context, n *sql.DeleteStatement) {
+	pp := p.nest()
+	pp.moveBefore(n)
+	p1 := pp.nest()
+	begin := n.LocationStart()
+	end := n.TargetPath().LocationStart()
+	input := strings.ToUpper(p1.viewErasedInput(begin, end))
+	if strings.Contains(input, "FROM") {
+		p1.print(p1.keyword("DELETE \vFROM"))
+	} else {
+		p1.print(p1.keyword("DELETE") + " \v")
+	}
+	p1.accept(ctx.WithValue(KeyInTableName, true), n.TargetPath())
+	p1.accept(ctx, n.Hint())
+	p1.accept(ctx, n.Alias())
+	p1.accept(ctx, n.Offset())
+	p1.println("")
+	if w := n.Where(); w != nil {
+		p1.print(p1.keyword("WHERE"))
+		p1.acceptNestedLeft(ctx, w)
+		p1.println("")
+	}
+	pp.print(p1.unnest())
+	if a := n.AssertRowsModified(); a != nil {
+		pp.println("")
+		pp.acceptNestedLeft(ctx, a)
+	}
+	if r := n.Returning(); r != nil {
+		pp.println("")
+		pp.acceptNestedLeft(ctx, r)
+	}
+	pp.movePast(n)
+	p.print(pp.unnestLeft())
+}
+
+func (p *Printer) visitReturningClause(ctx Context, n *sql.ReturningClause) {
+	p.moveBefore(n)
+	p.print(p.keyword("RETURNING"))
+	p.accept(ctx, n.SelectList())
+	p.accept(ctx, n.ActionAlias())
+	p.movePast(n)
+}
+
+func (p *Printer) visitAssertRowsModified(ctx Context, n *sql.AssertRowsModified) {
+	p.moveBefore(n)
+	p.print(p.keyword("ASSERT_ROWS_MODIFIED"))
+	p.acceptNestedLeft(ctx, n.NumRows())
+	p.movePast(n)
+}
+
 func (p *Printer) visitInsertStatement(ctx Context, n *sql.InsertStatement) {
 	cl := n.ColumnList()
 	p.moveBefore(n)

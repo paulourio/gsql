@@ -534,6 +534,12 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newASTDropStatement(m)
 
 	// ── DML ───────────────────────────────────────────────────────────────────
+	case *googlesql.ASTDeleteStatement:
+		return newASTDeleteStatement(m)
+	case *googlesql.ASTAssertRowsModified:
+		return newASTAssertRowsModified(m)
+	case *googlesql.ASTReturningClause:
+		return newASTReturningClause(m)
 	case *googlesql.ASTInsertValuesRow:
 		return newASTInsertValuesRow(m)
 	case *googlesql.ASTInsertValuesRowList:

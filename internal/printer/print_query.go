@@ -2390,6 +2390,9 @@ func (p *Printer) visitWithExprVariables(ctx Context, n *sql.SelectList) {
 func (p *Printer) visitWithOffset(ctx Context, n *sql.WithOffset) {
 	p.moveBefore(n)
 	p.print(p.keyword("WITH OFFSET"))
+	if n.Parent().Kind() == sql.DeleteStatementKind {
+		p.print(p.keyword("AS"))
+	}
 	p.accept(ctx, n.Alias())
 }
 

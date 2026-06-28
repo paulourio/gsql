@@ -122,7 +122,7 @@ Formatting without comment is always idempotent, but formatting code preserving 
 #### Data Manipulation Language (DML)
 
 - [x] INSERT
-- [ ] DELETE
+- [x] DELETE
 - [x] TRUNCATE TABLE
 - [ ] UPDATE
 - [x] MERGE

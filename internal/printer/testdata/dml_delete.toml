@@ -1,0 +1,104 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = true
+column_list_trailing_comma = "AUTO"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+max_cols_for_single_line_select = 4
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "UPPER_CASE"
+null_style = "UPPER_CASE"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+
+[[cases]]
+input = """
+delete from T
+"""
+formatted = """
+DELETE FROM T
+"""
+
+[[cases]]
+input = """
+delete x.T where true
+"""
+formatted = """
+DELETE x.T
+ WHERE TRUE
+"""
+
+[[cases]]
+input = """
+delete T with offset AS offset where true
+"""
+formatted = """
+DELETE T WITH OFFSET AS offset
+ WHERE TRUE
+"""
+
+[[cases]]
+input = """
+delete a.b.c
+where c=y
+assert_rows_modified 10
+"""
+formatted = """
+DELETE a.b.c
+ WHERE c = y
+ASSERT_ROWS_MODIFIED 10
+"""
+
+[[cases]]
+input = """
+DELETE T
+ASSERT_ROWS_MODIFIED cast(0 as int32)
+"""
+formatted = """
+DELETE T
+ASSERT_ROWS_MODIFIED CAST(0 AS INT32)
+"""
+
+[[cases]]
+input = """
+delete from T
+where 1+(select count(*) from T2)=5
+assert_rows_modified @row_count
+"""
+formatted = """
+DELETE FROM T
+ WHERE 1 + (
+         SELECT COUNT(*)
+           FROM T2
+       ) = 5
+ASSERT_ROWS_MODIFIED @row_count
+"""
+
+[[cases]]
+input = """
+delete T
+where 1+(select count(*) from T2)=5
+assert_rows_modified @row_count
+"""
+formatted = """
+DELETE T
+ WHERE 1 + (
+         SELECT COUNT(*)
+           FROM T2
+       ) = 5
+ASSERT_ROWS_MODIFIED @row_count
+"""
+
+[[cases]]
+input = """
+delete T.(a.b).c where true
+"""
+formatted = """
+DELETE T.(a.b).c
+ WHERE TRUE
+"""

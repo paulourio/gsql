@@ -2,6 +2,79 @@ package sql
 
 import "github.com/goccy/go-googlesql"
 
+type DeleteStatement struct {
+	baseNode[*googlesql.ASTDeleteStatement]
+}
+
+func newASTDeleteStatement(r *googlesql.ASTDeleteStatement) *DeleteStatement {
+	if r == nil {
+		return nil
+	}
+	return &DeleteStatement{baseNode[*googlesql.ASTDeleteStatement]{raw: r}}
+}
+func (n *DeleteStatement) isStatement() {}
+func (n *DeleteStatement) TargetPath() Node {
+	return Wrap(must(n.raw.TargetPath()))
+}
+
+func (n *DeleteStatement) Alias() *Alias {
+	return newASTAlias(must(n.raw.Alias()))
+}
+
+func (n *DeleteStatement) Hint() *Hint {
+	return newASTHint(must(n.raw.Hint()))
+}
+
+func (n *DeleteStatement) Offset() *WithOffset {
+	return newASTWithOffset(must(n.raw.Offset()))
+}
+
+func (n *DeleteStatement) Where() ExpressionNode {
+	return wrapExpr(must(n.raw.Where()))
+}
+
+func (n *DeleteStatement) AssertRowsModified() *AssertRowsModified {
+	return newASTAssertRowsModified(must(n.raw.AssertRowsModified()))
+}
+
+func (n *DeleteStatement) Returning() *ReturningClause {
+	return newASTReturningClause(must(n.raw.Returning()))
+}
+
+type AssertRowsModified struct {
+	baseNode[*googlesql.ASTAssertRowsModified]
+}
+
+func newASTAssertRowsModified(r *googlesql.ASTAssertRowsModified) *AssertRowsModified {
+	if r == nil {
+		return nil
+	}
+	return &AssertRowsModified{baseNode[*googlesql.ASTAssertRowsModified]{raw: r}}
+}
+
+func (n *AssertRowsModified) NumRows() ExpressionNode {
+	return wrapExpr(must(n.raw.NumRows()))
+}
+
+type ReturningClause struct {
+	baseNode[*googlesql.ASTReturningClause]
+}
+
+func newASTReturningClause(r *googlesql.ASTReturningClause) *ReturningClause {
+	if r == nil {
+		return nil
+	}
+	return &ReturningClause{baseNode[*googlesql.ASTReturningClause]{raw: r}}
+}
+
+func (n *ReturningClause) SelectList() *SelectList {
+	return newASTSelectList(must(n.raw.SelectList()))
+}
+
+func (n *ReturningClause) ActionAlias() *Alias {
+	return newASTAlias(must(n.raw.ActionAlias()))
+}
+
 // ─── INSERT ───────────────────────────────────────────────────────────────────
 
 // InsertValuesRow wraps *googlesql.ASTInsertValuesRow.

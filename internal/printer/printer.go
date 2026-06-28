@@ -134,6 +134,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitArrayType(ctx, n.(*sql.ArrayType))
 	case sql.AssertStatementKind:
 		p.visitAssertStatement(ctx, n.(*sql.AssertStatement))
+	case sql.AssertRowsModifiedKind:
+		p.visitAssertRowsModified(ctx, n.(*sql.AssertRowsModified))
 	case sql.AssignmentFromStructKind:
 		p.visitAssignmentFromStruct(ctx, n.(*sql.AssignmentFromStruct))
 	case sql.BeginEndBlockKind:
@@ -206,6 +208,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitCreateViewStatement(ctx, n.(*sql.CreateViewStatement))
 	case sql.DateOrTimeLiteralKind:
 		p.visitDateOrTimeLiteral(ctx, n.(*sql.DateOrTimeLiteral))
+	case sql.DeleteStatementKind:
+		p.visitDeleteStatement(ctx, n.(*sql.DeleteStatement))
 	case sql.DescriptorKind:
 		p.visitDescriptor(ctx, n.(*sql.Descriptor))
 	case sql.DescriptorColumnKind:
@@ -425,6 +429,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitRepeatableClause(ctx, n.(*sql.RepeatableClause))
 	case sql.ReturnStatementKind:
 		p.visitReturnStatement(ctx, n.(*sql.ReturnStatement))
+	case sql.ReturningClauseKind:
+		p.visitReturningClause(ctx, n.(*sql.ReturningClause))
 	case sql.RollbackStatementKind:
 		p.visitRollbackStatementNode(ctx, n.(*sql.RollbackStatement))
 	case sql.RollupKind:
