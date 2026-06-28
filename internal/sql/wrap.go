@@ -14,59 +14,7 @@ func Wrap(n googlesql.ASTNode) Node {
 	}
 	switch m := n.(type) {
 
-	// ── nodes_alter_action.go ──────────────────────────────────────────────────────── // ── Query / Script ──────────────────────────────────────────────────────
-
-	// ── SELECT ──────────────────────────────────────────────────────────────
-
-	// ── Set operations ───────────────────────────────────────────────────────
-
-	// ── WITH ─────────────────────────────────────────────────────────────────
-
-	// ── FROM / JOIN ───────────────────────────────────────────────────────────
-
-	// ── WHERE / GROUP BY / HAVING / QUALIFY ───────────────────────────────────
-
-	// ── ORDER BY / LIMIT ──────────────────────────────────────────────────────
-
-	// ── WINDOW ────────────────────────────────────────────────────────────────
-
-	// ── PARTITION / CLUSTER ───────────────────────────────────────────────────
-
-	// ── HINT ──────────────────────────────────────────────────────────────────
-
-	// ── ON / USING ────────────────────────────────────────────────────────────
-
-	// ── HAVING MODIFIER / CLAMPED ─────────────────────────────────────────────
-
-	// ── Misc clauses ──────────────────────────────────────────────────────────
-
-	// ── Identifiers / Paths ───────────────────────────────────────────────────
-
-	// ── Star nodes ────────────────────────────────────────────────────────────
-
-	// ── Expression nodes ──────────────────────────────────────────────────────
-
-	// ── Function call ─────────────────────────────────────────────────────────
-
-	// ── SAMPLE / PIVOT / UNPIVOT ──────────────────────────────────────────────
-
-	// ── Literals ──────────────────────────────────────────────────────────────
-
-	// ── OPTIONS ───────────────────────────────────────────────────────────────
-
-	// ── Column list / Descriptor ───────────────────────────────────────────────
-
-	// ── Statement list ────────────────────────────────────────────────────────
-
-	// ── Rollup / Cube ─────────────────────────────────────────────────────────
-
-	// ── Type nodes ────────────────────────────────────────────────────────────
-
-	// ── DDL: Column/Schema nodes ──────────────────────────────────────────────
-
-	// ── DDL: Constraints ──────────────────────────────────────────────────────
-
-	// ── DDL: ALTER actions ────────────────────────────────────────────────────
+	// ── nodes_action.go ────────────────────────────────────────────────────────
 
 	case *googlesql.ASTAddColumnAction:
 		return newAddColumnAction(m)
@@ -74,7 +22,6 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newAddConstraintAction(m)
 	case *googlesql.ASTAlterActionList:
 		return newAlterActionList(m)
-
 	case *googlesql.ASTAlterColumnDropDefaultAction:
 		return newAlterColumnDropDefaultAction(m)
 	case *googlesql.ASTAlterColumnDropNotNullAction:
@@ -95,17 +42,6 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newDropConstraintAction(m)
 	case *googlesql.ASTDropPrimaryKeyAction:
 		return newDropPrimaryKeyAction(m)
-
-	// ── DDL: ALTER statements ─────────────────────────────────────────────────
-
-	// ── DDL: CREATE helpers ───────────────────────────────────────────────────
-
-	// ── DDL: CREATE statements ────────────────────────────────────────────────
-
-	// ── DDL: DROP statements ──────────────────────────────────────────────────
-
-	// ── DML ───────────────────────────────────────────────────────────────────
-
 	case *googlesql.ASTMergeAction:
 		return newMergeAction(m)
 	case *googlesql.ASTRenameColumnAction:
@@ -118,31 +54,25 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newSetOptionsAction(m)
 
 	// ── nodes_clause.go ────────────────────────────────────────────────────────
+
 	case *googlesql.ASTClampedBetweenModifier:
 		return newClampedBetweenModifier(m)
 	case *googlesql.ASTClusterBy:
 		return newClusterBy(m)
-
 	case *googlesql.ASTCollate:
 		return newCollate(m)
-
 	case *googlesql.ASTColumnList:
 		return newColumnList(m)
-
 	case *googlesql.ASTConnectionClause:
 		return newConnectionClause(m)
 	case *googlesql.ASTDescriptorColumn:
 		return newDescriptorColumn(m)
 	case *googlesql.ASTDescriptorColumnList:
 		return newDescriptorColumnList(m)
-
-	// ── Procedural ────────────────────────────────────────────────────────────
-
 	case *googlesql.ASTElseifClause:
 		return newElseifClause(m)
 	case *googlesql.ASTExecuteIntoClause:
 		return newExecuteIntoClause(m)
-
 	case *googlesql.ASTExecuteUsingClause:
 		return newExecuteUsingClause(m)
 	case *googlesql.ASTFilterUsingClause:
@@ -153,7 +83,6 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newFormatClause(m)
 	case *googlesql.ASTFromClause:
 		return newFromClause(m)
-
 	case *googlesql.ASTGrantToClause:
 		return newGrantToClause(m)
 	case *googlesql.ASTGroupBy:
@@ -162,7 +91,6 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newGroupByAll(m)
 	case *googlesql.ASTGroupingItem:
 		return newGroupingItem(m)
-
 	case *googlesql.ASTHavingModifier:
 		return newHavingModifier(m)
 	case *googlesql.ASTHint:
@@ -173,18 +101,14 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newLimit(m)
 	case *googlesql.ASTLimitOffset:
 		return newLimitOffset(m)
-
 	case *googlesql.ASTMergeWhenClause:
 		return newMergeWhenClause(m)
 	case *googlesql.ASTModelClause:
 		return newModelClause(m)
-
 	case *googlesql.ASTNullOrder:
 		return newNullOrder(m)
-
 	case *googlesql.ASTOnClause:
 		return newOnClause(m)
-
 	case *googlesql.ASTOptionsEntry:
 		return newOptionsEntry(m)
 	case *googlesql.ASTOptionsList:
@@ -193,10 +117,8 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newOrderBy(m)
 	case *googlesql.ASTOrderingExpression:
 		return newOrderingExpression(m)
-
 	case *googlesql.ASTPartitionBy:
 		return newPartitionBy(m)
-
 	case *googlesql.ASTPivotClause:
 		return newPivotClause(m)
 	case *googlesql.ASTPivotExpression:
@@ -209,7 +131,6 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newPivotValueList(m)
 	case *googlesql.ASTRepeatableClause:
 		return newRepeatableClause(m)
-
 	case *googlesql.ASTReturningClause:
 		return newReturningClause(m)
 	case *googlesql.ASTSampleClause:
@@ -218,12 +139,10 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newSampleSize(m)
 	case *googlesql.ASTSampleSuffix:
 		return newSampleSuffix(m)
-
 	case *googlesql.ASTUnpivotClause:
 		return newUnpivotClause(m)
 	case *googlesql.ASTUnpivotInItem:
 		return newUnpivotInItem(m)
-
 	case *googlesql.ASTUnpivotInItemLabel:
 		return newUnpivotInItemLabel(m)
 	case *googlesql.ASTUnpivotInItemList:
@@ -232,12 +151,10 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newUsingClause(m)
 	case *googlesql.ASTWhereClause:
 		return newWhereClause(m)
-
 	case *googlesql.ASTWindowClause:
 		return newWindowClause(m)
 	case *googlesql.ASTWindowDefinition:
 		return newWindowDefinition(m)
-
 	case *googlesql.ASTWindowFrame:
 		return newWindowFrame(m)
 	case *googlesql.ASTWindowFrameExpr:
@@ -246,12 +163,10 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newWindowSpecification(m)
 	case *googlesql.ASTWithClause:
 		return newWithClause(m)
-
 	case *googlesql.ASTWithConnectionClause:
 		return newWithConnectionClause(m)
 	case *googlesql.ASTWithOffset:
 		return newWithOffset(m)
-
 	case *googlesql.ASTWithPartitionColumnsClause:
 		return newWithPartitionColumnsClause(m)
 	case *googlesql.ASTWithWeight:
@@ -261,7 +176,6 @@ func Wrap(n googlesql.ASTNode) Node {
 
 	case *googlesql.ASTColumnAttributeList:
 		return newColumnAttributeList(m)
-
 	case *googlesql.ASTForeignKeyColumnAttribute:
 		return newForeignKeyColumnAttribute(m)
 	case *googlesql.ASTHiddenColumnAttribute:
@@ -272,20 +186,19 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newPrimaryKeyColumnAttribute(m)
 
 	// ── nodes_core.go ────────────────────────────────────────────────────────
+
 	case *googlesql.ASTAlias:
 		return newAlias(m)
 	case *googlesql.ASTAliasedGroupRows:
 		return newAliasedGroupRows(m)
 	case *googlesql.ASTAliasedQuery:
 		return newAliasedQuery(m)
-
 	case *googlesql.ASTAssertRowsModified:
 		return newAssertRowsModified(m)
 	case *googlesql.ASTCloneDataSource:
 		return newCloneDataSource(m)
 	case *googlesql.ASTColumnPosition:
 		return newColumnPosition(m)
-
 	case *googlesql.ASTColumnWithOptions:
 		return newColumnWithOptions(m)
 	case *googlesql.ASTColumnWithOptionsList:
@@ -294,67 +207,56 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newCopyDataSource(m)
 	case *googlesql.ASTCube:
 		return newCube(m)
-
 	case *googlesql.ASTElseifClauseList:
 		return newElseifClauseList(m)
 	case *googlesql.ASTExceptionHandler:
 		return newExceptionHandler(m)
 	case *googlesql.ASTExceptionHandlerList:
 		return newExceptionHandlerList(m)
-
 	case *googlesql.ASTExecuteUsingArgument:
 		return newExecuteUsingArgument(m)
 	case *googlesql.ASTExpressionWithOptAlias:
 		return newExpressionWithOptAlias(m)
-
 	case *googlesql.ASTFunctionDeclaration:
 		return newFunctionDeclaration(m)
-
 	case *googlesql.ASTFunctionParameter:
 		return newFunctionParameter(m)
 	case *googlesql.ASTFunctionParameters:
 		return newFunctionParameters(m)
 	case *googlesql.ASTGeneratedColumnInfo:
 		return newGeneratedColumnInfo(m)
-
 	case *googlesql.ASTGranteeList:
 		return newGranteeList(m)
 	case *googlesql.ASTHaving:
 		return newHaving(m)
-
 	case *googlesql.ASTIdentifierList:
 		return newIdentifierList(m)
-
 	case *googlesql.ASTInList:
 		return newInList(m)
-
 	case *googlesql.ASTInsertValuesRow:
 		return newInsertValuesRow(m)
 	case *googlesql.ASTInsertValuesRowList:
 		return newInsertValuesRowList(m)
-
+	case *googlesql.ASTLabel:
+		return newLabel(m)
 	case *googlesql.ASTMergeWhenClauseList:
 		return newMergeWhenClauseList(m)
 	case *googlesql.ASTPathExpressionList:
 		return newPathExpressionList(m)
 	case *googlesql.ASTQualify:
 		return newQualify(m)
-
 	case *googlesql.ASTRollup:
 		return newRollup(m)
-
 	case *googlesql.ASTSqlFunctionBody:
 		return newSQLFunctionBody(m)
 	case *googlesql.ASTScript:
 		return newScript(m)
-
 	case *googlesql.ASTSelectAs:
 		return newSelectAs(m)
 	case *googlesql.ASTSelectColumn:
 		return newSelectColumn(m)
 	case *googlesql.ASTSelectList:
 		return newSelectList(m)
-
 	case *googlesql.ASTSetOperationAllOrDistinct:
 		return newSetOperationAllOrDistinct(m)
 	case *googlesql.ASTSetOperationColumnMatchMode:
@@ -365,25 +267,20 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newSetOperationMetadata(m)
 	case *googlesql.ASTSetOperationMetadataList:
 		return newSetOperationMetadataList(m)
-
 	case *googlesql.ASTStarExceptList:
 		return newStarExceptList(m)
 	case *googlesql.ASTStarModifiers:
 		return newStarModifiers(m)
-
 	case *googlesql.ASTStarReplaceItem:
 		return newStarReplaceItem(m)
-
 	case *googlesql.ASTStatementList:
 		return newStatementList(m)
 	case *googlesql.ASTStructConstructorArg:
 		return newStructConstructorArg(m)
-
 	case *googlesql.ASTTVFArgument:
 		return newTVFArgument(m)
 	case *googlesql.ASTTVFSchemaColumn:
 		return newTVFSchemaColumn(m)
-
 	case *googlesql.ASTUpdateItem:
 		return newUpdateItem(m)
 	case *googlesql.ASTUpdateItemList:
@@ -401,24 +298,20 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newAnalyticFunctionCall(m)
 	case *googlesql.ASTAndExpr:
 		return newAndExpr(m)
-
 	case *googlesql.ASTArrayConstructor:
 		return newArrayConstructor(m)
 	case *googlesql.ASTArrayElement:
 		return newArrayElement(m)
 	case *googlesql.ASTBetweenExpression:
 		return newBetweenExpression(m)
-
 	case *googlesql.ASTBigNumericLiteral:
 		return newBigNumericLiteral(m)
 	case *googlesql.ASTBinaryExpression:
 		return newBinaryExpression(m)
 	case *googlesql.ASTBitwiseShiftExpression:
 		return newBitwiseShiftExpression(m)
-
 	case *googlesql.ASTBooleanLiteral:
 		return newBooleanLiteral(m)
-
 	case *googlesql.ASTBytesLiteral:
 		return newBytesLiteral(m)
 	case *googlesql.ASTBytesLiteralComponent:
@@ -429,15 +322,12 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newCaseValueExpression(m)
 	case *googlesql.ASTCastExpression:
 		return newCastExpression(m)
-
 	case *googlesql.ASTConcatExpr:
 		return newConcatExpr(m)
-
 	case *googlesql.ASTDateOrTimeLiteral:
 		return newDateOrTimeLiteral(m)
 	case *googlesql.ASTDefaultLiteral:
 		return newDefaultLiteral(m)
-
 	case *googlesql.ASTDescriptor:
 		return newDescriptor(m)
 	case *googlesql.ASTDotGeneralizedField:
@@ -452,52 +342,42 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newExpressionSubquery(m)
 	case *googlesql.ASTExtractExpression:
 		return newExtractExpression(m)
-
 	case *googlesql.ASTFloatLiteral:
 		return newFloatLiteral(m)
 	case *googlesql.ASTFunctionCall:
 		return newFunctionCall(m)
 	case *googlesql.ASTIdentifier:
 		return newIdentifier(m)
-
 	case *googlesql.ASTInExpression:
 		return newInExpression(m)
-
 	case *googlesql.ASTIntLiteral:
 		return newIntLiteral(m)
 	case *googlesql.ASTIntervalExpr:
 		return newIntervalExpr(m)
-
 	case *googlesql.ASTJSONLiteral:
 		return newJSONLiteral(m)
 	case *googlesql.ASTLambda:
 		return newLambda(m)
-
 	case *googlesql.ASTMaxLiteral:
 		return newMaxLiteral(m)
 	case *googlesql.ASTNamedArgument:
 		return newNamedArgument(m)
-
 	case *googlesql.ASTNullLiteral:
 		return newNullLiteral(m)
-
 	case *googlesql.ASTNumericLiteral:
 		return newNumericLiteral(m)
 	case *googlesql.ASTOrExpr:
 		return newOrExpr(m)
-
 	case *googlesql.ASTParameterExpr:
 		return newParameterExpr(m)
 	case *googlesql.ASTPathExpression:
 		return newPathExpression(m)
-
 	case *googlesql.ASTRangeLiteral:
 		return newRangeLiteral(m)
 	case *googlesql.ASTStar:
 		return newStar(m)
 	case *googlesql.ASTStarWithModifiers:
 		return newStarWithModifiers(m)
-
 	case *googlesql.ASTStringLiteral:
 		return newStringLiteral(m)
 	case *googlesql.ASTStringLiteralComponent:
@@ -514,12 +394,11 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newWithExpression(m)
 
 	// ── nodes_query_expression.go ────────────────────────────────────────────────────────
+
 	case *googlesql.ASTQuery:
 		return newQuery(m)
-
 	case *googlesql.ASTSelect:
 		return newSelect(m)
-
 	case *googlesql.ASTSetOperation:
 		return newSetOperation(m)
 
@@ -543,23 +422,22 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newAlterTableStatement(m)
 	case *googlesql.ASTAlterViewStatement:
 		return newAlterViewStatement(m)
-
-	// ── Debugging ───────────────────────────────────────────────────────────────
-
 	case *googlesql.ASTAssertStatement:
 		return newAssertStatement(m)
 	case *googlesql.ASTAssignmentFromStruct:
 		return newAssignmentFromStruct(m)
-
 	case *googlesql.ASTBeginEndBlock:
 		return newBeginEndBlock(m)
 	case *googlesql.ASTBeginStatement:
 		return newBeginStatement(m)
-
+	case *googlesql.ASTBreakStatement:
+		return newBreakStatement(m)
 	case *googlesql.ASTCallStatement:
 		return newCallStatement(m)
 	case *googlesql.ASTCommitStatement:
 		return newCommitStatement(m)
+	case *googlesql.ASTContinueStatement:
+		return newContinueStatement(m)
 	case *googlesql.ASTCreateExternalTableStatement:
 		return newCreateExternalTableStatement(m)
 	case *googlesql.ASTCreateFunctionStatement:
@@ -574,15 +452,12 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newCreateSchemaStatement(m)
 	case *googlesql.ASTCreateSnapshotTableStatement:
 		return newCreateSnapshotTableStatement(m)
-
 	case *googlesql.ASTCreateTableFunctionStatement:
 		return newCreateTableFunctionStatement(m)
 	case *googlesql.ASTCreateTableStatement:
 		return newCreateTableStatement(m)
-
 	case *googlesql.ASTCreateViewStatement:
 		return newCreateViewStatement(m)
-
 	case *googlesql.ASTDeleteStatement:
 		return newDeleteStatement(m)
 	case *googlesql.ASTDropAllRowAccessPoliciesStatement:
@@ -601,37 +476,30 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newDropSearchIndexStatement(m)
 	case *googlesql.ASTDropSnapshotTableStatement:
 		return newDropSnapshotTableStatement(m)
-
 	case *googlesql.ASTDropStatement:
 		return newDropStatement(m)
 	case *googlesql.ASTDropTableFunctionStatement:
 		return newDropTableFunctionStatement(m)
-
 	case *googlesql.ASTExecuteImmediateStatement:
 		return newExecuteImmediateStatement(m)
 	case *googlesql.ASTHintedStatement:
 		return newHintedStatement(m)
-
 	case *googlesql.ASTIfStatement:
 		return newIfStatement(m)
 	case *googlesql.ASTInsertStatement:
 		return newInsertStatement(m)
-
 	case *googlesql.ASTMergeStatement:
 		return newMergeStatement(m)
-
 	case *googlesql.ASTParameterAssignment:
 		return newParameterAssignment(m)
 	case *googlesql.ASTQueryStatement:
 		return newQueryStatement(m)
-
 	case *googlesql.ASTRaiseStatement:
 		return newRaiseStatement(m)
 	case *googlesql.ASTReturnStatement:
 		return newReturnStatement(m)
 	case *googlesql.ASTRollbackStatement:
 		return newRollbackStatement(m)
-
 	case *googlesql.ASTSingleAssignment:
 		return newSingleAssignment(m)
 	case *googlesql.ASTSystemVariableAssignment:
@@ -640,52 +508,48 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newTruncateStatement(m)
 	case *googlesql.ASTUpdateStatement:
 		return newUpdateStatement(m)
-
 	case *googlesql.ASTVariableDeclaration:
 		return newVariableDeclaration(m)
+	case *googlesql.ASTWhileStatement:
+		return newWhileStatement(m)
 
 	// ── nodes_table_element.go ────────────────────────────────────────────────────────
+
 	case *googlesql.ASTArrayColumnSchema:
 		return newArrayColumnSchema(m)
-
 	case *googlesql.ASTColumnDefinition:
-
 		return newColumnDefinition(m)
 	case *googlesql.ASTColumnSchema:
 		return newColumnSchema(m)
-
 	case *googlesql.ASTForeignKey:
 		return newForeignKey(m)
 	case *googlesql.ASTForeignKeyReference:
 		return newForeignKeyReference(m)
 	case *googlesql.ASTPrimaryKey:
 		return newPrimaryKey(m)
-
 	case *googlesql.ASTPrimaryKeyElement:
 		return newPrimaryKeyElement(m)
 	case *googlesql.ASTPrimaryKeyElementList:
 		return newPrimaryKeyElementList(m)
 	case *googlesql.ASTSimpleColumnSchema:
 		return newSimpleColumnSchema(m)
-
 	case *googlesql.ASTStructColumnField:
 		return newStructColumnField(m)
 	case *googlesql.ASTStructColumnSchema:
 		return newStructColumnSchema(m)
 	case *googlesql.ASTTVFSchema:
 		return newTVFSchema(m)
-
 	case *googlesql.ASTTableConstraint:
 		return newTableConstraint(m)
 	case *googlesql.ASTTableElementList:
 		return newTableElementList(m)
 
 	// ── nodes_table_expression.go ────────────────────────────────────────────────────────
+
 	case *googlesql.ASTJoin:
 		return newJoin(m)
 	case *googlesql.ASTParenthesizedJoin:
 		return newParenthesizedJoin(m)
-
 	case *googlesql.ASTTVF:
 		return newTVF(m)
 	case *googlesql.ASTTableClause:
@@ -694,7 +558,6 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newTablePathExpression(m)
 	case *googlesql.ASTTableSubquery:
 		return newTableSubquery(m)
-
 	case *googlesql.ASTUnnestExpression:
 		return newUnnestExpression(m)
 	case *googlesql.ASTUnnestExpressionWithOptAliasAndOffset:
@@ -704,22 +567,18 @@ func Wrap(n googlesql.ASTNode) Node {
 
 	case *googlesql.ASTArrayType:
 		return newArrayType(m)
-
 	case *googlesql.ASTMapType:
 		return newMapType(m)
 	case *googlesql.ASTRangeType:
 		return newRangeType(m)
 	case *googlesql.ASTSetOperationType:
 		return newSetOperationType(m)
-
 	case *googlesql.ASTSimpleType:
 		return newSimpleType(m)
-
 	case *googlesql.ASTStructField:
 		return newStructField(m)
 	case *googlesql.ASTStructType:
 		return newStructType(m)
-
 	case *googlesql.ASTTemplatedParameterType:
 		return newTemplatedParameterType(m)
 	case *googlesql.ASTTypeParameterList:

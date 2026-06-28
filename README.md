@@ -144,11 +144,11 @@ Formatting without comment is always idempotent, but formatting code preserving 
 - [x] IF
 - [ ] Labels
 - [ ] Loops
-    - [ ] LOOP
+    - [x] LOOP
     - [ ] REPEAT
-    - [ ] WHILE
-    - [ ] BREAK / LEAVE
-    - [ ] CONTINUE / ITERATE
+    - [x] WHILE
+    - [x] BREAK / LEAVE
+    - [x] CONTINUE / ITERATE
     - [ ] FOR...IN
 - [x] Transactions
     - [x] BEGIN TRANSACTION

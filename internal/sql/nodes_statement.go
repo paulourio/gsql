@@ -267,6 +267,31 @@ func newBeginStatement(r *googlesql.ASTBeginStatement) *BeginStatement {
 
 func (n *BeginStatement) isStatement() {}
 
+// BreakStatement wraps *googlesql.ASTBreakStatement.
+type BreakStatement struct {
+	baseNode[*googlesql.ASTBreakStatement]
+}
+
+func newBreakStatement(r *googlesql.ASTBreakStatement) *BreakStatement {
+	if r == nil {
+		return nil
+	}
+	return &BreakStatement{baseNode[*googlesql.ASTBreakStatement]{raw: r}}
+}
+
+func (n *BreakStatement) isStatement() {}
+func (n *BreakStatement) Keyword() BreakContinueKeyword {
+	return must(n.raw.Keyword())
+}
+
+func (n *BreakStatement) GetKeywordText() string {
+	return must(n.raw.GetKeywordText())
+}
+
+func (n *BreakStatement) Label() *Label {
+	return newLabel(must(n.raw.Label()))
+}
+
 // CallStatement wraps *googlesql.ASTCallStatement.
 type CallStatement struct {
 	baseNode[*googlesql.ASTCallStatement]
@@ -309,6 +334,31 @@ func newCommitStatement(r *googlesql.ASTCommitStatement) *CommitStatement {
 }
 
 func (n *CommitStatement) isStatement() {}
+
+// ContinueStatement wraps *googlesql.ASTContinueStatement.
+type ContinueStatement struct {
+	baseNode[*googlesql.ASTContinueStatement]
+}
+
+func newContinueStatement(r *googlesql.ASTContinueStatement) *ContinueStatement {
+	if r == nil {
+		return nil
+	}
+	return &ContinueStatement{baseNode[*googlesql.ASTContinueStatement]{raw: r}}
+}
+
+func (n *ContinueStatement) isStatement() {}
+func (n *ContinueStatement) Keyword() BreakContinueKeyword {
+	return must(n.raw.Keyword())
+}
+
+func (n *ContinueStatement) GetKeywordText() string {
+	return must(n.raw.GetKeywordText())
+}
+
+func (n *ContinueStatement) Label() *Label {
+	return newLabel(must(n.raw.Label()))
+}
 
 // CreateExternalTableStatement wraps *googlesql.ASTCreateExternalTableStatement.
 type CreateExternalTableStatement struct {
@@ -1314,3 +1364,19 @@ func (n *VariableDeclaration) Type() TypeNode { return wrapType(must(n.raw.Type(
 func (n *VariableDeclaration) DefaultValue() ExpressionNode {
 	return wrapExpr(must(n.raw.DefaultValue()))
 }
+
+// WhileStatement wraps *googlesql.ASTWhileStatement.
+type WhileStatement struct {
+	baseNode[*googlesql.ASTWhileStatement]
+}
+
+func newWhileStatement(r *googlesql.ASTWhileStatement) *WhileStatement {
+	if r == nil {
+		return nil
+	}
+	return &WhileStatement{baseNode[*googlesql.ASTWhileStatement]{raw: r}}
+}
+
+func (n *WhileStatement) isStatement()              {}
+func (n *WhileStatement) Condition() ExpressionNode { return wrapExpr(must(n.raw.Condition())) }
+func (n *WhileStatement) Body() *StatementList      { return newStatementList(must(n.raw.Body())) }

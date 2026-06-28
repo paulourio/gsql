@@ -29,6 +29,13 @@ func (p *Printer) visitBeginStatementNode(_ Context, n *sql.BeginStatement) {
 	p.movePast(n)
 }
 
+func (p *Printer) visitBreakStatement(ctx Context, n *sql.BreakStatement) {
+	p.moveBefore(n)
+	p.print(p.keyword(n.GetKeywordText()))
+	p.accept(ctx, n.Label())
+	p.movePast(n)
+}
+
 func (p *Printer) visitCallStatement(ctx Context, n *sql.CallStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("CALL"))
@@ -61,6 +68,13 @@ func (p *Printer) visitCallStatement(ctx Context, n *sql.CallStatement) {
 func (p *Printer) visitCommitStatement(_ Context, n *sql.CommitStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("COMMIT TRANSACTION"))
+	p.movePast(n)
+}
+
+func (p *Printer) visitContinueStatement(ctx Context, n *sql.ContinueStatement) {
+	p.moveBefore(n)
+	p.print(p.keyword(n.GetKeywordText()))
+	p.accept(ctx, n.Label())
 	p.movePast(n)
 }
 
@@ -180,6 +194,11 @@ func (p *Printer) visitIfStatement(ctx Context, n *sql.IfStatement) {
 	p.print(p.keyword("END IF"))
 }
 
+func (p *Printer) visitLabel(ctx Context, n *sql.Label) {
+	p.moveBefore(n)
+	p.accept(ctx, n.Name())
+}
+
 func (p *Printer) visitParameterAssignment(ctx Context, n *sql.ParameterAssignment) {
 	p.moveBefore(n)
 	pp := p.nest()
@@ -252,4 +271,51 @@ func (p *Printer) visitVariableDeclaration(ctx Context, n *sql.VariableDeclarati
 		p.acceptNested(ctx, n.DefaultValue())
 	}
 	p.movePast(n)
+}
+
+func (p *Printer) visitWhileStatement(ctx Context, n *sql.WhileStatement) {
+	p.moveBefore(n)
+	pp := p.nest()
+	whileKeyword := hasPrefixEqualFold(p.viewInput(n.Location()), "WHILE")
+	cond := n.Condition()
+	simple := isSimpleExpr(cond)
+	if whileKeyword {
+		p1 := pp.nest()
+		p1.print(p1.keyword("WHILE"))
+		if !simple {
+			p1.println("")
+			p1.incDepth()
+			p1.acceptNestedLeft(ctx, cond)
+			p1.println("")
+			p1.decDepth()
+		} else {
+			p1.acceptNestedLeft(ctx, cond)
+		}
+		p1.print(p1.keyword("DO"))
+		pp.println(strings.TrimLeft(p1.unnestLeft(), "\v"))
+	} else {
+		pp.println(pp.keyword("LOOP"))
+	}
+	pp.incDepth()
+	pp.acceptNestedLeft(ctx, n.Body())
+	pp.println("")
+	pp.decDepth()
+	if whileKeyword {
+		pp.println(pp.keyword("END WHILE"))
+	} else {
+		pp.println(pp.keyword("END LOOP"))
+	}
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func hasPrefixEqualFold(s, prefix string) bool {
+	ssize, psize := len(s), len(prefix)
+	switch {
+	case ssize < psize:
+		return false
+	case ssize > psize:
+		s = s[:psize]
+	}
+	return strings.EqualFold(s, prefix)
 }

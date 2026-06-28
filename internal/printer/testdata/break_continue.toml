@@ -27,6 +27,14 @@ BREAK
 
 [[cases]]
 input = """
+leave
+"""
+formatted = """
+LEAVE
+"""
+
+[[cases]]
+input = """
 continue
 """
 formatted = """
@@ -81,8 +89,9 @@ END LOOP;
 formatted = """
 LOOP
   SELECT 5;
+
   BREAK;
-END LOOP;
+END LOOP
 """
 
 [[cases]]
@@ -102,7 +111,7 @@ LOOP
   ELSE
     CONTINUE;
   END IF;
-END LOOP;
+END LOOP
 """
 
 [[cases]]
@@ -125,5 +134,25 @@ LOOP
 
     CONTINUE;
   END WHILE;
-END LOOP;
+END LOOP
+"""
+
+[[cases]]
+input = """
+loop leave ;end loop
+"""
+formatted = """
+LOOP
+  LEAVE;
+END LOOP
+"""
+
+[[cases]]
+input = """
+while true do leave; end while
+"""
+formatted = """
+WHILE TRUE DO
+  LEAVE;
+END WHILE
 """

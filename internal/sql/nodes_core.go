@@ -531,6 +531,22 @@ func (n *InsertValuesRowList) Rows() []*InsertValuesRow {
 	return result
 }
 
+// Label wraps *googlesql.ASTLabel.
+type Label struct {
+	baseNode[*googlesql.ASTLabel]
+}
+
+func newLabel(r *googlesql.ASTLabel) *Label {
+	if r == nil {
+		return nil
+	}
+	return &Label{baseNode[*googlesql.ASTLabel]{raw: r}}
+}
+
+func (n *Label) Name() *Identifier {
+	return newIdentifier(must(n.raw.Name()))
+}
+
 // LockMode wraps *googlesql.ASTLockMode.
 type LockMode struct {
 	baseNode[*googlesql.ASTLockMode]
