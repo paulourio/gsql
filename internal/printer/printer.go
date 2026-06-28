@@ -208,6 +208,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitCreateViewStatement(ctx, n.(*sql.CreateViewStatement))
 	case sql.DateOrTimeLiteralKind:
 		p.visitDateOrTimeLiteral(ctx, n.(*sql.DateOrTimeLiteral))
+	case sql.DefaultLiteralKind:
+		p.visitDefaultLiteral(ctx, n.(*sql.DefaultLiteral))
 	case sql.DeleteStatementKind:
 		p.visitDeleteStatement(ctx, n.(*sql.DeleteStatement))
 	case sql.DescriptorKind:
@@ -544,6 +546,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitUpdateItemList(ctx, n.(*sql.UpdateItemList))
 	case sql.UpdateSetValueKind:
 		p.visitUpdateSetValue(ctx, n.(*sql.UpdateSetValue))
+	case sql.UpdateStatementKind:
+		p.visitUpdateStatement(ctx, n.(*sql.UpdateStatement))
 	case sql.UsingClauseKind:
 		p.visitUsingClause(ctx, n.(*sql.UsingClause))
 	case sql.VariableDeclarationKind:

@@ -552,6 +552,8 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newASTUpdateItem(m)
 	case *googlesql.ASTUpdateItemList:
 		return newASTUpdateItemList(m)
+	case *googlesql.ASTUpdateStatement:
+		return newASTUpdateStatement(m)
 	case *googlesql.ASTMergeAction:
 		return newASTMergeAction(m)
 	case *googlesql.ASTMergeWhenClause:

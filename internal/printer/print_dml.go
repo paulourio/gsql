@@ -86,35 +86,44 @@ func (p *Printer) visitAssertRowsModified(ctx Context, n *sql.AssertRowsModified
 
 func (p *Printer) visitInsertStatement(ctx Context, n *sql.InsertStatement) {
 	cl := n.ColumnList()
-	p.moveBefore(n)
+	pp := p.nest()
+	pp.moveBefore(n)
 	begin := n.LocationStart()
 	end := n.TargetPath().LocationStart()
-	input := strings.ToUpper(p.viewErasedInput(begin, end))
+	input := strings.ToUpper(pp.viewErasedInput(begin, end))
 	if strings.Contains(input, "INTO") {
-		p.print(p.keyword("INSERT INTO"))
+		pp.print(pp.keyword("INSERT INTO"))
 	} else {
-		p.print(p.keyword("INSERT"))
+		pp.print(pp.keyword("INSERT"))
 	}
-	p.accept(ctx.WithValue(KeyInTableName, true), n.TargetPath())
+	pp.accept(ctx.WithValue(KeyInTableName, true), n.TargetPath())
 	if cl != nil {
-		p.println("")
-		p.incDepth()
-		p.accept(ctx, cl)
-		p.println("")
-		p.decDepth()
+		pp.println("")
+		pp.incDepth()
+		pp.accept(ctx, cl)
+		pp.println("")
+		pp.decDepth()
 	}
 	if q := n.Query(); q != nil {
-		p.println("")
-		p.acceptNested(ctx, q)
+		pp.println("")
+		pp.acceptNested(ctx, q)
 	} else {
-		p.println("")
-		p.println(p.keyword("VALUES"))
-		p.incDepth()
-		p.accept(ctx, n.Rows())
-		p.println("")
-		p.decDepth()
+		pp.println("")
+		pp.println(pp.keyword("VALUES"))
+		pp.incDepth()
+		pp.accept(ctx, n.Rows())
+		pp.println("")
+		pp.decDepth()
 	}
-
+	p.print(pp.unnest())
+	if a := n.AssertRowsModified(); a != nil {
+		p.println("")
+		p.acceptNestedLeft(ctx, a)
+	}
+	if r := n.Returning(); r != nil {
+		p.println("")
+		p.acceptNestedLeft(ctx, r)
+	}
 	p.movePast(n)
 }
 
@@ -303,10 +312,20 @@ func (p *Printer) visitUpdateItemList(ctx Context, n *sql.UpdateItemList) {
 
 func (p *Printer) visitUpdateItem(ctx Context, n *sql.UpdateItem) {
 	p.moveBefore(n)
-	p.accept(ctx, n.SetValue())
+	set := n.SetValue()
+	if set == nil {
+		p.println("(")
+		p.incDepth()
+	}
+	p.accept(ctx, set)
 	p.accept(ctx, n.InsertStatement())
 	p.accept(ctx, n.DeleteStatement())
 	p.accept(ctx, n.UpdateStatement())
+	if set == nil {
+		p.println("")
+		p.decDepth()
+		p.print(")")
+	}
 	p.movePast(n)
 }
 
@@ -317,5 +336,39 @@ func (p *Printer) visitUpdateSetValue(ctx Context, n *sql.UpdateSetValue) {
 	pp.print("=")
 	pp.acceptNested(ctx, n.Value())
 	p.print(pp.unnest())
+	p.movePast(n)
+}
+
+func (p *Printer) visitUpdateStatement(ctx Context, n *sql.UpdateStatement) {
+	pp := p.nest()
+	pp.moveBefore(n)
+	pp.print(pp.keyword("UPDATE"))
+	pp.acceptNestedLeft(ctx.WithValue(KeyInTableName, true), n.TargetPath())
+	pp.accept(ctx, n.Alias())
+	pp.accept(ctx, n.Offset())
+	if list := n.UpdateItemList(); list != nil {
+		pp.println("")
+		pp.print(pp.keyword("SET"))
+		pp.acceptNestedLeft(ctx, list)
+	}
+	if f := n.FromClause(); f != nil {
+		pp.println("")
+		pp.print(pp.keyword("FROM"))
+		pp.acceptNestedLeft(ctx, f)
+	}
+	if w := n.Where(); w != nil {
+		pp.println("")
+		pp.print(pp.keyword("WHERE"))
+		pp.acceptNestedLeft(ctx, w)
+	}
+	p.print(pp.unnest())
+	if a := n.AssertRowsModified(); a != nil {
+		p.println("")
+		p.acceptNestedLeft(ctx, a)
+	}
+	if r := n.Returning(); r != nil {
+		p.println("")
+		p.acceptNestedLeft(ctx, r)
+	}
 	p.movePast(n)
 }

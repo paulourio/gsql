@@ -64,6 +64,12 @@ func (p *Printer) visitDateOrTimeLiteral(ctx Context, n *sql.DateOrTimeLiteral) 
 	p.accept(ctx, n.StringLiteral())
 }
 
+func (p *Printer) visitDefaultLiteral(_ Context, n *sql.DefaultLiteral) {
+	p.moveBefore(n)
+	p.print(p.keyword("DEFAULT"))
+	p.movePast(n)
+}
+
 func (p *Printer) visitFloatLiteral(_ Context, n *sql.FloatLiteral) {
 	p.moveBefore(n)
 	p.print(strings.ToLower(n.Image()))

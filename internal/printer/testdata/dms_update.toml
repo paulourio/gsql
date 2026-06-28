@@ -1,0 +1,373 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = true
+column_list_trailing_comma = "AUTO"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+max_cols_for_single_line_select = 4
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "UPPER_CASE"
+null_style = "UPPER_CASE"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+
+[[cases]]
+input = """
+update T
+set x=y
+"""
+formatted = """
+UPDATE T
+   SET x = y
+"""
+
+[[cases]]
+input = """
+update T with offset AS offset set x = y
+"""
+formatted = """
+UPDATE T WITH OFFSET AS offset
+   SET x = y
+"""
+
+[[cases]]
+input = """
+update T.(a.b).c set x = y
+"""
+formatted = """
+UPDATE T.(a.b).c
+   SET x = y
+"""
+
+[[cases]]
+input = """
+update T.a[0].b set x = y
+"""
+formatted = """
+UPDATE T.a[0].b
+   SET x = y
+"""
+
+[[cases]]
+input = """
+update T set id.(path.to.extension) = 5
+"""
+formatted = """
+UPDATE T
+   SET id.(path.to.extension) = 5
+"""
+
+[[cases]]
+input = """
+update T
+set id.(path.to.extension) = Default
+"""
+formatted = """
+UPDATE T
+   SET id.(path.to.extension) = DEFAULT
+"""
+
+[[cases]]
+input = """
+update T
+set Id[0] = DEFAULT
+"""
+formatted = """
+UPDATE T
+   SET id[0] = DEFAULT
+"""
+
+[[cases]]
+input = """
+update T
+set id1.id2.(path.to.extension) = 5
+"""
+formatted = """
+UPDATE T
+   SET id1.id2.(path.to.extension) = 5
+"""
+
+[[cases]]
+input = """
+update T
+set id1.(a.b.c).(d.e.f).id2.(g.h.i).id3.id4 = 5
+"""
+formatted = """
+UPDATE T
+   SET id1.(a.b.c).(d.e.f).id2.(g.h.i).id3.id4 = 5
+"""
+
+[[cases]]
+description = "Arrays of arrays. (Impossible in BigQuery, but valid GoogleSQL.)"
+input = """
+update T set id1[0][1] = 5
+"""
+formatted = """
+UPDATE T
+   SET id1[0][1] = 5
+"""
+
+[[cases]]
+description = "Update with select in set"
+input = """
+update c.T
+set x=y, a.b.c=1+(select count(*) from t2)
+where zzz+yyy=55
+assert_rows_modified @row_count
+"""
+formatted = """
+UPDATE c.T
+   SET x     = y,
+       a.b.c = 1 + (
+                 SELECT COUNT(*)
+                   FROM t2
+               )
+ WHERE zzz + yyy = 55
+ASSERT_ROWS_MODIFIED @row_count
+"""
+
+[[cases]]
+input = """
+update T
+set x=null, y=default, z=z
+"""
+formatted = """
+UPDATE T
+   SET x = NULL,
+       y = DEFAULT,
+       z = z
+"""
+
+[[cases]]
+description = "Nested DML statements."
+input = """update T
+set x=y,
+    (delete x),
+    (insert y.z values (5)),
+    (update a set b=c),
+    z=default
+"""
+formatted = """
+UPDATE T
+   SET x = y,
+       (
+         DELETE x
+       ),
+       (
+         INSERT y.z
+         VALUES
+           (5)
+       ),
+       (
+         UPDATE a
+            SET b = c
+       ),
+       z = DEFAULT
+"""
+
+[[cases]]
+description = "Nested DML statements with generalized path targets."
+input = """
+update T
+set (delete a.(b.c)),
+    (insert d.(e.f) values (5)),
+    (update a.(b.c) set d = 10)
+"""
+formatted = """
+UPDATE T
+   SET (
+         DELETE a.(b.c)
+       ),
+       (
+         INSERT d.(e.f)
+         VALUES
+           (5)
+       ),
+       (
+         UPDATE a.(b.c)
+            SET d = 10
+       )
+"""
+
+[[cases]]
+description = "Nested DML statements  with offsets"
+input = """
+UPDATE T
+SET
+  (
+    UPDATE a WITH OFFSET AS foo
+    SET
+      x = y
+    WHERE
+      offset = 0
+  )
+WHERE
+  true
+"""
+formatted = """
+UPDATE T
+   SET (
+         UPDATE a WITH OFFSET AS foo
+            SET x = y
+          WHERE offset = 0
+       )
+ WHERE TRUE
+"""
+
+[[cases]]
+description = "Nested DML statements  with offsets"
+input = """
+UPDATE T
+SET
+  (
+    UPDATE c1.c2
+    SET
+      (
+        UPDATE c3
+        SET
+          (
+            DELETE c4
+            WHERE
+              false
+            ASSERT_ROWS_MODIFIED 5
+          )
+        WHERE
+          true
+        ASSERT_ROWS_MODIFIED 4
+      )
+    WHERE
+      false
+    ASSERT_ROWS_MODIFIED 3
+  )
+WHERE
+  true
+ASSERT_ROWS_MODIFIED 2
+"""
+formatted = """
+UPDATE T
+   SET (
+         UPDATE c1.c2
+            SET (
+                  UPDATE c3
+                     SET (
+                           DELETE c4
+                            WHERE FALSE
+                           ASSERT_ROWS_MODIFIED 5
+                         )
+                   WHERE TRUE
+                  ASSERT_ROWS_MODIFIED 4
+                )
+          WHERE FALSE
+         ASSERT_ROWS_MODIFIED 3
+       )
+ WHERE TRUE
+ASSERT_ROWS_MODIFIED 2
+"""
+
+[[cases]]
+input = """
+UPDATE T
+SET x = T1.y
+FROM T1
+WHERE T.a = T1.b
+"""
+formatted = """
+UPDATE T
+   SET x = t1.y
+  FROM T1
+ WHERE t.a = t1.b
+"""
+
+[[cases]]
+input = """
+UPDATE T
+   SET x = T2.c
+  FROM T1 JOIN T2 ON T1.x = T2.y
+ WHERE T.a < T1.b
+"""
+formatted = """
+UPDATE T
+   SET x = t2.c
+  FROM T1
+       JOIN
+       T2
+       ON t1.x = t2.y
+ WHERE t.a < t1.b
+"""
+
+[[cases]]
+input = """
+UPDATE T
+SET x = T2.c
+FROM T1,
+     T2
+WHERE T.a < T1.b
+"""
+formatted = """
+UPDATE T
+   SET x = t2.c
+  FROM T1,
+       T2
+ WHERE t.a < t1.b
+"""
+
+[[cases]]
+input = """
+UPDATE T SET x = 1
+FROM (T1 JOIN T2) JOIN T3
+WHERE true
+"""
+formatted = """
+UPDATE T
+   SET x = 1
+  FROM (
+         T1
+         JOIN
+         T2
+       )
+       JOIN
+       T3
+ WHERE TRUE
+"""
+
+[[cases]]
+input = """
+UPDATE TestTable
+SET
+  KitchenSink.int32_val = 1,
+  (
+    INSERT INTO KitchenSink.repeated_int64_val
+    VALUES
+      (1),
+      (1 + 2),
+      ((
+          SELECT
+            1
+        ))
+    ASSERT_ROWS_MODIFIED 1
+  )
+WHERE
+  true
+ASSERT_ROWS_MODIFIED 1
+"""
+formatted = """
+UPDATE TestTable
+   SET kitchensink.int32_val = 1,
+       (
+         INSERT INTO KitchenSink.repeated_int64_val
+         VALUES
+           (1),
+           (1 + 2),
+           (
+             (SELECT 1)
+           )
+         ASSERT_ROWS_MODIFIED 1
+       )
+ WHERE TRUE
+ASSERT_ROWS_MODIFIED 1
+"""

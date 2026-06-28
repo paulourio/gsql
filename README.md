@@ -124,7 +124,7 @@ Formatting without comment is always idempotent, but formatting code preserving 
 - [x] INSERT
 - [x] DELETE
 - [x] TRUNCATE TABLE
-- [ ] UPDATE
+- [x] UPDATE
 - [x] MERGE
 
 #### Data Control Language (DCL)

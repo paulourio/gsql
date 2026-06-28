@@ -144,6 +144,14 @@ func (n *InsertStatement) Rows() *InsertValuesRowList {
 	return newASTInsertValuesRowList(must(n.raw.Rows()))
 }
 
+func (n *InsertStatement) AssertRowsModified() *AssertRowsModified {
+	return newASTAssertRowsModified(must(n.raw.AssertRowsModified()))
+}
+
+func (n *InsertStatement) Returning() *ReturningClause {
+	return newASTReturningClause(must(n.raw.Returning()))
+}
+
 // ─── UPDATE ───────────────────────────────────────────────────────────────────
 
 // UpdateSetValue wraps *googlesql.ASTUpdateSetValue.
@@ -203,6 +211,33 @@ func (n *UpdateItemList) Items() []*UpdateItem {
 		}
 	}
 	return result
+}
+
+type UpdateStatement struct {
+	baseNode[*googlesql.ASTUpdateStatement]
+}
+
+func newASTUpdateStatement(r *googlesql.ASTUpdateStatement) *UpdateStatement {
+	if r == nil {
+		return nil
+	}
+	return &UpdateStatement{baseNode[*googlesql.ASTUpdateStatement]{raw: r}}
+}
+func (n *UpdateStatement) isStatement()        {}
+func (n *UpdateStatement) TargetPath() Node    { return Wrap(must(n.raw.TargetPath())) }
+func (n *UpdateStatement) Alias() *Alias       { return newASTAlias(must(n.raw.Alias())) }
+func (n *UpdateStatement) Offset() *WithOffset { return newASTWithOffset(must(n.raw.Offset())) }
+func (n *UpdateStatement) UpdateItemList() *UpdateItemList {
+	return newASTUpdateItemList(must(n.raw.UpdateItemList()))
+}
+func (n *UpdateStatement) FromClause() *FromClause { return newASTFromClause(must(n.raw.FromClause())) }
+func (n *UpdateStatement) Where() ExpressionNode   { return wrapExpr(must(n.raw.Where())) }
+func (n *UpdateStatement) AssertRowsModified() *AssertRowsModified {
+	return newASTAssertRowsModified(must(n.raw.AssertRowsModified()))
+}
+
+func (n *UpdateStatement) Returning() *ReturningClause {
+	return newASTReturningClause(must(n.raw.Returning()))
 }
 
 // ─── MERGE ────────────────────────────────────────────────────────────────────

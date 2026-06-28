@@ -48,7 +48,11 @@ func (p *Printer) visitFromClause(ctx Context, n *sql.FromClause) {
 		ctx = ctx.WithValue(KeyJoinCounts, count)
 	}
 	p.accept(ctx, expr)
-	s := sql.ParentAs[*sql.Select](n)
+	parent := n.Parent()
+	if parent.Kind() != sql.SelectKind {
+		return
+	}
+	s := parent.(*sql.Select)
 	a, _ := sql.LocationRange(
 		s.WhereClause(),
 		s.GroupBy(),
@@ -2390,7 +2394,8 @@ func (p *Printer) visitWithExprVariables(ctx Context, n *sql.SelectList) {
 func (p *Printer) visitWithOffset(ctx Context, n *sql.WithOffset) {
 	p.moveBefore(n)
 	p.print(p.keyword("WITH OFFSET"))
-	if n.Parent().Kind() == sql.DeleteStatementKind {
+	switch n.Parent().Kind() {
+	case sql.DeleteStatementKind, sql.UpdateStatementKind:
 		p.print(p.keyword("AS"))
 	}
 	p.accept(ctx, n.Alias())
