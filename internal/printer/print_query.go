@@ -229,27 +229,27 @@ func (p *Printer) visitIdentifier(ctx Context, n *sql.Identifier) {
 	if n.IsQuoted() {
 		value = "`" + value + "`"
 	}
-	if inSystemVariable, _ := ctx.Bool(KeySystemVariable); inSystemVariable {
+	if ctx.Bool(KeySystemVariable) {
 		p.print(p.systemVariable(value))
 		return
 	}
-	if inQueryParameter, _ := ctx.Bool(KeyQueryParameter); inQueryParameter {
+	if ctx.Bool(KeyQueryParameter) {
 		p.print(p.queryParameter(value))
 		return
 	}
-	if inTypeName, _ := ctx.Bool(KeyInTypeName); inTypeName {
+	if ctx.Bool(KeyInTypeName) {
 		p.print(p.typename(value))
 		return
 	}
-	if inTableName, _ := ctx.Bool(KeyInTableName); inTableName {
+	if ctx.Bool(KeyInTableName) {
 		p.print(p.tableName(value))
 		return
 	}
-	if inFuncName, _ := ctx.Bool(KeyInFunctionName); inFuncName {
+	if ctx.Bool(KeyInFunctionName) {
 		p.print(p.functionName(value))
 		return
 	}
-	if inWithEntry, _ := ctx.Bool(KeyInWithEntry); inWithEntry {
+	if ctx.Bool(KeyInWithEntry) {
 		p.print(p.tableName(value))
 		return
 	}
@@ -264,9 +264,8 @@ func (p *Printer) visitPathExpression(ctx Context, n *sql.PathExpression) {
 	ctx = ctx.WithValue(KeyPathParts, nnames)
 	// If in function name, it is a chained function call and the name
 	// has more than one part, then we need to force a parenthesis.
-	isFunctionName, _ := ctx.Bool(KeyInFunctionName)
 	var forceParen bool
-	if isFunctionName && nnames > 1 {
+	if ctx.Bool(KeyInFunctionName) && nnames > 1 {
 		if fn, ok := n.Parent().(*sql.FunctionCall); ok {
 			forceParen = fn.IsChainedCall()
 		}
@@ -436,7 +435,7 @@ func (p *Printer) visitSelect(ctx Context, n *sql.Select) {
 
 func (p *Printer) visitSelectList(ctx Context, n *sql.SelectList) {
 	pp := p.nest()
-	singleLine, _ := ctx.Bool(KeySingleLineCols)
+	singleLine := ctx.Bool(KeySingleLineCols)
 	var prev sql.Node
 	for i, c := range n.Columns() {
 		if i > 0 {
@@ -548,10 +547,7 @@ func (p *Printer) visitAnalyticFunctionCall(ctx Context, n *sql.AnalyticFunction
 
 	// We have the option of keeping parenthesis even when not necessary
 	// if we set requireParenthesis to p.nodeInput(ws)[0] == '('
-	requireParenthesis := true
-	if elems == 1 && ws.BaseWindowName() != nil {
-		requireParenthesis = false
-	}
+	requireParenthesis := elems != 1 || ws.BaseWindowName() == nil
 
 	if requireParenthesis {
 		pp.print("(")
@@ -587,12 +583,10 @@ func (p *Printer) visitAndExpr(ctx Context, n *sql.AndExpr) {
 	alignWithClause := p.Writer.opts.AlignLogicalWithClauses && inClause
 	// inMerge := isInsideOfMergeStatement(n)
 	simple := isSimpleAndExpr(n)
-	budget, _ := ctx.Int(KeyAlignBinaryOpBudget)
 	// alignAnd := budget > 0
 	// If no budget is active, setup a new budget
 	if allTrue(mapIsAlignable(conjuncts)) {
-		budget = 1
-		ctx = ctx.WithValue(KeyAlignBinaryOpBudget, budget)
+		ctx = ctx.WithValue(KeyAlignBinaryOpBudget, 1)
 	}
 	pp := p.nest()
 	pp.moveBefore(n)
@@ -621,10 +615,8 @@ func (p *Printer) visitAndExpr(ctx Context, n *sql.AndExpr) {
 					p1.print(pp.keyword("AND"))
 				}
 			}
-		} else {
-			if !simple && !alignWithClause {
-				p1.print("\v")
-			}
+		} else if !simple && !alignWithClause {
+			p1.print("\v")
 		}
 		if simple {
 			p1.accept(ctx, conjunct)
@@ -1011,15 +1003,15 @@ func (p *Printer) visitExpressionSubquery(ctx Context, n *sql.ExpressionSubquery
 	//      )
 	simple := isSimpleExprSubquery(n)
 	if !simple {
-		isAssign, _ := ctx.Bool(KeyInSingleAssignment)
-		isInNot, _ := ctx.Bool(KeyInUnaryNot)
+		isAssign := ctx.Bool(KeyInSingleAssignment)
+		isInNot := ctx.Bool(KeyInUnaryNot)
 		// If in a SingleAssignment, we still need to verify whether this is the
 		// direct assignment query or not.
 		parentKind := n.Parent().Kind()
 		if isAssign && parentKind != sql.SingleAssignmentKind {
 			isAssign = false
 		}
-		shouldNest := !(isInNot && parentKind == sql.UnaryExpressionKind) && !isAssign
+		shouldNest := (!isInNot || parentKind != sql.UnaryExpressionKind) && !isAssign
 		pp := p.nest()
 		if shouldNest {
 			pp.printSubqueryOpenWithModifier(n.Modifier(), true)
@@ -1048,17 +1040,17 @@ func (p *Printer) visitExpressionSubquery(ctx Context, n *sql.ExpressionSubquery
 }
 
 func (p *Printer) printSubqueryOpenWithModifier(modifier sql.SubqueryModifier, breakline bool) {
-	print := p.print
+	printfn := p.print
 	if breakline {
-		print = p.println
+		printfn = p.println
 	}
 	switch modifier {
 	case sql.NoneModifier:
-		print("(")
+		printfn("(")
 	case sql.Array:
-		print(p.keyword("ARRAY") + "(")
+		printfn(p.keyword("ARRAY") + "(")
 	case sql.Exists:
-		print(p.keyword("EXISTS") + "(")
+		printfn(p.keyword("EXISTS") + "(")
 	}
 }
 
@@ -1417,7 +1409,7 @@ func (p *Printer) visitNamedArgument(ctx Context, n *sql.NamedArgument) {
 	}
 }
 
-func (p *Printer) visitNullOrder(ctx Context, n *sql.NullOrder) {
+func (p *Printer) visitNullOrder(_ Context, n *sql.NullOrder) {
 	if n.NullsFirst() {
 		p.print(p.keyword("NULLS FIRST"))
 	} else {
@@ -1465,11 +1457,10 @@ func (p *Printer) visitOptionsList(ctx Context, n *sql.OptionsList) {
 
 func (p *Printer) visitOptionsEntry(ctx Context, n *sql.OptionsEntry) {
 	keys := KnownOptionKeys(sql.ParentAs[*sql.OptionsList](n))
-	simple, _ := ctx.Bool(KeySimpleOptions)
 	pp := p.nest()
 	key := keys.Get(pp.toString(ctx, n.Name()))
 	value := pp.toUnnestedString(ctx, n.Value())
-	if simple {
+	if ctx.Bool(KeySimpleOptions) {
 		pp.print(key + "=" + value)
 	} else {
 		// We need to add an additional vertical aligned to compensate
@@ -1695,7 +1686,7 @@ func (p *Printer) visitPivotValue(ctx Context, n *sql.PivotValue) {
 
 func (p *Printer) visitPivotValueList(ctx Context, n *sql.PivotValueList) {
 	p.moveBefore(n)
-	simple, _ := ctx.Bool(KeySimplePivotValues)
+	simple := ctx.Bool(KeySimplePivotValues)
 	for i, v := range n.Values() {
 		if i > 0 {
 			p.print(",")
@@ -1834,7 +1825,7 @@ func (p *Printer) visitSetOperation(ctx Context, n *sql.SetOperation) {
 	p.printCloseParenIfNeeded(n)
 }
 
-func (p *Printer) visitStar(ctx Context, n *sql.Star) {
+func (p *Printer) visitStar(_ Context, n *sql.Star) {
 	p.moveBefore(n)
 	p.print(n.Image())
 }
@@ -2213,7 +2204,7 @@ func (p *Printer) visitUnpivotInItemLabel(ctx Context, n *sql.UnpivotInItemLabel
 
 func (p *Printer) visitUnpivotInItemList(ctx Context, n *sql.UnpivotInItemList) {
 	p.moveBefore(n)
-	simple, _ := ctx.Bool(KeySimpleUnpivotInTime)
+	simple := ctx.Bool(KeySimpleUnpivotInTime)
 	for i, item := range n.InItems() {
 		if i > 0 {
 			p.print(",")

@@ -22,11 +22,11 @@ func NewUnquotedTextHandler(w io.Writer, level slog.Level) *UnquotedTextHandler 
 	}
 }
 
-func (h *UnquotedTextHandler) Enabled(ctx context.Context, level slog.Level) bool {
+func (h *UnquotedTextHandler) Enabled(_ context.Context, level slog.Level) bool {
 	return level >= h.level
 }
 
-func (h *UnquotedTextHandler) Handle(ctx context.Context, r slog.Record) error {
+func (h *UnquotedTextHandler) Handle(_ context.Context, r slog.Record) error {
 	var buf strings.Builder
 
 	// Format time
@@ -65,7 +65,10 @@ func (h *UnquotedTextHandler) Handle(ctx context.Context, r slog.Record) error {
 	buf.WriteByte('\n')
 
 	_, err := h.w.Write([]byte(buf.String()))
-	return err
+	if err != nil {
+		return fmt.Errorf("unquoted text handler: %w", err)
+	}
+	return nil
 }
 
 func (h *UnquotedTextHandler) WithAttrs(attrs []slog.Attr) slog.Handler {
@@ -79,13 +82,13 @@ func (h *UnquotedTextHandler) WithAttrs(attrs []slog.Attr) slog.Handler {
 	}
 }
 
-func (h *UnquotedTextHandler) WithGroup(name string) slog.Handler {
+func (h *UnquotedTextHandler) WithGroup(_ string) slog.Handler {
 	return h
 }
 
 func formatValue(v slog.Value) string {
 	v = v.Resolve()
-	switch v.Kind() {
+	switch v.Kind() { //nolint:exhaustive
 	case slog.KindString:
 		return v.String()
 	case slog.KindTime:

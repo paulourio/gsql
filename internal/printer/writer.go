@@ -165,10 +165,11 @@ func (w *Writer) flushCommentsUpTo(pos int) {
 		if c.IsMultiline() {
 			image = strings.ReplaceAll(c.Image, "\n", lineBreakPlaceholder)
 		}
-		if c.AtLineBegin() && w.buffer.Len() > 0 {
+		switch {
+		case c.AtLineBegin() && w.buffer.Len() > 0:
 			w.FlushLine()
 			w.Format(strings.TrimRight(image, "\n"))
-		} else if !c.AtLineBegin() && (w.formatted.Len()+w.buffer.Len()) > 0 {
+		case !c.AtLineBegin() && (w.formatted.Len()+w.buffer.Len()) > 0:
 			// Add one additional space between line contents and
 			// the comment at the final of current line.
 			sp := " "
@@ -176,7 +177,7 @@ func (w *Writer) flushCommentsUpTo(pos int) {
 				sp = ""
 			}
 			w.Format(sp + strings.TrimRight(image, "\n"))
-		} else {
+		default:
 			w.Format(strings.TrimRight(image, "\n"))
 		}
 		if c.MustEndLine() || c.AtLineEnd() {

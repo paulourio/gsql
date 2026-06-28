@@ -14,12 +14,12 @@ func (p *Printer) visitBigNumericLiteral(ctx Context, n *sql.BigNumericLiteral) 
 	p.accept(ctx, n.StringLiteral())
 }
 
-func (p *Printer) visitBoolLiteral(ctx Context, n *sql.BooleanLiteral) {
+func (p *Printer) visitBoolLiteral(_ Context, n *sql.BooleanLiteral) {
 	p.moveBefore(n)
 	p.print(formatPrintStyle(n.Image(), p.Writer.opts.BoolStyle))
 }
 
-func (p *Printer) visitBytesLiteral(ctx Context, n *sql.BytesLiteral) {
+func (p *Printer) visitBytesLiteral(_ Context, n *sql.BytesLiteral) {
 	components := n.Components()
 	p.moveBefore(n)
 	for i, c := range components {
@@ -43,8 +43,8 @@ func (p *Printer) visitDateOrTimeLiteral(ctx Context, n *sql.DateOrTimeLiteral) 
 	// For instance, TIMESTAMP (11) is being mapped as NUMERIC (19).
 	// For now, the safest approach seems to re-tokenize the node input.
 	input := p.nodeInput(n)
-	pos := strings.Index(input, " ")
-	if pos < 0 {
+	found := strings.Contains(input, " ")
+	if !found {
 		panic("invalid date time literal")
 	}
 	switch n.TypeKind() {
@@ -64,12 +64,12 @@ func (p *Printer) visitDateOrTimeLiteral(ctx Context, n *sql.DateOrTimeLiteral) 
 	p.accept(ctx, n.StringLiteral())
 }
 
-func (p *Printer) visitFloatLiteral(ctx Context, n *sql.FloatLiteral) {
+func (p *Printer) visitFloatLiteral(_ Context, n *sql.FloatLiteral) {
 	p.moveBefore(n)
 	p.print(strings.ToLower(n.Image()))
 }
 
-func (p *Printer) visitIntLiteral(ctx Context, n *sql.IntLiteral) {
+func (p *Printer) visitIntLiteral(_ Context, n *sql.IntLiteral) {
 	p.moveBefore(n)
 	v := n.Image()
 	if !maybeHexValue(v) {
@@ -87,7 +87,7 @@ func (p *Printer) visitJSONLiteral(ctx Context, n *sql.JSONLiteral) {
 	p.movePast(n)
 }
 
-func (p *Printer) visitNullLiteral(ctx Context, n *sql.NullLiteral) {
+func (p *Printer) visitNullLiteral(_ Context, n *sql.NullLiteral) {
 	p.moveBefore(n)
 	p.print(formatPrintStyle(n.Image(), p.Writer.opts.NullStyle))
 }
@@ -110,7 +110,7 @@ func (p *Printer) visitNumericLiteral(ctx Context, n *sql.NumericLiteral) {
 	p.accept(ctx, n.StringLiteral())
 }
 
-func (p *Printer) visitStringLiteral(ctx Context, n *sql.StringLiteral) {
+func (p *Printer) visitStringLiteral(_ Context, n *sql.StringLiteral) {
 	components := n.Components()
 	p.moveBefore(n)
 	for i, c := range components {
@@ -159,7 +159,7 @@ func FormatBytes(s string, style format.StringStyle) (string, error) {
 	}
 	offset += quotesLen
 	content := s[offset : len(s)-quotesLen]
-	switch style {
+	switch style { //nolint:exhaustive
 	case format.PreferSingleQuote:
 		if isSingleQuote || strings.Contains(content, "'") {
 			return prefix + s[len(prefix):], nil
@@ -207,7 +207,7 @@ func FormatString(s string, style format.StringStyle) (string, error) {
 	}
 	offset += quotesLen
 	content := s[offset : len(s)-quotesLen]
-	switch style {
+	switch style { //nolint:exhaustive
 	case format.PreferSingleQuote:
 		if isSingleQuote || strings.Contains(content, "'") {
 			return prefix + s[len(prefix):], nil

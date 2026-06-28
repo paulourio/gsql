@@ -29,11 +29,11 @@ func (c *Case) String() string {
 	var b strings.Builder
 
 	if c.Description != "" {
-		b.WriteString(fmt.Sprintf("Test Case: %s\n", c.Description))
+		fmt.Fprintf(&b, "Test Case: %s\n", c.Description)
 	}
 
-	b.WriteString(fmt.Sprintf("Input (%d bytes):\n%s\n\n", len(c.Input), c.Input))
-	b.WriteString(fmt.Sprintf("Expected Dump (%d bytes):\n%s\n", len(c.Dump), c.Dump))
+	fmt.Fprintf(&b, "Input (%d bytes):\n%s\n\n", len(c.Input), c.Input)
+	fmt.Fprintf(&b, "Expected Dump (%d bytes):\n%s\n", len(c.Dump), c.Dump)
 
 	return b.String()
 }

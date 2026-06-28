@@ -56,7 +56,7 @@ func findDescription(err error, lines []string) (desc string, line, col int) {
 	return
 }
 
-func tokenError(lines []string, err *Error) (desc string, line, col int) {
+func tokenError(_ []string, err *Error) (desc string, line, col int) {
 	tokDesc := describeUnexpectedToken(err.ErrorToken)
 	if len(err.ExpectedTokens) > 0 {
 		expected := ""
@@ -73,8 +73,8 @@ func tokenError(lines []string, err *Error) (desc string, line, col int) {
 	} else {
 		desc = fmt.Sprintf("Unexpected %s", tokDesc)
 	}
-	line = err.ErrorToken.Pos.Line
-	col = err.ErrorToken.Pos.Column
+	line = err.ErrorToken.Line
+	col = err.ErrorToken.Column
 	switch err.ErrorToken.Type {
 	case token.INVALID:
 		desc = "Unexpected unknown/invalid token"

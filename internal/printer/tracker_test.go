@@ -15,22 +15,10 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	// Initialize googlesql
-	cacheDir, err := os.MkdirTemp("", "gsql")
-	if err != nil {
-		log.Fatalf("failed to create cache dir: %v", err)
-	}
-	defer os.RemoveAll(cacheDir)
-
-	err = googlesql.Init(
-	// googlesql.WithCompilationMode(googlesql.CompilationModeCompiler),
-	// googlesql.WithCompilationCache(cacheDir),
-	)
+	err := googlesql.Init()
 	if err != nil {
 		log.Fatalf("failed to init googlesql: %v", err)
 	}
-	// defer googlesql.Close()
-
 	os.Exit(m.Run())
 }
 

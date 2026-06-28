@@ -335,7 +335,7 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitInsertValuesRow(ctx, n.(*sql.InsertValuesRow))
 	case sql.JoinKind:
 		p.visitJoin(ctx, n.(*sql.Join))
-	case sql.JsonLiteralKind:
+	case sql.JSONLiteralKind:
 		p.visitJSONLiteral(ctx, n.(*sql.JSONLiteral))
 	case sql.LimitKind:
 		p.visitLimit(ctx, n.(*sql.Limit))
@@ -600,14 +600,8 @@ func (p *Printer) movePast(n sql.Node) {
 	if p.OriginalInput != "" {
 		for _, comment := range p.Writer.comments.comments {
 			if comment.Start > adjustedPos {
-				startIdx := adjustedPos
-				if startIdx < 0 {
-					startIdx = 0
-				}
-				endIdx := comment.Start
-				if endIdx > len(p.OriginalInput) {
-					endIdx = len(p.OriginalInput)
-				}
+				startIdx := max(adjustedPos, 0)
+				endIdx := min(comment.Start, len(p.OriginalInput))
 				hasNonHorizontalWhitespace := false
 				if startIdx < endIdx {
 					for idx := startIdx; idx < endIdx; idx++ {
@@ -666,13 +660,13 @@ func (p *Printer) moveBeforeSuccessorOf(n sql.Node) {
 		return
 	}
 	e := n.LocationEnd()
-	max := e
+	maxLoc := e
 	parent := n.Parent()
 	for parent != nil && parent.Kind() != sql.StatementListKind {
-		max = parent.LocationEnd()
+		maxLoc = parent.LocationEnd()
 		parent = parent.Parent()
 	}
-	next := min(p.Tracker.MaybeNextPos(e), max)
+	next := min(p.Tracker.MaybeNextPos(e), maxLoc)
 	if next > 0 {
 		p.Writer.flushCommentsUpTo(next)
 	}
@@ -731,26 +725,6 @@ func (p *Printer) unnest() string {
 	trimmed := p.String()
 	aligned := alignNested(trimmed)
 	return prefixLines(aligned, "\v")
-}
-
-// unnest flushes the buffer and returns the strings with alignment
-// symbols at the beginning of each line.
-func (p *Printer) unnestWithDepth(d int) string {
-	trimmed := p.String()
-	aligned := alignNested(trimmed)
-	lines := strings.Split(aligned, "\n")
-	alignment := strings.Repeat("\v", d)
-	for i := 0; i < len(lines); i++ {
-		if i == len(lines)-1 && lines[i] == "" {
-			continue
-		}
-		if i == 0 {
-			lines[i] = "\v" + lines[i]
-		} else {
-			lines[i] = alignment + lines[i]
-		}
-	}
-	return strings.Join(lines, "\n")
 }
 
 // printNestedWithSepNode prints sql.Node items separated by sep in a shared
@@ -836,7 +810,7 @@ func (p *Printer) toUnnestedString(ctx Context, n sql.Node) string {
 	return pp.unnest()
 }
 
-func debugContent(s string) string {
+func debugContent(s string) string { //nolint:unused
 	d := strings.ReplaceAll(s, "\v", "|")
 	d = strings.ReplaceAll(d, "\b", "%")
 	return d
@@ -851,7 +825,7 @@ func (p *Printer) unnestLeft() string {
 
 func prefixLines(s string, prefix string) string {
 	lines := strings.Split(s, "\n")
-	for i := 0; i < len(lines); i++ {
+	for i := range lines {
 		if i == len(lines)-1 && lines[i] == "" {
 			continue
 		}
@@ -928,19 +902,6 @@ func (p *Printer) isParenNeeded(n sql.Node) bool {
 	return false
 }
 
-// hasParenAround checks if there is parenthesis just before the start
-// location of a node.
-func (p *Printer) hasParenAround(n sql.Node) bool {
-	if !sql.Defined(n) {
-		return false
-	}
-	s := n.LocationStart()
-	if s == 0 {
-		return false
-	}
-	return p.OriginalInput[s-1] == '('
-}
-
 func (p *Printer) printClause(s string) {
 	if p.Writer.opts.NewlineBeforeClause {
 		p.println("")
@@ -963,7 +924,7 @@ func (p *Printer) tableName(s string) string {
 		return s
 	}
 	switch p.Writer.opts.TableNameStyle {
-	case format.AsIs:
+	case format.AsIs, format.Unspecified:
 		return s
 	case format.UpperCase:
 		return strings.ToUpper(s)
@@ -1002,7 +963,7 @@ func (p *Printer) applyStyle(s string, style format.PrintCase) string {
 
 func (p *Printer) keyword(s string) string {
 	switch p.Writer.opts.KeywordStyle {
-	case format.AsIs:
+	case format.AsIs, format.Unspecified:
 		return s
 	case format.UpperCase:
 		return strings.ToUpper(s)
@@ -1017,7 +978,7 @@ func (p *Printer) typename(s string) string {
 		return s
 	}
 	switch p.Writer.opts.TypeStyle {
-	case format.AsIs:
+	case format.AsIs, format.Unspecified:
 		return s
 	case format.UpperCase:
 		return strings.ToUpper(s)
@@ -1084,11 +1045,6 @@ func (p *Printer) queryParameter(s string) string {
 func (p *Printer) nodeInput(n sql.Node) string {
 	b, e := n.Location()
 	return p.viewInput(b, e)
-}
-
-func (p *Printer) nodeErasedInput(n sql.Node) string {
-	b, e := n.Location()
-	return p.viewErasedInput(b, e)
 }
 
 // viewErasedInput safely returns the input within the interval
@@ -1165,14 +1121,12 @@ func lowestPrecedenceBelow(n sql.Node) int {
 		return 1000
 	}
 	t := n.(*sql.BinaryExpression)
-	min := precedenceNum(n)
-	if lhs := precedenceNum(t.LHS()); lhs < min {
-		min = lhs
-	}
-	if rhs := precedenceNum(t.RHS()); rhs < min {
-		min = rhs
-	}
-	return min
+	minPrec := min(
+		precedenceNum(n),
+		precedenceNum(t.LHS()),
+		precedenceNum(t.RHS()),
+	)
+	return minPrec
 }
 
 func precedenceNum(n sql.Node) int {

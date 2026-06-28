@@ -9,16 +9,13 @@ linters:
     - contextcheck
     - dupl
     - dupword
-    - errchk
+    - errcheck
     - errchkjson
     - errname
     - errorlint
     - exhaustive
-    - forcetypeassert
     - gocheckcompilerdirectives
-    - gochecknoglobals
     - gochecknoinits
-    - goconst
     - gocritic
     - godot
     - godox
@@ -26,9 +23,7 @@ linters:
     - gosmopolitan
     - govet
     - iface
-    - inamedparam
     - ineffassign
-    - ireturn
     - misspell
     - modernize
     - musttag
@@ -59,6 +54,19 @@ linters:
       - third_party$
       - builtin$
       - examples$
+      - internal/extensions/errors/errors\.go$
+      - internal/extensions/lexer/
+      - internal/extensions/parser/action\.go$
+      - internal/extensions/parser/actiontable\.go$
+      - internal/extensions/parser/context\.go$
+      - internal/extensions/parser/gototable\.go$
+      - internal/extensions/parser/parser\.go$
+      - internal/extensions/parser/productionstable\.go$
+      - internal/extensions/token/
+      - internal/extensions/util/
+  settings:
+    goconst:
+      ignore-tests: true
 formatters:
   enable:
     - gci
@@ -69,6 +77,16 @@ formatters:
       - third_party$
       - builtin$
       - examples$
+      - internal/extensions/errors/errors\.go$
+      - internal/extensions/lexer/
+      - internal/extensions/parser/action\.go$
+      - internal/extensions/parser/actiontable\.go$
+      - internal/extensions/parser/context\.go$
+      - internal/extensions/parser/gototable\.go$
+      - internal/extensions/parser/parser\.go$
+      - internal/extensions/parser/productionstable\.go$
+      - internal/extensions/token/
+      - internal/extensions/util/
   settings:
     gci:
       sections:

@@ -54,7 +54,7 @@ func (t *LineTracker) initialize(s string) {
 	n := strings.Count(s, "\n")
 	t.StartPos = make([]int, n)
 	offset := 0
-	for i := 0; i < n; i++ {
+	for i := range n {
 		pos := strings.Index(s, "\n")
 		t.StartPos[i] = offset + pos
 		s = s[pos+1:]
@@ -74,7 +74,7 @@ func NewStartLocationTracker(s string, root sql.Node) *LocationTracker {
 func (t *LocationTracker) initNodePos(root sql.Node) {
 	n := int(float64(countNodes(root)) * .6)
 	set := make(map[int]bool, n)
-	sql.WalkNode(root, func(n sql.Node) error {
+	sql.WalkNode(root, func(n sql.Node) error { //nolint:errcheck
 		if !sql.Defined(n) {
 			return nil
 		}
@@ -113,7 +113,7 @@ func (t *LocationTracker) MaybeNextPos(pos int) int {
 }
 
 func countNodes(root sql.Node) (count int) {
-	sql.WalkNode(root, func(n sql.Node) error {
+	sql.WalkNode(root, func(_ sql.Node) error { //nolint:errcheck
 		count++
 		return nil
 	})

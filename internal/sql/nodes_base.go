@@ -39,7 +39,6 @@ func wrapLeaf(raw googlesql.ASTLeafNode) LeafNode {
 	return w.(LeafNode)
 }
 
-
 func wrapTableExpr(raw googlesql.ASTTableExpressionNode) TableExpressionNode {
 	if !defined(raw) {
 		return nil
@@ -95,17 +94,6 @@ func wrapColumnAttribute(raw googlesql.ASTColumnAttributeNode) ColumnAttributeNo
 	return w.(ColumnAttributeNode)
 }
 
-func wrapPipeOperator(raw googlesql.ASTPipeOperatorNode) PipeOperatorNode {
-	if !defined(raw) {
-		return nil
-	}
-	w := Wrap(raw)
-	if w == nil {
-		return nil
-	}
-	return w.(PipeOperatorNode)
-}
-
 func wrapTableElement(raw googlesql.ASTTableElementNode) TableElementNode {
 	if !defined(raw) {
 		return nil
@@ -144,6 +132,7 @@ func newGenericNode(raw googlesql.ASTNode) *genericNode {
 type genericPipeOperatorNode struct {
 	baseNode[googlesql.ASTPipeOperatorNode]
 }
+
 func newGenericPipeOperatorNode(raw googlesql.ASTPipeOperatorNode) *genericPipeOperatorNode {
 	return &genericPipeOperatorNode{baseNode[googlesql.ASTPipeOperatorNode]{raw: raw}}
 }
@@ -152,6 +141,7 @@ func (n *genericPipeOperatorNode) isPipeOperator() {}
 type genericTableElementNode struct {
 	baseNode[googlesql.ASTTableElementNode]
 }
+
 func newGenericTableElementNode(raw googlesql.ASTTableElementNode) *genericTableElementNode {
 	return &genericTableElementNode{baseNode[googlesql.ASTTableElementNode]{raw: raw}}
 }
@@ -160,6 +150,7 @@ func (n *genericTableElementNode) isTableElement() {}
 type genericAlterActionNode struct {
 	baseNode[googlesql.ASTAlterActionNode]
 }
+
 func newGenericAlterActionNode(raw googlesql.ASTAlterActionNode) *genericAlterActionNode {
 	return &genericAlterActionNode{baseNode[googlesql.ASTAlterActionNode]{raw: raw}}
 }
@@ -168,6 +159,7 @@ func (n *genericAlterActionNode) isAlterAction() {}
 type genericColumnAttributeNode struct {
 	baseNode[googlesql.ASTColumnAttributeNode]
 }
+
 func newGenericColumnAttributeNode(raw googlesql.ASTColumnAttributeNode) *genericColumnAttributeNode {
 	return &genericColumnAttributeNode{baseNode[googlesql.ASTColumnAttributeNode]{raw: raw}}
 }
@@ -176,9 +168,8 @@ func (n *genericColumnAttributeNode) isColumnAttribute() {}
 type genericStatementNode struct {
 	baseNode[googlesql.ASTStatementNode]
 }
+
 func newGenericStatementNode(raw googlesql.ASTStatementNode) *genericStatementNode {
 	return &genericStatementNode{baseNode[googlesql.ASTStatementNode]{raw: raw}}
 }
 func (n *genericStatementNode) isStatement() {}
-
-

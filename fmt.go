@@ -118,10 +118,6 @@ func WithErrorMessageOptions(opts *googlesql.ErrorMessageOptions) SQLFormatterOp
 	}
 }
 
-func (f *SQLFormatter) Close() {
-	// googlesql.Close()
-}
-
 func (f *SQLFormatter) Format(input string) (string, error) {
 	return f.FormatWithOptions(input, f.fmtOpts)
 }
@@ -156,7 +152,7 @@ func (f *SQLFormatter) FormatWithOptions(input string, fmtOpts *format.Options) 
 	f.debug(strings.Repeat("\n", 4))
 	f.debug("# BigQuery Format\n\n")
 	f.debug("## Options")
-	dopts, _ := json.MarshalIndent(fmtOpts, "", "  ")
+	dopts, _ := json.MarshalIndent(fmtOpts, "", "  ") //nolint:errchkjson,musttag
 	f.debug(string(dopts) + "\n\n")
 	root, err := pout.Script()
 	if err != nil {
@@ -233,22 +229,6 @@ func (f *SQLFormatter) debug(msg string, keyvals ...any) {
 
 func (f *SQLFormatter) debugf(format string, args ...any) {
 	f.logf(format, args...)
-}
-
-func (f *SQLFormatter) error(msg string, keyvals ...any) {
-	f.log("[ERROR] "+msg, keyvals...)
-}
-
-func (f *SQLFormatter) errorf(format string, args ...any) {
-	f.log("[ERROR] "+format, args...)
-}
-
-func (f *SQLFormatter) warn(msg string, keyvals ...any) {
-	f.log("[WARN] "+msg, keyvals...)
-}
-
-func (f *SQLFormatter) warnf(format string, args ...any) {
-	f.log("[WARN] "+format, args...)
 }
 
 func getCacheLocation() string {

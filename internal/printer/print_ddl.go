@@ -38,7 +38,7 @@ func (p *Printer) visitAlterActionList(ctx Context, n *sql.AlterActionList) {
 	}
 }
 
-func (p *Printer) visitAlterAllRowAccessPoliciesStatement(ctx Context, n *sql.AlterAllRowAccessPoliciesStatement) {
+func (p *Printer) visitAlterAllRowAccessPoliciesStatement(_ Context, _ *sql.AlterAllRowAccessPoliciesStatement) {
 }
 
 func (p *Printer) visitAlterColumnDropDefaultAction(ctx Context, n *sql.AlterColumnDropDefaultAction) {
@@ -114,10 +114,10 @@ func (p *Printer) visitAlterColumnTypeAction(ctx Context, n *sql.AlterColumnType
 	p.decDepth()
 }
 
-func (p *Printer) visitAlterConstraintEnforcementAction(ctx Context, n *sql.AlterConstraintEnforcementAction) {
+func (p *Printer) visitAlterConstraintEnforcementAction(_ Context, _ *sql.AlterConstraintEnforcementAction) {
 }
 
-func (p *Printer) visitAlterConstraintSetOptionsAction(ctx Context, n *sql.AlterConstraintSetOptionsAction) {
+func (p *Printer) visitAlterConstraintSetOptionsAction(_ Context, _ *sql.AlterConstraintSetOptionsAction) {
 }
 
 func (p *Printer) visitAlterDatabaseStatement(ctx Context, n *sql.AlterDatabaseStatement) {
@@ -153,7 +153,7 @@ func (p *Printer) visitAlterMaterializedViewStatement(ctx Context, n *sql.AlterM
 	p.decDepth()
 }
 
-func (p *Printer) visitAlterPrivilegeRestrictionStatement(ctx Context, n *sql.AlterPrivilegeRestrictionStatement) {
+func (p *Printer) visitAlterPrivilegeRestrictionStatement(_ Context, _ *sql.AlterPrivilegeRestrictionStatement) {
 }
 
 func (p *Printer) visitAlterRowAccessPolicyStatement(ctx Context, n *sql.AlterRowAccessPolicyStatement) {
@@ -317,8 +317,6 @@ func (p *Printer) visitCreateFunctionStatement(ctx Context, n *sql.CreateFunctio
 
 func (p *Printer) visitCreateMaterializedViewStatement(ctx Context, n *sql.CreateMaterializedViewStatement) {
 	p.moveBefore(n)
-	// TODO: implement mat view
-	// n.Recursive() is not available.
 	cs := createStatementKeywords(n, false, n.Recursive(), "MATERIALIZED VIEW")
 	p.print(p.keyword(cs))
 	p.accept(ctx, n.GetDdlTarget())
@@ -580,13 +578,13 @@ func (p *Printer) visitDropMaterializedViewStatement(ctx Context, n *sql.DropMat
 	p.movePast(n)
 }
 
-func (p *Printer) visitDropPrimaryKeyAction(ctx Context, n *sql.DropPrimaryKeyAction) {
+func (p *Printer) visitDropPrimaryKeyAction(_ Context, n *sql.DropPrimaryKeyAction) {
 	p.moveBefore(n)
 	p.print(p.keyword(dropKeyword(n, "PRIMARY KEY")))
 	p.movePast(n)
 }
 
-func (p *Printer) visitDropPrivilegeRestrictionStatement(ctx Context, n *sql.DropPrivilegeRestrictionStatement) {
+func (p *Printer) visitDropPrivilegeRestrictionStatement(_ Context, _ *sql.DropPrivilegeRestrictionStatement) {
 }
 
 func (p *Printer) visitDropRowAccessPolicyStatement(ctx Context, n *sql.DropRowAccessPolicyStatement) {
@@ -741,8 +739,8 @@ func (p *Printer) visitFunctionDeclaration(ctx Context, n *sql.FunctionDeclarati
 
 func (p *Printer) visitFunctionParameter(ctx Context, n *sql.FunctionParameter) {
 	p.moveBefore(n)
-	simpleParams, _ := ctx.Bool(KeyFunctionParamsSimple)
-	procParams, _ := ctx.Bool(KeyProcedureParams)
+	simpleParams := ctx.Bool(KeyFunctionParamsSimple)
+	procParams := ctx.Bool(KeyProcedureParams)
 	pp := p.nest()
 	if procParams {
 		pp.print("\v")
@@ -858,7 +856,7 @@ func (p *Printer) visitPrimaryKey(ctx Context, n *sql.PrimaryKey) {
 	}
 }
 
-func (p *Printer) visitPrimaryKeyColumnAttribute(ctx Context, n *sql.PrimaryKeyColumnAttribute) {
+func (p *Printer) visitPrimaryKeyColumnAttribute(_ Context, n *sql.PrimaryKeyColumnAttribute) {
 	p.moveBefore(n)
 	if n.Enforced() {
 		p.print(p.keyword("ENFORCED"))
@@ -973,7 +971,7 @@ func createStatementKeywords(n sql.CreateStatement, agg, recursive bool, object 
 	return b.String()
 }
 
-func (p *Printer) visitNotNullColumnAttribute(ctx Context, n *sql.NotNullColumnAttribute) {
+func (p *Printer) visitNotNullColumnAttribute(_ Context, n *sql.NotNullColumnAttribute) {
 	p.moveBefore(n)
 	p.print(p.keyword("NOT NULL"))
 	p.movePast(n)

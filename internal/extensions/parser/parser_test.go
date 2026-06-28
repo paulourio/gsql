@@ -14,6 +14,7 @@ import (
 )
 
 func TestParser(t *testing.T) {
+	t.Parallel()
 	tests := MustReadTest("testdata/comments.toml")
 
 	for i, tcase := range tests.Cases {
@@ -26,15 +27,13 @@ func TestParser(t *testing.T) {
 		}
 
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			var b strings.Builder
-
-			c := tcase //nolint:loopclosure
+			c := tcase
 
 			b.Grow(len(c.Input) * 2)
-			b.WriteString(
-				fmt.Sprintf("Input (%d bytes):\n%s\n\n", len(c.Input), c.Input))
-			b.WriteString(
-				fmt.Sprintf("Expected Dump (%d bytes):\n%s\n\n", len(c.Dump), c.Dump))
+			fmt.Fprintf(&b, "Input (%d bytes):\n%s\n\n", len(c.Input), c.Input)
+			fmt.Fprintf(&b, "Expected Dump (%d bytes):\n%s\n\n", len(c.Dump), c.Dump)
 
 			l := lexer.NewLexer([]byte(c.Input))
 			p := parser.NewParser()
@@ -43,7 +42,7 @@ func TestParser(t *testing.T) {
 			if err != nil {
 				msg := errors.FormatError(err, c.Input)
 
-				b.WriteString(fmt.Sprintf("Parse error:\n%s\n\n", msg))
+				fmt.Fprintf(&b, "Parse error:\n%s\n\n", msg)
 				assert.NoError(t, err, b.String())
 
 				return
@@ -57,8 +56,7 @@ func TestParser(t *testing.T) {
 				dump = fmt.Sprintf("%#v", res)
 			}
 
-			b.WriteString(
-				fmt.Sprintf("Result Dump (%d bytes):\n%s\n\n", len(dump), dump))
+			fmt.Fprintf(&b, "Result Dump (%d bytes):\n%s\n\n", len(dump), dump)
 
 			assert.Equal(t, c.Dump, dump, b.String())
 		})

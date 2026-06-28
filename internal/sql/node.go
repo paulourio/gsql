@@ -78,7 +78,6 @@ type LeafNode interface {
 	isLeaf()
 }
 
-
 // StatementNode is the wrapped equivalent of googlesql.ASTStatementNode.
 type StatementNode interface {
 	Node
@@ -128,7 +127,6 @@ type AlterActionNode interface {
 	Node
 	isAlterAction()
 }
-
 
 // CreateStatement is the interface satisfied by CREATE statement wrappers.
 type CreateStatement interface {
@@ -218,7 +216,7 @@ func ParentAs[T Node](n Node) T {
 		var zero T
 		return zero
 	}
-	return p.(T)
+	return p.(T) //nolint:forcetypeassert
 }
 
 func LocationRange(nodes ...Node) (start int, end int) {
@@ -241,7 +239,7 @@ func childrenOfType[T googlesql.ASTNode](n Node) iter.Seq[T] {
 	r := n.Raw()
 	nc, _ := r.NumChildren()
 	return func(yield func(T) bool) {
-		for i := int32(0); i < nc; i++ {
+		for i := range nc {
 			c := must(r.Child(i))
 			if c, ok := c.(T); ok {
 				if !yield(c) {

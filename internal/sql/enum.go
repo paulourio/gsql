@@ -66,13 +66,13 @@ const (
 	IsDestNodeOp   BinaryOp = googlesql.ASTBinaryExpressionEnums_OpIsDestNode
 )
 
-// LhsOp enums.
-type LhsOp = googlesql.ASTBracedConstructorLhsEnums_Operation
+// LHSOp enums.
+type LHSOp = googlesql.ASTBracedConstructorLhsEnums_Operation
 
 const (
-	UpdateSingle           LhsOp = googlesql.ASTBracedConstructorLhsEnums_OperationUpdateSingle
-	UpdateManyLhsOp        LhsOp = googlesql.ASTBracedConstructorLhsEnums_OperationUpdateMany
-	UpdateSingleNoCreation LhsOp = googlesql.ASTBracedConstructorLhsEnums_OperationUpdateSingleNoCreation
+	UpdateSingle           LHSOp = googlesql.ASTBracedConstructorLhsEnums_OperationUpdateSingle
+	UpdateManyLHSOp        LHSOp = googlesql.ASTBracedConstructorLhsEnums_OperationUpdateMany
+	UpdateSingleNoCreation LHSOp = googlesql.ASTBracedConstructorLhsEnums_OperationUpdateSingleNoCreation
 )
 
 // BreakContinueKeyword enums.
@@ -116,6 +116,8 @@ const (
 )
 
 // SQLSecurity enums.
+//
+//nolint:revive
 type SQLSecurity = googlesql.ASTCreateStatementEnums_SqlSecurity
 
 const (
@@ -589,7 +591,7 @@ const (
 	InOutParameterMode ProcedureParameterMode = InOut
 )
 
-// DateTimeTypeKind enums for DateOrTimeLiteral.TypeKind()
+// DateTimeTypeKind enums for DateOrTimeLiteral.TypeKind().
 type DateTimeTypeKind = googlesql.TypeKind
 
 const (

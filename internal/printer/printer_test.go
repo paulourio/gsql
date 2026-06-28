@@ -16,10 +16,9 @@ import (
 )
 
 func TestPrinter(t *testing.T) {
-	// t.Parallel()
+	t.Parallel()
 	files, err := os.ReadDir("testdata")
-	assert.NoError(t, err)
-	nerr := 0
+	require.NoError(t, err)
 	for _, file := range files {
 		s := MustReadTest(path.Join("testdata", file.Name()))
 		for i, c := range s.Cases {
@@ -104,18 +103,15 @@ func TestPrinter(t *testing.T) {
 			}
 
 			t.Run(name, func(t *testing.T) {
-				if !testCase(t, s, c) {
-					nerr++
-				}
+				t.Parallel()
+				testCase(t, s, c)
 			})
-			if nerr > 10 {
-				t.Fatal("stopping due too many errors")
-			}
 		}
 	}
 }
 
 func testCase(t *testing.T, f *TestDataFile, c *Case) bool {
+	t.Helper()
 	t.Logf("[TEST] %s", c.Description)
 	input := ExtractScriptInfo(c.Input)
 	var logBuf bytes.Buffer

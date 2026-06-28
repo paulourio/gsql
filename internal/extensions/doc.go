@@ -4,5 +4,4 @@
 // and this additional parser assists on tracking newlines and comments.
 // The grammar also parses Jinja2-like templates, so that we can format
 // simple templated-queries.
-
 package extensions

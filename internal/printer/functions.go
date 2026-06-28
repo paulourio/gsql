@@ -498,7 +498,7 @@ var bigqueryFunctionNameList = []string{
 	"NET.SAFE_IF_FROM_STRING",
 	// Debugging functions.
 	"ERROR",
-	// AEAD encription functions.
+	// AEAD encryption functions.
 	"AEAD.DECRYPT_BYTES",
 	"AEAD.DECRYPT_STRING",
 	"AEAD.ENCRYPT",

@@ -8,6 +8,7 @@ import (
 )
 
 func TestUnquotedTextHandler(t *testing.T) {
+	t.Parallel()
 	var buf bytes.Buffer
 	handler := NewUnquotedTextHandler(&buf, slog.LevelDebug)
 	logger := slog.New(handler)
@@ -45,6 +46,7 @@ func TestUnquotedTextHandler(t *testing.T) {
 }
 
 func TestUnquotedTextHandlerWithAttrs(t *testing.T) {
+	t.Parallel()
 	var buf bytes.Buffer
 	handler := NewUnquotedTextHandler(&buf, slog.LevelDebug).WithAttrs([]slog.Attr{
 		slog.String("common", "some value"),

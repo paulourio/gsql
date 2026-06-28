@@ -10,6 +10,8 @@ import (
 )
 
 func TestParseModeline_NotAModeline(t *testing.T) {
+	t.Parallel()
+
 	tests := []string{
 		"SELECT 1",
 		"-- regular comment",
@@ -18,12 +20,14 @@ func TestParseModeline_NotAModeline(t *testing.T) {
 	}
 	for _, line := range tests {
 		ml, err := format.ParseModeline(line)
-		assert.NoError(t, err, "input: %q", line)
+		require.NoError(t, err, "input: %q", line)
 		assert.Nil(t, ml, "input: %q", line)
 	}
 }
 
 func TestParseModeline_Skip(t *testing.T) {
+	t.Parallel()
+
 	ml, err := format.ParseModeline("// bqfmt: skip")
 	require.NoError(t, err)
 	require.NotNil(t, ml)
@@ -33,6 +37,8 @@ func TestParseModeline_Skip(t *testing.T) {
 }
 
 func TestParseModeline_StyleOnly(t *testing.T) {
+	t.Parallel()
+
 	ml, err := format.ParseModeline("// bqfmt: style=raw")
 	require.NoError(t, err)
 	require.NotNil(t, ml)
@@ -42,6 +48,8 @@ func TestParseModeline_StyleOnly(t *testing.T) {
 }
 
 func TestParseModeline_StyleWithOverrides(t *testing.T) {
+	t.Parallel()
+
 	ml, err := format.ParseModeline("// bqfmt: style=raw, keyword_style=LOWER_CASE, indent_with_entries=false")
 	require.NoError(t, err)
 	require.NotNil(t, ml)
@@ -51,6 +59,8 @@ func TestParseModeline_StyleWithOverrides(t *testing.T) {
 }
 
 func TestParseModeline_OverridesOnly(t *testing.T) {
+	t.Parallel()
+
 	ml, err := format.ParseModeline("// bqfmt: keyword_style=UPPER_CASE, soft_max_cols=80")
 	require.NoError(t, err)
 	require.NotNil(t, ml)
@@ -60,21 +70,29 @@ func TestParseModeline_OverridesOnly(t *testing.T) {
 }
 
 func TestParseModeline_Empty(t *testing.T) {
+	t.Parallel()
+
 	_, err := format.ParseModeline("// bqfmt:")
 	assert.Error(t, err)
 }
 
 func TestParseModeline_InvalidDirective(t *testing.T) {
+	t.Parallel()
+
 	_, err := format.ParseModeline("// bqfmt: not_a_valid_thing")
 	assert.Error(t, err)
 }
 
 func TestParseModeline_EmptyValue(t *testing.T) {
+	t.Parallel()
+
 	_, err := format.ParseModeline("// bqfmt: keyword_style=")
 	assert.Error(t, err)
 }
 
 func TestParseModeline_WithExtraSpaces(t *testing.T) {
+	t.Parallel()
+
 	ml, err := format.ParseModeline("  // bqfmt:   style=compact ,  keyword_style=LOWER_CASE  ")
 	require.NoError(t, err)
 	require.NotNil(t, ml)
@@ -85,6 +103,8 @@ func TestParseModeline_WithExtraSpaces(t *testing.T) {
 // -- prefix tests (SQL-style comments)
 
 func TestParseModeline_DashDash_Skip(t *testing.T) {
+	t.Parallel()
+
 	ml, err := format.ParseModeline("-- bqfmt: skip")
 	require.NoError(t, err)
 	require.NotNil(t, ml)
@@ -92,6 +112,8 @@ func TestParseModeline_DashDash_Skip(t *testing.T) {
 }
 
 func TestParseModeline_DashDash_Style(t *testing.T) {
+	t.Parallel()
+
 	ml, err := format.ParseModeline("-- bqfmt: style=raw")
 	require.NoError(t, err)
 	require.NotNil(t, ml)
@@ -99,6 +121,8 @@ func TestParseModeline_DashDash_Style(t *testing.T) {
 }
 
 func TestParseModeline_DashDash_Overrides(t *testing.T) {
+	t.Parallel()
+
 	ml, err := format.ParseModeline("-- bqfmt: style=raw, keyword_style=LOWER_CASE")
 	require.NoError(t, err)
 	require.NotNil(t, ml)
@@ -107,6 +131,8 @@ func TestParseModeline_DashDash_Overrides(t *testing.T) {
 }
 
 func TestExtractModeline_DashDashBqfmt(t *testing.T) {
+	t.Parallel()
+
 	input := `-- bqfmt: style=raw
 SELECT 1`
 	ml, err := format.ExtractModeline(input)
@@ -116,15 +142,19 @@ SELECT 1`
 }
 
 func TestExtractModeline_NoModeline(t *testing.T) {
+	t.Parallel()
+
 	input := `SELECT 1
 FROM table
 WHERE x = 1`
 	ml, err := format.ExtractModeline(input)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Nil(t, ml)
 }
 
 func TestExtractModeline_FirstLine(t *testing.T) {
+	t.Parallel()
+
 	input := `// bqfmt: style=raw
 SELECT 1`
 	ml, err := format.ExtractModeline(input)
@@ -134,6 +164,8 @@ SELECT 1`
 }
 
 func TestExtractModeline_AfterBlankLines(t *testing.T) {
+	t.Parallel()
+
 	input := `
 // bqfmt: skip
 SELECT 1`
@@ -144,6 +176,8 @@ SELECT 1`
 }
 
 func TestExtractModeline_AfterOtherComments(t *testing.T) {
+	t.Parallel()
+
 	input := `// Copyright 2025
 // bqfmt: style=compact
 SELECT 1`
@@ -154,14 +188,18 @@ SELECT 1`
 }
 
 func TestExtractModeline_StopsAtNonComment(t *testing.T) {
+	t.Parallel()
+
 	input := `SELECT 1
 // bqfmt: skip`
 	ml, err := format.ExtractModeline(input)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Nil(t, ml, "modeline after SQL should be ignored")
 }
 
 func TestExtractModeline_DashDashComment(t *testing.T) {
+	t.Parallel()
+
 	input := `-- some comment
 // bqfmt: style=raw
 SELECT 1`
@@ -172,6 +210,8 @@ SELECT 1`
 }
 
 func TestApplyModeline_NilModeline(t *testing.T) {
+	t.Parallel()
+
 	cfg := format.DefaultConfig()
 	opts, err := format.ApplyModeline(cfg, nil)
 	require.NoError(t, err)
@@ -179,6 +219,8 @@ func TestApplyModeline_NilModeline(t *testing.T) {
 }
 
 func TestApplyModeline_StyleOnly(t *testing.T) {
+	t.Parallel()
+
 	cfg := format.DefaultConfig()
 	ml := &format.Modeline{StyleName: "raw"}
 	opts, err := format.ApplyModeline(cfg, ml)
@@ -187,6 +229,8 @@ func TestApplyModeline_StyleOnly(t *testing.T) {
 }
 
 func TestApplyModeline_WithOverrides(t *testing.T) {
+	t.Parallel()
+
 	cfg := format.DefaultConfig()
 	ml := &format.Modeline{
 		StyleName: "default",
@@ -204,6 +248,8 @@ func TestApplyModeline_WithOverrides(t *testing.T) {
 }
 
 func TestApplyModeline_UnknownStyle(t *testing.T) {
+	t.Parallel()
+
 	cfg := format.DefaultConfig()
 	ml := &format.Modeline{StyleName: "nonexistent"}
 	_, err := format.ApplyModeline(cfg, ml)
@@ -211,6 +257,8 @@ func TestApplyModeline_UnknownStyle(t *testing.T) {
 }
 
 func TestApplyModeline_UnknownOverride(t *testing.T) {
+	t.Parallel()
+
 	cfg := format.DefaultConfig()
 	ml := &format.Modeline{
 		Overrides: map[string]string{
@@ -222,6 +270,8 @@ func TestApplyModeline_UnknownOverride(t *testing.T) {
 }
 
 func TestApplyOverrides_PrintCase(t *testing.T) {
+	t.Parallel()
+
 	opts := format.DefaultOptions()
 	err := opts.ApplyOverrides(map[string]string{
 		"keyword_style": "LOWER_CASE",
@@ -231,6 +281,8 @@ func TestApplyOverrides_PrintCase(t *testing.T) {
 }
 
 func TestApplyOverrides_Bool(t *testing.T) {
+	t.Parallel()
+
 	opts := format.DefaultOptions()
 	err := opts.ApplyOverrides(map[string]string{
 		"indent_with_entries": "false",
@@ -240,6 +292,8 @@ func TestApplyOverrides_Bool(t *testing.T) {
 }
 
 func TestApplyOverrides_Int(t *testing.T) {
+	t.Parallel()
+
 	opts := format.DefaultOptions()
 	err := opts.ApplyOverrides(map[string]string{
 		"soft_max_cols": "80",
@@ -249,6 +303,8 @@ func TestApplyOverrides_Int(t *testing.T) {
 }
 
 func TestApplyOverrides_StringStyle(t *testing.T) {
+	t.Parallel()
+
 	opts := format.DefaultOptions()
 	err := opts.ApplyOverrides(map[string]string{
 		"string_style": "PREFER_DOUBLE_QUOTE",
@@ -258,6 +314,8 @@ func TestApplyOverrides_StringStyle(t *testing.T) {
 }
 
 func TestApplyOverrides_When(t *testing.T) {
+	t.Parallel()
+
 	opts := format.DefaultOptions()
 	err := opts.ApplyOverrides(map[string]string{
 		"column_list_trailing_comma": "NEVER",
@@ -267,6 +325,8 @@ func TestApplyOverrides_When(t *testing.T) {
 }
 
 func TestApplyOverrides_InvalidValue(t *testing.T) {
+	t.Parallel()
+
 	opts := format.DefaultOptions()
 	err := opts.ApplyOverrides(map[string]string{
 		"soft_max_cols": "not_a_number",
@@ -275,6 +335,8 @@ func TestApplyOverrides_InvalidValue(t *testing.T) {
 }
 
 func TestApplyOverrides_UnknownKey(t *testing.T) {
+	t.Parallel()
+
 	opts := format.DefaultOptions()
 	err := opts.ApplyOverrides(map[string]string{
 		"totally_fake": "value",
@@ -285,6 +347,8 @@ func TestApplyOverrides_UnknownKey(t *testing.T) {
 // TestApplyOverrides_AllOptions verifies that every exported Options
 // field with a toml tag can be set via ApplyOverrides.
 func TestApplyOverrides_AllOptions(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		key      string
 		value    string
@@ -294,109 +358,140 @@ func TestApplyOverrides_AllOptions(t *testing.T) {
 	tests := []testCase{
 		// --- int fields ---
 		{"soft_max_cols", "80", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, 80, o.SoftMaxColumns)
 		}},
 		{"indentation", "4", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, 4, o.Indentation)
 		}},
 		{"min_joins_to_separate_in_blocks", "3", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, 3, o.MinJoinsToSeparateInBlocks)
 		}},
 		{"max_cols_for_single_line_select", "6", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, 6, o.MaxColumnsForSingleLineSelect)
 		}},
 		{"max_params_for_single_line_function", "3", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, 3, o.MaxParamsForSingleLineFunction)
 		}},
 
 		// --- bool fields ---
 		{"newline_before_clause", "false", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.False(t, o.NewlineBeforeClause)
 		}},
 		{"align_logical_with_clauses", "false", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.False(t, o.AlignLogicalWithClauses)
 		}},
 		{"align_trailing_comments", "false", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.False(t, o.AlignTrailingComments)
 		}},
 		{"indent_case_when", "false", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.False(t, o.IndentCaseWhen)
 		}},
 		{"indent_with_clause", "false", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.False(t, o.IndentWithClause)
 		}},
 		{"indent_with_entries", "false", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.False(t, o.IndentWithEntries)
 		}},
 
 		// --- When field ---
 		{"column_list_trailing_comma", "NEVER", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.Never, o.ColumnListTrailingComma)
 		}},
 		{"column_list_trailing_comma", "ALWAYS", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.Always, o.ColumnListTrailingComma)
 		}},
 		{"column_list_trailing_comma", "AUTO", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.Auto, o.ColumnListTrailingComma)
 		}},
 
 		// --- FunctionCatalog field ---
 		{"function_catalog", "bigquery", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.BigQueryCatalog, o.FunctionCatalog)
 		}},
 
 		// --- PrintCase fields (all 14) ---
 		{"function_name_style", "LOWER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.LowerCase, o.FunctionNameStyle)
 		}},
 		{"builtin_function_name_style", "LOWER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.LowerCase, o.BuiltinFunctionNameStyle)
 		}},
 		{"identifier_style", "UPPER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.UpperCase, o.IdentifierStyle)
 		}},
 		{"system_variable_style", "UPPER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.UpperCase, o.SystemVariableStyle)
 		}},
 		{"query_parameter_style", "LOWER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.LowerCase, o.QueryParameterStyle)
 		}},
 		{"pseudo_column_style", "LOWER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.LowerCase, o.PseudoColumnStyle)
 		}},
 		{"table_name_style", "LOWER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.LowerCase, o.TableNameStyle)
 		}},
 		{"keyword_style", "LOWER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.LowerCase, o.KeywordStyle)
 		}},
 		{"type_style", "LOWER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.LowerCase, o.TypeStyle)
 		}},
 		{"bool_style", "LOWER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.LowerCase, o.BoolStyle)
 		}},
 		{"hex_style", "UPPER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.UpperCase, o.HexStyle)
 		}},
 		{"numeric_style", "UPPER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.UpperCase, o.NumericStyle)
 		}},
 		{"null_style", "LOWER_CASE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.LowerCase, o.NullStyle)
 		}},
 
 		// --- StringStyle fields ---
 		{"bytes_style", "PREFER_DOUBLE_QUOTE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.PreferDoubleQuote, o.BytesStyle)
 		}},
 		{"string_style", "PREFER_DOUBLE_QUOTE", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.PreferDoubleQuote, o.StringStyle)
 		}},
 	}
 
 	for _, tc := range tests {
 		t.Run(tc.key+"="+tc.value, func(t *testing.T) {
+			t.Parallel()
 			opts := format.DefaultOptions()
 			err := opts.ApplyOverrides(map[string]string{tc.key: tc.value})
 			require.NoError(t, err, "ApplyOverrides failed for %s=%s", tc.key, tc.value)
@@ -408,6 +503,8 @@ func TestApplyOverrides_AllOptions(t *testing.T) {
 // TestApplyOverrides_CaseInsensitive verifies that values are
 // case-insensitive while matching TOML canonical forms.
 func TestApplyOverrides_CaseInsensitive(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name     string
 		key      string
@@ -415,23 +512,29 @@ func TestApplyOverrides_CaseInsensitive(t *testing.T) {
 		validate func(t *testing.T, o *format.Options)
 	}{
 		{"PrintCase lower input", "keyword_style", "lower_case", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.LowerCase, o.KeywordStyle)
 		}},
 		{"PrintCase mixed input", "keyword_style", "Upper_Case", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.UpperCase, o.KeywordStyle)
 		}},
 		{"PrintCase AS_IS lower", "keyword_style", "as_is", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.AsIs, o.KeywordStyle)
 		}},
 		{"StringStyle lower input", "string_style", "prefer_single_quote", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.PreferSingleQuote, o.StringStyle)
 		}},
 		{"When lower input", "column_list_trailing_comma", "never", func(t *testing.T, o *format.Options) {
+			t.Helper()
 			assert.Equal(t, format.Never, o.ColumnListTrailingComma)
 		}},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			opts := format.DefaultOptions()
 			err := opts.ApplyOverrides(map[string]string{tc.key: tc.input})
 			require.NoError(t, err)
@@ -443,6 +546,8 @@ func TestApplyOverrides_CaseInsensitive(t *testing.T) {
 // TestApplyOverrides_InvalidValues verifies that invalid values
 // produce errors with helpful messages.
 func TestApplyOverrides_InvalidValues(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		name string
 		key  string
@@ -456,6 +561,7 @@ func TestApplyOverrides_InvalidValues(t *testing.T) {
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			opts := format.DefaultOptions()
 			err := opts.ApplyOverrides(map[string]string{tc.key: tc.val})
 			assert.Error(t, err, "expected error for %s=%s", tc.key, tc.val)

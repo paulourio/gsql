@@ -26,7 +26,7 @@ func TestComments(t *testing.T) {
 				if !assert.Equal(t, c.Comments, r) {
 					// Not equal, but both have the same length, compare
 					// them one by one so that the output is legible.
-					if assert.Equal(t, len(c.Comments), len(r)) {
+					if assert.Len(t, r, len(c.Comments)) {
 						for j := range r {
 							assert.Equal(t, c.Comments[j], r[j])
 						}

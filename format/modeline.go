@@ -47,8 +47,8 @@ func ParseModeline(line string) (*Modeline, error) {
 		Overrides: make(map[string]string),
 	}
 
-	directives := strings.Split(body, ",")
-	for _, d := range directives {
+	directives := strings.SplitSeq(body, ",")
+	for d := range directives {
 		d = strings.TrimSpace(d)
 		if d == "" {
 			continue

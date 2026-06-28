@@ -5,42 +5,51 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"github.com/paulourio/gsql/format"
 )
 
 func TestDefaultConfig(t *testing.T) {
+	t.Parallel()
+
 	cfg := format.DefaultConfig()
-	assert.Equal(t, "default", cfg.DefaultStyle)
-	assert.Len(t, cfg.Styles, 2)
-	assert.Equal(t, "default", cfg.Styles[0].Name)
-	assert.Equal(t, "raw", cfg.Styles[1].Name)
+	require.Equal(t, "default", cfg.DefaultStyle)
+	require.Len(t, cfg.Styles, 2)
+	require.Equal(t, "default", cfg.Styles[0].Name)
+	require.Equal(t, "raw", cfg.Styles[1].Name)
 }
 
 func TestDefaultConfig_ResolveDefault(t *testing.T) {
+	t.Parallel()
+
 	cfg := format.DefaultConfig()
 	opts, err := cfg.DefaultOptions()
 	require.NoError(t, err)
-	assert.Equal(t, format.UpperCase, opts.KeywordStyle)
+	require.Equal(t, format.UpperCase, opts.KeywordStyle)
 }
 
 func TestResolveStyle_Found(t *testing.T) {
+	t.Parallel()
+
 	cfg := format.DefaultConfig()
 	style, err := cfg.ResolveStyle("raw")
 	require.NoError(t, err)
-	assert.Equal(t, "raw", style.Name)
+	require.Equal(t, "raw", style.Name)
 }
 
 func TestResolveStyle_NotFound(t *testing.T) {
+	t.Parallel()
+
 	cfg := format.DefaultConfig()
 	_, err := cfg.ResolveStyle("nonexistent")
-	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "nonexistent")
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "nonexistent")
 }
 
 func TestLoadConfig(t *testing.T) {
+	t.Parallel()
+
 	dir := t.TempDir()
 	configPath := filepath.Join(dir, format.ConfigFileName)
 
@@ -60,15 +69,17 @@ indent_with_entries = false
 	cfg, err := format.LoadConfig(configPath)
 	require.NoError(t, err)
 
-	assert.Equal(t, "mystyle", cfg.DefaultStyle)
+	require.Equal(t, "mystyle", cfg.DefaultStyle)
 	require.Len(t, cfg.Styles, 1)
-	assert.Equal(t, "mystyle", cfg.Styles[0].Name)
-	assert.Equal(t, format.LowerCase, cfg.Styles[0].Options.KeywordStyle)
-	assert.Equal(t, 80, cfg.Styles[0].Options.SoftMaxColumns)
-	assert.Equal(t, false, cfg.Styles[0].Options.IndentWithEntries)
+	require.Equal(t, "mystyle", cfg.Styles[0].Name)
+	require.Equal(t, format.LowerCase, cfg.Styles[0].Options.KeywordStyle)
+	require.Equal(t, 80, cfg.Styles[0].Options.SoftMaxColumns)
+	require.False(t, cfg.Styles[0].Options.IndentWithEntries)
 }
 
 func TestLoadConfig_WithLogFile(t *testing.T) {
+	t.Parallel()
+
 	dir := t.TempDir()
 	configPath := filepath.Join(dir, format.ConfigFileName)
 
@@ -84,10 +95,12 @@ name = "default"
 
 	cfg, err := format.LoadConfig(configPath)
 	require.NoError(t, err)
-	assert.Equal(t, "/tmp/bqfmt.log", cfg.LogFile)
+	require.Equal(t, "/tmp/bqfmt.log", cfg.LogFile)
 }
 
 func TestLoadConfig_DuplicateStyleName(t *testing.T) {
+	t.Parallel()
+
 	dir := t.TempDir()
 	configPath := filepath.Join(dir, format.ConfigFileName)
 
@@ -104,11 +117,13 @@ name = "dup"
 	require.NoError(t, err)
 
 	_, err = format.LoadConfig(configPath)
-	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "duplicate")
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "duplicate")
 }
 
 func TestLoadConfig_DefaultStyleMissing(t *testing.T) {
+	t.Parallel()
+
 	dir := t.TempDir()
 	configPath := filepath.Join(dir, format.ConfigFileName)
 
@@ -122,11 +137,13 @@ name = "other"
 	require.NoError(t, err)
 
 	_, err = format.LoadConfig(configPath)
-	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "missing")
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "missing")
 }
 
 func TestLoadConfig_EmptyDefaultStyle(t *testing.T) {
+	t.Parallel()
+
 	dir := t.TempDir()
 	configPath := filepath.Join(dir, format.ConfigFileName)
 
@@ -140,11 +157,13 @@ name = "something"
 	require.NoError(t, err)
 
 	_, err = format.LoadConfig(configPath)
-	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "empty")
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "empty")
 }
 
 func TestFindConfig_InStartDir(t *testing.T) {
+	t.Parallel()
+
 	dir := t.TempDir()
 	configPath := filepath.Join(dir, format.ConfigFileName)
 
@@ -161,10 +180,12 @@ keyword_style = "LOWER_CASE"
 
 	cfg, err := format.FindConfig(dir)
 	require.NoError(t, err)
-	assert.Equal(t, "s1", cfg.DefaultStyle)
+	require.Equal(t, "s1", cfg.DefaultStyle)
 }
 
 func TestFindConfig_InParentDir(t *testing.T) {
+	t.Parallel()
+
 	parent := t.TempDir()
 	child := filepath.Join(parent, "subdir")
 	err := os.MkdirAll(child, 0o755)
@@ -182,20 +203,24 @@ name = "parent_style"
 
 	cfg, err := format.FindConfig(child)
 	require.NoError(t, err)
-	assert.Equal(t, "parent_style", cfg.DefaultStyle)
+	require.Equal(t, "parent_style", cfg.DefaultStyle)
 }
 
 func TestFindConfig_NoConfig(t *testing.T) {
+	t.Parallel()
+
 	dir := t.TempDir()
 
 	cfg, err := format.FindConfig(dir)
 	require.NoError(t, err)
 	// Should return DefaultConfig.
-	assert.Equal(t, "default", cfg.DefaultStyle)
-	assert.Len(t, cfg.Styles, 2)
+	require.Equal(t, "default", cfg.DefaultStyle)
+	require.Len(t, cfg.Styles, 2)
 }
 
 func TestLoadConfig_MultipleStyles(t *testing.T) {
+	t.Parallel()
+
 	dir := t.TempDir()
 	configPath := filepath.Join(dir, format.ConfigFileName)
 
@@ -221,7 +246,7 @@ indentation = 2
 	require.NoError(t, err)
 
 	require.Len(t, cfg.Styles, 2)
-	assert.Equal(t, 80, cfg.Styles[0].Options.SoftMaxColumns)
-	assert.Equal(t, 4, cfg.Styles[0].Options.Indentation)
-	assert.Equal(t, 200, cfg.Styles[1].Options.SoftMaxColumns)
+	require.Equal(t, 80, cfg.Styles[0].Options.SoftMaxColumns)
+	require.Equal(t, 4, cfg.Styles[0].Options.Indentation)
+	require.Equal(t, 200, cfg.Styles[1].Options.SoftMaxColumns)
 }

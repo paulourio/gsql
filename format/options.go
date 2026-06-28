@@ -132,10 +132,10 @@ type Options struct {
 	// HexStyle sets how hexadecimal values should be parsed.
 	// When not AsIs, the formatted value will always have prefix "0x"
 	// followed by the specified style.
-	HexStyle     PrintCase   `toml:"hex_style" validate:"print-case"`
+	HexStyle     PrintCase   `toml:"hex_style"     validate:"print-case"`
 	NumericStyle PrintCase   `toml:"numeric_style" validate:"print-case"`
-	NullStyle    PrintCase   `toml:"null_style" validate:"print-case"`
-	BytesStyle   StringStyle `toml:"bytes_style" validate:"string-style"`
+	NullStyle    PrintCase   `toml:"null_style"    validate:"print-case"`
+	BytesStyle   StringStyle `toml:"bytes_style"   validate:"string-style"`
 	// StringStyle sets how single-line strings should be printed.
 	StringStyle StringStyle `toml:"string_style" validate:"string-style"`
 
@@ -374,7 +374,7 @@ var (
 // names to struct field indices.
 func buildOptionsFieldMap() map[string]fieldMeta {
 	optionsFieldMapOnce.Do(func() {
-		t := reflect.TypeOf(Options{})
+		t := reflect.TypeFor[Options]()
 		optionsFieldMap = make(map[string]fieldMeta, t.NumField())
 
 		for i := 0; i < t.NumField(); i++ {
@@ -404,9 +404,9 @@ func buildOptionsFieldMap() map[string]fieldMeta {
 
 // ApplyOverrides sets Options fields by their TOML key names.
 // Values are parsed according to the field type.
-func (o *Options) ApplyOverrides(overrides map[string]string) error {
+func (p *Options) ApplyOverrides(overrides map[string]string) error {
 	fieldMap := buildOptionsFieldMap()
-	v := reflect.ValueOf(o).Elem()
+	v := reflect.ValueOf(p).Elem()
 
 	for key, rawValue := range overrides {
 		meta, ok := fieldMap[key]
@@ -428,7 +428,7 @@ func (o *Options) ApplyOverrides(overrides map[string]string) error {
 func setField(field reflect.Value, meta fieldMeta, rawValue string) error {
 	// Handle our custom string types first.
 	switch meta.typ {
-	case reflect.TypeOf(PrintCase("")):
+	case reflect.TypeFor[PrintCase]():
 		pc, err := parsePrintCase(rawValue)
 		if err != nil {
 			return err
@@ -436,7 +436,7 @@ func setField(field reflect.Value, meta fieldMeta, rawValue string) error {
 		field.SetString(string(pc))
 		return nil
 
-	case reflect.TypeOf(StringStyle("")):
+	case reflect.TypeFor[StringStyle]():
 		ss, err := parseStringStyle(rawValue)
 		if err != nil {
 			return err
@@ -444,7 +444,7 @@ func setField(field reflect.Value, meta fieldMeta, rawValue string) error {
 		field.SetString(string(ss))
 		return nil
 
-	case reflect.TypeOf(When("")):
+	case reflect.TypeFor[When]():
 		w, err := parseWhen(rawValue)
 		if err != nil {
 			return err
@@ -452,13 +452,13 @@ func setField(field reflect.Value, meta fieldMeta, rawValue string) error {
 		field.SetString(string(w))
 		return nil
 
-	case reflect.TypeOf(FunctionCatalog("")):
+	case reflect.TypeFor[FunctionCatalog]():
 		field.SetString(strings.ToUpper(rawValue))
 		return nil
 	}
 
 	// Fall back to basic kind dispatch.
-	switch meta.kind {
+	switch meta.kind { //nolint:exhaustive
 	case reflect.Int:
 		n, err := strconv.Atoi(rawValue)
 		if err != nil {

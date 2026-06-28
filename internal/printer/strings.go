@@ -2,7 +2,6 @@ package printer
 
 import (
 	"strings"
-	"unicode/utf8"
 )
 
 // StringMapSet is a mapping for case-insensitive keys to case-sensitive
@@ -32,45 +31,10 @@ func (s StringMapSet) GetWithFallback(key, def string) string {
 	return def
 }
 
-func viewString(s string, begin, end int) string {
-	n := len(s)
-	if n == 0 {
-		return ""
-	}
-	if begin >= n {
-		begin = n - 1
-	}
-	if end >= n {
-		end = n
-	}
-	return s[begin:end]
-}
-
-func viewStringAt(s string, pos int) rune {
-	at := viewString(s, pos, pos+1)
-	if at == "" {
-		return rune(0)
-	}
-	return []rune(at)[0]
-}
-
 // indexFunc returns the index into s of the first Unicode
 // code point satisfying f(c) equals truth, or -1 if none do.
 func indexFunc(s string, f func(rune) bool, truth bool) int {
 	for i, r := range s {
-		if f(r) == truth {
-			return i
-		}
-	}
-	return -1
-}
-
-// lastIndexFunc returns the index into s of the last
-// Unicode code point satisfying f(c) equals truth, or -1 if none do.
-func lastIndexFunc(s string, f func(rune) bool, truth bool) int {
-	for i := len(s); i > 0; {
-		r, size := utf8.DecodeLastRuneInString(s[0:i])
-		i -= size
 		if f(r) == truth {
 			return i
 		}

@@ -21,27 +21,27 @@ func (n *SimpleColumnSchema) TypeName() *PathExpression {
 }
 
 func (n *SimpleColumnSchema) Attributes() *ColumnAttributeList {
-	return newASTColumnAttributeList(must(n.raw.ASTColumnSchema.Attributes()))
+	return newASTColumnAttributeList(must(n.raw.Attributes()))
 }
 
 func (n *SimpleColumnSchema) Collate() *Collate {
-	return newASTCollate(must(n.raw.ASTColumnSchema.Collate()))
+	return newASTCollate(must(n.raw.Collate()))
 }
 
 func (n *SimpleColumnSchema) DefaultExpression() ExpressionNode {
-	return wrapExpr(must(n.raw.ASTColumnSchema.DefaultExpression()))
+	return wrapExpr(must(n.raw.DefaultExpression()))
 }
 
 func (n *SimpleColumnSchema) GeneratedColumnInfo() *GeneratedColumnInfo {
-	return newASTGeneratedColumnInfo(must(n.raw.ASTColumnSchema.GeneratedColumnInfo()))
+	return newASTGeneratedColumnInfo(must(n.raw.GeneratedColumnInfo()))
 }
 
 func (n *SimpleColumnSchema) OptionsList() *OptionsList {
-	return newASTOptionsList(must(n.raw.ASTColumnSchema.OptionsList()))
+	return newASTOptionsList(must(n.raw.OptionsList()))
 }
 
 func (n *SimpleColumnSchema) TypeParameters() *TypeParameterList {
-	return newASTTypeParameterList(must(n.raw.ASTColumnSchema.TypeParameters()))
+	return newASTTypeParameterList(must(n.raw.TypeParameters()))
 }
 
 // ArrayColumnSchema wraps *googlesql.ASTArrayColumnSchema.
@@ -61,27 +61,27 @@ func (n *ArrayColumnSchema) ElementSchema() Node {
 }
 
 func (n *ArrayColumnSchema) TypeParameters() *TypeParameterList {
-	return newASTTypeParameterList(must(n.raw.ASTColumnSchema.TypeParameters()))
+	return newASTTypeParameterList(must(n.raw.TypeParameters()))
 }
 
 func (n *ArrayColumnSchema) GeneratedColumnInfo() *GeneratedColumnInfo {
-	return newASTGeneratedColumnInfo(must(n.raw.ASTColumnSchema.GeneratedColumnInfo()))
+	return newASTGeneratedColumnInfo(must(n.raw.GeneratedColumnInfo()))
 }
 
 func (n *ArrayColumnSchema) Attributes() *ColumnAttributeList {
-	return newASTColumnAttributeList(must(n.raw.ASTColumnSchema.Attributes()))
+	return newASTColumnAttributeList(must(n.raw.Attributes()))
 }
 
 func (n *ArrayColumnSchema) Collate() *Collate {
-	return newASTCollate(must(n.raw.ASTColumnSchema.Collate()))
+	return newASTCollate(must(n.raw.Collate()))
 }
 
 func (n *ArrayColumnSchema) DefaultExpression() ExpressionNode {
-	return wrapExpr(must(n.raw.ASTColumnSchema.DefaultExpression()))
+	return wrapExpr(must(n.raw.DefaultExpression()))
 }
 
 func (n *ArrayColumnSchema) OptionsList() *OptionsList {
-	return newASTOptionsList(must(n.raw.ASTColumnSchema.OptionsList()))
+	return newASTOptionsList(must(n.raw.OptionsList()))
 }
 
 // StructColumnSchema wraps *googlesql.ASTStructColumnSchema.
@@ -97,27 +97,27 @@ func newASTStructColumnSchema(r *googlesql.ASTStructColumnSchema) *StructColumnS
 }
 
 func (n *StructColumnSchema) TypeParameters() *TypeParameterList {
-	return newASTTypeParameterList(must(n.raw.ASTColumnSchema.TypeParameters()))
+	return newASTTypeParameterList(must(n.raw.TypeParameters()))
 }
 
 func (n *StructColumnSchema) GeneratedColumnInfo() *GeneratedColumnInfo {
-	return newASTGeneratedColumnInfo(must(n.raw.ASTColumnSchema.GeneratedColumnInfo()))
+	return newASTGeneratedColumnInfo(must(n.raw.GeneratedColumnInfo()))
 }
 
 func (n *StructColumnSchema) Attributes() *ColumnAttributeList {
-	return newASTColumnAttributeList(must(n.raw.ASTColumnSchema.Attributes()))
+	return newASTColumnAttributeList(must(n.raw.Attributes()))
 }
 
 func (n *StructColumnSchema) Collate() *Collate {
-	return newASTCollate(must(n.raw.ASTColumnSchema.Collate()))
+	return newASTCollate(must(n.raw.Collate()))
 }
 
 func (n *StructColumnSchema) DefaultExpression() ExpressionNode {
-	return wrapExpr(must(n.raw.ASTColumnSchema.DefaultExpression()))
+	return wrapExpr(must(n.raw.DefaultExpression()))
 }
 
 func (n *StructColumnSchema) OptionsList() *OptionsList {
-	return newASTOptionsList(must(n.raw.ASTColumnSchema.OptionsList()))
+	return newASTOptionsList(must(n.raw.OptionsList()))
 }
 
 // StructFields returns []*StructColumnField children.
@@ -215,6 +215,7 @@ func (n *ForeignKeyColumnAttribute) isColumnAttribute() {}
 func (n *ForeignKeyColumnAttribute) ConstraintName() *Identifier {
 	return newASTIdentifier(must(n.raw.ConstraintName()))
 }
+
 func (n *ForeignKeyColumnAttribute) Reference() *ForeignKeyReference {
 	return newASTForeignKeyReference(must(n.raw.Reference()))
 }
@@ -346,7 +347,6 @@ func newASTPrimaryKey(r *googlesql.ASTPrimaryKey) *PrimaryKey {
 func (n *PrimaryKey) isTableElement() {}
 
 func (n *PrimaryKey) ConstraintName() *Identifier {
-
 	return newASTIdentifier(must(n.raw.ConstraintName()))
 }
 
@@ -1098,6 +1098,8 @@ func (n *FunctionParameter) DefaultValue() ExpressionNode {
 }
 
 // SQLFunctionBody wraps *googlesql.ASTSqlFunctionBody.
+//
+//nolint:revive
 type SQLFunctionBody struct {
 	baseNode[*googlesql.ASTSqlFunctionBody]
 }

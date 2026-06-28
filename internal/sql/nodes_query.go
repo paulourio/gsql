@@ -2564,8 +2564,8 @@ func newASTStringLiteralComponent(r *googlesql.ASTStringLiteralComponent) *Strin
 	}
 	return &StringLiteralComponent{baseNode[*googlesql.ASTStringLiteralComponent]{raw: r}}
 }
-func (n *StringLiteralComponent) isExpression() {}
-func (n *StringLiteralComponent) isLeaf()       {}
+func (n *StringLiteralComponent) isExpression()       {}
+func (n *StringLiteralComponent) isLeaf()             {}
 func (n *StringLiteralComponent) StringValue() string { return must(n.raw.StringValue()) }
 
 // BytesLiteral wraps *googlesql.ASTBytesLiteral.
@@ -2606,8 +2606,8 @@ func newASTBytesLiteralComponent(r *googlesql.ASTBytesLiteralComponent) *BytesLi
 	}
 	return &BytesLiteralComponent{baseNode[*googlesql.ASTBytesLiteralComponent]{raw: r}}
 }
-func (n *BytesLiteralComponent) isExpression() {}
-func (n *BytesLiteralComponent) isLeaf()       {}
+func (n *BytesLiteralComponent) isExpression()      {}
+func (n *BytesLiteralComponent) isLeaf()            {}
 func (n *BytesLiteralComponent) BytesValue() string { return must(n.raw.BytesValue()) }
 
 // NumericLiteral wraps *googlesql.ASTNumericLiteral.

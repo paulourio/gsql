@@ -40,10 +40,10 @@ func main() {
 	flag.Parse()
 
 	// Set default slog output to $HOME/bqfmt.log with unquoted key-value pairs.
-	var logWriter io.Writer = io.Discard
+	logWriter := io.Discard
 	if home, err := os.UserHomeDir(); err == nil {
 		logPath := filepath.Join(home, "bqfmt.log")
-		if logFile, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644); err == nil {
+		if logFile, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0o644); err == nil {
 			logWriter = logFile
 		}
 	}
@@ -51,9 +51,8 @@ func main() {
 
 	formatter, err := gsql.NewSQLFormatter()
 	if err != nil {
-		fatal("initializing formatter: %v", err)
+		fatalf("initializing formatter: %v", err)
 	}
-	defer formatter.Close()
 
 	args := flag.Args()
 	if len(args) == 0 {
@@ -271,7 +270,7 @@ func maxExit(a, b int) int {
 	return b
 }
 
-func fatal(format string, args ...any) {
+func fatalf(format string, args ...any) {
 	fmt.Fprintf(os.Stderr, "bqfmt: "+format+"\n", args...)
 	os.Exit(exitFatal)
 }

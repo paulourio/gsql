@@ -34,7 +34,7 @@ const (
 // Context allows to pass additional context information during printing.
 // It works similar to Go's context, but in a specialized format.
 type Context interface {
-	Bool(ContextKey) (bool, bool)
+	Bool(ContextKey) bool
 	Int(ContextKey) (int, bool)
 	WithValue(ContextKey, any) Context
 	String() string
@@ -42,9 +42,9 @@ type Context interface {
 
 type emptyCtx struct{}
 
-func (emptyCtx) String() string                   { return "Context()" }
-func (emptyCtx) Bool(key ContextKey) (bool, bool) { return false, false }
-func (emptyCtx) Int(key ContextKey) (int, bool)   { return 0, false }
+func (emptyCtx) String() string             { return "Context()" }
+func (emptyCtx) Bool(ContextKey) bool       { return false }
+func (emptyCtx) Int(ContextKey) (int, bool) { return 0, false }
 
 func (c *emptyCtx) WithValue(key ContextKey, value any) Context {
 	return &valueCtx{
@@ -68,9 +68,9 @@ func (c *valueCtx) WithValue(key ContextKey, value any) Context {
 	}
 }
 
-func (c *valueCtx) Bool(key ContextKey) (val bool, ok bool) {
+func (c *valueCtx) Bool(key ContextKey) bool {
 	if c.key == key {
-		return c.value.(bool), true
+		return c.value.(bool)
 	}
 	return c.Context.Bool(key)
 }
@@ -131,12 +131,18 @@ func (k ContextKey) String() string {
 		return "InFunctionName"
 	case KeyIsSafeNamespace:
 		return "IsSafeNamespace"
+	case KeyQueryParameter:
+		return "QueryParameter"
+	case KeySystemVariable:
+		return "SystemVariable"
 	case KeyInTableName:
 		return "InTableName"
 	case KeyInTypeName:
 		return "InTypeName"
 	case KeyInWithEntry:
 		return "InWithEntry"
+	case KeyInUnaryNot:
+		return "InUnaryNot"
 	case KeyPathParts:
 		return "PathParts"
 	case KeyInSingleAssignment:

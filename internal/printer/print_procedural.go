@@ -35,13 +35,13 @@ func (p *Printer) visitBeginEndBlock(ctx Context, n *sql.BeginEndBlock) {
 	p.println(p.keyword("END"))
 }
 
-func (p *Printer) visitBeginStatementNode(ctx Context, n *sql.BeginStatement) {
+func (p *Printer) visitBeginStatementNode(_ Context, n *sql.BeginStatement) {
 	p.moveBefore(n)
 	p.println(p.keyword("BEGIN TRANSACTION"))
 	p.movePast(n)
 }
 
-func (p *Printer) visitRollbackStatementNode(ctx Context, n *sql.RollbackStatement) {
+func (p *Printer) visitRollbackStatementNode(_ Context, n *sql.RollbackStatement) {
 	p.moveBefore(n)
 	p.println(p.keyword("ROLLBACK TRANSACTION"))
 	p.movePast(n)
@@ -86,7 +86,7 @@ func (p *Printer) visitCallStatement(ctx Context, n *sql.CallStatement) {
 	p.movePast(n)
 }
 
-func (p *Printer) visitCommitStatement(ctx Context, n *sql.CommitStatement) {
+func (p *Printer) visitCommitStatement(_ Context, n *sql.CommitStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("COMMIT TRANSACTION"))
 	p.movePast(n)
@@ -210,7 +210,7 @@ func (p *Printer) visitParameterAssignment(ctx Context, n *sql.ParameterAssignme
 	p.moveBefore(n)
 }
 
-func (p *Printer) visitReturnStatement(ctx Context, n *sql.ReturnStatement) {
+func (p *Printer) visitReturnStatement(_ Context, n *sql.ReturnStatement) {
 	p.moveBefore(n)
 	p.print(p.keyword("RETURN"))
 }

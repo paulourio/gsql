@@ -36,8 +36,7 @@ func (p *Printer) visitColumnSchemaAsArrayColumnSchema(ctx Context, n *sql.Colum
 	p.moveBefore(n)
 	pp := p.nest()
 	pp.print(pp.keyword("ARRAY") + "<")
-	simpleType, _ := isSimpleColumnSchema(n)
-	if !simpleType {
+	if !isSimpleColumnSchema(n) {
 		pp.println("")
 		p2 := pp.nest()
 		p2.accept(ctx, n.TypeParameters())
@@ -103,7 +102,7 @@ func (p *Printer) visitColumnSchema(ctx Context, n *sql.ColumnSchema) {
 	p.movePast(n)
 }
 
-func (p *Printer) visitInferredTypeColumnSchema(ctx Context, n *sql.ColumnSchema) {
+func (p *Printer) visitInferredTypeColumnSchema(_ Context, _ *sql.ColumnSchema) {
 	p.addError(fmt.Errorf("not implemented"))
 }
 
@@ -174,7 +173,6 @@ func (p *Printer) visitStructColumnSchema(ctx Context, n *sql.StructColumnSchema
 
 func (p *Printer) visitColumnSchemaAsStructColumnSchema(ctx Context, n *sql.ColumnSchema) {
 	pp := p.nest()
-	simpleType, _ := isSimpleColumnSchema(n)
 	p1 := pp.nest()
 	var fields []*sql.StructColumnField
 	if sc, ok := sql.Wrap(n.Raw()).(*sql.StructColumnSchema); ok {
@@ -186,7 +184,7 @@ func (p *Printer) visitColumnSchemaAsStructColumnSchema(ctx Context, n *sql.Colu
 		}
 		p1.accept(ctx, f)
 	}
-	if simpleType {
+	if isSimpleColumnSchema(n) {
 		pp.print(pp.keyword("STRUCT") + "<" + p1.unnestLeft() + ">")
 		pp.println(pp.keyword("STRUCT") + "<")
 		pp.incDepth()
@@ -240,7 +238,7 @@ func (p *Printer) visitStructType(ctx Context, n *sql.StructType) {
 	p.print(pp.unnest())
 }
 
-func (p *Printer) visitTemplatedParameterType(ctx Context, n *sql.TemplatedParameterType) {
+func (p *Printer) visitTemplatedParameterType(_ Context, n *sql.TemplatedParameterType) {
 	p.moveBefore(n)
 	switch n.TemplatedKind() {
 	case sql.UninitializedTypeKind:
@@ -259,28 +257,6 @@ func (p *Printer) visitTemplatedParameterType(ctx Context, n *sql.TemplatedParam
 		p.print(p.keyword("ANY TABLE"))
 	}
 	p.movePast(n)
-}
-
-// This is a patch to format TemplatedParameterTypes and Table types,
-// which are not accessible in go-zetasql for now.
-func (p *Printer) patchedVisitTemplatedParameterType(n *sql.FunctionParameter) {
-	input := p.nodeErasedInput(n)
-	inputUpcase := strings.ToUpper(input)
-	field := p.toString(nil, n.Name())
-	i := strings.Index(inputUpcase, strings.ToUpper(field))
-	// We just print whatever we find after the field name as a typename.
-	p.print(p.typename(strings.TrimSpace(input[i+len(field)+1:])))
-	// Check if this is one of the expected bug.
-	types := []string{
-		"ANY TYPE", "ANY PROTO", "ANY ENUM", "ANY STRUCT",
-		"ANY ARRAY", "ANY TABLE", "TABLE",
-	}
-	for _, candidate := range types {
-		if strings.Contains(inputUpcase, candidate) {
-			return
-		}
-	}
-	panic(fmt.Sprintf("Unsupported type in input %#v", input))
 }
 
 func (p *Printer) visitTVFSchema(ctx Context, n *sql.TVFSchema) {

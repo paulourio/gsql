@@ -245,26 +245,6 @@ func isSimpleOrExpr(n *sql.OrExpr) bool {
 	return len(disjuncts) <= 4 && allTrue(mapIsSimpleExprs(disjuncts))
 }
 
-func isSimpleArrayColumnSchema(n *sql.ArrayColumnSchema) (simpleType bool, simpleAttrs bool) {
-	nattrs := 0
-	if n.Collate() != nil {
-		nattrs++
-	}
-	if n.GeneratedColumnInfo() != nil {
-		nattrs++
-	}
-	if n.DefaultExpression() != nil {
-		nattrs++
-	}
-	if n.Attributes() != nil {
-		nattrs++
-	}
-	if n.OptionsList() != nil {
-		nattrs++
-	}
-	return isSimpleTypeParamList(n.TypeParameters()), nattrs == 0
-}
-
 func isSimpleColumnSchemaNode(n sql.Node) (simpleType bool, simpleAttrs bool) {
 	// An ASTColumnSchema can be as simple as a type, "INT64", a simple type
 	// with attributes, "INT64 NOT NULL", a complex type but with simple
@@ -316,22 +296,11 @@ func isSimpleColumnSchemaNode(n sql.Node) (simpleType bool, simpleAttrs bool) {
 	return simpleType && isSimpleTypeParamList(tparams), simpleAttrs && nattrs == 0
 }
 
-func isSimpleColumnSchema(n *sql.ColumnSchema) (simpleType bool, simpleAttrs bool) {
+func isSimpleColumnSchema(n *sql.ColumnSchema) bool {
 	if n == nil {
-		return true, true
+		return true
 	}
-	tparams := n.TypeParameters()
-	nattrs := 0
-	if n.Collate() != nil {
-		nattrs++
-	}
-	if attrs := n.Attributes(); attrs != nil {
-		nattrs += attrs.NumChildren()
-	}
-	if n.DefaultExpression() != nil {
-		nattrs++
-	}
-	return isSimpleTypeParamList(tparams), nattrs > 0
+	return isSimpleTypeParamList(n.TypeParameters())
 }
 
 func isSimpleStructColumnSchema(fields []*sql.StructColumnField) bool {
@@ -353,18 +322,6 @@ func isSimpleTypeParamList(n *sql.TypeParameterList) bool {
 		case sql.ArrayColumnSchemaKind:
 			return false
 		case sql.StructColumnSchemaKind:
-			return false
-		}
-	}
-	return true
-}
-
-func isSimpleTVFArguments(args []*sql.TVFArgument) bool {
-	for _, a := range args {
-		if a == nil {
-			continue
-		}
-		if !isSimpleTVFArgument(a) {
 			return false
 		}
 	}
@@ -585,7 +542,7 @@ func isLeafKind(n sql.Node) (kind sql.NodeKind, isLeaf bool) {
 		sql.BytesLiteralKind,
 		sql.DateOrTimeLiteralKind,
 		sql.MaxLiteralKind,
-		sql.JsonLiteralKind,
+		sql.JSONLiteralKind,
 		sql.DefaultLiteralKind,
 		sql.RangeLiteralKind:
 		return kind, true
@@ -681,14 +638,4 @@ func allTrue(args []bool) bool {
 		}
 	}
 	return true
-}
-
-func sliceCountTrue(args []bool) int {
-	i := 0
-	for _, a := range args {
-		if a {
-			i++
-		}
-	}
-	return i
 }

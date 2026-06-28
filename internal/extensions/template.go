@@ -87,7 +87,7 @@ func NewTemplateElement(
 	return c, nil
 }
 
-func (t *TemplateElement) update(input string) error {
+func (t *TemplateElement) update(_ string) error {
 	return nil
 }
 

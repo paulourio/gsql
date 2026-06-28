@@ -30,11 +30,10 @@ import (
 //			...
 //		END
 func visitCaseArgs[T sql.ExpressionNode](p *Printer, ctx Context, args []T) {
-	simple, _ := ctx.Bool(KeySimpleCase)
 	if len(args) > 0 {
 		p.moveBefore(args[0])
 	}
-	if simple {
+	if ctx.Bool(KeySimpleCase) {
 		visitSimpleCaseArgs(p, ctx, args)
 		return
 	}

@@ -96,7 +96,7 @@ func (c *CaseResult) String() string {
 }
 
 func writeBlock(w WriteStringer, title string, content string) {
-	w.WriteString(fmt.Sprintf("%s (%d bytes):\n%s\n\n", title, len(content), content))
+	w.WriteString(fmt.Sprintf("%s (%d bytes):\n%s\n\n", title, len(content), content)) //nolint:errcheck
 }
 
 // MustReadTest reads the contents of file in path p.
@@ -149,7 +149,7 @@ func parseScript(script string) (*googlesql.ASTScript, error) {
 		},
 	)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("could not parse script: %w", err)
 	}
 	return must(z.Script()), nil
 }

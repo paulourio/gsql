@@ -69,7 +69,7 @@ const (
 	BracedConstructorKind                     NodeKind = googlesql.ASTNodeKindAstBracedConstructor
 	BracedConstructorFieldKind                NodeKind = googlesql.ASTNodeKindAstBracedConstructorField
 	BracedConstructorFieldValueKind           NodeKind = googlesql.ASTNodeKindAstBracedConstructorFieldValue
-	BracedConstructorLhsKind                  NodeKind = googlesql.ASTNodeKindAstBracedConstructorLhs
+	BracedConstructorLHSKind                  NodeKind = googlesql.ASTNodeKindAstBracedConstructorLhs
 	BracedNewConstructorKind                  NodeKind = googlesql.ASTNodeKindAstBracedNewConstructor
 	BreakStatementKind                        NodeKind = googlesql.ASTNodeKindAstBreakStatement
 	BytesLiteralKind                          NodeKind = googlesql.ASTNodeKindAstBytesLiteral
@@ -149,7 +149,7 @@ const (
 	DropStatementKind                         NodeKind = googlesql.ASTNodeKindAstDropStatement
 	DropSubEntityActionKind                   NodeKind = googlesql.ASTNodeKindAstDropSubEntityAction
 	DropTableFunctionStatementKind            NodeKind = googlesql.ASTNodeKindAstDropTableFunctionStatement
-	DropTtlActionKind                         NodeKind = googlesql.ASTNodeKindAstDropTtlAction
+	DropTTLActionKind                         NodeKind = googlesql.ASTNodeKindAstDropTtlAction
 	DropVectorIndexStatementKind              NodeKind = googlesql.ASTNodeKindAstDropVectorIndexStatement
 	ElseifClauseKind                          NodeKind = googlesql.ASTNodeKindAstElseifClause
 	ElseifClauseListKind                      NodeKind = googlesql.ASTNodeKindAstElseifClauseList
@@ -227,7 +227,7 @@ const (
 	GraphIsLabeledPredicateKind               NodeKind = googlesql.ASTNodeKindAstGraphIsLabeledPredicate
 	GraphLabelFilterKind                      NodeKind = googlesql.ASTNodeKindAstGraphLabelFilter
 	GraphLabelOperationKind                   NodeKind = googlesql.ASTNodeKindAstGraphLabelOperation
-	GraphLhsHintKind                          NodeKind = googlesql.ASTNodeKindAstGraphLhsHint
+	GraphLHSHintKind                          NodeKind = googlesql.ASTNodeKindAstGraphLhsHint
 	GraphNodePatternKind                      NodeKind = googlesql.ASTNodeKindAstGraphNodePattern
 	GraphNodeTableReferenceKind               NodeKind = googlesql.ASTNodeKindAstGraphNodeTableReference
 	GraphPathModeKind                         NodeKind = googlesql.ASTNodeKindAstGraphPathMode
@@ -238,7 +238,7 @@ const (
 	GraphPropertiesKind                       NodeKind = googlesql.ASTNodeKindAstGraphProperties
 	GraphPropertyNameAndValueKind             NodeKind = googlesql.ASTNodeKindAstGraphPropertyNameAndValue
 	GraphPropertySpecificationKind            NodeKind = googlesql.ASTNodeKindAstGraphPropertySpecification
-	GraphRhsHintKind                          NodeKind = googlesql.ASTNodeKindAstGraphRhsHint
+	GraphRHSHintKind                          NodeKind = googlesql.ASTNodeKindAstGraphRhsHint
 	GraphTableQueryKind                       NodeKind = googlesql.ASTNodeKindAstGraphTableQuery
 	GraphWildcardLabelKind                    NodeKind = googlesql.ASTNodeKindAstGraphWildcardLabel
 	GroupByKind                               NodeKind = googlesql.ASTNodeKindAstGroupBy
@@ -279,7 +279,7 @@ const (
 	IntoAliasKind                             NodeKind = googlesql.ASTNodeKindAstIntoAlias
 	IntOrUnboundedKind                        NodeKind = googlesql.ASTNodeKindAstIntOrUnbounded
 	JoinKind                                  NodeKind = googlesql.ASTNodeKindAstJoin
-	JsonLiteralKind                           NodeKind = googlesql.ASTNodeKindAstJsonLiteral
+	JSONLiteralKind                           NodeKind = googlesql.ASTNodeKindAstJsonLiteral
 	LabelKind                                 NodeKind = googlesql.ASTNodeKindAstLabel
 	LambdaKind                                NodeKind = googlesql.ASTNodeKindAstLambda
 	LikeExpressionKind                        NodeKind = googlesql.ASTNodeKindAstLikeExpression
@@ -335,7 +335,7 @@ const (
 	PipeIfCaseKind                            NodeKind = googlesql.ASTNodeKindAstPipeIfCase
 	PipeInsertKind                            NodeKind = googlesql.ASTNodeKindAstPipeInsert
 	PipeJoinKind                              NodeKind = googlesql.ASTNodeKindAstPipeJoin
-	PipeJoinLhsPlaceholderKind                NodeKind = googlesql.ASTNodeKindAstPipeJoinLhsPlaceholder
+	PipeJoinLHSPlaceholderKind                NodeKind = googlesql.ASTNodeKindAstPipeJoinLhsPlaceholder
 	PipeLimitOffsetKind                       NodeKind = googlesql.ASTNodeKindAstPipeLimitOffset
 	PipeLogKind                               NodeKind = googlesql.ASTNodeKindAstPipeLog
 	PipeMatchRecognizeKind                    NodeKind = googlesql.ASTNodeKindAstPipeMatchRecognize
@@ -385,7 +385,7 @@ const (
 	RepeatStatementKind                       NodeKind = googlesql.ASTNodeKindAstRepeatStatement
 	ReplaceFieldsArgKind                      NodeKind = googlesql.ASTNodeKindAstReplaceFieldsArg
 	ReplaceFieldsExpressionKind               NodeKind = googlesql.ASTNodeKindAstReplaceFieldsExpression
-	ReplaceTtlActionKind                      NodeKind = googlesql.ASTNodeKindAstReplaceTtlAction
+	ReplaceTTLActionKind                      NodeKind = googlesql.ASTNodeKindAstReplaceTtlAction
 	RestrictToClauseKind                      NodeKind = googlesql.ASTNodeKindAstRestrictToClause
 	ReturningClauseKind                       NodeKind = googlesql.ASTNodeKindAstReturningClause
 	ReturnStatementKind                       NodeKind = googlesql.ASTNodeKindAstReturnStatement

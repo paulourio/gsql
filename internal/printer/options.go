@@ -13,7 +13,6 @@ func KnownOptionKeys(n *sql.OptionsList) StringMapSet {
 	if parent == nil {
 		return nil
 	}
-	// TODO: set options for all in
 	// https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#table_option_list
 	switch parent.Kind() {
 	case sql.CreateExternalTableStatementKind:
@@ -108,32 +107,24 @@ var createProcedureOptions = NewStringMapSet(
 	"archive_uris",    // ARRAY<STRING>
 )
 
-var createReservationOptions = NewStringMapSet(
-	"strict_mode",     // BOOL
-	"description",     // STRING
-	"engine",          // STRING
-	"runtime_version", // STRING
-	"container_image", // STRING
-	"properties",      // ARRAY<STRUCT<STRING, STRING>>
-	"main_file_uri",   // STRING
-	"main_class",      // STRING
-	"py_file_uris",    // ARRAY<STRING>
-	"jar_uris",        // ARRAY<STRING>
-	"file_uris",       // ARRAY<STRING>
-	"archive_uris",    // ARRAY<STRING>
-)
-
 var createTableFunctionOptions = NewStringMapSet("description")
 
 var createTableOptions = NewStringMapSet(
-	"expiration_timestamp",
-	"partition_expiration_days",
-	"require_partition_filter",
-	"kms_key_name",
-	"friendly_name",
-	"description",
-	"labels",
-	"default_rounding_mode",
+	"default_rounding_mode",         // STRING
+	"description",                   // STRING
+	"enable_change_history",         // BOOL
+	"enable_fine_grained_mutations", // BOOL
+	"expiration_timestamp",          // TIMESTAMP
+	"file_format",                   // STRING
+	"friendly_name",                 // STRING
+	"kms_key_name",                  // STRING
+	"labels",                        // ARRAY<STRUCT<STRING, STRING>>
+	"max_staleness",                 // INTERVAL
+	"partition_expiration_days",     // FLOAT64
+	"require_partition_filter",      // BOOL
+	"storage_uri",                   // STRING
+	"table_format",                  // STRING
+	"tags",                          // ARRAY<STRUCT<STRING, STRING>>
 )
 
 var createSchemaOptions = NewStringMapSet(

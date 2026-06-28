@@ -141,7 +141,7 @@ func (p *Printer) visitMergeAction(ctx Context, n *sql.MergeAction) {
 	p.movePast(n)
 }
 
-func (p *Printer) visitMergeActionDelete(ctx Context, n *sql.MergeAction) {
+func (p *Printer) visitMergeActionDelete(_ Context, _ *sql.MergeAction) {
 	p.println(p.keyword("DELETE"))
 }
 

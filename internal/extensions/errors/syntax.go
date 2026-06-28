@@ -7,10 +7,8 @@ import (
 	"github.com/paulourio/gsql/internal/extensions/ast"
 )
 
-var (
-	// ErrMalformedParser indicates a bug in the parser logic.
-	ErrMalformedParser = errors.New("malformed parser")
-)
+// ErrMalformedParser indicates a bug in the parser logic.
+var ErrMalformedParser = errors.New("malformed parser")
 
 type SyntaxError struct {
 	Loc ast.Loc

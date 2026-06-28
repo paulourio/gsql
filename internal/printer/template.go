@@ -31,14 +31,12 @@ func NewTemplatePlaceholders(input string) *TemplatePlaceholders {
 	}
 }
 
-// New returns the string t
+// New returns the string t.
 func (t *TemplatePlaceholders) New(e *extensions.TemplateElement) *PlaceholderInfo {
 	var r *PlaceholderInfo
-
 	switch e.Kind {
 	case ast.TemplateComment:
 		t.counter++
-
 		// Comments will be reinserted by the comments queue.
 		// Its placeholder is a string of whitespaces.
 		r = &PlaceholderInfo{
@@ -48,7 +46,6 @@ func (t *TemplatePlaceholders) New(e *extensions.TemplateElement) *PlaceholderIn
 		}
 	case ast.TemplateForBlock, ast.TemplateIfBlock:
 		t.counter++
-
 		// Blocks of for loop should be able to be replaced either by
 		// a simple statement or an identifier.
 		if strings.Contains(e.Image, "SELECT") {
@@ -66,7 +63,6 @@ func (t *TemplatePlaceholders) New(e *extensions.TemplateElement) *PlaceholderIn
 		}
 	case ast.TemplateVariable:
 		t.counter++
-
 		if e.BeginsLine(t.input) && e.EndsLine(t.input) {
 			r = &PlaceholderInfo{
 				Element:     e,
@@ -82,7 +78,6 @@ func (t *TemplatePlaceholders) New(e *extensions.TemplateElement) *PlaceholderIn
 		}
 	case ast.TemplateSetBlock:
 		t.counter++
-
 		if e.BeginsLine(t.input) && e.EndsLine(t.input) {
 			r = &PlaceholderInfo{
 				Element:     e,
@@ -101,11 +96,7 @@ func (t *TemplatePlaceholders) New(e *extensions.TemplateElement) *PlaceholderIn
 			fmt.Sprintf("TemplatePlaceholders.New: kind %v, type %s, %v",
 				e.Kind.String(), reflect.TypeOf(e), e))
 	}
-
-	if r != nil {
-		t.Placeholders = append(t.Placeholders, r)
-	}
-
+	t.Placeholders = append(t.Placeholders, r)
 	return r
 }
 
