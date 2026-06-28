@@ -7,7 +7,7 @@ type SimpleType struct {
 	baseNode[*googlesql.ASTSimpleType]
 }
 
-func newASTSimpleType(r *googlesql.ASTSimpleType) *SimpleType {
+func newSimpleType(r *googlesql.ASTSimpleType) *SimpleType {
 	if r == nil {
 		return nil
 	}
@@ -15,11 +15,11 @@ func newASTSimpleType(r *googlesql.ASTSimpleType) *SimpleType {
 }
 func (n *SimpleType) isType() {}
 func (n *SimpleType) TypeName() *PathExpression {
-	return newASTPathExpression(must(n.raw.TypeName()))
+	return newPathExpression(must(n.raw.TypeName()))
 }
-func (n *SimpleType) Collate() *Collate { return newASTCollate(must(n.raw.Collate())) }
+func (n *SimpleType) Collate() *Collate { return newCollate(must(n.raw.Collate())) }
 func (n *SimpleType) TypeParameters() *TypeParameterList {
-	return newASTTypeParameterList(must(n.raw.TypeParameters()))
+	return newTypeParameterList(must(n.raw.TypeParameters()))
 }
 
 // ArrayType wraps *googlesql.ASTArrayType.
@@ -27,7 +27,7 @@ type ArrayType struct {
 	baseNode[*googlesql.ASTArrayType]
 }
 
-func newASTArrayType(r *googlesql.ASTArrayType) *ArrayType {
+func newArrayType(r *googlesql.ASTArrayType) *ArrayType {
 	if r == nil {
 		return nil
 	}
@@ -37,9 +37,9 @@ func (n *ArrayType) isType() {}
 
 // ElementType: raw returns TypeNode (interface) → TypeNode.
 func (n *ArrayType) ElementType() TypeNode { return wrapType(must(n.raw.ElementType())) }
-func (n *ArrayType) Collate() *Collate     { return newASTCollate(must(n.raw.Collate())) }
+func (n *ArrayType) Collate() *Collate     { return newCollate(must(n.raw.Collate())) }
 func (n *ArrayType) TypeParameters() *TypeParameterList {
-	return newASTTypeParameterList(must(n.raw.TypeParameters()))
+	return newTypeParameterList(must(n.raw.TypeParameters()))
 }
 
 // StructType wraps *googlesql.ASTStructType.
@@ -47,23 +47,23 @@ type StructType struct {
 	baseNode[*googlesql.ASTStructType]
 }
 
-func newASTStructType(r *googlesql.ASTStructType) *StructType {
+func newStructType(r *googlesql.ASTStructType) *StructType {
 	if r == nil {
 		return nil
 	}
 	return &StructType{baseNode[*googlesql.ASTStructType]{raw: r}}
 }
 func (n *StructType) isType()           {}
-func (n *StructType) Collate() *Collate { return newASTCollate(must(n.raw.Collate())) }
+func (n *StructType) Collate() *Collate { return newCollate(must(n.raw.Collate())) }
 func (n *StructType) TypeParameters() *TypeParameterList {
-	return newASTTypeParameterList(must(n.raw.TypeParameters()))
+	return newTypeParameterList(must(n.raw.TypeParameters()))
 }
 
 // StructFields: raw StructFields(i) returns *StructField (concrete) → []*StructField.
 func (n *StructType) StructFields() []*StructField {
 	var fields []*StructField
 	for f := range childrenOfType[*googlesql.ASTStructField](n) {
-		fields = append(fields, newASTStructField(f))
+		fields = append(fields, newStructField(f))
 	}
 	return fields
 }
@@ -73,13 +73,13 @@ type StructField struct {
 	baseNode[*googlesql.ASTStructField]
 }
 
-func newASTStructField(r *googlesql.ASTStructField) *StructField {
+func newStructField(r *googlesql.ASTStructField) *StructField {
 	if r == nil {
 		return nil
 	}
 	return &StructField{baseNode[*googlesql.ASTStructField]{raw: r}}
 }
-func (n *StructField) Name() *Identifier { return newASTIdentifier(must(n.raw.Name())) }
+func (n *StructField) Name() *Identifier { return newIdentifier(must(n.raw.Name())) }
 
 // Type: raw returns TypeNode (interface) → TypeNode.
 func (n *StructField) Type() TypeNode {
@@ -91,7 +91,7 @@ type RangeType struct {
 	baseNode[*googlesql.ASTRangeType]
 }
 
-func newASTRangeType(r *googlesql.ASTRangeType) *RangeType {
+func newRangeType(r *googlesql.ASTRangeType) *RangeType {
 	if r == nil {
 		return nil
 	}
@@ -101,9 +101,9 @@ func (n *RangeType) isType() {}
 
 // ElementType: raw returns TypeNode (interface) → TypeNode.
 func (n *RangeType) ElementType() TypeNode { return wrapType(must(n.raw.ElementType())) }
-func (n *RangeType) Collate() *Collate     { return newASTCollate(must(n.raw.Collate())) }
+func (n *RangeType) Collate() *Collate     { return newCollate(must(n.raw.Collate())) }
 func (n *RangeType) TypeParameters() *TypeParameterList {
-	return newASTTypeParameterList(must(n.raw.TypeParameters()))
+	return newTypeParameterList(must(n.raw.TypeParameters()))
 }
 
 // MapType wraps *googlesql.ASTMapType.
@@ -111,7 +111,7 @@ type MapType struct {
 	baseNode[*googlesql.ASTMapType]
 }
 
-func newASTMapType(r *googlesql.ASTMapType) *MapType {
+func newMapType(r *googlesql.ASTMapType) *MapType {
 	if r == nil {
 		return nil
 	}
@@ -122,9 +122,9 @@ func (n *MapType) isType() {}
 // KeyType/ValueType: raw returns TypeNode (interface) → TypeNode.
 func (n *MapType) KeyType() TypeNode   { return wrapType(must(n.raw.KeyType())) }
 func (n *MapType) ValueType() TypeNode { return wrapType(must(n.raw.ValueType())) }
-func (n *MapType) Collate() *Collate   { return newASTCollate(must(n.raw.Collate())) }
+func (n *MapType) Collate() *Collate   { return newCollate(must(n.raw.Collate())) }
 func (n *MapType) TypeParameters() *TypeParameterList {
-	return newASTTypeParameterList(must(n.raw.TypeParameters()))
+	return newTypeParameterList(must(n.raw.TypeParameters()))
 }
 
 // TemplatedParameterType wraps *googlesql.ASTTemplatedParameterType.
@@ -132,7 +132,7 @@ type TemplatedParameterType struct {
 	baseNode[*googlesql.ASTTemplatedParameterType]
 }
 
-func newASTTemplatedParameterType(r *googlesql.ASTTemplatedParameterType) *TemplatedParameterType {
+func newTemplatedParameterType(r *googlesql.ASTTemplatedParameterType) *TemplatedParameterType {
 	if r == nil {
 		return nil
 	}
@@ -146,7 +146,7 @@ type TypeParameterList struct {
 	baseNode[*googlesql.ASTTypeParameterList]
 }
 
-func newASTTypeParameterList(r *googlesql.ASTTypeParameterList) *TypeParameterList {
+func newTypeParameterList(r *googlesql.ASTTypeParameterList) *TypeParameterList {
 	if r == nil {
 		return nil
 	}

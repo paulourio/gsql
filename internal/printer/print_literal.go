@@ -89,7 +89,7 @@ func (p *Printer) visitIntLiteral(_ Context, n *sql.IntLiteral) {
 func (p *Printer) visitJSONLiteral(ctx Context, n *sql.JSONLiteral) {
 	p.moveBefore(n)
 	p.print(p.keyword("JSON"))
-	p.accept(ctx, n.StringLiteral())
+	p.acceptNestedLeft(ctx, n.StringLiteral())
 	p.movePast(n)
 }
 
@@ -116,6 +116,13 @@ func (p *Printer) visitNumericLiteral(ctx Context, n *sql.NumericLiteral) {
 	p.accept(ctx, n.StringLiteral())
 }
 
+func (p *Printer) visitRangeLiteral(ctx Context, n *sql.RangeLiteral) {
+	p.moveBefore(n)
+	p.accept(ctx, n.Type())
+	p.accept(ctx, n.RangeValue())
+	p.movePast(n)
+}
+
 func (p *Printer) visitStringLiteral(_ Context, n *sql.StringLiteral) {
 	components := n.Components()
 	p.moveBefore(n)
@@ -123,6 +130,7 @@ func (p *Printer) visitStringLiteral(_ Context, n *sql.StringLiteral) {
 		if i > 0 {
 			p.print(" ")
 		}
+		p.moveBefore(c)
 		val := p.nodeInput(c)
 		s, err := FormatString(val, p.Writer.opts.StringStyle)
 		if err != nil {

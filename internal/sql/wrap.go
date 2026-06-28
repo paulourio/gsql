@@ -15,606 +15,606 @@ func Wrap(n googlesql.ASTNode) Node {
 	switch m := n.(type) {
 	// ── Query / Script ──────────────────────────────────────────────────────
 	case *googlesql.ASTQueryStatement:
-		return newASTQueryStatement(m)
+		return newQueryStatement(m)
 	case *googlesql.ASTQuery:
-		return newASTQuery(m)
+		return newQuery(m)
 	case *googlesql.ASTModelClause:
-		return newASTModelClause(m)
+		return newModelClause(m)
 	case *googlesql.ASTScript:
-		return newASTScript(m)
+		return newScript(m)
 
 	// ── SELECT ──────────────────────────────────────────────────────────────
 	case *googlesql.ASTSelect:
-		return newASTSelect(m)
+		return newSelect(m)
 	case *googlesql.ASTSelectList:
-		return newASTSelectList(m)
+		return newSelectList(m)
 	case *googlesql.ASTSelectColumn:
-		return newASTSelectColumn(m)
+		return newSelectColumn(m)
 	case *googlesql.ASTSelectAs:
-		return newASTSelectAs(m)
+		return newSelectAs(m)
 
 	// ── Set operations ───────────────────────────────────────────────────────
 	case *googlesql.ASTSetOperation:
-		return newASTSetOperation(m)
+		return newSetOperation(m)
 	case *googlesql.ASTSetOperationMetadataList:
-		return newASTSetOperationMetadataList(m)
+		return newSetOperationMetadataList(m)
 	case *googlesql.ASTSetOperationMetadata:
-		return newASTSetOperationMetadata(m)
+		return newSetOperationMetadata(m)
 	case *googlesql.ASTSetOperationType:
-		return newASTSetOperationType(m)
+		return newSetOperationType(m)
 	case *googlesql.ASTSetOperationAllOrDistinct:
-		return newASTSetOperationAllOrDistinct(m)
+		return newSetOperationAllOrDistinct(m)
 	case *googlesql.ASTSetOperationColumnMatchMode:
-		return newASTSetOperationColumnMatchMode(m)
+		return newSetOperationColumnMatchMode(m)
 	case *googlesql.ASTSetOperationColumnPropagationMode:
-		return newASTSetOperationColumnPropagationMode(m)
+		return newSetOperationColumnPropagationMode(m)
 
 	// ── WITH ─────────────────────────────────────────────────────────────────
 	case *googlesql.ASTWithClause:
-		return newASTWithClause(m)
+		return newWithClause(m)
 	case *googlesql.ASTWithModifier:
-		return newASTWithModifier(m)
+		return newWithModifier(m)
 	case *googlesql.ASTWithClauseEntry:
-		return newASTWithClauseEntry(m)
+		return newWithClauseEntry(m)
 	case *googlesql.ASTAliasedQuery:
-		return newASTAliasedQuery(m)
+		return newAliasedQuery(m)
 	case *googlesql.ASTAliasedGroupRows:
-		return newASTAliasedGroupRows(m)
+		return newAliasedGroupRows(m)
 	case *googlesql.ASTWithExpression:
-		return newASTWithExpression(m)
+		return newWithExpression(m)
 
 	// ── FROM / JOIN ───────────────────────────────────────────────────────────
 	case *googlesql.ASTFromClause:
-		return newASTFromClause(m)
+		return newFromClause(m)
 	case *googlesql.ASTJoin:
-		return newASTJoin(m)
+		return newJoin(m)
 	case *googlesql.ASTParenthesizedJoin:
-		return newASTParenthesizedJoin(m)
+		return newParenthesizedJoin(m)
 	case *googlesql.ASTTablePathExpression:
-		return newASTTablePathExpression(m)
+		return newTablePathExpression(m)
 	case *googlesql.ASTTableSubquery:
-		return newASTTableSubquery(m)
+		return newTableSubquery(m)
 	case *googlesql.ASTTableClause:
-		return newASTTableClause(m)
+		return newTableClause(m)
 	case *googlesql.ASTTVF:
-		return newASTTVF(m)
+		return newTVF(m)
 
 	case *googlesql.ASTUnnestExpression:
-		return newASTUnnestExpression(m)
+		return newUnnestExpression(m)
 	case *googlesql.ASTUnnestExpressionWithOptAliasAndOffset:
-		return newASTUnnestExpressionWithOptAliasAndOffset(m)
+		return newUnnestExpressionWithOptAliasAndOffset(m)
 
 	// ── WHERE / GROUP BY / HAVING / QUALIFY ───────────────────────────────────
 	case *googlesql.ASTWhereClause:
-		return newASTWhereClause(m)
+		return newWhereClause(m)
 	case *googlesql.ASTGroupBy:
-		return newASTGroupBy(m)
+		return newGroupBy(m)
 	case *googlesql.ASTGroupByAll:
-		return newASTGroupByAll(m)
+		return newGroupByAll(m)
 	case *googlesql.ASTGroupingItem:
-		return newASTGroupingItem(m)
+		return newGroupingItem(m)
 	case *googlesql.ASTHaving:
-		return newASTHaving(m)
+		return newHaving(m)
 	case *googlesql.ASTQualify:
-		return newASTQualify(m)
+		return newQualify(m)
 
 	// ── ORDER BY / LIMIT ──────────────────────────────────────────────────────
 	case *googlesql.ASTOrderBy:
-		return newASTOrderBy(m)
+		return newOrderBy(m)
 	case *googlesql.ASTOrderingExpression:
-		return newASTOrderingExpression(m)
+		return newOrderingExpression(m)
 	case *googlesql.ASTNullOrder:
-		return newASTNullOrder(m)
+		return newNullOrder(m)
 	case *googlesql.ASTLimitOffset:
-		return newASTLimitOffset(m)
+		return newLimitOffset(m)
 	case *googlesql.ASTLimit:
-		return newASTLimit(m)
+		return newLimit(m)
 
 	// ── WINDOW ────────────────────────────────────────────────────────────────
 	case *googlesql.ASTWindowClause:
-		return newASTWindowClause(m)
+		return newWindowClause(m)
 	case *googlesql.ASTWindowDefinition:
-		return newASTWindowDefinition(m)
+		return newWindowDefinition(m)
 	case *googlesql.ASTWindowSpecification:
-		return newASTWindowSpecification(m)
+		return newWindowSpecification(m)
 	case *googlesql.ASTWindowFrame:
-		return newASTWindowFrame(m)
+		return newWindowFrame(m)
 	case *googlesql.ASTWindowFrameExpr:
-		return newASTWindowFrameExpr(m)
+		return newWindowFrameExpr(m)
 
 	// ── PARTITION / CLUSTER ───────────────────────────────────────────────────
 	case *googlesql.ASTPartitionBy:
-		return newASTPartitionBy(m)
+		return newPartitionBy(m)
 	case *googlesql.ASTClusterBy:
-		return newASTClusterBy(m)
+		return newClusterBy(m)
 
 	// ── HINT ──────────────────────────────────────────────────────────────────
 	case *googlesql.ASTHint:
-		return newASTHint(m)
+		return newHint(m)
 	case *googlesql.ASTHintEntry:
-		return newASTHintEntry(m)
+		return newHintEntry(m)
 	case *googlesql.ASTHintedStatement:
-		return newASTHintedStatement(m)
+		return newHintedStatement(m)
 
 	// ── ON / USING ────────────────────────────────────────────────────────────
 	case *googlesql.ASTOnClause:
-		return newASTOnClause(m)
+		return newOnClause(m)
 	case *googlesql.ASTUsingClause:
-		return newASTUsingClause(m)
+		return newUsingClause(m)
 
 	// ── HAVING MODIFIER / CLAMPED ─────────────────────────────────────────────
 	case *googlesql.ASTHavingModifier:
-		return newASTHavingModifier(m)
+		return newHavingModifier(m)
 	case *googlesql.ASTClampedBetweenModifier:
-		return newASTClampedBetweenModifier(m)
+		return newClampedBetweenModifier(m)
 
 	// ── Misc clauses ──────────────────────────────────────────────────────────
 	case *googlesql.ASTCollate:
-		return newASTCollate(m)
+		return newCollate(m)
 	case *googlesql.ASTForSystemTime:
-		return newASTForSystemTime(m)
+		return newForSystemTime(m)
 	case *googlesql.ASTFormatClause:
-		return newASTFormatClause(m)
+		return newFormatClause(m)
 	case *googlesql.ASTWithOffset:
-		return newASTWithOffset(m)
+		return newWithOffset(m)
 	case *googlesql.ASTWithWeight:
-		return newASTWithWeight(m)
+		return newWithWeight(m)
 	case *googlesql.ASTAlias:
-		return newASTAlias(m)
+		return newAlias(m)
 
 	// ── Identifiers / Paths ───────────────────────────────────────────────────
 	case *googlesql.ASTIdentifier:
-		return newASTIdentifier(m)
+		return newIdentifier(m)
 	case *googlesql.ASTIdentifierList:
-		return newASTIdentifierList(m)
+		return newIdentifierList(m)
 	case *googlesql.ASTPathExpression:
-		return newASTPathExpression(m)
+		return newPathExpression(m)
 	case *googlesql.ASTPathExpressionList:
-		return newASTPathExpressionList(m)
+		return newPathExpressionList(m)
 
 	// ── Star nodes ────────────────────────────────────────────────────────────
 	case *googlesql.ASTStar:
-		return newASTStar(m)
+		return newStar(m)
 	case *googlesql.ASTStarWithModifiers:
-		return newASTStarWithModifiers(m)
+		return newStarWithModifiers(m)
 	case *googlesql.ASTStarModifiers:
-		return newASTStarModifiers(m)
+		return newStarModifiers(m)
 	case *googlesql.ASTStarExceptList:
-		return newASTStarExceptList(m)
+		return newStarExceptList(m)
 	case *googlesql.ASTStarReplaceItem:
-		return newASTStarReplaceItem(m)
+		return newStarReplaceItem(m)
 	case *googlesql.ASTExpressionWithOptAlias:
-		return newASTExpressionWithOptAlias(m)
+		return newExpressionWithOptAlias(m)
 
 	// ── Expression nodes ──────────────────────────────────────────────────────
 	case *googlesql.ASTAndExpr:
-		return newASTAndExpr(m)
+		return newAndExpr(m)
 	case *googlesql.ASTOrExpr:
-		return newASTOrExpr(m)
+		return newOrExpr(m)
 	case *googlesql.ASTBinaryExpression:
-		return newASTBinaryExpression(m)
+		return newBinaryExpression(m)
 	case *googlesql.ASTBitwiseShiftExpression:
-		return newASTBitwiseShiftExpression(m)
+		return newBitwiseShiftExpression(m)
 	case *googlesql.ASTUnaryExpression:
-		return newASTUnaryExpression(m)
+		return newUnaryExpression(m)
 	case *googlesql.ASTBetweenExpression:
-		return newASTBetweenExpression(m)
+		return newBetweenExpression(m)
 	case *googlesql.ASTCaseNoValueExpression:
-		return newASTCaseNoValueExpression(m)
+		return newCaseNoValueExpression(m)
 	case *googlesql.ASTCaseValueExpression:
-		return newASTCaseValueExpression(m)
+		return newCaseValueExpression(m)
 	case *googlesql.ASTCastExpression:
-		return newASTCastExpression(m)
+		return newCastExpression(m)
 	case *googlesql.ASTInExpression:
-		return newASTInExpression(m)
+		return newInExpression(m)
 	case *googlesql.ASTInList:
-		return newASTInList(m)
+		return newInList(m)
 	case *googlesql.ASTExpressionSubquery:
-		return newASTExpressionSubquery(m)
+		return newExpressionSubquery(m)
 	case *googlesql.ASTExtractExpression:
-		return newASTExtractExpression(m)
+		return newExtractExpression(m)
 	case *googlesql.ASTIntervalExpr:
-		return newASTIntervalExpr(m)
+		return newIntervalExpr(m)
 	case *googlesql.ASTConcatExpr:
-		return newASTConcatExpr(m)
+		return newConcatExpr(m)
 	case *googlesql.ASTArrayConstructor:
-		return newASTArrayConstructor(m)
+		return newArrayConstructor(m)
 	case *googlesql.ASTArrayElement:
-		return newASTArrayElement(m)
+		return newArrayElement(m)
 	case *googlesql.ASTDotIdentifier:
-		return newASTDotIdentifier(m)
+		return newDotIdentifier(m)
 	case *googlesql.ASTDotStar:
-		return newASTDotStar(m)
+		return newDotStar(m)
 	case *googlesql.ASTDotStarWithModifiers:
-		return newASTDotStarWithModifiers(m)
+		return newDotStarWithModifiers(m)
 	case *googlesql.ASTDotGeneralizedField:
-		return newASTDotGeneralizedField(m)
+		return newDotGeneralizedField(m)
 	case *googlesql.ASTParameterExpr:
-		return newASTParameterExpr(m)
+		return newParameterExpr(m)
 	case *googlesql.ASTSystemVariableExpr:
-		return newASTSystemVariableExpr(m)
+		return newSystemVariableExpr(m)
 	case *googlesql.ASTStructConstructorArg:
-		return newASTStructConstructorArg(m)
+		return newStructConstructorArg(m)
 	case *googlesql.ASTStructConstructorWithKeyword:
-		return newASTStructConstructorWithKeyword(m)
+		return newStructConstructorWithKeyword(m)
 	case *googlesql.ASTStructConstructorWithParens:
-		return newASTStructConstructorWithParens(m)
+		return newStructConstructorWithParens(m)
 	case *googlesql.ASTNamedArgument:
-		return newASTNamedArgument(m)
+		return newNamedArgument(m)
 	case *googlesql.ASTLambda:
-		return newASTLambda(m)
+		return newLambda(m)
 
 	// ── Function call ─────────────────────────────────────────────────────────
 	case *googlesql.ASTFunctionCall:
-		return newASTFunctionCall(m)
+		return newFunctionCall(m)
 	case *googlesql.ASTAnalyticFunctionCall:
-		return newASTAnalyticFunctionCall(m)
+		return newAnalyticFunctionCall(m)
 
 	// ── SAMPLE / PIVOT / UNPIVOT ──────────────────────────────────────────────
 	case *googlesql.ASTSampleClause:
-		return newASTSampleClause(m)
+		return newSampleClause(m)
 	case *googlesql.ASTSampleSize:
-		return newASTSampleSize(m)
+		return newSampleSize(m)
 	case *googlesql.ASTSampleSuffix:
-		return newASTSampleSuffix(m)
+		return newSampleSuffix(m)
 	case *googlesql.ASTRepeatableClause:
-		return newASTRepeatableClause(m)
+		return newRepeatableClause(m)
 	case *googlesql.ASTPivotClause:
-		return newASTPivotClause(m)
+		return newPivotClause(m)
 	case *googlesql.ASTPivotExpression:
-		return newASTPivotExpression(m)
+		return newPivotExpression(m)
 	case *googlesql.ASTPivotExpressionList:
-		return newASTPivotExpressionList(m)
+		return newPivotExpressionList(m)
 	case *googlesql.ASTPivotValue:
-		return newASTPivotValue(m)
+		return newPivotValue(m)
 	case *googlesql.ASTPivotValueList:
-		return newASTPivotValueList(m)
+		return newPivotValueList(m)
 	case *googlesql.ASTUnpivotClause:
-		return newASTUnpivotClause(m)
+		return newUnpivotClause(m)
 	case *googlesql.ASTUnpivotInItem:
-		return newASTUnpivotInItem(m)
+		return newUnpivotInItem(m)
 	case *googlesql.ASTUnpivotInItemList:
-		return newASTUnpivotInItemList(m)
+		return newUnpivotInItemList(m)
 	case *googlesql.ASTUnpivotInItemLabel:
-		return newASTUnpivotInItemLabel(m)
+		return newUnpivotInItemLabel(m)
 
 	// ── Literals ──────────────────────────────────────────────────────────────
 	case *googlesql.ASTIntLiteral:
-		return newASTIntLiteral(m)
+		return newIntLiteral(m)
 	case *googlesql.ASTFloatLiteral:
-		return newASTFloatLiteral(m)
+		return newFloatLiteral(m)
 	case *googlesql.ASTBooleanLiteral:
-		return newASTBooleanLiteral(m)
+		return newBooleanLiteral(m)
 	case *googlesql.ASTNullLiteral:
-		return newASTNullLiteral(m)
+		return newNullLiteral(m)
 	case *googlesql.ASTStringLiteral:
-		return newASTStringLiteral(m)
+		return newStringLiteral(m)
 	case *googlesql.ASTStringLiteralComponent:
-		return newASTStringLiteralComponent(m)
+		return newStringLiteralComponent(m)
 	case *googlesql.ASTBytesLiteral:
-		return newASTBytesLiteral(m)
+		return newBytesLiteral(m)
 	case *googlesql.ASTBytesLiteralComponent:
-		return newASTBytesLiteralComponent(m)
+		return newBytesLiteralComponent(m)
 	case *googlesql.ASTNumericLiteral:
-		return newASTNumericLiteral(m)
+		return newNumericLiteral(m)
 	case *googlesql.ASTBigNumericLiteral:
-		return newASTBigNumericLiteral(m)
+		return newBigNumericLiteral(m)
 	case *googlesql.ASTJSONLiteral:
-		return newASTJSONLiteral(m)
+		return newJSONLiteral(m)
 	case *googlesql.ASTDateOrTimeLiteral:
-		return newASTDateOrTimeLiteral(m)
+		return newDateOrTimeLiteral(m)
 	case *googlesql.ASTDefaultLiteral:
-		return newASTDefaultLiteral(m)
+		return newDefaultLiteral(m)
 	case *googlesql.ASTMaxLiteral:
-		return newASTMaxLiteral(m)
+		return newMaxLiteral(m)
 	case *googlesql.ASTRangeLiteral:
-		return newASTRangeLiteral(m)
+		return newRangeLiteral(m)
 
 	// ── OPTIONS ───────────────────────────────────────────────────────────────
 	case *googlesql.ASTOptionsList:
-		return newASTOptionsList(m)
+		return newOptionsList(m)
 	case *googlesql.ASTOptionsEntry:
-		return newASTOptionsEntry(m)
+		return newOptionsEntry(m)
 
 	// ── Column list / Descriptor ───────────────────────────────────────────────
 	case *googlesql.ASTColumnList:
-		return newASTColumnList(m)
+		return newColumnList(m)
 	case *googlesql.ASTDescriptor:
-		return newASTDescriptor(m)
+		return newDescriptor(m)
 	case *googlesql.ASTDescriptorColumn:
-		return newASTDescriptorColumn(m)
+		return newDescriptorColumn(m)
 	case *googlesql.ASTDescriptorColumnList:
-		return newASTDescriptorColumnList(m)
+		return newDescriptorColumnList(m)
 	case *googlesql.ASTTVFSchemaColumn:
-		return newASTTVFSchemaColumn(m)
+		return newTVFSchemaColumn(m)
 	case *googlesql.ASTTVFSchema:
-		return newASTTVFSchema(m)
+		return newTVFSchema(m)
 
 	// ── Statement list ────────────────────────────────────────────────────────
 	case *googlesql.ASTStatementList:
-		return newASTStatementList(m)
+		return newStatementList(m)
 
 	// ── Rollup / Cube ─────────────────────────────────────────────────────────
 	case *googlesql.ASTRollup:
-		return newASTRollup(m)
+		return newRollup(m)
 	case *googlesql.ASTCube:
-		return newASTCube(m)
+		return newCube(m)
 
 	// ── Type nodes ────────────────────────────────────────────────────────────
 	case *googlesql.ASTSimpleType:
-		return newASTSimpleType(m)
+		return newSimpleType(m)
 	case *googlesql.ASTArrayType:
-		return newASTArrayType(m)
+		return newArrayType(m)
 	case *googlesql.ASTStructType:
-		return newASTStructType(m)
+		return newStructType(m)
 	case *googlesql.ASTStructField:
-		return newASTStructField(m)
+		return newStructField(m)
 	case *googlesql.ASTRangeType:
-		return newASTRangeType(m)
+		return newRangeType(m)
 	case *googlesql.ASTMapType:
-		return newASTMapType(m)
+		return newMapType(m)
 	case *googlesql.ASTTemplatedParameterType:
-		return newASTTemplatedParameterType(m)
+		return newTemplatedParameterType(m)
 	case *googlesql.ASTTypeParameterList:
-		return newASTTypeParameterList(m)
+		return newTypeParameterList(m)
 
 	// ── DDL: Column/Schema nodes ──────────────────────────────────────────────
 	case *googlesql.ASTColumnSchema:
-		return newASTColumnSchema(m)
+		return newColumnSchema(m)
 	case *googlesql.ASTSimpleColumnSchema:
-		return newASTSimpleColumnSchema(m)
+		return newSimpleColumnSchema(m)
 	case *googlesql.ASTArrayColumnSchema:
-		return newASTArrayColumnSchema(m)
+		return newArrayColumnSchema(m)
 	case *googlesql.ASTStructColumnSchema:
-		return newASTStructColumnSchema(m)
+		return newStructColumnSchema(m)
 	case *googlesql.ASTStructColumnField:
-		return newASTStructColumnField(m)
+		return newStructColumnField(m)
 	case *googlesql.ASTColumnAttributeList:
-		return newASTColumnAttributeList(m)
+		return newColumnAttributeList(m)
 	case *googlesql.ASTNotNullColumnAttribute:
-		return newASTNotNullColumnAttribute(m)
+		return newNotNullColumnAttribute(m)
 	case *googlesql.ASTPrimaryKeyColumnAttribute:
-		return newASTPrimaryKeyColumnAttribute(m)
+		return newPrimaryKeyColumnAttribute(m)
 	case *googlesql.ASTForeignKeyColumnAttribute:
-		return newASTForeignKeyColumnAttribute(m)
+		return newForeignKeyColumnAttribute(m)
 	case *googlesql.ASTHiddenColumnAttribute:
-		return newASTHiddenColumnAttribute(m)
+		return newHiddenColumnAttribute(m)
 	case *googlesql.ASTColumnDefinition:
 
-		return newASTColumnDefinition(m)
+		return newColumnDefinition(m)
 	case *googlesql.ASTColumnPosition:
-		return newASTColumnPosition(m)
+		return newColumnPosition(m)
 	case *googlesql.ASTGeneratedColumnInfo:
-		return newASTGeneratedColumnInfo(m)
+		return newGeneratedColumnInfo(m)
 	case *googlesql.ASTTableElementList:
-		return newASTTableElementList(m)
+		return newTableElementList(m)
 
 	// ── DDL: Constraints ──────────────────────────────────────────────────────
 	case *googlesql.ASTTableConstraint:
-		return newASTTableConstraint(m)
+		return newTableConstraint(m)
 	case *googlesql.ASTPrimaryKey:
-		return newASTPrimaryKey(m)
+		return newPrimaryKey(m)
 	case *googlesql.ASTPrimaryKeyElementList:
-		return newASTPrimaryKeyElementList(m)
+		return newPrimaryKeyElementList(m)
 	case *googlesql.ASTPrimaryKeyElement:
-		return newASTPrimaryKeyElement(m)
+		return newPrimaryKeyElement(m)
 	case *googlesql.ASTForeignKey:
-		return newASTForeignKey(m)
+		return newForeignKey(m)
 	case *googlesql.ASTForeignKeyReference:
-		return newASTForeignKeyReference(m)
+		return newForeignKeyReference(m)
 
 	// ── DDL: ALTER actions ────────────────────────────────────────────────────
 	case *googlesql.ASTAlterActionList:
-		return newASTAlterActionList(m)
+		return newAlterActionList(m)
 	case *googlesql.ASTAddColumnAction:
-		return newASTAddColumnAction(m)
+		return newAddColumnAction(m)
 	case *googlesql.ASTAddConstraintAction:
-		return newASTAddConstraintAction(m)
+		return newAddConstraintAction(m)
 	case *googlesql.ASTAlterColumnDropDefaultAction:
-		return newASTAlterColumnDropDefaultAction(m)
+		return newAlterColumnDropDefaultAction(m)
 	case *googlesql.ASTAlterColumnDropNotNullAction:
-		return newASTAlterColumnDropNotNullAction(m)
+		return newAlterColumnDropNotNullAction(m)
 	case *googlesql.ASTAlterColumnOptionsAction:
-		return newASTAlterColumnOptionsAction(m)
+		return newAlterColumnOptionsAction(m)
 	case *googlesql.ASTAlterColumnSetDefaultAction:
-		return newASTAlterColumnSetDefaultAction(m)
+		return newAlterColumnSetDefaultAction(m)
 	case *googlesql.ASTAlterColumnTypeAction:
-		return newASTAlterColumnTypeAction(m)
+		return newAlterColumnTypeAction(m)
 	case *googlesql.ASTAlterConstraintEnforcementAction:
-		return newASTAlterConstraintEnforcementAction(m)
+		return newAlterConstraintEnforcementAction(m)
 	case *googlesql.ASTAlterConstraintSetOptionsAction:
-		return newASTAlterConstraintSetOptionsAction(m)
+		return newAlterConstraintSetOptionsAction(m)
 	case *googlesql.ASTDropColumnAction:
-		return newASTDropColumnAction(m)
+		return newDropColumnAction(m)
 	case *googlesql.ASTDropConstraintAction:
-		return newASTDropConstraintAction(m)
+		return newDropConstraintAction(m)
 	case *googlesql.ASTDropPrimaryKeyAction:
-		return newASTDropPrimaryKeyAction(m)
+		return newDropPrimaryKeyAction(m)
 	case *googlesql.ASTRenameColumnAction:
-		return newASTRenameColumnAction(m)
+		return newRenameColumnAction(m)
 	case *googlesql.ASTRenameToClause:
-		return newASTRenameToClause(m)
+		return newRenameToClause(m)
 	case *googlesql.ASTSetCollateClause:
-		return newASTSetCollateClause(m)
+		return newSetCollateClause(m)
 	case *googlesql.ASTSetOptionsAction:
-		return newASTSetOptionsAction(m)
+		return newSetOptionsAction(m)
 
 	// ── DDL: ALTER statements ─────────────────────────────────────────────────
 	case *googlesql.ASTAlterAllRowAccessPoliciesStatement:
-		return newASTAlterAllRowAccessPoliciesStatement(m)
+		return newAlterAllRowAccessPoliciesStatement(m)
 	case *googlesql.ASTAlterDatabaseStatement:
-		return newASTAlterDatabaseStatement(m)
+		return newAlterDatabaseStatement(m)
 	case *googlesql.ASTAlterEntityStatement:
-		return newASTAlterEntityStatement(m)
+		return newAlterEntityStatement(m)
 	case *googlesql.ASTAlterMaterializedViewStatement:
-		return newASTAlterMaterializedViewStatement(m)
+		return newAlterMaterializedViewStatement(m)
 	case *googlesql.ASTAlterPrivilegeRestrictionStatement:
-		return newASTAlterPrivilegeRestrictionStatement(m)
+		return newAlterPrivilegeRestrictionStatement(m)
 	case *googlesql.ASTAlterRowAccessPolicyStatement:
-		return newASTAlterRowAccessPolicyStatement(m)
+		return newAlterRowAccessPolicyStatement(m)
 	case *googlesql.ASTAlterSchemaStatement:
-		return newASTAlterSchemaStatement(m)
+		return newAlterSchemaStatement(m)
 	case *googlesql.ASTAlterTableStatement:
-		return newASTAlterTableStatement(m)
+		return newAlterTableStatement(m)
 	case *googlesql.ASTAlterViewStatement:
-		return newASTAlterViewStatement(m)
+		return newAlterViewStatement(m)
 
 	// ── DDL: CREATE helpers ───────────────────────────────────────────────────
 	case *googlesql.ASTCloneDataSource:
-		return newASTCloneDataSource(m)
+		return newCloneDataSource(m)
 	case *googlesql.ASTCopyDataSource:
-		return newASTCopyDataSource(m)
+		return newCopyDataSource(m)
 	case *googlesql.ASTWithConnectionClause:
-		return newASTWithConnectionClause(m)
+		return newWithConnectionClause(m)
 	case *googlesql.ASTConnectionClause:
-		return newASTConnectionClause(m)
+		return newConnectionClause(m)
 	case *googlesql.ASTWithPartitionColumnsClause:
-		return newASTWithPartitionColumnsClause(m)
+		return newWithPartitionColumnsClause(m)
 	case *googlesql.ASTFunctionDeclaration:
-		return newASTFunctionDeclaration(m)
+		return newFunctionDeclaration(m)
 	case *googlesql.ASTFunctionParameters:
-		return newASTFunctionParameters(m)
+		return newFunctionParameters(m)
 	case *googlesql.ASTFunctionParameter:
-		return newASTFunctionParameter(m)
+		return newFunctionParameter(m)
 	case *googlesql.ASTSqlFunctionBody:
-		return newASTSQLFunctionBody(m)
+		return newSQLFunctionBody(m)
 	case *googlesql.ASTGranteeList:
-		return newASTGranteeList(m)
+		return newGranteeList(m)
 	case *googlesql.ASTGrantToClause:
-		return newASTGrantToClause(m)
+		return newGrantToClause(m)
 	case *googlesql.ASTFilterUsingClause:
-		return newASTFilterUsingClause(m)
+		return newFilterUsingClause(m)
 	case *googlesql.ASTColumnWithOptions:
-		return newASTColumnWithOptions(m)
+		return newColumnWithOptions(m)
 	case *googlesql.ASTColumnWithOptionsList:
-		return newASTColumnWithOptionsList(m)
+		return newColumnWithOptionsList(m)
 
 	// ── DDL: CREATE statements ────────────────────────────────────────────────
 	case *googlesql.ASTCreateExternalTableStatement:
-		return newASTCreateExternalTableStatement(m)
+		return newCreateExternalTableStatement(m)
 	case *googlesql.ASTCreateFunctionStatement:
-		return newASTCreateFunctionStatement(m)
+		return newCreateFunctionStatement(m)
 	case *googlesql.ASTCreateMaterializedViewStatement:
-		return newASTCreateMaterializedViewStatement(m)
+		return newCreateMaterializedViewStatement(m)
 	case *googlesql.ASTCreateProcedureStatement:
-		return newASTCreateProcedureStatement(m)
+		return newCreateProcedureStatement(m)
 	case *googlesql.ASTCreateRowAccessPolicyStatement:
-		return newASTCreateRowAccessPolicyStatement(m)
+		return newCreateRowAccessPolicyStatement(m)
 	case *googlesql.ASTCreateSchemaStatement:
-		return newASTCreateSchemaStatement(m)
+		return newCreateSchemaStatement(m)
 	case *googlesql.ASTCreateSnapshotTableStatement:
-		return newASTCreateSnapshotTableStatement(m)
+		return newCreateSnapshotTableStatement(m)
 	case *googlesql.ASTCreateTableStatement:
-		return newASTCreateTableStatement(m)
+		return newCreateTableStatement(m)
 	case *googlesql.ASTCreateTableFunctionStatement:
-		return newASTCreateTableFunctionStatement(m)
+		return newCreateTableFunctionStatement(m)
 	case *googlesql.ASTCreateViewStatement:
-		return newASTCreateViewStatement(m)
+		return newCreateViewStatement(m)
 
 	// ── DDL: DROP statements ──────────────────────────────────────────────────
 	case *googlesql.ASTDropAllRowAccessPoliciesStatement:
-		return newASTDropAllRowAccessPoliciesStatement(m)
+		return newDropAllRowAccessPoliciesStatement(m)
 	case *googlesql.ASTDropEntityStatement:
-		return newASTDropEntityStatement(m)
+		return newDropEntityStatement(m)
 	case *googlesql.ASTDropFunctionStatement:
-		return newASTDropFunctionStatement(m)
+		return newDropFunctionStatement(m)
 	case *googlesql.ASTDropMaterializedViewStatement:
-		return newASTDropMaterializedViewStatement(m)
+		return newDropMaterializedViewStatement(m)
 	case *googlesql.ASTDropPrivilegeRestrictionStatement:
-		return newASTDropPrivilegeRestrictionStatement(m)
+		return newDropPrivilegeRestrictionStatement(m)
 	case *googlesql.ASTDropRowAccessPolicyStatement:
-		return newASTDropRowAccessPolicyStatement(m)
+		return newDropRowAccessPolicyStatement(m)
 	case *googlesql.ASTDropSearchIndexStatement:
-		return newASTDropSearchIndexStatement(m)
+		return newDropSearchIndexStatement(m)
 	case *googlesql.ASTDropSnapshotTableStatement:
-		return newASTDropSnapshotTableStatement(m)
+		return newDropSnapshotTableStatement(m)
 	case *googlesql.ASTDropTableFunctionStatement:
-		return newASTDropTableFunctionStatement(m)
+		return newDropTableFunctionStatement(m)
 	case *googlesql.ASTDropStatement:
-		return newASTDropStatement(m)
+		return newDropStatement(m)
 
 	// ── DML ───────────────────────────────────────────────────────────────────
 	case *googlesql.ASTDeleteStatement:
-		return newASTDeleteStatement(m)
+		return newDeleteStatement(m)
 	case *googlesql.ASTAssertRowsModified:
-		return newASTAssertRowsModified(m)
+		return newAssertRowsModified(m)
 	case *googlesql.ASTReturningClause:
-		return newASTReturningClause(m)
+		return newReturningClause(m)
 	case *googlesql.ASTInsertValuesRow:
-		return newASTInsertValuesRow(m)
+		return newInsertValuesRow(m)
 	case *googlesql.ASTInsertValuesRowList:
-		return newASTInsertValuesRowList(m)
+		return newInsertValuesRowList(m)
 	case *googlesql.ASTInsertStatement:
-		return newASTInsertStatement(m)
+		return newInsertStatement(m)
 	case *googlesql.ASTUpdateSetValue:
-		return newASTUpdateSetValue(m)
+		return newUpdateSetValue(m)
 	case *googlesql.ASTUpdateItem:
-		return newASTUpdateItem(m)
+		return newUpdateItem(m)
 	case *googlesql.ASTUpdateItemList:
-		return newASTUpdateItemList(m)
+		return newUpdateItemList(m)
 	case *googlesql.ASTUpdateStatement:
-		return newASTUpdateStatement(m)
+		return newUpdateStatement(m)
 	case *googlesql.ASTMergeAction:
-		return newASTMergeAction(m)
+		return newMergeAction(m)
 	case *googlesql.ASTMergeWhenClause:
-		return newASTMergeWhenClause(m)
+		return newMergeWhenClause(m)
 	case *googlesql.ASTMergeWhenClauseList:
-		return newASTMergeWhenClauseList(m)
+		return newMergeWhenClauseList(m)
 	case *googlesql.ASTMergeStatement:
-		return newASTMergeStatement(m)
+		return newMergeStatement(m)
 	case *googlesql.ASTTruncateStatement:
-		return newASTTruncateStatement(m)
+		return newTruncateStatement(m)
 	case *googlesql.ASTAssignmentFromStruct:
-		return newASTAssignmentFromStruct(m)
+		return newAssignmentFromStruct(m)
 
 	// ── Procedural ────────────────────────────────────────────────────────────
 	case *googlesql.ASTTVFArgument:
-		return newASTTVFArgument(m)
+		return newTVFArgument(m)
 	case *googlesql.ASTExceptionHandler:
-		return newASTExceptionHandler(m)
+		return newExceptionHandler(m)
 	case *googlesql.ASTExceptionHandlerList:
-		return newASTExceptionHandlerList(m)
+		return newExceptionHandlerList(m)
 	case *googlesql.ASTBeginEndBlock:
-		return newASTBeginEndBlock(m)
+		return newBeginEndBlock(m)
 	case *googlesql.ASTBeginStatement:
-		return newASTBeginStatement(m)
+		return newBeginStatement(m)
 	case *googlesql.ASTRollbackStatement:
-		return newASTRollbackStatement(m)
+		return newRollbackStatement(m)
 	case *googlesql.ASTCallStatement:
-		return newASTCallStatement(m)
+		return newCallStatement(m)
 	case *googlesql.ASTCommitStatement:
-		return newASTCommitStatement(m)
+		return newCommitStatement(m)
 	case *googlesql.ASTExecuteIntoClause:
-		return newASTExecuteIntoClause(m)
+		return newExecuteIntoClause(m)
 	case *googlesql.ASTExecuteUsingArgument:
-		return newASTExecuteUsingArgument(m)
+		return newExecuteUsingArgument(m)
 	case *googlesql.ASTExecuteUsingClause:
-		return newASTExecuteUsingClause(m)
+		return newExecuteUsingClause(m)
 	case *googlesql.ASTExecuteImmediateStatement:
-		return newASTExecuteImmediateStatement(m)
+		return newExecuteImmediateStatement(m)
 	case *googlesql.ASTElseifClause:
-		return newASTElseifClause(m)
+		return newElseifClause(m)
 	case *googlesql.ASTElseifClauseList:
-		return newASTElseifClauseList(m)
+		return newElseifClauseList(m)
 	case *googlesql.ASTIfStatement:
-		return newASTIfStatement(m)
+		return newIfStatement(m)
 	case *googlesql.ASTParameterAssignment:
-		return newASTParameterAssignment(m)
+		return newParameterAssignment(m)
 	case *googlesql.ASTRaiseStatement:
-		return newASTRaiseStatement(m)
+		return newRaiseStatement(m)
 	case *googlesql.ASTReturnStatement:
-		return newASTReturnStatement(m)
+		return newReturnStatement(m)
 	case *googlesql.ASTSystemVariableAssignment:
-		return newASTSystemVariableAssignment(m)
+		return newSystemVariableAssignment(m)
 	case *googlesql.ASTSingleAssignment:
-		return newASTSingleAssignment(m)
+		return newSingleAssignment(m)
 	case *googlesql.ASTVariableDeclaration:
-		return newASTVariableDeclaration(m)
+		return newVariableDeclaration(m)
 
 	// ── Debugging ───────────────────────────────────────────────────────────────
 
 	case *googlesql.ASTAssertStatement:
-		return newASTAssertStatement(m)
+		return newAssertStatement(m)
 
 	// ── Fallback ──────────────────────────────────────────────────────────────
 	default:

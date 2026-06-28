@@ -6,7 +6,7 @@ type DeleteStatement struct {
 	baseNode[*googlesql.ASTDeleteStatement]
 }
 
-func newASTDeleteStatement(r *googlesql.ASTDeleteStatement) *DeleteStatement {
+func newDeleteStatement(r *googlesql.ASTDeleteStatement) *DeleteStatement {
 	if r == nil {
 		return nil
 	}
@@ -18,15 +18,15 @@ func (n *DeleteStatement) TargetPath() Node {
 }
 
 func (n *DeleteStatement) Alias() *Alias {
-	return newASTAlias(must(n.raw.Alias()))
+	return newAlias(must(n.raw.Alias()))
 }
 
 func (n *DeleteStatement) Hint() *Hint {
-	return newASTHint(must(n.raw.Hint()))
+	return newHint(must(n.raw.Hint()))
 }
 
 func (n *DeleteStatement) Offset() *WithOffset {
-	return newASTWithOffset(must(n.raw.Offset()))
+	return newWithOffset(must(n.raw.Offset()))
 }
 
 func (n *DeleteStatement) Where() ExpressionNode {
@@ -34,18 +34,18 @@ func (n *DeleteStatement) Where() ExpressionNode {
 }
 
 func (n *DeleteStatement) AssertRowsModified() *AssertRowsModified {
-	return newASTAssertRowsModified(must(n.raw.AssertRowsModified()))
+	return newAssertRowsModified(must(n.raw.AssertRowsModified()))
 }
 
 func (n *DeleteStatement) Returning() *ReturningClause {
-	return newASTReturningClause(must(n.raw.Returning()))
+	return newReturningClause(must(n.raw.Returning()))
 }
 
 type AssertRowsModified struct {
 	baseNode[*googlesql.ASTAssertRowsModified]
 }
 
-func newASTAssertRowsModified(r *googlesql.ASTAssertRowsModified) *AssertRowsModified {
+func newAssertRowsModified(r *googlesql.ASTAssertRowsModified) *AssertRowsModified {
 	if r == nil {
 		return nil
 	}
@@ -60,7 +60,7 @@ type ReturningClause struct {
 	baseNode[*googlesql.ASTReturningClause]
 }
 
-func newASTReturningClause(r *googlesql.ASTReturningClause) *ReturningClause {
+func newReturningClause(r *googlesql.ASTReturningClause) *ReturningClause {
 	if r == nil {
 		return nil
 	}
@@ -68,11 +68,11 @@ func newASTReturningClause(r *googlesql.ASTReturningClause) *ReturningClause {
 }
 
 func (n *ReturningClause) SelectList() *SelectList {
-	return newASTSelectList(must(n.raw.SelectList()))
+	return newSelectList(must(n.raw.SelectList()))
 }
 
 func (n *ReturningClause) ActionAlias() *Alias {
-	return newASTAlias(must(n.raw.ActionAlias()))
+	return newAlias(must(n.raw.ActionAlias()))
 }
 
 // ─── INSERT ───────────────────────────────────────────────────────────────────
@@ -82,7 +82,7 @@ type InsertValuesRow struct {
 	baseNode[*googlesql.ASTInsertValuesRow]
 }
 
-func newASTInsertValuesRow(r *googlesql.ASTInsertValuesRow) *InsertValuesRow {
+func newInsertValuesRow(r *googlesql.ASTInsertValuesRow) *InsertValuesRow {
 	if r == nil {
 		return nil
 	}
@@ -105,7 +105,7 @@ type InsertValuesRowList struct {
 	baseNode[*googlesql.ASTInsertValuesRowList]
 }
 
-func newASTInsertValuesRowList(r *googlesql.ASTInsertValuesRowList) *InsertValuesRowList {
+func newInsertValuesRowList(r *googlesql.ASTInsertValuesRowList) *InsertValuesRowList {
 	if r == nil {
 		return nil
 	}
@@ -128,7 +128,7 @@ type InsertStatement struct {
 	baseNode[*googlesql.ASTInsertStatement]
 }
 
-func newASTInsertStatement(r *googlesql.ASTInsertStatement) *InsertStatement {
+func newInsertStatement(r *googlesql.ASTInsertStatement) *InsertStatement {
 	if r == nil {
 		return nil
 	}
@@ -137,19 +137,19 @@ func newASTInsertStatement(r *googlesql.ASTInsertStatement) *InsertStatement {
 func (n *InsertStatement) isStatement()     {}
 func (n *InsertStatement) TargetPath() Node { return Wrap(must(n.raw.TargetPath())) }
 func (n *InsertStatement) ColumnList() *ColumnList {
-	return newASTColumnList(must(n.raw.ColumnList()))
+	return newColumnList(must(n.raw.ColumnList()))
 }
-func (n *InsertStatement) Query() *Query { return newASTQuery(must(n.raw.Query())) }
+func (n *InsertStatement) Query() *Query { return newQuery(must(n.raw.Query())) }
 func (n *InsertStatement) Rows() *InsertValuesRowList {
-	return newASTInsertValuesRowList(must(n.raw.Rows()))
+	return newInsertValuesRowList(must(n.raw.Rows()))
 }
 
 func (n *InsertStatement) AssertRowsModified() *AssertRowsModified {
-	return newASTAssertRowsModified(must(n.raw.AssertRowsModified()))
+	return newAssertRowsModified(must(n.raw.AssertRowsModified()))
 }
 
 func (n *InsertStatement) Returning() *ReturningClause {
-	return newASTReturningClause(must(n.raw.Returning()))
+	return newReturningClause(must(n.raw.Returning()))
 }
 
 // ─── UPDATE ───────────────────────────────────────────────────────────────────
@@ -159,7 +159,7 @@ type UpdateSetValue struct {
 	baseNode[*googlesql.ASTUpdateSetValue]
 }
 
-func newASTUpdateSetValue(r *googlesql.ASTUpdateSetValue) *UpdateSetValue {
+func newUpdateSetValue(r *googlesql.ASTUpdateSetValue) *UpdateSetValue {
 	if r == nil {
 		return nil
 	}
@@ -173,7 +173,7 @@ type UpdateItem struct {
 	baseNode[*googlesql.ASTUpdateItem]
 }
 
-func newASTUpdateItem(r *googlesql.ASTUpdateItem) *UpdateItem {
+func newUpdateItem(r *googlesql.ASTUpdateItem) *UpdateItem {
 	if r == nil {
 		return nil
 	}
@@ -181,11 +181,11 @@ func newASTUpdateItem(r *googlesql.ASTUpdateItem) *UpdateItem {
 }
 
 func (n *UpdateItem) SetValue() *UpdateSetValue {
-	return newASTUpdateSetValue(must(n.raw.SetValue()))
+	return newUpdateSetValue(must(n.raw.SetValue()))
 }
 
 func (n *UpdateItem) InsertStatement() *InsertStatement {
-	return newASTInsertStatement(must(n.raw.InsertStatement()))
+	return newInsertStatement(must(n.raw.InsertStatement()))
 }
 func (n *UpdateItem) DeleteStatement() Node { return Wrap(must(n.raw.DeleteStatement())) }
 func (n *UpdateItem) UpdateStatement() Node { return Wrap(must(n.raw.UpdateStatement())) }
@@ -195,7 +195,7 @@ type UpdateItemList struct {
 	baseNode[*googlesql.ASTUpdateItemList]
 }
 
-func newASTUpdateItemList(r *googlesql.ASTUpdateItemList) *UpdateItemList {
+func newUpdateItemList(r *googlesql.ASTUpdateItemList) *UpdateItemList {
 	if r == nil {
 		return nil
 	}
@@ -217,7 +217,7 @@ type UpdateStatement struct {
 	baseNode[*googlesql.ASTUpdateStatement]
 }
 
-func newASTUpdateStatement(r *googlesql.ASTUpdateStatement) *UpdateStatement {
+func newUpdateStatement(r *googlesql.ASTUpdateStatement) *UpdateStatement {
 	if r == nil {
 		return nil
 	}
@@ -225,19 +225,19 @@ func newASTUpdateStatement(r *googlesql.ASTUpdateStatement) *UpdateStatement {
 }
 func (n *UpdateStatement) isStatement()        {}
 func (n *UpdateStatement) TargetPath() Node    { return Wrap(must(n.raw.TargetPath())) }
-func (n *UpdateStatement) Alias() *Alias       { return newASTAlias(must(n.raw.Alias())) }
-func (n *UpdateStatement) Offset() *WithOffset { return newASTWithOffset(must(n.raw.Offset())) }
+func (n *UpdateStatement) Alias() *Alias       { return newAlias(must(n.raw.Alias())) }
+func (n *UpdateStatement) Offset() *WithOffset { return newWithOffset(must(n.raw.Offset())) }
 func (n *UpdateStatement) UpdateItemList() *UpdateItemList {
-	return newASTUpdateItemList(must(n.raw.UpdateItemList()))
+	return newUpdateItemList(must(n.raw.UpdateItemList()))
 }
-func (n *UpdateStatement) FromClause() *FromClause { return newASTFromClause(must(n.raw.FromClause())) }
+func (n *UpdateStatement) FromClause() *FromClause { return newFromClause(must(n.raw.FromClause())) }
 func (n *UpdateStatement) Where() ExpressionNode   { return wrapExpr(must(n.raw.Where())) }
 func (n *UpdateStatement) AssertRowsModified() *AssertRowsModified {
-	return newASTAssertRowsModified(must(n.raw.AssertRowsModified()))
+	return newAssertRowsModified(must(n.raw.AssertRowsModified()))
 }
 
 func (n *UpdateStatement) Returning() *ReturningClause {
-	return newASTReturningClause(must(n.raw.Returning()))
+	return newReturningClause(must(n.raw.Returning()))
 }
 
 // ─── MERGE ────────────────────────────────────────────────────────────────────
@@ -247,7 +247,7 @@ type MergeAction struct {
 	baseNode[*googlesql.ASTMergeAction]
 }
 
-func newASTMergeAction(r *googlesql.ASTMergeAction) *MergeAction {
+func newMergeAction(r *googlesql.ASTMergeAction) *MergeAction {
 	if r == nil {
 		return nil
 	}
@@ -255,15 +255,15 @@ func newASTMergeAction(r *googlesql.ASTMergeAction) *MergeAction {
 }
 func (n *MergeAction) ActionType() MergeActionType { return must(n.raw.ActionType()) }
 func (n *MergeAction) InsertColumnList() *ColumnList {
-	return newASTColumnList(must(n.raw.InsertColumnList()))
+	return newColumnList(must(n.raw.InsertColumnList()))
 }
 
 func (n *MergeAction) InsertRow() *InsertValuesRow {
-	return newASTInsertValuesRow(must(n.raw.InsertRow()))
+	return newInsertValuesRow(must(n.raw.InsertRow()))
 }
 
 func (n *MergeAction) UpdateItemList() *UpdateItemList {
-	return newASTUpdateItemList(must(n.raw.UpdateItemList()))
+	return newUpdateItemList(must(n.raw.UpdateItemList()))
 }
 
 // MergeWhenClause wraps *googlesql.ASTMergeWhenClause.
@@ -271,7 +271,7 @@ type MergeWhenClause struct {
 	baseNode[*googlesql.ASTMergeWhenClause]
 }
 
-func newASTMergeWhenClause(r *googlesql.ASTMergeWhenClause) *MergeWhenClause {
+func newMergeWhenClause(r *googlesql.ASTMergeWhenClause) *MergeWhenClause {
 	if r == nil {
 		return nil
 	}
@@ -283,7 +283,7 @@ func (n *MergeWhenClause) SearchCondition() ExpressionNode {
 }
 
 func (n *MergeWhenClause) Action() *MergeAction {
-	return newASTMergeAction(must(n.raw.Action()))
+	return newMergeAction(must(n.raw.Action()))
 }
 
 // MergeWhenClauseList wraps *googlesql.ASTMergeWhenClauseList.
@@ -291,7 +291,7 @@ type MergeWhenClauseList struct {
 	baseNode[*googlesql.ASTMergeWhenClauseList]
 }
 
-func newASTMergeWhenClauseList(r *googlesql.ASTMergeWhenClauseList) *MergeWhenClauseList {
+func newMergeWhenClauseList(r *googlesql.ASTMergeWhenClauseList) *MergeWhenClauseList {
 	if r == nil {
 		return nil
 	}
@@ -314,7 +314,7 @@ type MergeStatement struct {
 	baseNode[*googlesql.ASTMergeStatement]
 }
 
-func newASTMergeStatement(r *googlesql.ASTMergeStatement) *MergeStatement {
+func newMergeStatement(r *googlesql.ASTMergeStatement) *MergeStatement {
 	if r == nil {
 		return nil
 	}
@@ -323,9 +323,9 @@ func newASTMergeStatement(r *googlesql.ASTMergeStatement) *MergeStatement {
 func (n *MergeStatement) isStatement() {}
 
 func (n *MergeStatement) TargetPath() *PathExpression {
-	return newASTPathExpression(must(n.raw.TargetPath()))
+	return newPathExpression(must(n.raw.TargetPath()))
 }
-func (n *MergeStatement) Alias() *Alias { return newASTAlias(must(n.raw.Alias())) }
+func (n *MergeStatement) Alias() *Alias { return newAlias(must(n.raw.Alias())) }
 func (n *MergeStatement) TableExpression() TableExpressionNode {
 	return wrapTableExpr(must(n.raw.TableExpression()))
 }
@@ -335,7 +335,7 @@ func (n *MergeStatement) MergeCondition() ExpressionNode {
 }
 
 func (n *MergeStatement) WhenClauses() *MergeWhenClauseList {
-	return newASTMergeWhenClauseList(must(n.raw.WhenClauses()))
+	return newMergeWhenClauseList(must(n.raw.WhenClauses()))
 }
 
 // ─── TRUNCATE ─────────────────────────────────────────────────────────────────
@@ -345,7 +345,7 @@ type TruncateStatement struct {
 	baseNode[*googlesql.ASTTruncateStatement]
 }
 
-func newASTTruncateStatement(r *googlesql.ASTTruncateStatement) *TruncateStatement {
+func newTruncateStatement(r *googlesql.ASTTruncateStatement) *TruncateStatement {
 	if r == nil {
 		return nil
 	}
@@ -354,7 +354,7 @@ func newASTTruncateStatement(r *googlesql.ASTTruncateStatement) *TruncateStateme
 func (n *TruncateStatement) isStatement() {}
 
 func (n *TruncateStatement) TargetPath() *PathExpression {
-	return newASTPathExpression(must(n.raw.TargetPath()))
+	return newPathExpression(must(n.raw.TargetPath()))
 }
 func (n *TruncateStatement) Where() ExpressionNode { return wrapExpr(must(n.raw.Where())) }
 
@@ -365,7 +365,7 @@ type AssignmentFromStruct struct {
 	baseNode[*googlesql.ASTAssignmentFromStruct]
 }
 
-func newASTAssignmentFromStruct(r *googlesql.ASTAssignmentFromStruct) *AssignmentFromStruct {
+func newAssignmentFromStruct(r *googlesql.ASTAssignmentFromStruct) *AssignmentFromStruct {
 	if r == nil {
 		return nil
 	}
@@ -374,7 +374,7 @@ func newASTAssignmentFromStruct(r *googlesql.ASTAssignmentFromStruct) *Assignmen
 func (n *AssignmentFromStruct) isStatement() {}
 
 func (n *AssignmentFromStruct) Variables() *IdentifierList {
-	return newASTIdentifierList(must(n.raw.Variables()))
+	return newIdentifierList(must(n.raw.Variables()))
 }
 
 func (n *AssignmentFromStruct) StructExpression() ExpressionNode {

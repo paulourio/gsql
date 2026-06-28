@@ -6,7 +6,7 @@ type AssertStatement struct {
 	baseNode[*googlesql.ASTAssertStatement]
 }
 
-func newASTAssertStatement(r *googlesql.ASTAssertStatement) *AssertStatement {
+func newAssertStatement(r *googlesql.ASTAssertStatement) *AssertStatement {
 	if r == nil {
 		return nil
 	}
@@ -20,5 +20,5 @@ func (n *AssertStatement) Expr() ExpressionNode {
 }
 
 func (n *AssertStatement) Description() *StringLiteral {
-	return newASTStringLiteral(must(n.raw.Description()))
+	return newStringLiteral(must(n.raw.Description()))
 }

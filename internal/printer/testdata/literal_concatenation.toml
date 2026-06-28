@@ -1,0 +1,126 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+[[cases]]
+description = "STRING literals concatenate and raw modifiers apply only to their immediate component."
+input = """
+select r'\\n' '\\n' "b" \"""c"d"e\""" '''f'g'h''' "1" "2"
+"""
+formatted = """
+SELECT r'\\n' '\\n' 'b' '''c"d"e''' '''f'g'h''' '1' '2'
+"""
+
+[[cases]]
+description = "BYTES literals concatenate and raw modifiers apply only to their immediate component."
+input = """
+select br'\\n' b'\\n' b"b" b\"""c"d"e\""" b'''f'g'h''' b"1" b"2"
+"""
+formatted = """
+SELECT rb'\\n' b'\\n' b'b' b'''c"d"e''' b'''f'g'h''' b'1' b'2'
+"""
+
+[[cases]]
+input = """
+select JSON /*some_comment*/ '{"number": 1, "str_with_slashes": ' /*begin_val*/ r'"\\escaped\"' /*end_val*/ ' "other": 2}'
+"""
+formatted = """
+SELECT JSON /*some_comment*/ '{"number": 1, "str_with_slashes": ' /*begin_val*/ r'"\\escaped\"' /*end_val*/ ' "other": 2}'
+"""
+
+[[cases]]
+input = """
+
+select JSON /*some_comment*/
+'{"number": 1, "str_with_slashes": '
+/*begin_val*/
+r'"\\escaped\"'
+/*end_val*/
+' "other": 2}'
+"""
+formatted = """
+SELECT JSON /*some_comment*/
+            '{"number": 1, "str_with_slashes": '
+            /*begin_val*/
+            r'"\\escaped\"'
+            /*end_val*/
+            ' "other": 2}'
+"""
+
+
+[[cases]]
+input = """
+
+select JSON /*some_comment*/ '{"number": 1, "str_with_slashes": '
+/*begin_val*/
+r'"\\escaped\"'
+/*end_val*/
+' "other": 2}'
+"""
+formatted = """
+SELECT JSON /*some_comment*/ '{"number": 1, "str_with_slashes": '
+            /*begin_val*/
+            r'"\\escaped\"'
+            /*end_val*/
+            ' "other": 2}'
+"""
+
+[[cases]]
+description = "JSON literal with newlines and alias"
+input = """
+
+select JSON /*some_comment*/ '{"number": 1, "str_with_slashes": '
+/*begin_val*/
+r'"\\escaped\"'
+/*end_val*/
+' "other": 2}' AS json_val,
+foo AS foo,
+approx_count_distinct(x) AS bar
+"""
+formatted = """
+SELECT JSON /*some_comment*/ '{"number": 1, "str_with_slashes": '
+            /*begin_val*/
+            r'"\\escaped\"'
+            /*end_val*/
+            ' "other": 2}'      AS json_val,
+       foo                      AS foo,
+       APPROX_COUNT_DISTINCT(x) AS bar
+"""
+
+[[cases]]
+description = "Other literals can also concat"
+input = """
+SELECT
+  NUMERIC "1" r'2',
+  DECIMAL /*whole:*/ '1' /*fractional:*/ ".23" /*exponent=*/ "e+6",
+  BIGNUMERIC '1' r"2",
+  BIGDECIMAL /*sign*/ '-' /*whole:*/ '1' /*fractional:*/ ".23" /*exponent=*/ "e+6",
+  RANGE<DATE> '[2014-01-01,' /*comment*/ "2015-01-01)",
+  DATE '2014' "-01-01",
+  DATETIME '2016-01-01' r"12:00:00",
+  TIMESTAMP '2018-10-01' "12:00:00+08"
+"""
+formatted = """
+SELECT NUMERIC '1' r'2',
+       NUMERIC /*whole:*/ '1' /*fractional:*/ '.23' /*exponent=*/ 'e+6',
+       BIGNUMERIC '1' r'2',
+       BIGNUMERIC /*sign*/ '-' /*whole:*/ '1' /*fractional:*/ '.23' /*exponent=*/ 'e+6',
+       RANGE<DATE> '[2014-01-01,' /*comment*/ '2015-01-01)',
+       DATE '2014' '-01-01',
+       DATETIME '2016-01-01' r'12:00:00',
+       TIMESTAMP '2018-10-01' '12:00:00+08'
+"""

@@ -106,6 +106,18 @@ func (p *Printer) visitInferredTypeColumnSchema(_ Context, _ *sql.ColumnSchema) 
 	p.addError(fmt.Errorf("not implemented"))
 }
 
+func (p *Printer) visitRangeType(ctx Context, n *sql.RangeType) {
+	p.moveBefore(n)
+	pp := p.nest()
+	p1 := pp.nest()
+	p1.accept(ctx, n.ElementType())
+	p1.accept(ctx, n.TypeParameters())
+	pp.print(pp.keyword("RANGE") + "<" + p1.unnestLeft() + ">")
+	pp.accept(ctx, n.Collate())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
 func (p *Printer) visitSimpleColumnSchema(ctx Context, n *sql.SimpleColumnSchema) {
 	p.moveBefore(n)
 	pp := p.nest()
