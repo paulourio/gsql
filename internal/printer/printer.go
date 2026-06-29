@@ -705,6 +705,55 @@ func (p *Printer) moveAt(pos int) {
 	p.Writer.flushCommentsUpTo(pos)
 }
 
+// hasLineEndingComments reports whether any line-ending comment (--,
+// //, #) exists within the byte range of the given node.  Such
+// comments force a line break and prevent the node from being rendered
+// on a single line.
+//
+// Must be called before any moveBefore/movePast/flushCommentsUpTo call
+// for the node being checked, since those consume comments from the queue.
+func (p *Printer) hasLineEndingComments(n sql.Node) bool {
+	if !sql.Defined(n) {
+		return false
+	}
+	start, end := n.Location()
+	for _, c := range p.Writer.comments.comments {
+		if c.Start >= end {
+			break // comments are sorted by position
+		}
+		if c.Start >= start && c.MustEndLine() {
+			return true
+		}
+	}
+	return false
+}
+
+// hasTrailingLineComment reports whether a line-ending comment (--,
+// //, #) appears after the node's end but before maxPos.
+// This detects trailing comments that will be flushed by movePastLine,
+// such as:
+//
+//	field AND id = 6   -- trailing  ← after AndExpr range, before alias
+//	     AND cond > 0  -- trailing
+//
+// Must be called before any moveBefore/movePast/flushCommentsUpTo call
+// for the node being checked, since those consume comments from the queue.
+func (p *Printer) hasTrailingLineComment(n sql.Node, maxPos int) bool {
+	if !sql.Defined(n) {
+		return false
+	}
+	nodeEnd := n.LocationEnd()
+	for _, c := range p.Writer.comments.comments {
+		if c.Start >= maxPos {
+			break
+		}
+		if c.Start >= nodeEnd && c.MustEndLine() {
+			return true
+		}
+	}
+	return false
+}
+
 // movePastLine scans from the end of a node to the end of the line or
 // until the next node.
 // We do this limited to the end of the parent's end location.

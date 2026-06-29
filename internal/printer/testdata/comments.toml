@@ -175,3 +175,46 @@ select \"""abc # \""", \""" def -- \""", \""" ghi /* \""", \""" */ jkl \"""
 formatted = """
 SELECT '''abc # ''', ''' def -- ''', ''' ghi /* ''', ''' */ jkl '''
 """
+
+[[cases]]
+input = """
+SELECT COUNTIF(
+         field
+         AND id = 6   -- comment
+         AND cond > 0 -- another comment
+      ) AS result
+"""
+formatted = """
+SELECT COUNTIF(
+             field
+         AND id = 6   -- comment
+         AND cond > 0 -- another comment
+       ) AS result
+"""
+
+[[cases]]
+input = """
+SELECT field AND id = 6   -- comment
+         AND cond > 0 -- another comment
+      AS result
+"""
+formatted = """
+SELECT     field
+       AND id = 6   -- comment
+       AND cond > 0 -- another comment
+       AS result
+"""
+
+[[cases]]
+input = """
+SELECT field
+         OR id = 6   -- comment
+         OR cond > 0 -- another comment
+AS result
+"""
+formatted = """
+SELECT    field
+       OR id = 6   -- comment
+       OR cond > 0 -- another comment
+       AS result
+"""

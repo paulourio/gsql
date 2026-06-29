@@ -345,6 +345,9 @@ func (p *Printer) visitAndExpr(ctx Context, n *sql.AndExpr) {
 	inClause := sql.IsInsideOfWhereClause(n) || sql.IsInsideOfOnClause(n)
 	alignWithClause := p.Writer.opts.AlignLogicalWithClauses && inClause
 	simple := isSimpleAndExpr(n)
+	if simple && p.hasLineEndingComments(n) {
+		simple = false
+	}
 	if allTrue(mapIsAlignable(conjuncts)) {
 		ctx = ctx.WithValue(KeyAlignBinaryOpBudget, 1)
 	}
@@ -970,6 +973,9 @@ func (p *Printer) visitFunctionCall(ctx Context, n *sql.FunctionCall) {
 	simple := len(args) <= 4 &&
 		countFunctionCallElements(n) <= 1 &&
 		onlySimpleFunctionCallArgs(args)
+	if simple && p.hasLineEndingComments(n) {
+		simple = false
+	}
 	pp.print(pp.functionName(expr))
 	pp.print("(")
 	if !simple {
@@ -1306,6 +1312,9 @@ func (p *Printer) visitOrExpr(ctx Context, n *sql.OrExpr) {
 	p1 := p.nest()
 	inClause := sql.IsInsideOfWhereClause(n) || sql.IsInsideOfOnClause(n)
 	simple := allTrue(mapIsSimpleExprs(disjuncts)) && (len(disjuncts) < 4)
+	if simple && p.hasLineEndingComments(n) {
+		simple = false
+	}
 	p.moveBefore(n)
 	if p.isParenNeeded(n) {
 		if !simple {
@@ -1534,11 +1543,27 @@ func (p *Printer) visitSelectAs(ctx Context, n *sql.SelectAs) {
 }
 
 func (p *Printer) visitSelectColumn(ctx Context, n *sql.SelectColumn) {
+	alias := n.Alias()
+	// Check for line-ending comments that appear after the expression and
+	// before the alias start. These are consumed by movePastLine inside
+	// visitAndExpr/visitOrExpr but then stripped by the unnest chain,
+	// causing the alias to appear on the same line as the comment.
+	// We detect this before comments are consumed and fix it after unnest.
+	var exprHasLineEndingComments bool
+	if alias != nil {
+		exprHasLineEndingComments = p.hasTrailingLineComment(
+			n.Expression(), alias.LocationStart(),
+		)
+	}
 	pp := p.nest()
 	pp.accept(ctx, n.Expression())
 	p.print(pp.unnest())
-	alias := n.Alias()
 	if alias != nil {
+		if exprHasLineEndingComments {
+			// The unnest chain strips the trailing newline left by line
+			// comments; emit it explicitly so the alias lands on a new line.
+			p.println("")
+		}
 		pp = p.nest()
 		pp.accept(ctx, alias)
 		p.print(pp.unnestLeft())
