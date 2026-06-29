@@ -396,3 +396,77 @@ func (n *TableElementList) Elements() []TableElementNode {
 	}
 	return result
 }
+
+// CheckConstraint wraps *googlesql.ASTCheckConstraint.
+type CheckConstraint struct {
+	baseNode[*googlesql.ASTCheckConstraint]
+}
+
+func newCheckConstraint(r *googlesql.ASTCheckConstraint) *CheckConstraint {
+	if r == nil {
+		return nil
+	}
+	return &CheckConstraint{baseNode[*googlesql.ASTCheckConstraint]{raw: r}}
+}
+func (n *CheckConstraint) isTableElement() {}
+func (n *CheckConstraint) ConstraintName() *Identifier {
+	return newIdentifier(must(n.raw.ConstraintName()))
+}
+func (n *CheckConstraint) Expression() ExpressionNode { return wrapExpr(must(n.raw.Expression())) }
+func (n *CheckConstraint) IsEnforced() bool           { return must(n.raw.IsEnforced()) }
+func (n *CheckConstraint) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// ForeignKeyActions wraps *googlesql.ASTForeignKeyActions.
+type ForeignKeyActions struct {
+	baseNode[*googlesql.ASTForeignKeyActions]
+}
+
+func newForeignKeyActions(r *googlesql.ASTForeignKeyActions) *ForeignKeyActions {
+	if r == nil {
+		return nil
+	}
+	return &ForeignKeyActions{baseNode[*googlesql.ASTForeignKeyActions]{raw: r}}
+}
+func (n *ForeignKeyActions) DeleteAction() ForeignKeyAction { return must(n.raw.DeleteAction()) }
+func (n *ForeignKeyActions) UpdateAction() ForeignKeyAction { return must(n.raw.UpdateAction()) }
+
+// MapColumnSchema wraps *googlesql.ASTMapColumnSchema.
+type MapColumnSchema struct {
+	baseNode[*googlesql.ASTMapColumnSchema]
+}
+
+func newMapColumnSchema(r *googlesql.ASTMapColumnSchema) *MapColumnSchema {
+	if r == nil {
+		return nil
+	}
+	return &MapColumnSchema{baseNode[*googlesql.ASTMapColumnSchema]{raw: r}}
+}
+func (n *MapColumnSchema) isTableElement() {}
+
+// RangeColumnSchema wraps *googlesql.ASTRangeColumnSchema.
+type RangeColumnSchema struct {
+	baseNode[*googlesql.ASTRangeColumnSchema]
+}
+
+func newRangeColumnSchema(r *googlesql.ASTRangeColumnSchema) *RangeColumnSchema {
+	if r == nil {
+		return nil
+	}
+	return &RangeColumnSchema{baseNode[*googlesql.ASTRangeColumnSchema]{raw: r}}
+}
+func (n *RangeColumnSchema) isTableElement() {}
+
+// InferredTypeColumnSchema wraps *googlesql.ASTInferredTypeColumnSchema.
+type InferredTypeColumnSchema struct {
+	baseNode[*googlesql.ASTInferredTypeColumnSchema]
+}
+
+func newInferredTypeColumnSchema(r *googlesql.ASTInferredTypeColumnSchema) *InferredTypeColumnSchema {
+	if r == nil {
+		return nil
+	}
+	return &InferredTypeColumnSchema{baseNode[*googlesql.ASTInferredTypeColumnSchema]{raw: r}}
+}
+func (n *InferredTypeColumnSchema) isTableElement() {}

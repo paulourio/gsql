@@ -49,6 +49,9 @@ func (p *Printer) visitQuery(ctx Context, n *sql.Query) {
 	}
 	pp.printCloseParenIfNeeded(n)
 	p.print(pp.unnest())
+	for _, op := range n.PipeOperatorList() {
+		p.lnaccept(ctx, op)
+	}
 }
 
 func (p *Printer) visitQueryStatement(ctx Context, n *sql.QueryStatement) {

@@ -1229,3 +1229,161 @@ func newWithWeight(r *googlesql.ASTWithWeight) *WithWeight {
 }
 
 func (n *WithWeight) Alias() *Alias { return newAlias(must(n.raw.Alias())) }
+
+// GroupingSet wraps *googlesql.ASTGroupingSet.
+type GroupingSet struct {
+	baseNode[*googlesql.ASTGroupingSet]
+}
+
+func newGroupingSet(r *googlesql.ASTGroupingSet) *GroupingSet {
+	if r == nil {
+		return nil
+	}
+	return &GroupingSet{baseNode[*googlesql.ASTGroupingSet]{raw: r}}
+}
+func (n *GroupingSet) Expression() ExpressionNode { return wrapExpr(must(n.raw.Expression())) }
+func (n *GroupingSet) Rollup() *Rollup            { return newRollup(must(n.raw.Rollup())) }
+func (n *GroupingSet) Cube() *Cube                { return newCube(must(n.raw.Cube())) }
+
+// GroupingSetList wraps *googlesql.ASTGroupingSetList.
+type GroupingSetList struct {
+	baseNode[*googlesql.ASTGroupingSetList]
+}
+
+func newGroupingSetList(r *googlesql.ASTGroupingSetList) *GroupingSetList {
+	if r == nil {
+		return nil
+	}
+	return &GroupingSetList{baseNode[*googlesql.ASTGroupingSetList]{raw: r}}
+}
+
+func (n *GroupingSetList) GroupingSets() []*GroupingSet {
+	var result []*GroupingSet
+	for item := range childrenOfType[*googlesql.ASTGroupingSet](n) {
+		result = append(result, newGroupingSet(item))
+	}
+	return result
+}
+
+// GroupingItemOrder wraps *googlesql.ASTGroupingItemOrder.
+type GroupingItemOrder struct {
+	baseNode[*googlesql.ASTGroupingItemOrder]
+}
+
+func newGroupingItemOrder(r *googlesql.ASTGroupingItemOrder) *GroupingItemOrder {
+	if r == nil {
+		return nil
+	}
+	return &GroupingItemOrder{baseNode[*googlesql.ASTGroupingItemOrder]{raw: r}}
+}
+func (n *GroupingItemOrder) OrderingSpec() OrderingSpec { return must(n.raw.OrderingSpec()) }
+func (n *GroupingItemOrder) NullOrder() *NullOrder      { return newNullOrder(must(n.raw.NullOrder())) }
+
+// OnConflictClause wraps *googlesql.ASTOnConflictClause.
+type OnConflictClause struct {
+	baseNode[*googlesql.ASTOnConflictClause]
+}
+
+func newOnConflictClause(r *googlesql.ASTOnConflictClause) *OnConflictClause {
+	if r == nil {
+		return nil
+	}
+	return &OnConflictClause{baseNode[*googlesql.ASTOnConflictClause]{raw: r}}
+}
+func (n *OnConflictClause) ConflictAction() ConflictAction { return must(n.raw.ConflictAction()) }
+func (n *OnConflictClause) ConflictTarget() *ColumnList {
+	return newColumnList(must(n.raw.ConflictTarget()))
+}
+
+func (n *OnConflictClause) UpdateItemList() *UpdateItemList {
+	return newUpdateItemList(must(n.raw.UpdateItemList()))
+}
+
+// OnOrUsingClauseList wraps *googlesql.ASTOnOrUsingClauseList.
+type OnOrUsingClauseList struct {
+	baseNode[*googlesql.ASTOnOrUsingClauseList]
+}
+
+func newOnOrUsingClauseList(r *googlesql.ASTOnOrUsingClauseList) *OnOrUsingClauseList {
+	if r == nil {
+		return nil
+	}
+	return &OnOrUsingClauseList{baseNode[*googlesql.ASTOnOrUsingClauseList]{raw: r}}
+}
+
+// WithReportModifier wraps *googlesql.ASTWithReportModifier.
+type WithReportModifier struct {
+	baseNode[*googlesql.ASTWithReportModifier]
+}
+
+func newWithReportModifier(r *googlesql.ASTWithReportModifier) *WithReportModifier {
+	if r == nil {
+		return nil
+	}
+	return &WithReportModifier{baseNode[*googlesql.ASTWithReportModifier]{raw: r}}
+}
+
+func (n *WithReportModifier) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// IntoAlias wraps *googlesql.ASTIntoAlias.
+type IntoAlias struct {
+	baseNode[*googlesql.ASTIntoAlias]
+}
+
+func newIntoAlias(r *googlesql.ASTIntoAlias) *IntoAlias {
+	if r == nil {
+		return nil
+	}
+	return &IntoAlias{baseNode[*googlesql.ASTIntoAlias]{raw: r}}
+}
+func (n *IntoAlias) Identifier() *Identifier { return newIdentifier(must(n.raw.Identifier())) }
+
+// CloneDataSourceList wraps *googlesql.ASTCloneDataSourceList.
+type CloneDataSourceList struct {
+	baseNode[*googlesql.ASTCloneDataSourceList]
+}
+
+func newCloneDataSourceList(r *googlesql.ASTCloneDataSourceList) *CloneDataSourceList {
+	if r == nil {
+		return nil
+	}
+	return &CloneDataSourceList{baseNode[*googlesql.ASTCloneDataSourceList]{raw: r}}
+}
+
+// TransactionModeList wraps *googlesql.ASTTransactionModeList.
+type TransactionModeList struct {
+	baseNode[*googlesql.ASTTransactionModeList]
+}
+
+func newTransactionModeList(r *googlesql.ASTTransactionModeList) *TransactionModeList {
+	if r == nil {
+		return nil
+	}
+	return &TransactionModeList{baseNode[*googlesql.ASTTransactionModeList]{raw: r}}
+}
+
+// TransactionIsolationLevel wraps *googlesql.ASTTransactionIsolationLevel.
+type TransactionIsolationLevel struct {
+	baseNode[*googlesql.ASTTransactionIsolationLevel]
+}
+
+func newTransactionIsolationLevel(r *googlesql.ASTTransactionIsolationLevel) *TransactionIsolationLevel {
+	if r == nil {
+		return nil
+	}
+	return &TransactionIsolationLevel{baseNode[*googlesql.ASTTransactionIsolationLevel]{raw: r}}
+}
+
+// TransactionReadWriteMode wraps *googlesql.ASTTransactionReadWriteMode.
+type TransactionReadWriteMode struct {
+	baseNode[*googlesql.ASTTransactionReadWriteMode]
+}
+
+func newTransactionReadWriteMode(r *googlesql.ASTTransactionReadWriteMode) *TransactionReadWriteMode {
+	if r == nil {
+		return nil
+	}
+	return &TransactionReadWriteMode{baseNode[*googlesql.ASTTransactionReadWriteMode]{raw: r}}
+}

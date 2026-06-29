@@ -34,8 +34,7 @@ func (n *Query) LockMode() *LockMode { return newLockMode(must(n.raw.LockMode())
 
 func (n *Query) IsNested() bool { return must(n.raw.IsNested()) }
 
-// PipeOperators returns all pipe operators.
-func (n *Query) PipeOperators() []PipeOperatorNode {
+func (n *Query) PipeOperatorList() []PipeOperatorNode {
 	var result []PipeOperatorNode
 	for _, c := range n.Children() {
 		if op, ok := c.(PipeOperatorNode); ok {
@@ -117,4 +116,22 @@ func (n *SetOperation) Inputs() []QueryExpressionNode {
 
 func (n *SetOperation) Metadata() *SetOperationMetadataList {
 	return newSetOperationMetadataList(must(n.raw.Metadata()))
+}
+
+// FromQuery wraps *googlesql.ASTFromQuery.
+type FromQuery struct {
+	baseNode[*googlesql.ASTFromQuery]
+}
+
+func newFromQuery(r *googlesql.ASTFromQuery) *FromQuery {
+	if r == nil {
+		return nil
+	}
+	return &FromQuery{baseNode[*googlesql.ASTFromQuery]{raw: r}}
+}
+
+func (n *FromQuery) isQueryExpression() {}
+
+func (n *FromQuery) FromClause() *FromClause {
+	return newFromClause(must(n.raw.FromClause()))
 }

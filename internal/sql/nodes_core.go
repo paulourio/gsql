@@ -1111,3 +1111,331 @@ func newWithModifier(r *googlesql.ASTWithModifier) *WithModifier {
 	}
 	return &WithModifier{baseNode[*googlesql.ASTWithModifier]{raw: r}}
 }
+
+// Subpipeline wraps *googlesql.ASTSubpipeline.
+type Subpipeline struct {
+	baseNode[*googlesql.ASTSubpipeline]
+}
+
+func newSubpipeline(r *googlesql.ASTSubpipeline) *Subpipeline {
+	if r == nil {
+		return nil
+	}
+	return &Subpipeline{baseNode[*googlesql.ASTSubpipeline]{raw: r}}
+}
+
+func (n *Subpipeline) PipeOperatorList() []PipeOperatorNode {
+	var result []PipeOperatorNode
+	for _, c := range n.Children() {
+		if op, ok := c.(PipeOperatorNode); ok {
+			result = append(result, op)
+		}
+	}
+	return result
+}
+
+// WhenThenClause wraps *googlesql.ASTWhenThenClause.
+type WhenThenClause struct {
+	baseNode[*googlesql.ASTWhenThenClause]
+}
+
+func newWhenThenClause(r *googlesql.ASTWhenThenClause) *WhenThenClause {
+	if r == nil {
+		return nil
+	}
+	return &WhenThenClause{baseNode[*googlesql.ASTWhenThenClause]{raw: r}}
+}
+
+func (n *WhenThenClause) Condition() ExpressionNode {
+	return wrapExpr(must(n.raw.Condition()))
+}
+
+func (n *WhenThenClause) Body() *StatementList {
+	return newStatementList(must(n.raw.Body()))
+}
+
+// WhenThenClauseList wraps *googlesql.ASTWhenThenClauseList.
+type WhenThenClauseList struct {
+	baseNode[*googlesql.ASTWhenThenClauseList]
+}
+
+func newWhenThenClauseList(r *googlesql.ASTWhenThenClauseList) *WhenThenClauseList {
+	if r == nil {
+		return nil
+	}
+	return &WhenThenClauseList{baseNode[*googlesql.ASTWhenThenClauseList]{raw: r}}
+}
+
+func (n *WhenThenClauseList) WhenThenClauses() []*WhenThenClause {
+	var result []*WhenThenClause
+	for item := range childrenOfType[*googlesql.ASTWhenThenClause](n) {
+		result = append(result, newWhenThenClause(item))
+	}
+	return result
+}
+
+// IndexItemList wraps *googlesql.ASTIndexItemList.
+type IndexItemList struct {
+	baseNode[*googlesql.ASTIndexItemList]
+}
+
+func newIndexItemList(r *googlesql.ASTIndexItemList) *IndexItemList {
+	if r == nil {
+		return nil
+	}
+	return &IndexItemList{baseNode[*googlesql.ASTIndexItemList]{raw: r}}
+}
+
+// IndexStoringExpressionList wraps *googlesql.ASTIndexStoringExpressionList.
+type IndexStoringExpressionList struct {
+	baseNode[*googlesql.ASTIndexStoringExpressionList]
+}
+
+func newIndexStoringExpressionList(r *googlesql.ASTIndexStoringExpressionList) *IndexStoringExpressionList {
+	if r == nil {
+		return nil
+	}
+	return &IndexStoringExpressionList{baseNode[*googlesql.ASTIndexStoringExpressionList]{raw: r}}
+}
+
+// IndexUnnestExpressionList wraps *googlesql.ASTIndexUnnestExpressionList.
+type IndexUnnestExpressionList struct {
+	baseNode[*googlesql.ASTIndexUnnestExpressionList]
+}
+
+func newIndexUnnestExpressionList(r *googlesql.ASTIndexUnnestExpressionList) *IndexUnnestExpressionList {
+	if r == nil {
+		return nil
+	}
+	return &IndexUnnestExpressionList{baseNode[*googlesql.ASTIndexUnnestExpressionList]{raw: r}}
+}
+
+// IndexAllColumns wraps *googlesql.ASTIndexAllColumns.
+type IndexAllColumns struct {
+	baseNode[*googlesql.ASTIndexAllColumns]
+}
+
+func newIndexAllColumns(r *googlesql.ASTIndexAllColumns) *IndexAllColumns {
+	if r == nil {
+		return nil
+	}
+	return &IndexAllColumns{baseNode[*googlesql.ASTIndexAllColumns]{raw: r}}
+}
+
+// TransformClause wraps *googlesql.ASTTransformClause.
+type TransformClause struct {
+	baseNode[*googlesql.ASTTransformClause]
+}
+
+func newTransformClause(r *googlesql.ASTTransformClause) *TransformClause {
+	if r == nil {
+		return nil
+	}
+	return &TransformClause{baseNode[*googlesql.ASTTransformClause]{raw: r}}
+}
+
+func (n *TransformClause) SelectList() *SelectList {
+	return newSelectList(must(n.raw.SelectList()))
+}
+
+// InputOutputClause wraps *googlesql.ASTInputOutputClause.
+type InputOutputClause struct {
+	baseNode[*googlesql.ASTInputOutputClause]
+}
+
+func newInputOutputClause(r *googlesql.ASTInputOutputClause) *InputOutputClause {
+	if r == nil {
+		return nil
+	}
+	return &InputOutputClause{baseNode[*googlesql.ASTInputOutputClause]{raw: r}}
+}
+
+func (n *InputOutputClause) Input() *TableElementList {
+	return newTableElementList(must(n.raw.Input()))
+}
+
+func (n *InputOutputClause) Output() *TableElementList {
+	return newTableElementList(must(n.raw.Output()))
+}
+
+// Privilege wraps *googlesql.ASTPrivilege.
+type Privilege struct {
+	baseNode[*googlesql.ASTPrivilege]
+}
+
+func newPrivilege(r *googlesql.ASTPrivilege) *Privilege {
+	if r == nil {
+		return nil
+	}
+	return &Privilege{baseNode[*googlesql.ASTPrivilege]{raw: r}}
+}
+
+func (n *Privilege) PrivilegeAction() *Identifier {
+	return newIdentifier(must(n.raw.PrivilegeAction()))
+}
+func (n *Privilege) Paths() *PathExpressionList { return newPathExpressionList(must(n.raw.Paths())) }
+
+// Privileges wraps *googlesql.ASTPrivileges.
+type Privileges struct {
+	baseNode[*googlesql.ASTPrivileges]
+}
+
+func newPrivileges(r *googlesql.ASTPrivileges) *Privileges {
+	if r == nil {
+		return nil
+	}
+	return &Privileges{baseNode[*googlesql.ASTPrivileges]{raw: r}}
+}
+func (n *Privileges) IsAllPrivileges() bool { return must(n.raw.IsAllPrivileges()) }
+func (n *Privileges) Privileges() []*Privilege {
+	var result []*Privilege
+	for item := range childrenOfType[*googlesql.ASTPrivilege](n) {
+		result = append(result, newPrivilege(item))
+	}
+	return result
+}
+
+// SequenceArg wraps *googlesql.ASTSequenceArg.
+type SequenceArg struct {
+	baseNode[*googlesql.ASTSequenceArg]
+}
+
+func newSequenceArg(r *googlesql.ASTSequenceArg) *SequenceArg {
+	if r == nil {
+		return nil
+	}
+	return &SequenceArg{baseNode[*googlesql.ASTSequenceArg]{raw: r}}
+}
+
+func (n *SequenceArg) SequencePath() *PathExpression {
+	return newPathExpression(must(n.raw.SequencePath()))
+}
+
+// IdentityColumnInfo wraps *googlesql.ASTIdentityColumnInfo.
+type IdentityColumnInfo struct {
+	baseNode[*googlesql.ASTIdentityColumnInfo]
+}
+
+func newIdentityColumnInfo(r *googlesql.ASTIdentityColumnInfo) *IdentityColumnInfo {
+	if r == nil {
+		return nil
+	}
+	return &IdentityColumnInfo{baseNode[*googlesql.ASTIdentityColumnInfo]{raw: r}}
+}
+func (n *IdentityColumnInfo) CyclingEnabled() bool   { return must(n.raw.CyclingEnabled()) }
+func (n *IdentityColumnInfo) StartWithValue() Node   { return Wrap(must(n.raw.StartWithValue())) }
+func (n *IdentityColumnInfo) IncrementByValue() Node { return Wrap(must(n.raw.IncrementByValue())) }
+func (n *IdentityColumnInfo) MaxValue() Node         { return Wrap(must(n.raw.MaxValue())) }
+func (n *IdentityColumnInfo) MinValue() Node         { return Wrap(must(n.raw.MinValue())) }
+
+// AliasedQueryExpression wraps *googlesql.ASTAliasedQueryExpression.
+type AliasedQueryExpression struct {
+	baseNode[*googlesql.ASTAliasedQueryExpression]
+}
+
+func newAliasedQueryExpression(r *googlesql.ASTAliasedQueryExpression) *AliasedQueryExpression {
+	if r == nil {
+		return nil
+	}
+	return &AliasedQueryExpression{baseNode[*googlesql.ASTAliasedQueryExpression]{raw: r}}
+}
+func (n *AliasedQueryExpression) Alias() *Alias { return newAlias(must(n.raw.Alias())) }
+func (n *AliasedQueryExpression) Query() *Query { return newQuery(must(n.raw.Query())) }
+
+// AliasedQueryList wraps *googlesql.ASTAliasedQueryList.
+type AliasedQueryList struct {
+	baseNode[*googlesql.ASTAliasedQueryList]
+}
+
+func newAliasedQueryList(r *googlesql.ASTAliasedQueryList) *AliasedQueryList {
+	if r == nil {
+		return nil
+	}
+	return &AliasedQueryList{baseNode[*googlesql.ASTAliasedQueryList]{raw: r}}
+}
+
+// AliasedQueryModifiers wraps *googlesql.ASTAliasedQueryModifiers.
+type AliasedQueryModifiers struct {
+	baseNode[*googlesql.ASTAliasedQueryModifiers]
+}
+
+func newAliasedQueryModifiers(r *googlesql.ASTAliasedQueryModifiers) *AliasedQueryModifiers {
+	if r == nil {
+		return nil
+	}
+	return &AliasedQueryModifiers{baseNode[*googlesql.ASTAliasedQueryModifiers]{raw: r}}
+}
+
+// TableAndColumnInfo wraps *googlesql.ASTTableAndColumnInfo.
+type TableAndColumnInfo struct {
+	baseNode[*googlesql.ASTTableAndColumnInfo]
+}
+
+func newTableAndColumnInfo(r *googlesql.ASTTableAndColumnInfo) *TableAndColumnInfo {
+	if r == nil {
+		return nil
+	}
+	return &TableAndColumnInfo{baseNode[*googlesql.ASTTableAndColumnInfo]{raw: r}}
+}
+
+func (n *TableAndColumnInfo) TableName() *PathExpression {
+	return newPathExpression(must(n.raw.TableName()))
+}
+func (n *TableAndColumnInfo) ColumnList() *ColumnList { return newColumnList(must(n.raw.ColumnList())) }
+
+// TableAndColumnInfoList wraps *googlesql.ASTTableAndColumnInfoList.
+type TableAndColumnInfoList struct {
+	baseNode[*googlesql.ASTTableAndColumnInfoList]
+}
+
+func newTableAndColumnInfoList(r *googlesql.ASTTableAndColumnInfoList) *TableAndColumnInfoList {
+	if r == nil {
+		return nil
+	}
+	return &TableAndColumnInfoList{baseNode[*googlesql.ASTTableAndColumnInfoList]{raw: r}}
+}
+
+// MacroBody wraps *googlesql.ASTMacroBody.
+type MacroBody struct {
+	baseNode[*googlesql.ASTMacroBody]
+}
+
+func newMacroBody(r *googlesql.ASTMacroBody) *MacroBody {
+	if r == nil {
+		return nil
+	}
+	return &MacroBody{baseNode[*googlesql.ASTMacroBody]{raw: r}}
+}
+
+// IntOrUnbounded wraps *googlesql.ASTIntOrUnbounded.
+type IntOrUnbounded struct {
+	baseNode[*googlesql.ASTIntOrUnbounded]
+}
+
+func newIntOrUnbounded(r *googlesql.ASTIntOrUnbounded) *IntOrUnbounded {
+	if r == nil {
+		return nil
+	}
+	return &IntOrUnbounded{baseNode[*googlesql.ASTIntOrUnbounded]{raw: r}}
+}
+func (n *IntOrUnbounded) Bound() ExpressionNode { return wrapExpr(must(n.raw.Bound())) }
+
+// RecursionDepthModifier wraps *googlesql.ASTRecursionDepthModifier.
+type RecursionDepthModifier struct {
+	baseNode[*googlesql.ASTRecursionDepthModifier]
+}
+
+func newRecursionDepthModifier(r *googlesql.ASTRecursionDepthModifier) *RecursionDepthModifier {
+	if r == nil {
+		return nil
+	}
+	return &RecursionDepthModifier{baseNode[*googlesql.ASTRecursionDepthModifier]{raw: r}}
+}
+func (n *RecursionDepthModifier) Alias() *Alias { return newAlias(must(n.raw.Alias())) }
+func (n *RecursionDepthModifier) LowerBound() *IntOrUnbounded {
+	return newIntOrUnbounded(must(n.raw.LowerBound()))
+}
+
+func (n *RecursionDepthModifier) UpperBound() *IntOrUnbounded {
+	return newIntOrUnbounded(must(n.raw.UpperBound()))
+}

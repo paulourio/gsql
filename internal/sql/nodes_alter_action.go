@@ -363,3 +363,252 @@ func (n *SetOptionsAction) isAlterAction() {}
 func (n *SetOptionsAction) OptionsList() *OptionsList {
 	return newOptionsList(must(n.raw.OptionsList()))
 }
+
+// AlterColumnDropGeneratedAction wraps *googlesql.ASTAlterColumnDropGeneratedAction.
+type AlterColumnDropGeneratedAction struct {
+	baseNode[*googlesql.ASTAlterColumnDropGeneratedAction]
+}
+
+func newAlterColumnDropGeneratedAction(r *googlesql.ASTAlterColumnDropGeneratedAction) *AlterColumnDropGeneratedAction {
+	if r == nil {
+		return nil
+	}
+	return &AlterColumnDropGeneratedAction{baseNode[*googlesql.ASTAlterColumnDropGeneratedAction]{raw: r}}
+}
+func (n *AlterColumnDropGeneratedAction) isAlterAction() {}
+func (n *AlterColumnDropGeneratedAction) ColumnName() *Identifier {
+	return newIdentifier(must(n.raw.ColumnName()))
+}
+func (n *AlterColumnDropGeneratedAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+// AlterColumnSetGeneratedAction wraps *googlesql.ASTAlterColumnSetGeneratedAction.
+type AlterColumnSetGeneratedAction struct {
+	baseNode[*googlesql.ASTAlterColumnSetGeneratedAction]
+}
+
+func newAlterColumnSetGeneratedAction(r *googlesql.ASTAlterColumnSetGeneratedAction) *AlterColumnSetGeneratedAction {
+	if r == nil {
+		return nil
+	}
+	return &AlterColumnSetGeneratedAction{baseNode[*googlesql.ASTAlterColumnSetGeneratedAction]{raw: r}}
+}
+func (n *AlterColumnSetGeneratedAction) isAlterAction() {}
+func (n *AlterColumnSetGeneratedAction) ColumnName() *Identifier {
+	return newIdentifier(must(n.raw.ColumnName()))
+}
+
+func (n *AlterColumnSetGeneratedAction) GeneratedColumnInfo() *GeneratedColumnInfo {
+	return newGeneratedColumnInfo(must(n.raw.GeneratedColumnInfo()))
+}
+func (n *AlterColumnSetGeneratedAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+// AlterSubEntityAction wraps *googlesql.ASTAlterSubEntityAction.
+type AlterSubEntityAction struct {
+	baseNode[*googlesql.ASTAlterSubEntityAction]
+}
+
+func newAlterSubEntityAction(r *googlesql.ASTAlterSubEntityAction) *AlterSubEntityAction {
+	if r == nil {
+		return nil
+	}
+	return &AlterSubEntityAction{baseNode[*googlesql.ASTAlterSubEntityAction]{raw: r}}
+}
+func (n *AlterSubEntityAction) isAlterAction()          {}
+func (n *AlterSubEntityAction) Type() *Identifier       { return newIdentifier(must(n.raw.Type())) }
+func (n *AlterSubEntityAction) Name() *Identifier       { return newIdentifier(must(n.raw.Name())) }
+func (n *AlterSubEntityAction) Action() AlterActionNode { return wrapAlterAction(must(n.raw.Action())) }
+func (n *AlterSubEntityAction) IsIfExists() bool        { return must(n.raw.IsIfExists()) }
+
+// AddColumnIdentifierAction wraps *googlesql.ASTAddColumnIdentifierAction.
+type AddColumnIdentifierAction struct {
+	baseNode[*googlesql.ASTAddColumnIdentifierAction]
+}
+
+func newAddColumnIdentifierAction(r *googlesql.ASTAddColumnIdentifierAction) *AddColumnIdentifierAction {
+	if r == nil {
+		return nil
+	}
+	return &AddColumnIdentifierAction{baseNode[*googlesql.ASTAddColumnIdentifierAction]{raw: r}}
+}
+func (n *AddColumnIdentifierAction) isAlterAction() {}
+func (n *AddColumnIdentifierAction) ColumnName() *Identifier {
+	return newIdentifier(must(n.raw.ColumnName()))
+}
+func (n *AddColumnIdentifierAction) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+func (n *AddColumnIdentifierAction) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// AddSubEntityAction wraps *googlesql.ASTAddSubEntityAction.
+type AddSubEntityAction struct {
+	baseNode[*googlesql.ASTAddSubEntityAction]
+}
+
+func newAddSubEntityAction(r *googlesql.ASTAddSubEntityAction) *AddSubEntityAction {
+	if r == nil {
+		return nil
+	}
+	return &AddSubEntityAction{baseNode[*googlesql.ASTAddSubEntityAction]{raw: r}}
+}
+func (n *AddSubEntityAction) isAlterAction()    {}
+func (n *AddSubEntityAction) Type() *Identifier { return newIdentifier(must(n.raw.Type())) }
+func (n *AddSubEntityAction) Name() *Identifier { return newIdentifier(must(n.raw.Name())) }
+func (n *AddSubEntityAction) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+func (n *AddSubEntityAction) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+
+// AddToRestricteeListClause wraps *googlesql.ASTAddToRestricteeListClause.
+type AddToRestricteeListClause struct {
+	baseNode[*googlesql.ASTAddToRestricteeListClause]
+}
+
+func newAddToRestricteeListClause(r *googlesql.ASTAddToRestricteeListClause) *AddToRestricteeListClause {
+	if r == nil {
+		return nil
+	}
+	return &AddToRestricteeListClause{baseNode[*googlesql.ASTAddToRestricteeListClause]{raw: r}}
+}
+func (n *AddToRestricteeListClause) isAlterAction() {}
+func (n *AddToRestricteeListClause) RestricteeList() *GranteeList {
+	return newGranteeList(must(n.raw.RestricteeList()))
+}
+func (n *AddToRestricteeListClause) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+
+// AddTTLAction wraps *googlesql.ASTAddTtlAction.
+type AddTTLAction struct {
+	baseNode[*googlesql.ASTAddTtlAction]
+}
+
+func newAddTTLAction(r *googlesql.ASTAddTtlAction) *AddTTLAction {
+	if r == nil {
+		return nil
+	}
+	return &AddTTLAction{baseNode[*googlesql.ASTAddTtlAction]{raw: r}}
+}
+func (n *AddTTLAction) isAlterAction()             {}
+func (n *AddTTLAction) Expression() ExpressionNode { return wrapExpr(must(n.raw.Expression())) }
+func (n *AddTTLAction) IsIfNotExists() bool        { return must(n.raw.IsIfNotExists()) }
+
+// DropSubEntityAction wraps *googlesql.ASTDropSubEntityAction.
+type DropSubEntityAction struct {
+	baseNode[*googlesql.ASTDropSubEntityAction]
+}
+
+func newDropSubEntityAction(r *googlesql.ASTDropSubEntityAction) *DropSubEntityAction {
+	if r == nil {
+		return nil
+	}
+	return &DropSubEntityAction{baseNode[*googlesql.ASTDropSubEntityAction]{raw: r}}
+}
+func (n *DropSubEntityAction) isAlterAction()    {}
+func (n *DropSubEntityAction) Type() *Identifier { return newIdentifier(must(n.raw.Type())) }
+func (n *DropSubEntityAction) Name() *Identifier { return newIdentifier(must(n.raw.Name())) }
+func (n *DropSubEntityAction) IsIfExists() bool  { return must(n.raw.IsIfExists()) }
+
+// DropTTLAction wraps *googlesql.ASTDropTtlAction.
+type DropTTLAction struct {
+	baseNode[*googlesql.ASTDropTtlAction]
+}
+
+func newDropTTLAction(r *googlesql.ASTDropTtlAction) *DropTTLAction {
+	if r == nil {
+		return nil
+	}
+	return &DropTTLAction{baseNode[*googlesql.ASTDropTtlAction]{raw: r}}
+}
+func (n *DropTTLAction) isAlterAction()   {}
+func (n *DropTTLAction) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+// SetAsAction wraps *googlesql.ASTSetAsAction.
+type SetAsAction struct {
+	baseNode[*googlesql.ASTSetAsAction]
+}
+
+func newSetAsAction(r *googlesql.ASTSetAsAction) *SetAsAction {
+	if r == nil {
+		return nil
+	}
+	return &SetAsAction{baseNode[*googlesql.ASTSetAsAction]{raw: r}}
+}
+func (n *SetAsAction) isAlterAction()           {}
+func (n *SetAsAction) JSONBody() *JSONLiteral   { return newJSONLiteral(must(n.raw.JsonBody())) }
+func (n *SetAsAction) TextBody() *StringLiteral { return newStringLiteral(must(n.raw.TextBody())) }
+
+// RebuildAction wraps *googlesql.ASTRebuildAction.
+type RebuildAction struct {
+	baseNode[*googlesql.ASTRebuildAction]
+}
+
+func newRebuildAction(r *googlesql.ASTRebuildAction) *RebuildAction {
+	if r == nil {
+		return nil
+	}
+	return &RebuildAction{baseNode[*googlesql.ASTRebuildAction]{raw: r}}
+}
+func (n *RebuildAction) isAlterAction() {}
+
+// RemoveFromRestricteeListClause wraps *googlesql.ASTRemoveFromRestricteeListClause.
+type RemoveFromRestricteeListClause struct {
+	baseNode[*googlesql.ASTRemoveFromRestricteeListClause]
+}
+
+func newRemoveFromRestricteeListClause(r *googlesql.ASTRemoveFromRestricteeListClause) *RemoveFromRestricteeListClause {
+	if r == nil {
+		return nil
+	}
+	return &RemoveFromRestricteeListClause{baseNode[*googlesql.ASTRemoveFromRestricteeListClause]{raw: r}}
+}
+func (n *RemoveFromRestricteeListClause) isAlterAction() {}
+func (n *RemoveFromRestricteeListClause) RestricteeList() *GranteeList {
+	return newGranteeList(must(n.raw.RestricteeList()))
+}
+func (n *RemoveFromRestricteeListClause) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+
+// ReplaceTTLAction wraps *googlesql.ASTReplaceTtlAction.
+type ReplaceTTLAction struct {
+	baseNode[*googlesql.ASTReplaceTtlAction]
+}
+
+func newReplaceTTLAction(r *googlesql.ASTReplaceTtlAction) *ReplaceTTLAction {
+	if r == nil {
+		return nil
+	}
+	return &ReplaceTTLAction{baseNode[*googlesql.ASTReplaceTtlAction]{raw: r}}
+}
+func (n *ReplaceTTLAction) isAlterAction()             {}
+func (n *ReplaceTTLAction) Expression() ExpressionNode { return wrapExpr(must(n.raw.Expression())) }
+func (n *ReplaceTTLAction) IsIfExists() bool           { return must(n.raw.IsIfExists()) }
+
+// RestrictToClause wraps *googlesql.ASTRestrictToClause.
+type RestrictToClause struct {
+	baseNode[*googlesql.ASTRestrictToClause]
+}
+
+func newRestrictToClause(r *googlesql.ASTRestrictToClause) *RestrictToClause {
+	if r == nil {
+		return nil
+	}
+	return &RestrictToClause{baseNode[*googlesql.ASTRestrictToClause]{raw: r}}
+}
+func (n *RestrictToClause) isAlterAction() {}
+func (n *RestrictToClause) RestricteeList() *GranteeList {
+	return newGranteeList(must(n.raw.RestricteeList()))
+}
+
+// RevokeFromClause wraps *googlesql.ASTRevokeFromClause.
+type RevokeFromClause struct {
+	baseNode[*googlesql.ASTRevokeFromClause]
+}
+
+func newRevokeFromClause(r *googlesql.ASTRevokeFromClause) *RevokeFromClause {
+	if r == nil {
+		return nil
+	}
+	return &RevokeFromClause{baseNode[*googlesql.ASTRevokeFromClause]{raw: r}}
+}
+func (n *RevokeFromClause) isAlterAction() {}
+func (n *RevokeFromClause) RevokeFromList() *GranteeList {
+	return newGranteeList(must(n.raw.RevokeFromList()))
+}
+func (n *RevokeFromClause) IsRevokeFromAll() bool { return must(n.raw.IsRevokeFromAll()) }

@@ -1135,3 +1135,331 @@ func (n *WithExpression) Expression() ExpressionNode {
 func (n *WithExpression) Variables() *SelectList {
 	return newSelectList(must(n.raw.Variables()))
 }
+
+// AnySomeAllOp wraps *googlesql.ASTAnySomeAllOp.
+type AnySomeAllOp struct {
+	baseNode[*googlesql.ASTAnySomeAllOp]
+}
+
+func newAnySomeAllOp(r *googlesql.ASTAnySomeAllOp) *AnySomeAllOp {
+	if r == nil {
+		return nil
+	}
+	return &AnySomeAllOp{baseNode[*googlesql.ASTAnySomeAllOp]{raw: r}}
+}
+
+func (n *AnySomeAllOp) isExpression()             {}
+func (n *AnySomeAllOp) Op() AnySomeAllOpType      { return must(n.raw.Op()) }
+func (n *AnySomeAllOp) GetSQLForOperator() string { return must(n.raw.GetSQLForOperator()) }
+
+// LikeExpression wraps *googlesql.ASTLikeExpression.
+type LikeExpression struct {
+	baseNode[*googlesql.ASTLikeExpression]
+}
+
+func newLikeExpression(r *googlesql.ASTLikeExpression) *LikeExpression {
+	if r == nil {
+		return nil
+	}
+	return &LikeExpression{baseNode[*googlesql.ASTLikeExpression]{raw: r}}
+}
+
+func (n *LikeExpression) isExpression()       {}
+func (n *LikeExpression) LHS() ExpressionNode { return wrapExpr(must(n.raw.Lhs())) }
+func (n *LikeExpression) InList() *InList     { return newInList(must(n.raw.InList())) }
+func (n *LikeExpression) Query() *Query       { return newQuery(must(n.raw.Query())) }
+func (n *LikeExpression) Op() *AnySomeAllOp   { return newAnySomeAllOp(must(n.raw.Op())) }
+func (n *LikeExpression) Hint() *Hint         { return newHint(must(n.raw.Hint())) }
+func (n *LikeExpression) IsNot() bool         { return must(n.raw.IsNot()) }
+
+// QuantifiedComparisonExpression wraps *googlesql.ASTQuantifiedComparisonExpression.
+type QuantifiedComparisonExpression struct {
+	baseNode[*googlesql.ASTQuantifiedComparisonExpression]
+}
+
+func newQuantifiedComparisonExpression(r *googlesql.ASTQuantifiedComparisonExpression) *QuantifiedComparisonExpression {
+	if r == nil {
+		return nil
+	}
+	return &QuantifiedComparisonExpression{baseNode[*googlesql.ASTQuantifiedComparisonExpression]{raw: r}}
+}
+
+func (n *QuantifiedComparisonExpression) isExpression()       {}
+func (n *QuantifiedComparisonExpression) LHS() ExpressionNode { return wrapExpr(must(n.raw.Lhs())) }
+func (n *QuantifiedComparisonExpression) InList() *InList     { return newInList(must(n.raw.InList())) }
+func (n *QuantifiedComparisonExpression) Query() *Query       { return newQuery(must(n.raw.Query())) }
+func (n *QuantifiedComparisonExpression) Quantifier() *AnySomeAllOp {
+	return newAnySomeAllOp(must(n.raw.Quantifier()))
+}
+func (n *QuantifiedComparisonExpression) Hint() *Hint  { return newHint(must(n.raw.Hint())) }
+func (n *QuantifiedComparisonExpression) Op() BinaryOp { return must(n.raw.Op()) }
+
+// NewConstructor wraps *googlesql.ASTNewConstructor.
+type NewConstructor struct {
+	baseNode[*googlesql.ASTNewConstructor]
+}
+
+func newNewConstructor(r *googlesql.ASTNewConstructor) *NewConstructor {
+	if r == nil {
+		return nil
+	}
+	return &NewConstructor{baseNode[*googlesql.ASTNewConstructor]{raw: r}}
+}
+
+func (n *NewConstructor) isExpression()         {}
+func (n *NewConstructor) TypeName() *SimpleType { return newSimpleType(must(n.raw.TypeName())) }
+func (n *NewConstructor) Arguments() []*NewConstructorArg {
+	var result []*NewConstructorArg
+	for item := range childrenOfType[*googlesql.ASTNewConstructorArg](n) {
+		result = append(result, newNewConstructorArg(item))
+	}
+	return result
+}
+
+// NewConstructorArg wraps *googlesql.ASTNewConstructorArg.
+type NewConstructorArg struct {
+	baseNode[*googlesql.ASTNewConstructorArg]
+}
+
+func newNewConstructorArg(r *googlesql.ASTNewConstructorArg) *NewConstructorArg {
+	if r == nil {
+		return nil
+	}
+	return &NewConstructorArg{baseNode[*googlesql.ASTNewConstructorArg]{raw: r}}
+}
+
+func (n *NewConstructorArg) Expression() ExpressionNode { return wrapExpr(must(n.raw.Expression())) }
+func (n *NewConstructorArg) OptionalIdentifier() *Identifier {
+	return newIdentifier(must(n.raw.OptionalIdentifier()))
+}
+
+func (n *NewConstructorArg) OptionalPathExpression() *PathExpression {
+	return newPathExpression(must(n.raw.OptionalPathExpression()))
+}
+
+// ReplaceFieldsExpression wraps *googlesql.ASTReplaceFieldsExpression.
+type ReplaceFieldsExpression struct {
+	baseNode[*googlesql.ASTReplaceFieldsExpression]
+}
+
+func newReplaceFieldsExpression(r *googlesql.ASTReplaceFieldsExpression) *ReplaceFieldsExpression {
+	if r == nil {
+		return nil
+	}
+	return &ReplaceFieldsExpression{baseNode[*googlesql.ASTReplaceFieldsExpression]{raw: r}}
+}
+
+func (n *ReplaceFieldsExpression) isExpression()        {}
+func (n *ReplaceFieldsExpression) Expr() ExpressionNode { return wrapExpr(must(n.raw.Expr())) }
+func (n *ReplaceFieldsExpression) Arguments() []*ReplaceFieldsArg {
+	var result []*ReplaceFieldsArg
+	for item := range childrenOfType[*googlesql.ASTReplaceFieldsArg](n) {
+		result = append(result, newReplaceFieldsArg(item))
+	}
+	return result
+}
+
+// ReplaceFieldsArg wraps *googlesql.ASTReplaceFieldsArg.
+type ReplaceFieldsArg struct {
+	baseNode[*googlesql.ASTReplaceFieldsArg]
+}
+
+func newReplaceFieldsArg(r *googlesql.ASTReplaceFieldsArg) *ReplaceFieldsArg {
+	if r == nil {
+		return nil
+	}
+	return &ReplaceFieldsArg{baseNode[*googlesql.ASTReplaceFieldsArg]{raw: r}}
+}
+
+func (n *ReplaceFieldsArg) Expression() ExpressionNode { return wrapExpr(must(n.raw.Expression())) }
+func (n *ReplaceFieldsArg) PathExpression() Node       { return Wrap(must(n.raw.PathExpression())) }
+
+// FilterFieldsArg wraps *googlesql.ASTFilterFieldsArg.
+type FilterFieldsArg struct {
+	baseNode[*googlesql.ASTFilterFieldsArg]
+}
+
+func newFilterFieldsArg(r *googlesql.ASTFilterFieldsArg) *FilterFieldsArg {
+	if r == nil {
+		return nil
+	}
+	return &FilterFieldsArg{baseNode[*googlesql.ASTFilterFieldsArg]{raw: r}}
+}
+
+func (n *FilterFieldsArg) PathExpression() Node   { return Wrap(must(n.raw.PathExpression())) }
+func (n *FilterFieldsArg) FilterType() FilterType { return must(n.raw.FilterType()) }
+
+// ExpressionWithAlias wraps *googlesql.ASTExpressionWithAlias.
+type ExpressionWithAlias struct {
+	baseNode[*googlesql.ASTExpressionWithAlias]
+}
+
+func newExpressionWithAlias(r *googlesql.ASTExpressionWithAlias) *ExpressionWithAlias {
+	if r == nil {
+		return nil
+	}
+	return &ExpressionWithAlias{baseNode[*googlesql.ASTExpressionWithAlias]{raw: r}}
+}
+
+func (n *ExpressionWithAlias) isExpression()              {}
+func (n *ExpressionWithAlias) Expression() ExpressionNode { return wrapExpr(must(n.raw.Expression())) }
+func (n *ExpressionWithAlias) Alias() *Alias              { return newAlias(must(n.raw.Alias())) }
+
+// ExtendedPathExpression wraps *googlesql.ASTExtendedPathExpression.
+type ExtendedPathExpression struct {
+	baseNode[*googlesql.ASTExtendedPathExpression]
+}
+
+func newExtendedPathExpression(r *googlesql.ASTExtendedPathExpression) *ExtendedPathExpression {
+	if r == nil {
+		return nil
+	}
+	return &ExtendedPathExpression{baseNode[*googlesql.ASTExtendedPathExpression]{raw: r}}
+}
+
+func (n *ExtendedPathExpression) isExpression() {}
+func (n *ExtendedPathExpression) GeneralizedPathExpression() Node {
+	return Wrap(must(n.raw.GeneralizedPathExpression()))
+}
+
+// ChainedBaseExpr wraps *googlesql.ASTChainedBaseExpr.
+type ChainedBaseExpr struct {
+	baseNode[*googlesql.ASTChainedBaseExpr]
+}
+
+func newChainedBaseExpr(r *googlesql.ASTChainedBaseExpr) *ChainedBaseExpr {
+	if r == nil {
+		return nil
+	}
+	return &ChainedBaseExpr{baseNode[*googlesql.ASTChainedBaseExpr]{raw: r}}
+}
+
+func (n *ChainedBaseExpr) isExpression()        {}
+func (n *ChainedBaseExpr) Expr() ExpressionNode { return wrapExpr(must(n.raw.Expr())) }
+
+// StructBracedConstructor wraps *googlesql.ASTStructBracedConstructor.
+type StructBracedConstructor struct {
+	baseNode[*googlesql.ASTStructBracedConstructor]
+}
+
+func newStructBracedConstructor(r *googlesql.ASTStructBracedConstructor) *StructBracedConstructor {
+	if r == nil {
+		return nil
+	}
+	return &StructBracedConstructor{baseNode[*googlesql.ASTStructBracedConstructor]{raw: r}}
+}
+
+func (n *StructBracedConstructor) isExpression()      {}
+func (n *StructBracedConstructor) TypeName() TypeNode { return wrapType(must(n.raw.TypeName())) }
+func (n *StructBracedConstructor) BracedConstructor() *BracedConstructor {
+	return newBracedConstructor(must(n.raw.BracedConstructor()))
+}
+
+// BracedConstructor wraps *googlesql.ASTBracedConstructor.
+type BracedConstructor struct {
+	baseNode[*googlesql.ASTBracedConstructor]
+}
+
+func newBracedConstructor(r *googlesql.ASTBracedConstructor) *BracedConstructor {
+	if r == nil {
+		return nil
+	}
+	return &BracedConstructor{baseNode[*googlesql.ASTBracedConstructor]{raw: r}}
+}
+
+func (n *BracedConstructor) Fields() []*BracedConstructorField {
+	var result []*BracedConstructorField
+	for item := range childrenOfType[*googlesql.ASTBracedConstructorField](n) {
+		result = append(result, newBracedConstructorField(item))
+	}
+	return result
+}
+
+// BracedNewConstructor wraps *googlesql.ASTBracedNewConstructor.
+type BracedNewConstructor struct {
+	baseNode[*googlesql.ASTBracedNewConstructor]
+}
+
+func newBracedNewConstructor(r *googlesql.ASTBracedNewConstructor) *BracedNewConstructor {
+	if r == nil {
+		return nil
+	}
+	return &BracedNewConstructor{baseNode[*googlesql.ASTBracedNewConstructor]{raw: r}}
+}
+
+func (n *BracedNewConstructor) isExpression()         {}
+func (n *BracedNewConstructor) TypeName() *SimpleType { return newSimpleType(must(n.raw.TypeName())) }
+func (n *BracedNewConstructor) BracedConstructor() *BracedConstructor {
+	return newBracedConstructor(must(n.raw.BracedConstructor()))
+}
+
+// BracedConstructorField wraps *googlesql.ASTBracedConstructorField.
+type BracedConstructorField struct {
+	baseNode[*googlesql.ASTBracedConstructorField]
+}
+
+func newBracedConstructorField(r *googlesql.ASTBracedConstructorField) *BracedConstructorField {
+	if r == nil {
+		return nil
+	}
+	return &BracedConstructorField{baseNode[*googlesql.ASTBracedConstructorField]{raw: r}}
+}
+
+func (n *BracedConstructorField) BracedConstructorLHS() *BracedConstructorLHS {
+	return newBracedConstructorLHS(must(n.raw.BracedConstructorLhs()))
+}
+
+func (n *BracedConstructorField) Value() *BracedConstructorFieldValue {
+	return newBracedConstructorFieldValue(must(n.raw.Value()))
+}
+func (n *BracedConstructorField) CommaSeparated() bool { return must(n.raw.CommaSeparated()) }
+
+// BracedConstructorFieldValue wraps *googlesql.ASTBracedConstructorFieldValue.
+type BracedConstructorFieldValue struct {
+	baseNode[*googlesql.ASTBracedConstructorFieldValue]
+}
+
+func newBracedConstructorFieldValue(r *googlesql.ASTBracedConstructorFieldValue) *BracedConstructorFieldValue {
+	if r == nil {
+		return nil
+	}
+	return &BracedConstructorFieldValue{baseNode[*googlesql.ASTBracedConstructorFieldValue]{raw: r}}
+}
+
+func (n *BracedConstructorFieldValue) Expression() ExpressionNode {
+	return wrapExpr(must(n.raw.Expression()))
+}
+func (n *BracedConstructorFieldValue) ColonPrefixed() bool { return must(n.raw.ColonPrefixed()) }
+
+// BracedConstructorLHS wraps *googlesql.ASTBracedConstructorLhs.
+type BracedConstructorLHS struct {
+	baseNode[*googlesql.ASTBracedConstructorLhs]
+}
+
+func newBracedConstructorLHS(r *googlesql.ASTBracedConstructorLhs) *BracedConstructorLHS {
+	if r == nil {
+		return nil
+	}
+	return &BracedConstructorLHS{baseNode[*googlesql.ASTBracedConstructorLhs]{raw: r}}
+}
+
+func (n *BracedConstructorLHS) ExtendedPathExpr() Node { return Wrap(must(n.raw.ExtendedPathExpr())) }
+func (n *BracedConstructorLHS) Operation() LHSOp       { return must(n.raw.Operation()) }
+
+// UpdateConstructor wraps *googlesql.ASTUpdateConstructor.
+type UpdateConstructor struct {
+	baseNode[*googlesql.ASTUpdateConstructor]
+}
+
+func newUpdateConstructor(r *googlesql.ASTUpdateConstructor) *UpdateConstructor {
+	if r == nil {
+		return nil
+	}
+	return &UpdateConstructor{baseNode[*googlesql.ASTUpdateConstructor]{raw: r}}
+}
+
+func (n *UpdateConstructor) isExpression()           {}
+func (n *UpdateConstructor) Function() *FunctionCall { return newFunctionCall(must(n.raw.Function())) }
+func (n *UpdateConstructor) BracedConstructor() *BracedConstructor {
+	return newBracedConstructor(must(n.raw.BracedConstructor()))
+}

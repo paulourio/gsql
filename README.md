@@ -56,6 +56,11 @@ Formatting without comment is always idempotent, but formatting code preserving 
 - [x] Aggregate function calls (`function_name([DISTINCT] args [...modifiers]) OVER over_clause`)
 - [x] Window function calls (`function_name([argument_list]) OVER over_clause`)
 - [x] Subqueries
+- [ ] `LIKE` expression (`LIKE ANY`, `LIKE ALL`, `LIKE SOME`)
+- [ ] Quantified comparison (`= ANY(...)`, `> ALL(...)`)
+- [ ] NEW constructor (proto)
+- [ ] REPLACE_FIELDS / FILTER_FIELDS
+- [ ] Braced constructors (proto)
 
 #### Statements
 
@@ -83,12 +88,15 @@ Formatting without comment is always idempotent, but formatting code preserving 
     - [ ] CREATE CONNECTION
     - [ ] CREATE APPROX VIEW
     - [ ] CREATE SNAPSHOT (generic)
+    - [ ] CREATE DATABASE
+    - [ ] CREATE CONSTANT
     - [ ] CREATE CAPACITY - not supported by googlesql
     - [ ] CREATE RESERVATION - not supported by googlesql
     - [ ] CREATE ASSIGNMENT - not supported by googlesql
     - [x] ALTER SCHEMA
     - [x] ALTER TABLE
     - [x] ALTER COLUMN
+    - [ ] ALTER EXTERNAL SCHEMA
     - [x] ALTER VIEW
     - [x] ALTER MATERIALIZED VIEW
     - [ ] ALTER MODEL
@@ -115,7 +123,7 @@ Formatting without comment is always idempotent, but formatting code preserving 
     - [ ] DROP SEQUENCE
     - [ ] DROP CONNECTION
     - [ ] UNDROP (table/schema)
-    - [ ] RENAME (table/object)
+    - [x] RENAME (table/object)
     - [ ] DROP CAPACITY - not supported by googlesql
     - [ ] DROP RESERVATION - not supported by googlesql
     - [ ] DROP ASSIGNMENT - not supported by googlesql
@@ -169,6 +177,17 @@ Formatting without comment is always idempotent, but formatting code preserving 
 
 - [x] ASSERT
 
+#### Other statements
+
+- [ ] ANALYZE
+- [ ] DESCRIBE
+- [ ] EXPLAIN
+- [ ] SHOW
+- [ ] DEFINE MACRO
+- [ ] DEFINE TABLE
+- [ ] IMPORT MODULE
+- [ ] RUN
+
 #### BigQuery ML SQL
 
 - [ ] CREATE MODEL
@@ -205,6 +224,10 @@ The googlesql parser now supports the pipe query syntax (`|>`). None of the pipe
 - [ ] `|> IF`
 - [ ] `|> DESCRIBE`
 - [ ] `|> WITH`
+- [ ] `|> SET OPERATION` (UNION, INTERSECT, EXCEPT)
+- [ ] `|> STATIC_DESCRIBE`
+- [ ] `|> MATCH_RECOGNIZE`
+- [ ] `|> RECURSIVE UNION`
 
 #### Extensions
 

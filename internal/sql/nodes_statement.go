@@ -1447,3 +1447,914 @@ func (n *WhileStatement) IsLoopStatement() bool     { return must(n.raw.IsLoopSt
 func (n *WhileStatement) Label() *Label             { return newLabel(must(n.raw.Label())) }
 func (n *WhileStatement) Condition() ExpressionNode { return wrapExpr(must(n.raw.Condition())) }
 func (n *WhileStatement) Body() *StatementList      { return newStatementList(must(n.raw.Body())) }
+
+// StatementWithPipeOperators wraps *googlesql.ASTStatementWithPipeOperators.
+type StatementWithPipeOperators struct {
+	baseNode[*googlesql.ASTStatementWithPipeOperators]
+}
+
+func newStatementWithPipeOperators(r *googlesql.ASTStatementWithPipeOperators) *StatementWithPipeOperators {
+	if r == nil {
+		return nil
+	}
+	return &StatementWithPipeOperators{baseNode[*googlesql.ASTStatementWithPipeOperators]{raw: r}}
+}
+
+func (n *StatementWithPipeOperators) isStatement() {}
+
+func (n *StatementWithPipeOperators) Statement() StatementNode {
+	return wrapStmt(must(n.raw.Statement()))
+}
+
+func (n *StatementWithPipeOperators) PipeOperatorSuffix() *SubpipelineStatement {
+	return newSubpipelineStatement(must(n.raw.PipeOperatorSuffix()))
+}
+
+// SubpipelineStatement wraps *googlesql.ASTSubpipelineStatement.
+type SubpipelineStatement struct {
+	baseNode[*googlesql.ASTSubpipelineStatement]
+}
+
+func newSubpipelineStatement(r *googlesql.ASTSubpipelineStatement) *SubpipelineStatement {
+	if r == nil {
+		return nil
+	}
+	return &SubpipelineStatement{baseNode[*googlesql.ASTSubpipelineStatement]{raw: r}}
+}
+
+func (n *SubpipelineStatement) isStatement() {}
+
+func (n *SubpipelineStatement) Subpipeline() *Subpipeline {
+	return newSubpipeline(must(n.raw.Subpipeline()))
+}
+
+// CaseStatement wraps *googlesql.ASTCaseStatement.
+type CaseStatement struct {
+	baseNode[*googlesql.ASTCaseStatement]
+}
+
+func newCaseStatement(r *googlesql.ASTCaseStatement) *CaseStatement {
+	if r == nil {
+		return nil
+	}
+	return &CaseStatement{baseNode[*googlesql.ASTCaseStatement]{raw: r}}
+}
+
+func (n *CaseStatement) isStatement() {}
+
+func (n *CaseStatement) Expression() ExpressionNode {
+	return wrapExpr(must(n.raw.Expression()))
+}
+
+func (n *CaseStatement) WhenThenClauses() *WhenThenClauseList {
+	return newWhenThenClauseList(must(n.raw.WhenThenClauses()))
+}
+
+func (n *CaseStatement) ElseList() *StatementList {
+	return newStatementList(must(n.raw.ElseList()))
+}
+
+// CreateIndexStatement wraps *googlesql.ASTCreateIndexStatement.
+type CreateIndexStatement struct {
+	baseNode[*googlesql.ASTCreateIndexStatement]
+}
+
+func newCreateIndexStatement(r *googlesql.ASTCreateIndexStatement) *CreateIndexStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreateIndexStatement{baseNode[*googlesql.ASTCreateIndexStatement]{raw: r}}
+}
+func (n *CreateIndexStatement) isStatement()          {}
+func (n *CreateIndexStatement) IsOrReplace() bool     { return must(n.raw.IsOrReplace()) }
+func (n *CreateIndexStatement) IsIfNotExists() bool   { return must(n.raw.IsIfNotExists()) }
+func (n *CreateIndexStatement) Scope() Scope          { return must(n.raw.Scope()) }
+func (n *CreateIndexStatement) Name() *PathExpression { return newPathExpression(must(n.raw.Name())) }
+func (n *CreateIndexStatement) TableName() *PathExpression {
+	return newPathExpression(must(n.raw.TableName()))
+}
+
+func (n *CreateIndexStatement) OptionalTableAlias() *Alias {
+	return newAlias(must(n.raw.OptionalTableAlias()))
+}
+func (n *CreateIndexStatement) IndexItemList() Node { return Wrap(must(n.raw.IndexItemList())) }
+func (n *CreateIndexStatement) IsSearch() bool      { return must(n.raw.IsSearch()) }
+func (n *CreateIndexStatement) IsUnique() bool      { return must(n.raw.IsUnique()) }
+func (n *CreateIndexStatement) IsVector() bool      { return must(n.raw.IsVector()) }
+func (n *CreateIndexStatement) OptionalPartitionBy() *PartitionBy {
+	return newPartitionBy(must(n.raw.OptionalPartitionBy()))
+}
+
+func (n *CreateIndexStatement) OptionalIndexStoringExpressions() Node {
+	return Wrap(must(n.raw.OptionalIndexStoringExpressions()))
+}
+
+func (n *CreateIndexStatement) OptionalIndexUnnestExpressionList() Node {
+	return Wrap(must(n.raw.OptionalIndexUnnestExpressionList()))
+}
+
+func (n *CreateIndexStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// CreateModelStatement wraps *googlesql.ASTCreateModelStatement.
+type CreateModelStatement struct {
+	baseNode[*googlesql.ASTCreateModelStatement]
+}
+
+func newCreateModelStatement(r *googlesql.ASTCreateModelStatement) *CreateModelStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreateModelStatement{baseNode[*googlesql.ASTCreateModelStatement]{raw: r}}
+}
+func (n *CreateModelStatement) isStatement()          {}
+func (n *CreateModelStatement) IsOrReplace() bool     { return must(n.raw.IsOrReplace()) }
+func (n *CreateModelStatement) IsIfNotExists() bool   { return must(n.raw.IsIfNotExists()) }
+func (n *CreateModelStatement) Scope() Scope          { return must(n.raw.Scope()) }
+func (n *CreateModelStatement) Name() *PathExpression { return newPathExpression(must(n.raw.Name())) }
+func (n *CreateModelStatement) Query() *Query         { return newQuery(must(n.raw.Query())) }
+func (n *CreateModelStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+func (n *CreateModelStatement) IsRemote() bool          { return must(n.raw.IsRemote()) }
+func (n *CreateModelStatement) TransformClause() Node   { return Wrap(must(n.raw.TransformClause())) }
+func (n *CreateModelStatement) InputOutputClause() Node { return Wrap(must(n.raw.InputOutputClause())) }
+
+// CreateSequenceStatement wraps *googlesql.ASTCreateSequenceStatement.
+type CreateSequenceStatement struct {
+	baseNode[*googlesql.ASTCreateSequenceStatement]
+}
+
+func newCreateSequenceStatement(r *googlesql.ASTCreateSequenceStatement) *CreateSequenceStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreateSequenceStatement{baseNode[*googlesql.ASTCreateSequenceStatement]{raw: r}}
+}
+func (n *CreateSequenceStatement) isStatement()        {}
+func (n *CreateSequenceStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
+func (n *CreateSequenceStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+func (n *CreateSequenceStatement) Scope() Scope        { return must(n.raw.Scope()) }
+func (n *CreateSequenceStatement) Name() *PathExpression {
+	return newPathExpression(must(n.raw.Name()))
+}
+
+func (n *CreateSequenceStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// CreateConnectionStatement wraps *googlesql.ASTCreateConnectionStatement.
+type CreateConnectionStatement struct {
+	baseNode[*googlesql.ASTCreateConnectionStatement]
+}
+
+func newCreateConnectionStatement(r *googlesql.ASTCreateConnectionStatement) *CreateConnectionStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreateConnectionStatement{baseNode[*googlesql.ASTCreateConnectionStatement]{raw: r}}
+}
+func (n *CreateConnectionStatement) isStatement()        {}
+func (n *CreateConnectionStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
+func (n *CreateConnectionStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+func (n *CreateConnectionStatement) Scope() Scope        { return must(n.raw.Scope()) }
+func (n *CreateConnectionStatement) Name() *PathExpression {
+	return newPathExpression(must(n.raw.Name()))
+}
+
+func (n *CreateConnectionStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// CreateDatabaseStatement wraps *googlesql.ASTCreateDatabaseStatement.
+type CreateDatabaseStatement struct {
+	baseNode[*googlesql.ASTCreateDatabaseStatement]
+}
+
+func newCreateDatabaseStatement(r *googlesql.ASTCreateDatabaseStatement) *CreateDatabaseStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreateDatabaseStatement{baseNode[*googlesql.ASTCreateDatabaseStatement]{raw: r}}
+}
+func (n *CreateDatabaseStatement) isStatement() {}
+func (n *CreateDatabaseStatement) Name() *PathExpression {
+	return newPathExpression(must(n.raw.Name()))
+}
+
+func (n *CreateDatabaseStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// CreateConstantStatement wraps *googlesql.ASTCreateConstantStatement.
+type CreateConstantStatement struct {
+	baseNode[*googlesql.ASTCreateConstantStatement]
+}
+
+func newCreateConstantStatement(r *googlesql.ASTCreateConstantStatement) *CreateConstantStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreateConstantStatement{baseNode[*googlesql.ASTCreateConstantStatement]{raw: r}}
+}
+func (n *CreateConstantStatement) isStatement()        {}
+func (n *CreateConstantStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
+func (n *CreateConstantStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+func (n *CreateConstantStatement) Scope() Scope        { return must(n.raw.Scope()) }
+func (n *CreateConstantStatement) Name() *PathExpression {
+	return newPathExpression(must(n.raw.Name()))
+}
+func (n *CreateConstantStatement) Expr() ExpressionNode { return wrapExpr(must(n.raw.Expr())) }
+
+// CreateSnapshotStatement wraps *googlesql.ASTCreateSnapshotStatement.
+type CreateSnapshotStatement struct {
+	baseNode[*googlesql.ASTCreateSnapshotStatement]
+}
+
+func newCreateSnapshotStatement(r *googlesql.ASTCreateSnapshotStatement) *CreateSnapshotStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreateSnapshotStatement{baseNode[*googlesql.ASTCreateSnapshotStatement]{raw: r}}
+}
+func (n *CreateSnapshotStatement) isStatement()        {}
+func (n *CreateSnapshotStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
+func (n *CreateSnapshotStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+func (n *CreateSnapshotStatement) Scope() Scope        { return must(n.raw.Scope()) }
+func (n *CreateSnapshotStatement) Name() *PathExpression {
+	return newPathExpression(must(n.raw.Name()))
+}
+
+func (n *CreateSnapshotStatement) CloneDataSource() *CloneDataSource {
+	return newCloneDataSource(must(n.raw.CloneDataSource()))
+}
+
+func (n *CreateSnapshotStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// CreateEntityStatement wraps *googlesql.ASTCreateEntityStatement.
+type CreateEntityStatement struct {
+	baseNode[*googlesql.ASTCreateEntityStatement]
+}
+
+func newCreateEntityStatement(r *googlesql.ASTCreateEntityStatement) *CreateEntityStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreateEntityStatement{baseNode[*googlesql.ASTCreateEntityStatement]{raw: r}}
+}
+func (n *CreateEntityStatement) isStatement()          {}
+func (n *CreateEntityStatement) IsOrReplace() bool     { return must(n.raw.IsOrReplace()) }
+func (n *CreateEntityStatement) IsIfNotExists() bool   { return must(n.raw.IsIfNotExists()) }
+func (n *CreateEntityStatement) Scope() Scope          { return must(n.raw.Scope()) }
+func (n *CreateEntityStatement) Type() *Identifier     { return newIdentifier(must(n.raw.Type())) }
+func (n *CreateEntityStatement) Name() *PathExpression { return newPathExpression(must(n.raw.Name())) }
+func (n *CreateEntityStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+func (n *CreateEntityStatement) JSONBody() *JSONLiteral {
+	return newJSONLiteral(must(n.raw.JsonBody()))
+}
+
+func (n *CreateEntityStatement) TextBody() *StringLiteral {
+	return newStringLiteral(must(n.raw.TextBody()))
+}
+
+// CreateApproxViewStatement wraps *googlesql.ASTCreateApproxViewStatement.
+type CreateApproxViewStatement struct {
+	baseNode[*googlesql.ASTCreateApproxViewStatement]
+}
+
+func newCreateApproxViewStatement(r *googlesql.ASTCreateApproxViewStatement) *CreateApproxViewStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreateApproxViewStatement{baseNode[*googlesql.ASTCreateApproxViewStatement]{raw: r}}
+}
+func (n *CreateApproxViewStatement) isStatement()        {}
+func (n *CreateApproxViewStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
+func (n *CreateApproxViewStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+func (n *CreateApproxViewStatement) Scope() Scope        { return must(n.raw.Scope()) }
+
+// CreateExternalSchemaStatement wraps *googlesql.ASTCreateExternalSchemaStatement.
+type CreateExternalSchemaStatement struct {
+	baseNode[*googlesql.ASTCreateExternalSchemaStatement]
+}
+
+func newCreateExternalSchemaStatement(r *googlesql.ASTCreateExternalSchemaStatement) *CreateExternalSchemaStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreateExternalSchemaStatement{baseNode[*googlesql.ASTCreateExternalSchemaStatement]{raw: r}}
+}
+func (n *CreateExternalSchemaStatement) isStatement()        {}
+func (n *CreateExternalSchemaStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
+func (n *CreateExternalSchemaStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+func (n *CreateExternalSchemaStatement) Scope() Scope        { return must(n.raw.Scope()) }
+func (n *CreateExternalSchemaStatement) WithConnectionClause() *WithConnectionClause {
+	return newWithConnectionClause(must(n.raw.WithConnectionClause()))
+}
+
+// CreateLocalityGroupStatement wraps *googlesql.ASTCreateLocalityGroupStatement.
+type CreateLocalityGroupStatement struct {
+	baseNode[*googlesql.ASTCreateLocalityGroupStatement]
+}
+
+func newCreateLocalityGroupStatement(r *googlesql.ASTCreateLocalityGroupStatement) *CreateLocalityGroupStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreateLocalityGroupStatement{baseNode[*googlesql.ASTCreateLocalityGroupStatement]{raw: r}}
+}
+func (n *CreateLocalityGroupStatement) isStatement() {}
+func (n *CreateLocalityGroupStatement) Name() *PathExpression {
+	return newPathExpression(must(n.raw.Name()))
+}
+
+func (n *CreateLocalityGroupStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// CreatePrivilegeRestrictionStatement wraps *googlesql.ASTCreatePrivilegeRestrictionStatement.
+type CreatePrivilegeRestrictionStatement struct {
+	baseNode[*googlesql.ASTCreatePrivilegeRestrictionStatement]
+}
+
+func newCreatePrivilegeRestrictionStatement(r *googlesql.ASTCreatePrivilegeRestrictionStatement) *CreatePrivilegeRestrictionStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreatePrivilegeRestrictionStatement{baseNode[*googlesql.ASTCreatePrivilegeRestrictionStatement]{raw: r}}
+}
+func (n *CreatePrivilegeRestrictionStatement) isStatement()      {}
+func (n *CreatePrivilegeRestrictionStatement) IsOrReplace() bool { return must(n.raw.IsOrReplace()) }
+func (n *CreatePrivilegeRestrictionStatement) IsIfNotExists() bool {
+	return must(n.raw.IsIfNotExists())
+}
+func (n *CreatePrivilegeRestrictionStatement) Scope() Scope { return must(n.raw.Scope()) }
+func (n *CreatePrivilegeRestrictionStatement) Privileges() Node {
+	return Wrap(must(n.raw.Privileges()))
+}
+
+func (n *CreatePrivilegeRestrictionStatement) ObjectType() *Identifier {
+	return newIdentifier(must(n.raw.ObjectType()))
+}
+
+func (n *CreatePrivilegeRestrictionStatement) NamePath() *PathExpression {
+	return newPathExpression(must(n.raw.NamePath()))
+}
+
+func (n *CreatePrivilegeRestrictionStatement) RestrictTo() Node {
+	return Wrap(must(n.raw.RestrictTo()))
+}
+
+// CreatePropertyGraphStatement wraps *googlesql.ASTCreatePropertyGraphStatement.
+type CreatePropertyGraphStatement struct {
+	baseNode[*googlesql.ASTCreatePropertyGraphStatement]
+}
+
+func newCreatePropertyGraphStatement(r *googlesql.ASTCreatePropertyGraphStatement) *CreatePropertyGraphStatement {
+	if r == nil {
+		return nil
+	}
+	return &CreatePropertyGraphStatement{baseNode[*googlesql.ASTCreatePropertyGraphStatement]{raw: r}}
+}
+func (n *CreatePropertyGraphStatement) isStatement()        {}
+func (n *CreatePropertyGraphStatement) IsOrReplace() bool   { return must(n.raw.IsOrReplace()) }
+func (n *CreatePropertyGraphStatement) IsIfNotExists() bool { return must(n.raw.IsIfNotExists()) }
+func (n *CreatePropertyGraphStatement) Scope() Scope        { return must(n.raw.Scope()) }
+func (n *CreatePropertyGraphStatement) Name() *PathExpression {
+	return newPathExpression(must(n.raw.Name()))
+}
+
+func (n *CreatePropertyGraphStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// AlterApproxViewStatement wraps *googlesql.ASTAlterApproxViewStatement.
+type AlterApproxViewStatement struct {
+	baseNode[*googlesql.ASTAlterApproxViewStatement]
+}
+
+func newAlterApproxViewStatement(r *googlesql.ASTAlterApproxViewStatement) *AlterApproxViewStatement {
+	if r == nil {
+		return nil
+	}
+	return &AlterApproxViewStatement{baseNode[*googlesql.ASTAlterApproxViewStatement]{raw: r}}
+}
+func (n *AlterApproxViewStatement) isStatement() {}
+func (n *AlterApproxViewStatement) GetDdlTarget() *PathExpression {
+	return newPathExpression(must(n.raw.GetDdlTarget()))
+}
+
+func (n *AlterApproxViewStatement) ActionList() *AlterActionList {
+	return newAlterActionList(must(n.raw.ActionList()))
+}
+
+// AlterConnectionStatement wraps *googlesql.ASTAlterConnectionStatement.
+type AlterConnectionStatement struct {
+	baseNode[*googlesql.ASTAlterConnectionStatement]
+}
+
+func newAlterConnectionStatement(r *googlesql.ASTAlterConnectionStatement) *AlterConnectionStatement {
+	if r == nil {
+		return nil
+	}
+	return &AlterConnectionStatement{baseNode[*googlesql.ASTAlterConnectionStatement]{raw: r}}
+}
+func (n *AlterConnectionStatement) isStatement() {}
+func (n *AlterConnectionStatement) GetDdlTarget() *PathExpression {
+	return newPathExpression(must(n.raw.GetDdlTarget()))
+}
+
+func (n *AlterConnectionStatement) ActionList() *AlterActionList {
+	return newAlterActionList(must(n.raw.ActionList()))
+}
+
+// AlterExternalSchemaStatement wraps *googlesql.ASTAlterExternalSchemaStatement.
+type AlterExternalSchemaStatement struct {
+	baseNode[*googlesql.ASTAlterExternalSchemaStatement]
+}
+
+func newAlterExternalSchemaStatement(r *googlesql.ASTAlterExternalSchemaStatement) *AlterExternalSchemaStatement {
+	if r == nil {
+		return nil
+	}
+	return &AlterExternalSchemaStatement{baseNode[*googlesql.ASTAlterExternalSchemaStatement]{raw: r}}
+}
+func (n *AlterExternalSchemaStatement) isStatement() {}
+func (n *AlterExternalSchemaStatement) GetDdlTarget() *PathExpression {
+	return newPathExpression(must(n.raw.GetDdlTarget()))
+}
+
+func (n *AlterExternalSchemaStatement) ActionList() *AlterActionList {
+	return newAlterActionList(must(n.raw.ActionList()))
+}
+
+// AlterIndexStatement wraps *googlesql.ASTAlterIndexStatement.
+type AlterIndexStatement struct {
+	baseNode[*googlesql.ASTAlterIndexStatement]
+}
+
+func newAlterIndexStatement(r *googlesql.ASTAlterIndexStatement) *AlterIndexStatement {
+	if r == nil {
+		return nil
+	}
+	return &AlterIndexStatement{baseNode[*googlesql.ASTAlterIndexStatement]{raw: r}}
+}
+func (n *AlterIndexStatement) isStatement() {}
+func (n *AlterIndexStatement) GetDdlTarget() *PathExpression {
+	return newPathExpression(must(n.raw.GetDdlTarget()))
+}
+
+func (n *AlterIndexStatement) ActionList() *AlterActionList {
+	return newAlterActionList(must(n.raw.ActionList()))
+}
+
+func (n *AlterIndexStatement) TableName() *PathExpression {
+	return newPathExpression(must(n.raw.TableName()))
+}
+func (n *AlterIndexStatement) IndexType() IndexType { return must(n.raw.IndexType()) }
+
+// AlterModelStatement wraps *googlesql.ASTAlterModelStatement.
+type AlterModelStatement struct {
+	baseNode[*googlesql.ASTAlterModelStatement]
+}
+
+func newAlterModelStatement(r *googlesql.ASTAlterModelStatement) *AlterModelStatement {
+	if r == nil {
+		return nil
+	}
+	return &AlterModelStatement{baseNode[*googlesql.ASTAlterModelStatement]{raw: r}}
+}
+func (n *AlterModelStatement) isStatement() {}
+func (n *AlterModelStatement) GetDdlTarget() *PathExpression {
+	return newPathExpression(must(n.raw.GetDdlTarget()))
+}
+
+func (n *AlterModelStatement) ActionList() *AlterActionList {
+	return newAlterActionList(must(n.raw.ActionList()))
+}
+
+// AlterSequenceStatement wraps *googlesql.ASTAlterSequenceStatement.
+type AlterSequenceStatement struct {
+	baseNode[*googlesql.ASTAlterSequenceStatement]
+}
+
+func newAlterSequenceStatement(r *googlesql.ASTAlterSequenceStatement) *AlterSequenceStatement {
+	if r == nil {
+		return nil
+	}
+	return &AlterSequenceStatement{baseNode[*googlesql.ASTAlterSequenceStatement]{raw: r}}
+}
+func (n *AlterSequenceStatement) isStatement() {}
+func (n *AlterSequenceStatement) GetDdlTarget() *PathExpression {
+	return newPathExpression(must(n.raw.GetDdlTarget()))
+}
+
+func (n *AlterSequenceStatement) ActionList() *AlterActionList {
+	return newAlterActionList(must(n.raw.ActionList()))
+}
+
+// DropVectorIndexStatement wraps *googlesql.ASTDropVectorIndexStatement.
+type DropVectorIndexStatement struct {
+	baseNode[*googlesql.ASTDropVectorIndexStatement]
+}
+
+func newDropVectorIndexStatement(r *googlesql.ASTDropVectorIndexStatement) *DropVectorIndexStatement {
+	if r == nil {
+		return nil
+	}
+	return &DropVectorIndexStatement{baseNode[*googlesql.ASTDropVectorIndexStatement]{raw: r}}
+}
+func (n *DropVectorIndexStatement) isStatement()     {}
+func (n *DropVectorIndexStatement) IsIfExists() bool { return must(n.raw.IsIfExists()) }
+func (n *DropVectorIndexStatement) Name() *PathExpression {
+	return newPathExpression(must(n.raw.Name()))
+}
+
+func (n *DropVectorIndexStatement) TableName() *PathExpression {
+	return newPathExpression(must(n.raw.TableName()))
+}
+
+// UndropStatement wraps *googlesql.ASTUndropStatement.
+type UndropStatement struct {
+	baseNode[*googlesql.ASTUndropStatement]
+}
+
+func newUndropStatement(r *googlesql.ASTUndropStatement) *UndropStatement {
+	if r == nil {
+		return nil
+	}
+	return &UndropStatement{baseNode[*googlesql.ASTUndropStatement]{raw: r}}
+}
+func (n *UndropStatement) isStatement()                       {}
+func (n *UndropStatement) IsIfNotExists() bool                { return must(n.raw.IsIfNotExists()) }
+func (n *UndropStatement) Name() *PathExpression              { return newPathExpression(must(n.raw.Name())) }
+func (n *UndropStatement) SchemaObjectKind() SchemaObjectKind { return must(n.raw.SchemaObjectKind()) }
+func (n *UndropStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+func (n *UndropStatement) ForSystemTime() *ForSystemTime {
+	return newForSystemTime(must(n.raw.ForSystemTime()))
+}
+
+// GrantStatement wraps *googlesql.ASTGrantStatement.
+type GrantStatement struct {
+	baseNode[*googlesql.ASTGrantStatement]
+}
+
+func newGrantStatement(r *googlesql.ASTGrantStatement) *GrantStatement {
+	if r == nil {
+		return nil
+	}
+	return &GrantStatement{baseNode[*googlesql.ASTGrantStatement]{raw: r}}
+}
+func (n *GrantStatement) isStatement()            {}
+func (n *GrantStatement) Privileges() *Privileges { return newPrivileges(must(n.raw.Privileges())) }
+func (n *GrantStatement) TargetType() *Identifier { return newIdentifier(must(n.raw.TargetType())) }
+func (n *GrantStatement) TargetPath() *PathExpression {
+	return newPathExpression(must(n.raw.TargetPath()))
+}
+func (n *GrantStatement) GranteeList() *GranteeList { return newGranteeList(must(n.raw.GranteeList())) }
+
+// RevokeStatement wraps *googlesql.ASTRevokeStatement.
+type RevokeStatement struct {
+	baseNode[*googlesql.ASTRevokeStatement]
+}
+
+func newRevokeStatement(r *googlesql.ASTRevokeStatement) *RevokeStatement {
+	if r == nil {
+		return nil
+	}
+	return &RevokeStatement{baseNode[*googlesql.ASTRevokeStatement]{raw: r}}
+}
+func (n *RevokeStatement) isStatement()            {}
+func (n *RevokeStatement) Privileges() *Privileges { return newPrivileges(must(n.raw.Privileges())) }
+func (n *RevokeStatement) TargetType() *Identifier { return newIdentifier(must(n.raw.TargetType())) }
+func (n *RevokeStatement) TargetPath() *PathExpression {
+	return newPathExpression(must(n.raw.TargetPath()))
+}
+
+func (n *RevokeStatement) GranteeList() *GranteeList {
+	return newGranteeList(must(n.raw.GranteeList()))
+}
+
+// ExportDataStatement wraps *googlesql.ASTExportDataStatement.
+type ExportDataStatement struct {
+	baseNode[*googlesql.ASTExportDataStatement]
+}
+
+func newExportDataStatement(r *googlesql.ASTExportDataStatement) *ExportDataStatement {
+	if r == nil {
+		return nil
+	}
+	return &ExportDataStatement{baseNode[*googlesql.ASTExportDataStatement]{raw: r}}
+}
+func (n *ExportDataStatement) isStatement()  {}
+func (n *ExportDataStatement) Query() *Query { return newQuery(must(n.raw.Query())) }
+func (n *ExportDataStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+func (n *ExportDataStatement) WithConnectionClause() *WithConnectionClause {
+	return newWithConnectionClause(must(n.raw.WithConnectionClause()))
+}
+
+// ExportModelStatement wraps *googlesql.ASTExportModelStatement.
+type ExportModelStatement struct {
+	baseNode[*googlesql.ASTExportModelStatement]
+}
+
+func newExportModelStatement(r *googlesql.ASTExportModelStatement) *ExportModelStatement {
+	if r == nil {
+		return nil
+	}
+	return &ExportModelStatement{baseNode[*googlesql.ASTExportModelStatement]{raw: r}}
+}
+func (n *ExportModelStatement) isStatement() {}
+func (n *ExportModelStatement) ModelNamePath() *PathExpression {
+	return newPathExpression(must(n.raw.ModelNamePath()))
+}
+
+func (n *ExportModelStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+func (n *ExportModelStatement) WithConnectionClause() *WithConnectionClause {
+	return newWithConnectionClause(must(n.raw.WithConnectionClause()))
+}
+
+// ExportMetadataStatement wraps *googlesql.ASTExportMetadataStatement.
+type ExportMetadataStatement struct {
+	baseNode[*googlesql.ASTExportMetadataStatement]
+}
+
+func newExportMetadataStatement(r *googlesql.ASTExportMetadataStatement) *ExportMetadataStatement {
+	if r == nil {
+		return nil
+	}
+	return &ExportMetadataStatement{baseNode[*googlesql.ASTExportMetadataStatement]{raw: r}}
+}
+func (n *ExportMetadataStatement) isStatement() {}
+func (n *ExportMetadataStatement) NamePath() *PathExpression {
+	return newPathExpression(must(n.raw.NamePath()))
+}
+
+func (n *ExportMetadataStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+func (n *ExportMetadataStatement) WithConnectionClause() *WithConnectionClause {
+	return newWithConnectionClause(must(n.raw.WithConnectionClause()))
+}
+
+func (n *ExportMetadataStatement) SchemaObjectKind() SchemaObjectKind {
+	return must(n.raw.SchemaObjectKind())
+}
+
+// AnalyzeStatement wraps *googlesql.ASTAnalyzeStatement.
+type AnalyzeStatement struct {
+	baseNode[*googlesql.ASTAnalyzeStatement]
+}
+
+func newAnalyzeStatement(r *googlesql.ASTAnalyzeStatement) *AnalyzeStatement {
+	if r == nil {
+		return nil
+	}
+	return &AnalyzeStatement{baseNode[*googlesql.ASTAnalyzeStatement]{raw: r}}
+}
+func (n *AnalyzeStatement) isStatement() {}
+func (n *AnalyzeStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// DescribeStatement wraps *googlesql.ASTDescribeStatement.
+type DescribeStatement struct {
+	baseNode[*googlesql.ASTDescribeStatement]
+}
+
+func newDescribeStatement(r *googlesql.ASTDescribeStatement) *DescribeStatement {
+	if r == nil {
+		return nil
+	}
+	return &DescribeStatement{baseNode[*googlesql.ASTDescribeStatement]{raw: r}}
+}
+func (n *DescribeStatement) isStatement()          {}
+func (n *DescribeStatement) Name() *PathExpression { return newPathExpression(must(n.raw.Name())) }
+func (n *DescribeStatement) OptionalIdentifier() *Identifier {
+	return newIdentifier(must(n.raw.OptionalIdentifier()))
+}
+
+func (n *DescribeStatement) OptionalFromName() *PathExpression {
+	return newPathExpression(must(n.raw.OptionalFromName()))
+}
+
+// ExplainStatement wraps *googlesql.ASTExplainStatement.
+type ExplainStatement struct {
+	baseNode[*googlesql.ASTExplainStatement]
+}
+
+func newExplainStatement(r *googlesql.ASTExplainStatement) *ExplainStatement {
+	if r == nil {
+		return nil
+	}
+	return &ExplainStatement{baseNode[*googlesql.ASTExplainStatement]{raw: r}}
+}
+func (n *ExplainStatement) isStatement()             {}
+func (n *ExplainStatement) Statement() StatementNode { return wrapStmt(must(n.raw.Statement())) }
+
+// ShowStatement wraps *googlesql.ASTShowStatement.
+type ShowStatement struct {
+	baseNode[*googlesql.ASTShowStatement]
+}
+
+func newShowStatement(r *googlesql.ASTShowStatement) *ShowStatement {
+	if r == nil {
+		return nil
+	}
+	return &ShowStatement{baseNode[*googlesql.ASTShowStatement]{raw: r}}
+}
+func (n *ShowStatement) isStatement()            {}
+func (n *ShowStatement) Identifier() *Identifier { return newIdentifier(must(n.raw.Identifier())) }
+func (n *ShowStatement) OptionalName() *PathExpression {
+	return newPathExpression(must(n.raw.OptionalName()))
+}
+
+func (n *ShowStatement) OptionalLikeString() *StringLiteral {
+	return newStringLiteral(must(n.raw.OptionalLikeString()))
+}
+
+// ImportStatement wraps *googlesql.ASTImportStatement.
+type ImportStatement struct {
+	baseNode[*googlesql.ASTImportStatement]
+}
+
+func newImportStatement(r *googlesql.ASTImportStatement) *ImportStatement {
+	if r == nil {
+		return nil
+	}
+	return &ImportStatement{baseNode[*googlesql.ASTImportStatement]{raw: r}}
+}
+func (n *ImportStatement) isStatement()          {}
+func (n *ImportStatement) Name() *PathExpression { return newPathExpression(must(n.raw.Name())) }
+func (n *ImportStatement) StringValue() *StringLiteral {
+	return newStringLiteral(must(n.raw.StringValue()))
+}
+func (n *ImportStatement) Alias() *Alias         { return newAlias(must(n.raw.Alias())) }
+func (n *ImportStatement) IntoAlias() *IntoAlias { return newIntoAlias(must(n.raw.IntoAlias())) }
+func (n *ImportStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+func (n *ImportStatement) ImportKind() ImportKind { return must(n.raw.ImportKind()) }
+
+// ModuleStatement wraps *googlesql.ASTModuleStatement.
+type ModuleStatement struct {
+	baseNode[*googlesql.ASTModuleStatement]
+}
+
+func newModuleStatement(r *googlesql.ASTModuleStatement) *ModuleStatement {
+	if r == nil {
+		return nil
+	}
+	return &ModuleStatement{baseNode[*googlesql.ASTModuleStatement]{raw: r}}
+}
+func (n *ModuleStatement) isStatement()          {}
+func (n *ModuleStatement) Name() *PathExpression { return newPathExpression(must(n.raw.Name())) }
+func (n *ModuleStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// DefineMacroStatement wraps *googlesql.ASTDefineMacroStatement.
+type DefineMacroStatement struct {
+	baseNode[*googlesql.ASTDefineMacroStatement]
+}
+
+func newDefineMacroStatement(r *googlesql.ASTDefineMacroStatement) *DefineMacroStatement {
+	if r == nil {
+		return nil
+	}
+	return &DefineMacroStatement{baseNode[*googlesql.ASTDefineMacroStatement]{raw: r}}
+}
+func (n *DefineMacroStatement) isStatement()      {}
+func (n *DefineMacroStatement) Name() *Identifier { return newIdentifier(must(n.raw.Name())) }
+
+// DefineTableStatement wraps *googlesql.ASTDefineTableStatement.
+type DefineTableStatement struct {
+	baseNode[*googlesql.ASTDefineTableStatement]
+}
+
+func newDefineTableStatement(r *googlesql.ASTDefineTableStatement) *DefineTableStatement {
+	if r == nil {
+		return nil
+	}
+	return &DefineTableStatement{baseNode[*googlesql.ASTDefineTableStatement]{raw: r}}
+}
+func (n *DefineTableStatement) isStatement()          {}
+func (n *DefineTableStatement) Name() *PathExpression { return newPathExpression(must(n.raw.Name())) }
+func (n *DefineTableStatement) OptionsList() *OptionsList {
+	return newOptionsList(must(n.raw.OptionsList()))
+}
+
+// RunStatement wraps *googlesql.ASTRunStatement.
+type RunStatement struct {
+	baseNode[*googlesql.ASTRunStatement]
+}
+
+func newRunStatement(r *googlesql.ASTRunStatement) *RunStatement {
+	if r == nil {
+		return nil
+	}
+	return &RunStatement{baseNode[*googlesql.ASTRunStatement]{raw: r}}
+}
+func (n *RunStatement) isStatement() {}
+func (n *RunStatement) TargetPathExpression() *PathExpression {
+	return newPathExpression(must(n.raw.TargetPathExpression()))
+}
+
+func (n *RunStatement) TargetStringLiteral() *StringLiteral {
+	return newStringLiteral(must(n.raw.TargetStringLiteral()))
+}
+
+// SetTransactionStatement wraps *googlesql.ASTSetTransactionStatement.
+type SetTransactionStatement struct {
+	baseNode[*googlesql.ASTSetTransactionStatement]
+}
+
+func newSetTransactionStatement(r *googlesql.ASTSetTransactionStatement) *SetTransactionStatement {
+	if r == nil {
+		return nil
+	}
+	return &SetTransactionStatement{baseNode[*googlesql.ASTSetTransactionStatement]{raw: r}}
+}
+func (n *SetTransactionStatement) isStatement() {}
+
+// AbortBatchStatement wraps *googlesql.ASTAbortBatchStatement.
+type AbortBatchStatement struct {
+	baseNode[*googlesql.ASTAbortBatchStatement]
+}
+
+func newAbortBatchStatement(r *googlesql.ASTAbortBatchStatement) *AbortBatchStatement {
+	if r == nil {
+		return nil
+	}
+	return &AbortBatchStatement{baseNode[*googlesql.ASTAbortBatchStatement]{raw: r}}
+}
+func (n *AbortBatchStatement) isStatement() {}
+
+// RunBatchStatement wraps *googlesql.ASTRunBatchStatement.
+type RunBatchStatement struct {
+	baseNode[*googlesql.ASTRunBatchStatement]
+}
+
+func newRunBatchStatement(r *googlesql.ASTRunBatchStatement) *RunBatchStatement {
+	if r == nil {
+		return nil
+	}
+	return &RunBatchStatement{baseNode[*googlesql.ASTRunBatchStatement]{raw: r}}
+}
+func (n *RunBatchStatement) isStatement() {}
+
+// StartBatchStatement wraps *googlesql.ASTStartBatchStatement.
+type StartBatchStatement struct {
+	baseNode[*googlesql.ASTStartBatchStatement]
+}
+
+func newStartBatchStatement(r *googlesql.ASTStartBatchStatement) *StartBatchStatement {
+	if r == nil {
+		return nil
+	}
+	return &StartBatchStatement{baseNode[*googlesql.ASTStartBatchStatement]{raw: r}}
+}
+func (n *StartBatchStatement) isStatement()           {}
+func (n *StartBatchStatement) BatchType() *Identifier { return newIdentifier(must(n.raw.BatchType())) }
+
+// CloneDataStatement wraps *googlesql.ASTCloneDataStatement.
+type CloneDataStatement struct {
+	baseNode[*googlesql.ASTCloneDataStatement]
+}
+
+func newCloneDataStatement(r *googlesql.ASTCloneDataStatement) *CloneDataStatement {
+	if r == nil {
+		return nil
+	}
+	return &CloneDataStatement{baseNode[*googlesql.ASTCloneDataStatement]{raw: r}}
+}
+func (n *CloneDataStatement) isStatement() {}
+
+// AuxLoadDataStatement wraps *googlesql.ASTAuxLoadDataStatement.
+type AuxLoadDataStatement struct {
+	baseNode[*googlesql.ASTAuxLoadDataStatement]
+}
+
+func newAuxLoadDataStatement(r *googlesql.ASTAuxLoadDataStatement) *AuxLoadDataStatement {
+	if r == nil {
+		return nil
+	}
+	return &AuxLoadDataStatement{baseNode[*googlesql.ASTAuxLoadDataStatement]{raw: r}}
+}
+func (n *AuxLoadDataStatement) isStatement() {}
