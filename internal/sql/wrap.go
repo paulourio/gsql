@@ -129,6 +129,8 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newPivotValue(m)
 	case *googlesql.ASTPivotValueList:
 		return newPivotValueList(m)
+	case *googlesql.ASTRenameStatement:
+		return newRenameStatement(m)
 	case *googlesql.ASTRepeatableClause:
 		return newRepeatableClause(m)
 	case *googlesql.ASTReturningClause:

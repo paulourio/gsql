@@ -230,6 +230,17 @@ func (p *Printer) visitRenameColumnAction(ctx Context, n *sql.RenameColumnAction
 	p.accept(ctx, n.NewColumnName())
 }
 
+func (p *Printer) visitRenameStatement(ctx Context, n *sql.RenameStatement) {
+	p.moveBefore(n)
+	p.print(p.keyword("RENAME"))
+	// The identifier is actually an object like TABLE or VIEW, so we print
+	// like keyword.
+	p.print(p.keyword(n.Identifier().GetAsString()))
+	p.accept(ctx, n.OldName())
+	p.print(p.keyword("TO"))
+	p.accept(ctx, n.NewName())
+}
+
 func (p *Printer) visitRenameToClause(ctx Context, n *sql.RenameToClause) {
 	p.moveBefore(n)
 	p.print(p.keyword("RENAME TO"))

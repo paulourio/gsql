@@ -148,6 +148,8 @@ func (k ContextKey) String() string {
 		return "PathParts"
 	case KeyInSingleAssignment:
 		return "InSingleAssignment"
+	case KeyLabelDeclaration:
+		return "LabelDeclaration"
 	default:
 		panic("invalid context key")
 	}

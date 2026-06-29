@@ -1236,6 +1236,23 @@ func (n *RaiseStatement) Message() ExpressionNode {
 	return wrapExpr(must(n.raw.Message()))
 }
 
+// RenameStatement wraps *googlesql.ASTRenameStatement.
+type RenameStatement struct {
+	baseNode[*googlesql.ASTRenameStatement]
+}
+
+func newRenameStatement(r *googlesql.ASTRenameStatement) *RenameStatement {
+	if r == nil {
+		return nil
+	}
+	return &RenameStatement{baseNode[*googlesql.ASTRenameStatement]{raw: r}}
+}
+
+func (n *RenameStatement) isStatement()             {}
+func (n *RenameStatement) Identifier() *Identifier  { return newIdentifier(must(n.raw.Identifier())) }
+func (n *RenameStatement) OldName() *PathExpression { return newPathExpression(must(n.raw.OldName())) }
+func (n *RenameStatement) NewName() *PathExpression { return newPathExpression(must(n.raw.NewName())) }
+
 // RepeatStatement wraps *googlesql.ASTRepeatStatement.
 type RepeatStatement struct {
 	baseNode[*googlesql.ASTRepeatStatement]

@@ -416,14 +416,3 @@ func (p *Printer) visitWhileStatement(ctx Context, n *sql.WhileStatement) {
 	p.print(pp.unnestLeft())
 	p.movePast(n)
 }
-
-func hasPrefixEqualFold(s, prefix string) bool {
-	ssize, psize := len(s), len(prefix)
-	switch {
-	case ssize < psize:
-		return false
-	case ssize > psize:
-		s = s[:psize]
-	}
-	return strings.EqualFold(s, prefix)
-}

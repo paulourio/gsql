@@ -117,6 +117,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitDropPrimaryKeyAction(ctx, n.(*sql.DropPrimaryKeyAction))
 	case sql.RenameColumnActionKind:
 		p.visitRenameColumnAction(ctx, n.(*sql.RenameColumnAction))
+	case sql.RenameStatementKind:
+		p.visitRenameStatement(ctx, n.(*sql.RenameStatement))
 	case sql.RenameToClauseKind:
 		p.visitRenameToClause(ctx, n.(*sql.RenameToClause))
 	case sql.SetCollateClauseKind:
