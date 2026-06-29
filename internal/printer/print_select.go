@@ -1537,10 +1537,19 @@ func (p *Printer) visitSelectColumn(ctx Context, n *sql.SelectColumn) {
 	pp := p.nest()
 	pp.accept(ctx, n.Expression())
 	p.print(pp.unnest())
-	if alias := n.Alias(); alias != nil {
+	alias := n.Alias()
+	if alias != nil {
 		pp = p.nest()
 		pp.accept(ctx, alias)
-		p.print(pp.unnest())
+		p.print(pp.unnestLeft())
+	}
+	if ordering := n.GroupingItemOrder(); ordering != nil {
+		if alias == nil {
+			p.print("\v")
+		}
+		pp = p.nest()
+		pp.accept(ctx, ordering)
+		p.print(pp.unnestLeft())
 	}
 }
 

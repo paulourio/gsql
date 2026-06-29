@@ -125,7 +125,8 @@ input = """
 select array_agg(x order by x + 1, y + z) as a from T;
 """
 formatted = """
-SELECT ARRAY_AGG(x ORDER BY x + 1, y + z) AS a
+SELECT ARRAY_AGG(x ORDER BY x + 1,
+                            y + z) AS a
   FROM T
 """
 

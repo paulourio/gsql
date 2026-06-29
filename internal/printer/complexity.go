@@ -328,6 +328,62 @@ func isSimpleTypeParamList(n *sql.TypeParameterList) bool {
 	return true
 }
 
+func isSimpleGroupingItems(n []*sql.GroupingItem) bool {
+	for _, i := range n {
+		if !isSimpleGroupingItem(i) {
+			return false
+		}
+	}
+	// If reached here, we still break after many names, unless they are all
+	// int literals or names.
+	for _, i := range n {
+		if expr := i.Expression(); expr != nil {
+			switch i.Expression().Kind() {
+			case sql.PathExpressionKind, sql.IntLiteralKind, sql.IdentifierKind:
+				continue
+			default:
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func isSimpleGroupingItem(n *sql.GroupingItem) bool {
+	expr := n.Expression()
+	if !sql.Defined(expr) || isSimpleExpr(expr) {
+		return true
+	}
+	switch expr.Kind() {
+	case sql.RollupKind, sql.CubeKind:
+		return true
+	}
+	return false
+}
+
+func isSimpleOrderingExprs(n []*sql.OrderingExpression) bool {
+	for _, i := range n {
+		if !isSimpleOrderingExpr(i) {
+			return false
+		}
+	}
+	// If reached here, we still break after many names, unless they are all
+	// int literals or names.
+	for _, i := range n {
+		switch i.Expression().Kind() {
+		case sql.PathExpressionKind, sql.IntLiteralKind, sql.IdentifierKind:
+			continue
+		default:
+			return false
+		}
+	}
+	return true
+}
+
+func isSimpleOrderingExpr(n *sql.OrderingExpression) bool {
+	return isSimpleExpr(n.Expression())
+}
+
 func (p *Printer) maybeSingleLineColumns(n *sql.Select) bool {
 	if n == nil {
 		return false

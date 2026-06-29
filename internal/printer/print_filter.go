@@ -108,11 +108,28 @@ func (p *Printer) visitFormatClause(ctx Context, n *sql.FormatClause) {
 func (p *Printer) visitGroupBy(ctx Context, n *sql.GroupBy) {
 	p.moveBefore(n)
 	p.accept(ctx, n.Hint())
-	p.print(p.keyword("BY"))
-	pp := p.nest()
-	p.accept(ctx, n.All())
-	printNestedWithSepNode(ctx, pp, n.GroupingItems(), ",")
-	p.print(pp.unnest())
+	if n.AndOrderBy() {
+		p.print(p.keyword("AND ORDER BY"))
+	} else {
+		p.print(p.keyword("BY"))
+	}
+	items := n.GroupingItems()
+	simple := isSimpleGroupingItems(items)
+	if !simple {
+		// p.println("")
+		// p.incDepth()
+		pp := p.nest()
+		pp.accept(ctx, n.All())
+		printlnNestedWithSepNode(ctx, pp, items, ",")
+		p.print(pp.unnestLeft())
+		// p.println("")
+		// p.decDepth()
+	} else {
+		pp := p.nest()
+		pp.accept(ctx, n.All())
+		printNestedWithSepNode(ctx, pp, items, ",")
+		p.println(pp.unnestLeft())
+	}
 	s := sql.ParentAs[*sql.Select](n)
 	a, _ := sql.LocationRange(
 		s.Having(),
@@ -142,6 +159,20 @@ func (p *Printer) visitGroupingItem(ctx Context, n *sql.GroupingItem) {
 	p.accept(ctx, n.GroupingSetList())
 	p.accept(ctx, n.Alias())
 	p.accept(ctx, n.GroupingItemOrder())
+}
+
+func (p *Printer) visitGroupingItemOrder(ctx Context, n *sql.GroupingItemOrder) {
+	p.moveBefore(n)
+	switch n.OrderingSpec() {
+	case sql.NotSetSpec:
+
+	case sql.Asc:
+		p.print(p.keyword("ASC"))
+	case sql.Desc:
+		p.print(p.keyword("DESC"))
+	}
+	p.accept(ctx, n.NullOrder())
+	p.movePast(n)
 }
 
 func (p *Printer) visitGroupingSet(ctx Context, n *sql.GroupingSet) {
@@ -312,7 +343,17 @@ func (p *Printer) visitOrderBy(ctx Context, n *sql.OrderBy) {
 	p1.accept(ctx, n.Hint())
 	p1.print(p1.keyword("BY"))
 	p1.moveBefore(n)
-	printNestedWithSepNode(ctx, p1, n.OrderingExpressions(), ",")
+	exprs := n.OrderingExpressions()
+	simple := n.Parent().Kind() == sql.WindowSpecificationKind || isSimpleOrderingExprs(exprs)
+	if !simple {
+		p2 := p1.nest()
+		printlnNestedWithSepNode(ctx, p2, exprs, ",")
+		p1.print(p2.unnestLeft())
+	} else {
+		p2 := p1.nest()
+		printNestedWithSepNode(ctx, p2, n.OrderingExpressions(), ",")
+		p1.print(p2.unnestLeft())
+	}
 	p1.moveBeforeSuccessorOf(n)
 	p.print(p1.unnestLeft())
 }

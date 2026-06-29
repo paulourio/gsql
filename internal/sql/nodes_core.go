@@ -717,6 +717,10 @@ func (n *SelectColumn) Expression() ExpressionNode {
 
 func (n *SelectColumn) Alias() *Alias { return newAlias(must(n.raw.Alias())) }
 
+func (n *SelectColumn) GroupingItemOrder() *GroupingItemOrder {
+	return newGroupingItemOrder(must(n.raw.GroupingItemOrder()))
+}
+
 // SelectList wraps *googlesql.ASTSelectList.
 type SelectList struct {
 	baseNode[*googlesql.ASTSelectList]

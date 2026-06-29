@@ -310,6 +310,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitGroupByAll(ctx, n.(*sql.GroupByAll))
 	case sql.GroupingItemKind:
 		p.visitGroupingItem(ctx, n.(*sql.GroupingItem))
+	case sql.GroupingItemOrderKind:
+		p.visitGroupingItemOrder(ctx, n.(*sql.GroupingItemOrder))
 	case sql.GroupingSetKind:
 		p.visitGroupingSet(ctx, n.(*sql.GroupingSet))
 	case sql.GroupingSetListKind:
@@ -420,6 +422,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 
 	// ── print_pipe.go ────────────────────────────────────────────────────────
 
+	case sql.FromQueryKind:
+		p.visitFromQuery(ctx, n.(*sql.FromQuery))
 	case sql.PipeAggregateKind:
 		p.visitPipeAggregate(ctx, n.(*sql.PipeAggregate))
 	case sql.PipeDropKind:

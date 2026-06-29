@@ -407,10 +407,12 @@ SELECT f() OVER (),
   FROM T
  WHERE f() OVER ()
    AND (f() OVER ()) + 1
- GROUP BY f() OVER (), (f() OVER ()) + 1
+ GROUP BY f() OVER (),
+          (f() OVER ()) + 1
 HAVING f() OVER ()
    AND (f() OVER ()) + 1
- ORDER BY f() OVER (), (f() OVER ()) + 1
+ ORDER BY f() OVER (),
+          (f() OVER ()) + 1
 """
 
 [[cases]]
@@ -427,7 +429,8 @@ SELECT *
  UNION ALL
 SELECT *
   FROM T
-ORDER BY f() OVER (), (f() OVER ()) + 1
+ORDER BY f() OVER (),
+         (f() OVER ()) + 1
 """
 
 [[cases]]

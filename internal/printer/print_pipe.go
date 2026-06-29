@@ -6,6 +6,12 @@ import (
 	"github.com/paulourio/gsql/internal/sql"
 )
 
+func (p *Printer) visitFromQuery(ctx Context, n *sql.FromQuery) {
+	p.moveBefore(n)
+	p.printClause("FROM")
+	p.acceptNestedLeft(ctx, n.FromClause())
+}
+
 func (p *Printer) visitPipeAggregate(ctx Context, n *sql.PipeAggregate) {
 	p.moveBefore(n)
 	pp := p.nest()

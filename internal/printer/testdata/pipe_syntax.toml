@@ -52,7 +52,9 @@ select 1
 formatted = """
 SELECT 1
 |> AGGREGATE SUM(z), 1 + COUNT(x + 1)
-   GROUP BY x, y + 2, 3
+   GROUP BY x,
+            y + 2,
+            3
 """
 
 [[cases]]
@@ -194,4 +196,64 @@ SELECT 1
      REPLACE(
        1 + 2 AS ccc
      )
+"""
+
+[[cases]]
+input = """
+select 1
+|> AGGREGATE
+   GROUP BY
+      x,
+      x+1 ASC,
+      f() DESC,
+      z ASC NULLS FIRST,
+      zz DESC NULLS LAST,
+      a NULLS FIRST,
+      aa NULLS LAST
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE
+   GROUP BY x,
+            x + 1 ASC,
+            f() DESC,
+            z ASC NULLS FIRST,
+            zz DESC NULLS LAST,
+            a NULLS FIRST,
+            aa NULLS LAST
+"""
+
+[[cases]]
+description = "Order suffixes in the aggregate list."
+input = """
+from t
+|> aggregate count(*) ASC,
+             sum(x) alias DESC,
+             avg(y) AS alias ASC NULLS FIRST,
+             max(distinct z) DESC NULLS LAST,
+             nosuffix()
+"""
+formatted = """
+FROM t
+|> AGGREGATE
+     COUNT(*)                 ASC,
+     SUM(x)          AS alias DESC,
+     AVG(y)          AS alias ASC NULLS FIRST,
+     MAX(DISTINCT z)          DESC NULLS LAST,
+     nosuffix()
+"""
+
+[[cases]]
+description = "Order suffixes are independent of ordering modifiers on the GROUP BY."
+input = """
+FROM
+  t
+|> AGGREGATE
+     count(*) ASC
+   GROUP AND ORDER BY key ASC
+"""
+formatted = """
+FROM t
+|> AGGREGATE COUNT(*) ASC
+   GROUP AND ORDER BY key ASC
 """
