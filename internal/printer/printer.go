@@ -292,6 +292,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitCollate(ctx, n.(*sql.Collate))
 	case sql.ColumnListKind:
 		p.visitColumnList(ctx, n.(*sql.ColumnList))
+	case sql.CubeKind:
+		p.visitCube(ctx, n.(*sql.Cube))
 	case sql.DescriptorKind:
 		p.visitDescriptor(ctx, n.(*sql.Descriptor))
 	case sql.DescriptorColumnKind:
@@ -308,6 +310,10 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitGroupByAll(ctx, n.(*sql.GroupByAll))
 	case sql.GroupingItemKind:
 		p.visitGroupingItem(ctx, n.(*sql.GroupingItem))
+	case sql.GroupingSetKind:
+		p.visitGroupingSet(ctx, n.(*sql.GroupingSet))
+	case sql.GroupingSetListKind:
+		p.visitGroupingSetList(ctx, n.(*sql.GroupingSetList))
 	case sql.HavingKind:
 		p.visitHaving(ctx, n.(*sql.Having))
 	case sql.HavingModifierKind:
@@ -411,6 +417,13 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitWithClauseEntry(ctx, n.(*sql.WithClauseEntry))
 	case sql.WithExpressionKind:
 		p.visitWithExpression(ctx, n.(*sql.WithExpression))
+
+	// ── print_pipe.go ────────────────────────────────────────────────────────
+
+	case sql.PipeAggregateKind:
+		p.visitPipeAggregate(ctx, n.(*sql.PipeAggregate))
+	case sql.PipeDropKind:
+		p.visitPipeDrop(ctx, n.(*sql.PipeDrop))
 
 	// ── print_procedural.go ────────────────────────────────────────────────────────
 

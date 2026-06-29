@@ -22,7 +22,7 @@ SELECT x, SUM(y) FROM T GROUP BY ROLLUP(x);
 formatted = """
 SELECT x, SUM(y)
   FROM T
- GROUP BY ROLLUP(x)
+ GROUP BY ROLLUP (x)
 """
 
 [[cases]]
@@ -36,7 +36,7 @@ SELECT x,
        GROUPING(x) = 1,
        IF(GROUPING(y) = 0, 'foo', 'bar')
   FROM T
- GROUP BY ROLLUP(x, y)
+ GROUP BY ROLLUP (x, y)
 """
 
 [[cases]]
@@ -46,7 +46,7 @@ select x, SUM(y) FROM T GROUP @{hint_name=5} BY ROLLUP(x);
 formatted = """
 SELECT x, SUM(y)
   FROM T
- GROUP @{hint_name=5} BY ROLLUP(x)
+ GROUP @{hint_name=5} BY ROLLUP (x)
 """
 
 [[cases]]
@@ -61,5 +61,5 @@ x + 2, y = 'foo', z), z, x, ROLLUP(y, x
 formatted = """
 SELECT x, y, z, GROUPING(x)
   FROM T
- GROUP BY 1, 2, ROLLUP(x + 2, y = 'foo', z), z, x, ROLLUP(y, x)
+ GROUP BY 1, 2, ROLLUP (x + 2, y = 'foo', z), z, x, ROLLUP (y, x)
 """

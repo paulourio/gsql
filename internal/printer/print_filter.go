@@ -56,6 +56,14 @@ func (p *Printer) visitColumnList(ctx Context, n *sql.ColumnList) {
 	p.movePast(n)
 }
 
+func (p *Printer) visitCube(ctx Context, n *sql.Cube) {
+	p.moveBefore(n)
+	p.print(p.keyword("CUBE") + " (")
+	printNestedWithSepNode(ctx, p, n.Expressions(), ",")
+	p.print(")")
+	p.movePast(n)
+}
+
 func (p *Printer) visitDescriptor(ctx Context, n *sql.Descriptor) {
 	p.moveBefore(n)
 	p.print(p.keyword("DESCRIPTOR") + "(")
@@ -124,8 +132,39 @@ func (p *Printer) visitGroupByAll(_ Context, n *sql.GroupByAll) {
 
 func (p *Printer) visitGroupingItem(ctx Context, n *sql.GroupingItem) {
 	p.moveBefore(n)
+	if n.NumChildren() == 0 {
+		p.print("()")
+		return
+	}
 	p.accept(ctx, n.Expression())
 	p.accept(ctx, n.Rollup())
+	p.accept(ctx, n.Cube())
+	p.accept(ctx, n.GroupingSetList())
+	p.accept(ctx, n.Alias())
+	p.accept(ctx, n.GroupingItemOrder())
+}
+
+func (p *Printer) visitGroupingSet(ctx Context, n *sql.GroupingSet) {
+	p.moveBefore(n)
+	if n.NumChildren() == 0 {
+		p.print("()")
+		return
+	}
+	p.accept(ctx, n.Expression())
+	p.accept(ctx, n.Rollup())
+	p.accept(ctx, n.Cube())
+}
+
+func (p *Printer) visitGroupingSetList(ctx Context, n *sql.GroupingSetList) {
+	p.moveBefore(n)
+	p.println(p.keyword("GROUPING SETS") + " (")
+	pp := p.nest()
+	pp.incDepth()
+	printlnNestedWithSepNode(ctx, pp, n.GroupingSets(), ",")
+	p.print(pp.unnest())
+	p.println("")
+	p.println(")")
+	p.movePast(n)
 }
 
 func (p *Printer) visitHaving(ctx Context, n *sql.Having) {
@@ -414,8 +453,8 @@ func (p *Printer) visitRepeatableClause(ctx Context, n *sql.RepeatableClause) {
 }
 
 func (p *Printer) visitRollup(ctx Context, n *sql.Rollup) {
-	p.print(p.keyword("ROLLUP"))
-	p.print("(")
+	p.moveBefore(n)
+	p.print(p.keyword("ROLLUP") + " (")
 	for i, expr := range n.Expressions() {
 		if i > 0 {
 			p.print(",")

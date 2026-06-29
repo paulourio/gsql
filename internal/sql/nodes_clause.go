@@ -344,15 +344,16 @@ func newGroupingItem(r *googlesql.ASTGroupingItem) *GroupingItem {
 }
 
 // Expression: raw returns ExpressionNode (interface) → ExpressionNode.
-func (n *GroupingItem) Expression() ExpressionNode {
-	return wrapExpr(must(n.raw.Expression()))
+func (n *GroupingItem) Expression() ExpressionNode { return wrapExpr(must(n.raw.Expression())) }
+func (n *GroupingItem) Rollup() *Rollup            { return newRollup(must(n.raw.Rollup())) }
+func (n *GroupingItem) Cube() *Cube                { return newCube(must(n.raw.Cube())) }
+func (n *GroupingItem) GroupingSetList() *GroupingSetList {
+	return newGroupingSetList(must(n.raw.GroupingSetList()))
 }
-
 func (n *GroupingItem) Alias() *Alias { return newAlias(must(n.raw.Alias())) }
-
-func (n *GroupingItem) Rollup() *Rollup { return newRollup(must(n.raw.Rollup())) }
-
-func (n *GroupingItem) Cube() *Cube { return newCube(must(n.raw.Cube())) }
+func (n *GroupingItem) GroupingItemOrder() *GroupingItemOrder {
+	return newGroupingItemOrder(must(n.raw.GroupingItemOrder()))
+}
 
 // HavingModifier wraps *googlesql.ASTHavingModifier.
 type HavingModifier struct {

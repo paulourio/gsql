@@ -1447,6 +1447,10 @@ func (p *Printer) visitRangeType(ctx Context, n *sql.RangeType) {
 }
 
 func (p *Printer) visitSelect(ctx Context, n *sql.Select) {
+	if n.Parent().Kind() == sql.PipeAggregateKind {
+		p.visitPipeAggregateSelect(ctx, n)
+		return
+	}
 	p.moveBefore(n)
 	pp := p.nest()
 	pp.printOpenParenIfNeeded(n)

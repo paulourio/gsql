@@ -1,0 +1,197 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+[[cases]]
+input = """
+select x
+|> drop a
+|> drop a,
+|> drop a,b,c
+|> drop a,b,c,
+"""
+formatted = """
+SELECT x
+|> DROP a
+|> DROP a
+|> DROP a, b, c
+|> DROP a, b, c
+"""
+
+[[cases]]
+input = """
+select 1 x
+|> AGGREGATE count(*), sum(x) as xx
+"""
+formatted = """
+SELECT 1 AS x
+|> AGGREGATE
+     COUNT(*),
+     SUM(x) AS xx
+"""
+
+[[cases]]
+input = """
+select 1
+|> AGGREGATE sum(z), 1+count(x+1) GROUP BY x, y+2, 3
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE SUM(z), 1 + COUNT(x + 1)
+   GROUP BY x, y + 2, 3
+"""
+
+[[cases]]
+description = "Window function parses but should be rejected later."
+input = """
+select 1
+|> AGGREGATE 1, x, sum(y) OVER ()
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE
+     1,
+     x,
+     SUM(y) OVER ()
+"""
+
+[[cases]]
+input = """
+select 1
+|> AGGREGATE y GROUP @{hint=1} BY x,2,3
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE y
+   GROUP @{hint=1} BY x, 2, 3
+"""
+
+[[cases]]
+description = "GROUP BY ()"
+input = """
+select 1
+|> AGGREGATE sum(y) GROUP BY ()
+|> AGGREGATE sum(y) GROUP BY y, (), x
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE SUM(y)
+   GROUP BY ()
+|> AGGREGATE SUM(y)
+   GROUP BY y, (), x
+"""
+
+[[cases]]
+description = "AGGREGATE with empty aggregate list"
+input = """
+select 1
+|> AGGREGATE
+|> AGGREGATE GROUP BY x
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE
+|> AGGREGATE
+   GROUP BY x
+"""
+
+[[cases]]
+input = """
+select 1
+|> AGGREGATE count(*) GROUP BY ROLLUP(x,y)
+|> AGGREGATE GROUP BY GROUPING SETS ((x), (y,z))
+|> AGGREGATE xyz GROUP BY GROUPING SETS(CUBE(x,y), (z,z), ROLLUP(a,b));
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE COUNT(*)
+   GROUP BY ROLLUP (x, y)
+|> AGGREGATE
+   GROUP BY GROUPING SETS (
+              (x),
+              (y, z)
+            )
+|> AGGREGATE xyz
+   GROUP BY GROUPING SETS (
+              CUBE (x, y),
+              (z, z),
+              ROLLUP (a, b)
+            )
+"""
+
+[[cases]]
+description = "Aggregate list supports aliases with and without AS"
+input = """
+select 1
+|> AGGREGATE count(*) as x, count(*) z
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE
+     COUNT(*) AS x,
+     COUNT(*) AS z
+"""
+
+[[cases]]
+description = "Trailing commas are allowed in aggregate list."
+input = """
+select 1
+|> AGGREGATE count(*),
+|> AGGREGATE count(*), GROUP BY x
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE COUNT(*)
+|> AGGREGATE COUNT(*)
+   GROUP BY x
+"""
+
+[[cases]]
+description = "Trailing commas are allowed in the GROUP BY."
+input = """
+select 1
+|> AGGREGATE GROUP BY x,
+|> AGGREGATE GROUP BY x, y,
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE
+   GROUP BY x
+|> AGGREGATE
+   GROUP BY x, y
+"""
+
+[[cases]]
+input = """
+select 1
+|> AGGREGATE x.* except (a,b),
+             y.* replace (abc as def),
+             z.* except (a) replace (1+2 as ccc)
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE
+     x.* EXCEPT(a, b),
+     y.*
+     REPLACE(
+       abc AS def
+     ),
+     z.* EXCEPT(a)
+     REPLACE(
+       1 + 2 AS ccc
+     )
+"""
