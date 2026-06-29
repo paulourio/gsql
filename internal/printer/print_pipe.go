@@ -8,8 +8,10 @@ import (
 
 func (p *Printer) visitFromQuery(ctx Context, n *sql.FromQuery) {
 	p.moveBefore(n)
-	p.printClause("FROM")
-	p.acceptNestedLeft(ctx, n.FromClause())
+	pp := p.nest()
+	pp.printClause("FROM")
+	pp.acceptNestedLeft(ctx, n.FromClause())
+	p.print(pp.unnestLeft())
 }
 
 func (p *Printer) visitPipeAggregate(ctx Context, n *sql.PipeAggregate) {
@@ -50,6 +52,13 @@ func (p *Printer) visitPipeAggregateSelect(ctx Context, n *sql.Select) {
 	p.movePastLine(n)
 }
 
+func (p *Printer) visitPipeAs(ctx Context, n *sql.PipeAs) {
+	p.moveBefore(n)
+	p.lnprint("|>")
+	p.accept(ctx, n.Alias())
+	p.movePast(n)
+}
+
 func (p *Printer) visitPipeDrop(ctx Context, n *sql.PipeDrop) {
 	p.moveBefore(n)
 	p.print("|>")
@@ -61,4 +70,56 @@ func (p *Printer) visitPipeDrop(ctx Context, n *sql.PipeDrop) {
 		}
 		p.accept(ctx, col)
 	}
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeJoin(ctx Context, n *sql.PipeJoin) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.visitPipeJoinJoin(ctx, n.Join())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeJoinJoin(ctx Context, n *sql.Join) {
+	count, _ := ctx.Int(KeyJoinCounts)
+	pp := p.nest()
+	switch n.JoinType() {
+	case sql.Comma:
+		pp.print(",")
+	case sql.DefaultJoinType, sql.Cross, sql.FullJoin,
+		sql.InnerJoin, sql.LeftJoin, sql.RightJoin:
+		if count >= p.Writer.opts.MinJoinsToSeparateInBlocks {
+			pp.println("")
+		}
+		pp.moveBefore(n)
+		pp.moveBefore(n.JoinLocation())
+		pp.println("\v")
+		pp.print(p.keyword(p.joinKeyword(n)))
+	}
+	pp.accept(ctx, n.Hint())
+	pp.println("")
+	pp2 := p.nest()
+	pp2.acceptNestedLeft(ctx, n.RHS())
+	pp2.movePast(n.RHS())
+	pp.print(pp2.unnest())
+	if oc := n.OnClause(); oc != nil {
+		pp.println("")
+		pp.acceptNested(ctx, oc)
+	}
+	if uc := n.UsingClause(); uc != nil {
+		pp.println("")
+		pp.acceptNested(ctx, uc)
+	}
+	p.print(pp.unnestLeft())
+}
+
+func (p *Printer) visitPipeSelect(ctx Context, n *sql.PipeSelect) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.acceptNestedLeft(ctx, n.Select())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
 }

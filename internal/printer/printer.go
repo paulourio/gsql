@@ -426,8 +426,14 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitFromQuery(ctx, n.(*sql.FromQuery))
 	case sql.PipeAggregateKind:
 		p.visitPipeAggregate(ctx, n.(*sql.PipeAggregate))
+	case sql.PipeAsKind:
+		p.visitPipeAs(ctx, n.(*sql.PipeAs))
 	case sql.PipeDropKind:
 		p.visitPipeDrop(ctx, n.(*sql.PipeDrop))
+	case sql.PipeJoinKind:
+		p.visitPipeJoin(ctx, n.(*sql.PipeJoin))
+	case sql.PipeSelectKind:
+		p.visitPipeSelect(ctx, n.(*sql.PipeSelect))
 
 	// ── print_procedural.go ────────────────────────────────────────────────────────
 
@@ -797,6 +803,11 @@ func (p *Printer) moveBeforeSuccessorOf(n sql.Node) {
 	if next > 0 {
 		p.Writer.flushCommentsUpTo(next)
 	}
+}
+
+func (p *Printer) lnprint(s string) {
+	p.Writer.FormatLine("")
+	p.Writer.Format(s)
 }
 
 func (p *Printer) print(s string) {

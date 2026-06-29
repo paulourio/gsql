@@ -257,3 +257,134 @@ FROM t
 |> AGGREGATE COUNT(*) ASC
    GROUP AND ORDER BY key ASC
 """
+
+[[cases]]
+input = """
+SELECT
+  1
+|> AGGREGATE
+     1
+   GROUP AND ORDER BY (), ROLLUP(x), CUBE(x), GROUPING SETS(x)
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE 1
+   GROUP AND ORDER BY (), ROLLUP (x), CUBE (x), GROUPING SETS (x)
+"""
+
+[[cases]]
+description = "Ordering modifiers in combination with aliases."
+input = """
+from x
+|> AGGREGATE
+   GROUP AND ORDER BY x+1 AS y ASC
+"""
+formatted = """
+FROM x
+|> AGGREGATE
+   GROUP AND ORDER BY x + 1 AS y ASC
+"""
+
+# [[cases]]
+# description = "Test order modifiers on the GROUP BY inside graph queries."
+# input = """
+# select * from GRAPH_TABLE(aml
+#   MATCH (a)
+#   RETURN a GROUP AND ORDER BY x)
+# """
+# formatted = """
+# SELECT *
+# FROM GRAPH_TABLE(aml
+#   MATCH (a)
+#   RETURN a GROUP AND ORDER BY x)
+# """
+
+[[cases]]
+description = "GROUP BY aliases without AS."
+input = """
+select 1
+|> AGGREGATE count(*) as x, count(*) z
+   GROUP BY x y, x+y xy
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE
+     COUNT(*) AS x,
+     COUNT(*) AS z
+   GROUP BY x AS y,
+            x + y AS xy
+"""
+
+[[cases]]
+description = "GROUP BY supports aliases with AS."
+input = """
+select 1
+|> AGGREGATE count(*) as x, count(*) z
+   GROUP BY x AS y, z, 1 AS one, x+y AS xy
+"""
+formatted = """
+SELECT 1
+|> AGGREGATE
+     COUNT(*) AS x,
+     COUNT(*) AS z
+   GROUP BY x AS y,
+            z,
+            1 AS one,
+            x + y AS xy
+"""
+
+[[cases]]
+input = """
+SELECT 1 |> AS t
+"""
+formatted = """
+SELECT 1
+|> AS t
+"""
+
+[[cases]]
+input = """
+SELECT 1 x |> AS t
+"""
+formatted = """
+SELECT 1 AS x
+|> AS t
+"""
+
+[[cases]]
+input = """
+SELECT 1 |> AS t1 |> AS t2;
+"""
+formatted = """
+SELECT 1
+|> AS t1
+|> AS t2
+"""
+
+[[cases]]
+description = "This case is syntactically correct but semantically wrong, since \"t\" is in the inner scope, won't be visible to the follow up pipe select."
+input = """
+FROM (SELECT 1 AS a |> AS t)
+|> SELECT t.a
+"""
+formatted = """
+FROM (
+       SELECT 1 AS a
+       |> AS t
+     )
+|> SELECT t.a
+"""
+
+[[cases]]
+input = """
+FROM t1
+|> JOIN t2 USING(key)
+|> AS t3
+"""
+formatted = """
+FROM t1
+|> JOIN
+   t2
+   USING (key)
+|> AS t3
+"""

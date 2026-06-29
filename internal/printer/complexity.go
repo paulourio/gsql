@@ -59,6 +59,9 @@ func isSimpleQuery(n *sql.Query) bool {
 	if n.LimitOffset() != nil {
 		return false
 	}
+	if len(n.PipeOperatorList()) > 0 {
+		return false
+	}
 	return isSimpleQueryExpression(n.QueryExpr())
 }
 
@@ -326,6 +329,31 @@ func isSimpleTypeParamList(n *sql.TypeParameterList) bool {
 		}
 	}
 	return true
+}
+
+func isSimpleGroupingSetList(n *sql.GroupingSetList) bool {
+	sets := n.GroupingSets()
+	if len(sets) > 5 {
+		return false
+	}
+	for _, s := range sets {
+		if !isSimpleGroupingSet(s) {
+			return false
+		}
+	}
+	return true
+}
+
+func isSimpleGroupingSet(n *sql.GroupingSet) bool {
+	if expr := n.Expression(); expr != nil {
+		switch expr.Kind() {
+		case sql.PathExpressionKind, sql.IntLiteralKind, sql.IdentifierKind:
+			return true
+		default:
+			return false
+		}
+	}
+	return false
 }
 
 func isSimpleGroupingItems(n []*sql.GroupingItem) bool {

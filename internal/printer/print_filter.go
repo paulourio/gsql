@@ -188,13 +188,19 @@ func (p *Printer) visitGroupingSet(ctx Context, n *sql.GroupingSet) {
 
 func (p *Printer) visitGroupingSetList(ctx Context, n *sql.GroupingSetList) {
 	p.moveBefore(n)
-	p.println(p.keyword("GROUPING SETS") + " (")
-	pp := p.nest()
-	pp.incDepth()
-	printlnNestedWithSepNode(ctx, pp, n.GroupingSets(), ",")
-	p.print(pp.unnest())
-	p.println("")
-	p.println(")")
+	if isSimpleGroupingSetList(n) {
+		p.print(p.keyword("GROUPING SETS") + " (")
+		printNestedWithSepNode(ctx, p, n.GroupingSets(), ",")
+		p.println(")")
+	} else {
+		p.println(p.keyword("GROUPING SETS") + " (")
+		pp := p.nest()
+		pp.incDepth()
+		printlnNestedWithSepNode(ctx, pp, n.GroupingSets(), ",")
+		p.print(pp.unnest())
+		p.println("")
+		p.println(")")
+	}
 	p.movePast(n)
 }
 
