@@ -218,3 +218,32 @@ SELECT    field
        OR cond > 0 -- another comment
        AS result
 """
+
+[[cases]]
+input = """
+SELECT a -- a item
+       + -- plus sign
+       b -- b item
+       > -- gt
+       0 -- zero
+       and -- and kw
+       (a -- a item
+       + -- plus sign
+       b -- b item
+        ).IFNULL(0 -- zero
+        ) -- end of ifnull
+"""
+formatted = """
+SELECT         a -- a item
+             +   -- plus sign
+               b -- b item
+           >     -- gt
+             0   -- zero
+       AND (     -- and kw
+             a   -- a item
+           +     -- plus sign
+             b   -- b item
+           ).IFNULL(
+               0 -- zero
+             )   -- end of ifnull
+"""

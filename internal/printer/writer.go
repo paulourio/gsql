@@ -50,7 +50,12 @@ func (w *Writer) Format(s string) {
 	if len(s) == 0 {
 		return
 	}
-	w.endedWithLineComment = false
+	// A string ending with \n only occurs when printing output from
+	// a nested printer that ended with a line comment (-- // #).
+	// Propagate that state to this writer so the trailing newline
+	// survives through the unnesting chain. In all other cases,
+	// new content follows, so the flag is cleared.
+	w.endedWithLineComment = strings.HasSuffix(s, "\n")
 	defer func() {
 		w.lastWasNewLine = false
 		w.lastWasUnary = false
