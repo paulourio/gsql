@@ -142,7 +142,7 @@ Formatting without comment is always idempotent, but formatting code preserving 
 - [x] BEGIN...EXCEPTION...END
 - [x] CASE [search_expression]
 - [x] IF
-- [ ] Labels
+- [x] Labels
 - [x] Loops
     - [x] LOOP
     - [x] REPEAT

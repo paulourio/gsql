@@ -59,12 +59,13 @@ var actionTab = actionTable{
 			shift(50), // endif
 			shift(51), // set
 			shift(52), // ?
-			shift(53), // comment
+			shift(53), // :
+			shift(54), // comment
 			nil,       // template_block_end
-			shift(55), // template_block_start
-			shift(62), // template_comment
+			shift(56), // template_block_start
+			shift(63), // template_comment
 			nil,       // template_variable_end
-			shift(64), // template_variable_start
+			shift(65), // template_variable_start
 		},
 	},
 	actionRow{ // S1
@@ -115,12 +116,13 @@ var actionTab = actionTable{
 			shift(50),    // endif
 			shift(51),    // set
 			shift(52),    // ?
-			shift(53),    // comment
+			shift(53),    // :
+			shift(54),    // comment
 			nil,          // template_block_end
-			shift(55),    // template_block_start
-			shift(62),    // template_comment
+			shift(56),    // template_block_start
+			shift(63),    // template_comment
 			nil,          // template_variable_end
-			shift(64),    // template_variable_start
+			shift(65),    // template_variable_start
 		},
 	},
 	actionRow{ // S2
@@ -171,6 +173,7 @@ var actionTab = actionTable{
 			reduce(1), // endif, reduce: Script
 			reduce(1), // set, reduce: Script
 			reduce(1), // ?, reduce: Script
+			reduce(1), // :, reduce: Script
 			reduce(1), // comment, reduce: Script
 			nil,       // template_block_end
 			reduce(1), // template_block_start, reduce: Script
@@ -227,6 +230,7 @@ var actionTab = actionTable{
 			reduce(11), // endif, reduce: Element
 			reduce(11), // set, reduce: Element
 			reduce(11), // ?, reduce: Element
+			reduce(11), // :, reduce: Element
 			reduce(11), // comment, reduce: Element
 			nil,        // template_block_end
 			reduce(11), // template_block_start, reduce: Element
@@ -283,6 +287,7 @@ var actionTab = actionTable{
 			reduce(8), // endif, reduce: Element
 			reduce(8), // set, reduce: Element
 			reduce(8), // ?, reduce: Element
+			reduce(8), // :, reduce: Element
 			reduce(8), // comment, reduce: Element
 			nil,       // template_block_end
 			reduce(8), // template_block_start, reduce: Element
@@ -339,6 +344,7 @@ var actionTab = actionTable{
 			reduce(9), // endif, reduce: Element
 			reduce(9), // set, reduce: Element
 			reduce(9), // ?, reduce: Element
+			reduce(9), // :, reduce: Element
 			reduce(9), // comment, reduce: Element
 			nil,       // template_block_end
 			reduce(9), // template_block_start, reduce: Element
@@ -395,6 +401,7 @@ var actionTab = actionTable{
 			reduce(10), // endif, reduce: Element
 			reduce(10), // set, reduce: Element
 			reduce(10), // ?, reduce: Element
+			reduce(10), // :, reduce: Element
 			reduce(10), // comment, reduce: Element
 			nil,        // template_block_end
 			reduce(10), // template_block_start, reduce: Element
@@ -451,6 +458,7 @@ var actionTab = actionTable{
 			reduce(12), // endif, reduce: Element
 			reduce(12), // set, reduce: Element
 			reduce(12), // ?, reduce: Element
+			reduce(12), // :, reduce: Element
 			reduce(12), // comment, reduce: Element
 			nil,        // template_block_end
 			reduce(12), // template_block_start, reduce: Element
@@ -507,6 +515,7 @@ var actionTab = actionTable{
 			reduce(13), // endif, reduce: Element
 			reduce(13), // set, reduce: Element
 			reduce(13), // ?, reduce: Element
+			reduce(13), // :, reduce: Element
 			reduce(13), // comment, reduce: Element
 			nil,        // template_block_end
 			reduce(13), // template_block_start, reduce: Element
@@ -563,6 +572,7 @@ var actionTab = actionTable{
 			reduce(14), // endif, reduce: Element2
 			reduce(14), // set, reduce: Element2
 			reduce(14), // ?, reduce: Element2
+			reduce(14), // :, reduce: Element2
 			reduce(14), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(14), // template_block_start, reduce: Element2
@@ -619,6 +629,7 @@ var actionTab = actionTable{
 			reduce(15), // endif, reduce: Element2
 			reduce(15), // set, reduce: Element2
 			reduce(15), // ?, reduce: Element2
+			reduce(15), // :, reduce: Element2
 			reduce(15), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(15), // template_block_start, reduce: Element2
@@ -675,6 +686,7 @@ var actionTab = actionTable{
 			reduce(16), // endif, reduce: Element2
 			reduce(16), // set, reduce: Element2
 			reduce(16), // ?, reduce: Element2
+			reduce(16), // :, reduce: Element2
 			reduce(16), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(16), // template_block_start, reduce: Element2
@@ -731,6 +743,7 @@ var actionTab = actionTable{
 			reduce(17), // endif, reduce: Element2
 			reduce(17), // set, reduce: Element2
 			reduce(17), // ?, reduce: Element2
+			reduce(17), // :, reduce: Element2
 			reduce(17), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(17), // template_block_start, reduce: Element2
@@ -787,6 +800,7 @@ var actionTab = actionTable{
 			reduce(18), // endif, reduce: Element2
 			reduce(18), // set, reduce: Element2
 			reduce(18), // ?, reduce: Element2
+			reduce(18), // :, reduce: Element2
 			reduce(18), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(18), // template_block_start, reduce: Element2
@@ -843,6 +857,7 @@ var actionTab = actionTable{
 			reduce(19), // endif, reduce: Element2
 			reduce(19), // set, reduce: Element2
 			reduce(19), // ?, reduce: Element2
+			reduce(19), // :, reduce: Element2
 			reduce(19), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(19), // template_block_start, reduce: Element2
@@ -899,6 +914,7 @@ var actionTab = actionTable{
 			reduce(20), // endif, reduce: Element2
 			reduce(20), // set, reduce: Element2
 			reduce(20), // ?, reduce: Element2
+			reduce(20), // :, reduce: Element2
 			reduce(20), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(20), // template_block_start, reduce: Element2
@@ -955,6 +971,7 @@ var actionTab = actionTable{
 			reduce(21), // endif, reduce: Element2
 			reduce(21), // set, reduce: Element2
 			reduce(21), // ?, reduce: Element2
+			reduce(21), // :, reduce: Element2
 			reduce(21), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(21), // template_block_start, reduce: Element2
@@ -1011,6 +1028,7 @@ var actionTab = actionTable{
 			reduce(22), // endif, reduce: Element2
 			reduce(22), // set, reduce: Element2
 			reduce(22), // ?, reduce: Element2
+			reduce(22), // :, reduce: Element2
 			reduce(22), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(22), // template_block_start, reduce: Element2
@@ -1067,6 +1085,7 @@ var actionTab = actionTable{
 			reduce(23), // endif, reduce: Element2
 			reduce(23), // set, reduce: Element2
 			reduce(23), // ?, reduce: Element2
+			reduce(23), // :, reduce: Element2
 			reduce(23), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(23), // template_block_start, reduce: Element2
@@ -1123,6 +1142,7 @@ var actionTab = actionTable{
 			reduce(24), // endif, reduce: Element2
 			reduce(24), // set, reduce: Element2
 			reduce(24), // ?, reduce: Element2
+			reduce(24), // :, reduce: Element2
 			reduce(24), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(24), // template_block_start, reduce: Element2
@@ -1179,6 +1199,7 @@ var actionTab = actionTable{
 			reduce(25), // endif, reduce: Element2
 			reduce(25), // set, reduce: Element2
 			reduce(25), // ?, reduce: Element2
+			reduce(25), // :, reduce: Element2
 			reduce(25), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(25), // template_block_start, reduce: Element2
@@ -1235,6 +1256,7 @@ var actionTab = actionTable{
 			reduce(26), // endif, reduce: Element2
 			reduce(26), // set, reduce: Element2
 			reduce(26), // ?, reduce: Element2
+			reduce(26), // :, reduce: Element2
 			reduce(26), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(26), // template_block_start, reduce: Element2
@@ -1291,6 +1313,7 @@ var actionTab = actionTable{
 			reduce(27), // endif, reduce: Element2
 			reduce(27), // set, reduce: Element2
 			reduce(27), // ?, reduce: Element2
+			reduce(27), // :, reduce: Element2
 			reduce(27), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(27), // template_block_start, reduce: Element2
@@ -1347,6 +1370,7 @@ var actionTab = actionTable{
 			reduce(28), // endif, reduce: Element2
 			reduce(28), // set, reduce: Element2
 			reduce(28), // ?, reduce: Element2
+			reduce(28), // :, reduce: Element2
 			reduce(28), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(28), // template_block_start, reduce: Element2
@@ -1403,6 +1427,7 @@ var actionTab = actionTable{
 			reduce(29), // endif, reduce: Element2
 			reduce(29), // set, reduce: Element2
 			reduce(29), // ?, reduce: Element2
+			reduce(29), // :, reduce: Element2
 			reduce(29), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(29), // template_block_start, reduce: Element2
@@ -1459,6 +1484,7 @@ var actionTab = actionTable{
 			reduce(30), // endif, reduce: Element2
 			reduce(30), // set, reduce: Element2
 			reduce(30), // ?, reduce: Element2
+			reduce(30), // :, reduce: Element2
 			reduce(30), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(30), // template_block_start, reduce: Element2
@@ -1515,6 +1541,7 @@ var actionTab = actionTable{
 			reduce(31), // endif, reduce: Element2
 			reduce(31), // set, reduce: Element2
 			reduce(31), // ?, reduce: Element2
+			reduce(31), // :, reduce: Element2
 			reduce(31), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(31), // template_block_start, reduce: Element2
@@ -1571,6 +1598,7 @@ var actionTab = actionTable{
 			reduce(32), // endif, reduce: Element2
 			reduce(32), // set, reduce: Element2
 			reduce(32), // ?, reduce: Element2
+			reduce(32), // :, reduce: Element2
 			reduce(32), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(32), // template_block_start, reduce: Element2
@@ -1627,6 +1655,7 @@ var actionTab = actionTable{
 			reduce(33), // endif, reduce: Element2
 			reduce(33), // set, reduce: Element2
 			reduce(33), // ?, reduce: Element2
+			reduce(33), // :, reduce: Element2
 			reduce(33), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(33), // template_block_start, reduce: Element2
@@ -1683,6 +1712,7 @@ var actionTab = actionTable{
 			reduce(34), // endif, reduce: Element2
 			reduce(34), // set, reduce: Element2
 			reduce(34), // ?, reduce: Element2
+			reduce(34), // :, reduce: Element2
 			reduce(34), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(34), // template_block_start, reduce: Element2
@@ -1739,6 +1769,7 @@ var actionTab = actionTable{
 			reduce(35), // endif, reduce: Element2
 			reduce(35), // set, reduce: Element2
 			reduce(35), // ?, reduce: Element2
+			reduce(35), // :, reduce: Element2
 			reduce(35), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(35), // template_block_start, reduce: Element2
@@ -1795,6 +1826,7 @@ var actionTab = actionTable{
 			reduce(36), // endif, reduce: Element2
 			reduce(36), // set, reduce: Element2
 			reduce(36), // ?, reduce: Element2
+			reduce(36), // :, reduce: Element2
 			reduce(36), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(36), // template_block_start, reduce: Element2
@@ -1851,6 +1883,7 @@ var actionTab = actionTable{
 			reduce(37), // endif, reduce: Element2
 			reduce(37), // set, reduce: Element2
 			reduce(37), // ?, reduce: Element2
+			reduce(37), // :, reduce: Element2
 			reduce(37), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(37), // template_block_start, reduce: Element2
@@ -1907,6 +1940,7 @@ var actionTab = actionTable{
 			reduce(38), // endif, reduce: Element2
 			reduce(38), // set, reduce: Element2
 			reduce(38), // ?, reduce: Element2
+			reduce(38), // :, reduce: Element2
 			reduce(38), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(38), // template_block_start, reduce: Element2
@@ -1963,6 +1997,7 @@ var actionTab = actionTable{
 			reduce(39), // endif, reduce: Element2
 			reduce(39), // set, reduce: Element2
 			reduce(39), // ?, reduce: Element2
+			reduce(39), // :, reduce: Element2
 			reduce(39), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(39), // template_block_start, reduce: Element2
@@ -2019,6 +2054,7 @@ var actionTab = actionTable{
 			reduce(40), // endif, reduce: Element2
 			reduce(40), // set, reduce: Element2
 			reduce(40), // ?, reduce: Element2
+			reduce(40), // :, reduce: Element2
 			reduce(40), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(40), // template_block_start, reduce: Element2
@@ -2075,6 +2111,7 @@ var actionTab = actionTable{
 			reduce(41), // endif, reduce: Element2
 			reduce(41), // set, reduce: Element2
 			reduce(41), // ?, reduce: Element2
+			reduce(41), // :, reduce: Element2
 			reduce(41), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(41), // template_block_start, reduce: Element2
@@ -2131,6 +2168,7 @@ var actionTab = actionTable{
 			reduce(42), // endif, reduce: Element2
 			reduce(42), // set, reduce: Element2
 			reduce(42), // ?, reduce: Element2
+			reduce(42), // :, reduce: Element2
 			reduce(42), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(42), // template_block_start, reduce: Element2
@@ -2187,6 +2225,7 @@ var actionTab = actionTable{
 			reduce(44), // endif, reduce: Element2
 			reduce(44), // set, reduce: Element2
 			reduce(44), // ?, reduce: Element2
+			reduce(44), // :, reduce: Element2
 			reduce(44), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(44), // template_block_start, reduce: Element2
@@ -2243,6 +2282,7 @@ var actionTab = actionTable{
 			reduce(46), // endif, reduce: Element2
 			reduce(46), // set, reduce: Element2
 			reduce(46), // ?, reduce: Element2
+			reduce(46), // :, reduce: Element2
 			reduce(46), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(46), // template_block_start, reduce: Element2
@@ -2299,6 +2339,7 @@ var actionTab = actionTable{
 			reduce(47), // endif, reduce: Element2
 			reduce(47), // set, reduce: Element2
 			reduce(47), // ?, reduce: Element2
+			reduce(47), // :, reduce: Element2
 			reduce(47), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(47), // template_block_start, reduce: Element2
@@ -2355,6 +2396,7 @@ var actionTab = actionTable{
 			reduce(49), // endif, reduce: Element2
 			reduce(49), // set, reduce: Element2
 			reduce(49), // ?, reduce: Element2
+			reduce(49), // :, reduce: Element2
 			reduce(49), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(49), // template_block_start, reduce: Element2
@@ -2411,6 +2453,7 @@ var actionTab = actionTable{
 			reduce(50), // endif, reduce: Element2
 			reduce(50), // set, reduce: Element2
 			reduce(50), // ?, reduce: Element2
+			reduce(50), // :, reduce: Element2
 			reduce(50), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(50), // template_block_start, reduce: Element2
@@ -2467,6 +2510,7 @@ var actionTab = actionTable{
 			reduce(51), // endif, reduce: Element2
 			reduce(51), // set, reduce: Element2
 			reduce(51), // ?, reduce: Element2
+			reduce(51), // :, reduce: Element2
 			reduce(51), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(51), // template_block_start, reduce: Element2
@@ -2523,6 +2567,7 @@ var actionTab = actionTable{
 			reduce(52), // endif, reduce: Element2
 			reduce(52), // set, reduce: Element2
 			reduce(52), // ?, reduce: Element2
+			reduce(52), // :, reduce: Element2
 			reduce(52), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(52), // template_block_start, reduce: Element2
@@ -2579,6 +2624,7 @@ var actionTab = actionTable{
 			reduce(53), // endif, reduce: Element2
 			reduce(53), // set, reduce: Element2
 			reduce(53), // ?, reduce: Element2
+			reduce(53), // :, reduce: Element2
 			reduce(53), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(53), // template_block_start, reduce: Element2
@@ -2635,6 +2681,7 @@ var actionTab = actionTable{
 			reduce(54), // endif, reduce: Element2
 			reduce(54), // set, reduce: Element2
 			reduce(54), // ?, reduce: Element2
+			reduce(54), // :, reduce: Element2
 			reduce(54), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(54), // template_block_start, reduce: Element2
@@ -2691,6 +2738,7 @@ var actionTab = actionTable{
 			reduce(55), // endif, reduce: Element2
 			reduce(55), // set, reduce: Element2
 			reduce(55), // ?, reduce: Element2
+			reduce(55), // :, reduce: Element2
 			reduce(55), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(55), // template_block_start, reduce: Element2
@@ -2747,6 +2795,7 @@ var actionTab = actionTable{
 			reduce(56), // endif, reduce: Element2
 			reduce(56), // set, reduce: Element2
 			reduce(56), // ?, reduce: Element2
+			reduce(56), // :, reduce: Element2
 			reduce(56), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(56), // template_block_start, reduce: Element2
@@ -2803,6 +2852,7 @@ var actionTab = actionTable{
 			reduce(57), // endif, reduce: Element2
 			reduce(57), // set, reduce: Element2
 			reduce(57), // ?, reduce: Element2
+			reduce(57), // :, reduce: Element2
 			reduce(57), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(57), // template_block_start, reduce: Element2
@@ -2859,6 +2909,7 @@ var actionTab = actionTable{
 			reduce(58), // endif, reduce: Element2
 			reduce(58), // set, reduce: Element2
 			reduce(58), // ?, reduce: Element2
+			reduce(58), // :, reduce: Element2
 			reduce(58), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(58), // template_block_start, reduce: Element2
@@ -2915,6 +2966,7 @@ var actionTab = actionTable{
 			reduce(59), // endif, reduce: Element2
 			reduce(59), // set, reduce: Element2
 			reduce(59), // ?, reduce: Element2
+			reduce(59), // :, reduce: Element2
 			reduce(59), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(59), // template_block_start, reduce: Element2
@@ -2971,6 +3023,7 @@ var actionTab = actionTable{
 			reduce(60), // endif, reduce: Element2
 			reduce(60), // set, reduce: Element2
 			reduce(60), // ?, reduce: Element2
+			reduce(60), // :, reduce: Element2
 			reduce(60), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(60), // template_block_start, reduce: Element2
@@ -2983,115 +3036,174 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(61), // ␚, reduce: Comment
-			reduce(61), // identifier, reduce: Comment
-			reduce(61), // bytes_literal, reduce: Comment
-			reduce(61), // string_literal, reduce: Comment
-			reduce(61), // integer_literal, reduce: Comment
-			reduce(61), // floating_point_literal, reduce: Comment
-			reduce(61), // newline, reduce: Comment
-			reduce(61), // *, reduce: Comment
-			reduce(61), // <, reduce: Comment
-			reduce(61), // >, reduce: Comment
-			reduce(61), // [, reduce: Comment
-			reduce(61), // ], reduce: Comment
-			reduce(61), // (, reduce: Comment
-			reduce(61), // ), reduce: Comment
-			reduce(61), // ,, reduce: Comment
-			reduce(61), // ., reduce: Comment
-			reduce(61), // |, reduce: Comment
-			reduce(61), // ^, reduce: Comment
-			reduce(61), // &, reduce: Comment
-			reduce(61), // <<, reduce: Comment
-			reduce(61), // >>, reduce: Comment
-			reduce(61), // =>, reduce: Comment
-			reduce(61), // /, reduce: Comment
-			reduce(61), // +, reduce: Comment
-			reduce(61), // -, reduce: Comment
-			reduce(61), // ||, reduce: Comment
-			reduce(61), // <>, reduce: Comment
-			reduce(61), // !=, reduce: Comment
-			reduce(61), // =, reduce: Comment
-			reduce(61), // <=, reduce: Comment
-			reduce(61), // >=, reduce: Comment
-			reduce(61), // ;, reduce: Comment
-			reduce(61), // @, reduce: Comment
-			reduce(61), // {, reduce: Comment
-			reduce(61), // }, reduce: Comment
-			reduce(61), // ~, reduce: Comment
-			reduce(61), // else, reduce: Comment
-			reduce(61), // if, reduce: Comment
-			reduce(61), // for, reduce: Comment
-			reduce(61), // endfor, reduce: Comment
-			reduce(61), // elif, reduce: Comment
-			reduce(61), // endif, reduce: Comment
-			reduce(61), // set, reduce: Comment
-			reduce(61), // ?, reduce: Comment
-			reduce(61), // comment, reduce: Comment
+			reduce(61), // ␚, reduce: Element2
+			reduce(61), // identifier, reduce: Element2
+			reduce(61), // bytes_literal, reduce: Element2
+			reduce(61), // string_literal, reduce: Element2
+			reduce(61), // integer_literal, reduce: Element2
+			reduce(61), // floating_point_literal, reduce: Element2
+			reduce(61), // newline, reduce: Element2
+			reduce(61), // *, reduce: Element2
+			reduce(61), // <, reduce: Element2
+			reduce(61), // >, reduce: Element2
+			reduce(61), // [, reduce: Element2
+			reduce(61), // ], reduce: Element2
+			reduce(61), // (, reduce: Element2
+			reduce(61), // ), reduce: Element2
+			reduce(61), // ,, reduce: Element2
+			reduce(61), // ., reduce: Element2
+			reduce(61), // |, reduce: Element2
+			reduce(61), // ^, reduce: Element2
+			reduce(61), // &, reduce: Element2
+			reduce(61), // <<, reduce: Element2
+			reduce(61), // >>, reduce: Element2
+			reduce(61), // =>, reduce: Element2
+			reduce(61), // /, reduce: Element2
+			reduce(61), // +, reduce: Element2
+			reduce(61), // -, reduce: Element2
+			reduce(61), // ||, reduce: Element2
+			reduce(61), // <>, reduce: Element2
+			reduce(61), // !=, reduce: Element2
+			reduce(61), // =, reduce: Element2
+			reduce(61), // <=, reduce: Element2
+			reduce(61), // >=, reduce: Element2
+			reduce(61), // ;, reduce: Element2
+			reduce(61), // @, reduce: Element2
+			reduce(61), // {, reduce: Element2
+			reduce(61), // }, reduce: Element2
+			reduce(61), // ~, reduce: Element2
+			reduce(61), // else, reduce: Element2
+			reduce(61), // if, reduce: Element2
+			reduce(61), // for, reduce: Element2
+			reduce(61), // endfor, reduce: Element2
+			reduce(61), // elif, reduce: Element2
+			reduce(61), // endif, reduce: Element2
+			reduce(61), // set, reduce: Element2
+			reduce(61), // ?, reduce: Element2
+			reduce(61), // :, reduce: Element2
+			reduce(61), // comment, reduce: Element2
 			nil,        // template_block_end
-			reduce(61), // template_block_start, reduce: Comment
-			reduce(61), // template_comment, reduce: Comment
+			reduce(61), // template_block_start, reduce: Element2
+			reduce(61), // template_comment, reduce: Element2
 			nil,        // template_variable_end
-			reduce(61), // template_variable_start, reduce: Comment
+			reduce(61), // template_variable_start, reduce: Element2
 		},
 	},
 	actionRow{ // S54
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			nil,        // ␚
-			shift(79),  // identifier
-			shift(80),  // bytes_literal
-			shift(81),  // string_literal
-			shift(82),  // integer_literal
-			shift(83),  // floating_point_literal
-			shift(84),  // newline
-			shift(85),  // *
-			shift(86),  // <
-			shift(87),  // >
-			shift(88),  // [
-			shift(89),  // ]
-			shift(90),  // (
-			shift(91),  // )
-			shift(92),  // ,
-			shift(93),  // .
-			shift(94),  // |
-			shift(95),  // ^
-			shift(96),  // &
-			shift(97),  // <<
-			shift(98),  // >>
-			shift(99),  // =>
-			shift(100), // /
-			shift(101), // +
-			shift(102), // -
-			shift(103), // ||
-			shift(104), // <>
-			shift(105), // !=
-			shift(106), // =
-			shift(107), // <=
-			shift(108), // >=
-			shift(109), // ;
-			shift(110), // @
-			shift(111), // {
-			shift(112), // }
-			shift(113), // ~
-			shift(114), // else
-			shift(115), // if
-			shift(116), // for
-			shift(117), // endfor
-			shift(118), // elif
-			shift(119), // endif
-			shift(120), // set
-			shift(121), // ?
-			shift(122), // comment
-			shift(124), // template_block_end
-			shift(55),  // template_block_start
-			shift(127), // template_comment
+			reduce(62), // ␚, reduce: Comment
+			reduce(62), // identifier, reduce: Comment
+			reduce(62), // bytes_literal, reduce: Comment
+			reduce(62), // string_literal, reduce: Comment
+			reduce(62), // integer_literal, reduce: Comment
+			reduce(62), // floating_point_literal, reduce: Comment
+			reduce(62), // newline, reduce: Comment
+			reduce(62), // *, reduce: Comment
+			reduce(62), // <, reduce: Comment
+			reduce(62), // >, reduce: Comment
+			reduce(62), // [, reduce: Comment
+			reduce(62), // ], reduce: Comment
+			reduce(62), // (, reduce: Comment
+			reduce(62), // ), reduce: Comment
+			reduce(62), // ,, reduce: Comment
+			reduce(62), // ., reduce: Comment
+			reduce(62), // |, reduce: Comment
+			reduce(62), // ^, reduce: Comment
+			reduce(62), // &, reduce: Comment
+			reduce(62), // <<, reduce: Comment
+			reduce(62), // >>, reduce: Comment
+			reduce(62), // =>, reduce: Comment
+			reduce(62), // /, reduce: Comment
+			reduce(62), // +, reduce: Comment
+			reduce(62), // -, reduce: Comment
+			reduce(62), // ||, reduce: Comment
+			reduce(62), // <>, reduce: Comment
+			reduce(62), // !=, reduce: Comment
+			reduce(62), // =, reduce: Comment
+			reduce(62), // <=, reduce: Comment
+			reduce(62), // >=, reduce: Comment
+			reduce(62), // ;, reduce: Comment
+			reduce(62), // @, reduce: Comment
+			reduce(62), // {, reduce: Comment
+			reduce(62), // }, reduce: Comment
+			reduce(62), // ~, reduce: Comment
+			reduce(62), // else, reduce: Comment
+			reduce(62), // if, reduce: Comment
+			reduce(62), // for, reduce: Comment
+			reduce(62), // endfor, reduce: Comment
+			reduce(62), // elif, reduce: Comment
+			reduce(62), // endif, reduce: Comment
+			reduce(62), // set, reduce: Comment
+			reduce(62), // ?, reduce: Comment
+			reduce(62), // :, reduce: Comment
+			reduce(62), // comment, reduce: Comment
+			nil,        // template_block_end
+			reduce(62), // template_block_start, reduce: Comment
+			reduce(62), // template_comment, reduce: Comment
 			nil,        // template_variable_end
-			shift(64),  // template_variable_start
+			reduce(62), // template_variable_start, reduce: Comment
 		},
 	},
 	actionRow{ // S55
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(80),  // identifier
+			shift(81),  // bytes_literal
+			shift(82),  // string_literal
+			shift(83),  // integer_literal
+			shift(84),  // floating_point_literal
+			shift(85),  // newline
+			shift(86),  // *
+			shift(87),  // <
+			shift(88),  // >
+			shift(89),  // [
+			shift(90),  // ]
+			shift(91),  // (
+			shift(92),  // )
+			shift(93),  // ,
+			shift(94),  // .
+			shift(95),  // |
+			shift(96),  // ^
+			shift(97),  // &
+			shift(98),  // <<
+			shift(99),  // >>
+			shift(100), // =>
+			shift(101), // /
+			shift(102), // +
+			shift(103), // -
+			shift(104), // ||
+			shift(105), // <>
+			shift(106), // !=
+			shift(107), // =
+			shift(108), // <=
+			shift(109), // >=
+			shift(110), // ;
+			shift(111), // @
+			shift(112), // {
+			shift(113), // }
+			shift(114), // ~
+			shift(115), // else
+			shift(116), // if
+			shift(117), // for
+			shift(118), // endfor
+			shift(119), // elif
+			shift(120), // endif
+			shift(121), // set
+			shift(122), // ?
+			shift(123), // :
+			shift(124), // comment
+			shift(126), // template_block_end
+			shift(56),  // template_block_start
+			shift(129), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S56
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -3132,13 +3244,14 @@ var actionTab = actionTable{
 			nil,        // }
 			nil,        // ~
 			nil,        // else
-			shift(129), // if
-			shift(130), // for
+			shift(131), // if
+			shift(132), // for
 			nil,        // endfor
 			nil,        // elif
 			nil,        // endif
-			shift(131), // set
+			shift(133), // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
 			nil,        // template_block_start
@@ -3147,4263 +3260,64 @@ var actionTab = actionTable{
 			nil,        // template_variable_start
 		},
 	},
-	actionRow{ // S56
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(140), // identifier
-			shift(141), // bytes_literal
-			shift(142), // string_literal
-			shift(143), // integer_literal
-			shift(144), // floating_point_literal
-			shift(145), // newline
-			shift(146), // *
-			shift(147), // <
-			shift(148), // >
-			shift(149), // [
-			shift(150), // ]
-			shift(151), // (
-			shift(152), // )
-			shift(153), // ,
-			shift(154), // .
-			shift(155), // |
-			shift(156), // ^
-			shift(157), // &
-			shift(158), // <<
-			shift(159), // >>
-			shift(160), // =>
-			shift(161), // /
-			shift(162), // +
-			shift(163), // -
-			shift(164), // ||
-			shift(165), // <>
-			shift(166), // !=
-			shift(167), // =
-			shift(168), // <=
-			shift(169), // >=
-			shift(170), // ;
-			shift(171), // @
-			shift(172), // {
-			shift(173), // }
-			shift(174), // ~
-			shift(175), // else
-			shift(176), // if
-			shift(177), // for
-			shift(178), // endfor
-			shift(179), // elif
-			shift(180), // endif
-			shift(181), // set
-			shift(182), // ?
-			shift(183), // comment
-			nil,        // template_block_end
-			shift(185), // template_block_start
-			shift(190), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
 	actionRow{ // S57
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(68), // identifier, reduce: TemplateIfBlockPrefix
-			reduce(68), // bytes_literal, reduce: TemplateIfBlockPrefix
-			reduce(68), // string_literal, reduce: TemplateIfBlockPrefix
-			reduce(68), // integer_literal, reduce: TemplateIfBlockPrefix
-			reduce(68), // floating_point_literal, reduce: TemplateIfBlockPrefix
-			reduce(68), // newline, reduce: TemplateIfBlockPrefix
-			reduce(68), // *, reduce: TemplateIfBlockPrefix
-			reduce(68), // <, reduce: TemplateIfBlockPrefix
-			reduce(68), // >, reduce: TemplateIfBlockPrefix
-			reduce(68), // [, reduce: TemplateIfBlockPrefix
-			reduce(68), // ], reduce: TemplateIfBlockPrefix
-			reduce(68), // (, reduce: TemplateIfBlockPrefix
-			reduce(68), // ), reduce: TemplateIfBlockPrefix
-			reduce(68), // ,, reduce: TemplateIfBlockPrefix
-			reduce(68), // ., reduce: TemplateIfBlockPrefix
-			reduce(68), // |, reduce: TemplateIfBlockPrefix
-			reduce(68), // ^, reduce: TemplateIfBlockPrefix
-			reduce(68), // &, reduce: TemplateIfBlockPrefix
-			reduce(68), // <<, reduce: TemplateIfBlockPrefix
-			reduce(68), // >>, reduce: TemplateIfBlockPrefix
-			reduce(68), // =>, reduce: TemplateIfBlockPrefix
-			reduce(68), // /, reduce: TemplateIfBlockPrefix
-			reduce(68), // +, reduce: TemplateIfBlockPrefix
-			reduce(68), // -, reduce: TemplateIfBlockPrefix
-			reduce(68), // ||, reduce: TemplateIfBlockPrefix
-			reduce(68), // <>, reduce: TemplateIfBlockPrefix
-			reduce(68), // !=, reduce: TemplateIfBlockPrefix
-			reduce(68), // =, reduce: TemplateIfBlockPrefix
-			reduce(68), // <=, reduce: TemplateIfBlockPrefix
-			reduce(68), // >=, reduce: TemplateIfBlockPrefix
-			reduce(68), // ;, reduce: TemplateIfBlockPrefix
-			reduce(68), // @, reduce: TemplateIfBlockPrefix
-			reduce(68), // {, reduce: TemplateIfBlockPrefix
-			reduce(68), // }, reduce: TemplateIfBlockPrefix
-			reduce(68), // ~, reduce: TemplateIfBlockPrefix
-			reduce(68), // else, reduce: TemplateIfBlockPrefix
-			reduce(68), // if, reduce: TemplateIfBlockPrefix
-			reduce(68), // for, reduce: TemplateIfBlockPrefix
-			reduce(68), // endfor, reduce: TemplateIfBlockPrefix
-			reduce(68), // elif, reduce: TemplateIfBlockPrefix
-			reduce(68), // endif, reduce: TemplateIfBlockPrefix
-			reduce(68), // set, reduce: TemplateIfBlockPrefix
-			reduce(68), // ?, reduce: TemplateIfBlockPrefix
-			reduce(68), // comment, reduce: TemplateIfBlockPrefix
+			shift(142), // identifier
+			shift(143), // bytes_literal
+			shift(144), // string_literal
+			shift(145), // integer_literal
+			shift(146), // floating_point_literal
+			shift(147), // newline
+			shift(148), // *
+			shift(149), // <
+			shift(150), // >
+			shift(151), // [
+			shift(152), // ]
+			shift(153), // (
+			shift(154), // )
+			shift(155), // ,
+			shift(156), // .
+			shift(157), // |
+			shift(158), // ^
+			shift(159), // &
+			shift(160), // <<
+			shift(161), // >>
+			shift(162), // =>
+			shift(163), // /
+			shift(164), // +
+			shift(165), // -
+			shift(166), // ||
+			shift(167), // <>
+			shift(168), // !=
+			shift(169), // =
+			shift(170), // <=
+			shift(171), // >=
+			shift(172), // ;
+			shift(173), // @
+			shift(174), // {
+			shift(175), // }
+			shift(176), // ~
+			shift(177), // else
+			shift(178), // if
+			shift(179), // for
+			shift(180), // endfor
+			shift(181), // elif
+			shift(182), // endif
+			shift(183), // set
+			shift(184), // ?
+			shift(185), // :
+			shift(186), // comment
 			nil,        // template_block_end
-			reduce(68), // template_block_start, reduce: TemplateIfBlockPrefix
-			reduce(68), // template_comment, reduce: TemplateIfBlockPrefix
+			shift(188), // template_block_start
+			shift(193), // template_comment
 			nil,        // template_variable_end
-			reduce(68), // template_variable_start, reduce: TemplateIfBlockPrefix
+			shift(65),  // template_variable_start
 		},
 	},
 	actionRow{ // S58
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(79),  // identifier
-			shift(80),  // bytes_literal
-			shift(81),  // string_literal
-			shift(82),  // integer_literal
-			shift(83),  // floating_point_literal
-			shift(84),  // newline
-			shift(85),  // *
-			shift(86),  // <
-			shift(87),  // >
-			shift(88),  // [
-			shift(89),  // ]
-			shift(90),  // (
-			shift(91),  // )
-			shift(92),  // ,
-			shift(93),  // .
-			shift(94),  // |
-			shift(95),  // ^
-			shift(96),  // &
-			shift(97),  // <<
-			shift(98),  // >>
-			shift(99),  // =>
-			shift(100), // /
-			shift(101), // +
-			shift(102), // -
-			shift(103), // ||
-			shift(104), // <>
-			shift(105), // !=
-			shift(106), // =
-			shift(107), // <=
-			shift(108), // >=
-			shift(109), // ;
-			shift(110), // @
-			shift(111), // {
-			shift(112), // }
-			shift(113), // ~
-			shift(114), // else
-			shift(115), // if
-			shift(116), // for
-			shift(117), // endfor
-			shift(118), // elif
-			shift(119), // endif
-			shift(120), // set
-			shift(121), // ?
-			shift(122), // comment
-			shift(193), // template_block_end
-			shift(55),  // template_block_start
-			shift(127), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S59
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(140), // identifier
-			shift(141), // bytes_literal
-			shift(142), // string_literal
-			shift(143), // integer_literal
-			shift(144), // floating_point_literal
-			shift(145), // newline
-			shift(146), // *
-			shift(147), // <
-			shift(148), // >
-			shift(149), // [
-			shift(150), // ]
-			shift(151), // (
-			shift(152), // )
-			shift(153), // ,
-			shift(154), // .
-			shift(155), // |
-			shift(156), // ^
-			shift(157), // &
-			shift(158), // <<
-			shift(159), // >>
-			shift(160), // =>
-			shift(161), // /
-			shift(162), // +
-			shift(163), // -
-			shift(164), // ||
-			shift(165), // <>
-			shift(166), // !=
-			shift(167), // =
-			shift(168), // <=
-			shift(169), // >=
-			shift(170), // ;
-			shift(171), // @
-			shift(172), // {
-			shift(173), // }
-			shift(174), // ~
-			shift(175), // else
-			shift(176), // if
-			shift(177), // for
-			shift(178), // endfor
-			shift(179), // elif
-			shift(180), // endif
-			shift(181), // set
-			shift(182), // ?
-			shift(183), // comment
-			nil,        // template_block_end
-			shift(195), // template_block_start
-			shift(190), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S60
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(140), // identifier
-			shift(141), // bytes_literal
-			shift(142), // string_literal
-			shift(143), // integer_literal
-			shift(144), // floating_point_literal
-			shift(145), // newline
-			shift(146), // *
-			shift(147), // <
-			shift(148), // >
-			shift(149), // [
-			shift(150), // ]
-			shift(151), // (
-			shift(152), // )
-			shift(153), // ,
-			shift(154), // .
-			shift(155), // |
-			shift(156), // ^
-			shift(157), // &
-			shift(158), // <<
-			shift(159), // >>
-			shift(160), // =>
-			shift(161), // /
-			shift(162), // +
-			shift(163), // -
-			shift(164), // ||
-			shift(165), // <>
-			shift(166), // !=
-			shift(167), // =
-			shift(168), // <=
-			shift(169), // >=
-			shift(170), // ;
-			shift(171), // @
-			shift(172), // {
-			shift(173), // }
-			shift(174), // ~
-			shift(175), // else
-			shift(176), // if
-			shift(177), // for
-			shift(178), // endfor
-			shift(179), // elif
-			shift(180), // endif
-			shift(181), // set
-			shift(182), // ?
-			shift(183), // comment
-			nil,        // template_block_end
-			shift(55),  // template_block_start
-			shift(190), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S61
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(79),  // identifier
-			shift(80),  // bytes_literal
-			shift(81),  // string_literal
-			shift(82),  // integer_literal
-			shift(83),  // floating_point_literal
-			shift(84),  // newline
-			shift(85),  // *
-			shift(86),  // <
-			shift(87),  // >
-			shift(88),  // [
-			shift(89),  // ]
-			shift(90),  // (
-			shift(91),  // )
-			shift(92),  // ,
-			shift(93),  // .
-			shift(94),  // |
-			shift(95),  // ^
-			shift(96),  // &
-			shift(97),  // <<
-			shift(98),  // >>
-			shift(99),  // =>
-			shift(100), // /
-			shift(101), // +
-			shift(102), // -
-			shift(103), // ||
-			shift(104), // <>
-			shift(105), // !=
-			shift(106), // =
-			shift(107), // <=
-			shift(108), // >=
-			shift(109), // ;
-			shift(110), // @
-			shift(111), // {
-			shift(112), // }
-			shift(113), // ~
-			shift(114), // else
-			shift(115), // if
-			shift(116), // for
-			shift(117), // endfor
-			shift(118), // elif
-			shift(119), // endif
-			shift(120), // set
-			shift(121), // ?
-			shift(122), // comment
-			shift(199), // template_block_end
-			shift(55),  // template_block_start
-			shift(127), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S62
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			reduce(82), // ␚, reduce: TemplateComment
-			reduce(82), // identifier, reduce: TemplateComment
-			reduce(82), // bytes_literal, reduce: TemplateComment
-			reduce(82), // string_literal, reduce: TemplateComment
-			reduce(82), // integer_literal, reduce: TemplateComment
-			reduce(82), // floating_point_literal, reduce: TemplateComment
-			reduce(82), // newline, reduce: TemplateComment
-			reduce(82), // *, reduce: TemplateComment
-			reduce(82), // <, reduce: TemplateComment
-			reduce(82), // >, reduce: TemplateComment
-			reduce(82), // [, reduce: TemplateComment
-			reduce(82), // ], reduce: TemplateComment
-			reduce(82), // (, reduce: TemplateComment
-			reduce(82), // ), reduce: TemplateComment
-			reduce(82), // ,, reduce: TemplateComment
-			reduce(82), // ., reduce: TemplateComment
-			reduce(82), // |, reduce: TemplateComment
-			reduce(82), // ^, reduce: TemplateComment
-			reduce(82), // &, reduce: TemplateComment
-			reduce(82), // <<, reduce: TemplateComment
-			reduce(82), // >>, reduce: TemplateComment
-			reduce(82), // =>, reduce: TemplateComment
-			reduce(82), // /, reduce: TemplateComment
-			reduce(82), // +, reduce: TemplateComment
-			reduce(82), // -, reduce: TemplateComment
-			reduce(82), // ||, reduce: TemplateComment
-			reduce(82), // <>, reduce: TemplateComment
-			reduce(82), // !=, reduce: TemplateComment
-			reduce(82), // =, reduce: TemplateComment
-			reduce(82), // <=, reduce: TemplateComment
-			reduce(82), // >=, reduce: TemplateComment
-			reduce(82), // ;, reduce: TemplateComment
-			reduce(82), // @, reduce: TemplateComment
-			reduce(82), // {, reduce: TemplateComment
-			reduce(82), // }, reduce: TemplateComment
-			reduce(82), // ~, reduce: TemplateComment
-			reduce(82), // else, reduce: TemplateComment
-			reduce(82), // if, reduce: TemplateComment
-			reduce(82), // for, reduce: TemplateComment
-			reduce(82), // endfor, reduce: TemplateComment
-			reduce(82), // elif, reduce: TemplateComment
-			reduce(82), // endif, reduce: TemplateComment
-			reduce(82), // set, reduce: TemplateComment
-			reduce(82), // ?, reduce: TemplateComment
-			reduce(82), // comment, reduce: TemplateComment
-			nil,        // template_block_end
-			reduce(82), // template_block_start, reduce: TemplateComment
-			reduce(82), // template_comment, reduce: TemplateComment
-			nil,        // template_variable_end
-			reduce(82), // template_variable_start, reduce: TemplateComment
-		},
-	},
-	actionRow{ // S63
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(208), // identifier
-			shift(209), // bytes_literal
-			shift(210), // string_literal
-			shift(211), // integer_literal
-			shift(212), // floating_point_literal
-			shift(213), // newline
-			shift(214), // *
-			shift(215), // <
-			shift(216), // >
-			shift(217), // [
-			shift(218), // ]
-			shift(219), // (
-			shift(220), // )
-			shift(221), // ,
-			shift(222), // .
-			shift(223), // |
-			shift(224), // ^
-			shift(225), // &
-			shift(226), // <<
-			shift(227), // >>
-			shift(228), // =>
-			shift(229), // /
-			shift(230), // +
-			shift(231), // -
-			shift(232), // ||
-			shift(233), // <>
-			shift(234), // !=
-			shift(235), // =
-			shift(236), // <=
-			shift(237), // >=
-			shift(238), // ;
-			shift(239), // @
-			shift(240), // {
-			shift(241), // }
-			shift(242), // ~
-			shift(243), // else
-			shift(244), // if
-			shift(245), // for
-			shift(246), // endfor
-			shift(247), // elif
-			shift(248), // endif
-			shift(249), // set
-			shift(250), // ?
-			shift(251), // comment
-			nil,        // template_block_end
-			shift(55),  // template_block_start
-			shift(255), // template_comment
-			shift(257), // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S64
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(84), // identifier, reduce: TemplateVariablePrefix
-			reduce(84), // bytes_literal, reduce: TemplateVariablePrefix
-			reduce(84), // string_literal, reduce: TemplateVariablePrefix
-			reduce(84), // integer_literal, reduce: TemplateVariablePrefix
-			reduce(84), // floating_point_literal, reduce: TemplateVariablePrefix
-			reduce(84), // newline, reduce: TemplateVariablePrefix
-			reduce(84), // *, reduce: TemplateVariablePrefix
-			reduce(84), // <, reduce: TemplateVariablePrefix
-			reduce(84), // >, reduce: TemplateVariablePrefix
-			reduce(84), // [, reduce: TemplateVariablePrefix
-			reduce(84), // ], reduce: TemplateVariablePrefix
-			reduce(84), // (, reduce: TemplateVariablePrefix
-			reduce(84), // ), reduce: TemplateVariablePrefix
-			reduce(84), // ,, reduce: TemplateVariablePrefix
-			reduce(84), // ., reduce: TemplateVariablePrefix
-			reduce(84), // |, reduce: TemplateVariablePrefix
-			reduce(84), // ^, reduce: TemplateVariablePrefix
-			reduce(84), // &, reduce: TemplateVariablePrefix
-			reduce(84), // <<, reduce: TemplateVariablePrefix
-			reduce(84), // >>, reduce: TemplateVariablePrefix
-			reduce(84), // =>, reduce: TemplateVariablePrefix
-			reduce(84), // /, reduce: TemplateVariablePrefix
-			reduce(84), // +, reduce: TemplateVariablePrefix
-			reduce(84), // -, reduce: TemplateVariablePrefix
-			reduce(84), // ||, reduce: TemplateVariablePrefix
-			reduce(84), // <>, reduce: TemplateVariablePrefix
-			reduce(84), // !=, reduce: TemplateVariablePrefix
-			reduce(84), // =, reduce: TemplateVariablePrefix
-			reduce(84), // <=, reduce: TemplateVariablePrefix
-			reduce(84), // >=, reduce: TemplateVariablePrefix
-			reduce(84), // ;, reduce: TemplateVariablePrefix
-			reduce(84), // @, reduce: TemplateVariablePrefix
-			reduce(84), // {, reduce: TemplateVariablePrefix
-			reduce(84), // }, reduce: TemplateVariablePrefix
-			reduce(84), // ~, reduce: TemplateVariablePrefix
-			reduce(84), // else, reduce: TemplateVariablePrefix
-			reduce(84), // if, reduce: TemplateVariablePrefix
-			reduce(84), // for, reduce: TemplateVariablePrefix
-			reduce(84), // endfor, reduce: TemplateVariablePrefix
-			reduce(84), // elif, reduce: TemplateVariablePrefix
-			reduce(84), // endif, reduce: TemplateVariablePrefix
-			reduce(84), // set, reduce: TemplateVariablePrefix
-			reduce(84), // ?, reduce: TemplateVariablePrefix
-			reduce(84), // comment, reduce: TemplateVariablePrefix
-			nil,        // template_block_end
-			reduce(84), // template_block_start, reduce: TemplateVariablePrefix
-			reduce(84), // template_comment, reduce: TemplateVariablePrefix
-			reduce(84), // template_variable_end, reduce: TemplateVariablePrefix
-			reduce(84), // template_variable_start, reduce: TemplateVariablePrefix
-		},
-	},
-	actionRow{ // S65
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // INVALID
-			reduce(2), // ␚, reduce: Script
-			reduce(2), // identifier, reduce: Script
-			reduce(2), // bytes_literal, reduce: Script
-			reduce(2), // string_literal, reduce: Script
-			reduce(2), // integer_literal, reduce: Script
-			reduce(2), // floating_point_literal, reduce: Script
-			reduce(2), // newline, reduce: Script
-			reduce(2), // *, reduce: Script
-			reduce(2), // <, reduce: Script
-			reduce(2), // >, reduce: Script
-			reduce(2), // [, reduce: Script
-			reduce(2), // ], reduce: Script
-			reduce(2), // (, reduce: Script
-			reduce(2), // ), reduce: Script
-			reduce(2), // ,, reduce: Script
-			reduce(2), // ., reduce: Script
-			reduce(2), // |, reduce: Script
-			reduce(2), // ^, reduce: Script
-			reduce(2), // &, reduce: Script
-			reduce(2), // <<, reduce: Script
-			reduce(2), // >>, reduce: Script
-			reduce(2), // =>, reduce: Script
-			reduce(2), // /, reduce: Script
-			reduce(2), // +, reduce: Script
-			reduce(2), // -, reduce: Script
-			reduce(2), // ||, reduce: Script
-			reduce(2), // <>, reduce: Script
-			reduce(2), // !=, reduce: Script
-			reduce(2), // =, reduce: Script
-			reduce(2), // <=, reduce: Script
-			reduce(2), // >=, reduce: Script
-			reduce(2), // ;, reduce: Script
-			reduce(2), // @, reduce: Script
-			reduce(2), // {, reduce: Script
-			reduce(2), // }, reduce: Script
-			reduce(2), // ~, reduce: Script
-			reduce(2), // else, reduce: Script
-			reduce(2), // if, reduce: Script
-			reduce(2), // for, reduce: Script
-			reduce(2), // endfor, reduce: Script
-			reduce(2), // elif, reduce: Script
-			reduce(2), // endif, reduce: Script
-			reduce(2), // set, reduce: Script
-			reduce(2), // ?, reduce: Script
-			reduce(2), // comment, reduce: Script
-			nil,       // template_block_end
-			reduce(2), // template_block_start, reduce: Script
-			reduce(2), // template_comment, reduce: Script
-			nil,       // template_variable_end
-			reduce(2), // template_variable_start, reduce: Script
-		},
-	},
-	actionRow{ // S66
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // INVALID
-			reduce(3), // ␚, reduce: Script
-			reduce(3), // identifier, reduce: Script
-			reduce(3), // bytes_literal, reduce: Script
-			reduce(3), // string_literal, reduce: Script
-			reduce(3), // integer_literal, reduce: Script
-			reduce(3), // floating_point_literal, reduce: Script
-			reduce(3), // newline, reduce: Script
-			reduce(3), // *, reduce: Script
-			reduce(3), // <, reduce: Script
-			reduce(3), // >, reduce: Script
-			reduce(3), // [, reduce: Script
-			reduce(3), // ], reduce: Script
-			reduce(3), // (, reduce: Script
-			reduce(3), // ), reduce: Script
-			reduce(3), // ,, reduce: Script
-			reduce(3), // ., reduce: Script
-			reduce(3), // |, reduce: Script
-			reduce(3), // ^, reduce: Script
-			reduce(3), // &, reduce: Script
-			reduce(3), // <<, reduce: Script
-			reduce(3), // >>, reduce: Script
-			reduce(3), // =>, reduce: Script
-			reduce(3), // /, reduce: Script
-			reduce(3), // +, reduce: Script
-			reduce(3), // -, reduce: Script
-			reduce(3), // ||, reduce: Script
-			reduce(3), // <>, reduce: Script
-			reduce(3), // !=, reduce: Script
-			reduce(3), // =, reduce: Script
-			reduce(3), // <=, reduce: Script
-			reduce(3), // >=, reduce: Script
-			reduce(3), // ;, reduce: Script
-			reduce(3), // @, reduce: Script
-			reduce(3), // {, reduce: Script
-			reduce(3), // }, reduce: Script
-			reduce(3), // ~, reduce: Script
-			reduce(3), // else, reduce: Script
-			reduce(3), // if, reduce: Script
-			reduce(3), // for, reduce: Script
-			reduce(3), // endfor, reduce: Script
-			reduce(3), // elif, reduce: Script
-			reduce(3), // endif, reduce: Script
-			reduce(3), // set, reduce: Script
-			reduce(3), // ?, reduce: Script
-			reduce(3), // comment, reduce: Script
-			nil,       // template_block_end
-			reduce(3), // template_block_start, reduce: Script
-			reduce(3), // template_comment, reduce: Script
-			nil,       // template_variable_end
-			reduce(3), // template_variable_start, reduce: Script
-		},
-	},
-	actionRow{ // S67
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // INVALID
-			reduce(4), // ␚, reduce: Script
-			reduce(4), // identifier, reduce: Script
-			reduce(4), // bytes_literal, reduce: Script
-			reduce(4), // string_literal, reduce: Script
-			reduce(4), // integer_literal, reduce: Script
-			reduce(4), // floating_point_literal, reduce: Script
-			reduce(4), // newline, reduce: Script
-			reduce(4), // *, reduce: Script
-			reduce(4), // <, reduce: Script
-			reduce(4), // >, reduce: Script
-			reduce(4), // [, reduce: Script
-			reduce(4), // ], reduce: Script
-			reduce(4), // (, reduce: Script
-			reduce(4), // ), reduce: Script
-			reduce(4), // ,, reduce: Script
-			reduce(4), // ., reduce: Script
-			reduce(4), // |, reduce: Script
-			reduce(4), // ^, reduce: Script
-			reduce(4), // &, reduce: Script
-			reduce(4), // <<, reduce: Script
-			reduce(4), // >>, reduce: Script
-			reduce(4), // =>, reduce: Script
-			reduce(4), // /, reduce: Script
-			reduce(4), // +, reduce: Script
-			reduce(4), // -, reduce: Script
-			reduce(4), // ||, reduce: Script
-			reduce(4), // <>, reduce: Script
-			reduce(4), // !=, reduce: Script
-			reduce(4), // =, reduce: Script
-			reduce(4), // <=, reduce: Script
-			reduce(4), // >=, reduce: Script
-			reduce(4), // ;, reduce: Script
-			reduce(4), // @, reduce: Script
-			reduce(4), // {, reduce: Script
-			reduce(4), // }, reduce: Script
-			reduce(4), // ~, reduce: Script
-			reduce(4), // else, reduce: Script
-			reduce(4), // if, reduce: Script
-			reduce(4), // for, reduce: Script
-			reduce(4), // endfor, reduce: Script
-			reduce(4), // elif, reduce: Script
-			reduce(4), // endif, reduce: Script
-			reduce(4), // set, reduce: Script
-			reduce(4), // ?, reduce: Script
-			reduce(4), // comment, reduce: Script
-			nil,       // template_block_end
-			reduce(4), // template_block_start, reduce: Script
-			reduce(4), // template_comment, reduce: Script
-			nil,       // template_variable_end
-			reduce(4), // template_variable_start, reduce: Script
-		},
-	},
-	actionRow{ // S68
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // INVALID
-			reduce(5), // ␚, reduce: Script
-			reduce(5), // identifier, reduce: Script
-			reduce(5), // bytes_literal, reduce: Script
-			reduce(5), // string_literal, reduce: Script
-			reduce(5), // integer_literal, reduce: Script
-			reduce(5), // floating_point_literal, reduce: Script
-			reduce(5), // newline, reduce: Script
-			reduce(5), // *, reduce: Script
-			reduce(5), // <, reduce: Script
-			reduce(5), // >, reduce: Script
-			reduce(5), // [, reduce: Script
-			reduce(5), // ], reduce: Script
-			reduce(5), // (, reduce: Script
-			reduce(5), // ), reduce: Script
-			reduce(5), // ,, reduce: Script
-			reduce(5), // ., reduce: Script
-			reduce(5), // |, reduce: Script
-			reduce(5), // ^, reduce: Script
-			reduce(5), // &, reduce: Script
-			reduce(5), // <<, reduce: Script
-			reduce(5), // >>, reduce: Script
-			reduce(5), // =>, reduce: Script
-			reduce(5), // /, reduce: Script
-			reduce(5), // +, reduce: Script
-			reduce(5), // -, reduce: Script
-			reduce(5), // ||, reduce: Script
-			reduce(5), // <>, reduce: Script
-			reduce(5), // !=, reduce: Script
-			reduce(5), // =, reduce: Script
-			reduce(5), // <=, reduce: Script
-			reduce(5), // >=, reduce: Script
-			reduce(5), // ;, reduce: Script
-			reduce(5), // @, reduce: Script
-			reduce(5), // {, reduce: Script
-			reduce(5), // }, reduce: Script
-			reduce(5), // ~, reduce: Script
-			reduce(5), // else, reduce: Script
-			reduce(5), // if, reduce: Script
-			reduce(5), // for, reduce: Script
-			reduce(5), // endfor, reduce: Script
-			reduce(5), // elif, reduce: Script
-			reduce(5), // endif, reduce: Script
-			reduce(5), // set, reduce: Script
-			reduce(5), // ?, reduce: Script
-			reduce(5), // comment, reduce: Script
-			nil,       // template_block_end
-			reduce(5), // template_block_start, reduce: Script
-			reduce(5), // template_comment, reduce: Script
-			nil,       // template_variable_end
-			reduce(5), // template_variable_start, reduce: Script
-		},
-	},
-	actionRow{ // S69
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // INVALID
-			reduce(6), // ␚, reduce: Script
-			reduce(6), // identifier, reduce: Script
-			reduce(6), // bytes_literal, reduce: Script
-			reduce(6), // string_literal, reduce: Script
-			reduce(6), // integer_literal, reduce: Script
-			reduce(6), // floating_point_literal, reduce: Script
-			reduce(6), // newline, reduce: Script
-			reduce(6), // *, reduce: Script
-			reduce(6), // <, reduce: Script
-			reduce(6), // >, reduce: Script
-			reduce(6), // [, reduce: Script
-			reduce(6), // ], reduce: Script
-			reduce(6), // (, reduce: Script
-			reduce(6), // ), reduce: Script
-			reduce(6), // ,, reduce: Script
-			reduce(6), // ., reduce: Script
-			reduce(6), // |, reduce: Script
-			reduce(6), // ^, reduce: Script
-			reduce(6), // &, reduce: Script
-			reduce(6), // <<, reduce: Script
-			reduce(6), // >>, reduce: Script
-			reduce(6), // =>, reduce: Script
-			reduce(6), // /, reduce: Script
-			reduce(6), // +, reduce: Script
-			reduce(6), // -, reduce: Script
-			reduce(6), // ||, reduce: Script
-			reduce(6), // <>, reduce: Script
-			reduce(6), // !=, reduce: Script
-			reduce(6), // =, reduce: Script
-			reduce(6), // <=, reduce: Script
-			reduce(6), // >=, reduce: Script
-			reduce(6), // ;, reduce: Script
-			reduce(6), // @, reduce: Script
-			reduce(6), // {, reduce: Script
-			reduce(6), // }, reduce: Script
-			reduce(6), // ~, reduce: Script
-			reduce(6), // else, reduce: Script
-			reduce(6), // if, reduce: Script
-			reduce(6), // for, reduce: Script
-			reduce(6), // endfor, reduce: Script
-			reduce(6), // elif, reduce: Script
-			reduce(6), // endif, reduce: Script
-			reduce(6), // set, reduce: Script
-			reduce(6), // ?, reduce: Script
-			reduce(6), // comment, reduce: Script
-			nil,       // template_block_end
-			reduce(6), // template_block_start, reduce: Script
-			reduce(6), // template_comment, reduce: Script
-			nil,       // template_variable_end
-			reduce(6), // template_variable_start, reduce: Script
-		},
-	},
-	actionRow{ // S70
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // INVALID
-			reduce(7), // ␚, reduce: Script
-			reduce(7), // identifier, reduce: Script
-			reduce(7), // bytes_literal, reduce: Script
-			reduce(7), // string_literal, reduce: Script
-			reduce(7), // integer_literal, reduce: Script
-			reduce(7), // floating_point_literal, reduce: Script
-			reduce(7), // newline, reduce: Script
-			reduce(7), // *, reduce: Script
-			reduce(7), // <, reduce: Script
-			reduce(7), // >, reduce: Script
-			reduce(7), // [, reduce: Script
-			reduce(7), // ], reduce: Script
-			reduce(7), // (, reduce: Script
-			reduce(7), // ), reduce: Script
-			reduce(7), // ,, reduce: Script
-			reduce(7), // ., reduce: Script
-			reduce(7), // |, reduce: Script
-			reduce(7), // ^, reduce: Script
-			reduce(7), // &, reduce: Script
-			reduce(7), // <<, reduce: Script
-			reduce(7), // >>, reduce: Script
-			reduce(7), // =>, reduce: Script
-			reduce(7), // /, reduce: Script
-			reduce(7), // +, reduce: Script
-			reduce(7), // -, reduce: Script
-			reduce(7), // ||, reduce: Script
-			reduce(7), // <>, reduce: Script
-			reduce(7), // !=, reduce: Script
-			reduce(7), // =, reduce: Script
-			reduce(7), // <=, reduce: Script
-			reduce(7), // >=, reduce: Script
-			reduce(7), // ;, reduce: Script
-			reduce(7), // @, reduce: Script
-			reduce(7), // {, reduce: Script
-			reduce(7), // }, reduce: Script
-			reduce(7), // ~, reduce: Script
-			reduce(7), // else, reduce: Script
-			reduce(7), // if, reduce: Script
-			reduce(7), // for, reduce: Script
-			reduce(7), // endfor, reduce: Script
-			reduce(7), // elif, reduce: Script
-			reduce(7), // endif, reduce: Script
-			reduce(7), // set, reduce: Script
-			reduce(7), // ?, reduce: Script
-			reduce(7), // comment, reduce: Script
-			nil,       // template_block_end
-			reduce(7), // template_block_start, reduce: Script
-			reduce(7), // template_comment, reduce: Script
-			nil,       // template_variable_end
-			reduce(7), // template_variable_start, reduce: Script
-		},
-	},
-	actionRow{ // S71
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(64), // identifier, reduce: TemplateSetBlockPrefix
-			reduce(64), // bytes_literal, reduce: TemplateSetBlockPrefix
-			reduce(64), // string_literal, reduce: TemplateSetBlockPrefix
-			reduce(64), // integer_literal, reduce: TemplateSetBlockPrefix
-			reduce(64), // floating_point_literal, reduce: TemplateSetBlockPrefix
-			reduce(64), // newline, reduce: TemplateSetBlockPrefix
-			reduce(64), // *, reduce: TemplateSetBlockPrefix
-			reduce(64), // <, reduce: TemplateSetBlockPrefix
-			reduce(64), // >, reduce: TemplateSetBlockPrefix
-			reduce(64), // [, reduce: TemplateSetBlockPrefix
-			reduce(64), // ], reduce: TemplateSetBlockPrefix
-			reduce(64), // (, reduce: TemplateSetBlockPrefix
-			reduce(64), // ), reduce: TemplateSetBlockPrefix
-			reduce(64), // ,, reduce: TemplateSetBlockPrefix
-			reduce(64), // ., reduce: TemplateSetBlockPrefix
-			reduce(64), // |, reduce: TemplateSetBlockPrefix
-			reduce(64), // ^, reduce: TemplateSetBlockPrefix
-			reduce(64), // &, reduce: TemplateSetBlockPrefix
-			reduce(64), // <<, reduce: TemplateSetBlockPrefix
-			reduce(64), // >>, reduce: TemplateSetBlockPrefix
-			reduce(64), // =>, reduce: TemplateSetBlockPrefix
-			reduce(64), // /, reduce: TemplateSetBlockPrefix
-			reduce(64), // +, reduce: TemplateSetBlockPrefix
-			reduce(64), // -, reduce: TemplateSetBlockPrefix
-			reduce(64), // ||, reduce: TemplateSetBlockPrefix
-			reduce(64), // <>, reduce: TemplateSetBlockPrefix
-			reduce(64), // !=, reduce: TemplateSetBlockPrefix
-			reduce(64), // =, reduce: TemplateSetBlockPrefix
-			reduce(64), // <=, reduce: TemplateSetBlockPrefix
-			reduce(64), // >=, reduce: TemplateSetBlockPrefix
-			reduce(64), // ;, reduce: TemplateSetBlockPrefix
-			reduce(64), // @, reduce: TemplateSetBlockPrefix
-			reduce(64), // {, reduce: TemplateSetBlockPrefix
-			reduce(64), // }, reduce: TemplateSetBlockPrefix
-			reduce(64), // ~, reduce: TemplateSetBlockPrefix
-			reduce(64), // else, reduce: TemplateSetBlockPrefix
-			reduce(64), // if, reduce: TemplateSetBlockPrefix
-			reduce(64), // for, reduce: TemplateSetBlockPrefix
-			reduce(64), // endfor, reduce: TemplateSetBlockPrefix
-			reduce(64), // elif, reduce: TemplateSetBlockPrefix
-			reduce(64), // endif, reduce: TemplateSetBlockPrefix
-			reduce(64), // set, reduce: TemplateSetBlockPrefix
-			reduce(64), // ?, reduce: TemplateSetBlockPrefix
-			reduce(64), // comment, reduce: TemplateSetBlockPrefix
-			reduce(64), // template_block_end, reduce: TemplateSetBlockPrefix
-			reduce(64), // template_block_start, reduce: TemplateSetBlockPrefix
-			reduce(64), // template_comment, reduce: TemplateSetBlockPrefix
-			nil,        // template_variable_end
-			reduce(64), // template_variable_start, reduce: TemplateSetBlockPrefix
-		},
-	},
-	actionRow{ // S72
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(11), // identifier, reduce: Element
-			reduce(11), // bytes_literal, reduce: Element
-			reduce(11), // string_literal, reduce: Element
-			reduce(11), // integer_literal, reduce: Element
-			reduce(11), // floating_point_literal, reduce: Element
-			reduce(11), // newline, reduce: Element
-			reduce(11), // *, reduce: Element
-			reduce(11), // <, reduce: Element
-			reduce(11), // >, reduce: Element
-			reduce(11), // [, reduce: Element
-			reduce(11), // ], reduce: Element
-			reduce(11), // (, reduce: Element
-			reduce(11), // ), reduce: Element
-			reduce(11), // ,, reduce: Element
-			reduce(11), // ., reduce: Element
-			reduce(11), // |, reduce: Element
-			reduce(11), // ^, reduce: Element
-			reduce(11), // &, reduce: Element
-			reduce(11), // <<, reduce: Element
-			reduce(11), // >>, reduce: Element
-			reduce(11), // =>, reduce: Element
-			reduce(11), // /, reduce: Element
-			reduce(11), // +, reduce: Element
-			reduce(11), // -, reduce: Element
-			reduce(11), // ||, reduce: Element
-			reduce(11), // <>, reduce: Element
-			reduce(11), // !=, reduce: Element
-			reduce(11), // =, reduce: Element
-			reduce(11), // <=, reduce: Element
-			reduce(11), // >=, reduce: Element
-			reduce(11), // ;, reduce: Element
-			reduce(11), // @, reduce: Element
-			reduce(11), // {, reduce: Element
-			reduce(11), // }, reduce: Element
-			reduce(11), // ~, reduce: Element
-			reduce(11), // else, reduce: Element
-			reduce(11), // if, reduce: Element
-			reduce(11), // for, reduce: Element
-			reduce(11), // endfor, reduce: Element
-			reduce(11), // elif, reduce: Element
-			reduce(11), // endif, reduce: Element
-			reduce(11), // set, reduce: Element
-			reduce(11), // ?, reduce: Element
-			reduce(11), // comment, reduce: Element
-			reduce(11), // template_block_end, reduce: Element
-			reduce(11), // template_block_start, reduce: Element
-			reduce(11), // template_comment, reduce: Element
-			nil,        // template_variable_end
-			reduce(11), // template_variable_start, reduce: Element
-		},
-	},
-	actionRow{ // S73
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // INVALID
-			nil,       // ␚
-			reduce(8), // identifier, reduce: Element
-			reduce(8), // bytes_literal, reduce: Element
-			reduce(8), // string_literal, reduce: Element
-			reduce(8), // integer_literal, reduce: Element
-			reduce(8), // floating_point_literal, reduce: Element
-			reduce(8), // newline, reduce: Element
-			reduce(8), // *, reduce: Element
-			reduce(8), // <, reduce: Element
-			reduce(8), // >, reduce: Element
-			reduce(8), // [, reduce: Element
-			reduce(8), // ], reduce: Element
-			reduce(8), // (, reduce: Element
-			reduce(8), // ), reduce: Element
-			reduce(8), // ,, reduce: Element
-			reduce(8), // ., reduce: Element
-			reduce(8), // |, reduce: Element
-			reduce(8), // ^, reduce: Element
-			reduce(8), // &, reduce: Element
-			reduce(8), // <<, reduce: Element
-			reduce(8), // >>, reduce: Element
-			reduce(8), // =>, reduce: Element
-			reduce(8), // /, reduce: Element
-			reduce(8), // +, reduce: Element
-			reduce(8), // -, reduce: Element
-			reduce(8), // ||, reduce: Element
-			reduce(8), // <>, reduce: Element
-			reduce(8), // !=, reduce: Element
-			reduce(8), // =, reduce: Element
-			reduce(8), // <=, reduce: Element
-			reduce(8), // >=, reduce: Element
-			reduce(8), // ;, reduce: Element
-			reduce(8), // @, reduce: Element
-			reduce(8), // {, reduce: Element
-			reduce(8), // }, reduce: Element
-			reduce(8), // ~, reduce: Element
-			reduce(8), // else, reduce: Element
-			reduce(8), // if, reduce: Element
-			reduce(8), // for, reduce: Element
-			reduce(8), // endfor, reduce: Element
-			reduce(8), // elif, reduce: Element
-			reduce(8), // endif, reduce: Element
-			reduce(8), // set, reduce: Element
-			reduce(8), // ?, reduce: Element
-			reduce(8), // comment, reduce: Element
-			reduce(8), // template_block_end, reduce: Element
-			reduce(8), // template_block_start, reduce: Element
-			reduce(8), // template_comment, reduce: Element
-			nil,       // template_variable_end
-			reduce(8), // template_variable_start, reduce: Element
-		},
-	},
-	actionRow{ // S74
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // INVALID
-			nil,       // ␚
-			reduce(9), // identifier, reduce: Element
-			reduce(9), // bytes_literal, reduce: Element
-			reduce(9), // string_literal, reduce: Element
-			reduce(9), // integer_literal, reduce: Element
-			reduce(9), // floating_point_literal, reduce: Element
-			reduce(9), // newline, reduce: Element
-			reduce(9), // *, reduce: Element
-			reduce(9), // <, reduce: Element
-			reduce(9), // >, reduce: Element
-			reduce(9), // [, reduce: Element
-			reduce(9), // ], reduce: Element
-			reduce(9), // (, reduce: Element
-			reduce(9), // ), reduce: Element
-			reduce(9), // ,, reduce: Element
-			reduce(9), // ., reduce: Element
-			reduce(9), // |, reduce: Element
-			reduce(9), // ^, reduce: Element
-			reduce(9), // &, reduce: Element
-			reduce(9), // <<, reduce: Element
-			reduce(9), // >>, reduce: Element
-			reduce(9), // =>, reduce: Element
-			reduce(9), // /, reduce: Element
-			reduce(9), // +, reduce: Element
-			reduce(9), // -, reduce: Element
-			reduce(9), // ||, reduce: Element
-			reduce(9), // <>, reduce: Element
-			reduce(9), // !=, reduce: Element
-			reduce(9), // =, reduce: Element
-			reduce(9), // <=, reduce: Element
-			reduce(9), // >=, reduce: Element
-			reduce(9), // ;, reduce: Element
-			reduce(9), // @, reduce: Element
-			reduce(9), // {, reduce: Element
-			reduce(9), // }, reduce: Element
-			reduce(9), // ~, reduce: Element
-			reduce(9), // else, reduce: Element
-			reduce(9), // if, reduce: Element
-			reduce(9), // for, reduce: Element
-			reduce(9), // endfor, reduce: Element
-			reduce(9), // elif, reduce: Element
-			reduce(9), // endif, reduce: Element
-			reduce(9), // set, reduce: Element
-			reduce(9), // ?, reduce: Element
-			reduce(9), // comment, reduce: Element
-			reduce(9), // template_block_end, reduce: Element
-			reduce(9), // template_block_start, reduce: Element
-			reduce(9), // template_comment, reduce: Element
-			nil,       // template_variable_end
-			reduce(9), // template_variable_start, reduce: Element
-		},
-	},
-	actionRow{ // S75
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(10), // identifier, reduce: Element
-			reduce(10), // bytes_literal, reduce: Element
-			reduce(10), // string_literal, reduce: Element
-			reduce(10), // integer_literal, reduce: Element
-			reduce(10), // floating_point_literal, reduce: Element
-			reduce(10), // newline, reduce: Element
-			reduce(10), // *, reduce: Element
-			reduce(10), // <, reduce: Element
-			reduce(10), // >, reduce: Element
-			reduce(10), // [, reduce: Element
-			reduce(10), // ], reduce: Element
-			reduce(10), // (, reduce: Element
-			reduce(10), // ), reduce: Element
-			reduce(10), // ,, reduce: Element
-			reduce(10), // ., reduce: Element
-			reduce(10), // |, reduce: Element
-			reduce(10), // ^, reduce: Element
-			reduce(10), // &, reduce: Element
-			reduce(10), // <<, reduce: Element
-			reduce(10), // >>, reduce: Element
-			reduce(10), // =>, reduce: Element
-			reduce(10), // /, reduce: Element
-			reduce(10), // +, reduce: Element
-			reduce(10), // -, reduce: Element
-			reduce(10), // ||, reduce: Element
-			reduce(10), // <>, reduce: Element
-			reduce(10), // !=, reduce: Element
-			reduce(10), // =, reduce: Element
-			reduce(10), // <=, reduce: Element
-			reduce(10), // >=, reduce: Element
-			reduce(10), // ;, reduce: Element
-			reduce(10), // @, reduce: Element
-			reduce(10), // {, reduce: Element
-			reduce(10), // }, reduce: Element
-			reduce(10), // ~, reduce: Element
-			reduce(10), // else, reduce: Element
-			reduce(10), // if, reduce: Element
-			reduce(10), // for, reduce: Element
-			reduce(10), // endfor, reduce: Element
-			reduce(10), // elif, reduce: Element
-			reduce(10), // endif, reduce: Element
-			reduce(10), // set, reduce: Element
-			reduce(10), // ?, reduce: Element
-			reduce(10), // comment, reduce: Element
-			reduce(10), // template_block_end, reduce: Element
-			reduce(10), // template_block_start, reduce: Element
-			reduce(10), // template_comment, reduce: Element
-			nil,        // template_variable_end
-			reduce(10), // template_variable_start, reduce: Element
-		},
-	},
-	actionRow{ // S76
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(12), // identifier, reduce: Element
-			reduce(12), // bytes_literal, reduce: Element
-			reduce(12), // string_literal, reduce: Element
-			reduce(12), // integer_literal, reduce: Element
-			reduce(12), // floating_point_literal, reduce: Element
-			reduce(12), // newline, reduce: Element
-			reduce(12), // *, reduce: Element
-			reduce(12), // <, reduce: Element
-			reduce(12), // >, reduce: Element
-			reduce(12), // [, reduce: Element
-			reduce(12), // ], reduce: Element
-			reduce(12), // (, reduce: Element
-			reduce(12), // ), reduce: Element
-			reduce(12), // ,, reduce: Element
-			reduce(12), // ., reduce: Element
-			reduce(12), // |, reduce: Element
-			reduce(12), // ^, reduce: Element
-			reduce(12), // &, reduce: Element
-			reduce(12), // <<, reduce: Element
-			reduce(12), // >>, reduce: Element
-			reduce(12), // =>, reduce: Element
-			reduce(12), // /, reduce: Element
-			reduce(12), // +, reduce: Element
-			reduce(12), // -, reduce: Element
-			reduce(12), // ||, reduce: Element
-			reduce(12), // <>, reduce: Element
-			reduce(12), // !=, reduce: Element
-			reduce(12), // =, reduce: Element
-			reduce(12), // <=, reduce: Element
-			reduce(12), // >=, reduce: Element
-			reduce(12), // ;, reduce: Element
-			reduce(12), // @, reduce: Element
-			reduce(12), // {, reduce: Element
-			reduce(12), // }, reduce: Element
-			reduce(12), // ~, reduce: Element
-			reduce(12), // else, reduce: Element
-			reduce(12), // if, reduce: Element
-			reduce(12), // for, reduce: Element
-			reduce(12), // endfor, reduce: Element
-			reduce(12), // elif, reduce: Element
-			reduce(12), // endif, reduce: Element
-			reduce(12), // set, reduce: Element
-			reduce(12), // ?, reduce: Element
-			reduce(12), // comment, reduce: Element
-			reduce(12), // template_block_end, reduce: Element
-			reduce(12), // template_block_start, reduce: Element
-			reduce(12), // template_comment, reduce: Element
-			nil,        // template_variable_end
-			reduce(12), // template_variable_start, reduce: Element
-		},
-	},
-	actionRow{ // S77
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(13), // identifier, reduce: Element
-			reduce(13), // bytes_literal, reduce: Element
-			reduce(13), // string_literal, reduce: Element
-			reduce(13), // integer_literal, reduce: Element
-			reduce(13), // floating_point_literal, reduce: Element
-			reduce(13), // newline, reduce: Element
-			reduce(13), // *, reduce: Element
-			reduce(13), // <, reduce: Element
-			reduce(13), // >, reduce: Element
-			reduce(13), // [, reduce: Element
-			reduce(13), // ], reduce: Element
-			reduce(13), // (, reduce: Element
-			reduce(13), // ), reduce: Element
-			reduce(13), // ,, reduce: Element
-			reduce(13), // ., reduce: Element
-			reduce(13), // |, reduce: Element
-			reduce(13), // ^, reduce: Element
-			reduce(13), // &, reduce: Element
-			reduce(13), // <<, reduce: Element
-			reduce(13), // >>, reduce: Element
-			reduce(13), // =>, reduce: Element
-			reduce(13), // /, reduce: Element
-			reduce(13), // +, reduce: Element
-			reduce(13), // -, reduce: Element
-			reduce(13), // ||, reduce: Element
-			reduce(13), // <>, reduce: Element
-			reduce(13), // !=, reduce: Element
-			reduce(13), // =, reduce: Element
-			reduce(13), // <=, reduce: Element
-			reduce(13), // >=, reduce: Element
-			reduce(13), // ;, reduce: Element
-			reduce(13), // @, reduce: Element
-			reduce(13), // {, reduce: Element
-			reduce(13), // }, reduce: Element
-			reduce(13), // ~, reduce: Element
-			reduce(13), // else, reduce: Element
-			reduce(13), // if, reduce: Element
-			reduce(13), // for, reduce: Element
-			reduce(13), // endfor, reduce: Element
-			reduce(13), // elif, reduce: Element
-			reduce(13), // endif, reduce: Element
-			reduce(13), // set, reduce: Element
-			reduce(13), // ?, reduce: Element
-			reduce(13), // comment, reduce: Element
-			reduce(13), // template_block_end, reduce: Element
-			reduce(13), // template_block_start, reduce: Element
-			reduce(13), // template_comment, reduce: Element
-			nil,        // template_variable_end
-			reduce(13), // template_variable_start, reduce: Element
-		},
-	},
-	actionRow{ // S78
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(14), // identifier, reduce: Element2
-			reduce(14), // bytes_literal, reduce: Element2
-			reduce(14), // string_literal, reduce: Element2
-			reduce(14), // integer_literal, reduce: Element2
-			reduce(14), // floating_point_literal, reduce: Element2
-			reduce(14), // newline, reduce: Element2
-			reduce(14), // *, reduce: Element2
-			reduce(14), // <, reduce: Element2
-			reduce(14), // >, reduce: Element2
-			reduce(14), // [, reduce: Element2
-			reduce(14), // ], reduce: Element2
-			reduce(14), // (, reduce: Element2
-			reduce(14), // ), reduce: Element2
-			reduce(14), // ,, reduce: Element2
-			reduce(14), // ., reduce: Element2
-			reduce(14), // |, reduce: Element2
-			reduce(14), // ^, reduce: Element2
-			reduce(14), // &, reduce: Element2
-			reduce(14), // <<, reduce: Element2
-			reduce(14), // >>, reduce: Element2
-			reduce(14), // =>, reduce: Element2
-			reduce(14), // /, reduce: Element2
-			reduce(14), // +, reduce: Element2
-			reduce(14), // -, reduce: Element2
-			reduce(14), // ||, reduce: Element2
-			reduce(14), // <>, reduce: Element2
-			reduce(14), // !=, reduce: Element2
-			reduce(14), // =, reduce: Element2
-			reduce(14), // <=, reduce: Element2
-			reduce(14), // >=, reduce: Element2
-			reduce(14), // ;, reduce: Element2
-			reduce(14), // @, reduce: Element2
-			reduce(14), // {, reduce: Element2
-			reduce(14), // }, reduce: Element2
-			reduce(14), // ~, reduce: Element2
-			reduce(14), // else, reduce: Element2
-			reduce(14), // if, reduce: Element2
-			reduce(14), // for, reduce: Element2
-			reduce(14), // endfor, reduce: Element2
-			reduce(14), // elif, reduce: Element2
-			reduce(14), // endif, reduce: Element2
-			reduce(14), // set, reduce: Element2
-			reduce(14), // ?, reduce: Element2
-			reduce(14), // comment, reduce: Element2
-			reduce(14), // template_block_end, reduce: Element2
-			reduce(14), // template_block_start, reduce: Element2
-			reduce(14), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(14), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S79
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(15), // identifier, reduce: Element2
-			reduce(15), // bytes_literal, reduce: Element2
-			reduce(15), // string_literal, reduce: Element2
-			reduce(15), // integer_literal, reduce: Element2
-			reduce(15), // floating_point_literal, reduce: Element2
-			reduce(15), // newline, reduce: Element2
-			reduce(15), // *, reduce: Element2
-			reduce(15), // <, reduce: Element2
-			reduce(15), // >, reduce: Element2
-			reduce(15), // [, reduce: Element2
-			reduce(15), // ], reduce: Element2
-			reduce(15), // (, reduce: Element2
-			reduce(15), // ), reduce: Element2
-			reduce(15), // ,, reduce: Element2
-			reduce(15), // ., reduce: Element2
-			reduce(15), // |, reduce: Element2
-			reduce(15), // ^, reduce: Element2
-			reduce(15), // &, reduce: Element2
-			reduce(15), // <<, reduce: Element2
-			reduce(15), // >>, reduce: Element2
-			reduce(15), // =>, reduce: Element2
-			reduce(15), // /, reduce: Element2
-			reduce(15), // +, reduce: Element2
-			reduce(15), // -, reduce: Element2
-			reduce(15), // ||, reduce: Element2
-			reduce(15), // <>, reduce: Element2
-			reduce(15), // !=, reduce: Element2
-			reduce(15), // =, reduce: Element2
-			reduce(15), // <=, reduce: Element2
-			reduce(15), // >=, reduce: Element2
-			reduce(15), // ;, reduce: Element2
-			reduce(15), // @, reduce: Element2
-			reduce(15), // {, reduce: Element2
-			reduce(15), // }, reduce: Element2
-			reduce(15), // ~, reduce: Element2
-			reduce(15), // else, reduce: Element2
-			reduce(15), // if, reduce: Element2
-			reduce(15), // for, reduce: Element2
-			reduce(15), // endfor, reduce: Element2
-			reduce(15), // elif, reduce: Element2
-			reduce(15), // endif, reduce: Element2
-			reduce(15), // set, reduce: Element2
-			reduce(15), // ?, reduce: Element2
-			reduce(15), // comment, reduce: Element2
-			reduce(15), // template_block_end, reduce: Element2
-			reduce(15), // template_block_start, reduce: Element2
-			reduce(15), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(15), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S80
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(16), // identifier, reduce: Element2
-			reduce(16), // bytes_literal, reduce: Element2
-			reduce(16), // string_literal, reduce: Element2
-			reduce(16), // integer_literal, reduce: Element2
-			reduce(16), // floating_point_literal, reduce: Element2
-			reduce(16), // newline, reduce: Element2
-			reduce(16), // *, reduce: Element2
-			reduce(16), // <, reduce: Element2
-			reduce(16), // >, reduce: Element2
-			reduce(16), // [, reduce: Element2
-			reduce(16), // ], reduce: Element2
-			reduce(16), // (, reduce: Element2
-			reduce(16), // ), reduce: Element2
-			reduce(16), // ,, reduce: Element2
-			reduce(16), // ., reduce: Element2
-			reduce(16), // |, reduce: Element2
-			reduce(16), // ^, reduce: Element2
-			reduce(16), // &, reduce: Element2
-			reduce(16), // <<, reduce: Element2
-			reduce(16), // >>, reduce: Element2
-			reduce(16), // =>, reduce: Element2
-			reduce(16), // /, reduce: Element2
-			reduce(16), // +, reduce: Element2
-			reduce(16), // -, reduce: Element2
-			reduce(16), // ||, reduce: Element2
-			reduce(16), // <>, reduce: Element2
-			reduce(16), // !=, reduce: Element2
-			reduce(16), // =, reduce: Element2
-			reduce(16), // <=, reduce: Element2
-			reduce(16), // >=, reduce: Element2
-			reduce(16), // ;, reduce: Element2
-			reduce(16), // @, reduce: Element2
-			reduce(16), // {, reduce: Element2
-			reduce(16), // }, reduce: Element2
-			reduce(16), // ~, reduce: Element2
-			reduce(16), // else, reduce: Element2
-			reduce(16), // if, reduce: Element2
-			reduce(16), // for, reduce: Element2
-			reduce(16), // endfor, reduce: Element2
-			reduce(16), // elif, reduce: Element2
-			reduce(16), // endif, reduce: Element2
-			reduce(16), // set, reduce: Element2
-			reduce(16), // ?, reduce: Element2
-			reduce(16), // comment, reduce: Element2
-			reduce(16), // template_block_end, reduce: Element2
-			reduce(16), // template_block_start, reduce: Element2
-			reduce(16), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(16), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S81
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(17), // identifier, reduce: Element2
-			reduce(17), // bytes_literal, reduce: Element2
-			reduce(17), // string_literal, reduce: Element2
-			reduce(17), // integer_literal, reduce: Element2
-			reduce(17), // floating_point_literal, reduce: Element2
-			reduce(17), // newline, reduce: Element2
-			reduce(17), // *, reduce: Element2
-			reduce(17), // <, reduce: Element2
-			reduce(17), // >, reduce: Element2
-			reduce(17), // [, reduce: Element2
-			reduce(17), // ], reduce: Element2
-			reduce(17), // (, reduce: Element2
-			reduce(17), // ), reduce: Element2
-			reduce(17), // ,, reduce: Element2
-			reduce(17), // ., reduce: Element2
-			reduce(17), // |, reduce: Element2
-			reduce(17), // ^, reduce: Element2
-			reduce(17), // &, reduce: Element2
-			reduce(17), // <<, reduce: Element2
-			reduce(17), // >>, reduce: Element2
-			reduce(17), // =>, reduce: Element2
-			reduce(17), // /, reduce: Element2
-			reduce(17), // +, reduce: Element2
-			reduce(17), // -, reduce: Element2
-			reduce(17), // ||, reduce: Element2
-			reduce(17), // <>, reduce: Element2
-			reduce(17), // !=, reduce: Element2
-			reduce(17), // =, reduce: Element2
-			reduce(17), // <=, reduce: Element2
-			reduce(17), // >=, reduce: Element2
-			reduce(17), // ;, reduce: Element2
-			reduce(17), // @, reduce: Element2
-			reduce(17), // {, reduce: Element2
-			reduce(17), // }, reduce: Element2
-			reduce(17), // ~, reduce: Element2
-			reduce(17), // else, reduce: Element2
-			reduce(17), // if, reduce: Element2
-			reduce(17), // for, reduce: Element2
-			reduce(17), // endfor, reduce: Element2
-			reduce(17), // elif, reduce: Element2
-			reduce(17), // endif, reduce: Element2
-			reduce(17), // set, reduce: Element2
-			reduce(17), // ?, reduce: Element2
-			reduce(17), // comment, reduce: Element2
-			reduce(17), // template_block_end, reduce: Element2
-			reduce(17), // template_block_start, reduce: Element2
-			reduce(17), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(17), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S82
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(18), // identifier, reduce: Element2
-			reduce(18), // bytes_literal, reduce: Element2
-			reduce(18), // string_literal, reduce: Element2
-			reduce(18), // integer_literal, reduce: Element2
-			reduce(18), // floating_point_literal, reduce: Element2
-			reduce(18), // newline, reduce: Element2
-			reduce(18), // *, reduce: Element2
-			reduce(18), // <, reduce: Element2
-			reduce(18), // >, reduce: Element2
-			reduce(18), // [, reduce: Element2
-			reduce(18), // ], reduce: Element2
-			reduce(18), // (, reduce: Element2
-			reduce(18), // ), reduce: Element2
-			reduce(18), // ,, reduce: Element2
-			reduce(18), // ., reduce: Element2
-			reduce(18), // |, reduce: Element2
-			reduce(18), // ^, reduce: Element2
-			reduce(18), // &, reduce: Element2
-			reduce(18), // <<, reduce: Element2
-			reduce(18), // >>, reduce: Element2
-			reduce(18), // =>, reduce: Element2
-			reduce(18), // /, reduce: Element2
-			reduce(18), // +, reduce: Element2
-			reduce(18), // -, reduce: Element2
-			reduce(18), // ||, reduce: Element2
-			reduce(18), // <>, reduce: Element2
-			reduce(18), // !=, reduce: Element2
-			reduce(18), // =, reduce: Element2
-			reduce(18), // <=, reduce: Element2
-			reduce(18), // >=, reduce: Element2
-			reduce(18), // ;, reduce: Element2
-			reduce(18), // @, reduce: Element2
-			reduce(18), // {, reduce: Element2
-			reduce(18), // }, reduce: Element2
-			reduce(18), // ~, reduce: Element2
-			reduce(18), // else, reduce: Element2
-			reduce(18), // if, reduce: Element2
-			reduce(18), // for, reduce: Element2
-			reduce(18), // endfor, reduce: Element2
-			reduce(18), // elif, reduce: Element2
-			reduce(18), // endif, reduce: Element2
-			reduce(18), // set, reduce: Element2
-			reduce(18), // ?, reduce: Element2
-			reduce(18), // comment, reduce: Element2
-			reduce(18), // template_block_end, reduce: Element2
-			reduce(18), // template_block_start, reduce: Element2
-			reduce(18), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(18), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S83
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(19), // identifier, reduce: Element2
-			reduce(19), // bytes_literal, reduce: Element2
-			reduce(19), // string_literal, reduce: Element2
-			reduce(19), // integer_literal, reduce: Element2
-			reduce(19), // floating_point_literal, reduce: Element2
-			reduce(19), // newline, reduce: Element2
-			reduce(19), // *, reduce: Element2
-			reduce(19), // <, reduce: Element2
-			reduce(19), // >, reduce: Element2
-			reduce(19), // [, reduce: Element2
-			reduce(19), // ], reduce: Element2
-			reduce(19), // (, reduce: Element2
-			reduce(19), // ), reduce: Element2
-			reduce(19), // ,, reduce: Element2
-			reduce(19), // ., reduce: Element2
-			reduce(19), // |, reduce: Element2
-			reduce(19), // ^, reduce: Element2
-			reduce(19), // &, reduce: Element2
-			reduce(19), // <<, reduce: Element2
-			reduce(19), // >>, reduce: Element2
-			reduce(19), // =>, reduce: Element2
-			reduce(19), // /, reduce: Element2
-			reduce(19), // +, reduce: Element2
-			reduce(19), // -, reduce: Element2
-			reduce(19), // ||, reduce: Element2
-			reduce(19), // <>, reduce: Element2
-			reduce(19), // !=, reduce: Element2
-			reduce(19), // =, reduce: Element2
-			reduce(19), // <=, reduce: Element2
-			reduce(19), // >=, reduce: Element2
-			reduce(19), // ;, reduce: Element2
-			reduce(19), // @, reduce: Element2
-			reduce(19), // {, reduce: Element2
-			reduce(19), // }, reduce: Element2
-			reduce(19), // ~, reduce: Element2
-			reduce(19), // else, reduce: Element2
-			reduce(19), // if, reduce: Element2
-			reduce(19), // for, reduce: Element2
-			reduce(19), // endfor, reduce: Element2
-			reduce(19), // elif, reduce: Element2
-			reduce(19), // endif, reduce: Element2
-			reduce(19), // set, reduce: Element2
-			reduce(19), // ?, reduce: Element2
-			reduce(19), // comment, reduce: Element2
-			reduce(19), // template_block_end, reduce: Element2
-			reduce(19), // template_block_start, reduce: Element2
-			reduce(19), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(19), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S84
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(20), // identifier, reduce: Element2
-			reduce(20), // bytes_literal, reduce: Element2
-			reduce(20), // string_literal, reduce: Element2
-			reduce(20), // integer_literal, reduce: Element2
-			reduce(20), // floating_point_literal, reduce: Element2
-			reduce(20), // newline, reduce: Element2
-			reduce(20), // *, reduce: Element2
-			reduce(20), // <, reduce: Element2
-			reduce(20), // >, reduce: Element2
-			reduce(20), // [, reduce: Element2
-			reduce(20), // ], reduce: Element2
-			reduce(20), // (, reduce: Element2
-			reduce(20), // ), reduce: Element2
-			reduce(20), // ,, reduce: Element2
-			reduce(20), // ., reduce: Element2
-			reduce(20), // |, reduce: Element2
-			reduce(20), // ^, reduce: Element2
-			reduce(20), // &, reduce: Element2
-			reduce(20), // <<, reduce: Element2
-			reduce(20), // >>, reduce: Element2
-			reduce(20), // =>, reduce: Element2
-			reduce(20), // /, reduce: Element2
-			reduce(20), // +, reduce: Element2
-			reduce(20), // -, reduce: Element2
-			reduce(20), // ||, reduce: Element2
-			reduce(20), // <>, reduce: Element2
-			reduce(20), // !=, reduce: Element2
-			reduce(20), // =, reduce: Element2
-			reduce(20), // <=, reduce: Element2
-			reduce(20), // >=, reduce: Element2
-			reduce(20), // ;, reduce: Element2
-			reduce(20), // @, reduce: Element2
-			reduce(20), // {, reduce: Element2
-			reduce(20), // }, reduce: Element2
-			reduce(20), // ~, reduce: Element2
-			reduce(20), // else, reduce: Element2
-			reduce(20), // if, reduce: Element2
-			reduce(20), // for, reduce: Element2
-			reduce(20), // endfor, reduce: Element2
-			reduce(20), // elif, reduce: Element2
-			reduce(20), // endif, reduce: Element2
-			reduce(20), // set, reduce: Element2
-			reduce(20), // ?, reduce: Element2
-			reduce(20), // comment, reduce: Element2
-			reduce(20), // template_block_end, reduce: Element2
-			reduce(20), // template_block_start, reduce: Element2
-			reduce(20), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(20), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S85
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(21), // identifier, reduce: Element2
-			reduce(21), // bytes_literal, reduce: Element2
-			reduce(21), // string_literal, reduce: Element2
-			reduce(21), // integer_literal, reduce: Element2
-			reduce(21), // floating_point_literal, reduce: Element2
-			reduce(21), // newline, reduce: Element2
-			reduce(21), // *, reduce: Element2
-			reduce(21), // <, reduce: Element2
-			reduce(21), // >, reduce: Element2
-			reduce(21), // [, reduce: Element2
-			reduce(21), // ], reduce: Element2
-			reduce(21), // (, reduce: Element2
-			reduce(21), // ), reduce: Element2
-			reduce(21), // ,, reduce: Element2
-			reduce(21), // ., reduce: Element2
-			reduce(21), // |, reduce: Element2
-			reduce(21), // ^, reduce: Element2
-			reduce(21), // &, reduce: Element2
-			reduce(21), // <<, reduce: Element2
-			reduce(21), // >>, reduce: Element2
-			reduce(21), // =>, reduce: Element2
-			reduce(21), // /, reduce: Element2
-			reduce(21), // +, reduce: Element2
-			reduce(21), // -, reduce: Element2
-			reduce(21), // ||, reduce: Element2
-			reduce(21), // <>, reduce: Element2
-			reduce(21), // !=, reduce: Element2
-			reduce(21), // =, reduce: Element2
-			reduce(21), // <=, reduce: Element2
-			reduce(21), // >=, reduce: Element2
-			reduce(21), // ;, reduce: Element2
-			reduce(21), // @, reduce: Element2
-			reduce(21), // {, reduce: Element2
-			reduce(21), // }, reduce: Element2
-			reduce(21), // ~, reduce: Element2
-			reduce(21), // else, reduce: Element2
-			reduce(21), // if, reduce: Element2
-			reduce(21), // for, reduce: Element2
-			reduce(21), // endfor, reduce: Element2
-			reduce(21), // elif, reduce: Element2
-			reduce(21), // endif, reduce: Element2
-			reduce(21), // set, reduce: Element2
-			reduce(21), // ?, reduce: Element2
-			reduce(21), // comment, reduce: Element2
-			reduce(21), // template_block_end, reduce: Element2
-			reduce(21), // template_block_start, reduce: Element2
-			reduce(21), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(21), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S86
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(22), // identifier, reduce: Element2
-			reduce(22), // bytes_literal, reduce: Element2
-			reduce(22), // string_literal, reduce: Element2
-			reduce(22), // integer_literal, reduce: Element2
-			reduce(22), // floating_point_literal, reduce: Element2
-			reduce(22), // newline, reduce: Element2
-			reduce(22), // *, reduce: Element2
-			reduce(22), // <, reduce: Element2
-			reduce(22), // >, reduce: Element2
-			reduce(22), // [, reduce: Element2
-			reduce(22), // ], reduce: Element2
-			reduce(22), // (, reduce: Element2
-			reduce(22), // ), reduce: Element2
-			reduce(22), // ,, reduce: Element2
-			reduce(22), // ., reduce: Element2
-			reduce(22), // |, reduce: Element2
-			reduce(22), // ^, reduce: Element2
-			reduce(22), // &, reduce: Element2
-			reduce(22), // <<, reduce: Element2
-			reduce(22), // >>, reduce: Element2
-			reduce(22), // =>, reduce: Element2
-			reduce(22), // /, reduce: Element2
-			reduce(22), // +, reduce: Element2
-			reduce(22), // -, reduce: Element2
-			reduce(22), // ||, reduce: Element2
-			reduce(22), // <>, reduce: Element2
-			reduce(22), // !=, reduce: Element2
-			reduce(22), // =, reduce: Element2
-			reduce(22), // <=, reduce: Element2
-			reduce(22), // >=, reduce: Element2
-			reduce(22), // ;, reduce: Element2
-			reduce(22), // @, reduce: Element2
-			reduce(22), // {, reduce: Element2
-			reduce(22), // }, reduce: Element2
-			reduce(22), // ~, reduce: Element2
-			reduce(22), // else, reduce: Element2
-			reduce(22), // if, reduce: Element2
-			reduce(22), // for, reduce: Element2
-			reduce(22), // endfor, reduce: Element2
-			reduce(22), // elif, reduce: Element2
-			reduce(22), // endif, reduce: Element2
-			reduce(22), // set, reduce: Element2
-			reduce(22), // ?, reduce: Element2
-			reduce(22), // comment, reduce: Element2
-			reduce(22), // template_block_end, reduce: Element2
-			reduce(22), // template_block_start, reduce: Element2
-			reduce(22), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(22), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S87
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(23), // identifier, reduce: Element2
-			reduce(23), // bytes_literal, reduce: Element2
-			reduce(23), // string_literal, reduce: Element2
-			reduce(23), // integer_literal, reduce: Element2
-			reduce(23), // floating_point_literal, reduce: Element2
-			reduce(23), // newline, reduce: Element2
-			reduce(23), // *, reduce: Element2
-			reduce(23), // <, reduce: Element2
-			reduce(23), // >, reduce: Element2
-			reduce(23), // [, reduce: Element2
-			reduce(23), // ], reduce: Element2
-			reduce(23), // (, reduce: Element2
-			reduce(23), // ), reduce: Element2
-			reduce(23), // ,, reduce: Element2
-			reduce(23), // ., reduce: Element2
-			reduce(23), // |, reduce: Element2
-			reduce(23), // ^, reduce: Element2
-			reduce(23), // &, reduce: Element2
-			reduce(23), // <<, reduce: Element2
-			reduce(23), // >>, reduce: Element2
-			reduce(23), // =>, reduce: Element2
-			reduce(23), // /, reduce: Element2
-			reduce(23), // +, reduce: Element2
-			reduce(23), // -, reduce: Element2
-			reduce(23), // ||, reduce: Element2
-			reduce(23), // <>, reduce: Element2
-			reduce(23), // !=, reduce: Element2
-			reduce(23), // =, reduce: Element2
-			reduce(23), // <=, reduce: Element2
-			reduce(23), // >=, reduce: Element2
-			reduce(23), // ;, reduce: Element2
-			reduce(23), // @, reduce: Element2
-			reduce(23), // {, reduce: Element2
-			reduce(23), // }, reduce: Element2
-			reduce(23), // ~, reduce: Element2
-			reduce(23), // else, reduce: Element2
-			reduce(23), // if, reduce: Element2
-			reduce(23), // for, reduce: Element2
-			reduce(23), // endfor, reduce: Element2
-			reduce(23), // elif, reduce: Element2
-			reduce(23), // endif, reduce: Element2
-			reduce(23), // set, reduce: Element2
-			reduce(23), // ?, reduce: Element2
-			reduce(23), // comment, reduce: Element2
-			reduce(23), // template_block_end, reduce: Element2
-			reduce(23), // template_block_start, reduce: Element2
-			reduce(23), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(23), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S88
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(24), // identifier, reduce: Element2
-			reduce(24), // bytes_literal, reduce: Element2
-			reduce(24), // string_literal, reduce: Element2
-			reduce(24), // integer_literal, reduce: Element2
-			reduce(24), // floating_point_literal, reduce: Element2
-			reduce(24), // newline, reduce: Element2
-			reduce(24), // *, reduce: Element2
-			reduce(24), // <, reduce: Element2
-			reduce(24), // >, reduce: Element2
-			reduce(24), // [, reduce: Element2
-			reduce(24), // ], reduce: Element2
-			reduce(24), // (, reduce: Element2
-			reduce(24), // ), reduce: Element2
-			reduce(24), // ,, reduce: Element2
-			reduce(24), // ., reduce: Element2
-			reduce(24), // |, reduce: Element2
-			reduce(24), // ^, reduce: Element2
-			reduce(24), // &, reduce: Element2
-			reduce(24), // <<, reduce: Element2
-			reduce(24), // >>, reduce: Element2
-			reduce(24), // =>, reduce: Element2
-			reduce(24), // /, reduce: Element2
-			reduce(24), // +, reduce: Element2
-			reduce(24), // -, reduce: Element2
-			reduce(24), // ||, reduce: Element2
-			reduce(24), // <>, reduce: Element2
-			reduce(24), // !=, reduce: Element2
-			reduce(24), // =, reduce: Element2
-			reduce(24), // <=, reduce: Element2
-			reduce(24), // >=, reduce: Element2
-			reduce(24), // ;, reduce: Element2
-			reduce(24), // @, reduce: Element2
-			reduce(24), // {, reduce: Element2
-			reduce(24), // }, reduce: Element2
-			reduce(24), // ~, reduce: Element2
-			reduce(24), // else, reduce: Element2
-			reduce(24), // if, reduce: Element2
-			reduce(24), // for, reduce: Element2
-			reduce(24), // endfor, reduce: Element2
-			reduce(24), // elif, reduce: Element2
-			reduce(24), // endif, reduce: Element2
-			reduce(24), // set, reduce: Element2
-			reduce(24), // ?, reduce: Element2
-			reduce(24), // comment, reduce: Element2
-			reduce(24), // template_block_end, reduce: Element2
-			reduce(24), // template_block_start, reduce: Element2
-			reduce(24), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(24), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S89
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(25), // identifier, reduce: Element2
-			reduce(25), // bytes_literal, reduce: Element2
-			reduce(25), // string_literal, reduce: Element2
-			reduce(25), // integer_literal, reduce: Element2
-			reduce(25), // floating_point_literal, reduce: Element2
-			reduce(25), // newline, reduce: Element2
-			reduce(25), // *, reduce: Element2
-			reduce(25), // <, reduce: Element2
-			reduce(25), // >, reduce: Element2
-			reduce(25), // [, reduce: Element2
-			reduce(25), // ], reduce: Element2
-			reduce(25), // (, reduce: Element2
-			reduce(25), // ), reduce: Element2
-			reduce(25), // ,, reduce: Element2
-			reduce(25), // ., reduce: Element2
-			reduce(25), // |, reduce: Element2
-			reduce(25), // ^, reduce: Element2
-			reduce(25), // &, reduce: Element2
-			reduce(25), // <<, reduce: Element2
-			reduce(25), // >>, reduce: Element2
-			reduce(25), // =>, reduce: Element2
-			reduce(25), // /, reduce: Element2
-			reduce(25), // +, reduce: Element2
-			reduce(25), // -, reduce: Element2
-			reduce(25), // ||, reduce: Element2
-			reduce(25), // <>, reduce: Element2
-			reduce(25), // !=, reduce: Element2
-			reduce(25), // =, reduce: Element2
-			reduce(25), // <=, reduce: Element2
-			reduce(25), // >=, reduce: Element2
-			reduce(25), // ;, reduce: Element2
-			reduce(25), // @, reduce: Element2
-			reduce(25), // {, reduce: Element2
-			reduce(25), // }, reduce: Element2
-			reduce(25), // ~, reduce: Element2
-			reduce(25), // else, reduce: Element2
-			reduce(25), // if, reduce: Element2
-			reduce(25), // for, reduce: Element2
-			reduce(25), // endfor, reduce: Element2
-			reduce(25), // elif, reduce: Element2
-			reduce(25), // endif, reduce: Element2
-			reduce(25), // set, reduce: Element2
-			reduce(25), // ?, reduce: Element2
-			reduce(25), // comment, reduce: Element2
-			reduce(25), // template_block_end, reduce: Element2
-			reduce(25), // template_block_start, reduce: Element2
-			reduce(25), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(25), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S90
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(26), // identifier, reduce: Element2
-			reduce(26), // bytes_literal, reduce: Element2
-			reduce(26), // string_literal, reduce: Element2
-			reduce(26), // integer_literal, reduce: Element2
-			reduce(26), // floating_point_literal, reduce: Element2
-			reduce(26), // newline, reduce: Element2
-			reduce(26), // *, reduce: Element2
-			reduce(26), // <, reduce: Element2
-			reduce(26), // >, reduce: Element2
-			reduce(26), // [, reduce: Element2
-			reduce(26), // ], reduce: Element2
-			reduce(26), // (, reduce: Element2
-			reduce(26), // ), reduce: Element2
-			reduce(26), // ,, reduce: Element2
-			reduce(26), // ., reduce: Element2
-			reduce(26), // |, reduce: Element2
-			reduce(26), // ^, reduce: Element2
-			reduce(26), // &, reduce: Element2
-			reduce(26), // <<, reduce: Element2
-			reduce(26), // >>, reduce: Element2
-			reduce(26), // =>, reduce: Element2
-			reduce(26), // /, reduce: Element2
-			reduce(26), // +, reduce: Element2
-			reduce(26), // -, reduce: Element2
-			reduce(26), // ||, reduce: Element2
-			reduce(26), // <>, reduce: Element2
-			reduce(26), // !=, reduce: Element2
-			reduce(26), // =, reduce: Element2
-			reduce(26), // <=, reduce: Element2
-			reduce(26), // >=, reduce: Element2
-			reduce(26), // ;, reduce: Element2
-			reduce(26), // @, reduce: Element2
-			reduce(26), // {, reduce: Element2
-			reduce(26), // }, reduce: Element2
-			reduce(26), // ~, reduce: Element2
-			reduce(26), // else, reduce: Element2
-			reduce(26), // if, reduce: Element2
-			reduce(26), // for, reduce: Element2
-			reduce(26), // endfor, reduce: Element2
-			reduce(26), // elif, reduce: Element2
-			reduce(26), // endif, reduce: Element2
-			reduce(26), // set, reduce: Element2
-			reduce(26), // ?, reduce: Element2
-			reduce(26), // comment, reduce: Element2
-			reduce(26), // template_block_end, reduce: Element2
-			reduce(26), // template_block_start, reduce: Element2
-			reduce(26), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(26), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S91
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(27), // identifier, reduce: Element2
-			reduce(27), // bytes_literal, reduce: Element2
-			reduce(27), // string_literal, reduce: Element2
-			reduce(27), // integer_literal, reduce: Element2
-			reduce(27), // floating_point_literal, reduce: Element2
-			reduce(27), // newline, reduce: Element2
-			reduce(27), // *, reduce: Element2
-			reduce(27), // <, reduce: Element2
-			reduce(27), // >, reduce: Element2
-			reduce(27), // [, reduce: Element2
-			reduce(27), // ], reduce: Element2
-			reduce(27), // (, reduce: Element2
-			reduce(27), // ), reduce: Element2
-			reduce(27), // ,, reduce: Element2
-			reduce(27), // ., reduce: Element2
-			reduce(27), // |, reduce: Element2
-			reduce(27), // ^, reduce: Element2
-			reduce(27), // &, reduce: Element2
-			reduce(27), // <<, reduce: Element2
-			reduce(27), // >>, reduce: Element2
-			reduce(27), // =>, reduce: Element2
-			reduce(27), // /, reduce: Element2
-			reduce(27), // +, reduce: Element2
-			reduce(27), // -, reduce: Element2
-			reduce(27), // ||, reduce: Element2
-			reduce(27), // <>, reduce: Element2
-			reduce(27), // !=, reduce: Element2
-			reduce(27), // =, reduce: Element2
-			reduce(27), // <=, reduce: Element2
-			reduce(27), // >=, reduce: Element2
-			reduce(27), // ;, reduce: Element2
-			reduce(27), // @, reduce: Element2
-			reduce(27), // {, reduce: Element2
-			reduce(27), // }, reduce: Element2
-			reduce(27), // ~, reduce: Element2
-			reduce(27), // else, reduce: Element2
-			reduce(27), // if, reduce: Element2
-			reduce(27), // for, reduce: Element2
-			reduce(27), // endfor, reduce: Element2
-			reduce(27), // elif, reduce: Element2
-			reduce(27), // endif, reduce: Element2
-			reduce(27), // set, reduce: Element2
-			reduce(27), // ?, reduce: Element2
-			reduce(27), // comment, reduce: Element2
-			reduce(27), // template_block_end, reduce: Element2
-			reduce(27), // template_block_start, reduce: Element2
-			reduce(27), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(27), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S92
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(28), // identifier, reduce: Element2
-			reduce(28), // bytes_literal, reduce: Element2
-			reduce(28), // string_literal, reduce: Element2
-			reduce(28), // integer_literal, reduce: Element2
-			reduce(28), // floating_point_literal, reduce: Element2
-			reduce(28), // newline, reduce: Element2
-			reduce(28), // *, reduce: Element2
-			reduce(28), // <, reduce: Element2
-			reduce(28), // >, reduce: Element2
-			reduce(28), // [, reduce: Element2
-			reduce(28), // ], reduce: Element2
-			reduce(28), // (, reduce: Element2
-			reduce(28), // ), reduce: Element2
-			reduce(28), // ,, reduce: Element2
-			reduce(28), // ., reduce: Element2
-			reduce(28), // |, reduce: Element2
-			reduce(28), // ^, reduce: Element2
-			reduce(28), // &, reduce: Element2
-			reduce(28), // <<, reduce: Element2
-			reduce(28), // >>, reduce: Element2
-			reduce(28), // =>, reduce: Element2
-			reduce(28), // /, reduce: Element2
-			reduce(28), // +, reduce: Element2
-			reduce(28), // -, reduce: Element2
-			reduce(28), // ||, reduce: Element2
-			reduce(28), // <>, reduce: Element2
-			reduce(28), // !=, reduce: Element2
-			reduce(28), // =, reduce: Element2
-			reduce(28), // <=, reduce: Element2
-			reduce(28), // >=, reduce: Element2
-			reduce(28), // ;, reduce: Element2
-			reduce(28), // @, reduce: Element2
-			reduce(28), // {, reduce: Element2
-			reduce(28), // }, reduce: Element2
-			reduce(28), // ~, reduce: Element2
-			reduce(28), // else, reduce: Element2
-			reduce(28), // if, reduce: Element2
-			reduce(28), // for, reduce: Element2
-			reduce(28), // endfor, reduce: Element2
-			reduce(28), // elif, reduce: Element2
-			reduce(28), // endif, reduce: Element2
-			reduce(28), // set, reduce: Element2
-			reduce(28), // ?, reduce: Element2
-			reduce(28), // comment, reduce: Element2
-			reduce(28), // template_block_end, reduce: Element2
-			reduce(28), // template_block_start, reduce: Element2
-			reduce(28), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(28), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S93
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(29), // identifier, reduce: Element2
-			reduce(29), // bytes_literal, reduce: Element2
-			reduce(29), // string_literal, reduce: Element2
-			reduce(29), // integer_literal, reduce: Element2
-			reduce(29), // floating_point_literal, reduce: Element2
-			reduce(29), // newline, reduce: Element2
-			reduce(29), // *, reduce: Element2
-			reduce(29), // <, reduce: Element2
-			reduce(29), // >, reduce: Element2
-			reduce(29), // [, reduce: Element2
-			reduce(29), // ], reduce: Element2
-			reduce(29), // (, reduce: Element2
-			reduce(29), // ), reduce: Element2
-			reduce(29), // ,, reduce: Element2
-			reduce(29), // ., reduce: Element2
-			reduce(29), // |, reduce: Element2
-			reduce(29), // ^, reduce: Element2
-			reduce(29), // &, reduce: Element2
-			reduce(29), // <<, reduce: Element2
-			reduce(29), // >>, reduce: Element2
-			reduce(29), // =>, reduce: Element2
-			reduce(29), // /, reduce: Element2
-			reduce(29), // +, reduce: Element2
-			reduce(29), // -, reduce: Element2
-			reduce(29), // ||, reduce: Element2
-			reduce(29), // <>, reduce: Element2
-			reduce(29), // !=, reduce: Element2
-			reduce(29), // =, reduce: Element2
-			reduce(29), // <=, reduce: Element2
-			reduce(29), // >=, reduce: Element2
-			reduce(29), // ;, reduce: Element2
-			reduce(29), // @, reduce: Element2
-			reduce(29), // {, reduce: Element2
-			reduce(29), // }, reduce: Element2
-			reduce(29), // ~, reduce: Element2
-			reduce(29), // else, reduce: Element2
-			reduce(29), // if, reduce: Element2
-			reduce(29), // for, reduce: Element2
-			reduce(29), // endfor, reduce: Element2
-			reduce(29), // elif, reduce: Element2
-			reduce(29), // endif, reduce: Element2
-			reduce(29), // set, reduce: Element2
-			reduce(29), // ?, reduce: Element2
-			reduce(29), // comment, reduce: Element2
-			reduce(29), // template_block_end, reduce: Element2
-			reduce(29), // template_block_start, reduce: Element2
-			reduce(29), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(29), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S94
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(30), // identifier, reduce: Element2
-			reduce(30), // bytes_literal, reduce: Element2
-			reduce(30), // string_literal, reduce: Element2
-			reduce(30), // integer_literal, reduce: Element2
-			reduce(30), // floating_point_literal, reduce: Element2
-			reduce(30), // newline, reduce: Element2
-			reduce(30), // *, reduce: Element2
-			reduce(30), // <, reduce: Element2
-			reduce(30), // >, reduce: Element2
-			reduce(30), // [, reduce: Element2
-			reduce(30), // ], reduce: Element2
-			reduce(30), // (, reduce: Element2
-			reduce(30), // ), reduce: Element2
-			reduce(30), // ,, reduce: Element2
-			reduce(30), // ., reduce: Element2
-			reduce(30), // |, reduce: Element2
-			reduce(30), // ^, reduce: Element2
-			reduce(30), // &, reduce: Element2
-			reduce(30), // <<, reduce: Element2
-			reduce(30), // >>, reduce: Element2
-			reduce(30), // =>, reduce: Element2
-			reduce(30), // /, reduce: Element2
-			reduce(30), // +, reduce: Element2
-			reduce(30), // -, reduce: Element2
-			reduce(30), // ||, reduce: Element2
-			reduce(30), // <>, reduce: Element2
-			reduce(30), // !=, reduce: Element2
-			reduce(30), // =, reduce: Element2
-			reduce(30), // <=, reduce: Element2
-			reduce(30), // >=, reduce: Element2
-			reduce(30), // ;, reduce: Element2
-			reduce(30), // @, reduce: Element2
-			reduce(30), // {, reduce: Element2
-			reduce(30), // }, reduce: Element2
-			reduce(30), // ~, reduce: Element2
-			reduce(30), // else, reduce: Element2
-			reduce(30), // if, reduce: Element2
-			reduce(30), // for, reduce: Element2
-			reduce(30), // endfor, reduce: Element2
-			reduce(30), // elif, reduce: Element2
-			reduce(30), // endif, reduce: Element2
-			reduce(30), // set, reduce: Element2
-			reduce(30), // ?, reduce: Element2
-			reduce(30), // comment, reduce: Element2
-			reduce(30), // template_block_end, reduce: Element2
-			reduce(30), // template_block_start, reduce: Element2
-			reduce(30), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(30), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S95
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(31), // identifier, reduce: Element2
-			reduce(31), // bytes_literal, reduce: Element2
-			reduce(31), // string_literal, reduce: Element2
-			reduce(31), // integer_literal, reduce: Element2
-			reduce(31), // floating_point_literal, reduce: Element2
-			reduce(31), // newline, reduce: Element2
-			reduce(31), // *, reduce: Element2
-			reduce(31), // <, reduce: Element2
-			reduce(31), // >, reduce: Element2
-			reduce(31), // [, reduce: Element2
-			reduce(31), // ], reduce: Element2
-			reduce(31), // (, reduce: Element2
-			reduce(31), // ), reduce: Element2
-			reduce(31), // ,, reduce: Element2
-			reduce(31), // ., reduce: Element2
-			reduce(31), // |, reduce: Element2
-			reduce(31), // ^, reduce: Element2
-			reduce(31), // &, reduce: Element2
-			reduce(31), // <<, reduce: Element2
-			reduce(31), // >>, reduce: Element2
-			reduce(31), // =>, reduce: Element2
-			reduce(31), // /, reduce: Element2
-			reduce(31), // +, reduce: Element2
-			reduce(31), // -, reduce: Element2
-			reduce(31), // ||, reduce: Element2
-			reduce(31), // <>, reduce: Element2
-			reduce(31), // !=, reduce: Element2
-			reduce(31), // =, reduce: Element2
-			reduce(31), // <=, reduce: Element2
-			reduce(31), // >=, reduce: Element2
-			reduce(31), // ;, reduce: Element2
-			reduce(31), // @, reduce: Element2
-			reduce(31), // {, reduce: Element2
-			reduce(31), // }, reduce: Element2
-			reduce(31), // ~, reduce: Element2
-			reduce(31), // else, reduce: Element2
-			reduce(31), // if, reduce: Element2
-			reduce(31), // for, reduce: Element2
-			reduce(31), // endfor, reduce: Element2
-			reduce(31), // elif, reduce: Element2
-			reduce(31), // endif, reduce: Element2
-			reduce(31), // set, reduce: Element2
-			reduce(31), // ?, reduce: Element2
-			reduce(31), // comment, reduce: Element2
-			reduce(31), // template_block_end, reduce: Element2
-			reduce(31), // template_block_start, reduce: Element2
-			reduce(31), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(31), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S96
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(32), // identifier, reduce: Element2
-			reduce(32), // bytes_literal, reduce: Element2
-			reduce(32), // string_literal, reduce: Element2
-			reduce(32), // integer_literal, reduce: Element2
-			reduce(32), // floating_point_literal, reduce: Element2
-			reduce(32), // newline, reduce: Element2
-			reduce(32), // *, reduce: Element2
-			reduce(32), // <, reduce: Element2
-			reduce(32), // >, reduce: Element2
-			reduce(32), // [, reduce: Element2
-			reduce(32), // ], reduce: Element2
-			reduce(32), // (, reduce: Element2
-			reduce(32), // ), reduce: Element2
-			reduce(32), // ,, reduce: Element2
-			reduce(32), // ., reduce: Element2
-			reduce(32), // |, reduce: Element2
-			reduce(32), // ^, reduce: Element2
-			reduce(32), // &, reduce: Element2
-			reduce(32), // <<, reduce: Element2
-			reduce(32), // >>, reduce: Element2
-			reduce(32), // =>, reduce: Element2
-			reduce(32), // /, reduce: Element2
-			reduce(32), // +, reduce: Element2
-			reduce(32), // -, reduce: Element2
-			reduce(32), // ||, reduce: Element2
-			reduce(32), // <>, reduce: Element2
-			reduce(32), // !=, reduce: Element2
-			reduce(32), // =, reduce: Element2
-			reduce(32), // <=, reduce: Element2
-			reduce(32), // >=, reduce: Element2
-			reduce(32), // ;, reduce: Element2
-			reduce(32), // @, reduce: Element2
-			reduce(32), // {, reduce: Element2
-			reduce(32), // }, reduce: Element2
-			reduce(32), // ~, reduce: Element2
-			reduce(32), // else, reduce: Element2
-			reduce(32), // if, reduce: Element2
-			reduce(32), // for, reduce: Element2
-			reduce(32), // endfor, reduce: Element2
-			reduce(32), // elif, reduce: Element2
-			reduce(32), // endif, reduce: Element2
-			reduce(32), // set, reduce: Element2
-			reduce(32), // ?, reduce: Element2
-			reduce(32), // comment, reduce: Element2
-			reduce(32), // template_block_end, reduce: Element2
-			reduce(32), // template_block_start, reduce: Element2
-			reduce(32), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(32), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S97
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(33), // identifier, reduce: Element2
-			reduce(33), // bytes_literal, reduce: Element2
-			reduce(33), // string_literal, reduce: Element2
-			reduce(33), // integer_literal, reduce: Element2
-			reduce(33), // floating_point_literal, reduce: Element2
-			reduce(33), // newline, reduce: Element2
-			reduce(33), // *, reduce: Element2
-			reduce(33), // <, reduce: Element2
-			reduce(33), // >, reduce: Element2
-			reduce(33), // [, reduce: Element2
-			reduce(33), // ], reduce: Element2
-			reduce(33), // (, reduce: Element2
-			reduce(33), // ), reduce: Element2
-			reduce(33), // ,, reduce: Element2
-			reduce(33), // ., reduce: Element2
-			reduce(33), // |, reduce: Element2
-			reduce(33), // ^, reduce: Element2
-			reduce(33), // &, reduce: Element2
-			reduce(33), // <<, reduce: Element2
-			reduce(33), // >>, reduce: Element2
-			reduce(33), // =>, reduce: Element2
-			reduce(33), // /, reduce: Element2
-			reduce(33), // +, reduce: Element2
-			reduce(33), // -, reduce: Element2
-			reduce(33), // ||, reduce: Element2
-			reduce(33), // <>, reduce: Element2
-			reduce(33), // !=, reduce: Element2
-			reduce(33), // =, reduce: Element2
-			reduce(33), // <=, reduce: Element2
-			reduce(33), // >=, reduce: Element2
-			reduce(33), // ;, reduce: Element2
-			reduce(33), // @, reduce: Element2
-			reduce(33), // {, reduce: Element2
-			reduce(33), // }, reduce: Element2
-			reduce(33), // ~, reduce: Element2
-			reduce(33), // else, reduce: Element2
-			reduce(33), // if, reduce: Element2
-			reduce(33), // for, reduce: Element2
-			reduce(33), // endfor, reduce: Element2
-			reduce(33), // elif, reduce: Element2
-			reduce(33), // endif, reduce: Element2
-			reduce(33), // set, reduce: Element2
-			reduce(33), // ?, reduce: Element2
-			reduce(33), // comment, reduce: Element2
-			reduce(33), // template_block_end, reduce: Element2
-			reduce(33), // template_block_start, reduce: Element2
-			reduce(33), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(33), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S98
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(34), // identifier, reduce: Element2
-			reduce(34), // bytes_literal, reduce: Element2
-			reduce(34), // string_literal, reduce: Element2
-			reduce(34), // integer_literal, reduce: Element2
-			reduce(34), // floating_point_literal, reduce: Element2
-			reduce(34), // newline, reduce: Element2
-			reduce(34), // *, reduce: Element2
-			reduce(34), // <, reduce: Element2
-			reduce(34), // >, reduce: Element2
-			reduce(34), // [, reduce: Element2
-			reduce(34), // ], reduce: Element2
-			reduce(34), // (, reduce: Element2
-			reduce(34), // ), reduce: Element2
-			reduce(34), // ,, reduce: Element2
-			reduce(34), // ., reduce: Element2
-			reduce(34), // |, reduce: Element2
-			reduce(34), // ^, reduce: Element2
-			reduce(34), // &, reduce: Element2
-			reduce(34), // <<, reduce: Element2
-			reduce(34), // >>, reduce: Element2
-			reduce(34), // =>, reduce: Element2
-			reduce(34), // /, reduce: Element2
-			reduce(34), // +, reduce: Element2
-			reduce(34), // -, reduce: Element2
-			reduce(34), // ||, reduce: Element2
-			reduce(34), // <>, reduce: Element2
-			reduce(34), // !=, reduce: Element2
-			reduce(34), // =, reduce: Element2
-			reduce(34), // <=, reduce: Element2
-			reduce(34), // >=, reduce: Element2
-			reduce(34), // ;, reduce: Element2
-			reduce(34), // @, reduce: Element2
-			reduce(34), // {, reduce: Element2
-			reduce(34), // }, reduce: Element2
-			reduce(34), // ~, reduce: Element2
-			reduce(34), // else, reduce: Element2
-			reduce(34), // if, reduce: Element2
-			reduce(34), // for, reduce: Element2
-			reduce(34), // endfor, reduce: Element2
-			reduce(34), // elif, reduce: Element2
-			reduce(34), // endif, reduce: Element2
-			reduce(34), // set, reduce: Element2
-			reduce(34), // ?, reduce: Element2
-			reduce(34), // comment, reduce: Element2
-			reduce(34), // template_block_end, reduce: Element2
-			reduce(34), // template_block_start, reduce: Element2
-			reduce(34), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(34), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S99
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(35), // identifier, reduce: Element2
-			reduce(35), // bytes_literal, reduce: Element2
-			reduce(35), // string_literal, reduce: Element2
-			reduce(35), // integer_literal, reduce: Element2
-			reduce(35), // floating_point_literal, reduce: Element2
-			reduce(35), // newline, reduce: Element2
-			reduce(35), // *, reduce: Element2
-			reduce(35), // <, reduce: Element2
-			reduce(35), // >, reduce: Element2
-			reduce(35), // [, reduce: Element2
-			reduce(35), // ], reduce: Element2
-			reduce(35), // (, reduce: Element2
-			reduce(35), // ), reduce: Element2
-			reduce(35), // ,, reduce: Element2
-			reduce(35), // ., reduce: Element2
-			reduce(35), // |, reduce: Element2
-			reduce(35), // ^, reduce: Element2
-			reduce(35), // &, reduce: Element2
-			reduce(35), // <<, reduce: Element2
-			reduce(35), // >>, reduce: Element2
-			reduce(35), // =>, reduce: Element2
-			reduce(35), // /, reduce: Element2
-			reduce(35), // +, reduce: Element2
-			reduce(35), // -, reduce: Element2
-			reduce(35), // ||, reduce: Element2
-			reduce(35), // <>, reduce: Element2
-			reduce(35), // !=, reduce: Element2
-			reduce(35), // =, reduce: Element2
-			reduce(35), // <=, reduce: Element2
-			reduce(35), // >=, reduce: Element2
-			reduce(35), // ;, reduce: Element2
-			reduce(35), // @, reduce: Element2
-			reduce(35), // {, reduce: Element2
-			reduce(35), // }, reduce: Element2
-			reduce(35), // ~, reduce: Element2
-			reduce(35), // else, reduce: Element2
-			reduce(35), // if, reduce: Element2
-			reduce(35), // for, reduce: Element2
-			reduce(35), // endfor, reduce: Element2
-			reduce(35), // elif, reduce: Element2
-			reduce(35), // endif, reduce: Element2
-			reduce(35), // set, reduce: Element2
-			reduce(35), // ?, reduce: Element2
-			reduce(35), // comment, reduce: Element2
-			reduce(35), // template_block_end, reduce: Element2
-			reduce(35), // template_block_start, reduce: Element2
-			reduce(35), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(35), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S100
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(36), // identifier, reduce: Element2
-			reduce(36), // bytes_literal, reduce: Element2
-			reduce(36), // string_literal, reduce: Element2
-			reduce(36), // integer_literal, reduce: Element2
-			reduce(36), // floating_point_literal, reduce: Element2
-			reduce(36), // newline, reduce: Element2
-			reduce(36), // *, reduce: Element2
-			reduce(36), // <, reduce: Element2
-			reduce(36), // >, reduce: Element2
-			reduce(36), // [, reduce: Element2
-			reduce(36), // ], reduce: Element2
-			reduce(36), // (, reduce: Element2
-			reduce(36), // ), reduce: Element2
-			reduce(36), // ,, reduce: Element2
-			reduce(36), // ., reduce: Element2
-			reduce(36), // |, reduce: Element2
-			reduce(36), // ^, reduce: Element2
-			reduce(36), // &, reduce: Element2
-			reduce(36), // <<, reduce: Element2
-			reduce(36), // >>, reduce: Element2
-			reduce(36), // =>, reduce: Element2
-			reduce(36), // /, reduce: Element2
-			reduce(36), // +, reduce: Element2
-			reduce(36), // -, reduce: Element2
-			reduce(36), // ||, reduce: Element2
-			reduce(36), // <>, reduce: Element2
-			reduce(36), // !=, reduce: Element2
-			reduce(36), // =, reduce: Element2
-			reduce(36), // <=, reduce: Element2
-			reduce(36), // >=, reduce: Element2
-			reduce(36), // ;, reduce: Element2
-			reduce(36), // @, reduce: Element2
-			reduce(36), // {, reduce: Element2
-			reduce(36), // }, reduce: Element2
-			reduce(36), // ~, reduce: Element2
-			reduce(36), // else, reduce: Element2
-			reduce(36), // if, reduce: Element2
-			reduce(36), // for, reduce: Element2
-			reduce(36), // endfor, reduce: Element2
-			reduce(36), // elif, reduce: Element2
-			reduce(36), // endif, reduce: Element2
-			reduce(36), // set, reduce: Element2
-			reduce(36), // ?, reduce: Element2
-			reduce(36), // comment, reduce: Element2
-			reduce(36), // template_block_end, reduce: Element2
-			reduce(36), // template_block_start, reduce: Element2
-			reduce(36), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(36), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S101
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(37), // identifier, reduce: Element2
-			reduce(37), // bytes_literal, reduce: Element2
-			reduce(37), // string_literal, reduce: Element2
-			reduce(37), // integer_literal, reduce: Element2
-			reduce(37), // floating_point_literal, reduce: Element2
-			reduce(37), // newline, reduce: Element2
-			reduce(37), // *, reduce: Element2
-			reduce(37), // <, reduce: Element2
-			reduce(37), // >, reduce: Element2
-			reduce(37), // [, reduce: Element2
-			reduce(37), // ], reduce: Element2
-			reduce(37), // (, reduce: Element2
-			reduce(37), // ), reduce: Element2
-			reduce(37), // ,, reduce: Element2
-			reduce(37), // ., reduce: Element2
-			reduce(37), // |, reduce: Element2
-			reduce(37), // ^, reduce: Element2
-			reduce(37), // &, reduce: Element2
-			reduce(37), // <<, reduce: Element2
-			reduce(37), // >>, reduce: Element2
-			reduce(37), // =>, reduce: Element2
-			reduce(37), // /, reduce: Element2
-			reduce(37), // +, reduce: Element2
-			reduce(37), // -, reduce: Element2
-			reduce(37), // ||, reduce: Element2
-			reduce(37), // <>, reduce: Element2
-			reduce(37), // !=, reduce: Element2
-			reduce(37), // =, reduce: Element2
-			reduce(37), // <=, reduce: Element2
-			reduce(37), // >=, reduce: Element2
-			reduce(37), // ;, reduce: Element2
-			reduce(37), // @, reduce: Element2
-			reduce(37), // {, reduce: Element2
-			reduce(37), // }, reduce: Element2
-			reduce(37), // ~, reduce: Element2
-			reduce(37), // else, reduce: Element2
-			reduce(37), // if, reduce: Element2
-			reduce(37), // for, reduce: Element2
-			reduce(37), // endfor, reduce: Element2
-			reduce(37), // elif, reduce: Element2
-			reduce(37), // endif, reduce: Element2
-			reduce(37), // set, reduce: Element2
-			reduce(37), // ?, reduce: Element2
-			reduce(37), // comment, reduce: Element2
-			reduce(37), // template_block_end, reduce: Element2
-			reduce(37), // template_block_start, reduce: Element2
-			reduce(37), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(37), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S102
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(38), // identifier, reduce: Element2
-			reduce(38), // bytes_literal, reduce: Element2
-			reduce(38), // string_literal, reduce: Element2
-			reduce(38), // integer_literal, reduce: Element2
-			reduce(38), // floating_point_literal, reduce: Element2
-			reduce(38), // newline, reduce: Element2
-			reduce(38), // *, reduce: Element2
-			reduce(38), // <, reduce: Element2
-			reduce(38), // >, reduce: Element2
-			reduce(38), // [, reduce: Element2
-			reduce(38), // ], reduce: Element2
-			reduce(38), // (, reduce: Element2
-			reduce(38), // ), reduce: Element2
-			reduce(38), // ,, reduce: Element2
-			reduce(38), // ., reduce: Element2
-			reduce(38), // |, reduce: Element2
-			reduce(38), // ^, reduce: Element2
-			reduce(38), // &, reduce: Element2
-			reduce(38), // <<, reduce: Element2
-			reduce(38), // >>, reduce: Element2
-			reduce(38), // =>, reduce: Element2
-			reduce(38), // /, reduce: Element2
-			reduce(38), // +, reduce: Element2
-			reduce(38), // -, reduce: Element2
-			reduce(38), // ||, reduce: Element2
-			reduce(38), // <>, reduce: Element2
-			reduce(38), // !=, reduce: Element2
-			reduce(38), // =, reduce: Element2
-			reduce(38), // <=, reduce: Element2
-			reduce(38), // >=, reduce: Element2
-			reduce(38), // ;, reduce: Element2
-			reduce(38), // @, reduce: Element2
-			reduce(38), // {, reduce: Element2
-			reduce(38), // }, reduce: Element2
-			reduce(38), // ~, reduce: Element2
-			reduce(38), // else, reduce: Element2
-			reduce(38), // if, reduce: Element2
-			reduce(38), // for, reduce: Element2
-			reduce(38), // endfor, reduce: Element2
-			reduce(38), // elif, reduce: Element2
-			reduce(38), // endif, reduce: Element2
-			reduce(38), // set, reduce: Element2
-			reduce(38), // ?, reduce: Element2
-			reduce(38), // comment, reduce: Element2
-			reduce(38), // template_block_end, reduce: Element2
-			reduce(38), // template_block_start, reduce: Element2
-			reduce(38), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(38), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S103
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(39), // identifier, reduce: Element2
-			reduce(39), // bytes_literal, reduce: Element2
-			reduce(39), // string_literal, reduce: Element2
-			reduce(39), // integer_literal, reduce: Element2
-			reduce(39), // floating_point_literal, reduce: Element2
-			reduce(39), // newline, reduce: Element2
-			reduce(39), // *, reduce: Element2
-			reduce(39), // <, reduce: Element2
-			reduce(39), // >, reduce: Element2
-			reduce(39), // [, reduce: Element2
-			reduce(39), // ], reduce: Element2
-			reduce(39), // (, reduce: Element2
-			reduce(39), // ), reduce: Element2
-			reduce(39), // ,, reduce: Element2
-			reduce(39), // ., reduce: Element2
-			reduce(39), // |, reduce: Element2
-			reduce(39), // ^, reduce: Element2
-			reduce(39), // &, reduce: Element2
-			reduce(39), // <<, reduce: Element2
-			reduce(39), // >>, reduce: Element2
-			reduce(39), // =>, reduce: Element2
-			reduce(39), // /, reduce: Element2
-			reduce(39), // +, reduce: Element2
-			reduce(39), // -, reduce: Element2
-			reduce(39), // ||, reduce: Element2
-			reduce(39), // <>, reduce: Element2
-			reduce(39), // !=, reduce: Element2
-			reduce(39), // =, reduce: Element2
-			reduce(39), // <=, reduce: Element2
-			reduce(39), // >=, reduce: Element2
-			reduce(39), // ;, reduce: Element2
-			reduce(39), // @, reduce: Element2
-			reduce(39), // {, reduce: Element2
-			reduce(39), // }, reduce: Element2
-			reduce(39), // ~, reduce: Element2
-			reduce(39), // else, reduce: Element2
-			reduce(39), // if, reduce: Element2
-			reduce(39), // for, reduce: Element2
-			reduce(39), // endfor, reduce: Element2
-			reduce(39), // elif, reduce: Element2
-			reduce(39), // endif, reduce: Element2
-			reduce(39), // set, reduce: Element2
-			reduce(39), // ?, reduce: Element2
-			reduce(39), // comment, reduce: Element2
-			reduce(39), // template_block_end, reduce: Element2
-			reduce(39), // template_block_start, reduce: Element2
-			reduce(39), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(39), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S104
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(40), // identifier, reduce: Element2
-			reduce(40), // bytes_literal, reduce: Element2
-			reduce(40), // string_literal, reduce: Element2
-			reduce(40), // integer_literal, reduce: Element2
-			reduce(40), // floating_point_literal, reduce: Element2
-			reduce(40), // newline, reduce: Element2
-			reduce(40), // *, reduce: Element2
-			reduce(40), // <, reduce: Element2
-			reduce(40), // >, reduce: Element2
-			reduce(40), // [, reduce: Element2
-			reduce(40), // ], reduce: Element2
-			reduce(40), // (, reduce: Element2
-			reduce(40), // ), reduce: Element2
-			reduce(40), // ,, reduce: Element2
-			reduce(40), // ., reduce: Element2
-			reduce(40), // |, reduce: Element2
-			reduce(40), // ^, reduce: Element2
-			reduce(40), // &, reduce: Element2
-			reduce(40), // <<, reduce: Element2
-			reduce(40), // >>, reduce: Element2
-			reduce(40), // =>, reduce: Element2
-			reduce(40), // /, reduce: Element2
-			reduce(40), // +, reduce: Element2
-			reduce(40), // -, reduce: Element2
-			reduce(40), // ||, reduce: Element2
-			reduce(40), // <>, reduce: Element2
-			reduce(40), // !=, reduce: Element2
-			reduce(40), // =, reduce: Element2
-			reduce(40), // <=, reduce: Element2
-			reduce(40), // >=, reduce: Element2
-			reduce(40), // ;, reduce: Element2
-			reduce(40), // @, reduce: Element2
-			reduce(40), // {, reduce: Element2
-			reduce(40), // }, reduce: Element2
-			reduce(40), // ~, reduce: Element2
-			reduce(40), // else, reduce: Element2
-			reduce(40), // if, reduce: Element2
-			reduce(40), // for, reduce: Element2
-			reduce(40), // endfor, reduce: Element2
-			reduce(40), // elif, reduce: Element2
-			reduce(40), // endif, reduce: Element2
-			reduce(40), // set, reduce: Element2
-			reduce(40), // ?, reduce: Element2
-			reduce(40), // comment, reduce: Element2
-			reduce(40), // template_block_end, reduce: Element2
-			reduce(40), // template_block_start, reduce: Element2
-			reduce(40), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(40), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S105
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(41), // identifier, reduce: Element2
-			reduce(41), // bytes_literal, reduce: Element2
-			reduce(41), // string_literal, reduce: Element2
-			reduce(41), // integer_literal, reduce: Element2
-			reduce(41), // floating_point_literal, reduce: Element2
-			reduce(41), // newline, reduce: Element2
-			reduce(41), // *, reduce: Element2
-			reduce(41), // <, reduce: Element2
-			reduce(41), // >, reduce: Element2
-			reduce(41), // [, reduce: Element2
-			reduce(41), // ], reduce: Element2
-			reduce(41), // (, reduce: Element2
-			reduce(41), // ), reduce: Element2
-			reduce(41), // ,, reduce: Element2
-			reduce(41), // ., reduce: Element2
-			reduce(41), // |, reduce: Element2
-			reduce(41), // ^, reduce: Element2
-			reduce(41), // &, reduce: Element2
-			reduce(41), // <<, reduce: Element2
-			reduce(41), // >>, reduce: Element2
-			reduce(41), // =>, reduce: Element2
-			reduce(41), // /, reduce: Element2
-			reduce(41), // +, reduce: Element2
-			reduce(41), // -, reduce: Element2
-			reduce(41), // ||, reduce: Element2
-			reduce(41), // <>, reduce: Element2
-			reduce(41), // !=, reduce: Element2
-			reduce(41), // =, reduce: Element2
-			reduce(41), // <=, reduce: Element2
-			reduce(41), // >=, reduce: Element2
-			reduce(41), // ;, reduce: Element2
-			reduce(41), // @, reduce: Element2
-			reduce(41), // {, reduce: Element2
-			reduce(41), // }, reduce: Element2
-			reduce(41), // ~, reduce: Element2
-			reduce(41), // else, reduce: Element2
-			reduce(41), // if, reduce: Element2
-			reduce(41), // for, reduce: Element2
-			reduce(41), // endfor, reduce: Element2
-			reduce(41), // elif, reduce: Element2
-			reduce(41), // endif, reduce: Element2
-			reduce(41), // set, reduce: Element2
-			reduce(41), // ?, reduce: Element2
-			reduce(41), // comment, reduce: Element2
-			reduce(41), // template_block_end, reduce: Element2
-			reduce(41), // template_block_start, reduce: Element2
-			reduce(41), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(41), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S106
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(42), // identifier, reduce: Element2
-			reduce(42), // bytes_literal, reduce: Element2
-			reduce(42), // string_literal, reduce: Element2
-			reduce(42), // integer_literal, reduce: Element2
-			reduce(42), // floating_point_literal, reduce: Element2
-			reduce(42), // newline, reduce: Element2
-			reduce(42), // *, reduce: Element2
-			reduce(42), // <, reduce: Element2
-			reduce(42), // >, reduce: Element2
-			reduce(42), // [, reduce: Element2
-			reduce(42), // ], reduce: Element2
-			reduce(42), // (, reduce: Element2
-			reduce(42), // ), reduce: Element2
-			reduce(42), // ,, reduce: Element2
-			reduce(42), // ., reduce: Element2
-			reduce(42), // |, reduce: Element2
-			reduce(42), // ^, reduce: Element2
-			reduce(42), // &, reduce: Element2
-			reduce(42), // <<, reduce: Element2
-			reduce(42), // >>, reduce: Element2
-			reduce(42), // =>, reduce: Element2
-			reduce(42), // /, reduce: Element2
-			reduce(42), // +, reduce: Element2
-			reduce(42), // -, reduce: Element2
-			reduce(42), // ||, reduce: Element2
-			reduce(42), // <>, reduce: Element2
-			reduce(42), // !=, reduce: Element2
-			reduce(42), // =, reduce: Element2
-			reduce(42), // <=, reduce: Element2
-			reduce(42), // >=, reduce: Element2
-			reduce(42), // ;, reduce: Element2
-			reduce(42), // @, reduce: Element2
-			reduce(42), // {, reduce: Element2
-			reduce(42), // }, reduce: Element2
-			reduce(42), // ~, reduce: Element2
-			reduce(42), // else, reduce: Element2
-			reduce(42), // if, reduce: Element2
-			reduce(42), // for, reduce: Element2
-			reduce(42), // endfor, reduce: Element2
-			reduce(42), // elif, reduce: Element2
-			reduce(42), // endif, reduce: Element2
-			reduce(42), // set, reduce: Element2
-			reduce(42), // ?, reduce: Element2
-			reduce(42), // comment, reduce: Element2
-			reduce(42), // template_block_end, reduce: Element2
-			reduce(42), // template_block_start, reduce: Element2
-			reduce(42), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(42), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S107
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(44), // identifier, reduce: Element2
-			reduce(44), // bytes_literal, reduce: Element2
-			reduce(44), // string_literal, reduce: Element2
-			reduce(44), // integer_literal, reduce: Element2
-			reduce(44), // floating_point_literal, reduce: Element2
-			reduce(44), // newline, reduce: Element2
-			reduce(44), // *, reduce: Element2
-			reduce(44), // <, reduce: Element2
-			reduce(44), // >, reduce: Element2
-			reduce(44), // [, reduce: Element2
-			reduce(44), // ], reduce: Element2
-			reduce(44), // (, reduce: Element2
-			reduce(44), // ), reduce: Element2
-			reduce(44), // ,, reduce: Element2
-			reduce(44), // ., reduce: Element2
-			reduce(44), // |, reduce: Element2
-			reduce(44), // ^, reduce: Element2
-			reduce(44), // &, reduce: Element2
-			reduce(44), // <<, reduce: Element2
-			reduce(44), // >>, reduce: Element2
-			reduce(44), // =>, reduce: Element2
-			reduce(44), // /, reduce: Element2
-			reduce(44), // +, reduce: Element2
-			reduce(44), // -, reduce: Element2
-			reduce(44), // ||, reduce: Element2
-			reduce(44), // <>, reduce: Element2
-			reduce(44), // !=, reduce: Element2
-			reduce(44), // =, reduce: Element2
-			reduce(44), // <=, reduce: Element2
-			reduce(44), // >=, reduce: Element2
-			reduce(44), // ;, reduce: Element2
-			reduce(44), // @, reduce: Element2
-			reduce(44), // {, reduce: Element2
-			reduce(44), // }, reduce: Element2
-			reduce(44), // ~, reduce: Element2
-			reduce(44), // else, reduce: Element2
-			reduce(44), // if, reduce: Element2
-			reduce(44), // for, reduce: Element2
-			reduce(44), // endfor, reduce: Element2
-			reduce(44), // elif, reduce: Element2
-			reduce(44), // endif, reduce: Element2
-			reduce(44), // set, reduce: Element2
-			reduce(44), // ?, reduce: Element2
-			reduce(44), // comment, reduce: Element2
-			reduce(44), // template_block_end, reduce: Element2
-			reduce(44), // template_block_start, reduce: Element2
-			reduce(44), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(44), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S108
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(46), // identifier, reduce: Element2
-			reduce(46), // bytes_literal, reduce: Element2
-			reduce(46), // string_literal, reduce: Element2
-			reduce(46), // integer_literal, reduce: Element2
-			reduce(46), // floating_point_literal, reduce: Element2
-			reduce(46), // newline, reduce: Element2
-			reduce(46), // *, reduce: Element2
-			reduce(46), // <, reduce: Element2
-			reduce(46), // >, reduce: Element2
-			reduce(46), // [, reduce: Element2
-			reduce(46), // ], reduce: Element2
-			reduce(46), // (, reduce: Element2
-			reduce(46), // ), reduce: Element2
-			reduce(46), // ,, reduce: Element2
-			reduce(46), // ., reduce: Element2
-			reduce(46), // |, reduce: Element2
-			reduce(46), // ^, reduce: Element2
-			reduce(46), // &, reduce: Element2
-			reduce(46), // <<, reduce: Element2
-			reduce(46), // >>, reduce: Element2
-			reduce(46), // =>, reduce: Element2
-			reduce(46), // /, reduce: Element2
-			reduce(46), // +, reduce: Element2
-			reduce(46), // -, reduce: Element2
-			reduce(46), // ||, reduce: Element2
-			reduce(46), // <>, reduce: Element2
-			reduce(46), // !=, reduce: Element2
-			reduce(46), // =, reduce: Element2
-			reduce(46), // <=, reduce: Element2
-			reduce(46), // >=, reduce: Element2
-			reduce(46), // ;, reduce: Element2
-			reduce(46), // @, reduce: Element2
-			reduce(46), // {, reduce: Element2
-			reduce(46), // }, reduce: Element2
-			reduce(46), // ~, reduce: Element2
-			reduce(46), // else, reduce: Element2
-			reduce(46), // if, reduce: Element2
-			reduce(46), // for, reduce: Element2
-			reduce(46), // endfor, reduce: Element2
-			reduce(46), // elif, reduce: Element2
-			reduce(46), // endif, reduce: Element2
-			reduce(46), // set, reduce: Element2
-			reduce(46), // ?, reduce: Element2
-			reduce(46), // comment, reduce: Element2
-			reduce(46), // template_block_end, reduce: Element2
-			reduce(46), // template_block_start, reduce: Element2
-			reduce(46), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(46), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S109
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(47), // identifier, reduce: Element2
-			reduce(47), // bytes_literal, reduce: Element2
-			reduce(47), // string_literal, reduce: Element2
-			reduce(47), // integer_literal, reduce: Element2
-			reduce(47), // floating_point_literal, reduce: Element2
-			reduce(47), // newline, reduce: Element2
-			reduce(47), // *, reduce: Element2
-			reduce(47), // <, reduce: Element2
-			reduce(47), // >, reduce: Element2
-			reduce(47), // [, reduce: Element2
-			reduce(47), // ], reduce: Element2
-			reduce(47), // (, reduce: Element2
-			reduce(47), // ), reduce: Element2
-			reduce(47), // ,, reduce: Element2
-			reduce(47), // ., reduce: Element2
-			reduce(47), // |, reduce: Element2
-			reduce(47), // ^, reduce: Element2
-			reduce(47), // &, reduce: Element2
-			reduce(47), // <<, reduce: Element2
-			reduce(47), // >>, reduce: Element2
-			reduce(47), // =>, reduce: Element2
-			reduce(47), // /, reduce: Element2
-			reduce(47), // +, reduce: Element2
-			reduce(47), // -, reduce: Element2
-			reduce(47), // ||, reduce: Element2
-			reduce(47), // <>, reduce: Element2
-			reduce(47), // !=, reduce: Element2
-			reduce(47), // =, reduce: Element2
-			reduce(47), // <=, reduce: Element2
-			reduce(47), // >=, reduce: Element2
-			reduce(47), // ;, reduce: Element2
-			reduce(47), // @, reduce: Element2
-			reduce(47), // {, reduce: Element2
-			reduce(47), // }, reduce: Element2
-			reduce(47), // ~, reduce: Element2
-			reduce(47), // else, reduce: Element2
-			reduce(47), // if, reduce: Element2
-			reduce(47), // for, reduce: Element2
-			reduce(47), // endfor, reduce: Element2
-			reduce(47), // elif, reduce: Element2
-			reduce(47), // endif, reduce: Element2
-			reduce(47), // set, reduce: Element2
-			reduce(47), // ?, reduce: Element2
-			reduce(47), // comment, reduce: Element2
-			reduce(47), // template_block_end, reduce: Element2
-			reduce(47), // template_block_start, reduce: Element2
-			reduce(47), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(47), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S110
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(49), // identifier, reduce: Element2
-			reduce(49), // bytes_literal, reduce: Element2
-			reduce(49), // string_literal, reduce: Element2
-			reduce(49), // integer_literal, reduce: Element2
-			reduce(49), // floating_point_literal, reduce: Element2
-			reduce(49), // newline, reduce: Element2
-			reduce(49), // *, reduce: Element2
-			reduce(49), // <, reduce: Element2
-			reduce(49), // >, reduce: Element2
-			reduce(49), // [, reduce: Element2
-			reduce(49), // ], reduce: Element2
-			reduce(49), // (, reduce: Element2
-			reduce(49), // ), reduce: Element2
-			reduce(49), // ,, reduce: Element2
-			reduce(49), // ., reduce: Element2
-			reduce(49), // |, reduce: Element2
-			reduce(49), // ^, reduce: Element2
-			reduce(49), // &, reduce: Element2
-			reduce(49), // <<, reduce: Element2
-			reduce(49), // >>, reduce: Element2
-			reduce(49), // =>, reduce: Element2
-			reduce(49), // /, reduce: Element2
-			reduce(49), // +, reduce: Element2
-			reduce(49), // -, reduce: Element2
-			reduce(49), // ||, reduce: Element2
-			reduce(49), // <>, reduce: Element2
-			reduce(49), // !=, reduce: Element2
-			reduce(49), // =, reduce: Element2
-			reduce(49), // <=, reduce: Element2
-			reduce(49), // >=, reduce: Element2
-			reduce(49), // ;, reduce: Element2
-			reduce(49), // @, reduce: Element2
-			reduce(49), // {, reduce: Element2
-			reduce(49), // }, reduce: Element2
-			reduce(49), // ~, reduce: Element2
-			reduce(49), // else, reduce: Element2
-			reduce(49), // if, reduce: Element2
-			reduce(49), // for, reduce: Element2
-			reduce(49), // endfor, reduce: Element2
-			reduce(49), // elif, reduce: Element2
-			reduce(49), // endif, reduce: Element2
-			reduce(49), // set, reduce: Element2
-			reduce(49), // ?, reduce: Element2
-			reduce(49), // comment, reduce: Element2
-			reduce(49), // template_block_end, reduce: Element2
-			reduce(49), // template_block_start, reduce: Element2
-			reduce(49), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(49), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S111
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(50), // identifier, reduce: Element2
-			reduce(50), // bytes_literal, reduce: Element2
-			reduce(50), // string_literal, reduce: Element2
-			reduce(50), // integer_literal, reduce: Element2
-			reduce(50), // floating_point_literal, reduce: Element2
-			reduce(50), // newline, reduce: Element2
-			reduce(50), // *, reduce: Element2
-			reduce(50), // <, reduce: Element2
-			reduce(50), // >, reduce: Element2
-			reduce(50), // [, reduce: Element2
-			reduce(50), // ], reduce: Element2
-			reduce(50), // (, reduce: Element2
-			reduce(50), // ), reduce: Element2
-			reduce(50), // ,, reduce: Element2
-			reduce(50), // ., reduce: Element2
-			reduce(50), // |, reduce: Element2
-			reduce(50), // ^, reduce: Element2
-			reduce(50), // &, reduce: Element2
-			reduce(50), // <<, reduce: Element2
-			reduce(50), // >>, reduce: Element2
-			reduce(50), // =>, reduce: Element2
-			reduce(50), // /, reduce: Element2
-			reduce(50), // +, reduce: Element2
-			reduce(50), // -, reduce: Element2
-			reduce(50), // ||, reduce: Element2
-			reduce(50), // <>, reduce: Element2
-			reduce(50), // !=, reduce: Element2
-			reduce(50), // =, reduce: Element2
-			reduce(50), // <=, reduce: Element2
-			reduce(50), // >=, reduce: Element2
-			reduce(50), // ;, reduce: Element2
-			reduce(50), // @, reduce: Element2
-			reduce(50), // {, reduce: Element2
-			reduce(50), // }, reduce: Element2
-			reduce(50), // ~, reduce: Element2
-			reduce(50), // else, reduce: Element2
-			reduce(50), // if, reduce: Element2
-			reduce(50), // for, reduce: Element2
-			reduce(50), // endfor, reduce: Element2
-			reduce(50), // elif, reduce: Element2
-			reduce(50), // endif, reduce: Element2
-			reduce(50), // set, reduce: Element2
-			reduce(50), // ?, reduce: Element2
-			reduce(50), // comment, reduce: Element2
-			reduce(50), // template_block_end, reduce: Element2
-			reduce(50), // template_block_start, reduce: Element2
-			reduce(50), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(50), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S112
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(51), // identifier, reduce: Element2
-			reduce(51), // bytes_literal, reduce: Element2
-			reduce(51), // string_literal, reduce: Element2
-			reduce(51), // integer_literal, reduce: Element2
-			reduce(51), // floating_point_literal, reduce: Element2
-			reduce(51), // newline, reduce: Element2
-			reduce(51), // *, reduce: Element2
-			reduce(51), // <, reduce: Element2
-			reduce(51), // >, reduce: Element2
-			reduce(51), // [, reduce: Element2
-			reduce(51), // ], reduce: Element2
-			reduce(51), // (, reduce: Element2
-			reduce(51), // ), reduce: Element2
-			reduce(51), // ,, reduce: Element2
-			reduce(51), // ., reduce: Element2
-			reduce(51), // |, reduce: Element2
-			reduce(51), // ^, reduce: Element2
-			reduce(51), // &, reduce: Element2
-			reduce(51), // <<, reduce: Element2
-			reduce(51), // >>, reduce: Element2
-			reduce(51), // =>, reduce: Element2
-			reduce(51), // /, reduce: Element2
-			reduce(51), // +, reduce: Element2
-			reduce(51), // -, reduce: Element2
-			reduce(51), // ||, reduce: Element2
-			reduce(51), // <>, reduce: Element2
-			reduce(51), // !=, reduce: Element2
-			reduce(51), // =, reduce: Element2
-			reduce(51), // <=, reduce: Element2
-			reduce(51), // >=, reduce: Element2
-			reduce(51), // ;, reduce: Element2
-			reduce(51), // @, reduce: Element2
-			reduce(51), // {, reduce: Element2
-			reduce(51), // }, reduce: Element2
-			reduce(51), // ~, reduce: Element2
-			reduce(51), // else, reduce: Element2
-			reduce(51), // if, reduce: Element2
-			reduce(51), // for, reduce: Element2
-			reduce(51), // endfor, reduce: Element2
-			reduce(51), // elif, reduce: Element2
-			reduce(51), // endif, reduce: Element2
-			reduce(51), // set, reduce: Element2
-			reduce(51), // ?, reduce: Element2
-			reduce(51), // comment, reduce: Element2
-			reduce(51), // template_block_end, reduce: Element2
-			reduce(51), // template_block_start, reduce: Element2
-			reduce(51), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(51), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S113
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(52), // identifier, reduce: Element2
-			reduce(52), // bytes_literal, reduce: Element2
-			reduce(52), // string_literal, reduce: Element2
-			reduce(52), // integer_literal, reduce: Element2
-			reduce(52), // floating_point_literal, reduce: Element2
-			reduce(52), // newline, reduce: Element2
-			reduce(52), // *, reduce: Element2
-			reduce(52), // <, reduce: Element2
-			reduce(52), // >, reduce: Element2
-			reduce(52), // [, reduce: Element2
-			reduce(52), // ], reduce: Element2
-			reduce(52), // (, reduce: Element2
-			reduce(52), // ), reduce: Element2
-			reduce(52), // ,, reduce: Element2
-			reduce(52), // ., reduce: Element2
-			reduce(52), // |, reduce: Element2
-			reduce(52), // ^, reduce: Element2
-			reduce(52), // &, reduce: Element2
-			reduce(52), // <<, reduce: Element2
-			reduce(52), // >>, reduce: Element2
-			reduce(52), // =>, reduce: Element2
-			reduce(52), // /, reduce: Element2
-			reduce(52), // +, reduce: Element2
-			reduce(52), // -, reduce: Element2
-			reduce(52), // ||, reduce: Element2
-			reduce(52), // <>, reduce: Element2
-			reduce(52), // !=, reduce: Element2
-			reduce(52), // =, reduce: Element2
-			reduce(52), // <=, reduce: Element2
-			reduce(52), // >=, reduce: Element2
-			reduce(52), // ;, reduce: Element2
-			reduce(52), // @, reduce: Element2
-			reduce(52), // {, reduce: Element2
-			reduce(52), // }, reduce: Element2
-			reduce(52), // ~, reduce: Element2
-			reduce(52), // else, reduce: Element2
-			reduce(52), // if, reduce: Element2
-			reduce(52), // for, reduce: Element2
-			reduce(52), // endfor, reduce: Element2
-			reduce(52), // elif, reduce: Element2
-			reduce(52), // endif, reduce: Element2
-			reduce(52), // set, reduce: Element2
-			reduce(52), // ?, reduce: Element2
-			reduce(52), // comment, reduce: Element2
-			reduce(52), // template_block_end, reduce: Element2
-			reduce(52), // template_block_start, reduce: Element2
-			reduce(52), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(52), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S114
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(53), // identifier, reduce: Element2
-			reduce(53), // bytes_literal, reduce: Element2
-			reduce(53), // string_literal, reduce: Element2
-			reduce(53), // integer_literal, reduce: Element2
-			reduce(53), // floating_point_literal, reduce: Element2
-			reduce(53), // newline, reduce: Element2
-			reduce(53), // *, reduce: Element2
-			reduce(53), // <, reduce: Element2
-			reduce(53), // >, reduce: Element2
-			reduce(53), // [, reduce: Element2
-			reduce(53), // ], reduce: Element2
-			reduce(53), // (, reduce: Element2
-			reduce(53), // ), reduce: Element2
-			reduce(53), // ,, reduce: Element2
-			reduce(53), // ., reduce: Element2
-			reduce(53), // |, reduce: Element2
-			reduce(53), // ^, reduce: Element2
-			reduce(53), // &, reduce: Element2
-			reduce(53), // <<, reduce: Element2
-			reduce(53), // >>, reduce: Element2
-			reduce(53), // =>, reduce: Element2
-			reduce(53), // /, reduce: Element2
-			reduce(53), // +, reduce: Element2
-			reduce(53), // -, reduce: Element2
-			reduce(53), // ||, reduce: Element2
-			reduce(53), // <>, reduce: Element2
-			reduce(53), // !=, reduce: Element2
-			reduce(53), // =, reduce: Element2
-			reduce(53), // <=, reduce: Element2
-			reduce(53), // >=, reduce: Element2
-			reduce(53), // ;, reduce: Element2
-			reduce(53), // @, reduce: Element2
-			reduce(53), // {, reduce: Element2
-			reduce(53), // }, reduce: Element2
-			reduce(53), // ~, reduce: Element2
-			reduce(53), // else, reduce: Element2
-			reduce(53), // if, reduce: Element2
-			reduce(53), // for, reduce: Element2
-			reduce(53), // endfor, reduce: Element2
-			reduce(53), // elif, reduce: Element2
-			reduce(53), // endif, reduce: Element2
-			reduce(53), // set, reduce: Element2
-			reduce(53), // ?, reduce: Element2
-			reduce(53), // comment, reduce: Element2
-			reduce(53), // template_block_end, reduce: Element2
-			reduce(53), // template_block_start, reduce: Element2
-			reduce(53), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(53), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S115
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(54), // identifier, reduce: Element2
-			reduce(54), // bytes_literal, reduce: Element2
-			reduce(54), // string_literal, reduce: Element2
-			reduce(54), // integer_literal, reduce: Element2
-			reduce(54), // floating_point_literal, reduce: Element2
-			reduce(54), // newline, reduce: Element2
-			reduce(54), // *, reduce: Element2
-			reduce(54), // <, reduce: Element2
-			reduce(54), // >, reduce: Element2
-			reduce(54), // [, reduce: Element2
-			reduce(54), // ], reduce: Element2
-			reduce(54), // (, reduce: Element2
-			reduce(54), // ), reduce: Element2
-			reduce(54), // ,, reduce: Element2
-			reduce(54), // ., reduce: Element2
-			reduce(54), // |, reduce: Element2
-			reduce(54), // ^, reduce: Element2
-			reduce(54), // &, reduce: Element2
-			reduce(54), // <<, reduce: Element2
-			reduce(54), // >>, reduce: Element2
-			reduce(54), // =>, reduce: Element2
-			reduce(54), // /, reduce: Element2
-			reduce(54), // +, reduce: Element2
-			reduce(54), // -, reduce: Element2
-			reduce(54), // ||, reduce: Element2
-			reduce(54), // <>, reduce: Element2
-			reduce(54), // !=, reduce: Element2
-			reduce(54), // =, reduce: Element2
-			reduce(54), // <=, reduce: Element2
-			reduce(54), // >=, reduce: Element2
-			reduce(54), // ;, reduce: Element2
-			reduce(54), // @, reduce: Element2
-			reduce(54), // {, reduce: Element2
-			reduce(54), // }, reduce: Element2
-			reduce(54), // ~, reduce: Element2
-			reduce(54), // else, reduce: Element2
-			reduce(54), // if, reduce: Element2
-			reduce(54), // for, reduce: Element2
-			reduce(54), // endfor, reduce: Element2
-			reduce(54), // elif, reduce: Element2
-			reduce(54), // endif, reduce: Element2
-			reduce(54), // set, reduce: Element2
-			reduce(54), // ?, reduce: Element2
-			reduce(54), // comment, reduce: Element2
-			reduce(54), // template_block_end, reduce: Element2
-			reduce(54), // template_block_start, reduce: Element2
-			reduce(54), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(54), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S116
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(55), // identifier, reduce: Element2
-			reduce(55), // bytes_literal, reduce: Element2
-			reduce(55), // string_literal, reduce: Element2
-			reduce(55), // integer_literal, reduce: Element2
-			reduce(55), // floating_point_literal, reduce: Element2
-			reduce(55), // newline, reduce: Element2
-			reduce(55), // *, reduce: Element2
-			reduce(55), // <, reduce: Element2
-			reduce(55), // >, reduce: Element2
-			reduce(55), // [, reduce: Element2
-			reduce(55), // ], reduce: Element2
-			reduce(55), // (, reduce: Element2
-			reduce(55), // ), reduce: Element2
-			reduce(55), // ,, reduce: Element2
-			reduce(55), // ., reduce: Element2
-			reduce(55), // |, reduce: Element2
-			reduce(55), // ^, reduce: Element2
-			reduce(55), // &, reduce: Element2
-			reduce(55), // <<, reduce: Element2
-			reduce(55), // >>, reduce: Element2
-			reduce(55), // =>, reduce: Element2
-			reduce(55), // /, reduce: Element2
-			reduce(55), // +, reduce: Element2
-			reduce(55), // -, reduce: Element2
-			reduce(55), // ||, reduce: Element2
-			reduce(55), // <>, reduce: Element2
-			reduce(55), // !=, reduce: Element2
-			reduce(55), // =, reduce: Element2
-			reduce(55), // <=, reduce: Element2
-			reduce(55), // >=, reduce: Element2
-			reduce(55), // ;, reduce: Element2
-			reduce(55), // @, reduce: Element2
-			reduce(55), // {, reduce: Element2
-			reduce(55), // }, reduce: Element2
-			reduce(55), // ~, reduce: Element2
-			reduce(55), // else, reduce: Element2
-			reduce(55), // if, reduce: Element2
-			reduce(55), // for, reduce: Element2
-			reduce(55), // endfor, reduce: Element2
-			reduce(55), // elif, reduce: Element2
-			reduce(55), // endif, reduce: Element2
-			reduce(55), // set, reduce: Element2
-			reduce(55), // ?, reduce: Element2
-			reduce(55), // comment, reduce: Element2
-			reduce(55), // template_block_end, reduce: Element2
-			reduce(55), // template_block_start, reduce: Element2
-			reduce(55), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(55), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S117
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(56), // identifier, reduce: Element2
-			reduce(56), // bytes_literal, reduce: Element2
-			reduce(56), // string_literal, reduce: Element2
-			reduce(56), // integer_literal, reduce: Element2
-			reduce(56), // floating_point_literal, reduce: Element2
-			reduce(56), // newline, reduce: Element2
-			reduce(56), // *, reduce: Element2
-			reduce(56), // <, reduce: Element2
-			reduce(56), // >, reduce: Element2
-			reduce(56), // [, reduce: Element2
-			reduce(56), // ], reduce: Element2
-			reduce(56), // (, reduce: Element2
-			reduce(56), // ), reduce: Element2
-			reduce(56), // ,, reduce: Element2
-			reduce(56), // ., reduce: Element2
-			reduce(56), // |, reduce: Element2
-			reduce(56), // ^, reduce: Element2
-			reduce(56), // &, reduce: Element2
-			reduce(56), // <<, reduce: Element2
-			reduce(56), // >>, reduce: Element2
-			reduce(56), // =>, reduce: Element2
-			reduce(56), // /, reduce: Element2
-			reduce(56), // +, reduce: Element2
-			reduce(56), // -, reduce: Element2
-			reduce(56), // ||, reduce: Element2
-			reduce(56), // <>, reduce: Element2
-			reduce(56), // !=, reduce: Element2
-			reduce(56), // =, reduce: Element2
-			reduce(56), // <=, reduce: Element2
-			reduce(56), // >=, reduce: Element2
-			reduce(56), // ;, reduce: Element2
-			reduce(56), // @, reduce: Element2
-			reduce(56), // {, reduce: Element2
-			reduce(56), // }, reduce: Element2
-			reduce(56), // ~, reduce: Element2
-			reduce(56), // else, reduce: Element2
-			reduce(56), // if, reduce: Element2
-			reduce(56), // for, reduce: Element2
-			reduce(56), // endfor, reduce: Element2
-			reduce(56), // elif, reduce: Element2
-			reduce(56), // endif, reduce: Element2
-			reduce(56), // set, reduce: Element2
-			reduce(56), // ?, reduce: Element2
-			reduce(56), // comment, reduce: Element2
-			reduce(56), // template_block_end, reduce: Element2
-			reduce(56), // template_block_start, reduce: Element2
-			reduce(56), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(56), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S118
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(57), // identifier, reduce: Element2
-			reduce(57), // bytes_literal, reduce: Element2
-			reduce(57), // string_literal, reduce: Element2
-			reduce(57), // integer_literal, reduce: Element2
-			reduce(57), // floating_point_literal, reduce: Element2
-			reduce(57), // newline, reduce: Element2
-			reduce(57), // *, reduce: Element2
-			reduce(57), // <, reduce: Element2
-			reduce(57), // >, reduce: Element2
-			reduce(57), // [, reduce: Element2
-			reduce(57), // ], reduce: Element2
-			reduce(57), // (, reduce: Element2
-			reduce(57), // ), reduce: Element2
-			reduce(57), // ,, reduce: Element2
-			reduce(57), // ., reduce: Element2
-			reduce(57), // |, reduce: Element2
-			reduce(57), // ^, reduce: Element2
-			reduce(57), // &, reduce: Element2
-			reduce(57), // <<, reduce: Element2
-			reduce(57), // >>, reduce: Element2
-			reduce(57), // =>, reduce: Element2
-			reduce(57), // /, reduce: Element2
-			reduce(57), // +, reduce: Element2
-			reduce(57), // -, reduce: Element2
-			reduce(57), // ||, reduce: Element2
-			reduce(57), // <>, reduce: Element2
-			reduce(57), // !=, reduce: Element2
-			reduce(57), // =, reduce: Element2
-			reduce(57), // <=, reduce: Element2
-			reduce(57), // >=, reduce: Element2
-			reduce(57), // ;, reduce: Element2
-			reduce(57), // @, reduce: Element2
-			reduce(57), // {, reduce: Element2
-			reduce(57), // }, reduce: Element2
-			reduce(57), // ~, reduce: Element2
-			reduce(57), // else, reduce: Element2
-			reduce(57), // if, reduce: Element2
-			reduce(57), // for, reduce: Element2
-			reduce(57), // endfor, reduce: Element2
-			reduce(57), // elif, reduce: Element2
-			reduce(57), // endif, reduce: Element2
-			reduce(57), // set, reduce: Element2
-			reduce(57), // ?, reduce: Element2
-			reduce(57), // comment, reduce: Element2
-			reduce(57), // template_block_end, reduce: Element2
-			reduce(57), // template_block_start, reduce: Element2
-			reduce(57), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(57), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S119
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(58), // identifier, reduce: Element2
-			reduce(58), // bytes_literal, reduce: Element2
-			reduce(58), // string_literal, reduce: Element2
-			reduce(58), // integer_literal, reduce: Element2
-			reduce(58), // floating_point_literal, reduce: Element2
-			reduce(58), // newline, reduce: Element2
-			reduce(58), // *, reduce: Element2
-			reduce(58), // <, reduce: Element2
-			reduce(58), // >, reduce: Element2
-			reduce(58), // [, reduce: Element2
-			reduce(58), // ], reduce: Element2
-			reduce(58), // (, reduce: Element2
-			reduce(58), // ), reduce: Element2
-			reduce(58), // ,, reduce: Element2
-			reduce(58), // ., reduce: Element2
-			reduce(58), // |, reduce: Element2
-			reduce(58), // ^, reduce: Element2
-			reduce(58), // &, reduce: Element2
-			reduce(58), // <<, reduce: Element2
-			reduce(58), // >>, reduce: Element2
-			reduce(58), // =>, reduce: Element2
-			reduce(58), // /, reduce: Element2
-			reduce(58), // +, reduce: Element2
-			reduce(58), // -, reduce: Element2
-			reduce(58), // ||, reduce: Element2
-			reduce(58), // <>, reduce: Element2
-			reduce(58), // !=, reduce: Element2
-			reduce(58), // =, reduce: Element2
-			reduce(58), // <=, reduce: Element2
-			reduce(58), // >=, reduce: Element2
-			reduce(58), // ;, reduce: Element2
-			reduce(58), // @, reduce: Element2
-			reduce(58), // {, reduce: Element2
-			reduce(58), // }, reduce: Element2
-			reduce(58), // ~, reduce: Element2
-			reduce(58), // else, reduce: Element2
-			reduce(58), // if, reduce: Element2
-			reduce(58), // for, reduce: Element2
-			reduce(58), // endfor, reduce: Element2
-			reduce(58), // elif, reduce: Element2
-			reduce(58), // endif, reduce: Element2
-			reduce(58), // set, reduce: Element2
-			reduce(58), // ?, reduce: Element2
-			reduce(58), // comment, reduce: Element2
-			reduce(58), // template_block_end, reduce: Element2
-			reduce(58), // template_block_start, reduce: Element2
-			reduce(58), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(58), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S120
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(59), // identifier, reduce: Element2
-			reduce(59), // bytes_literal, reduce: Element2
-			reduce(59), // string_literal, reduce: Element2
-			reduce(59), // integer_literal, reduce: Element2
-			reduce(59), // floating_point_literal, reduce: Element2
-			reduce(59), // newline, reduce: Element2
-			reduce(59), // *, reduce: Element2
-			reduce(59), // <, reduce: Element2
-			reduce(59), // >, reduce: Element2
-			reduce(59), // [, reduce: Element2
-			reduce(59), // ], reduce: Element2
-			reduce(59), // (, reduce: Element2
-			reduce(59), // ), reduce: Element2
-			reduce(59), // ,, reduce: Element2
-			reduce(59), // ., reduce: Element2
-			reduce(59), // |, reduce: Element2
-			reduce(59), // ^, reduce: Element2
-			reduce(59), // &, reduce: Element2
-			reduce(59), // <<, reduce: Element2
-			reduce(59), // >>, reduce: Element2
-			reduce(59), // =>, reduce: Element2
-			reduce(59), // /, reduce: Element2
-			reduce(59), // +, reduce: Element2
-			reduce(59), // -, reduce: Element2
-			reduce(59), // ||, reduce: Element2
-			reduce(59), // <>, reduce: Element2
-			reduce(59), // !=, reduce: Element2
-			reduce(59), // =, reduce: Element2
-			reduce(59), // <=, reduce: Element2
-			reduce(59), // >=, reduce: Element2
-			reduce(59), // ;, reduce: Element2
-			reduce(59), // @, reduce: Element2
-			reduce(59), // {, reduce: Element2
-			reduce(59), // }, reduce: Element2
-			reduce(59), // ~, reduce: Element2
-			reduce(59), // else, reduce: Element2
-			reduce(59), // if, reduce: Element2
-			reduce(59), // for, reduce: Element2
-			reduce(59), // endfor, reduce: Element2
-			reduce(59), // elif, reduce: Element2
-			reduce(59), // endif, reduce: Element2
-			reduce(59), // set, reduce: Element2
-			reduce(59), // ?, reduce: Element2
-			reduce(59), // comment, reduce: Element2
-			reduce(59), // template_block_end, reduce: Element2
-			reduce(59), // template_block_start, reduce: Element2
-			reduce(59), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(59), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S121
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(60), // identifier, reduce: Element2
-			reduce(60), // bytes_literal, reduce: Element2
-			reduce(60), // string_literal, reduce: Element2
-			reduce(60), // integer_literal, reduce: Element2
-			reduce(60), // floating_point_literal, reduce: Element2
-			reduce(60), // newline, reduce: Element2
-			reduce(60), // *, reduce: Element2
-			reduce(60), // <, reduce: Element2
-			reduce(60), // >, reduce: Element2
-			reduce(60), // [, reduce: Element2
-			reduce(60), // ], reduce: Element2
-			reduce(60), // (, reduce: Element2
-			reduce(60), // ), reduce: Element2
-			reduce(60), // ,, reduce: Element2
-			reduce(60), // ., reduce: Element2
-			reduce(60), // |, reduce: Element2
-			reduce(60), // ^, reduce: Element2
-			reduce(60), // &, reduce: Element2
-			reduce(60), // <<, reduce: Element2
-			reduce(60), // >>, reduce: Element2
-			reduce(60), // =>, reduce: Element2
-			reduce(60), // /, reduce: Element2
-			reduce(60), // +, reduce: Element2
-			reduce(60), // -, reduce: Element2
-			reduce(60), // ||, reduce: Element2
-			reduce(60), // <>, reduce: Element2
-			reduce(60), // !=, reduce: Element2
-			reduce(60), // =, reduce: Element2
-			reduce(60), // <=, reduce: Element2
-			reduce(60), // >=, reduce: Element2
-			reduce(60), // ;, reduce: Element2
-			reduce(60), // @, reduce: Element2
-			reduce(60), // {, reduce: Element2
-			reduce(60), // }, reduce: Element2
-			reduce(60), // ~, reduce: Element2
-			reduce(60), // else, reduce: Element2
-			reduce(60), // if, reduce: Element2
-			reduce(60), // for, reduce: Element2
-			reduce(60), // endfor, reduce: Element2
-			reduce(60), // elif, reduce: Element2
-			reduce(60), // endif, reduce: Element2
-			reduce(60), // set, reduce: Element2
-			reduce(60), // ?, reduce: Element2
-			reduce(60), // comment, reduce: Element2
-			reduce(60), // template_block_end, reduce: Element2
-			reduce(60), // template_block_start, reduce: Element2
-			reduce(60), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(60), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S122
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(61), // identifier, reduce: Comment
-			reduce(61), // bytes_literal, reduce: Comment
-			reduce(61), // string_literal, reduce: Comment
-			reduce(61), // integer_literal, reduce: Comment
-			reduce(61), // floating_point_literal, reduce: Comment
-			reduce(61), // newline, reduce: Comment
-			reduce(61), // *, reduce: Comment
-			reduce(61), // <, reduce: Comment
-			reduce(61), // >, reduce: Comment
-			reduce(61), // [, reduce: Comment
-			reduce(61), // ], reduce: Comment
-			reduce(61), // (, reduce: Comment
-			reduce(61), // ), reduce: Comment
-			reduce(61), // ,, reduce: Comment
-			reduce(61), // ., reduce: Comment
-			reduce(61), // |, reduce: Comment
-			reduce(61), // ^, reduce: Comment
-			reduce(61), // &, reduce: Comment
-			reduce(61), // <<, reduce: Comment
-			reduce(61), // >>, reduce: Comment
-			reduce(61), // =>, reduce: Comment
-			reduce(61), // /, reduce: Comment
-			reduce(61), // +, reduce: Comment
-			reduce(61), // -, reduce: Comment
-			reduce(61), // ||, reduce: Comment
-			reduce(61), // <>, reduce: Comment
-			reduce(61), // !=, reduce: Comment
-			reduce(61), // =, reduce: Comment
-			reduce(61), // <=, reduce: Comment
-			reduce(61), // >=, reduce: Comment
-			reduce(61), // ;, reduce: Comment
-			reduce(61), // @, reduce: Comment
-			reduce(61), // {, reduce: Comment
-			reduce(61), // }, reduce: Comment
-			reduce(61), // ~, reduce: Comment
-			reduce(61), // else, reduce: Comment
-			reduce(61), // if, reduce: Comment
-			reduce(61), // for, reduce: Comment
-			reduce(61), // endfor, reduce: Comment
-			reduce(61), // elif, reduce: Comment
-			reduce(61), // endif, reduce: Comment
-			reduce(61), // set, reduce: Comment
-			reduce(61), // ?, reduce: Comment
-			reduce(61), // comment, reduce: Comment
-			reduce(61), // template_block_end, reduce: Comment
-			reduce(61), // template_block_start, reduce: Comment
-			reduce(61), // template_comment, reduce: Comment
-			nil,        // template_variable_end
-			reduce(61), // template_variable_start, reduce: Comment
-		},
-	},
-	actionRow{ // S123
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(79),  // identifier
-			shift(80),  // bytes_literal
-			shift(81),  // string_literal
-			shift(82),  // integer_literal
-			shift(83),  // floating_point_literal
-			shift(84),  // newline
-			shift(85),  // *
-			shift(86),  // <
-			shift(87),  // >
-			shift(88),  // [
-			shift(89),  // ]
-			shift(90),  // (
-			shift(91),  // )
-			shift(92),  // ,
-			shift(93),  // .
-			shift(94),  // |
-			shift(95),  // ^
-			shift(96),  // &
-			shift(97),  // <<
-			shift(98),  // >>
-			shift(99),  // =>
-			shift(100), // /
-			shift(101), // +
-			shift(102), // -
-			shift(103), // ||
-			shift(104), // <>
-			shift(105), // !=
-			shift(106), // =
-			shift(107), // <=
-			shift(108), // >=
-			shift(109), // ;
-			shift(110), // @
-			shift(111), // {
-			shift(112), // }
-			shift(113), // ~
-			shift(114), // else
-			shift(115), // if
-			shift(116), // for
-			shift(117), // endfor
-			shift(118), // elif
-			shift(119), // endif
-			shift(120), // set
-			shift(121), // ?
-			shift(122), // comment
-			shift(258), // template_block_end
-			shift(55),  // template_block_start
-			shift(127), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S124
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			reduce(62), // ␚, reduce: TemplateSetBlock
-			reduce(62), // identifier, reduce: TemplateSetBlock
-			reduce(62), // bytes_literal, reduce: TemplateSetBlock
-			reduce(62), // string_literal, reduce: TemplateSetBlock
-			reduce(62), // integer_literal, reduce: TemplateSetBlock
-			reduce(62), // floating_point_literal, reduce: TemplateSetBlock
-			reduce(62), // newline, reduce: TemplateSetBlock
-			reduce(62), // *, reduce: TemplateSetBlock
-			reduce(62), // <, reduce: TemplateSetBlock
-			reduce(62), // >, reduce: TemplateSetBlock
-			reduce(62), // [, reduce: TemplateSetBlock
-			reduce(62), // ], reduce: TemplateSetBlock
-			reduce(62), // (, reduce: TemplateSetBlock
-			reduce(62), // ), reduce: TemplateSetBlock
-			reduce(62), // ,, reduce: TemplateSetBlock
-			reduce(62), // ., reduce: TemplateSetBlock
-			reduce(62), // |, reduce: TemplateSetBlock
-			reduce(62), // ^, reduce: TemplateSetBlock
-			reduce(62), // &, reduce: TemplateSetBlock
-			reduce(62), // <<, reduce: TemplateSetBlock
-			reduce(62), // >>, reduce: TemplateSetBlock
-			reduce(62), // =>, reduce: TemplateSetBlock
-			reduce(62), // /, reduce: TemplateSetBlock
-			reduce(62), // +, reduce: TemplateSetBlock
-			reduce(62), // -, reduce: TemplateSetBlock
-			reduce(62), // ||, reduce: TemplateSetBlock
-			reduce(62), // <>, reduce: TemplateSetBlock
-			reduce(62), // !=, reduce: TemplateSetBlock
-			reduce(62), // =, reduce: TemplateSetBlock
-			reduce(62), // <=, reduce: TemplateSetBlock
-			reduce(62), // >=, reduce: TemplateSetBlock
-			reduce(62), // ;, reduce: TemplateSetBlock
-			reduce(62), // @, reduce: TemplateSetBlock
-			reduce(62), // {, reduce: TemplateSetBlock
-			reduce(62), // }, reduce: TemplateSetBlock
-			reduce(62), // ~, reduce: TemplateSetBlock
-			reduce(62), // else, reduce: TemplateSetBlock
-			reduce(62), // if, reduce: TemplateSetBlock
-			reduce(62), // for, reduce: TemplateSetBlock
-			reduce(62), // endfor, reduce: TemplateSetBlock
-			reduce(62), // elif, reduce: TemplateSetBlock
-			reduce(62), // endif, reduce: TemplateSetBlock
-			reduce(62), // set, reduce: TemplateSetBlock
-			reduce(62), // ?, reduce: TemplateSetBlock
-			reduce(62), // comment, reduce: TemplateSetBlock
-			nil,        // template_block_end
-			reduce(62), // template_block_start, reduce: TemplateSetBlock
-			reduce(62), // template_comment, reduce: TemplateSetBlock
-			nil,        // template_variable_end
-			reduce(62), // template_variable_start, reduce: TemplateSetBlock
-		},
-	},
-	actionRow{ // S125
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(140), // identifier
-			shift(141), // bytes_literal
-			shift(142), // string_literal
-			shift(143), // integer_literal
-			shift(144), // floating_point_literal
-			shift(145), // newline
-			shift(146), // *
-			shift(147), // <
-			shift(148), // >
-			shift(149), // [
-			shift(150), // ]
-			shift(151), // (
-			shift(152), // )
-			shift(153), // ,
-			shift(154), // .
-			shift(155), // |
-			shift(156), // ^
-			shift(157), // &
-			shift(158), // <<
-			shift(159), // >>
-			shift(160), // =>
-			shift(161), // /
-			shift(162), // +
-			shift(163), // -
-			shift(164), // ||
-			shift(165), // <>
-			shift(166), // !=
-			shift(167), // =
-			shift(168), // <=
-			shift(169), // >=
-			shift(170), // ;
-			shift(171), // @
-			shift(172), // {
-			shift(173), // }
-			shift(174), // ~
-			shift(175), // else
-			shift(176), // if
-			shift(177), // for
-			shift(178), // endfor
-			shift(179), // elif
-			shift(180), // endif
-			shift(181), // set
-			shift(182), // ?
-			shift(183), // comment
-			nil,        // template_block_end
-			shift(259), // template_block_start
-			shift(190), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S126
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(140), // identifier
-			shift(141), // bytes_literal
-			shift(142), // string_literal
-			shift(143), // integer_literal
-			shift(144), // floating_point_literal
-			shift(145), // newline
-			shift(146), // *
-			shift(147), // <
-			shift(148), // >
-			shift(149), // [
-			shift(150), // ]
-			shift(151), // (
-			shift(152), // )
-			shift(153), // ,
-			shift(154), // .
-			shift(155), // |
-			shift(156), // ^
-			shift(157), // &
-			shift(158), // <<
-			shift(159), // >>
-			shift(160), // =>
-			shift(161), // /
-			shift(162), // +
-			shift(163), // -
-			shift(164), // ||
-			shift(165), // <>
-			shift(166), // !=
-			shift(167), // =
-			shift(168), // <=
-			shift(169), // >=
-			shift(170), // ;
-			shift(171), // @
-			shift(172), // {
-			shift(173), // }
-			shift(174), // ~
-			shift(175), // else
-			shift(176), // if
-			shift(177), // for
-			shift(178), // endfor
-			shift(179), // elif
-			shift(180), // endif
-			shift(181), // set
-			shift(182), // ?
-			shift(183), // comment
-			nil,        // template_block_end
-			shift(262), // template_block_start
-			shift(190), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S127
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(82), // identifier, reduce: TemplateComment
-			reduce(82), // bytes_literal, reduce: TemplateComment
-			reduce(82), // string_literal, reduce: TemplateComment
-			reduce(82), // integer_literal, reduce: TemplateComment
-			reduce(82), // floating_point_literal, reduce: TemplateComment
-			reduce(82), // newline, reduce: TemplateComment
-			reduce(82), // *, reduce: TemplateComment
-			reduce(82), // <, reduce: TemplateComment
-			reduce(82), // >, reduce: TemplateComment
-			reduce(82), // [, reduce: TemplateComment
-			reduce(82), // ], reduce: TemplateComment
-			reduce(82), // (, reduce: TemplateComment
-			reduce(82), // ), reduce: TemplateComment
-			reduce(82), // ,, reduce: TemplateComment
-			reduce(82), // ., reduce: TemplateComment
-			reduce(82), // |, reduce: TemplateComment
-			reduce(82), // ^, reduce: TemplateComment
-			reduce(82), // &, reduce: TemplateComment
-			reduce(82), // <<, reduce: TemplateComment
-			reduce(82), // >>, reduce: TemplateComment
-			reduce(82), // =>, reduce: TemplateComment
-			reduce(82), // /, reduce: TemplateComment
-			reduce(82), // +, reduce: TemplateComment
-			reduce(82), // -, reduce: TemplateComment
-			reduce(82), // ||, reduce: TemplateComment
-			reduce(82), // <>, reduce: TemplateComment
-			reduce(82), // !=, reduce: TemplateComment
-			reduce(82), // =, reduce: TemplateComment
-			reduce(82), // <=, reduce: TemplateComment
-			reduce(82), // >=, reduce: TemplateComment
-			reduce(82), // ;, reduce: TemplateComment
-			reduce(82), // @, reduce: TemplateComment
-			reduce(82), // {, reduce: TemplateComment
-			reduce(82), // }, reduce: TemplateComment
-			reduce(82), // ~, reduce: TemplateComment
-			reduce(82), // else, reduce: TemplateComment
-			reduce(82), // if, reduce: TemplateComment
-			reduce(82), // for, reduce: TemplateComment
-			reduce(82), // endfor, reduce: TemplateComment
-			reduce(82), // elif, reduce: TemplateComment
-			reduce(82), // endif, reduce: TemplateComment
-			reduce(82), // set, reduce: TemplateComment
-			reduce(82), // ?, reduce: TemplateComment
-			reduce(82), // comment, reduce: TemplateComment
-			reduce(82), // template_block_end, reduce: TemplateComment
-			reduce(82), // template_block_start, reduce: TemplateComment
-			reduce(82), // template_comment, reduce: TemplateComment
-			nil,        // template_variable_end
-			reduce(82), // template_variable_start, reduce: TemplateComment
-		},
-	},
-	actionRow{ // S128
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(208), // identifier
-			shift(209), // bytes_literal
-			shift(210), // string_literal
-			shift(211), // integer_literal
-			shift(212), // floating_point_literal
-			shift(213), // newline
-			shift(214), // *
-			shift(215), // <
-			shift(216), // >
-			shift(217), // [
-			shift(218), // ]
-			shift(219), // (
-			shift(220), // )
-			shift(221), // ,
-			shift(222), // .
-			shift(223), // |
-			shift(224), // ^
-			shift(225), // &
-			shift(226), // <<
-			shift(227), // >>
-			shift(228), // =>
-			shift(229), // /
-			shift(230), // +
-			shift(231), // -
-			shift(232), // ||
-			shift(233), // <>
-			shift(234), // !=
-			shift(235), // =
-			shift(236), // <=
-			shift(237), // >=
-			shift(238), // ;
-			shift(239), // @
-			shift(240), // {
-			shift(241), // }
-			shift(242), // ~
-			shift(243), // else
-			shift(244), // if
-			shift(245), // for
-			shift(246), // endfor
-			shift(247), // elif
-			shift(248), // endif
-			shift(249), // set
-			shift(250), // ?
-			shift(251), // comment
-			nil,        // template_block_end
-			shift(55),  // template_block_start
-			shift(255), // template_comment
-			shift(264), // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S129
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(71), // identifier, reduce: TemplateIfBeginPrefix
-			reduce(71), // bytes_literal, reduce: TemplateIfBeginPrefix
-			reduce(71), // string_literal, reduce: TemplateIfBeginPrefix
-			reduce(71), // integer_literal, reduce: TemplateIfBeginPrefix
-			reduce(71), // floating_point_literal, reduce: TemplateIfBeginPrefix
-			reduce(71), // newline, reduce: TemplateIfBeginPrefix
-			reduce(71), // *, reduce: TemplateIfBeginPrefix
-			reduce(71), // <, reduce: TemplateIfBeginPrefix
-			reduce(71), // >, reduce: TemplateIfBeginPrefix
-			reduce(71), // [, reduce: TemplateIfBeginPrefix
-			reduce(71), // ], reduce: TemplateIfBeginPrefix
-			reduce(71), // (, reduce: TemplateIfBeginPrefix
-			reduce(71), // ), reduce: TemplateIfBeginPrefix
-			reduce(71), // ,, reduce: TemplateIfBeginPrefix
-			reduce(71), // ., reduce: TemplateIfBeginPrefix
-			reduce(71), // |, reduce: TemplateIfBeginPrefix
-			reduce(71), // ^, reduce: TemplateIfBeginPrefix
-			reduce(71), // &, reduce: TemplateIfBeginPrefix
-			reduce(71), // <<, reduce: TemplateIfBeginPrefix
-			reduce(71), // >>, reduce: TemplateIfBeginPrefix
-			reduce(71), // =>, reduce: TemplateIfBeginPrefix
-			reduce(71), // /, reduce: TemplateIfBeginPrefix
-			reduce(71), // +, reduce: TemplateIfBeginPrefix
-			reduce(71), // -, reduce: TemplateIfBeginPrefix
-			reduce(71), // ||, reduce: TemplateIfBeginPrefix
-			reduce(71), // <>, reduce: TemplateIfBeginPrefix
-			reduce(71), // !=, reduce: TemplateIfBeginPrefix
-			reduce(71), // =, reduce: TemplateIfBeginPrefix
-			reduce(71), // <=, reduce: TemplateIfBeginPrefix
-			reduce(71), // >=, reduce: TemplateIfBeginPrefix
-			reduce(71), // ;, reduce: TemplateIfBeginPrefix
-			reduce(71), // @, reduce: TemplateIfBeginPrefix
-			reduce(71), // {, reduce: TemplateIfBeginPrefix
-			reduce(71), // }, reduce: TemplateIfBeginPrefix
-			reduce(71), // ~, reduce: TemplateIfBeginPrefix
-			reduce(71), // else, reduce: TemplateIfBeginPrefix
-			reduce(71), // if, reduce: TemplateIfBeginPrefix
-			reduce(71), // for, reduce: TemplateIfBeginPrefix
-			reduce(71), // endfor, reduce: TemplateIfBeginPrefix
-			reduce(71), // elif, reduce: TemplateIfBeginPrefix
-			reduce(71), // endif, reduce: TemplateIfBeginPrefix
-			reduce(71), // set, reduce: TemplateIfBeginPrefix
-			reduce(71), // ?, reduce: TemplateIfBeginPrefix
-			reduce(71), // comment, reduce: TemplateIfBeginPrefix
-			reduce(71), // template_block_end, reduce: TemplateIfBeginPrefix
-			reduce(71), // template_block_start, reduce: TemplateIfBeginPrefix
-			reduce(71), // template_comment, reduce: TemplateIfBeginPrefix
-			nil,        // template_variable_end
-			reduce(71), // template_variable_start, reduce: TemplateIfBeginPrefix
-		},
-	},
-	actionRow{ // S130
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(79), // identifier, reduce: TemplateForBeginPrefix
-			reduce(79), // bytes_literal, reduce: TemplateForBeginPrefix
-			reduce(79), // string_literal, reduce: TemplateForBeginPrefix
-			reduce(79), // integer_literal, reduce: TemplateForBeginPrefix
-			reduce(79), // floating_point_literal, reduce: TemplateForBeginPrefix
-			reduce(79), // newline, reduce: TemplateForBeginPrefix
-			reduce(79), // *, reduce: TemplateForBeginPrefix
-			reduce(79), // <, reduce: TemplateForBeginPrefix
-			reduce(79), // >, reduce: TemplateForBeginPrefix
-			reduce(79), // [, reduce: TemplateForBeginPrefix
-			reduce(79), // ], reduce: TemplateForBeginPrefix
-			reduce(79), // (, reduce: TemplateForBeginPrefix
-			reduce(79), // ), reduce: TemplateForBeginPrefix
-			reduce(79), // ,, reduce: TemplateForBeginPrefix
-			reduce(79), // ., reduce: TemplateForBeginPrefix
-			reduce(79), // |, reduce: TemplateForBeginPrefix
-			reduce(79), // ^, reduce: TemplateForBeginPrefix
-			reduce(79), // &, reduce: TemplateForBeginPrefix
-			reduce(79), // <<, reduce: TemplateForBeginPrefix
-			reduce(79), // >>, reduce: TemplateForBeginPrefix
-			reduce(79), // =>, reduce: TemplateForBeginPrefix
-			reduce(79), // /, reduce: TemplateForBeginPrefix
-			reduce(79), // +, reduce: TemplateForBeginPrefix
-			reduce(79), // -, reduce: TemplateForBeginPrefix
-			reduce(79), // ||, reduce: TemplateForBeginPrefix
-			reduce(79), // <>, reduce: TemplateForBeginPrefix
-			reduce(79), // !=, reduce: TemplateForBeginPrefix
-			reduce(79), // =, reduce: TemplateForBeginPrefix
-			reduce(79), // <=, reduce: TemplateForBeginPrefix
-			reduce(79), // >=, reduce: TemplateForBeginPrefix
-			reduce(79), // ;, reduce: TemplateForBeginPrefix
-			reduce(79), // @, reduce: TemplateForBeginPrefix
-			reduce(79), // {, reduce: TemplateForBeginPrefix
-			reduce(79), // }, reduce: TemplateForBeginPrefix
-			reduce(79), // ~, reduce: TemplateForBeginPrefix
-			reduce(79), // else, reduce: TemplateForBeginPrefix
-			reduce(79), // if, reduce: TemplateForBeginPrefix
-			reduce(79), // for, reduce: TemplateForBeginPrefix
-			reduce(79), // endfor, reduce: TemplateForBeginPrefix
-			reduce(79), // elif, reduce: TemplateForBeginPrefix
-			reduce(79), // endif, reduce: TemplateForBeginPrefix
-			reduce(79), // set, reduce: TemplateForBeginPrefix
-			reduce(79), // ?, reduce: TemplateForBeginPrefix
-			reduce(79), // comment, reduce: TemplateForBeginPrefix
-			reduce(79), // template_block_end, reduce: TemplateForBeginPrefix
-			reduce(79), // template_block_start, reduce: TemplateForBeginPrefix
-			reduce(79), // template_comment, reduce: TemplateForBeginPrefix
-			nil,        // template_variable_end
-			reduce(79), // template_variable_start, reduce: TemplateForBeginPrefix
-		},
-	},
-	actionRow{ // S131
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(63), // identifier, reduce: TemplateSetBlockPrefix
-			reduce(63), // bytes_literal, reduce: TemplateSetBlockPrefix
-			reduce(63), // string_literal, reduce: TemplateSetBlockPrefix
-			reduce(63), // integer_literal, reduce: TemplateSetBlockPrefix
-			reduce(63), // floating_point_literal, reduce: TemplateSetBlockPrefix
-			reduce(63), // newline, reduce: TemplateSetBlockPrefix
-			reduce(63), // *, reduce: TemplateSetBlockPrefix
-			reduce(63), // <, reduce: TemplateSetBlockPrefix
-			reduce(63), // >, reduce: TemplateSetBlockPrefix
-			reduce(63), // [, reduce: TemplateSetBlockPrefix
-			reduce(63), // ], reduce: TemplateSetBlockPrefix
-			reduce(63), // (, reduce: TemplateSetBlockPrefix
-			reduce(63), // ), reduce: TemplateSetBlockPrefix
-			reduce(63), // ,, reduce: TemplateSetBlockPrefix
-			reduce(63), // ., reduce: TemplateSetBlockPrefix
-			reduce(63), // |, reduce: TemplateSetBlockPrefix
-			reduce(63), // ^, reduce: TemplateSetBlockPrefix
-			reduce(63), // &, reduce: TemplateSetBlockPrefix
-			reduce(63), // <<, reduce: TemplateSetBlockPrefix
-			reduce(63), // >>, reduce: TemplateSetBlockPrefix
-			reduce(63), // =>, reduce: TemplateSetBlockPrefix
-			reduce(63), // /, reduce: TemplateSetBlockPrefix
-			reduce(63), // +, reduce: TemplateSetBlockPrefix
-			reduce(63), // -, reduce: TemplateSetBlockPrefix
-			reduce(63), // ||, reduce: TemplateSetBlockPrefix
-			reduce(63), // <>, reduce: TemplateSetBlockPrefix
-			reduce(63), // !=, reduce: TemplateSetBlockPrefix
-			reduce(63), // =, reduce: TemplateSetBlockPrefix
-			reduce(63), // <=, reduce: TemplateSetBlockPrefix
-			reduce(63), // >=, reduce: TemplateSetBlockPrefix
-			reduce(63), // ;, reduce: TemplateSetBlockPrefix
-			reduce(63), // @, reduce: TemplateSetBlockPrefix
-			reduce(63), // {, reduce: TemplateSetBlockPrefix
-			reduce(63), // }, reduce: TemplateSetBlockPrefix
-			reduce(63), // ~, reduce: TemplateSetBlockPrefix
-			reduce(63), // else, reduce: TemplateSetBlockPrefix
-			reduce(63), // if, reduce: TemplateSetBlockPrefix
-			reduce(63), // for, reduce: TemplateSetBlockPrefix
-			reduce(63), // endfor, reduce: TemplateSetBlockPrefix
-			reduce(63), // elif, reduce: TemplateSetBlockPrefix
-			reduce(63), // endif, reduce: TemplateSetBlockPrefix
-			reduce(63), // set, reduce: TemplateSetBlockPrefix
-			reduce(63), // ?, reduce: TemplateSetBlockPrefix
-			reduce(63), // comment, reduce: TemplateSetBlockPrefix
-			reduce(63), // template_block_end, reduce: TemplateSetBlockPrefix
-			reduce(63), // template_block_start, reduce: TemplateSetBlockPrefix
-			reduce(63), // template_comment, reduce: TemplateSetBlockPrefix
-			nil,        // template_variable_end
-			reduce(63), // template_variable_start, reduce: TemplateSetBlockPrefix
-		},
-	},
-	actionRow{ // S132
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -7451,6 +3365,7 @@ var actionTab = actionTable{
 			reduce(69), // endif, reduce: TemplateIfBlockPrefix
 			reduce(69), // set, reduce: TemplateIfBlockPrefix
 			reduce(69), // ?, reduce: TemplateIfBlockPrefix
+			reduce(69), // :, reduce: TemplateIfBlockPrefix
 			reduce(69), // comment, reduce: TemplateIfBlockPrefix
 			nil,        // template_block_end
 			reduce(69), // template_block_start, reduce: TemplateIfBlockPrefix
@@ -7459,3759 +3374,349 @@ var actionTab = actionTable{
 			reduce(69), // template_variable_start, reduce: TemplateIfBlockPrefix
 		},
 	},
-	actionRow{ // S133
+	actionRow{ // S59
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(11), // identifier, reduce: Element
-			reduce(11), // bytes_literal, reduce: Element
-			reduce(11), // string_literal, reduce: Element
-			reduce(11), // integer_literal, reduce: Element
-			reduce(11), // floating_point_literal, reduce: Element
-			reduce(11), // newline, reduce: Element
-			reduce(11), // *, reduce: Element
-			reduce(11), // <, reduce: Element
-			reduce(11), // >, reduce: Element
-			reduce(11), // [, reduce: Element
-			reduce(11), // ], reduce: Element
-			reduce(11), // (, reduce: Element
-			reduce(11), // ), reduce: Element
-			reduce(11), // ,, reduce: Element
-			reduce(11), // ., reduce: Element
-			reduce(11), // |, reduce: Element
-			reduce(11), // ^, reduce: Element
-			reduce(11), // &, reduce: Element
-			reduce(11), // <<, reduce: Element
-			reduce(11), // >>, reduce: Element
-			reduce(11), // =>, reduce: Element
-			reduce(11), // /, reduce: Element
-			reduce(11), // +, reduce: Element
-			reduce(11), // -, reduce: Element
-			reduce(11), // ||, reduce: Element
-			reduce(11), // <>, reduce: Element
-			reduce(11), // !=, reduce: Element
-			reduce(11), // =, reduce: Element
-			reduce(11), // <=, reduce: Element
-			reduce(11), // >=, reduce: Element
-			reduce(11), // ;, reduce: Element
-			reduce(11), // @, reduce: Element
-			reduce(11), // {, reduce: Element
-			reduce(11), // }, reduce: Element
-			reduce(11), // ~, reduce: Element
-			reduce(11), // else, reduce: Element
-			reduce(11), // if, reduce: Element
-			reduce(11), // for, reduce: Element
-			reduce(11), // endfor, reduce: Element
-			reduce(11), // elif, reduce: Element
-			reduce(11), // endif, reduce: Element
-			reduce(11), // set, reduce: Element
-			reduce(11), // ?, reduce: Element
-			reduce(11), // comment, reduce: Element
+			shift(80),  // identifier
+			shift(81),  // bytes_literal
+			shift(82),  // string_literal
+			shift(83),  // integer_literal
+			shift(84),  // floating_point_literal
+			shift(85),  // newline
+			shift(86),  // *
+			shift(87),  // <
+			shift(88),  // >
+			shift(89),  // [
+			shift(90),  // ]
+			shift(91),  // (
+			shift(92),  // )
+			shift(93),  // ,
+			shift(94),  // .
+			shift(95),  // |
+			shift(96),  // ^
+			shift(97),  // &
+			shift(98),  // <<
+			shift(99),  // >>
+			shift(100), // =>
+			shift(101), // /
+			shift(102), // +
+			shift(103), // -
+			shift(104), // ||
+			shift(105), // <>
+			shift(106), // !=
+			shift(107), // =
+			shift(108), // <=
+			shift(109), // >=
+			shift(110), // ;
+			shift(111), // @
+			shift(112), // {
+			shift(113), // }
+			shift(114), // ~
+			shift(115), // else
+			shift(116), // if
+			shift(117), // for
+			shift(118), // endfor
+			shift(119), // elif
+			shift(120), // endif
+			shift(121), // set
+			shift(122), // ?
+			shift(123), // :
+			shift(124), // comment
+			shift(196), // template_block_end
+			shift(56),  // template_block_start
+			shift(129), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S60
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(142), // identifier
+			shift(143), // bytes_literal
+			shift(144), // string_literal
+			shift(145), // integer_literal
+			shift(146), // floating_point_literal
+			shift(147), // newline
+			shift(148), // *
+			shift(149), // <
+			shift(150), // >
+			shift(151), // [
+			shift(152), // ]
+			shift(153), // (
+			shift(154), // )
+			shift(155), // ,
+			shift(156), // .
+			shift(157), // |
+			shift(158), // ^
+			shift(159), // &
+			shift(160), // <<
+			shift(161), // >>
+			shift(162), // =>
+			shift(163), // /
+			shift(164), // +
+			shift(165), // -
+			shift(166), // ||
+			shift(167), // <>
+			shift(168), // !=
+			shift(169), // =
+			shift(170), // <=
+			shift(171), // >=
+			shift(172), // ;
+			shift(173), // @
+			shift(174), // {
+			shift(175), // }
+			shift(176), // ~
+			shift(177), // else
+			shift(178), // if
+			shift(179), // for
+			shift(180), // endfor
+			shift(181), // elif
+			shift(182), // endif
+			shift(183), // set
+			shift(184), // ?
+			shift(185), // :
+			shift(186), // comment
 			nil,        // template_block_end
-			reduce(11), // template_block_start, reduce: Element
-			reduce(11), // template_comment, reduce: Element
+			shift(198), // template_block_start
+			shift(193), // template_comment
 			nil,        // template_variable_end
-			reduce(11), // template_variable_start, reduce: Element
+			shift(65),  // template_variable_start
 		},
 	},
-	actionRow{ // S134
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // INVALID
-			nil,       // ␚
-			reduce(8), // identifier, reduce: Element
-			reduce(8), // bytes_literal, reduce: Element
-			reduce(8), // string_literal, reduce: Element
-			reduce(8), // integer_literal, reduce: Element
-			reduce(8), // floating_point_literal, reduce: Element
-			reduce(8), // newline, reduce: Element
-			reduce(8), // *, reduce: Element
-			reduce(8), // <, reduce: Element
-			reduce(8), // >, reduce: Element
-			reduce(8), // [, reduce: Element
-			reduce(8), // ], reduce: Element
-			reduce(8), // (, reduce: Element
-			reduce(8), // ), reduce: Element
-			reduce(8), // ,, reduce: Element
-			reduce(8), // ., reduce: Element
-			reduce(8), // |, reduce: Element
-			reduce(8), // ^, reduce: Element
-			reduce(8), // &, reduce: Element
-			reduce(8), // <<, reduce: Element
-			reduce(8), // >>, reduce: Element
-			reduce(8), // =>, reduce: Element
-			reduce(8), // /, reduce: Element
-			reduce(8), // +, reduce: Element
-			reduce(8), // -, reduce: Element
-			reduce(8), // ||, reduce: Element
-			reduce(8), // <>, reduce: Element
-			reduce(8), // !=, reduce: Element
-			reduce(8), // =, reduce: Element
-			reduce(8), // <=, reduce: Element
-			reduce(8), // >=, reduce: Element
-			reduce(8), // ;, reduce: Element
-			reduce(8), // @, reduce: Element
-			reduce(8), // {, reduce: Element
-			reduce(8), // }, reduce: Element
-			reduce(8), // ~, reduce: Element
-			reduce(8), // else, reduce: Element
-			reduce(8), // if, reduce: Element
-			reduce(8), // for, reduce: Element
-			reduce(8), // endfor, reduce: Element
-			reduce(8), // elif, reduce: Element
-			reduce(8), // endif, reduce: Element
-			reduce(8), // set, reduce: Element
-			reduce(8), // ?, reduce: Element
-			reduce(8), // comment, reduce: Element
-			nil,       // template_block_end
-			reduce(8), // template_block_start, reduce: Element
-			reduce(8), // template_comment, reduce: Element
-			nil,       // template_variable_end
-			reduce(8), // template_variable_start, reduce: Element
-		},
-	},
-	actionRow{ // S135
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // INVALID
-			nil,       // ␚
-			reduce(9), // identifier, reduce: Element
-			reduce(9), // bytes_literal, reduce: Element
-			reduce(9), // string_literal, reduce: Element
-			reduce(9), // integer_literal, reduce: Element
-			reduce(9), // floating_point_literal, reduce: Element
-			reduce(9), // newline, reduce: Element
-			reduce(9), // *, reduce: Element
-			reduce(9), // <, reduce: Element
-			reduce(9), // >, reduce: Element
-			reduce(9), // [, reduce: Element
-			reduce(9), // ], reduce: Element
-			reduce(9), // (, reduce: Element
-			reduce(9), // ), reduce: Element
-			reduce(9), // ,, reduce: Element
-			reduce(9), // ., reduce: Element
-			reduce(9), // |, reduce: Element
-			reduce(9), // ^, reduce: Element
-			reduce(9), // &, reduce: Element
-			reduce(9), // <<, reduce: Element
-			reduce(9), // >>, reduce: Element
-			reduce(9), // =>, reduce: Element
-			reduce(9), // /, reduce: Element
-			reduce(9), // +, reduce: Element
-			reduce(9), // -, reduce: Element
-			reduce(9), // ||, reduce: Element
-			reduce(9), // <>, reduce: Element
-			reduce(9), // !=, reduce: Element
-			reduce(9), // =, reduce: Element
-			reduce(9), // <=, reduce: Element
-			reduce(9), // >=, reduce: Element
-			reduce(9), // ;, reduce: Element
-			reduce(9), // @, reduce: Element
-			reduce(9), // {, reduce: Element
-			reduce(9), // }, reduce: Element
-			reduce(9), // ~, reduce: Element
-			reduce(9), // else, reduce: Element
-			reduce(9), // if, reduce: Element
-			reduce(9), // for, reduce: Element
-			reduce(9), // endfor, reduce: Element
-			reduce(9), // elif, reduce: Element
-			reduce(9), // endif, reduce: Element
-			reduce(9), // set, reduce: Element
-			reduce(9), // ?, reduce: Element
-			reduce(9), // comment, reduce: Element
-			nil,       // template_block_end
-			reduce(9), // template_block_start, reduce: Element
-			reduce(9), // template_comment, reduce: Element
-			nil,       // template_variable_end
-			reduce(9), // template_variable_start, reduce: Element
-		},
-	},
-	actionRow{ // S136
+	actionRow{ // S61
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(10), // identifier, reduce: Element
-			reduce(10), // bytes_literal, reduce: Element
-			reduce(10), // string_literal, reduce: Element
-			reduce(10), // integer_literal, reduce: Element
-			reduce(10), // floating_point_literal, reduce: Element
-			reduce(10), // newline, reduce: Element
-			reduce(10), // *, reduce: Element
-			reduce(10), // <, reduce: Element
-			reduce(10), // >, reduce: Element
-			reduce(10), // [, reduce: Element
-			reduce(10), // ], reduce: Element
-			reduce(10), // (, reduce: Element
-			reduce(10), // ), reduce: Element
-			reduce(10), // ,, reduce: Element
-			reduce(10), // ., reduce: Element
-			reduce(10), // |, reduce: Element
-			reduce(10), // ^, reduce: Element
-			reduce(10), // &, reduce: Element
-			reduce(10), // <<, reduce: Element
-			reduce(10), // >>, reduce: Element
-			reduce(10), // =>, reduce: Element
-			reduce(10), // /, reduce: Element
-			reduce(10), // +, reduce: Element
-			reduce(10), // -, reduce: Element
-			reduce(10), // ||, reduce: Element
-			reduce(10), // <>, reduce: Element
-			reduce(10), // !=, reduce: Element
-			reduce(10), // =, reduce: Element
-			reduce(10), // <=, reduce: Element
-			reduce(10), // >=, reduce: Element
-			reduce(10), // ;, reduce: Element
-			reduce(10), // @, reduce: Element
-			reduce(10), // {, reduce: Element
-			reduce(10), // }, reduce: Element
-			reduce(10), // ~, reduce: Element
-			reduce(10), // else, reduce: Element
-			reduce(10), // if, reduce: Element
-			reduce(10), // for, reduce: Element
-			reduce(10), // endfor, reduce: Element
-			reduce(10), // elif, reduce: Element
-			reduce(10), // endif, reduce: Element
-			reduce(10), // set, reduce: Element
-			reduce(10), // ?, reduce: Element
-			reduce(10), // comment, reduce: Element
+			shift(142), // identifier
+			shift(143), // bytes_literal
+			shift(144), // string_literal
+			shift(145), // integer_literal
+			shift(146), // floating_point_literal
+			shift(147), // newline
+			shift(148), // *
+			shift(149), // <
+			shift(150), // >
+			shift(151), // [
+			shift(152), // ]
+			shift(153), // (
+			shift(154), // )
+			shift(155), // ,
+			shift(156), // .
+			shift(157), // |
+			shift(158), // ^
+			shift(159), // &
+			shift(160), // <<
+			shift(161), // >>
+			shift(162), // =>
+			shift(163), // /
+			shift(164), // +
+			shift(165), // -
+			shift(166), // ||
+			shift(167), // <>
+			shift(168), // !=
+			shift(169), // =
+			shift(170), // <=
+			shift(171), // >=
+			shift(172), // ;
+			shift(173), // @
+			shift(174), // {
+			shift(175), // }
+			shift(176), // ~
+			shift(177), // else
+			shift(178), // if
+			shift(179), // for
+			shift(180), // endfor
+			shift(181), // elif
+			shift(182), // endif
+			shift(183), // set
+			shift(184), // ?
+			shift(185), // :
+			shift(186), // comment
 			nil,        // template_block_end
-			reduce(10), // template_block_start, reduce: Element
-			reduce(10), // template_comment, reduce: Element
+			shift(56),  // template_block_start
+			shift(193), // template_comment
 			nil,        // template_variable_end
-			reduce(10), // template_variable_start, reduce: Element
+			shift(65),  // template_variable_start
 		},
 	},
-	actionRow{ // S137
+	actionRow{ // S62
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(12), // identifier, reduce: Element
-			reduce(12), // bytes_literal, reduce: Element
-			reduce(12), // string_literal, reduce: Element
-			reduce(12), // integer_literal, reduce: Element
-			reduce(12), // floating_point_literal, reduce: Element
-			reduce(12), // newline, reduce: Element
-			reduce(12), // *, reduce: Element
-			reduce(12), // <, reduce: Element
-			reduce(12), // >, reduce: Element
-			reduce(12), // [, reduce: Element
-			reduce(12), // ], reduce: Element
-			reduce(12), // (, reduce: Element
-			reduce(12), // ), reduce: Element
-			reduce(12), // ,, reduce: Element
-			reduce(12), // ., reduce: Element
-			reduce(12), // |, reduce: Element
-			reduce(12), // ^, reduce: Element
-			reduce(12), // &, reduce: Element
-			reduce(12), // <<, reduce: Element
-			reduce(12), // >>, reduce: Element
-			reduce(12), // =>, reduce: Element
-			reduce(12), // /, reduce: Element
-			reduce(12), // +, reduce: Element
-			reduce(12), // -, reduce: Element
-			reduce(12), // ||, reduce: Element
-			reduce(12), // <>, reduce: Element
-			reduce(12), // !=, reduce: Element
-			reduce(12), // =, reduce: Element
-			reduce(12), // <=, reduce: Element
-			reduce(12), // >=, reduce: Element
-			reduce(12), // ;, reduce: Element
-			reduce(12), // @, reduce: Element
-			reduce(12), // {, reduce: Element
-			reduce(12), // }, reduce: Element
-			reduce(12), // ~, reduce: Element
-			reduce(12), // else, reduce: Element
-			reduce(12), // if, reduce: Element
-			reduce(12), // for, reduce: Element
-			reduce(12), // endfor, reduce: Element
-			reduce(12), // elif, reduce: Element
-			reduce(12), // endif, reduce: Element
-			reduce(12), // set, reduce: Element
-			reduce(12), // ?, reduce: Element
-			reduce(12), // comment, reduce: Element
+			shift(80),  // identifier
+			shift(81),  // bytes_literal
+			shift(82),  // string_literal
+			shift(83),  // integer_literal
+			shift(84),  // floating_point_literal
+			shift(85),  // newline
+			shift(86),  // *
+			shift(87),  // <
+			shift(88),  // >
+			shift(89),  // [
+			shift(90),  // ]
+			shift(91),  // (
+			shift(92),  // )
+			shift(93),  // ,
+			shift(94),  // .
+			shift(95),  // |
+			shift(96),  // ^
+			shift(97),  // &
+			shift(98),  // <<
+			shift(99),  // >>
+			shift(100), // =>
+			shift(101), // /
+			shift(102), // +
+			shift(103), // -
+			shift(104), // ||
+			shift(105), // <>
+			shift(106), // !=
+			shift(107), // =
+			shift(108), // <=
+			shift(109), // >=
+			shift(110), // ;
+			shift(111), // @
+			shift(112), // {
+			shift(113), // }
+			shift(114), // ~
+			shift(115), // else
+			shift(116), // if
+			shift(117), // for
+			shift(118), // endfor
+			shift(119), // elif
+			shift(120), // endif
+			shift(121), // set
+			shift(122), // ?
+			shift(123), // :
+			shift(124), // comment
+			shift(202), // template_block_end
+			shift(56),  // template_block_start
+			shift(129), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S63
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			reduce(83), // ␚, reduce: TemplateComment
+			reduce(83), // identifier, reduce: TemplateComment
+			reduce(83), // bytes_literal, reduce: TemplateComment
+			reduce(83), // string_literal, reduce: TemplateComment
+			reduce(83), // integer_literal, reduce: TemplateComment
+			reduce(83), // floating_point_literal, reduce: TemplateComment
+			reduce(83), // newline, reduce: TemplateComment
+			reduce(83), // *, reduce: TemplateComment
+			reduce(83), // <, reduce: TemplateComment
+			reduce(83), // >, reduce: TemplateComment
+			reduce(83), // [, reduce: TemplateComment
+			reduce(83), // ], reduce: TemplateComment
+			reduce(83), // (, reduce: TemplateComment
+			reduce(83), // ), reduce: TemplateComment
+			reduce(83), // ,, reduce: TemplateComment
+			reduce(83), // ., reduce: TemplateComment
+			reduce(83), // |, reduce: TemplateComment
+			reduce(83), // ^, reduce: TemplateComment
+			reduce(83), // &, reduce: TemplateComment
+			reduce(83), // <<, reduce: TemplateComment
+			reduce(83), // >>, reduce: TemplateComment
+			reduce(83), // =>, reduce: TemplateComment
+			reduce(83), // /, reduce: TemplateComment
+			reduce(83), // +, reduce: TemplateComment
+			reduce(83), // -, reduce: TemplateComment
+			reduce(83), // ||, reduce: TemplateComment
+			reduce(83), // <>, reduce: TemplateComment
+			reduce(83), // !=, reduce: TemplateComment
+			reduce(83), // =, reduce: TemplateComment
+			reduce(83), // <=, reduce: TemplateComment
+			reduce(83), // >=, reduce: TemplateComment
+			reduce(83), // ;, reduce: TemplateComment
+			reduce(83), // @, reduce: TemplateComment
+			reduce(83), // {, reduce: TemplateComment
+			reduce(83), // }, reduce: TemplateComment
+			reduce(83), // ~, reduce: TemplateComment
+			reduce(83), // else, reduce: TemplateComment
+			reduce(83), // if, reduce: TemplateComment
+			reduce(83), // for, reduce: TemplateComment
+			reduce(83), // endfor, reduce: TemplateComment
+			reduce(83), // elif, reduce: TemplateComment
+			reduce(83), // endif, reduce: TemplateComment
+			reduce(83), // set, reduce: TemplateComment
+			reduce(83), // ?, reduce: TemplateComment
+			reduce(83), // :, reduce: TemplateComment
+			reduce(83), // comment, reduce: TemplateComment
 			nil,        // template_block_end
-			reduce(12), // template_block_start, reduce: Element
-			reduce(12), // template_comment, reduce: Element
+			reduce(83), // template_block_start, reduce: TemplateComment
+			reduce(83), // template_comment, reduce: TemplateComment
 			nil,        // template_variable_end
-			reduce(12), // template_variable_start, reduce: Element
+			reduce(83), // template_variable_start, reduce: TemplateComment
 		},
 	},
-	actionRow{ // S138
+	actionRow{ // S64
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(13), // identifier, reduce: Element
-			reduce(13), // bytes_literal, reduce: Element
-			reduce(13), // string_literal, reduce: Element
-			reduce(13), // integer_literal, reduce: Element
-			reduce(13), // floating_point_literal, reduce: Element
-			reduce(13), // newline, reduce: Element
-			reduce(13), // *, reduce: Element
-			reduce(13), // <, reduce: Element
-			reduce(13), // >, reduce: Element
-			reduce(13), // [, reduce: Element
-			reduce(13), // ], reduce: Element
-			reduce(13), // (, reduce: Element
-			reduce(13), // ), reduce: Element
-			reduce(13), // ,, reduce: Element
-			reduce(13), // ., reduce: Element
-			reduce(13), // |, reduce: Element
-			reduce(13), // ^, reduce: Element
-			reduce(13), // &, reduce: Element
-			reduce(13), // <<, reduce: Element
-			reduce(13), // >>, reduce: Element
-			reduce(13), // =>, reduce: Element
-			reduce(13), // /, reduce: Element
-			reduce(13), // +, reduce: Element
-			reduce(13), // -, reduce: Element
-			reduce(13), // ||, reduce: Element
-			reduce(13), // <>, reduce: Element
-			reduce(13), // !=, reduce: Element
-			reduce(13), // =, reduce: Element
-			reduce(13), // <=, reduce: Element
-			reduce(13), // >=, reduce: Element
-			reduce(13), // ;, reduce: Element
-			reduce(13), // @, reduce: Element
-			reduce(13), // {, reduce: Element
-			reduce(13), // }, reduce: Element
-			reduce(13), // ~, reduce: Element
-			reduce(13), // else, reduce: Element
-			reduce(13), // if, reduce: Element
-			reduce(13), // for, reduce: Element
-			reduce(13), // endfor, reduce: Element
-			reduce(13), // elif, reduce: Element
-			reduce(13), // endif, reduce: Element
-			reduce(13), // set, reduce: Element
-			reduce(13), // ?, reduce: Element
-			reduce(13), // comment, reduce: Element
+			shift(211), // identifier
+			shift(212), // bytes_literal
+			shift(213), // string_literal
+			shift(214), // integer_literal
+			shift(215), // floating_point_literal
+			shift(216), // newline
+			shift(217), // *
+			shift(218), // <
+			shift(219), // >
+			shift(220), // [
+			shift(221), // ]
+			shift(222), // (
+			shift(223), // )
+			shift(224), // ,
+			shift(225), // .
+			shift(226), // |
+			shift(227), // ^
+			shift(228), // &
+			shift(229), // <<
+			shift(230), // >>
+			shift(231), // =>
+			shift(232), // /
+			shift(233), // +
+			shift(234), // -
+			shift(235), // ||
+			shift(236), // <>
+			shift(237), // !=
+			shift(238), // =
+			shift(239), // <=
+			shift(240), // >=
+			shift(241), // ;
+			shift(242), // @
+			shift(243), // {
+			shift(244), // }
+			shift(245), // ~
+			shift(246), // else
+			shift(247), // if
+			shift(248), // for
+			shift(249), // endfor
+			shift(250), // elif
+			shift(251), // endif
+			shift(252), // set
+			shift(253), // ?
+			shift(254), // :
+			shift(255), // comment
 			nil,        // template_block_end
-			reduce(13), // template_block_start, reduce: Element
-			reduce(13), // template_comment, reduce: Element
-			nil,        // template_variable_end
-			reduce(13), // template_variable_start, reduce: Element
+			shift(56),  // template_block_start
+			shift(259), // template_comment
+			shift(261), // template_variable_end
+			shift(65),  // template_variable_start
 		},
 	},
-	actionRow{ // S139
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(14), // identifier, reduce: Element2
-			reduce(14), // bytes_literal, reduce: Element2
-			reduce(14), // string_literal, reduce: Element2
-			reduce(14), // integer_literal, reduce: Element2
-			reduce(14), // floating_point_literal, reduce: Element2
-			reduce(14), // newline, reduce: Element2
-			reduce(14), // *, reduce: Element2
-			reduce(14), // <, reduce: Element2
-			reduce(14), // >, reduce: Element2
-			reduce(14), // [, reduce: Element2
-			reduce(14), // ], reduce: Element2
-			reduce(14), // (, reduce: Element2
-			reduce(14), // ), reduce: Element2
-			reduce(14), // ,, reduce: Element2
-			reduce(14), // ., reduce: Element2
-			reduce(14), // |, reduce: Element2
-			reduce(14), // ^, reduce: Element2
-			reduce(14), // &, reduce: Element2
-			reduce(14), // <<, reduce: Element2
-			reduce(14), // >>, reduce: Element2
-			reduce(14), // =>, reduce: Element2
-			reduce(14), // /, reduce: Element2
-			reduce(14), // +, reduce: Element2
-			reduce(14), // -, reduce: Element2
-			reduce(14), // ||, reduce: Element2
-			reduce(14), // <>, reduce: Element2
-			reduce(14), // !=, reduce: Element2
-			reduce(14), // =, reduce: Element2
-			reduce(14), // <=, reduce: Element2
-			reduce(14), // >=, reduce: Element2
-			reduce(14), // ;, reduce: Element2
-			reduce(14), // @, reduce: Element2
-			reduce(14), // {, reduce: Element2
-			reduce(14), // }, reduce: Element2
-			reduce(14), // ~, reduce: Element2
-			reduce(14), // else, reduce: Element2
-			reduce(14), // if, reduce: Element2
-			reduce(14), // for, reduce: Element2
-			reduce(14), // endfor, reduce: Element2
-			reduce(14), // elif, reduce: Element2
-			reduce(14), // endif, reduce: Element2
-			reduce(14), // set, reduce: Element2
-			reduce(14), // ?, reduce: Element2
-			reduce(14), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(14), // template_block_start, reduce: Element2
-			reduce(14), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(14), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S140
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(15), // identifier, reduce: Element2
-			reduce(15), // bytes_literal, reduce: Element2
-			reduce(15), // string_literal, reduce: Element2
-			reduce(15), // integer_literal, reduce: Element2
-			reduce(15), // floating_point_literal, reduce: Element2
-			reduce(15), // newline, reduce: Element2
-			reduce(15), // *, reduce: Element2
-			reduce(15), // <, reduce: Element2
-			reduce(15), // >, reduce: Element2
-			reduce(15), // [, reduce: Element2
-			reduce(15), // ], reduce: Element2
-			reduce(15), // (, reduce: Element2
-			reduce(15), // ), reduce: Element2
-			reduce(15), // ,, reduce: Element2
-			reduce(15), // ., reduce: Element2
-			reduce(15), // |, reduce: Element2
-			reduce(15), // ^, reduce: Element2
-			reduce(15), // &, reduce: Element2
-			reduce(15), // <<, reduce: Element2
-			reduce(15), // >>, reduce: Element2
-			reduce(15), // =>, reduce: Element2
-			reduce(15), // /, reduce: Element2
-			reduce(15), // +, reduce: Element2
-			reduce(15), // -, reduce: Element2
-			reduce(15), // ||, reduce: Element2
-			reduce(15), // <>, reduce: Element2
-			reduce(15), // !=, reduce: Element2
-			reduce(15), // =, reduce: Element2
-			reduce(15), // <=, reduce: Element2
-			reduce(15), // >=, reduce: Element2
-			reduce(15), // ;, reduce: Element2
-			reduce(15), // @, reduce: Element2
-			reduce(15), // {, reduce: Element2
-			reduce(15), // }, reduce: Element2
-			reduce(15), // ~, reduce: Element2
-			reduce(15), // else, reduce: Element2
-			reduce(15), // if, reduce: Element2
-			reduce(15), // for, reduce: Element2
-			reduce(15), // endfor, reduce: Element2
-			reduce(15), // elif, reduce: Element2
-			reduce(15), // endif, reduce: Element2
-			reduce(15), // set, reduce: Element2
-			reduce(15), // ?, reduce: Element2
-			reduce(15), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(15), // template_block_start, reduce: Element2
-			reduce(15), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(15), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S141
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(16), // identifier, reduce: Element2
-			reduce(16), // bytes_literal, reduce: Element2
-			reduce(16), // string_literal, reduce: Element2
-			reduce(16), // integer_literal, reduce: Element2
-			reduce(16), // floating_point_literal, reduce: Element2
-			reduce(16), // newline, reduce: Element2
-			reduce(16), // *, reduce: Element2
-			reduce(16), // <, reduce: Element2
-			reduce(16), // >, reduce: Element2
-			reduce(16), // [, reduce: Element2
-			reduce(16), // ], reduce: Element2
-			reduce(16), // (, reduce: Element2
-			reduce(16), // ), reduce: Element2
-			reduce(16), // ,, reduce: Element2
-			reduce(16), // ., reduce: Element2
-			reduce(16), // |, reduce: Element2
-			reduce(16), // ^, reduce: Element2
-			reduce(16), // &, reduce: Element2
-			reduce(16), // <<, reduce: Element2
-			reduce(16), // >>, reduce: Element2
-			reduce(16), // =>, reduce: Element2
-			reduce(16), // /, reduce: Element2
-			reduce(16), // +, reduce: Element2
-			reduce(16), // -, reduce: Element2
-			reduce(16), // ||, reduce: Element2
-			reduce(16), // <>, reduce: Element2
-			reduce(16), // !=, reduce: Element2
-			reduce(16), // =, reduce: Element2
-			reduce(16), // <=, reduce: Element2
-			reduce(16), // >=, reduce: Element2
-			reduce(16), // ;, reduce: Element2
-			reduce(16), // @, reduce: Element2
-			reduce(16), // {, reduce: Element2
-			reduce(16), // }, reduce: Element2
-			reduce(16), // ~, reduce: Element2
-			reduce(16), // else, reduce: Element2
-			reduce(16), // if, reduce: Element2
-			reduce(16), // for, reduce: Element2
-			reduce(16), // endfor, reduce: Element2
-			reduce(16), // elif, reduce: Element2
-			reduce(16), // endif, reduce: Element2
-			reduce(16), // set, reduce: Element2
-			reduce(16), // ?, reduce: Element2
-			reduce(16), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(16), // template_block_start, reduce: Element2
-			reduce(16), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(16), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S142
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(17), // identifier, reduce: Element2
-			reduce(17), // bytes_literal, reduce: Element2
-			reduce(17), // string_literal, reduce: Element2
-			reduce(17), // integer_literal, reduce: Element2
-			reduce(17), // floating_point_literal, reduce: Element2
-			reduce(17), // newline, reduce: Element2
-			reduce(17), // *, reduce: Element2
-			reduce(17), // <, reduce: Element2
-			reduce(17), // >, reduce: Element2
-			reduce(17), // [, reduce: Element2
-			reduce(17), // ], reduce: Element2
-			reduce(17), // (, reduce: Element2
-			reduce(17), // ), reduce: Element2
-			reduce(17), // ,, reduce: Element2
-			reduce(17), // ., reduce: Element2
-			reduce(17), // |, reduce: Element2
-			reduce(17), // ^, reduce: Element2
-			reduce(17), // &, reduce: Element2
-			reduce(17), // <<, reduce: Element2
-			reduce(17), // >>, reduce: Element2
-			reduce(17), // =>, reduce: Element2
-			reduce(17), // /, reduce: Element2
-			reduce(17), // +, reduce: Element2
-			reduce(17), // -, reduce: Element2
-			reduce(17), // ||, reduce: Element2
-			reduce(17), // <>, reduce: Element2
-			reduce(17), // !=, reduce: Element2
-			reduce(17), // =, reduce: Element2
-			reduce(17), // <=, reduce: Element2
-			reduce(17), // >=, reduce: Element2
-			reduce(17), // ;, reduce: Element2
-			reduce(17), // @, reduce: Element2
-			reduce(17), // {, reduce: Element2
-			reduce(17), // }, reduce: Element2
-			reduce(17), // ~, reduce: Element2
-			reduce(17), // else, reduce: Element2
-			reduce(17), // if, reduce: Element2
-			reduce(17), // for, reduce: Element2
-			reduce(17), // endfor, reduce: Element2
-			reduce(17), // elif, reduce: Element2
-			reduce(17), // endif, reduce: Element2
-			reduce(17), // set, reduce: Element2
-			reduce(17), // ?, reduce: Element2
-			reduce(17), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(17), // template_block_start, reduce: Element2
-			reduce(17), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(17), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S143
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(18), // identifier, reduce: Element2
-			reduce(18), // bytes_literal, reduce: Element2
-			reduce(18), // string_literal, reduce: Element2
-			reduce(18), // integer_literal, reduce: Element2
-			reduce(18), // floating_point_literal, reduce: Element2
-			reduce(18), // newline, reduce: Element2
-			reduce(18), // *, reduce: Element2
-			reduce(18), // <, reduce: Element2
-			reduce(18), // >, reduce: Element2
-			reduce(18), // [, reduce: Element2
-			reduce(18), // ], reduce: Element2
-			reduce(18), // (, reduce: Element2
-			reduce(18), // ), reduce: Element2
-			reduce(18), // ,, reduce: Element2
-			reduce(18), // ., reduce: Element2
-			reduce(18), // |, reduce: Element2
-			reduce(18), // ^, reduce: Element2
-			reduce(18), // &, reduce: Element2
-			reduce(18), // <<, reduce: Element2
-			reduce(18), // >>, reduce: Element2
-			reduce(18), // =>, reduce: Element2
-			reduce(18), // /, reduce: Element2
-			reduce(18), // +, reduce: Element2
-			reduce(18), // -, reduce: Element2
-			reduce(18), // ||, reduce: Element2
-			reduce(18), // <>, reduce: Element2
-			reduce(18), // !=, reduce: Element2
-			reduce(18), // =, reduce: Element2
-			reduce(18), // <=, reduce: Element2
-			reduce(18), // >=, reduce: Element2
-			reduce(18), // ;, reduce: Element2
-			reduce(18), // @, reduce: Element2
-			reduce(18), // {, reduce: Element2
-			reduce(18), // }, reduce: Element2
-			reduce(18), // ~, reduce: Element2
-			reduce(18), // else, reduce: Element2
-			reduce(18), // if, reduce: Element2
-			reduce(18), // for, reduce: Element2
-			reduce(18), // endfor, reduce: Element2
-			reduce(18), // elif, reduce: Element2
-			reduce(18), // endif, reduce: Element2
-			reduce(18), // set, reduce: Element2
-			reduce(18), // ?, reduce: Element2
-			reduce(18), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(18), // template_block_start, reduce: Element2
-			reduce(18), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(18), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S144
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(19), // identifier, reduce: Element2
-			reduce(19), // bytes_literal, reduce: Element2
-			reduce(19), // string_literal, reduce: Element2
-			reduce(19), // integer_literal, reduce: Element2
-			reduce(19), // floating_point_literal, reduce: Element2
-			reduce(19), // newline, reduce: Element2
-			reduce(19), // *, reduce: Element2
-			reduce(19), // <, reduce: Element2
-			reduce(19), // >, reduce: Element2
-			reduce(19), // [, reduce: Element2
-			reduce(19), // ], reduce: Element2
-			reduce(19), // (, reduce: Element2
-			reduce(19), // ), reduce: Element2
-			reduce(19), // ,, reduce: Element2
-			reduce(19), // ., reduce: Element2
-			reduce(19), // |, reduce: Element2
-			reduce(19), // ^, reduce: Element2
-			reduce(19), // &, reduce: Element2
-			reduce(19), // <<, reduce: Element2
-			reduce(19), // >>, reduce: Element2
-			reduce(19), // =>, reduce: Element2
-			reduce(19), // /, reduce: Element2
-			reduce(19), // +, reduce: Element2
-			reduce(19), // -, reduce: Element2
-			reduce(19), // ||, reduce: Element2
-			reduce(19), // <>, reduce: Element2
-			reduce(19), // !=, reduce: Element2
-			reduce(19), // =, reduce: Element2
-			reduce(19), // <=, reduce: Element2
-			reduce(19), // >=, reduce: Element2
-			reduce(19), // ;, reduce: Element2
-			reduce(19), // @, reduce: Element2
-			reduce(19), // {, reduce: Element2
-			reduce(19), // }, reduce: Element2
-			reduce(19), // ~, reduce: Element2
-			reduce(19), // else, reduce: Element2
-			reduce(19), // if, reduce: Element2
-			reduce(19), // for, reduce: Element2
-			reduce(19), // endfor, reduce: Element2
-			reduce(19), // elif, reduce: Element2
-			reduce(19), // endif, reduce: Element2
-			reduce(19), // set, reduce: Element2
-			reduce(19), // ?, reduce: Element2
-			reduce(19), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(19), // template_block_start, reduce: Element2
-			reduce(19), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(19), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S145
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(20), // identifier, reduce: Element2
-			reduce(20), // bytes_literal, reduce: Element2
-			reduce(20), // string_literal, reduce: Element2
-			reduce(20), // integer_literal, reduce: Element2
-			reduce(20), // floating_point_literal, reduce: Element2
-			reduce(20), // newline, reduce: Element2
-			reduce(20), // *, reduce: Element2
-			reduce(20), // <, reduce: Element2
-			reduce(20), // >, reduce: Element2
-			reduce(20), // [, reduce: Element2
-			reduce(20), // ], reduce: Element2
-			reduce(20), // (, reduce: Element2
-			reduce(20), // ), reduce: Element2
-			reduce(20), // ,, reduce: Element2
-			reduce(20), // ., reduce: Element2
-			reduce(20), // |, reduce: Element2
-			reduce(20), // ^, reduce: Element2
-			reduce(20), // &, reduce: Element2
-			reduce(20), // <<, reduce: Element2
-			reduce(20), // >>, reduce: Element2
-			reduce(20), // =>, reduce: Element2
-			reduce(20), // /, reduce: Element2
-			reduce(20), // +, reduce: Element2
-			reduce(20), // -, reduce: Element2
-			reduce(20), // ||, reduce: Element2
-			reduce(20), // <>, reduce: Element2
-			reduce(20), // !=, reduce: Element2
-			reduce(20), // =, reduce: Element2
-			reduce(20), // <=, reduce: Element2
-			reduce(20), // >=, reduce: Element2
-			reduce(20), // ;, reduce: Element2
-			reduce(20), // @, reduce: Element2
-			reduce(20), // {, reduce: Element2
-			reduce(20), // }, reduce: Element2
-			reduce(20), // ~, reduce: Element2
-			reduce(20), // else, reduce: Element2
-			reduce(20), // if, reduce: Element2
-			reduce(20), // for, reduce: Element2
-			reduce(20), // endfor, reduce: Element2
-			reduce(20), // elif, reduce: Element2
-			reduce(20), // endif, reduce: Element2
-			reduce(20), // set, reduce: Element2
-			reduce(20), // ?, reduce: Element2
-			reduce(20), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(20), // template_block_start, reduce: Element2
-			reduce(20), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(20), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S146
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(21), // identifier, reduce: Element2
-			reduce(21), // bytes_literal, reduce: Element2
-			reduce(21), // string_literal, reduce: Element2
-			reduce(21), // integer_literal, reduce: Element2
-			reduce(21), // floating_point_literal, reduce: Element2
-			reduce(21), // newline, reduce: Element2
-			reduce(21), // *, reduce: Element2
-			reduce(21), // <, reduce: Element2
-			reduce(21), // >, reduce: Element2
-			reduce(21), // [, reduce: Element2
-			reduce(21), // ], reduce: Element2
-			reduce(21), // (, reduce: Element2
-			reduce(21), // ), reduce: Element2
-			reduce(21), // ,, reduce: Element2
-			reduce(21), // ., reduce: Element2
-			reduce(21), // |, reduce: Element2
-			reduce(21), // ^, reduce: Element2
-			reduce(21), // &, reduce: Element2
-			reduce(21), // <<, reduce: Element2
-			reduce(21), // >>, reduce: Element2
-			reduce(21), // =>, reduce: Element2
-			reduce(21), // /, reduce: Element2
-			reduce(21), // +, reduce: Element2
-			reduce(21), // -, reduce: Element2
-			reduce(21), // ||, reduce: Element2
-			reduce(21), // <>, reduce: Element2
-			reduce(21), // !=, reduce: Element2
-			reduce(21), // =, reduce: Element2
-			reduce(21), // <=, reduce: Element2
-			reduce(21), // >=, reduce: Element2
-			reduce(21), // ;, reduce: Element2
-			reduce(21), // @, reduce: Element2
-			reduce(21), // {, reduce: Element2
-			reduce(21), // }, reduce: Element2
-			reduce(21), // ~, reduce: Element2
-			reduce(21), // else, reduce: Element2
-			reduce(21), // if, reduce: Element2
-			reduce(21), // for, reduce: Element2
-			reduce(21), // endfor, reduce: Element2
-			reduce(21), // elif, reduce: Element2
-			reduce(21), // endif, reduce: Element2
-			reduce(21), // set, reduce: Element2
-			reduce(21), // ?, reduce: Element2
-			reduce(21), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(21), // template_block_start, reduce: Element2
-			reduce(21), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(21), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S147
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(22), // identifier, reduce: Element2
-			reduce(22), // bytes_literal, reduce: Element2
-			reduce(22), // string_literal, reduce: Element2
-			reduce(22), // integer_literal, reduce: Element2
-			reduce(22), // floating_point_literal, reduce: Element2
-			reduce(22), // newline, reduce: Element2
-			reduce(22), // *, reduce: Element2
-			reduce(22), // <, reduce: Element2
-			reduce(22), // >, reduce: Element2
-			reduce(22), // [, reduce: Element2
-			reduce(22), // ], reduce: Element2
-			reduce(22), // (, reduce: Element2
-			reduce(22), // ), reduce: Element2
-			reduce(22), // ,, reduce: Element2
-			reduce(22), // ., reduce: Element2
-			reduce(22), // |, reduce: Element2
-			reduce(22), // ^, reduce: Element2
-			reduce(22), // &, reduce: Element2
-			reduce(22), // <<, reduce: Element2
-			reduce(22), // >>, reduce: Element2
-			reduce(22), // =>, reduce: Element2
-			reduce(22), // /, reduce: Element2
-			reduce(22), // +, reduce: Element2
-			reduce(22), // -, reduce: Element2
-			reduce(22), // ||, reduce: Element2
-			reduce(22), // <>, reduce: Element2
-			reduce(22), // !=, reduce: Element2
-			reduce(22), // =, reduce: Element2
-			reduce(22), // <=, reduce: Element2
-			reduce(22), // >=, reduce: Element2
-			reduce(22), // ;, reduce: Element2
-			reduce(22), // @, reduce: Element2
-			reduce(22), // {, reduce: Element2
-			reduce(22), // }, reduce: Element2
-			reduce(22), // ~, reduce: Element2
-			reduce(22), // else, reduce: Element2
-			reduce(22), // if, reduce: Element2
-			reduce(22), // for, reduce: Element2
-			reduce(22), // endfor, reduce: Element2
-			reduce(22), // elif, reduce: Element2
-			reduce(22), // endif, reduce: Element2
-			reduce(22), // set, reduce: Element2
-			reduce(22), // ?, reduce: Element2
-			reduce(22), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(22), // template_block_start, reduce: Element2
-			reduce(22), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(22), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S148
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(23), // identifier, reduce: Element2
-			reduce(23), // bytes_literal, reduce: Element2
-			reduce(23), // string_literal, reduce: Element2
-			reduce(23), // integer_literal, reduce: Element2
-			reduce(23), // floating_point_literal, reduce: Element2
-			reduce(23), // newline, reduce: Element2
-			reduce(23), // *, reduce: Element2
-			reduce(23), // <, reduce: Element2
-			reduce(23), // >, reduce: Element2
-			reduce(23), // [, reduce: Element2
-			reduce(23), // ], reduce: Element2
-			reduce(23), // (, reduce: Element2
-			reduce(23), // ), reduce: Element2
-			reduce(23), // ,, reduce: Element2
-			reduce(23), // ., reduce: Element2
-			reduce(23), // |, reduce: Element2
-			reduce(23), // ^, reduce: Element2
-			reduce(23), // &, reduce: Element2
-			reduce(23), // <<, reduce: Element2
-			reduce(23), // >>, reduce: Element2
-			reduce(23), // =>, reduce: Element2
-			reduce(23), // /, reduce: Element2
-			reduce(23), // +, reduce: Element2
-			reduce(23), // -, reduce: Element2
-			reduce(23), // ||, reduce: Element2
-			reduce(23), // <>, reduce: Element2
-			reduce(23), // !=, reduce: Element2
-			reduce(23), // =, reduce: Element2
-			reduce(23), // <=, reduce: Element2
-			reduce(23), // >=, reduce: Element2
-			reduce(23), // ;, reduce: Element2
-			reduce(23), // @, reduce: Element2
-			reduce(23), // {, reduce: Element2
-			reduce(23), // }, reduce: Element2
-			reduce(23), // ~, reduce: Element2
-			reduce(23), // else, reduce: Element2
-			reduce(23), // if, reduce: Element2
-			reduce(23), // for, reduce: Element2
-			reduce(23), // endfor, reduce: Element2
-			reduce(23), // elif, reduce: Element2
-			reduce(23), // endif, reduce: Element2
-			reduce(23), // set, reduce: Element2
-			reduce(23), // ?, reduce: Element2
-			reduce(23), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(23), // template_block_start, reduce: Element2
-			reduce(23), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(23), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S149
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(24), // identifier, reduce: Element2
-			reduce(24), // bytes_literal, reduce: Element2
-			reduce(24), // string_literal, reduce: Element2
-			reduce(24), // integer_literal, reduce: Element2
-			reduce(24), // floating_point_literal, reduce: Element2
-			reduce(24), // newline, reduce: Element2
-			reduce(24), // *, reduce: Element2
-			reduce(24), // <, reduce: Element2
-			reduce(24), // >, reduce: Element2
-			reduce(24), // [, reduce: Element2
-			reduce(24), // ], reduce: Element2
-			reduce(24), // (, reduce: Element2
-			reduce(24), // ), reduce: Element2
-			reduce(24), // ,, reduce: Element2
-			reduce(24), // ., reduce: Element2
-			reduce(24), // |, reduce: Element2
-			reduce(24), // ^, reduce: Element2
-			reduce(24), // &, reduce: Element2
-			reduce(24), // <<, reduce: Element2
-			reduce(24), // >>, reduce: Element2
-			reduce(24), // =>, reduce: Element2
-			reduce(24), // /, reduce: Element2
-			reduce(24), // +, reduce: Element2
-			reduce(24), // -, reduce: Element2
-			reduce(24), // ||, reduce: Element2
-			reduce(24), // <>, reduce: Element2
-			reduce(24), // !=, reduce: Element2
-			reduce(24), // =, reduce: Element2
-			reduce(24), // <=, reduce: Element2
-			reduce(24), // >=, reduce: Element2
-			reduce(24), // ;, reduce: Element2
-			reduce(24), // @, reduce: Element2
-			reduce(24), // {, reduce: Element2
-			reduce(24), // }, reduce: Element2
-			reduce(24), // ~, reduce: Element2
-			reduce(24), // else, reduce: Element2
-			reduce(24), // if, reduce: Element2
-			reduce(24), // for, reduce: Element2
-			reduce(24), // endfor, reduce: Element2
-			reduce(24), // elif, reduce: Element2
-			reduce(24), // endif, reduce: Element2
-			reduce(24), // set, reduce: Element2
-			reduce(24), // ?, reduce: Element2
-			reduce(24), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(24), // template_block_start, reduce: Element2
-			reduce(24), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(24), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S150
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(25), // identifier, reduce: Element2
-			reduce(25), // bytes_literal, reduce: Element2
-			reduce(25), // string_literal, reduce: Element2
-			reduce(25), // integer_literal, reduce: Element2
-			reduce(25), // floating_point_literal, reduce: Element2
-			reduce(25), // newline, reduce: Element2
-			reduce(25), // *, reduce: Element2
-			reduce(25), // <, reduce: Element2
-			reduce(25), // >, reduce: Element2
-			reduce(25), // [, reduce: Element2
-			reduce(25), // ], reduce: Element2
-			reduce(25), // (, reduce: Element2
-			reduce(25), // ), reduce: Element2
-			reduce(25), // ,, reduce: Element2
-			reduce(25), // ., reduce: Element2
-			reduce(25), // |, reduce: Element2
-			reduce(25), // ^, reduce: Element2
-			reduce(25), // &, reduce: Element2
-			reduce(25), // <<, reduce: Element2
-			reduce(25), // >>, reduce: Element2
-			reduce(25), // =>, reduce: Element2
-			reduce(25), // /, reduce: Element2
-			reduce(25), // +, reduce: Element2
-			reduce(25), // -, reduce: Element2
-			reduce(25), // ||, reduce: Element2
-			reduce(25), // <>, reduce: Element2
-			reduce(25), // !=, reduce: Element2
-			reduce(25), // =, reduce: Element2
-			reduce(25), // <=, reduce: Element2
-			reduce(25), // >=, reduce: Element2
-			reduce(25), // ;, reduce: Element2
-			reduce(25), // @, reduce: Element2
-			reduce(25), // {, reduce: Element2
-			reduce(25), // }, reduce: Element2
-			reduce(25), // ~, reduce: Element2
-			reduce(25), // else, reduce: Element2
-			reduce(25), // if, reduce: Element2
-			reduce(25), // for, reduce: Element2
-			reduce(25), // endfor, reduce: Element2
-			reduce(25), // elif, reduce: Element2
-			reduce(25), // endif, reduce: Element2
-			reduce(25), // set, reduce: Element2
-			reduce(25), // ?, reduce: Element2
-			reduce(25), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(25), // template_block_start, reduce: Element2
-			reduce(25), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(25), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S151
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(26), // identifier, reduce: Element2
-			reduce(26), // bytes_literal, reduce: Element2
-			reduce(26), // string_literal, reduce: Element2
-			reduce(26), // integer_literal, reduce: Element2
-			reduce(26), // floating_point_literal, reduce: Element2
-			reduce(26), // newline, reduce: Element2
-			reduce(26), // *, reduce: Element2
-			reduce(26), // <, reduce: Element2
-			reduce(26), // >, reduce: Element2
-			reduce(26), // [, reduce: Element2
-			reduce(26), // ], reduce: Element2
-			reduce(26), // (, reduce: Element2
-			reduce(26), // ), reduce: Element2
-			reduce(26), // ,, reduce: Element2
-			reduce(26), // ., reduce: Element2
-			reduce(26), // |, reduce: Element2
-			reduce(26), // ^, reduce: Element2
-			reduce(26), // &, reduce: Element2
-			reduce(26), // <<, reduce: Element2
-			reduce(26), // >>, reduce: Element2
-			reduce(26), // =>, reduce: Element2
-			reduce(26), // /, reduce: Element2
-			reduce(26), // +, reduce: Element2
-			reduce(26), // -, reduce: Element2
-			reduce(26), // ||, reduce: Element2
-			reduce(26), // <>, reduce: Element2
-			reduce(26), // !=, reduce: Element2
-			reduce(26), // =, reduce: Element2
-			reduce(26), // <=, reduce: Element2
-			reduce(26), // >=, reduce: Element2
-			reduce(26), // ;, reduce: Element2
-			reduce(26), // @, reduce: Element2
-			reduce(26), // {, reduce: Element2
-			reduce(26), // }, reduce: Element2
-			reduce(26), // ~, reduce: Element2
-			reduce(26), // else, reduce: Element2
-			reduce(26), // if, reduce: Element2
-			reduce(26), // for, reduce: Element2
-			reduce(26), // endfor, reduce: Element2
-			reduce(26), // elif, reduce: Element2
-			reduce(26), // endif, reduce: Element2
-			reduce(26), // set, reduce: Element2
-			reduce(26), // ?, reduce: Element2
-			reduce(26), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(26), // template_block_start, reduce: Element2
-			reduce(26), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(26), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S152
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(27), // identifier, reduce: Element2
-			reduce(27), // bytes_literal, reduce: Element2
-			reduce(27), // string_literal, reduce: Element2
-			reduce(27), // integer_literal, reduce: Element2
-			reduce(27), // floating_point_literal, reduce: Element2
-			reduce(27), // newline, reduce: Element2
-			reduce(27), // *, reduce: Element2
-			reduce(27), // <, reduce: Element2
-			reduce(27), // >, reduce: Element2
-			reduce(27), // [, reduce: Element2
-			reduce(27), // ], reduce: Element2
-			reduce(27), // (, reduce: Element2
-			reduce(27), // ), reduce: Element2
-			reduce(27), // ,, reduce: Element2
-			reduce(27), // ., reduce: Element2
-			reduce(27), // |, reduce: Element2
-			reduce(27), // ^, reduce: Element2
-			reduce(27), // &, reduce: Element2
-			reduce(27), // <<, reduce: Element2
-			reduce(27), // >>, reduce: Element2
-			reduce(27), // =>, reduce: Element2
-			reduce(27), // /, reduce: Element2
-			reduce(27), // +, reduce: Element2
-			reduce(27), // -, reduce: Element2
-			reduce(27), // ||, reduce: Element2
-			reduce(27), // <>, reduce: Element2
-			reduce(27), // !=, reduce: Element2
-			reduce(27), // =, reduce: Element2
-			reduce(27), // <=, reduce: Element2
-			reduce(27), // >=, reduce: Element2
-			reduce(27), // ;, reduce: Element2
-			reduce(27), // @, reduce: Element2
-			reduce(27), // {, reduce: Element2
-			reduce(27), // }, reduce: Element2
-			reduce(27), // ~, reduce: Element2
-			reduce(27), // else, reduce: Element2
-			reduce(27), // if, reduce: Element2
-			reduce(27), // for, reduce: Element2
-			reduce(27), // endfor, reduce: Element2
-			reduce(27), // elif, reduce: Element2
-			reduce(27), // endif, reduce: Element2
-			reduce(27), // set, reduce: Element2
-			reduce(27), // ?, reduce: Element2
-			reduce(27), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(27), // template_block_start, reduce: Element2
-			reduce(27), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(27), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S153
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(28), // identifier, reduce: Element2
-			reduce(28), // bytes_literal, reduce: Element2
-			reduce(28), // string_literal, reduce: Element2
-			reduce(28), // integer_literal, reduce: Element2
-			reduce(28), // floating_point_literal, reduce: Element2
-			reduce(28), // newline, reduce: Element2
-			reduce(28), // *, reduce: Element2
-			reduce(28), // <, reduce: Element2
-			reduce(28), // >, reduce: Element2
-			reduce(28), // [, reduce: Element2
-			reduce(28), // ], reduce: Element2
-			reduce(28), // (, reduce: Element2
-			reduce(28), // ), reduce: Element2
-			reduce(28), // ,, reduce: Element2
-			reduce(28), // ., reduce: Element2
-			reduce(28), // |, reduce: Element2
-			reduce(28), // ^, reduce: Element2
-			reduce(28), // &, reduce: Element2
-			reduce(28), // <<, reduce: Element2
-			reduce(28), // >>, reduce: Element2
-			reduce(28), // =>, reduce: Element2
-			reduce(28), // /, reduce: Element2
-			reduce(28), // +, reduce: Element2
-			reduce(28), // -, reduce: Element2
-			reduce(28), // ||, reduce: Element2
-			reduce(28), // <>, reduce: Element2
-			reduce(28), // !=, reduce: Element2
-			reduce(28), // =, reduce: Element2
-			reduce(28), // <=, reduce: Element2
-			reduce(28), // >=, reduce: Element2
-			reduce(28), // ;, reduce: Element2
-			reduce(28), // @, reduce: Element2
-			reduce(28), // {, reduce: Element2
-			reduce(28), // }, reduce: Element2
-			reduce(28), // ~, reduce: Element2
-			reduce(28), // else, reduce: Element2
-			reduce(28), // if, reduce: Element2
-			reduce(28), // for, reduce: Element2
-			reduce(28), // endfor, reduce: Element2
-			reduce(28), // elif, reduce: Element2
-			reduce(28), // endif, reduce: Element2
-			reduce(28), // set, reduce: Element2
-			reduce(28), // ?, reduce: Element2
-			reduce(28), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(28), // template_block_start, reduce: Element2
-			reduce(28), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(28), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S154
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(29), // identifier, reduce: Element2
-			reduce(29), // bytes_literal, reduce: Element2
-			reduce(29), // string_literal, reduce: Element2
-			reduce(29), // integer_literal, reduce: Element2
-			reduce(29), // floating_point_literal, reduce: Element2
-			reduce(29), // newline, reduce: Element2
-			reduce(29), // *, reduce: Element2
-			reduce(29), // <, reduce: Element2
-			reduce(29), // >, reduce: Element2
-			reduce(29), // [, reduce: Element2
-			reduce(29), // ], reduce: Element2
-			reduce(29), // (, reduce: Element2
-			reduce(29), // ), reduce: Element2
-			reduce(29), // ,, reduce: Element2
-			reduce(29), // ., reduce: Element2
-			reduce(29), // |, reduce: Element2
-			reduce(29), // ^, reduce: Element2
-			reduce(29), // &, reduce: Element2
-			reduce(29), // <<, reduce: Element2
-			reduce(29), // >>, reduce: Element2
-			reduce(29), // =>, reduce: Element2
-			reduce(29), // /, reduce: Element2
-			reduce(29), // +, reduce: Element2
-			reduce(29), // -, reduce: Element2
-			reduce(29), // ||, reduce: Element2
-			reduce(29), // <>, reduce: Element2
-			reduce(29), // !=, reduce: Element2
-			reduce(29), // =, reduce: Element2
-			reduce(29), // <=, reduce: Element2
-			reduce(29), // >=, reduce: Element2
-			reduce(29), // ;, reduce: Element2
-			reduce(29), // @, reduce: Element2
-			reduce(29), // {, reduce: Element2
-			reduce(29), // }, reduce: Element2
-			reduce(29), // ~, reduce: Element2
-			reduce(29), // else, reduce: Element2
-			reduce(29), // if, reduce: Element2
-			reduce(29), // for, reduce: Element2
-			reduce(29), // endfor, reduce: Element2
-			reduce(29), // elif, reduce: Element2
-			reduce(29), // endif, reduce: Element2
-			reduce(29), // set, reduce: Element2
-			reduce(29), // ?, reduce: Element2
-			reduce(29), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(29), // template_block_start, reduce: Element2
-			reduce(29), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(29), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S155
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(30), // identifier, reduce: Element2
-			reduce(30), // bytes_literal, reduce: Element2
-			reduce(30), // string_literal, reduce: Element2
-			reduce(30), // integer_literal, reduce: Element2
-			reduce(30), // floating_point_literal, reduce: Element2
-			reduce(30), // newline, reduce: Element2
-			reduce(30), // *, reduce: Element2
-			reduce(30), // <, reduce: Element2
-			reduce(30), // >, reduce: Element2
-			reduce(30), // [, reduce: Element2
-			reduce(30), // ], reduce: Element2
-			reduce(30), // (, reduce: Element2
-			reduce(30), // ), reduce: Element2
-			reduce(30), // ,, reduce: Element2
-			reduce(30), // ., reduce: Element2
-			reduce(30), // |, reduce: Element2
-			reduce(30), // ^, reduce: Element2
-			reduce(30), // &, reduce: Element2
-			reduce(30), // <<, reduce: Element2
-			reduce(30), // >>, reduce: Element2
-			reduce(30), // =>, reduce: Element2
-			reduce(30), // /, reduce: Element2
-			reduce(30), // +, reduce: Element2
-			reduce(30), // -, reduce: Element2
-			reduce(30), // ||, reduce: Element2
-			reduce(30), // <>, reduce: Element2
-			reduce(30), // !=, reduce: Element2
-			reduce(30), // =, reduce: Element2
-			reduce(30), // <=, reduce: Element2
-			reduce(30), // >=, reduce: Element2
-			reduce(30), // ;, reduce: Element2
-			reduce(30), // @, reduce: Element2
-			reduce(30), // {, reduce: Element2
-			reduce(30), // }, reduce: Element2
-			reduce(30), // ~, reduce: Element2
-			reduce(30), // else, reduce: Element2
-			reduce(30), // if, reduce: Element2
-			reduce(30), // for, reduce: Element2
-			reduce(30), // endfor, reduce: Element2
-			reduce(30), // elif, reduce: Element2
-			reduce(30), // endif, reduce: Element2
-			reduce(30), // set, reduce: Element2
-			reduce(30), // ?, reduce: Element2
-			reduce(30), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(30), // template_block_start, reduce: Element2
-			reduce(30), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(30), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S156
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(31), // identifier, reduce: Element2
-			reduce(31), // bytes_literal, reduce: Element2
-			reduce(31), // string_literal, reduce: Element2
-			reduce(31), // integer_literal, reduce: Element2
-			reduce(31), // floating_point_literal, reduce: Element2
-			reduce(31), // newline, reduce: Element2
-			reduce(31), // *, reduce: Element2
-			reduce(31), // <, reduce: Element2
-			reduce(31), // >, reduce: Element2
-			reduce(31), // [, reduce: Element2
-			reduce(31), // ], reduce: Element2
-			reduce(31), // (, reduce: Element2
-			reduce(31), // ), reduce: Element2
-			reduce(31), // ,, reduce: Element2
-			reduce(31), // ., reduce: Element2
-			reduce(31), // |, reduce: Element2
-			reduce(31), // ^, reduce: Element2
-			reduce(31), // &, reduce: Element2
-			reduce(31), // <<, reduce: Element2
-			reduce(31), // >>, reduce: Element2
-			reduce(31), // =>, reduce: Element2
-			reduce(31), // /, reduce: Element2
-			reduce(31), // +, reduce: Element2
-			reduce(31), // -, reduce: Element2
-			reduce(31), // ||, reduce: Element2
-			reduce(31), // <>, reduce: Element2
-			reduce(31), // !=, reduce: Element2
-			reduce(31), // =, reduce: Element2
-			reduce(31), // <=, reduce: Element2
-			reduce(31), // >=, reduce: Element2
-			reduce(31), // ;, reduce: Element2
-			reduce(31), // @, reduce: Element2
-			reduce(31), // {, reduce: Element2
-			reduce(31), // }, reduce: Element2
-			reduce(31), // ~, reduce: Element2
-			reduce(31), // else, reduce: Element2
-			reduce(31), // if, reduce: Element2
-			reduce(31), // for, reduce: Element2
-			reduce(31), // endfor, reduce: Element2
-			reduce(31), // elif, reduce: Element2
-			reduce(31), // endif, reduce: Element2
-			reduce(31), // set, reduce: Element2
-			reduce(31), // ?, reduce: Element2
-			reduce(31), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(31), // template_block_start, reduce: Element2
-			reduce(31), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(31), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S157
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(32), // identifier, reduce: Element2
-			reduce(32), // bytes_literal, reduce: Element2
-			reduce(32), // string_literal, reduce: Element2
-			reduce(32), // integer_literal, reduce: Element2
-			reduce(32), // floating_point_literal, reduce: Element2
-			reduce(32), // newline, reduce: Element2
-			reduce(32), // *, reduce: Element2
-			reduce(32), // <, reduce: Element2
-			reduce(32), // >, reduce: Element2
-			reduce(32), // [, reduce: Element2
-			reduce(32), // ], reduce: Element2
-			reduce(32), // (, reduce: Element2
-			reduce(32), // ), reduce: Element2
-			reduce(32), // ,, reduce: Element2
-			reduce(32), // ., reduce: Element2
-			reduce(32), // |, reduce: Element2
-			reduce(32), // ^, reduce: Element2
-			reduce(32), // &, reduce: Element2
-			reduce(32), // <<, reduce: Element2
-			reduce(32), // >>, reduce: Element2
-			reduce(32), // =>, reduce: Element2
-			reduce(32), // /, reduce: Element2
-			reduce(32), // +, reduce: Element2
-			reduce(32), // -, reduce: Element2
-			reduce(32), // ||, reduce: Element2
-			reduce(32), // <>, reduce: Element2
-			reduce(32), // !=, reduce: Element2
-			reduce(32), // =, reduce: Element2
-			reduce(32), // <=, reduce: Element2
-			reduce(32), // >=, reduce: Element2
-			reduce(32), // ;, reduce: Element2
-			reduce(32), // @, reduce: Element2
-			reduce(32), // {, reduce: Element2
-			reduce(32), // }, reduce: Element2
-			reduce(32), // ~, reduce: Element2
-			reduce(32), // else, reduce: Element2
-			reduce(32), // if, reduce: Element2
-			reduce(32), // for, reduce: Element2
-			reduce(32), // endfor, reduce: Element2
-			reduce(32), // elif, reduce: Element2
-			reduce(32), // endif, reduce: Element2
-			reduce(32), // set, reduce: Element2
-			reduce(32), // ?, reduce: Element2
-			reduce(32), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(32), // template_block_start, reduce: Element2
-			reduce(32), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(32), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S158
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(33), // identifier, reduce: Element2
-			reduce(33), // bytes_literal, reduce: Element2
-			reduce(33), // string_literal, reduce: Element2
-			reduce(33), // integer_literal, reduce: Element2
-			reduce(33), // floating_point_literal, reduce: Element2
-			reduce(33), // newline, reduce: Element2
-			reduce(33), // *, reduce: Element2
-			reduce(33), // <, reduce: Element2
-			reduce(33), // >, reduce: Element2
-			reduce(33), // [, reduce: Element2
-			reduce(33), // ], reduce: Element2
-			reduce(33), // (, reduce: Element2
-			reduce(33), // ), reduce: Element2
-			reduce(33), // ,, reduce: Element2
-			reduce(33), // ., reduce: Element2
-			reduce(33), // |, reduce: Element2
-			reduce(33), // ^, reduce: Element2
-			reduce(33), // &, reduce: Element2
-			reduce(33), // <<, reduce: Element2
-			reduce(33), // >>, reduce: Element2
-			reduce(33), // =>, reduce: Element2
-			reduce(33), // /, reduce: Element2
-			reduce(33), // +, reduce: Element2
-			reduce(33), // -, reduce: Element2
-			reduce(33), // ||, reduce: Element2
-			reduce(33), // <>, reduce: Element2
-			reduce(33), // !=, reduce: Element2
-			reduce(33), // =, reduce: Element2
-			reduce(33), // <=, reduce: Element2
-			reduce(33), // >=, reduce: Element2
-			reduce(33), // ;, reduce: Element2
-			reduce(33), // @, reduce: Element2
-			reduce(33), // {, reduce: Element2
-			reduce(33), // }, reduce: Element2
-			reduce(33), // ~, reduce: Element2
-			reduce(33), // else, reduce: Element2
-			reduce(33), // if, reduce: Element2
-			reduce(33), // for, reduce: Element2
-			reduce(33), // endfor, reduce: Element2
-			reduce(33), // elif, reduce: Element2
-			reduce(33), // endif, reduce: Element2
-			reduce(33), // set, reduce: Element2
-			reduce(33), // ?, reduce: Element2
-			reduce(33), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(33), // template_block_start, reduce: Element2
-			reduce(33), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(33), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S159
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(34), // identifier, reduce: Element2
-			reduce(34), // bytes_literal, reduce: Element2
-			reduce(34), // string_literal, reduce: Element2
-			reduce(34), // integer_literal, reduce: Element2
-			reduce(34), // floating_point_literal, reduce: Element2
-			reduce(34), // newline, reduce: Element2
-			reduce(34), // *, reduce: Element2
-			reduce(34), // <, reduce: Element2
-			reduce(34), // >, reduce: Element2
-			reduce(34), // [, reduce: Element2
-			reduce(34), // ], reduce: Element2
-			reduce(34), // (, reduce: Element2
-			reduce(34), // ), reduce: Element2
-			reduce(34), // ,, reduce: Element2
-			reduce(34), // ., reduce: Element2
-			reduce(34), // |, reduce: Element2
-			reduce(34), // ^, reduce: Element2
-			reduce(34), // &, reduce: Element2
-			reduce(34), // <<, reduce: Element2
-			reduce(34), // >>, reduce: Element2
-			reduce(34), // =>, reduce: Element2
-			reduce(34), // /, reduce: Element2
-			reduce(34), // +, reduce: Element2
-			reduce(34), // -, reduce: Element2
-			reduce(34), // ||, reduce: Element2
-			reduce(34), // <>, reduce: Element2
-			reduce(34), // !=, reduce: Element2
-			reduce(34), // =, reduce: Element2
-			reduce(34), // <=, reduce: Element2
-			reduce(34), // >=, reduce: Element2
-			reduce(34), // ;, reduce: Element2
-			reduce(34), // @, reduce: Element2
-			reduce(34), // {, reduce: Element2
-			reduce(34), // }, reduce: Element2
-			reduce(34), // ~, reduce: Element2
-			reduce(34), // else, reduce: Element2
-			reduce(34), // if, reduce: Element2
-			reduce(34), // for, reduce: Element2
-			reduce(34), // endfor, reduce: Element2
-			reduce(34), // elif, reduce: Element2
-			reduce(34), // endif, reduce: Element2
-			reduce(34), // set, reduce: Element2
-			reduce(34), // ?, reduce: Element2
-			reduce(34), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(34), // template_block_start, reduce: Element2
-			reduce(34), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(34), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S160
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(35), // identifier, reduce: Element2
-			reduce(35), // bytes_literal, reduce: Element2
-			reduce(35), // string_literal, reduce: Element2
-			reduce(35), // integer_literal, reduce: Element2
-			reduce(35), // floating_point_literal, reduce: Element2
-			reduce(35), // newline, reduce: Element2
-			reduce(35), // *, reduce: Element2
-			reduce(35), // <, reduce: Element2
-			reduce(35), // >, reduce: Element2
-			reduce(35), // [, reduce: Element2
-			reduce(35), // ], reduce: Element2
-			reduce(35), // (, reduce: Element2
-			reduce(35), // ), reduce: Element2
-			reduce(35), // ,, reduce: Element2
-			reduce(35), // ., reduce: Element2
-			reduce(35), // |, reduce: Element2
-			reduce(35), // ^, reduce: Element2
-			reduce(35), // &, reduce: Element2
-			reduce(35), // <<, reduce: Element2
-			reduce(35), // >>, reduce: Element2
-			reduce(35), // =>, reduce: Element2
-			reduce(35), // /, reduce: Element2
-			reduce(35), // +, reduce: Element2
-			reduce(35), // -, reduce: Element2
-			reduce(35), // ||, reduce: Element2
-			reduce(35), // <>, reduce: Element2
-			reduce(35), // !=, reduce: Element2
-			reduce(35), // =, reduce: Element2
-			reduce(35), // <=, reduce: Element2
-			reduce(35), // >=, reduce: Element2
-			reduce(35), // ;, reduce: Element2
-			reduce(35), // @, reduce: Element2
-			reduce(35), // {, reduce: Element2
-			reduce(35), // }, reduce: Element2
-			reduce(35), // ~, reduce: Element2
-			reduce(35), // else, reduce: Element2
-			reduce(35), // if, reduce: Element2
-			reduce(35), // for, reduce: Element2
-			reduce(35), // endfor, reduce: Element2
-			reduce(35), // elif, reduce: Element2
-			reduce(35), // endif, reduce: Element2
-			reduce(35), // set, reduce: Element2
-			reduce(35), // ?, reduce: Element2
-			reduce(35), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(35), // template_block_start, reduce: Element2
-			reduce(35), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(35), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S161
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(36), // identifier, reduce: Element2
-			reduce(36), // bytes_literal, reduce: Element2
-			reduce(36), // string_literal, reduce: Element2
-			reduce(36), // integer_literal, reduce: Element2
-			reduce(36), // floating_point_literal, reduce: Element2
-			reduce(36), // newline, reduce: Element2
-			reduce(36), // *, reduce: Element2
-			reduce(36), // <, reduce: Element2
-			reduce(36), // >, reduce: Element2
-			reduce(36), // [, reduce: Element2
-			reduce(36), // ], reduce: Element2
-			reduce(36), // (, reduce: Element2
-			reduce(36), // ), reduce: Element2
-			reduce(36), // ,, reduce: Element2
-			reduce(36), // ., reduce: Element2
-			reduce(36), // |, reduce: Element2
-			reduce(36), // ^, reduce: Element2
-			reduce(36), // &, reduce: Element2
-			reduce(36), // <<, reduce: Element2
-			reduce(36), // >>, reduce: Element2
-			reduce(36), // =>, reduce: Element2
-			reduce(36), // /, reduce: Element2
-			reduce(36), // +, reduce: Element2
-			reduce(36), // -, reduce: Element2
-			reduce(36), // ||, reduce: Element2
-			reduce(36), // <>, reduce: Element2
-			reduce(36), // !=, reduce: Element2
-			reduce(36), // =, reduce: Element2
-			reduce(36), // <=, reduce: Element2
-			reduce(36), // >=, reduce: Element2
-			reduce(36), // ;, reduce: Element2
-			reduce(36), // @, reduce: Element2
-			reduce(36), // {, reduce: Element2
-			reduce(36), // }, reduce: Element2
-			reduce(36), // ~, reduce: Element2
-			reduce(36), // else, reduce: Element2
-			reduce(36), // if, reduce: Element2
-			reduce(36), // for, reduce: Element2
-			reduce(36), // endfor, reduce: Element2
-			reduce(36), // elif, reduce: Element2
-			reduce(36), // endif, reduce: Element2
-			reduce(36), // set, reduce: Element2
-			reduce(36), // ?, reduce: Element2
-			reduce(36), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(36), // template_block_start, reduce: Element2
-			reduce(36), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(36), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S162
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(37), // identifier, reduce: Element2
-			reduce(37), // bytes_literal, reduce: Element2
-			reduce(37), // string_literal, reduce: Element2
-			reduce(37), // integer_literal, reduce: Element2
-			reduce(37), // floating_point_literal, reduce: Element2
-			reduce(37), // newline, reduce: Element2
-			reduce(37), // *, reduce: Element2
-			reduce(37), // <, reduce: Element2
-			reduce(37), // >, reduce: Element2
-			reduce(37), // [, reduce: Element2
-			reduce(37), // ], reduce: Element2
-			reduce(37), // (, reduce: Element2
-			reduce(37), // ), reduce: Element2
-			reduce(37), // ,, reduce: Element2
-			reduce(37), // ., reduce: Element2
-			reduce(37), // |, reduce: Element2
-			reduce(37), // ^, reduce: Element2
-			reduce(37), // &, reduce: Element2
-			reduce(37), // <<, reduce: Element2
-			reduce(37), // >>, reduce: Element2
-			reduce(37), // =>, reduce: Element2
-			reduce(37), // /, reduce: Element2
-			reduce(37), // +, reduce: Element2
-			reduce(37), // -, reduce: Element2
-			reduce(37), // ||, reduce: Element2
-			reduce(37), // <>, reduce: Element2
-			reduce(37), // !=, reduce: Element2
-			reduce(37), // =, reduce: Element2
-			reduce(37), // <=, reduce: Element2
-			reduce(37), // >=, reduce: Element2
-			reduce(37), // ;, reduce: Element2
-			reduce(37), // @, reduce: Element2
-			reduce(37), // {, reduce: Element2
-			reduce(37), // }, reduce: Element2
-			reduce(37), // ~, reduce: Element2
-			reduce(37), // else, reduce: Element2
-			reduce(37), // if, reduce: Element2
-			reduce(37), // for, reduce: Element2
-			reduce(37), // endfor, reduce: Element2
-			reduce(37), // elif, reduce: Element2
-			reduce(37), // endif, reduce: Element2
-			reduce(37), // set, reduce: Element2
-			reduce(37), // ?, reduce: Element2
-			reduce(37), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(37), // template_block_start, reduce: Element2
-			reduce(37), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(37), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S163
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(38), // identifier, reduce: Element2
-			reduce(38), // bytes_literal, reduce: Element2
-			reduce(38), // string_literal, reduce: Element2
-			reduce(38), // integer_literal, reduce: Element2
-			reduce(38), // floating_point_literal, reduce: Element2
-			reduce(38), // newline, reduce: Element2
-			reduce(38), // *, reduce: Element2
-			reduce(38), // <, reduce: Element2
-			reduce(38), // >, reduce: Element2
-			reduce(38), // [, reduce: Element2
-			reduce(38), // ], reduce: Element2
-			reduce(38), // (, reduce: Element2
-			reduce(38), // ), reduce: Element2
-			reduce(38), // ,, reduce: Element2
-			reduce(38), // ., reduce: Element2
-			reduce(38), // |, reduce: Element2
-			reduce(38), // ^, reduce: Element2
-			reduce(38), // &, reduce: Element2
-			reduce(38), // <<, reduce: Element2
-			reduce(38), // >>, reduce: Element2
-			reduce(38), // =>, reduce: Element2
-			reduce(38), // /, reduce: Element2
-			reduce(38), // +, reduce: Element2
-			reduce(38), // -, reduce: Element2
-			reduce(38), // ||, reduce: Element2
-			reduce(38), // <>, reduce: Element2
-			reduce(38), // !=, reduce: Element2
-			reduce(38), // =, reduce: Element2
-			reduce(38), // <=, reduce: Element2
-			reduce(38), // >=, reduce: Element2
-			reduce(38), // ;, reduce: Element2
-			reduce(38), // @, reduce: Element2
-			reduce(38), // {, reduce: Element2
-			reduce(38), // }, reduce: Element2
-			reduce(38), // ~, reduce: Element2
-			reduce(38), // else, reduce: Element2
-			reduce(38), // if, reduce: Element2
-			reduce(38), // for, reduce: Element2
-			reduce(38), // endfor, reduce: Element2
-			reduce(38), // elif, reduce: Element2
-			reduce(38), // endif, reduce: Element2
-			reduce(38), // set, reduce: Element2
-			reduce(38), // ?, reduce: Element2
-			reduce(38), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(38), // template_block_start, reduce: Element2
-			reduce(38), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(38), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S164
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(39), // identifier, reduce: Element2
-			reduce(39), // bytes_literal, reduce: Element2
-			reduce(39), // string_literal, reduce: Element2
-			reduce(39), // integer_literal, reduce: Element2
-			reduce(39), // floating_point_literal, reduce: Element2
-			reduce(39), // newline, reduce: Element2
-			reduce(39), // *, reduce: Element2
-			reduce(39), // <, reduce: Element2
-			reduce(39), // >, reduce: Element2
-			reduce(39), // [, reduce: Element2
-			reduce(39), // ], reduce: Element2
-			reduce(39), // (, reduce: Element2
-			reduce(39), // ), reduce: Element2
-			reduce(39), // ,, reduce: Element2
-			reduce(39), // ., reduce: Element2
-			reduce(39), // |, reduce: Element2
-			reduce(39), // ^, reduce: Element2
-			reduce(39), // &, reduce: Element2
-			reduce(39), // <<, reduce: Element2
-			reduce(39), // >>, reduce: Element2
-			reduce(39), // =>, reduce: Element2
-			reduce(39), // /, reduce: Element2
-			reduce(39), // +, reduce: Element2
-			reduce(39), // -, reduce: Element2
-			reduce(39), // ||, reduce: Element2
-			reduce(39), // <>, reduce: Element2
-			reduce(39), // !=, reduce: Element2
-			reduce(39), // =, reduce: Element2
-			reduce(39), // <=, reduce: Element2
-			reduce(39), // >=, reduce: Element2
-			reduce(39), // ;, reduce: Element2
-			reduce(39), // @, reduce: Element2
-			reduce(39), // {, reduce: Element2
-			reduce(39), // }, reduce: Element2
-			reduce(39), // ~, reduce: Element2
-			reduce(39), // else, reduce: Element2
-			reduce(39), // if, reduce: Element2
-			reduce(39), // for, reduce: Element2
-			reduce(39), // endfor, reduce: Element2
-			reduce(39), // elif, reduce: Element2
-			reduce(39), // endif, reduce: Element2
-			reduce(39), // set, reduce: Element2
-			reduce(39), // ?, reduce: Element2
-			reduce(39), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(39), // template_block_start, reduce: Element2
-			reduce(39), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(39), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S165
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(40), // identifier, reduce: Element2
-			reduce(40), // bytes_literal, reduce: Element2
-			reduce(40), // string_literal, reduce: Element2
-			reduce(40), // integer_literal, reduce: Element2
-			reduce(40), // floating_point_literal, reduce: Element2
-			reduce(40), // newline, reduce: Element2
-			reduce(40), // *, reduce: Element2
-			reduce(40), // <, reduce: Element2
-			reduce(40), // >, reduce: Element2
-			reduce(40), // [, reduce: Element2
-			reduce(40), // ], reduce: Element2
-			reduce(40), // (, reduce: Element2
-			reduce(40), // ), reduce: Element2
-			reduce(40), // ,, reduce: Element2
-			reduce(40), // ., reduce: Element2
-			reduce(40), // |, reduce: Element2
-			reduce(40), // ^, reduce: Element2
-			reduce(40), // &, reduce: Element2
-			reduce(40), // <<, reduce: Element2
-			reduce(40), // >>, reduce: Element2
-			reduce(40), // =>, reduce: Element2
-			reduce(40), // /, reduce: Element2
-			reduce(40), // +, reduce: Element2
-			reduce(40), // -, reduce: Element2
-			reduce(40), // ||, reduce: Element2
-			reduce(40), // <>, reduce: Element2
-			reduce(40), // !=, reduce: Element2
-			reduce(40), // =, reduce: Element2
-			reduce(40), // <=, reduce: Element2
-			reduce(40), // >=, reduce: Element2
-			reduce(40), // ;, reduce: Element2
-			reduce(40), // @, reduce: Element2
-			reduce(40), // {, reduce: Element2
-			reduce(40), // }, reduce: Element2
-			reduce(40), // ~, reduce: Element2
-			reduce(40), // else, reduce: Element2
-			reduce(40), // if, reduce: Element2
-			reduce(40), // for, reduce: Element2
-			reduce(40), // endfor, reduce: Element2
-			reduce(40), // elif, reduce: Element2
-			reduce(40), // endif, reduce: Element2
-			reduce(40), // set, reduce: Element2
-			reduce(40), // ?, reduce: Element2
-			reduce(40), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(40), // template_block_start, reduce: Element2
-			reduce(40), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(40), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S166
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(41), // identifier, reduce: Element2
-			reduce(41), // bytes_literal, reduce: Element2
-			reduce(41), // string_literal, reduce: Element2
-			reduce(41), // integer_literal, reduce: Element2
-			reduce(41), // floating_point_literal, reduce: Element2
-			reduce(41), // newline, reduce: Element2
-			reduce(41), // *, reduce: Element2
-			reduce(41), // <, reduce: Element2
-			reduce(41), // >, reduce: Element2
-			reduce(41), // [, reduce: Element2
-			reduce(41), // ], reduce: Element2
-			reduce(41), // (, reduce: Element2
-			reduce(41), // ), reduce: Element2
-			reduce(41), // ,, reduce: Element2
-			reduce(41), // ., reduce: Element2
-			reduce(41), // |, reduce: Element2
-			reduce(41), // ^, reduce: Element2
-			reduce(41), // &, reduce: Element2
-			reduce(41), // <<, reduce: Element2
-			reduce(41), // >>, reduce: Element2
-			reduce(41), // =>, reduce: Element2
-			reduce(41), // /, reduce: Element2
-			reduce(41), // +, reduce: Element2
-			reduce(41), // -, reduce: Element2
-			reduce(41), // ||, reduce: Element2
-			reduce(41), // <>, reduce: Element2
-			reduce(41), // !=, reduce: Element2
-			reduce(41), // =, reduce: Element2
-			reduce(41), // <=, reduce: Element2
-			reduce(41), // >=, reduce: Element2
-			reduce(41), // ;, reduce: Element2
-			reduce(41), // @, reduce: Element2
-			reduce(41), // {, reduce: Element2
-			reduce(41), // }, reduce: Element2
-			reduce(41), // ~, reduce: Element2
-			reduce(41), // else, reduce: Element2
-			reduce(41), // if, reduce: Element2
-			reduce(41), // for, reduce: Element2
-			reduce(41), // endfor, reduce: Element2
-			reduce(41), // elif, reduce: Element2
-			reduce(41), // endif, reduce: Element2
-			reduce(41), // set, reduce: Element2
-			reduce(41), // ?, reduce: Element2
-			reduce(41), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(41), // template_block_start, reduce: Element2
-			reduce(41), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(41), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S167
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(42), // identifier, reduce: Element2
-			reduce(42), // bytes_literal, reduce: Element2
-			reduce(42), // string_literal, reduce: Element2
-			reduce(42), // integer_literal, reduce: Element2
-			reduce(42), // floating_point_literal, reduce: Element2
-			reduce(42), // newline, reduce: Element2
-			reduce(42), // *, reduce: Element2
-			reduce(42), // <, reduce: Element2
-			reduce(42), // >, reduce: Element2
-			reduce(42), // [, reduce: Element2
-			reduce(42), // ], reduce: Element2
-			reduce(42), // (, reduce: Element2
-			reduce(42), // ), reduce: Element2
-			reduce(42), // ,, reduce: Element2
-			reduce(42), // ., reduce: Element2
-			reduce(42), // |, reduce: Element2
-			reduce(42), // ^, reduce: Element2
-			reduce(42), // &, reduce: Element2
-			reduce(42), // <<, reduce: Element2
-			reduce(42), // >>, reduce: Element2
-			reduce(42), // =>, reduce: Element2
-			reduce(42), // /, reduce: Element2
-			reduce(42), // +, reduce: Element2
-			reduce(42), // -, reduce: Element2
-			reduce(42), // ||, reduce: Element2
-			reduce(42), // <>, reduce: Element2
-			reduce(42), // !=, reduce: Element2
-			reduce(42), // =, reduce: Element2
-			reduce(42), // <=, reduce: Element2
-			reduce(42), // >=, reduce: Element2
-			reduce(42), // ;, reduce: Element2
-			reduce(42), // @, reduce: Element2
-			reduce(42), // {, reduce: Element2
-			reduce(42), // }, reduce: Element2
-			reduce(42), // ~, reduce: Element2
-			reduce(42), // else, reduce: Element2
-			reduce(42), // if, reduce: Element2
-			reduce(42), // for, reduce: Element2
-			reduce(42), // endfor, reduce: Element2
-			reduce(42), // elif, reduce: Element2
-			reduce(42), // endif, reduce: Element2
-			reduce(42), // set, reduce: Element2
-			reduce(42), // ?, reduce: Element2
-			reduce(42), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(42), // template_block_start, reduce: Element2
-			reduce(42), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(42), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S168
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(44), // identifier, reduce: Element2
-			reduce(44), // bytes_literal, reduce: Element2
-			reduce(44), // string_literal, reduce: Element2
-			reduce(44), // integer_literal, reduce: Element2
-			reduce(44), // floating_point_literal, reduce: Element2
-			reduce(44), // newline, reduce: Element2
-			reduce(44), // *, reduce: Element2
-			reduce(44), // <, reduce: Element2
-			reduce(44), // >, reduce: Element2
-			reduce(44), // [, reduce: Element2
-			reduce(44), // ], reduce: Element2
-			reduce(44), // (, reduce: Element2
-			reduce(44), // ), reduce: Element2
-			reduce(44), // ,, reduce: Element2
-			reduce(44), // ., reduce: Element2
-			reduce(44), // |, reduce: Element2
-			reduce(44), // ^, reduce: Element2
-			reduce(44), // &, reduce: Element2
-			reduce(44), // <<, reduce: Element2
-			reduce(44), // >>, reduce: Element2
-			reduce(44), // =>, reduce: Element2
-			reduce(44), // /, reduce: Element2
-			reduce(44), // +, reduce: Element2
-			reduce(44), // -, reduce: Element2
-			reduce(44), // ||, reduce: Element2
-			reduce(44), // <>, reduce: Element2
-			reduce(44), // !=, reduce: Element2
-			reduce(44), // =, reduce: Element2
-			reduce(44), // <=, reduce: Element2
-			reduce(44), // >=, reduce: Element2
-			reduce(44), // ;, reduce: Element2
-			reduce(44), // @, reduce: Element2
-			reduce(44), // {, reduce: Element2
-			reduce(44), // }, reduce: Element2
-			reduce(44), // ~, reduce: Element2
-			reduce(44), // else, reduce: Element2
-			reduce(44), // if, reduce: Element2
-			reduce(44), // for, reduce: Element2
-			reduce(44), // endfor, reduce: Element2
-			reduce(44), // elif, reduce: Element2
-			reduce(44), // endif, reduce: Element2
-			reduce(44), // set, reduce: Element2
-			reduce(44), // ?, reduce: Element2
-			reduce(44), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(44), // template_block_start, reduce: Element2
-			reduce(44), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(44), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S169
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(46), // identifier, reduce: Element2
-			reduce(46), // bytes_literal, reduce: Element2
-			reduce(46), // string_literal, reduce: Element2
-			reduce(46), // integer_literal, reduce: Element2
-			reduce(46), // floating_point_literal, reduce: Element2
-			reduce(46), // newline, reduce: Element2
-			reduce(46), // *, reduce: Element2
-			reduce(46), // <, reduce: Element2
-			reduce(46), // >, reduce: Element2
-			reduce(46), // [, reduce: Element2
-			reduce(46), // ], reduce: Element2
-			reduce(46), // (, reduce: Element2
-			reduce(46), // ), reduce: Element2
-			reduce(46), // ,, reduce: Element2
-			reduce(46), // ., reduce: Element2
-			reduce(46), // |, reduce: Element2
-			reduce(46), // ^, reduce: Element2
-			reduce(46), // &, reduce: Element2
-			reduce(46), // <<, reduce: Element2
-			reduce(46), // >>, reduce: Element2
-			reduce(46), // =>, reduce: Element2
-			reduce(46), // /, reduce: Element2
-			reduce(46), // +, reduce: Element2
-			reduce(46), // -, reduce: Element2
-			reduce(46), // ||, reduce: Element2
-			reduce(46), // <>, reduce: Element2
-			reduce(46), // !=, reduce: Element2
-			reduce(46), // =, reduce: Element2
-			reduce(46), // <=, reduce: Element2
-			reduce(46), // >=, reduce: Element2
-			reduce(46), // ;, reduce: Element2
-			reduce(46), // @, reduce: Element2
-			reduce(46), // {, reduce: Element2
-			reduce(46), // }, reduce: Element2
-			reduce(46), // ~, reduce: Element2
-			reduce(46), // else, reduce: Element2
-			reduce(46), // if, reduce: Element2
-			reduce(46), // for, reduce: Element2
-			reduce(46), // endfor, reduce: Element2
-			reduce(46), // elif, reduce: Element2
-			reduce(46), // endif, reduce: Element2
-			reduce(46), // set, reduce: Element2
-			reduce(46), // ?, reduce: Element2
-			reduce(46), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(46), // template_block_start, reduce: Element2
-			reduce(46), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(46), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S170
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(47), // identifier, reduce: Element2
-			reduce(47), // bytes_literal, reduce: Element2
-			reduce(47), // string_literal, reduce: Element2
-			reduce(47), // integer_literal, reduce: Element2
-			reduce(47), // floating_point_literal, reduce: Element2
-			reduce(47), // newline, reduce: Element2
-			reduce(47), // *, reduce: Element2
-			reduce(47), // <, reduce: Element2
-			reduce(47), // >, reduce: Element2
-			reduce(47), // [, reduce: Element2
-			reduce(47), // ], reduce: Element2
-			reduce(47), // (, reduce: Element2
-			reduce(47), // ), reduce: Element2
-			reduce(47), // ,, reduce: Element2
-			reduce(47), // ., reduce: Element2
-			reduce(47), // |, reduce: Element2
-			reduce(47), // ^, reduce: Element2
-			reduce(47), // &, reduce: Element2
-			reduce(47), // <<, reduce: Element2
-			reduce(47), // >>, reduce: Element2
-			reduce(47), // =>, reduce: Element2
-			reduce(47), // /, reduce: Element2
-			reduce(47), // +, reduce: Element2
-			reduce(47), // -, reduce: Element2
-			reduce(47), // ||, reduce: Element2
-			reduce(47), // <>, reduce: Element2
-			reduce(47), // !=, reduce: Element2
-			reduce(47), // =, reduce: Element2
-			reduce(47), // <=, reduce: Element2
-			reduce(47), // >=, reduce: Element2
-			reduce(47), // ;, reduce: Element2
-			reduce(47), // @, reduce: Element2
-			reduce(47), // {, reduce: Element2
-			reduce(47), // }, reduce: Element2
-			reduce(47), // ~, reduce: Element2
-			reduce(47), // else, reduce: Element2
-			reduce(47), // if, reduce: Element2
-			reduce(47), // for, reduce: Element2
-			reduce(47), // endfor, reduce: Element2
-			reduce(47), // elif, reduce: Element2
-			reduce(47), // endif, reduce: Element2
-			reduce(47), // set, reduce: Element2
-			reduce(47), // ?, reduce: Element2
-			reduce(47), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(47), // template_block_start, reduce: Element2
-			reduce(47), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(47), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S171
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(49), // identifier, reduce: Element2
-			reduce(49), // bytes_literal, reduce: Element2
-			reduce(49), // string_literal, reduce: Element2
-			reduce(49), // integer_literal, reduce: Element2
-			reduce(49), // floating_point_literal, reduce: Element2
-			reduce(49), // newline, reduce: Element2
-			reduce(49), // *, reduce: Element2
-			reduce(49), // <, reduce: Element2
-			reduce(49), // >, reduce: Element2
-			reduce(49), // [, reduce: Element2
-			reduce(49), // ], reduce: Element2
-			reduce(49), // (, reduce: Element2
-			reduce(49), // ), reduce: Element2
-			reduce(49), // ,, reduce: Element2
-			reduce(49), // ., reduce: Element2
-			reduce(49), // |, reduce: Element2
-			reduce(49), // ^, reduce: Element2
-			reduce(49), // &, reduce: Element2
-			reduce(49), // <<, reduce: Element2
-			reduce(49), // >>, reduce: Element2
-			reduce(49), // =>, reduce: Element2
-			reduce(49), // /, reduce: Element2
-			reduce(49), // +, reduce: Element2
-			reduce(49), // -, reduce: Element2
-			reduce(49), // ||, reduce: Element2
-			reduce(49), // <>, reduce: Element2
-			reduce(49), // !=, reduce: Element2
-			reduce(49), // =, reduce: Element2
-			reduce(49), // <=, reduce: Element2
-			reduce(49), // >=, reduce: Element2
-			reduce(49), // ;, reduce: Element2
-			reduce(49), // @, reduce: Element2
-			reduce(49), // {, reduce: Element2
-			reduce(49), // }, reduce: Element2
-			reduce(49), // ~, reduce: Element2
-			reduce(49), // else, reduce: Element2
-			reduce(49), // if, reduce: Element2
-			reduce(49), // for, reduce: Element2
-			reduce(49), // endfor, reduce: Element2
-			reduce(49), // elif, reduce: Element2
-			reduce(49), // endif, reduce: Element2
-			reduce(49), // set, reduce: Element2
-			reduce(49), // ?, reduce: Element2
-			reduce(49), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(49), // template_block_start, reduce: Element2
-			reduce(49), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(49), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S172
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(50), // identifier, reduce: Element2
-			reduce(50), // bytes_literal, reduce: Element2
-			reduce(50), // string_literal, reduce: Element2
-			reduce(50), // integer_literal, reduce: Element2
-			reduce(50), // floating_point_literal, reduce: Element2
-			reduce(50), // newline, reduce: Element2
-			reduce(50), // *, reduce: Element2
-			reduce(50), // <, reduce: Element2
-			reduce(50), // >, reduce: Element2
-			reduce(50), // [, reduce: Element2
-			reduce(50), // ], reduce: Element2
-			reduce(50), // (, reduce: Element2
-			reduce(50), // ), reduce: Element2
-			reduce(50), // ,, reduce: Element2
-			reduce(50), // ., reduce: Element2
-			reduce(50), // |, reduce: Element2
-			reduce(50), // ^, reduce: Element2
-			reduce(50), // &, reduce: Element2
-			reduce(50), // <<, reduce: Element2
-			reduce(50), // >>, reduce: Element2
-			reduce(50), // =>, reduce: Element2
-			reduce(50), // /, reduce: Element2
-			reduce(50), // +, reduce: Element2
-			reduce(50), // -, reduce: Element2
-			reduce(50), // ||, reduce: Element2
-			reduce(50), // <>, reduce: Element2
-			reduce(50), // !=, reduce: Element2
-			reduce(50), // =, reduce: Element2
-			reduce(50), // <=, reduce: Element2
-			reduce(50), // >=, reduce: Element2
-			reduce(50), // ;, reduce: Element2
-			reduce(50), // @, reduce: Element2
-			reduce(50), // {, reduce: Element2
-			reduce(50), // }, reduce: Element2
-			reduce(50), // ~, reduce: Element2
-			reduce(50), // else, reduce: Element2
-			reduce(50), // if, reduce: Element2
-			reduce(50), // for, reduce: Element2
-			reduce(50), // endfor, reduce: Element2
-			reduce(50), // elif, reduce: Element2
-			reduce(50), // endif, reduce: Element2
-			reduce(50), // set, reduce: Element2
-			reduce(50), // ?, reduce: Element2
-			reduce(50), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(50), // template_block_start, reduce: Element2
-			reduce(50), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(50), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S173
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(51), // identifier, reduce: Element2
-			reduce(51), // bytes_literal, reduce: Element2
-			reduce(51), // string_literal, reduce: Element2
-			reduce(51), // integer_literal, reduce: Element2
-			reduce(51), // floating_point_literal, reduce: Element2
-			reduce(51), // newline, reduce: Element2
-			reduce(51), // *, reduce: Element2
-			reduce(51), // <, reduce: Element2
-			reduce(51), // >, reduce: Element2
-			reduce(51), // [, reduce: Element2
-			reduce(51), // ], reduce: Element2
-			reduce(51), // (, reduce: Element2
-			reduce(51), // ), reduce: Element2
-			reduce(51), // ,, reduce: Element2
-			reduce(51), // ., reduce: Element2
-			reduce(51), // |, reduce: Element2
-			reduce(51), // ^, reduce: Element2
-			reduce(51), // &, reduce: Element2
-			reduce(51), // <<, reduce: Element2
-			reduce(51), // >>, reduce: Element2
-			reduce(51), // =>, reduce: Element2
-			reduce(51), // /, reduce: Element2
-			reduce(51), // +, reduce: Element2
-			reduce(51), // -, reduce: Element2
-			reduce(51), // ||, reduce: Element2
-			reduce(51), // <>, reduce: Element2
-			reduce(51), // !=, reduce: Element2
-			reduce(51), // =, reduce: Element2
-			reduce(51), // <=, reduce: Element2
-			reduce(51), // >=, reduce: Element2
-			reduce(51), // ;, reduce: Element2
-			reduce(51), // @, reduce: Element2
-			reduce(51), // {, reduce: Element2
-			reduce(51), // }, reduce: Element2
-			reduce(51), // ~, reduce: Element2
-			reduce(51), // else, reduce: Element2
-			reduce(51), // if, reduce: Element2
-			reduce(51), // for, reduce: Element2
-			reduce(51), // endfor, reduce: Element2
-			reduce(51), // elif, reduce: Element2
-			reduce(51), // endif, reduce: Element2
-			reduce(51), // set, reduce: Element2
-			reduce(51), // ?, reduce: Element2
-			reduce(51), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(51), // template_block_start, reduce: Element2
-			reduce(51), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(51), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S174
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(52), // identifier, reduce: Element2
-			reduce(52), // bytes_literal, reduce: Element2
-			reduce(52), // string_literal, reduce: Element2
-			reduce(52), // integer_literal, reduce: Element2
-			reduce(52), // floating_point_literal, reduce: Element2
-			reduce(52), // newline, reduce: Element2
-			reduce(52), // *, reduce: Element2
-			reduce(52), // <, reduce: Element2
-			reduce(52), // >, reduce: Element2
-			reduce(52), // [, reduce: Element2
-			reduce(52), // ], reduce: Element2
-			reduce(52), // (, reduce: Element2
-			reduce(52), // ), reduce: Element2
-			reduce(52), // ,, reduce: Element2
-			reduce(52), // ., reduce: Element2
-			reduce(52), // |, reduce: Element2
-			reduce(52), // ^, reduce: Element2
-			reduce(52), // &, reduce: Element2
-			reduce(52), // <<, reduce: Element2
-			reduce(52), // >>, reduce: Element2
-			reduce(52), // =>, reduce: Element2
-			reduce(52), // /, reduce: Element2
-			reduce(52), // +, reduce: Element2
-			reduce(52), // -, reduce: Element2
-			reduce(52), // ||, reduce: Element2
-			reduce(52), // <>, reduce: Element2
-			reduce(52), // !=, reduce: Element2
-			reduce(52), // =, reduce: Element2
-			reduce(52), // <=, reduce: Element2
-			reduce(52), // >=, reduce: Element2
-			reduce(52), // ;, reduce: Element2
-			reduce(52), // @, reduce: Element2
-			reduce(52), // {, reduce: Element2
-			reduce(52), // }, reduce: Element2
-			reduce(52), // ~, reduce: Element2
-			reduce(52), // else, reduce: Element2
-			reduce(52), // if, reduce: Element2
-			reduce(52), // for, reduce: Element2
-			reduce(52), // endfor, reduce: Element2
-			reduce(52), // elif, reduce: Element2
-			reduce(52), // endif, reduce: Element2
-			reduce(52), // set, reduce: Element2
-			reduce(52), // ?, reduce: Element2
-			reduce(52), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(52), // template_block_start, reduce: Element2
-			reduce(52), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(52), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S175
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(53), // identifier, reduce: Element2
-			reduce(53), // bytes_literal, reduce: Element2
-			reduce(53), // string_literal, reduce: Element2
-			reduce(53), // integer_literal, reduce: Element2
-			reduce(53), // floating_point_literal, reduce: Element2
-			reduce(53), // newline, reduce: Element2
-			reduce(53), // *, reduce: Element2
-			reduce(53), // <, reduce: Element2
-			reduce(53), // >, reduce: Element2
-			reduce(53), // [, reduce: Element2
-			reduce(53), // ], reduce: Element2
-			reduce(53), // (, reduce: Element2
-			reduce(53), // ), reduce: Element2
-			reduce(53), // ,, reduce: Element2
-			reduce(53), // ., reduce: Element2
-			reduce(53), // |, reduce: Element2
-			reduce(53), // ^, reduce: Element2
-			reduce(53), // &, reduce: Element2
-			reduce(53), // <<, reduce: Element2
-			reduce(53), // >>, reduce: Element2
-			reduce(53), // =>, reduce: Element2
-			reduce(53), // /, reduce: Element2
-			reduce(53), // +, reduce: Element2
-			reduce(53), // -, reduce: Element2
-			reduce(53), // ||, reduce: Element2
-			reduce(53), // <>, reduce: Element2
-			reduce(53), // !=, reduce: Element2
-			reduce(53), // =, reduce: Element2
-			reduce(53), // <=, reduce: Element2
-			reduce(53), // >=, reduce: Element2
-			reduce(53), // ;, reduce: Element2
-			reduce(53), // @, reduce: Element2
-			reduce(53), // {, reduce: Element2
-			reduce(53), // }, reduce: Element2
-			reduce(53), // ~, reduce: Element2
-			reduce(53), // else, reduce: Element2
-			reduce(53), // if, reduce: Element2
-			reduce(53), // for, reduce: Element2
-			reduce(53), // endfor, reduce: Element2
-			reduce(53), // elif, reduce: Element2
-			reduce(53), // endif, reduce: Element2
-			reduce(53), // set, reduce: Element2
-			reduce(53), // ?, reduce: Element2
-			reduce(53), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(53), // template_block_start, reduce: Element2
-			reduce(53), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(53), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S176
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(54), // identifier, reduce: Element2
-			reduce(54), // bytes_literal, reduce: Element2
-			reduce(54), // string_literal, reduce: Element2
-			reduce(54), // integer_literal, reduce: Element2
-			reduce(54), // floating_point_literal, reduce: Element2
-			reduce(54), // newline, reduce: Element2
-			reduce(54), // *, reduce: Element2
-			reduce(54), // <, reduce: Element2
-			reduce(54), // >, reduce: Element2
-			reduce(54), // [, reduce: Element2
-			reduce(54), // ], reduce: Element2
-			reduce(54), // (, reduce: Element2
-			reduce(54), // ), reduce: Element2
-			reduce(54), // ,, reduce: Element2
-			reduce(54), // ., reduce: Element2
-			reduce(54), // |, reduce: Element2
-			reduce(54), // ^, reduce: Element2
-			reduce(54), // &, reduce: Element2
-			reduce(54), // <<, reduce: Element2
-			reduce(54), // >>, reduce: Element2
-			reduce(54), // =>, reduce: Element2
-			reduce(54), // /, reduce: Element2
-			reduce(54), // +, reduce: Element2
-			reduce(54), // -, reduce: Element2
-			reduce(54), // ||, reduce: Element2
-			reduce(54), // <>, reduce: Element2
-			reduce(54), // !=, reduce: Element2
-			reduce(54), // =, reduce: Element2
-			reduce(54), // <=, reduce: Element2
-			reduce(54), // >=, reduce: Element2
-			reduce(54), // ;, reduce: Element2
-			reduce(54), // @, reduce: Element2
-			reduce(54), // {, reduce: Element2
-			reduce(54), // }, reduce: Element2
-			reduce(54), // ~, reduce: Element2
-			reduce(54), // else, reduce: Element2
-			reduce(54), // if, reduce: Element2
-			reduce(54), // for, reduce: Element2
-			reduce(54), // endfor, reduce: Element2
-			reduce(54), // elif, reduce: Element2
-			reduce(54), // endif, reduce: Element2
-			reduce(54), // set, reduce: Element2
-			reduce(54), // ?, reduce: Element2
-			reduce(54), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(54), // template_block_start, reduce: Element2
-			reduce(54), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(54), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S177
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(55), // identifier, reduce: Element2
-			reduce(55), // bytes_literal, reduce: Element2
-			reduce(55), // string_literal, reduce: Element2
-			reduce(55), // integer_literal, reduce: Element2
-			reduce(55), // floating_point_literal, reduce: Element2
-			reduce(55), // newline, reduce: Element2
-			reduce(55), // *, reduce: Element2
-			reduce(55), // <, reduce: Element2
-			reduce(55), // >, reduce: Element2
-			reduce(55), // [, reduce: Element2
-			reduce(55), // ], reduce: Element2
-			reduce(55), // (, reduce: Element2
-			reduce(55), // ), reduce: Element2
-			reduce(55), // ,, reduce: Element2
-			reduce(55), // ., reduce: Element2
-			reduce(55), // |, reduce: Element2
-			reduce(55), // ^, reduce: Element2
-			reduce(55), // &, reduce: Element2
-			reduce(55), // <<, reduce: Element2
-			reduce(55), // >>, reduce: Element2
-			reduce(55), // =>, reduce: Element2
-			reduce(55), // /, reduce: Element2
-			reduce(55), // +, reduce: Element2
-			reduce(55), // -, reduce: Element2
-			reduce(55), // ||, reduce: Element2
-			reduce(55), // <>, reduce: Element2
-			reduce(55), // !=, reduce: Element2
-			reduce(55), // =, reduce: Element2
-			reduce(55), // <=, reduce: Element2
-			reduce(55), // >=, reduce: Element2
-			reduce(55), // ;, reduce: Element2
-			reduce(55), // @, reduce: Element2
-			reduce(55), // {, reduce: Element2
-			reduce(55), // }, reduce: Element2
-			reduce(55), // ~, reduce: Element2
-			reduce(55), // else, reduce: Element2
-			reduce(55), // if, reduce: Element2
-			reduce(55), // for, reduce: Element2
-			reduce(55), // endfor, reduce: Element2
-			reduce(55), // elif, reduce: Element2
-			reduce(55), // endif, reduce: Element2
-			reduce(55), // set, reduce: Element2
-			reduce(55), // ?, reduce: Element2
-			reduce(55), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(55), // template_block_start, reduce: Element2
-			reduce(55), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(55), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S178
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(56), // identifier, reduce: Element2
-			reduce(56), // bytes_literal, reduce: Element2
-			reduce(56), // string_literal, reduce: Element2
-			reduce(56), // integer_literal, reduce: Element2
-			reduce(56), // floating_point_literal, reduce: Element2
-			reduce(56), // newline, reduce: Element2
-			reduce(56), // *, reduce: Element2
-			reduce(56), // <, reduce: Element2
-			reduce(56), // >, reduce: Element2
-			reduce(56), // [, reduce: Element2
-			reduce(56), // ], reduce: Element2
-			reduce(56), // (, reduce: Element2
-			reduce(56), // ), reduce: Element2
-			reduce(56), // ,, reduce: Element2
-			reduce(56), // ., reduce: Element2
-			reduce(56), // |, reduce: Element2
-			reduce(56), // ^, reduce: Element2
-			reduce(56), // &, reduce: Element2
-			reduce(56), // <<, reduce: Element2
-			reduce(56), // >>, reduce: Element2
-			reduce(56), // =>, reduce: Element2
-			reduce(56), // /, reduce: Element2
-			reduce(56), // +, reduce: Element2
-			reduce(56), // -, reduce: Element2
-			reduce(56), // ||, reduce: Element2
-			reduce(56), // <>, reduce: Element2
-			reduce(56), // !=, reduce: Element2
-			reduce(56), // =, reduce: Element2
-			reduce(56), // <=, reduce: Element2
-			reduce(56), // >=, reduce: Element2
-			reduce(56), // ;, reduce: Element2
-			reduce(56), // @, reduce: Element2
-			reduce(56), // {, reduce: Element2
-			reduce(56), // }, reduce: Element2
-			reduce(56), // ~, reduce: Element2
-			reduce(56), // else, reduce: Element2
-			reduce(56), // if, reduce: Element2
-			reduce(56), // for, reduce: Element2
-			reduce(56), // endfor, reduce: Element2
-			reduce(56), // elif, reduce: Element2
-			reduce(56), // endif, reduce: Element2
-			reduce(56), // set, reduce: Element2
-			reduce(56), // ?, reduce: Element2
-			reduce(56), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(56), // template_block_start, reduce: Element2
-			reduce(56), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(56), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S179
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(57), // identifier, reduce: Element2
-			reduce(57), // bytes_literal, reduce: Element2
-			reduce(57), // string_literal, reduce: Element2
-			reduce(57), // integer_literal, reduce: Element2
-			reduce(57), // floating_point_literal, reduce: Element2
-			reduce(57), // newline, reduce: Element2
-			reduce(57), // *, reduce: Element2
-			reduce(57), // <, reduce: Element2
-			reduce(57), // >, reduce: Element2
-			reduce(57), // [, reduce: Element2
-			reduce(57), // ], reduce: Element2
-			reduce(57), // (, reduce: Element2
-			reduce(57), // ), reduce: Element2
-			reduce(57), // ,, reduce: Element2
-			reduce(57), // ., reduce: Element2
-			reduce(57), // |, reduce: Element2
-			reduce(57), // ^, reduce: Element2
-			reduce(57), // &, reduce: Element2
-			reduce(57), // <<, reduce: Element2
-			reduce(57), // >>, reduce: Element2
-			reduce(57), // =>, reduce: Element2
-			reduce(57), // /, reduce: Element2
-			reduce(57), // +, reduce: Element2
-			reduce(57), // -, reduce: Element2
-			reduce(57), // ||, reduce: Element2
-			reduce(57), // <>, reduce: Element2
-			reduce(57), // !=, reduce: Element2
-			reduce(57), // =, reduce: Element2
-			reduce(57), // <=, reduce: Element2
-			reduce(57), // >=, reduce: Element2
-			reduce(57), // ;, reduce: Element2
-			reduce(57), // @, reduce: Element2
-			reduce(57), // {, reduce: Element2
-			reduce(57), // }, reduce: Element2
-			reduce(57), // ~, reduce: Element2
-			reduce(57), // else, reduce: Element2
-			reduce(57), // if, reduce: Element2
-			reduce(57), // for, reduce: Element2
-			reduce(57), // endfor, reduce: Element2
-			reduce(57), // elif, reduce: Element2
-			reduce(57), // endif, reduce: Element2
-			reduce(57), // set, reduce: Element2
-			reduce(57), // ?, reduce: Element2
-			reduce(57), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(57), // template_block_start, reduce: Element2
-			reduce(57), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(57), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S180
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(58), // identifier, reduce: Element2
-			reduce(58), // bytes_literal, reduce: Element2
-			reduce(58), // string_literal, reduce: Element2
-			reduce(58), // integer_literal, reduce: Element2
-			reduce(58), // floating_point_literal, reduce: Element2
-			reduce(58), // newline, reduce: Element2
-			reduce(58), // *, reduce: Element2
-			reduce(58), // <, reduce: Element2
-			reduce(58), // >, reduce: Element2
-			reduce(58), // [, reduce: Element2
-			reduce(58), // ], reduce: Element2
-			reduce(58), // (, reduce: Element2
-			reduce(58), // ), reduce: Element2
-			reduce(58), // ,, reduce: Element2
-			reduce(58), // ., reduce: Element2
-			reduce(58), // |, reduce: Element2
-			reduce(58), // ^, reduce: Element2
-			reduce(58), // &, reduce: Element2
-			reduce(58), // <<, reduce: Element2
-			reduce(58), // >>, reduce: Element2
-			reduce(58), // =>, reduce: Element2
-			reduce(58), // /, reduce: Element2
-			reduce(58), // +, reduce: Element2
-			reduce(58), // -, reduce: Element2
-			reduce(58), // ||, reduce: Element2
-			reduce(58), // <>, reduce: Element2
-			reduce(58), // !=, reduce: Element2
-			reduce(58), // =, reduce: Element2
-			reduce(58), // <=, reduce: Element2
-			reduce(58), // >=, reduce: Element2
-			reduce(58), // ;, reduce: Element2
-			reduce(58), // @, reduce: Element2
-			reduce(58), // {, reduce: Element2
-			reduce(58), // }, reduce: Element2
-			reduce(58), // ~, reduce: Element2
-			reduce(58), // else, reduce: Element2
-			reduce(58), // if, reduce: Element2
-			reduce(58), // for, reduce: Element2
-			reduce(58), // endfor, reduce: Element2
-			reduce(58), // elif, reduce: Element2
-			reduce(58), // endif, reduce: Element2
-			reduce(58), // set, reduce: Element2
-			reduce(58), // ?, reduce: Element2
-			reduce(58), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(58), // template_block_start, reduce: Element2
-			reduce(58), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(58), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S181
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(59), // identifier, reduce: Element2
-			reduce(59), // bytes_literal, reduce: Element2
-			reduce(59), // string_literal, reduce: Element2
-			reduce(59), // integer_literal, reduce: Element2
-			reduce(59), // floating_point_literal, reduce: Element2
-			reduce(59), // newline, reduce: Element2
-			reduce(59), // *, reduce: Element2
-			reduce(59), // <, reduce: Element2
-			reduce(59), // >, reduce: Element2
-			reduce(59), // [, reduce: Element2
-			reduce(59), // ], reduce: Element2
-			reduce(59), // (, reduce: Element2
-			reduce(59), // ), reduce: Element2
-			reduce(59), // ,, reduce: Element2
-			reduce(59), // ., reduce: Element2
-			reduce(59), // |, reduce: Element2
-			reduce(59), // ^, reduce: Element2
-			reduce(59), // &, reduce: Element2
-			reduce(59), // <<, reduce: Element2
-			reduce(59), // >>, reduce: Element2
-			reduce(59), // =>, reduce: Element2
-			reduce(59), // /, reduce: Element2
-			reduce(59), // +, reduce: Element2
-			reduce(59), // -, reduce: Element2
-			reduce(59), // ||, reduce: Element2
-			reduce(59), // <>, reduce: Element2
-			reduce(59), // !=, reduce: Element2
-			reduce(59), // =, reduce: Element2
-			reduce(59), // <=, reduce: Element2
-			reduce(59), // >=, reduce: Element2
-			reduce(59), // ;, reduce: Element2
-			reduce(59), // @, reduce: Element2
-			reduce(59), // {, reduce: Element2
-			reduce(59), // }, reduce: Element2
-			reduce(59), // ~, reduce: Element2
-			reduce(59), // else, reduce: Element2
-			reduce(59), // if, reduce: Element2
-			reduce(59), // for, reduce: Element2
-			reduce(59), // endfor, reduce: Element2
-			reduce(59), // elif, reduce: Element2
-			reduce(59), // endif, reduce: Element2
-			reduce(59), // set, reduce: Element2
-			reduce(59), // ?, reduce: Element2
-			reduce(59), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(59), // template_block_start, reduce: Element2
-			reduce(59), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(59), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S182
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(60), // identifier, reduce: Element2
-			reduce(60), // bytes_literal, reduce: Element2
-			reduce(60), // string_literal, reduce: Element2
-			reduce(60), // integer_literal, reduce: Element2
-			reduce(60), // floating_point_literal, reduce: Element2
-			reduce(60), // newline, reduce: Element2
-			reduce(60), // *, reduce: Element2
-			reduce(60), // <, reduce: Element2
-			reduce(60), // >, reduce: Element2
-			reduce(60), // [, reduce: Element2
-			reduce(60), // ], reduce: Element2
-			reduce(60), // (, reduce: Element2
-			reduce(60), // ), reduce: Element2
-			reduce(60), // ,, reduce: Element2
-			reduce(60), // ., reduce: Element2
-			reduce(60), // |, reduce: Element2
-			reduce(60), // ^, reduce: Element2
-			reduce(60), // &, reduce: Element2
-			reduce(60), // <<, reduce: Element2
-			reduce(60), // >>, reduce: Element2
-			reduce(60), // =>, reduce: Element2
-			reduce(60), // /, reduce: Element2
-			reduce(60), // +, reduce: Element2
-			reduce(60), // -, reduce: Element2
-			reduce(60), // ||, reduce: Element2
-			reduce(60), // <>, reduce: Element2
-			reduce(60), // !=, reduce: Element2
-			reduce(60), // =, reduce: Element2
-			reduce(60), // <=, reduce: Element2
-			reduce(60), // >=, reduce: Element2
-			reduce(60), // ;, reduce: Element2
-			reduce(60), // @, reduce: Element2
-			reduce(60), // {, reduce: Element2
-			reduce(60), // }, reduce: Element2
-			reduce(60), // ~, reduce: Element2
-			reduce(60), // else, reduce: Element2
-			reduce(60), // if, reduce: Element2
-			reduce(60), // for, reduce: Element2
-			reduce(60), // endfor, reduce: Element2
-			reduce(60), // elif, reduce: Element2
-			reduce(60), // endif, reduce: Element2
-			reduce(60), // set, reduce: Element2
-			reduce(60), // ?, reduce: Element2
-			reduce(60), // comment, reduce: Element2
-			nil,        // template_block_end
-			reduce(60), // template_block_start, reduce: Element2
-			reduce(60), // template_comment, reduce: Element2
-			nil,        // template_variable_end
-			reduce(60), // template_variable_start, reduce: Element2
-		},
-	},
-	actionRow{ // S183
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(61), // identifier, reduce: Comment
-			reduce(61), // bytes_literal, reduce: Comment
-			reduce(61), // string_literal, reduce: Comment
-			reduce(61), // integer_literal, reduce: Comment
-			reduce(61), // floating_point_literal, reduce: Comment
-			reduce(61), // newline, reduce: Comment
-			reduce(61), // *, reduce: Comment
-			reduce(61), // <, reduce: Comment
-			reduce(61), // >, reduce: Comment
-			reduce(61), // [, reduce: Comment
-			reduce(61), // ], reduce: Comment
-			reduce(61), // (, reduce: Comment
-			reduce(61), // ), reduce: Comment
-			reduce(61), // ,, reduce: Comment
-			reduce(61), // ., reduce: Comment
-			reduce(61), // |, reduce: Comment
-			reduce(61), // ^, reduce: Comment
-			reduce(61), // &, reduce: Comment
-			reduce(61), // <<, reduce: Comment
-			reduce(61), // >>, reduce: Comment
-			reduce(61), // =>, reduce: Comment
-			reduce(61), // /, reduce: Comment
-			reduce(61), // +, reduce: Comment
-			reduce(61), // -, reduce: Comment
-			reduce(61), // ||, reduce: Comment
-			reduce(61), // <>, reduce: Comment
-			reduce(61), // !=, reduce: Comment
-			reduce(61), // =, reduce: Comment
-			reduce(61), // <=, reduce: Comment
-			reduce(61), // >=, reduce: Comment
-			reduce(61), // ;, reduce: Comment
-			reduce(61), // @, reduce: Comment
-			reduce(61), // {, reduce: Comment
-			reduce(61), // }, reduce: Comment
-			reduce(61), // ~, reduce: Comment
-			reduce(61), // else, reduce: Comment
-			reduce(61), // if, reduce: Comment
-			reduce(61), // for, reduce: Comment
-			reduce(61), // endfor, reduce: Comment
-			reduce(61), // elif, reduce: Comment
-			reduce(61), // endif, reduce: Comment
-			reduce(61), // set, reduce: Comment
-			reduce(61), // ?, reduce: Comment
-			reduce(61), // comment, reduce: Comment
-			nil,        // template_block_end
-			reduce(61), // template_block_start, reduce: Comment
-			reduce(61), // template_comment, reduce: Comment
-			nil,        // template_variable_end
-			reduce(61), // template_variable_start, reduce: Comment
-		},
-	},
-	actionRow{ // S184
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(79),  // identifier
-			shift(80),  // bytes_literal
-			shift(81),  // string_literal
-			shift(82),  // integer_literal
-			shift(83),  // floating_point_literal
-			shift(84),  // newline
-			shift(85),  // *
-			shift(86),  // <
-			shift(87),  // >
-			shift(88),  // [
-			shift(89),  // ]
-			shift(90),  // (
-			shift(91),  // )
-			shift(92),  // ,
-			shift(93),  // .
-			shift(94),  // |
-			shift(95),  // ^
-			shift(96),  // &
-			shift(97),  // <<
-			shift(98),  // >>
-			shift(99),  // =>
-			shift(100), // /
-			shift(101), // +
-			shift(102), // -
-			shift(103), // ||
-			shift(104), // <>
-			shift(105), // !=
-			shift(106), // =
-			shift(107), // <=
-			shift(108), // >=
-			shift(109), // ;
-			shift(110), // @
-			shift(111), // {
-			shift(112), // }
-			shift(113), // ~
-			shift(114), // else
-			shift(115), // if
-			shift(116), // for
-			shift(117), // endfor
-			shift(118), // elif
-			shift(119), // endif
-			shift(120), // set
-			shift(121), // ?
-			shift(122), // comment
-			shift(265), // template_block_end
-			shift(55),  // template_block_start
-			shift(127), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S185
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			shift(266), // else
-			shift(129), // if
-			shift(130), // for
-			nil,        // endfor
-			nil,        // elif
-			shift(267), // endif
-			shift(131), // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S186
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(140), // identifier
-			shift(141), // bytes_literal
-			shift(142), // string_literal
-			shift(143), // integer_literal
-			shift(144), // floating_point_literal
-			shift(145), // newline
-			shift(146), // *
-			shift(147), // <
-			shift(148), // >
-			shift(149), // [
-			shift(150), // ]
-			shift(151), // (
-			shift(152), // )
-			shift(153), // ,
-			shift(154), // .
-			shift(155), // |
-			shift(156), // ^
-			shift(157), // &
-			shift(158), // <<
-			shift(159), // >>
-			shift(160), // =>
-			shift(161), // /
-			shift(162), // +
-			shift(163), // -
-			shift(164), // ||
-			shift(165), // <>
-			shift(166), // !=
-			shift(167), // =
-			shift(168), // <=
-			shift(169), // >=
-			shift(170), // ;
-			shift(171), // @
-			shift(172), // {
-			shift(173), // }
-			shift(174), // ~
-			shift(175), // else
-			shift(176), // if
-			shift(177), // for
-			shift(178), // endfor
-			shift(179), // elif
-			shift(180), // endif
-			shift(181), // set
-			shift(182), // ?
-			shift(183), // comment
-			nil,        // template_block_end
-			shift(268), // template_block_start
-			shift(190), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S187
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			reduce(65), // ␚, reduce: TemplateIfBlock
-			reduce(65), // identifier, reduce: TemplateIfBlock
-			reduce(65), // bytes_literal, reduce: TemplateIfBlock
-			reduce(65), // string_literal, reduce: TemplateIfBlock
-			reduce(65), // integer_literal, reduce: TemplateIfBlock
-			reduce(65), // floating_point_literal, reduce: TemplateIfBlock
-			reduce(65), // newline, reduce: TemplateIfBlock
-			reduce(65), // *, reduce: TemplateIfBlock
-			reduce(65), // <, reduce: TemplateIfBlock
-			reduce(65), // >, reduce: TemplateIfBlock
-			reduce(65), // [, reduce: TemplateIfBlock
-			reduce(65), // ], reduce: TemplateIfBlock
-			reduce(65), // (, reduce: TemplateIfBlock
-			reduce(65), // ), reduce: TemplateIfBlock
-			reduce(65), // ,, reduce: TemplateIfBlock
-			reduce(65), // ., reduce: TemplateIfBlock
-			reduce(65), // |, reduce: TemplateIfBlock
-			reduce(65), // ^, reduce: TemplateIfBlock
-			reduce(65), // &, reduce: TemplateIfBlock
-			reduce(65), // <<, reduce: TemplateIfBlock
-			reduce(65), // >>, reduce: TemplateIfBlock
-			reduce(65), // =>, reduce: TemplateIfBlock
-			reduce(65), // /, reduce: TemplateIfBlock
-			reduce(65), // +, reduce: TemplateIfBlock
-			reduce(65), // -, reduce: TemplateIfBlock
-			reduce(65), // ||, reduce: TemplateIfBlock
-			reduce(65), // <>, reduce: TemplateIfBlock
-			reduce(65), // !=, reduce: TemplateIfBlock
-			reduce(65), // =, reduce: TemplateIfBlock
-			reduce(65), // <=, reduce: TemplateIfBlock
-			reduce(65), // >=, reduce: TemplateIfBlock
-			reduce(65), // ;, reduce: TemplateIfBlock
-			reduce(65), // @, reduce: TemplateIfBlock
-			reduce(65), // {, reduce: TemplateIfBlock
-			reduce(65), // }, reduce: TemplateIfBlock
-			reduce(65), // ~, reduce: TemplateIfBlock
-			reduce(65), // else, reduce: TemplateIfBlock
-			reduce(65), // if, reduce: TemplateIfBlock
-			reduce(65), // for, reduce: TemplateIfBlock
-			reduce(65), // endfor, reduce: TemplateIfBlock
-			reduce(65), // elif, reduce: TemplateIfBlock
-			reduce(65), // endif, reduce: TemplateIfBlock
-			reduce(65), // set, reduce: TemplateIfBlock
-			reduce(65), // ?, reduce: TemplateIfBlock
-			reduce(65), // comment, reduce: TemplateIfBlock
-			nil,        // template_block_end
-			reduce(65), // template_block_start, reduce: TemplateIfBlock
-			reduce(65), // template_comment, reduce: TemplateIfBlock
-			nil,        // template_variable_end
-			reduce(65), // template_variable_start, reduce: TemplateIfBlock
-		},
-	},
-	actionRow{ // S188
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(279), // identifier
-			shift(280), // bytes_literal
-			shift(281), // string_literal
-			shift(282), // integer_literal
-			shift(283), // floating_point_literal
-			shift(284), // newline
-			shift(285), // *
-			shift(286), // <
-			shift(287), // >
-			shift(288), // [
-			shift(289), // ]
-			shift(290), // (
-			shift(291), // )
-			shift(292), // ,
-			shift(293), // .
-			shift(294), // |
-			shift(295), // ^
-			shift(296), // &
-			shift(297), // <<
-			shift(298), // >>
-			shift(299), // =>
-			shift(300), // /
-			shift(301), // +
-			shift(302), // -
-			shift(303), // ||
-			shift(304), // <>
-			shift(305), // !=
-			shift(306), // =
-			shift(307), // <=
-			shift(308), // >=
-			shift(309), // ;
-			shift(310), // @
-			shift(311), // {
-			shift(312), // }
-			shift(313), // ~
-			shift(314), // else
-			shift(315), // if
-			shift(316), // for
-			shift(317), // endfor
-			shift(318), // elif
-			shift(319), // endif
-			shift(320), // set
-			shift(321), // ?
-			shift(322), // comment
-			nil,        // template_block_end
-			shift(324), // template_block_start
-			shift(328), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S189
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(140), // identifier
-			shift(141), // bytes_literal
-			shift(142), // string_literal
-			shift(143), // integer_literal
-			shift(144), // floating_point_literal
-			shift(145), // newline
-			shift(146), // *
-			shift(147), // <
-			shift(148), // >
-			shift(149), // [
-			shift(150), // ]
-			shift(151), // (
-			shift(152), // )
-			shift(153), // ,
-			shift(154), // .
-			shift(155), // |
-			shift(156), // ^
-			shift(157), // &
-			shift(158), // <<
-			shift(159), // >>
-			shift(160), // =>
-			shift(161), // /
-			shift(162), // +
-			shift(163), // -
-			shift(164), // ||
-			shift(165), // <>
-			shift(166), // !=
-			shift(167), // =
-			shift(168), // <=
-			shift(169), // >=
-			shift(170), // ;
-			shift(171), // @
-			shift(172), // {
-			shift(173), // }
-			shift(174), // ~
-			shift(175), // else
-			shift(176), // if
-			shift(177), // for
-			shift(178), // endfor
-			shift(179), // elif
-			shift(180), // endif
-			shift(181), // set
-			shift(182), // ?
-			shift(183), // comment
-			nil,        // template_block_end
-			shift(330), // template_block_start
-			shift(190), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S190
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(82), // identifier, reduce: TemplateComment
-			reduce(82), // bytes_literal, reduce: TemplateComment
-			reduce(82), // string_literal, reduce: TemplateComment
-			reduce(82), // integer_literal, reduce: TemplateComment
-			reduce(82), // floating_point_literal, reduce: TemplateComment
-			reduce(82), // newline, reduce: TemplateComment
-			reduce(82), // *, reduce: TemplateComment
-			reduce(82), // <, reduce: TemplateComment
-			reduce(82), // >, reduce: TemplateComment
-			reduce(82), // [, reduce: TemplateComment
-			reduce(82), // ], reduce: TemplateComment
-			reduce(82), // (, reduce: TemplateComment
-			reduce(82), // ), reduce: TemplateComment
-			reduce(82), // ,, reduce: TemplateComment
-			reduce(82), // ., reduce: TemplateComment
-			reduce(82), // |, reduce: TemplateComment
-			reduce(82), // ^, reduce: TemplateComment
-			reduce(82), // &, reduce: TemplateComment
-			reduce(82), // <<, reduce: TemplateComment
-			reduce(82), // >>, reduce: TemplateComment
-			reduce(82), // =>, reduce: TemplateComment
-			reduce(82), // /, reduce: TemplateComment
-			reduce(82), // +, reduce: TemplateComment
-			reduce(82), // -, reduce: TemplateComment
-			reduce(82), // ||, reduce: TemplateComment
-			reduce(82), // <>, reduce: TemplateComment
-			reduce(82), // !=, reduce: TemplateComment
-			reduce(82), // =, reduce: TemplateComment
-			reduce(82), // <=, reduce: TemplateComment
-			reduce(82), // >=, reduce: TemplateComment
-			reduce(82), // ;, reduce: TemplateComment
-			reduce(82), // @, reduce: TemplateComment
-			reduce(82), // {, reduce: TemplateComment
-			reduce(82), // }, reduce: TemplateComment
-			reduce(82), // ~, reduce: TemplateComment
-			reduce(82), // else, reduce: TemplateComment
-			reduce(82), // if, reduce: TemplateComment
-			reduce(82), // for, reduce: TemplateComment
-			reduce(82), // endfor, reduce: TemplateComment
-			reduce(82), // elif, reduce: TemplateComment
-			reduce(82), // endif, reduce: TemplateComment
-			reduce(82), // set, reduce: TemplateComment
-			reduce(82), // ?, reduce: TemplateComment
-			reduce(82), // comment, reduce: TemplateComment
-			nil,        // template_block_end
-			reduce(82), // template_block_start, reduce: TemplateComment
-			reduce(82), // template_comment, reduce: TemplateComment
-			nil,        // template_variable_end
-			reduce(82), // template_variable_start, reduce: TemplateComment
-		},
-	},
-	actionRow{ // S191
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(208), // identifier
-			shift(209), // bytes_literal
-			shift(210), // string_literal
-			shift(211), // integer_literal
-			shift(212), // floating_point_literal
-			shift(213), // newline
-			shift(214), // *
-			shift(215), // <
-			shift(216), // >
-			shift(217), // [
-			shift(218), // ]
-			shift(219), // (
-			shift(220), // )
-			shift(221), // ,
-			shift(222), // .
-			shift(223), // |
-			shift(224), // ^
-			shift(225), // &
-			shift(226), // <<
-			shift(227), // >>
-			shift(228), // =>
-			shift(229), // /
-			shift(230), // +
-			shift(231), // -
-			shift(232), // ||
-			shift(233), // <>
-			shift(234), // !=
-			shift(235), // =
-			shift(236), // <=
-			shift(237), // >=
-			shift(238), // ;
-			shift(239), // @
-			shift(240), // {
-			shift(241), // }
-			shift(242), // ~
-			shift(243), // else
-			shift(244), // if
-			shift(245), // for
-			shift(246), // endfor
-			shift(247), // elif
-			shift(248), // endif
-			shift(249), // set
-			shift(250), // ?
-			shift(251), // comment
-			nil,        // template_block_end
-			shift(55),  // template_block_start
-			shift(255), // template_comment
-			shift(332), // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S192
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(72), // identifier, reduce: TemplateIfBeginPrefix
-			reduce(72), // bytes_literal, reduce: TemplateIfBeginPrefix
-			reduce(72), // string_literal, reduce: TemplateIfBeginPrefix
-			reduce(72), // integer_literal, reduce: TemplateIfBeginPrefix
-			reduce(72), // floating_point_literal, reduce: TemplateIfBeginPrefix
-			reduce(72), // newline, reduce: TemplateIfBeginPrefix
-			reduce(72), // *, reduce: TemplateIfBeginPrefix
-			reduce(72), // <, reduce: TemplateIfBeginPrefix
-			reduce(72), // >, reduce: TemplateIfBeginPrefix
-			reduce(72), // [, reduce: TemplateIfBeginPrefix
-			reduce(72), // ], reduce: TemplateIfBeginPrefix
-			reduce(72), // (, reduce: TemplateIfBeginPrefix
-			reduce(72), // ), reduce: TemplateIfBeginPrefix
-			reduce(72), // ,, reduce: TemplateIfBeginPrefix
-			reduce(72), // ., reduce: TemplateIfBeginPrefix
-			reduce(72), // |, reduce: TemplateIfBeginPrefix
-			reduce(72), // ^, reduce: TemplateIfBeginPrefix
-			reduce(72), // &, reduce: TemplateIfBeginPrefix
-			reduce(72), // <<, reduce: TemplateIfBeginPrefix
-			reduce(72), // >>, reduce: TemplateIfBeginPrefix
-			reduce(72), // =>, reduce: TemplateIfBeginPrefix
-			reduce(72), // /, reduce: TemplateIfBeginPrefix
-			reduce(72), // +, reduce: TemplateIfBeginPrefix
-			reduce(72), // -, reduce: TemplateIfBeginPrefix
-			reduce(72), // ||, reduce: TemplateIfBeginPrefix
-			reduce(72), // <>, reduce: TemplateIfBeginPrefix
-			reduce(72), // !=, reduce: TemplateIfBeginPrefix
-			reduce(72), // =, reduce: TemplateIfBeginPrefix
-			reduce(72), // <=, reduce: TemplateIfBeginPrefix
-			reduce(72), // >=, reduce: TemplateIfBeginPrefix
-			reduce(72), // ;, reduce: TemplateIfBeginPrefix
-			reduce(72), // @, reduce: TemplateIfBeginPrefix
-			reduce(72), // {, reduce: TemplateIfBeginPrefix
-			reduce(72), // }, reduce: TemplateIfBeginPrefix
-			reduce(72), // ~, reduce: TemplateIfBeginPrefix
-			reduce(72), // else, reduce: TemplateIfBeginPrefix
-			reduce(72), // if, reduce: TemplateIfBeginPrefix
-			reduce(72), // for, reduce: TemplateIfBeginPrefix
-			reduce(72), // endfor, reduce: TemplateIfBeginPrefix
-			reduce(72), // elif, reduce: TemplateIfBeginPrefix
-			reduce(72), // endif, reduce: TemplateIfBeginPrefix
-			reduce(72), // set, reduce: TemplateIfBeginPrefix
-			reduce(72), // ?, reduce: TemplateIfBeginPrefix
-			reduce(72), // comment, reduce: TemplateIfBeginPrefix
-			reduce(72), // template_block_end, reduce: TemplateIfBeginPrefix
-			reduce(72), // template_block_start, reduce: TemplateIfBeginPrefix
-			reduce(72), // template_comment, reduce: TemplateIfBeginPrefix
-			nil,        // template_variable_end
-			reduce(72), // template_variable_start, reduce: TemplateIfBeginPrefix
-		},
-	},
-	actionRow{ // S193
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(70), // identifier, reduce: TemplateIfBegin
-			reduce(70), // bytes_literal, reduce: TemplateIfBegin
-			reduce(70), // string_literal, reduce: TemplateIfBegin
-			reduce(70), // integer_literal, reduce: TemplateIfBegin
-			reduce(70), // floating_point_literal, reduce: TemplateIfBegin
-			reduce(70), // newline, reduce: TemplateIfBegin
-			reduce(70), // *, reduce: TemplateIfBegin
-			reduce(70), // <, reduce: TemplateIfBegin
-			reduce(70), // >, reduce: TemplateIfBegin
-			reduce(70), // [, reduce: TemplateIfBegin
-			reduce(70), // ], reduce: TemplateIfBegin
-			reduce(70), // (, reduce: TemplateIfBegin
-			reduce(70), // ), reduce: TemplateIfBegin
-			reduce(70), // ,, reduce: TemplateIfBegin
-			reduce(70), // ., reduce: TemplateIfBegin
-			reduce(70), // |, reduce: TemplateIfBegin
-			reduce(70), // ^, reduce: TemplateIfBegin
-			reduce(70), // &, reduce: TemplateIfBegin
-			reduce(70), // <<, reduce: TemplateIfBegin
-			reduce(70), // >>, reduce: TemplateIfBegin
-			reduce(70), // =>, reduce: TemplateIfBegin
-			reduce(70), // /, reduce: TemplateIfBegin
-			reduce(70), // +, reduce: TemplateIfBegin
-			reduce(70), // -, reduce: TemplateIfBegin
-			reduce(70), // ||, reduce: TemplateIfBegin
-			reduce(70), // <>, reduce: TemplateIfBegin
-			reduce(70), // !=, reduce: TemplateIfBegin
-			reduce(70), // =, reduce: TemplateIfBegin
-			reduce(70), // <=, reduce: TemplateIfBegin
-			reduce(70), // >=, reduce: TemplateIfBegin
-			reduce(70), // ;, reduce: TemplateIfBegin
-			reduce(70), // @, reduce: TemplateIfBegin
-			reduce(70), // {, reduce: TemplateIfBegin
-			reduce(70), // }, reduce: TemplateIfBegin
-			reduce(70), // ~, reduce: TemplateIfBegin
-			reduce(70), // else, reduce: TemplateIfBegin
-			reduce(70), // if, reduce: TemplateIfBegin
-			reduce(70), // for, reduce: TemplateIfBegin
-			reduce(70), // endfor, reduce: TemplateIfBegin
-			reduce(70), // elif, reduce: TemplateIfBegin
-			reduce(70), // endif, reduce: TemplateIfBegin
-			reduce(70), // set, reduce: TemplateIfBegin
-			reduce(70), // ?, reduce: TemplateIfBegin
-			reduce(70), // comment, reduce: TemplateIfBegin
-			nil,        // template_block_end
-			reduce(70), // template_block_start, reduce: TemplateIfBegin
-			reduce(70), // template_comment, reduce: TemplateIfBegin
-			nil,        // template_variable_end
-			reduce(70), // template_variable_start, reduce: TemplateIfBegin
-		},
-	},
-	actionRow{ // S194
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(77), // identifier, reduce: TemplateForBlockPrefix
-			reduce(77), // bytes_literal, reduce: TemplateForBlockPrefix
-			reduce(77), // string_literal, reduce: TemplateForBlockPrefix
-			reduce(77), // integer_literal, reduce: TemplateForBlockPrefix
-			reduce(77), // floating_point_literal, reduce: TemplateForBlockPrefix
-			reduce(77), // newline, reduce: TemplateForBlockPrefix
-			reduce(77), // *, reduce: TemplateForBlockPrefix
-			reduce(77), // <, reduce: TemplateForBlockPrefix
-			reduce(77), // >, reduce: TemplateForBlockPrefix
-			reduce(77), // [, reduce: TemplateForBlockPrefix
-			reduce(77), // ], reduce: TemplateForBlockPrefix
-			reduce(77), // (, reduce: TemplateForBlockPrefix
-			reduce(77), // ), reduce: TemplateForBlockPrefix
-			reduce(77), // ,, reduce: TemplateForBlockPrefix
-			reduce(77), // ., reduce: TemplateForBlockPrefix
-			reduce(77), // |, reduce: TemplateForBlockPrefix
-			reduce(77), // ^, reduce: TemplateForBlockPrefix
-			reduce(77), // &, reduce: TemplateForBlockPrefix
-			reduce(77), // <<, reduce: TemplateForBlockPrefix
-			reduce(77), // >>, reduce: TemplateForBlockPrefix
-			reduce(77), // =>, reduce: TemplateForBlockPrefix
-			reduce(77), // /, reduce: TemplateForBlockPrefix
-			reduce(77), // +, reduce: TemplateForBlockPrefix
-			reduce(77), // -, reduce: TemplateForBlockPrefix
-			reduce(77), // ||, reduce: TemplateForBlockPrefix
-			reduce(77), // <>, reduce: TemplateForBlockPrefix
-			reduce(77), // !=, reduce: TemplateForBlockPrefix
-			reduce(77), // =, reduce: TemplateForBlockPrefix
-			reduce(77), // <=, reduce: TemplateForBlockPrefix
-			reduce(77), // >=, reduce: TemplateForBlockPrefix
-			reduce(77), // ;, reduce: TemplateForBlockPrefix
-			reduce(77), // @, reduce: TemplateForBlockPrefix
-			reduce(77), // {, reduce: TemplateForBlockPrefix
-			reduce(77), // }, reduce: TemplateForBlockPrefix
-			reduce(77), // ~, reduce: TemplateForBlockPrefix
-			reduce(77), // else, reduce: TemplateForBlockPrefix
-			reduce(77), // if, reduce: TemplateForBlockPrefix
-			reduce(77), // for, reduce: TemplateForBlockPrefix
-			reduce(77), // endfor, reduce: TemplateForBlockPrefix
-			reduce(77), // elif, reduce: TemplateForBlockPrefix
-			reduce(77), // endif, reduce: TemplateForBlockPrefix
-			reduce(77), // set, reduce: TemplateForBlockPrefix
-			reduce(77), // ?, reduce: TemplateForBlockPrefix
-			reduce(77), // comment, reduce: TemplateForBlockPrefix
-			nil,        // template_block_end
-			reduce(77), // template_block_start, reduce: TemplateForBlockPrefix
-			reduce(77), // template_comment, reduce: TemplateForBlockPrefix
-			nil,        // template_variable_end
-			reduce(77), // template_variable_start, reduce: TemplateForBlockPrefix
-		},
-	},
-	actionRow{ // S195
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			shift(129), // if
-			shift(130), // for
-			shift(333), // endfor
-			nil,        // elif
-			nil,        // endif
-			shift(131), // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S196
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			reduce(75), // ␚, reduce: TemplateForBlock
-			reduce(75), // identifier, reduce: TemplateForBlock
-			reduce(75), // bytes_literal, reduce: TemplateForBlock
-			reduce(75), // string_literal, reduce: TemplateForBlock
-			reduce(75), // integer_literal, reduce: TemplateForBlock
-			reduce(75), // floating_point_literal, reduce: TemplateForBlock
-			reduce(75), // newline, reduce: TemplateForBlock
-			reduce(75), // *, reduce: TemplateForBlock
-			reduce(75), // <, reduce: TemplateForBlock
-			reduce(75), // >, reduce: TemplateForBlock
-			reduce(75), // [, reduce: TemplateForBlock
-			reduce(75), // ], reduce: TemplateForBlock
-			reduce(75), // (, reduce: TemplateForBlock
-			reduce(75), // ), reduce: TemplateForBlock
-			reduce(75), // ,, reduce: TemplateForBlock
-			reduce(75), // ., reduce: TemplateForBlock
-			reduce(75), // |, reduce: TemplateForBlock
-			reduce(75), // ^, reduce: TemplateForBlock
-			reduce(75), // &, reduce: TemplateForBlock
-			reduce(75), // <<, reduce: TemplateForBlock
-			reduce(75), // >>, reduce: TemplateForBlock
-			reduce(75), // =>, reduce: TemplateForBlock
-			reduce(75), // /, reduce: TemplateForBlock
-			reduce(75), // +, reduce: TemplateForBlock
-			reduce(75), // -, reduce: TemplateForBlock
-			reduce(75), // ||, reduce: TemplateForBlock
-			reduce(75), // <>, reduce: TemplateForBlock
-			reduce(75), // !=, reduce: TemplateForBlock
-			reduce(75), // =, reduce: TemplateForBlock
-			reduce(75), // <=, reduce: TemplateForBlock
-			reduce(75), // >=, reduce: TemplateForBlock
-			reduce(75), // ;, reduce: TemplateForBlock
-			reduce(75), // @, reduce: TemplateForBlock
-			reduce(75), // {, reduce: TemplateForBlock
-			reduce(75), // }, reduce: TemplateForBlock
-			reduce(75), // ~, reduce: TemplateForBlock
-			reduce(75), // else, reduce: TemplateForBlock
-			reduce(75), // if, reduce: TemplateForBlock
-			reduce(75), // for, reduce: TemplateForBlock
-			reduce(75), // endfor, reduce: TemplateForBlock
-			reduce(75), // elif, reduce: TemplateForBlock
-			reduce(75), // endif, reduce: TemplateForBlock
-			reduce(75), // set, reduce: TemplateForBlock
-			reduce(75), // ?, reduce: TemplateForBlock
-			reduce(75), // comment, reduce: TemplateForBlock
-			nil,        // template_block_end
-			reduce(75), // template_block_start, reduce: TemplateForBlock
-			reduce(75), // template_comment, reduce: TemplateForBlock
-			nil,        // template_variable_end
-			reduce(75), // template_variable_start, reduce: TemplateForBlock
-		},
-	},
-	actionRow{ // S197
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(76), // identifier, reduce: TemplateForBlockPrefix
-			reduce(76), // bytes_literal, reduce: TemplateForBlockPrefix
-			reduce(76), // string_literal, reduce: TemplateForBlockPrefix
-			reduce(76), // integer_literal, reduce: TemplateForBlockPrefix
-			reduce(76), // floating_point_literal, reduce: TemplateForBlockPrefix
-			reduce(76), // newline, reduce: TemplateForBlockPrefix
-			reduce(76), // *, reduce: TemplateForBlockPrefix
-			reduce(76), // <, reduce: TemplateForBlockPrefix
-			reduce(76), // >, reduce: TemplateForBlockPrefix
-			reduce(76), // [, reduce: TemplateForBlockPrefix
-			reduce(76), // ], reduce: TemplateForBlockPrefix
-			reduce(76), // (, reduce: TemplateForBlockPrefix
-			reduce(76), // ), reduce: TemplateForBlockPrefix
-			reduce(76), // ,, reduce: TemplateForBlockPrefix
-			reduce(76), // ., reduce: TemplateForBlockPrefix
-			reduce(76), // |, reduce: TemplateForBlockPrefix
-			reduce(76), // ^, reduce: TemplateForBlockPrefix
-			reduce(76), // &, reduce: TemplateForBlockPrefix
-			reduce(76), // <<, reduce: TemplateForBlockPrefix
-			reduce(76), // >>, reduce: TemplateForBlockPrefix
-			reduce(76), // =>, reduce: TemplateForBlockPrefix
-			reduce(76), // /, reduce: TemplateForBlockPrefix
-			reduce(76), // +, reduce: TemplateForBlockPrefix
-			reduce(76), // -, reduce: TemplateForBlockPrefix
-			reduce(76), // ||, reduce: TemplateForBlockPrefix
-			reduce(76), // <>, reduce: TemplateForBlockPrefix
-			reduce(76), // !=, reduce: TemplateForBlockPrefix
-			reduce(76), // =, reduce: TemplateForBlockPrefix
-			reduce(76), // <=, reduce: TemplateForBlockPrefix
-			reduce(76), // >=, reduce: TemplateForBlockPrefix
-			reduce(76), // ;, reduce: TemplateForBlockPrefix
-			reduce(76), // @, reduce: TemplateForBlockPrefix
-			reduce(76), // {, reduce: TemplateForBlockPrefix
-			reduce(76), // }, reduce: TemplateForBlockPrefix
-			reduce(76), // ~, reduce: TemplateForBlockPrefix
-			reduce(76), // else, reduce: TemplateForBlockPrefix
-			reduce(76), // if, reduce: TemplateForBlockPrefix
-			reduce(76), // for, reduce: TemplateForBlockPrefix
-			reduce(76), // endfor, reduce: TemplateForBlockPrefix
-			reduce(76), // elif, reduce: TemplateForBlockPrefix
-			reduce(76), // endif, reduce: TemplateForBlockPrefix
-			reduce(76), // set, reduce: TemplateForBlockPrefix
-			reduce(76), // ?, reduce: TemplateForBlockPrefix
-			reduce(76), // comment, reduce: TemplateForBlockPrefix
-			nil,        // template_block_end
-			reduce(76), // template_block_start, reduce: TemplateForBlockPrefix
-			reduce(76), // template_comment, reduce: TemplateForBlockPrefix
-			nil,        // template_variable_end
-			reduce(76), // template_variable_start, reduce: TemplateForBlockPrefix
-		},
-	},
-	actionRow{ // S198
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(80), // identifier, reduce: TemplateForBeginPrefix
-			reduce(80), // bytes_literal, reduce: TemplateForBeginPrefix
-			reduce(80), // string_literal, reduce: TemplateForBeginPrefix
-			reduce(80), // integer_literal, reduce: TemplateForBeginPrefix
-			reduce(80), // floating_point_literal, reduce: TemplateForBeginPrefix
-			reduce(80), // newline, reduce: TemplateForBeginPrefix
-			reduce(80), // *, reduce: TemplateForBeginPrefix
-			reduce(80), // <, reduce: TemplateForBeginPrefix
-			reduce(80), // >, reduce: TemplateForBeginPrefix
-			reduce(80), // [, reduce: TemplateForBeginPrefix
-			reduce(80), // ], reduce: TemplateForBeginPrefix
-			reduce(80), // (, reduce: TemplateForBeginPrefix
-			reduce(80), // ), reduce: TemplateForBeginPrefix
-			reduce(80), // ,, reduce: TemplateForBeginPrefix
-			reduce(80), // ., reduce: TemplateForBeginPrefix
-			reduce(80), // |, reduce: TemplateForBeginPrefix
-			reduce(80), // ^, reduce: TemplateForBeginPrefix
-			reduce(80), // &, reduce: TemplateForBeginPrefix
-			reduce(80), // <<, reduce: TemplateForBeginPrefix
-			reduce(80), // >>, reduce: TemplateForBeginPrefix
-			reduce(80), // =>, reduce: TemplateForBeginPrefix
-			reduce(80), // /, reduce: TemplateForBeginPrefix
-			reduce(80), // +, reduce: TemplateForBeginPrefix
-			reduce(80), // -, reduce: TemplateForBeginPrefix
-			reduce(80), // ||, reduce: TemplateForBeginPrefix
-			reduce(80), // <>, reduce: TemplateForBeginPrefix
-			reduce(80), // !=, reduce: TemplateForBeginPrefix
-			reduce(80), // =, reduce: TemplateForBeginPrefix
-			reduce(80), // <=, reduce: TemplateForBeginPrefix
-			reduce(80), // >=, reduce: TemplateForBeginPrefix
-			reduce(80), // ;, reduce: TemplateForBeginPrefix
-			reduce(80), // @, reduce: TemplateForBeginPrefix
-			reduce(80), // {, reduce: TemplateForBeginPrefix
-			reduce(80), // }, reduce: TemplateForBeginPrefix
-			reduce(80), // ~, reduce: TemplateForBeginPrefix
-			reduce(80), // else, reduce: TemplateForBeginPrefix
-			reduce(80), // if, reduce: TemplateForBeginPrefix
-			reduce(80), // for, reduce: TemplateForBeginPrefix
-			reduce(80), // endfor, reduce: TemplateForBeginPrefix
-			reduce(80), // elif, reduce: TemplateForBeginPrefix
-			reduce(80), // endif, reduce: TemplateForBeginPrefix
-			reduce(80), // set, reduce: TemplateForBeginPrefix
-			reduce(80), // ?, reduce: TemplateForBeginPrefix
-			reduce(80), // comment, reduce: TemplateForBeginPrefix
-			reduce(80), // template_block_end, reduce: TemplateForBeginPrefix
-			reduce(80), // template_block_start, reduce: TemplateForBeginPrefix
-			reduce(80), // template_comment, reduce: TemplateForBeginPrefix
-			nil,        // template_variable_end
-			reduce(80), // template_variable_start, reduce: TemplateForBeginPrefix
-		},
-	},
-	actionRow{ // S199
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(78), // identifier, reduce: TemplateForBegin
-			reduce(78), // bytes_literal, reduce: TemplateForBegin
-			reduce(78), // string_literal, reduce: TemplateForBegin
-			reduce(78), // integer_literal, reduce: TemplateForBegin
-			reduce(78), // floating_point_literal, reduce: TemplateForBegin
-			reduce(78), // newline, reduce: TemplateForBegin
-			reduce(78), // *, reduce: TemplateForBegin
-			reduce(78), // <, reduce: TemplateForBegin
-			reduce(78), // >, reduce: TemplateForBegin
-			reduce(78), // [, reduce: TemplateForBegin
-			reduce(78), // ], reduce: TemplateForBegin
-			reduce(78), // (, reduce: TemplateForBegin
-			reduce(78), // ), reduce: TemplateForBegin
-			reduce(78), // ,, reduce: TemplateForBegin
-			reduce(78), // ., reduce: TemplateForBegin
-			reduce(78), // |, reduce: TemplateForBegin
-			reduce(78), // ^, reduce: TemplateForBegin
-			reduce(78), // &, reduce: TemplateForBegin
-			reduce(78), // <<, reduce: TemplateForBegin
-			reduce(78), // >>, reduce: TemplateForBegin
-			reduce(78), // =>, reduce: TemplateForBegin
-			reduce(78), // /, reduce: TemplateForBegin
-			reduce(78), // +, reduce: TemplateForBegin
-			reduce(78), // -, reduce: TemplateForBegin
-			reduce(78), // ||, reduce: TemplateForBegin
-			reduce(78), // <>, reduce: TemplateForBegin
-			reduce(78), // !=, reduce: TemplateForBegin
-			reduce(78), // =, reduce: TemplateForBegin
-			reduce(78), // <=, reduce: TemplateForBegin
-			reduce(78), // >=, reduce: TemplateForBegin
-			reduce(78), // ;, reduce: TemplateForBegin
-			reduce(78), // @, reduce: TemplateForBegin
-			reduce(78), // {, reduce: TemplateForBegin
-			reduce(78), // }, reduce: TemplateForBegin
-			reduce(78), // ~, reduce: TemplateForBegin
-			reduce(78), // else, reduce: TemplateForBegin
-			reduce(78), // if, reduce: TemplateForBegin
-			reduce(78), // for, reduce: TemplateForBegin
-			reduce(78), // endfor, reduce: TemplateForBegin
-			reduce(78), // elif, reduce: TemplateForBegin
-			reduce(78), // endif, reduce: TemplateForBegin
-			reduce(78), // set, reduce: TemplateForBegin
-			reduce(78), // ?, reduce: TemplateForBegin
-			reduce(78), // comment, reduce: TemplateForBegin
-			nil,        // template_block_end
-			reduce(78), // template_block_start, reduce: TemplateForBegin
-			reduce(78), // template_comment, reduce: TemplateForBegin
-			nil,        // template_variable_end
-			reduce(78), // template_variable_start, reduce: TemplateForBegin
-		},
-	},
-	actionRow{ // S200
+	actionRow{ // S65
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11259,6 +3764,7 @@ var actionTab = actionTable{
 			reduce(85), // endif, reduce: TemplateVariablePrefix
 			reduce(85), // set, reduce: TemplateVariablePrefix
 			reduce(85), // ?, reduce: TemplateVariablePrefix
+			reduce(85), // :, reduce: TemplateVariablePrefix
 			reduce(85), // comment, reduce: TemplateVariablePrefix
 			nil,        // template_block_end
 			reduce(85), // template_block_start, reduce: TemplateVariablePrefix
@@ -11267,7 +3773,406 @@ var actionTab = actionTable{
 			reduce(85), // template_variable_start, reduce: TemplateVariablePrefix
 		},
 	},
-	actionRow{ // S201
+	actionRow{ // S66
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // INVALID
+			reduce(2), // ␚, reduce: Script
+			reduce(2), // identifier, reduce: Script
+			reduce(2), // bytes_literal, reduce: Script
+			reduce(2), // string_literal, reduce: Script
+			reduce(2), // integer_literal, reduce: Script
+			reduce(2), // floating_point_literal, reduce: Script
+			reduce(2), // newline, reduce: Script
+			reduce(2), // *, reduce: Script
+			reduce(2), // <, reduce: Script
+			reduce(2), // >, reduce: Script
+			reduce(2), // [, reduce: Script
+			reduce(2), // ], reduce: Script
+			reduce(2), // (, reduce: Script
+			reduce(2), // ), reduce: Script
+			reduce(2), // ,, reduce: Script
+			reduce(2), // ., reduce: Script
+			reduce(2), // |, reduce: Script
+			reduce(2), // ^, reduce: Script
+			reduce(2), // &, reduce: Script
+			reduce(2), // <<, reduce: Script
+			reduce(2), // >>, reduce: Script
+			reduce(2), // =>, reduce: Script
+			reduce(2), // /, reduce: Script
+			reduce(2), // +, reduce: Script
+			reduce(2), // -, reduce: Script
+			reduce(2), // ||, reduce: Script
+			reduce(2), // <>, reduce: Script
+			reduce(2), // !=, reduce: Script
+			reduce(2), // =, reduce: Script
+			reduce(2), // <=, reduce: Script
+			reduce(2), // >=, reduce: Script
+			reduce(2), // ;, reduce: Script
+			reduce(2), // @, reduce: Script
+			reduce(2), // {, reduce: Script
+			reduce(2), // }, reduce: Script
+			reduce(2), // ~, reduce: Script
+			reduce(2), // else, reduce: Script
+			reduce(2), // if, reduce: Script
+			reduce(2), // for, reduce: Script
+			reduce(2), // endfor, reduce: Script
+			reduce(2), // elif, reduce: Script
+			reduce(2), // endif, reduce: Script
+			reduce(2), // set, reduce: Script
+			reduce(2), // ?, reduce: Script
+			reduce(2), // :, reduce: Script
+			reduce(2), // comment, reduce: Script
+			nil,       // template_block_end
+			reduce(2), // template_block_start, reduce: Script
+			reduce(2), // template_comment, reduce: Script
+			nil,       // template_variable_end
+			reduce(2), // template_variable_start, reduce: Script
+		},
+	},
+	actionRow{ // S67
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // INVALID
+			reduce(3), // ␚, reduce: Script
+			reduce(3), // identifier, reduce: Script
+			reduce(3), // bytes_literal, reduce: Script
+			reduce(3), // string_literal, reduce: Script
+			reduce(3), // integer_literal, reduce: Script
+			reduce(3), // floating_point_literal, reduce: Script
+			reduce(3), // newline, reduce: Script
+			reduce(3), // *, reduce: Script
+			reduce(3), // <, reduce: Script
+			reduce(3), // >, reduce: Script
+			reduce(3), // [, reduce: Script
+			reduce(3), // ], reduce: Script
+			reduce(3), // (, reduce: Script
+			reduce(3), // ), reduce: Script
+			reduce(3), // ,, reduce: Script
+			reduce(3), // ., reduce: Script
+			reduce(3), // |, reduce: Script
+			reduce(3), // ^, reduce: Script
+			reduce(3), // &, reduce: Script
+			reduce(3), // <<, reduce: Script
+			reduce(3), // >>, reduce: Script
+			reduce(3), // =>, reduce: Script
+			reduce(3), // /, reduce: Script
+			reduce(3), // +, reduce: Script
+			reduce(3), // -, reduce: Script
+			reduce(3), // ||, reduce: Script
+			reduce(3), // <>, reduce: Script
+			reduce(3), // !=, reduce: Script
+			reduce(3), // =, reduce: Script
+			reduce(3), // <=, reduce: Script
+			reduce(3), // >=, reduce: Script
+			reduce(3), // ;, reduce: Script
+			reduce(3), // @, reduce: Script
+			reduce(3), // {, reduce: Script
+			reduce(3), // }, reduce: Script
+			reduce(3), // ~, reduce: Script
+			reduce(3), // else, reduce: Script
+			reduce(3), // if, reduce: Script
+			reduce(3), // for, reduce: Script
+			reduce(3), // endfor, reduce: Script
+			reduce(3), // elif, reduce: Script
+			reduce(3), // endif, reduce: Script
+			reduce(3), // set, reduce: Script
+			reduce(3), // ?, reduce: Script
+			reduce(3), // :, reduce: Script
+			reduce(3), // comment, reduce: Script
+			nil,       // template_block_end
+			reduce(3), // template_block_start, reduce: Script
+			reduce(3), // template_comment, reduce: Script
+			nil,       // template_variable_end
+			reduce(3), // template_variable_start, reduce: Script
+		},
+	},
+	actionRow{ // S68
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // INVALID
+			reduce(4), // ␚, reduce: Script
+			reduce(4), // identifier, reduce: Script
+			reduce(4), // bytes_literal, reduce: Script
+			reduce(4), // string_literal, reduce: Script
+			reduce(4), // integer_literal, reduce: Script
+			reduce(4), // floating_point_literal, reduce: Script
+			reduce(4), // newline, reduce: Script
+			reduce(4), // *, reduce: Script
+			reduce(4), // <, reduce: Script
+			reduce(4), // >, reduce: Script
+			reduce(4), // [, reduce: Script
+			reduce(4), // ], reduce: Script
+			reduce(4), // (, reduce: Script
+			reduce(4), // ), reduce: Script
+			reduce(4), // ,, reduce: Script
+			reduce(4), // ., reduce: Script
+			reduce(4), // |, reduce: Script
+			reduce(4), // ^, reduce: Script
+			reduce(4), // &, reduce: Script
+			reduce(4), // <<, reduce: Script
+			reduce(4), // >>, reduce: Script
+			reduce(4), // =>, reduce: Script
+			reduce(4), // /, reduce: Script
+			reduce(4), // +, reduce: Script
+			reduce(4), // -, reduce: Script
+			reduce(4), // ||, reduce: Script
+			reduce(4), // <>, reduce: Script
+			reduce(4), // !=, reduce: Script
+			reduce(4), // =, reduce: Script
+			reduce(4), // <=, reduce: Script
+			reduce(4), // >=, reduce: Script
+			reduce(4), // ;, reduce: Script
+			reduce(4), // @, reduce: Script
+			reduce(4), // {, reduce: Script
+			reduce(4), // }, reduce: Script
+			reduce(4), // ~, reduce: Script
+			reduce(4), // else, reduce: Script
+			reduce(4), // if, reduce: Script
+			reduce(4), // for, reduce: Script
+			reduce(4), // endfor, reduce: Script
+			reduce(4), // elif, reduce: Script
+			reduce(4), // endif, reduce: Script
+			reduce(4), // set, reduce: Script
+			reduce(4), // ?, reduce: Script
+			reduce(4), // :, reduce: Script
+			reduce(4), // comment, reduce: Script
+			nil,       // template_block_end
+			reduce(4), // template_block_start, reduce: Script
+			reduce(4), // template_comment, reduce: Script
+			nil,       // template_variable_end
+			reduce(4), // template_variable_start, reduce: Script
+		},
+	},
+	actionRow{ // S69
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // INVALID
+			reduce(5), // ␚, reduce: Script
+			reduce(5), // identifier, reduce: Script
+			reduce(5), // bytes_literal, reduce: Script
+			reduce(5), // string_literal, reduce: Script
+			reduce(5), // integer_literal, reduce: Script
+			reduce(5), // floating_point_literal, reduce: Script
+			reduce(5), // newline, reduce: Script
+			reduce(5), // *, reduce: Script
+			reduce(5), // <, reduce: Script
+			reduce(5), // >, reduce: Script
+			reduce(5), // [, reduce: Script
+			reduce(5), // ], reduce: Script
+			reduce(5), // (, reduce: Script
+			reduce(5), // ), reduce: Script
+			reduce(5), // ,, reduce: Script
+			reduce(5), // ., reduce: Script
+			reduce(5), // |, reduce: Script
+			reduce(5), // ^, reduce: Script
+			reduce(5), // &, reduce: Script
+			reduce(5), // <<, reduce: Script
+			reduce(5), // >>, reduce: Script
+			reduce(5), // =>, reduce: Script
+			reduce(5), // /, reduce: Script
+			reduce(5), // +, reduce: Script
+			reduce(5), // -, reduce: Script
+			reduce(5), // ||, reduce: Script
+			reduce(5), // <>, reduce: Script
+			reduce(5), // !=, reduce: Script
+			reduce(5), // =, reduce: Script
+			reduce(5), // <=, reduce: Script
+			reduce(5), // >=, reduce: Script
+			reduce(5), // ;, reduce: Script
+			reduce(5), // @, reduce: Script
+			reduce(5), // {, reduce: Script
+			reduce(5), // }, reduce: Script
+			reduce(5), // ~, reduce: Script
+			reduce(5), // else, reduce: Script
+			reduce(5), // if, reduce: Script
+			reduce(5), // for, reduce: Script
+			reduce(5), // endfor, reduce: Script
+			reduce(5), // elif, reduce: Script
+			reduce(5), // endif, reduce: Script
+			reduce(5), // set, reduce: Script
+			reduce(5), // ?, reduce: Script
+			reduce(5), // :, reduce: Script
+			reduce(5), // comment, reduce: Script
+			nil,       // template_block_end
+			reduce(5), // template_block_start, reduce: Script
+			reduce(5), // template_comment, reduce: Script
+			nil,       // template_variable_end
+			reduce(5), // template_variable_start, reduce: Script
+		},
+	},
+	actionRow{ // S70
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // INVALID
+			reduce(6), // ␚, reduce: Script
+			reduce(6), // identifier, reduce: Script
+			reduce(6), // bytes_literal, reduce: Script
+			reduce(6), // string_literal, reduce: Script
+			reduce(6), // integer_literal, reduce: Script
+			reduce(6), // floating_point_literal, reduce: Script
+			reduce(6), // newline, reduce: Script
+			reduce(6), // *, reduce: Script
+			reduce(6), // <, reduce: Script
+			reduce(6), // >, reduce: Script
+			reduce(6), // [, reduce: Script
+			reduce(6), // ], reduce: Script
+			reduce(6), // (, reduce: Script
+			reduce(6), // ), reduce: Script
+			reduce(6), // ,, reduce: Script
+			reduce(6), // ., reduce: Script
+			reduce(6), // |, reduce: Script
+			reduce(6), // ^, reduce: Script
+			reduce(6), // &, reduce: Script
+			reduce(6), // <<, reduce: Script
+			reduce(6), // >>, reduce: Script
+			reduce(6), // =>, reduce: Script
+			reduce(6), // /, reduce: Script
+			reduce(6), // +, reduce: Script
+			reduce(6), // -, reduce: Script
+			reduce(6), // ||, reduce: Script
+			reduce(6), // <>, reduce: Script
+			reduce(6), // !=, reduce: Script
+			reduce(6), // =, reduce: Script
+			reduce(6), // <=, reduce: Script
+			reduce(6), // >=, reduce: Script
+			reduce(6), // ;, reduce: Script
+			reduce(6), // @, reduce: Script
+			reduce(6), // {, reduce: Script
+			reduce(6), // }, reduce: Script
+			reduce(6), // ~, reduce: Script
+			reduce(6), // else, reduce: Script
+			reduce(6), // if, reduce: Script
+			reduce(6), // for, reduce: Script
+			reduce(6), // endfor, reduce: Script
+			reduce(6), // elif, reduce: Script
+			reduce(6), // endif, reduce: Script
+			reduce(6), // set, reduce: Script
+			reduce(6), // ?, reduce: Script
+			reduce(6), // :, reduce: Script
+			reduce(6), // comment, reduce: Script
+			nil,       // template_block_end
+			reduce(6), // template_block_start, reduce: Script
+			reduce(6), // template_comment, reduce: Script
+			nil,       // template_variable_end
+			reduce(6), // template_variable_start, reduce: Script
+		},
+	},
+	actionRow{ // S71
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // INVALID
+			reduce(7), // ␚, reduce: Script
+			reduce(7), // identifier, reduce: Script
+			reduce(7), // bytes_literal, reduce: Script
+			reduce(7), // string_literal, reduce: Script
+			reduce(7), // integer_literal, reduce: Script
+			reduce(7), // floating_point_literal, reduce: Script
+			reduce(7), // newline, reduce: Script
+			reduce(7), // *, reduce: Script
+			reduce(7), // <, reduce: Script
+			reduce(7), // >, reduce: Script
+			reduce(7), // [, reduce: Script
+			reduce(7), // ], reduce: Script
+			reduce(7), // (, reduce: Script
+			reduce(7), // ), reduce: Script
+			reduce(7), // ,, reduce: Script
+			reduce(7), // ., reduce: Script
+			reduce(7), // |, reduce: Script
+			reduce(7), // ^, reduce: Script
+			reduce(7), // &, reduce: Script
+			reduce(7), // <<, reduce: Script
+			reduce(7), // >>, reduce: Script
+			reduce(7), // =>, reduce: Script
+			reduce(7), // /, reduce: Script
+			reduce(7), // +, reduce: Script
+			reduce(7), // -, reduce: Script
+			reduce(7), // ||, reduce: Script
+			reduce(7), // <>, reduce: Script
+			reduce(7), // !=, reduce: Script
+			reduce(7), // =, reduce: Script
+			reduce(7), // <=, reduce: Script
+			reduce(7), // >=, reduce: Script
+			reduce(7), // ;, reduce: Script
+			reduce(7), // @, reduce: Script
+			reduce(7), // {, reduce: Script
+			reduce(7), // }, reduce: Script
+			reduce(7), // ~, reduce: Script
+			reduce(7), // else, reduce: Script
+			reduce(7), // if, reduce: Script
+			reduce(7), // for, reduce: Script
+			reduce(7), // endfor, reduce: Script
+			reduce(7), // elif, reduce: Script
+			reduce(7), // endif, reduce: Script
+			reduce(7), // set, reduce: Script
+			reduce(7), // ?, reduce: Script
+			reduce(7), // :, reduce: Script
+			reduce(7), // comment, reduce: Script
+			nil,       // template_block_end
+			reduce(7), // template_block_start, reduce: Script
+			reduce(7), // template_comment, reduce: Script
+			nil,       // template_variable_end
+			reduce(7), // template_variable_start, reduce: Script
+		},
+	},
+	actionRow{ // S72
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(65), // identifier, reduce: TemplateSetBlockPrefix
+			reduce(65), // bytes_literal, reduce: TemplateSetBlockPrefix
+			reduce(65), // string_literal, reduce: TemplateSetBlockPrefix
+			reduce(65), // integer_literal, reduce: TemplateSetBlockPrefix
+			reduce(65), // floating_point_literal, reduce: TemplateSetBlockPrefix
+			reduce(65), // newline, reduce: TemplateSetBlockPrefix
+			reduce(65), // *, reduce: TemplateSetBlockPrefix
+			reduce(65), // <, reduce: TemplateSetBlockPrefix
+			reduce(65), // >, reduce: TemplateSetBlockPrefix
+			reduce(65), // [, reduce: TemplateSetBlockPrefix
+			reduce(65), // ], reduce: TemplateSetBlockPrefix
+			reduce(65), // (, reduce: TemplateSetBlockPrefix
+			reduce(65), // ), reduce: TemplateSetBlockPrefix
+			reduce(65), // ,, reduce: TemplateSetBlockPrefix
+			reduce(65), // ., reduce: TemplateSetBlockPrefix
+			reduce(65), // |, reduce: TemplateSetBlockPrefix
+			reduce(65), // ^, reduce: TemplateSetBlockPrefix
+			reduce(65), // &, reduce: TemplateSetBlockPrefix
+			reduce(65), // <<, reduce: TemplateSetBlockPrefix
+			reduce(65), // >>, reduce: TemplateSetBlockPrefix
+			reduce(65), // =>, reduce: TemplateSetBlockPrefix
+			reduce(65), // /, reduce: TemplateSetBlockPrefix
+			reduce(65), // +, reduce: TemplateSetBlockPrefix
+			reduce(65), // -, reduce: TemplateSetBlockPrefix
+			reduce(65), // ||, reduce: TemplateSetBlockPrefix
+			reduce(65), // <>, reduce: TemplateSetBlockPrefix
+			reduce(65), // !=, reduce: TemplateSetBlockPrefix
+			reduce(65), // =, reduce: TemplateSetBlockPrefix
+			reduce(65), // <=, reduce: TemplateSetBlockPrefix
+			reduce(65), // >=, reduce: TemplateSetBlockPrefix
+			reduce(65), // ;, reduce: TemplateSetBlockPrefix
+			reduce(65), // @, reduce: TemplateSetBlockPrefix
+			reduce(65), // {, reduce: TemplateSetBlockPrefix
+			reduce(65), // }, reduce: TemplateSetBlockPrefix
+			reduce(65), // ~, reduce: TemplateSetBlockPrefix
+			reduce(65), // else, reduce: TemplateSetBlockPrefix
+			reduce(65), // if, reduce: TemplateSetBlockPrefix
+			reduce(65), // for, reduce: TemplateSetBlockPrefix
+			reduce(65), // endfor, reduce: TemplateSetBlockPrefix
+			reduce(65), // elif, reduce: TemplateSetBlockPrefix
+			reduce(65), // endif, reduce: TemplateSetBlockPrefix
+			reduce(65), // set, reduce: TemplateSetBlockPrefix
+			reduce(65), // ?, reduce: TemplateSetBlockPrefix
+			reduce(65), // :, reduce: TemplateSetBlockPrefix
+			reduce(65), // comment, reduce: TemplateSetBlockPrefix
+			reduce(65), // template_block_end, reduce: TemplateSetBlockPrefix
+			reduce(65), // template_block_start, reduce: TemplateSetBlockPrefix
+			reduce(65), // template_comment, reduce: TemplateSetBlockPrefix
+			nil,        // template_variable_end
+			reduce(65), // template_variable_start, reduce: TemplateSetBlockPrefix
+		},
+	},
+	actionRow{ // S73
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11315,15 +4220,16 @@ var actionTab = actionTable{
 			reduce(11), // endif, reduce: Element
 			reduce(11), // set, reduce: Element
 			reduce(11), // ?, reduce: Element
+			reduce(11), // :, reduce: Element
 			reduce(11), // comment, reduce: Element
-			nil,        // template_block_end
+			reduce(11), // template_block_end, reduce: Element
 			reduce(11), // template_block_start, reduce: Element
 			reduce(11), // template_comment, reduce: Element
-			reduce(11), // template_variable_end, reduce: Element
+			nil,        // template_variable_end
 			reduce(11), // template_variable_start, reduce: Element
 		},
 	},
-	actionRow{ // S202
+	actionRow{ // S74
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
@@ -11371,15 +4277,16 @@ var actionTab = actionTable{
 			reduce(8), // endif, reduce: Element
 			reduce(8), // set, reduce: Element
 			reduce(8), // ?, reduce: Element
+			reduce(8), // :, reduce: Element
 			reduce(8), // comment, reduce: Element
-			nil,       // template_block_end
+			reduce(8), // template_block_end, reduce: Element
 			reduce(8), // template_block_start, reduce: Element
 			reduce(8), // template_comment, reduce: Element
-			reduce(8), // template_variable_end, reduce: Element
+			nil,       // template_variable_end
 			reduce(8), // template_variable_start, reduce: Element
 		},
 	},
-	actionRow{ // S203
+	actionRow{ // S75
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
@@ -11427,15 +4334,16 @@ var actionTab = actionTable{
 			reduce(9), // endif, reduce: Element
 			reduce(9), // set, reduce: Element
 			reduce(9), // ?, reduce: Element
+			reduce(9), // :, reduce: Element
 			reduce(9), // comment, reduce: Element
-			nil,       // template_block_end
+			reduce(9), // template_block_end, reduce: Element
 			reduce(9), // template_block_start, reduce: Element
 			reduce(9), // template_comment, reduce: Element
-			reduce(9), // template_variable_end, reduce: Element
+			nil,       // template_variable_end
 			reduce(9), // template_variable_start, reduce: Element
 		},
 	},
-	actionRow{ // S204
+	actionRow{ // S76
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11483,15 +4391,16 @@ var actionTab = actionTable{
 			reduce(10), // endif, reduce: Element
 			reduce(10), // set, reduce: Element
 			reduce(10), // ?, reduce: Element
+			reduce(10), // :, reduce: Element
 			reduce(10), // comment, reduce: Element
-			nil,        // template_block_end
+			reduce(10), // template_block_end, reduce: Element
 			reduce(10), // template_block_start, reduce: Element
 			reduce(10), // template_comment, reduce: Element
-			reduce(10), // template_variable_end, reduce: Element
+			nil,        // template_variable_end
 			reduce(10), // template_variable_start, reduce: Element
 		},
 	},
-	actionRow{ // S205
+	actionRow{ // S77
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11539,15 +4448,16 @@ var actionTab = actionTable{
 			reduce(12), // endif, reduce: Element
 			reduce(12), // set, reduce: Element
 			reduce(12), // ?, reduce: Element
+			reduce(12), // :, reduce: Element
 			reduce(12), // comment, reduce: Element
-			nil,        // template_block_end
+			reduce(12), // template_block_end, reduce: Element
 			reduce(12), // template_block_start, reduce: Element
 			reduce(12), // template_comment, reduce: Element
-			reduce(12), // template_variable_end, reduce: Element
+			nil,        // template_variable_end
 			reduce(12), // template_variable_start, reduce: Element
 		},
 	},
-	actionRow{ // S206
+	actionRow{ // S78
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11595,15 +4505,16 @@ var actionTab = actionTable{
 			reduce(13), // endif, reduce: Element
 			reduce(13), // set, reduce: Element
 			reduce(13), // ?, reduce: Element
+			reduce(13), // :, reduce: Element
 			reduce(13), // comment, reduce: Element
-			nil,        // template_block_end
+			reduce(13), // template_block_end, reduce: Element
 			reduce(13), // template_block_start, reduce: Element
 			reduce(13), // template_comment, reduce: Element
-			reduce(13), // template_variable_end, reduce: Element
+			nil,        // template_variable_end
 			reduce(13), // template_variable_start, reduce: Element
 		},
 	},
-	actionRow{ // S207
+	actionRow{ // S79
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11651,15 +4562,16 @@ var actionTab = actionTable{
 			reduce(14), // endif, reduce: Element2
 			reduce(14), // set, reduce: Element2
 			reduce(14), // ?, reduce: Element2
+			reduce(14), // :, reduce: Element2
 			reduce(14), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(14), // template_block_end, reduce: Element2
 			reduce(14), // template_block_start, reduce: Element2
 			reduce(14), // template_comment, reduce: Element2
-			reduce(14), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(14), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S208
+	actionRow{ // S80
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11707,15 +4619,16 @@ var actionTab = actionTable{
 			reduce(15), // endif, reduce: Element2
 			reduce(15), // set, reduce: Element2
 			reduce(15), // ?, reduce: Element2
+			reduce(15), // :, reduce: Element2
 			reduce(15), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(15), // template_block_end, reduce: Element2
 			reduce(15), // template_block_start, reduce: Element2
 			reduce(15), // template_comment, reduce: Element2
-			reduce(15), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(15), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S209
+	actionRow{ // S81
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11763,15 +4676,16 @@ var actionTab = actionTable{
 			reduce(16), // endif, reduce: Element2
 			reduce(16), // set, reduce: Element2
 			reduce(16), // ?, reduce: Element2
+			reduce(16), // :, reduce: Element2
 			reduce(16), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(16), // template_block_end, reduce: Element2
 			reduce(16), // template_block_start, reduce: Element2
 			reduce(16), // template_comment, reduce: Element2
-			reduce(16), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(16), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S210
+	actionRow{ // S82
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11819,15 +4733,16 @@ var actionTab = actionTable{
 			reduce(17), // endif, reduce: Element2
 			reduce(17), // set, reduce: Element2
 			reduce(17), // ?, reduce: Element2
+			reduce(17), // :, reduce: Element2
 			reduce(17), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(17), // template_block_end, reduce: Element2
 			reduce(17), // template_block_start, reduce: Element2
 			reduce(17), // template_comment, reduce: Element2
-			reduce(17), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(17), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S211
+	actionRow{ // S83
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11875,15 +4790,16 @@ var actionTab = actionTable{
 			reduce(18), // endif, reduce: Element2
 			reduce(18), // set, reduce: Element2
 			reduce(18), // ?, reduce: Element2
+			reduce(18), // :, reduce: Element2
 			reduce(18), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(18), // template_block_end, reduce: Element2
 			reduce(18), // template_block_start, reduce: Element2
 			reduce(18), // template_comment, reduce: Element2
-			reduce(18), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(18), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S212
+	actionRow{ // S84
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11931,15 +4847,16 @@ var actionTab = actionTable{
 			reduce(19), // endif, reduce: Element2
 			reduce(19), // set, reduce: Element2
 			reduce(19), // ?, reduce: Element2
+			reduce(19), // :, reduce: Element2
 			reduce(19), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(19), // template_block_end, reduce: Element2
 			reduce(19), // template_block_start, reduce: Element2
 			reduce(19), // template_comment, reduce: Element2
-			reduce(19), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(19), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S213
+	actionRow{ // S85
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -11987,15 +4904,16 @@ var actionTab = actionTable{
 			reduce(20), // endif, reduce: Element2
 			reduce(20), // set, reduce: Element2
 			reduce(20), // ?, reduce: Element2
+			reduce(20), // :, reduce: Element2
 			reduce(20), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(20), // template_block_end, reduce: Element2
 			reduce(20), // template_block_start, reduce: Element2
 			reduce(20), // template_comment, reduce: Element2
-			reduce(20), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(20), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S214
+	actionRow{ // S86
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12043,15 +4961,16 @@ var actionTab = actionTable{
 			reduce(21), // endif, reduce: Element2
 			reduce(21), // set, reduce: Element2
 			reduce(21), // ?, reduce: Element2
+			reduce(21), // :, reduce: Element2
 			reduce(21), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(21), // template_block_end, reduce: Element2
 			reduce(21), // template_block_start, reduce: Element2
 			reduce(21), // template_comment, reduce: Element2
-			reduce(21), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(21), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S215
+	actionRow{ // S87
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12099,15 +5018,16 @@ var actionTab = actionTable{
 			reduce(22), // endif, reduce: Element2
 			reduce(22), // set, reduce: Element2
 			reduce(22), // ?, reduce: Element2
+			reduce(22), // :, reduce: Element2
 			reduce(22), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(22), // template_block_end, reduce: Element2
 			reduce(22), // template_block_start, reduce: Element2
 			reduce(22), // template_comment, reduce: Element2
-			reduce(22), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(22), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S216
+	actionRow{ // S88
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12155,15 +5075,16 @@ var actionTab = actionTable{
 			reduce(23), // endif, reduce: Element2
 			reduce(23), // set, reduce: Element2
 			reduce(23), // ?, reduce: Element2
+			reduce(23), // :, reduce: Element2
 			reduce(23), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(23), // template_block_end, reduce: Element2
 			reduce(23), // template_block_start, reduce: Element2
 			reduce(23), // template_comment, reduce: Element2
-			reduce(23), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(23), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S217
+	actionRow{ // S89
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12211,15 +5132,16 @@ var actionTab = actionTable{
 			reduce(24), // endif, reduce: Element2
 			reduce(24), // set, reduce: Element2
 			reduce(24), // ?, reduce: Element2
+			reduce(24), // :, reduce: Element2
 			reduce(24), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(24), // template_block_end, reduce: Element2
 			reduce(24), // template_block_start, reduce: Element2
 			reduce(24), // template_comment, reduce: Element2
-			reduce(24), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(24), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S218
+	actionRow{ // S90
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12267,15 +5189,16 @@ var actionTab = actionTable{
 			reduce(25), // endif, reduce: Element2
 			reduce(25), // set, reduce: Element2
 			reduce(25), // ?, reduce: Element2
+			reduce(25), // :, reduce: Element2
 			reduce(25), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(25), // template_block_end, reduce: Element2
 			reduce(25), // template_block_start, reduce: Element2
 			reduce(25), // template_comment, reduce: Element2
-			reduce(25), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(25), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S219
+	actionRow{ // S91
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12323,15 +5246,16 @@ var actionTab = actionTable{
 			reduce(26), // endif, reduce: Element2
 			reduce(26), // set, reduce: Element2
 			reduce(26), // ?, reduce: Element2
+			reduce(26), // :, reduce: Element2
 			reduce(26), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(26), // template_block_end, reduce: Element2
 			reduce(26), // template_block_start, reduce: Element2
 			reduce(26), // template_comment, reduce: Element2
-			reduce(26), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(26), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S220
+	actionRow{ // S92
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12379,15 +5303,16 @@ var actionTab = actionTable{
 			reduce(27), // endif, reduce: Element2
 			reduce(27), // set, reduce: Element2
 			reduce(27), // ?, reduce: Element2
+			reduce(27), // :, reduce: Element2
 			reduce(27), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(27), // template_block_end, reduce: Element2
 			reduce(27), // template_block_start, reduce: Element2
 			reduce(27), // template_comment, reduce: Element2
-			reduce(27), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(27), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S221
+	actionRow{ // S93
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12435,15 +5360,16 @@ var actionTab = actionTable{
 			reduce(28), // endif, reduce: Element2
 			reduce(28), // set, reduce: Element2
 			reduce(28), // ?, reduce: Element2
+			reduce(28), // :, reduce: Element2
 			reduce(28), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(28), // template_block_end, reduce: Element2
 			reduce(28), // template_block_start, reduce: Element2
 			reduce(28), // template_comment, reduce: Element2
-			reduce(28), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(28), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S222
+	actionRow{ // S94
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12491,15 +5417,16 @@ var actionTab = actionTable{
 			reduce(29), // endif, reduce: Element2
 			reduce(29), // set, reduce: Element2
 			reduce(29), // ?, reduce: Element2
+			reduce(29), // :, reduce: Element2
 			reduce(29), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(29), // template_block_end, reduce: Element2
 			reduce(29), // template_block_start, reduce: Element2
 			reduce(29), // template_comment, reduce: Element2
-			reduce(29), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(29), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S223
+	actionRow{ // S95
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12547,15 +5474,16 @@ var actionTab = actionTable{
 			reduce(30), // endif, reduce: Element2
 			reduce(30), // set, reduce: Element2
 			reduce(30), // ?, reduce: Element2
+			reduce(30), // :, reduce: Element2
 			reduce(30), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(30), // template_block_end, reduce: Element2
 			reduce(30), // template_block_start, reduce: Element2
 			reduce(30), // template_comment, reduce: Element2
-			reduce(30), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(30), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S224
+	actionRow{ // S96
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12603,15 +5531,16 @@ var actionTab = actionTable{
 			reduce(31), // endif, reduce: Element2
 			reduce(31), // set, reduce: Element2
 			reduce(31), // ?, reduce: Element2
+			reduce(31), // :, reduce: Element2
 			reduce(31), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(31), // template_block_end, reduce: Element2
 			reduce(31), // template_block_start, reduce: Element2
 			reduce(31), // template_comment, reduce: Element2
-			reduce(31), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(31), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S225
+	actionRow{ // S97
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12659,15 +5588,16 @@ var actionTab = actionTable{
 			reduce(32), // endif, reduce: Element2
 			reduce(32), // set, reduce: Element2
 			reduce(32), // ?, reduce: Element2
+			reduce(32), // :, reduce: Element2
 			reduce(32), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(32), // template_block_end, reduce: Element2
 			reduce(32), // template_block_start, reduce: Element2
 			reduce(32), // template_comment, reduce: Element2
-			reduce(32), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(32), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S226
+	actionRow{ // S98
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12715,15 +5645,16 @@ var actionTab = actionTable{
 			reduce(33), // endif, reduce: Element2
 			reduce(33), // set, reduce: Element2
 			reduce(33), // ?, reduce: Element2
+			reduce(33), // :, reduce: Element2
 			reduce(33), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(33), // template_block_end, reduce: Element2
 			reduce(33), // template_block_start, reduce: Element2
 			reduce(33), // template_comment, reduce: Element2
-			reduce(33), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(33), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S227
+	actionRow{ // S99
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12771,15 +5702,16 @@ var actionTab = actionTable{
 			reduce(34), // endif, reduce: Element2
 			reduce(34), // set, reduce: Element2
 			reduce(34), // ?, reduce: Element2
+			reduce(34), // :, reduce: Element2
 			reduce(34), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(34), // template_block_end, reduce: Element2
 			reduce(34), // template_block_start, reduce: Element2
 			reduce(34), // template_comment, reduce: Element2
-			reduce(34), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(34), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S228
+	actionRow{ // S100
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12827,15 +5759,16 @@ var actionTab = actionTable{
 			reduce(35), // endif, reduce: Element2
 			reduce(35), // set, reduce: Element2
 			reduce(35), // ?, reduce: Element2
+			reduce(35), // :, reduce: Element2
 			reduce(35), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(35), // template_block_end, reduce: Element2
 			reduce(35), // template_block_start, reduce: Element2
 			reduce(35), // template_comment, reduce: Element2
-			reduce(35), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(35), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S229
+	actionRow{ // S101
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12883,15 +5816,16 @@ var actionTab = actionTable{
 			reduce(36), // endif, reduce: Element2
 			reduce(36), // set, reduce: Element2
 			reduce(36), // ?, reduce: Element2
+			reduce(36), // :, reduce: Element2
 			reduce(36), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(36), // template_block_end, reduce: Element2
 			reduce(36), // template_block_start, reduce: Element2
 			reduce(36), // template_comment, reduce: Element2
-			reduce(36), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(36), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S230
+	actionRow{ // S102
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12939,15 +5873,16 @@ var actionTab = actionTable{
 			reduce(37), // endif, reduce: Element2
 			reduce(37), // set, reduce: Element2
 			reduce(37), // ?, reduce: Element2
+			reduce(37), // :, reduce: Element2
 			reduce(37), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(37), // template_block_end, reduce: Element2
 			reduce(37), // template_block_start, reduce: Element2
 			reduce(37), // template_comment, reduce: Element2
-			reduce(37), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(37), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S231
+	actionRow{ // S103
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -12995,15 +5930,16 @@ var actionTab = actionTable{
 			reduce(38), // endif, reduce: Element2
 			reduce(38), // set, reduce: Element2
 			reduce(38), // ?, reduce: Element2
+			reduce(38), // :, reduce: Element2
 			reduce(38), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(38), // template_block_end, reduce: Element2
 			reduce(38), // template_block_start, reduce: Element2
 			reduce(38), // template_comment, reduce: Element2
-			reduce(38), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(38), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S232
+	actionRow{ // S104
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13051,15 +5987,16 @@ var actionTab = actionTable{
 			reduce(39), // endif, reduce: Element2
 			reduce(39), // set, reduce: Element2
 			reduce(39), // ?, reduce: Element2
+			reduce(39), // :, reduce: Element2
 			reduce(39), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(39), // template_block_end, reduce: Element2
 			reduce(39), // template_block_start, reduce: Element2
 			reduce(39), // template_comment, reduce: Element2
-			reduce(39), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(39), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S233
+	actionRow{ // S105
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13107,15 +6044,16 @@ var actionTab = actionTable{
 			reduce(40), // endif, reduce: Element2
 			reduce(40), // set, reduce: Element2
 			reduce(40), // ?, reduce: Element2
+			reduce(40), // :, reduce: Element2
 			reduce(40), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(40), // template_block_end, reduce: Element2
 			reduce(40), // template_block_start, reduce: Element2
 			reduce(40), // template_comment, reduce: Element2
-			reduce(40), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(40), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S234
+	actionRow{ // S106
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13163,15 +6101,16 @@ var actionTab = actionTable{
 			reduce(41), // endif, reduce: Element2
 			reduce(41), // set, reduce: Element2
 			reduce(41), // ?, reduce: Element2
+			reduce(41), // :, reduce: Element2
 			reduce(41), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(41), // template_block_end, reduce: Element2
 			reduce(41), // template_block_start, reduce: Element2
 			reduce(41), // template_comment, reduce: Element2
-			reduce(41), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(41), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S235
+	actionRow{ // S107
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13219,15 +6158,16 @@ var actionTab = actionTable{
 			reduce(42), // endif, reduce: Element2
 			reduce(42), // set, reduce: Element2
 			reduce(42), // ?, reduce: Element2
+			reduce(42), // :, reduce: Element2
 			reduce(42), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(42), // template_block_end, reduce: Element2
 			reduce(42), // template_block_start, reduce: Element2
 			reduce(42), // template_comment, reduce: Element2
-			reduce(42), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(42), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S236
+	actionRow{ // S108
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13275,15 +6215,16 @@ var actionTab = actionTable{
 			reduce(44), // endif, reduce: Element2
 			reduce(44), // set, reduce: Element2
 			reduce(44), // ?, reduce: Element2
+			reduce(44), // :, reduce: Element2
 			reduce(44), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(44), // template_block_end, reduce: Element2
 			reduce(44), // template_block_start, reduce: Element2
 			reduce(44), // template_comment, reduce: Element2
-			reduce(44), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(44), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S237
+	actionRow{ // S109
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13331,15 +6272,16 @@ var actionTab = actionTable{
 			reduce(46), // endif, reduce: Element2
 			reduce(46), // set, reduce: Element2
 			reduce(46), // ?, reduce: Element2
+			reduce(46), // :, reduce: Element2
 			reduce(46), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(46), // template_block_end, reduce: Element2
 			reduce(46), // template_block_start, reduce: Element2
 			reduce(46), // template_comment, reduce: Element2
-			reduce(46), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(46), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S238
+	actionRow{ // S110
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13387,15 +6329,16 @@ var actionTab = actionTable{
 			reduce(47), // endif, reduce: Element2
 			reduce(47), // set, reduce: Element2
 			reduce(47), // ?, reduce: Element2
+			reduce(47), // :, reduce: Element2
 			reduce(47), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(47), // template_block_end, reduce: Element2
 			reduce(47), // template_block_start, reduce: Element2
 			reduce(47), // template_comment, reduce: Element2
-			reduce(47), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(47), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S239
+	actionRow{ // S111
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13443,15 +6386,16 @@ var actionTab = actionTable{
 			reduce(49), // endif, reduce: Element2
 			reduce(49), // set, reduce: Element2
 			reduce(49), // ?, reduce: Element2
+			reduce(49), // :, reduce: Element2
 			reduce(49), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(49), // template_block_end, reduce: Element2
 			reduce(49), // template_block_start, reduce: Element2
 			reduce(49), // template_comment, reduce: Element2
-			reduce(49), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(49), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S240
+	actionRow{ // S112
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13499,15 +6443,16 @@ var actionTab = actionTable{
 			reduce(50), // endif, reduce: Element2
 			reduce(50), // set, reduce: Element2
 			reduce(50), // ?, reduce: Element2
+			reduce(50), // :, reduce: Element2
 			reduce(50), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(50), // template_block_end, reduce: Element2
 			reduce(50), // template_block_start, reduce: Element2
 			reduce(50), // template_comment, reduce: Element2
-			reduce(50), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(50), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S241
+	actionRow{ // S113
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13555,15 +6500,16 @@ var actionTab = actionTable{
 			reduce(51), // endif, reduce: Element2
 			reduce(51), // set, reduce: Element2
 			reduce(51), // ?, reduce: Element2
+			reduce(51), // :, reduce: Element2
 			reduce(51), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(51), // template_block_end, reduce: Element2
 			reduce(51), // template_block_start, reduce: Element2
 			reduce(51), // template_comment, reduce: Element2
-			reduce(51), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(51), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S242
+	actionRow{ // S114
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13611,15 +6557,16 @@ var actionTab = actionTable{
 			reduce(52), // endif, reduce: Element2
 			reduce(52), // set, reduce: Element2
 			reduce(52), // ?, reduce: Element2
+			reduce(52), // :, reduce: Element2
 			reduce(52), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(52), // template_block_end, reduce: Element2
 			reduce(52), // template_block_start, reduce: Element2
 			reduce(52), // template_comment, reduce: Element2
-			reduce(52), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(52), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S243
+	actionRow{ // S115
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13667,15 +6614,16 @@ var actionTab = actionTable{
 			reduce(53), // endif, reduce: Element2
 			reduce(53), // set, reduce: Element2
 			reduce(53), // ?, reduce: Element2
+			reduce(53), // :, reduce: Element2
 			reduce(53), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(53), // template_block_end, reduce: Element2
 			reduce(53), // template_block_start, reduce: Element2
 			reduce(53), // template_comment, reduce: Element2
-			reduce(53), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(53), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S244
+	actionRow{ // S116
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13723,15 +6671,16 @@ var actionTab = actionTable{
 			reduce(54), // endif, reduce: Element2
 			reduce(54), // set, reduce: Element2
 			reduce(54), // ?, reduce: Element2
+			reduce(54), // :, reduce: Element2
 			reduce(54), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(54), // template_block_end, reduce: Element2
 			reduce(54), // template_block_start, reduce: Element2
 			reduce(54), // template_comment, reduce: Element2
-			reduce(54), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(54), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S245
+	actionRow{ // S117
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13779,15 +6728,16 @@ var actionTab = actionTable{
 			reduce(55), // endif, reduce: Element2
 			reduce(55), // set, reduce: Element2
 			reduce(55), // ?, reduce: Element2
+			reduce(55), // :, reduce: Element2
 			reduce(55), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(55), // template_block_end, reduce: Element2
 			reduce(55), // template_block_start, reduce: Element2
 			reduce(55), // template_comment, reduce: Element2
-			reduce(55), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(55), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S246
+	actionRow{ // S118
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13835,15 +6785,16 @@ var actionTab = actionTable{
 			reduce(56), // endif, reduce: Element2
 			reduce(56), // set, reduce: Element2
 			reduce(56), // ?, reduce: Element2
+			reduce(56), // :, reduce: Element2
 			reduce(56), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(56), // template_block_end, reduce: Element2
 			reduce(56), // template_block_start, reduce: Element2
 			reduce(56), // template_comment, reduce: Element2
-			reduce(56), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(56), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S247
+	actionRow{ // S119
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13891,15 +6842,16 @@ var actionTab = actionTable{
 			reduce(57), // endif, reduce: Element2
 			reduce(57), // set, reduce: Element2
 			reduce(57), // ?, reduce: Element2
+			reduce(57), // :, reduce: Element2
 			reduce(57), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(57), // template_block_end, reduce: Element2
 			reduce(57), // template_block_start, reduce: Element2
 			reduce(57), // template_comment, reduce: Element2
-			reduce(57), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(57), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S248
+	actionRow{ // S120
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -13947,15 +6899,16 @@ var actionTab = actionTable{
 			reduce(58), // endif, reduce: Element2
 			reduce(58), // set, reduce: Element2
 			reduce(58), // ?, reduce: Element2
+			reduce(58), // :, reduce: Element2
 			reduce(58), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(58), // template_block_end, reduce: Element2
 			reduce(58), // template_block_start, reduce: Element2
 			reduce(58), // template_comment, reduce: Element2
-			reduce(58), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(58), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S249
+	actionRow{ // S121
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -14003,15 +6956,16 @@ var actionTab = actionTable{
 			reduce(59), // endif, reduce: Element2
 			reduce(59), // set, reduce: Element2
 			reduce(59), // ?, reduce: Element2
+			reduce(59), // :, reduce: Element2
 			reduce(59), // comment, reduce: Element2
-			nil,        // template_block_end
+			reduce(59), // template_block_end, reduce: Element2
 			reduce(59), // template_block_start, reduce: Element2
 			reduce(59), // template_comment, reduce: Element2
-			reduce(59), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(59), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S250
+	actionRow{ // S122
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -14059,463 +7013,3721 @@ var actionTab = actionTable{
 			reduce(60), // endif, reduce: Element2
 			reduce(60), // set, reduce: Element2
 			reduce(60), // ?, reduce: Element2
+			reduce(60), // :, reduce: Element2
+			reduce(60), // comment, reduce: Element2
+			reduce(60), // template_block_end, reduce: Element2
+			reduce(60), // template_block_start, reduce: Element2
+			reduce(60), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(60), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S123
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(61), // identifier, reduce: Element2
+			reduce(61), // bytes_literal, reduce: Element2
+			reduce(61), // string_literal, reduce: Element2
+			reduce(61), // integer_literal, reduce: Element2
+			reduce(61), // floating_point_literal, reduce: Element2
+			reduce(61), // newline, reduce: Element2
+			reduce(61), // *, reduce: Element2
+			reduce(61), // <, reduce: Element2
+			reduce(61), // >, reduce: Element2
+			reduce(61), // [, reduce: Element2
+			reduce(61), // ], reduce: Element2
+			reduce(61), // (, reduce: Element2
+			reduce(61), // ), reduce: Element2
+			reduce(61), // ,, reduce: Element2
+			reduce(61), // ., reduce: Element2
+			reduce(61), // |, reduce: Element2
+			reduce(61), // ^, reduce: Element2
+			reduce(61), // &, reduce: Element2
+			reduce(61), // <<, reduce: Element2
+			reduce(61), // >>, reduce: Element2
+			reduce(61), // =>, reduce: Element2
+			reduce(61), // /, reduce: Element2
+			reduce(61), // +, reduce: Element2
+			reduce(61), // -, reduce: Element2
+			reduce(61), // ||, reduce: Element2
+			reduce(61), // <>, reduce: Element2
+			reduce(61), // !=, reduce: Element2
+			reduce(61), // =, reduce: Element2
+			reduce(61), // <=, reduce: Element2
+			reduce(61), // >=, reduce: Element2
+			reduce(61), // ;, reduce: Element2
+			reduce(61), // @, reduce: Element2
+			reduce(61), // {, reduce: Element2
+			reduce(61), // }, reduce: Element2
+			reduce(61), // ~, reduce: Element2
+			reduce(61), // else, reduce: Element2
+			reduce(61), // if, reduce: Element2
+			reduce(61), // for, reduce: Element2
+			reduce(61), // endfor, reduce: Element2
+			reduce(61), // elif, reduce: Element2
+			reduce(61), // endif, reduce: Element2
+			reduce(61), // set, reduce: Element2
+			reduce(61), // ?, reduce: Element2
+			reduce(61), // :, reduce: Element2
+			reduce(61), // comment, reduce: Element2
+			reduce(61), // template_block_end, reduce: Element2
+			reduce(61), // template_block_start, reduce: Element2
+			reduce(61), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(61), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S124
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(62), // identifier, reduce: Comment
+			reduce(62), // bytes_literal, reduce: Comment
+			reduce(62), // string_literal, reduce: Comment
+			reduce(62), // integer_literal, reduce: Comment
+			reduce(62), // floating_point_literal, reduce: Comment
+			reduce(62), // newline, reduce: Comment
+			reduce(62), // *, reduce: Comment
+			reduce(62), // <, reduce: Comment
+			reduce(62), // >, reduce: Comment
+			reduce(62), // [, reduce: Comment
+			reduce(62), // ], reduce: Comment
+			reduce(62), // (, reduce: Comment
+			reduce(62), // ), reduce: Comment
+			reduce(62), // ,, reduce: Comment
+			reduce(62), // ., reduce: Comment
+			reduce(62), // |, reduce: Comment
+			reduce(62), // ^, reduce: Comment
+			reduce(62), // &, reduce: Comment
+			reduce(62), // <<, reduce: Comment
+			reduce(62), // >>, reduce: Comment
+			reduce(62), // =>, reduce: Comment
+			reduce(62), // /, reduce: Comment
+			reduce(62), // +, reduce: Comment
+			reduce(62), // -, reduce: Comment
+			reduce(62), // ||, reduce: Comment
+			reduce(62), // <>, reduce: Comment
+			reduce(62), // !=, reduce: Comment
+			reduce(62), // =, reduce: Comment
+			reduce(62), // <=, reduce: Comment
+			reduce(62), // >=, reduce: Comment
+			reduce(62), // ;, reduce: Comment
+			reduce(62), // @, reduce: Comment
+			reduce(62), // {, reduce: Comment
+			reduce(62), // }, reduce: Comment
+			reduce(62), // ~, reduce: Comment
+			reduce(62), // else, reduce: Comment
+			reduce(62), // if, reduce: Comment
+			reduce(62), // for, reduce: Comment
+			reduce(62), // endfor, reduce: Comment
+			reduce(62), // elif, reduce: Comment
+			reduce(62), // endif, reduce: Comment
+			reduce(62), // set, reduce: Comment
+			reduce(62), // ?, reduce: Comment
+			reduce(62), // :, reduce: Comment
+			reduce(62), // comment, reduce: Comment
+			reduce(62), // template_block_end, reduce: Comment
+			reduce(62), // template_block_start, reduce: Comment
+			reduce(62), // template_comment, reduce: Comment
+			nil,        // template_variable_end
+			reduce(62), // template_variable_start, reduce: Comment
+		},
+	},
+	actionRow{ // S125
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(80),  // identifier
+			shift(81),  // bytes_literal
+			shift(82),  // string_literal
+			shift(83),  // integer_literal
+			shift(84),  // floating_point_literal
+			shift(85),  // newline
+			shift(86),  // *
+			shift(87),  // <
+			shift(88),  // >
+			shift(89),  // [
+			shift(90),  // ]
+			shift(91),  // (
+			shift(92),  // )
+			shift(93),  // ,
+			shift(94),  // .
+			shift(95),  // |
+			shift(96),  // ^
+			shift(97),  // &
+			shift(98),  // <<
+			shift(99),  // >>
+			shift(100), // =>
+			shift(101), // /
+			shift(102), // +
+			shift(103), // -
+			shift(104), // ||
+			shift(105), // <>
+			shift(106), // !=
+			shift(107), // =
+			shift(108), // <=
+			shift(109), // >=
+			shift(110), // ;
+			shift(111), // @
+			shift(112), // {
+			shift(113), // }
+			shift(114), // ~
+			shift(115), // else
+			shift(116), // if
+			shift(117), // for
+			shift(118), // endfor
+			shift(119), // elif
+			shift(120), // endif
+			shift(121), // set
+			shift(122), // ?
+			shift(123), // :
+			shift(124), // comment
+			shift(262), // template_block_end
+			shift(56),  // template_block_start
+			shift(129), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S126
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			reduce(63), // ␚, reduce: TemplateSetBlock
+			reduce(63), // identifier, reduce: TemplateSetBlock
+			reduce(63), // bytes_literal, reduce: TemplateSetBlock
+			reduce(63), // string_literal, reduce: TemplateSetBlock
+			reduce(63), // integer_literal, reduce: TemplateSetBlock
+			reduce(63), // floating_point_literal, reduce: TemplateSetBlock
+			reduce(63), // newline, reduce: TemplateSetBlock
+			reduce(63), // *, reduce: TemplateSetBlock
+			reduce(63), // <, reduce: TemplateSetBlock
+			reduce(63), // >, reduce: TemplateSetBlock
+			reduce(63), // [, reduce: TemplateSetBlock
+			reduce(63), // ], reduce: TemplateSetBlock
+			reduce(63), // (, reduce: TemplateSetBlock
+			reduce(63), // ), reduce: TemplateSetBlock
+			reduce(63), // ,, reduce: TemplateSetBlock
+			reduce(63), // ., reduce: TemplateSetBlock
+			reduce(63), // |, reduce: TemplateSetBlock
+			reduce(63), // ^, reduce: TemplateSetBlock
+			reduce(63), // &, reduce: TemplateSetBlock
+			reduce(63), // <<, reduce: TemplateSetBlock
+			reduce(63), // >>, reduce: TemplateSetBlock
+			reduce(63), // =>, reduce: TemplateSetBlock
+			reduce(63), // /, reduce: TemplateSetBlock
+			reduce(63), // +, reduce: TemplateSetBlock
+			reduce(63), // -, reduce: TemplateSetBlock
+			reduce(63), // ||, reduce: TemplateSetBlock
+			reduce(63), // <>, reduce: TemplateSetBlock
+			reduce(63), // !=, reduce: TemplateSetBlock
+			reduce(63), // =, reduce: TemplateSetBlock
+			reduce(63), // <=, reduce: TemplateSetBlock
+			reduce(63), // >=, reduce: TemplateSetBlock
+			reduce(63), // ;, reduce: TemplateSetBlock
+			reduce(63), // @, reduce: TemplateSetBlock
+			reduce(63), // {, reduce: TemplateSetBlock
+			reduce(63), // }, reduce: TemplateSetBlock
+			reduce(63), // ~, reduce: TemplateSetBlock
+			reduce(63), // else, reduce: TemplateSetBlock
+			reduce(63), // if, reduce: TemplateSetBlock
+			reduce(63), // for, reduce: TemplateSetBlock
+			reduce(63), // endfor, reduce: TemplateSetBlock
+			reduce(63), // elif, reduce: TemplateSetBlock
+			reduce(63), // endif, reduce: TemplateSetBlock
+			reduce(63), // set, reduce: TemplateSetBlock
+			reduce(63), // ?, reduce: TemplateSetBlock
+			reduce(63), // :, reduce: TemplateSetBlock
+			reduce(63), // comment, reduce: TemplateSetBlock
+			nil,        // template_block_end
+			reduce(63), // template_block_start, reduce: TemplateSetBlock
+			reduce(63), // template_comment, reduce: TemplateSetBlock
+			nil,        // template_variable_end
+			reduce(63), // template_variable_start, reduce: TemplateSetBlock
+		},
+	},
+	actionRow{ // S127
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(142), // identifier
+			shift(143), // bytes_literal
+			shift(144), // string_literal
+			shift(145), // integer_literal
+			shift(146), // floating_point_literal
+			shift(147), // newline
+			shift(148), // *
+			shift(149), // <
+			shift(150), // >
+			shift(151), // [
+			shift(152), // ]
+			shift(153), // (
+			shift(154), // )
+			shift(155), // ,
+			shift(156), // .
+			shift(157), // |
+			shift(158), // ^
+			shift(159), // &
+			shift(160), // <<
+			shift(161), // >>
+			shift(162), // =>
+			shift(163), // /
+			shift(164), // +
+			shift(165), // -
+			shift(166), // ||
+			shift(167), // <>
+			shift(168), // !=
+			shift(169), // =
+			shift(170), // <=
+			shift(171), // >=
+			shift(172), // ;
+			shift(173), // @
+			shift(174), // {
+			shift(175), // }
+			shift(176), // ~
+			shift(177), // else
+			shift(178), // if
+			shift(179), // for
+			shift(180), // endfor
+			shift(181), // elif
+			shift(182), // endif
+			shift(183), // set
+			shift(184), // ?
+			shift(185), // :
+			shift(186), // comment
+			nil,        // template_block_end
+			shift(263), // template_block_start
+			shift(193), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S128
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(142), // identifier
+			shift(143), // bytes_literal
+			shift(144), // string_literal
+			shift(145), // integer_literal
+			shift(146), // floating_point_literal
+			shift(147), // newline
+			shift(148), // *
+			shift(149), // <
+			shift(150), // >
+			shift(151), // [
+			shift(152), // ]
+			shift(153), // (
+			shift(154), // )
+			shift(155), // ,
+			shift(156), // .
+			shift(157), // |
+			shift(158), // ^
+			shift(159), // &
+			shift(160), // <<
+			shift(161), // >>
+			shift(162), // =>
+			shift(163), // /
+			shift(164), // +
+			shift(165), // -
+			shift(166), // ||
+			shift(167), // <>
+			shift(168), // !=
+			shift(169), // =
+			shift(170), // <=
+			shift(171), // >=
+			shift(172), // ;
+			shift(173), // @
+			shift(174), // {
+			shift(175), // }
+			shift(176), // ~
+			shift(177), // else
+			shift(178), // if
+			shift(179), // for
+			shift(180), // endfor
+			shift(181), // elif
+			shift(182), // endif
+			shift(183), // set
+			shift(184), // ?
+			shift(185), // :
+			shift(186), // comment
+			nil,        // template_block_end
+			shift(266), // template_block_start
+			shift(193), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S129
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(83), // identifier, reduce: TemplateComment
+			reduce(83), // bytes_literal, reduce: TemplateComment
+			reduce(83), // string_literal, reduce: TemplateComment
+			reduce(83), // integer_literal, reduce: TemplateComment
+			reduce(83), // floating_point_literal, reduce: TemplateComment
+			reduce(83), // newline, reduce: TemplateComment
+			reduce(83), // *, reduce: TemplateComment
+			reduce(83), // <, reduce: TemplateComment
+			reduce(83), // >, reduce: TemplateComment
+			reduce(83), // [, reduce: TemplateComment
+			reduce(83), // ], reduce: TemplateComment
+			reduce(83), // (, reduce: TemplateComment
+			reduce(83), // ), reduce: TemplateComment
+			reduce(83), // ,, reduce: TemplateComment
+			reduce(83), // ., reduce: TemplateComment
+			reduce(83), // |, reduce: TemplateComment
+			reduce(83), // ^, reduce: TemplateComment
+			reduce(83), // &, reduce: TemplateComment
+			reduce(83), // <<, reduce: TemplateComment
+			reduce(83), // >>, reduce: TemplateComment
+			reduce(83), // =>, reduce: TemplateComment
+			reduce(83), // /, reduce: TemplateComment
+			reduce(83), // +, reduce: TemplateComment
+			reduce(83), // -, reduce: TemplateComment
+			reduce(83), // ||, reduce: TemplateComment
+			reduce(83), // <>, reduce: TemplateComment
+			reduce(83), // !=, reduce: TemplateComment
+			reduce(83), // =, reduce: TemplateComment
+			reduce(83), // <=, reduce: TemplateComment
+			reduce(83), // >=, reduce: TemplateComment
+			reduce(83), // ;, reduce: TemplateComment
+			reduce(83), // @, reduce: TemplateComment
+			reduce(83), // {, reduce: TemplateComment
+			reduce(83), // }, reduce: TemplateComment
+			reduce(83), // ~, reduce: TemplateComment
+			reduce(83), // else, reduce: TemplateComment
+			reduce(83), // if, reduce: TemplateComment
+			reduce(83), // for, reduce: TemplateComment
+			reduce(83), // endfor, reduce: TemplateComment
+			reduce(83), // elif, reduce: TemplateComment
+			reduce(83), // endif, reduce: TemplateComment
+			reduce(83), // set, reduce: TemplateComment
+			reduce(83), // ?, reduce: TemplateComment
+			reduce(83), // :, reduce: TemplateComment
+			reduce(83), // comment, reduce: TemplateComment
+			reduce(83), // template_block_end, reduce: TemplateComment
+			reduce(83), // template_block_start, reduce: TemplateComment
+			reduce(83), // template_comment, reduce: TemplateComment
+			nil,        // template_variable_end
+			reduce(83), // template_variable_start, reduce: TemplateComment
+		},
+	},
+	actionRow{ // S130
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(211), // identifier
+			shift(212), // bytes_literal
+			shift(213), // string_literal
+			shift(214), // integer_literal
+			shift(215), // floating_point_literal
+			shift(216), // newline
+			shift(217), // *
+			shift(218), // <
+			shift(219), // >
+			shift(220), // [
+			shift(221), // ]
+			shift(222), // (
+			shift(223), // )
+			shift(224), // ,
+			shift(225), // .
+			shift(226), // |
+			shift(227), // ^
+			shift(228), // &
+			shift(229), // <<
+			shift(230), // >>
+			shift(231), // =>
+			shift(232), // /
+			shift(233), // +
+			shift(234), // -
+			shift(235), // ||
+			shift(236), // <>
+			shift(237), // !=
+			shift(238), // =
+			shift(239), // <=
+			shift(240), // >=
+			shift(241), // ;
+			shift(242), // @
+			shift(243), // {
+			shift(244), // }
+			shift(245), // ~
+			shift(246), // else
+			shift(247), // if
+			shift(248), // for
+			shift(249), // endfor
+			shift(250), // elif
+			shift(251), // endif
+			shift(252), // set
+			shift(253), // ?
+			shift(254), // :
+			shift(255), // comment
+			nil,        // template_block_end
+			shift(56),  // template_block_start
+			shift(259), // template_comment
+			shift(268), // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S131
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(72), // identifier, reduce: TemplateIfBeginPrefix
+			reduce(72), // bytes_literal, reduce: TemplateIfBeginPrefix
+			reduce(72), // string_literal, reduce: TemplateIfBeginPrefix
+			reduce(72), // integer_literal, reduce: TemplateIfBeginPrefix
+			reduce(72), // floating_point_literal, reduce: TemplateIfBeginPrefix
+			reduce(72), // newline, reduce: TemplateIfBeginPrefix
+			reduce(72), // *, reduce: TemplateIfBeginPrefix
+			reduce(72), // <, reduce: TemplateIfBeginPrefix
+			reduce(72), // >, reduce: TemplateIfBeginPrefix
+			reduce(72), // [, reduce: TemplateIfBeginPrefix
+			reduce(72), // ], reduce: TemplateIfBeginPrefix
+			reduce(72), // (, reduce: TemplateIfBeginPrefix
+			reduce(72), // ), reduce: TemplateIfBeginPrefix
+			reduce(72), // ,, reduce: TemplateIfBeginPrefix
+			reduce(72), // ., reduce: TemplateIfBeginPrefix
+			reduce(72), // |, reduce: TemplateIfBeginPrefix
+			reduce(72), // ^, reduce: TemplateIfBeginPrefix
+			reduce(72), // &, reduce: TemplateIfBeginPrefix
+			reduce(72), // <<, reduce: TemplateIfBeginPrefix
+			reduce(72), // >>, reduce: TemplateIfBeginPrefix
+			reduce(72), // =>, reduce: TemplateIfBeginPrefix
+			reduce(72), // /, reduce: TemplateIfBeginPrefix
+			reduce(72), // +, reduce: TemplateIfBeginPrefix
+			reduce(72), // -, reduce: TemplateIfBeginPrefix
+			reduce(72), // ||, reduce: TemplateIfBeginPrefix
+			reduce(72), // <>, reduce: TemplateIfBeginPrefix
+			reduce(72), // !=, reduce: TemplateIfBeginPrefix
+			reduce(72), // =, reduce: TemplateIfBeginPrefix
+			reduce(72), // <=, reduce: TemplateIfBeginPrefix
+			reduce(72), // >=, reduce: TemplateIfBeginPrefix
+			reduce(72), // ;, reduce: TemplateIfBeginPrefix
+			reduce(72), // @, reduce: TemplateIfBeginPrefix
+			reduce(72), // {, reduce: TemplateIfBeginPrefix
+			reduce(72), // }, reduce: TemplateIfBeginPrefix
+			reduce(72), // ~, reduce: TemplateIfBeginPrefix
+			reduce(72), // else, reduce: TemplateIfBeginPrefix
+			reduce(72), // if, reduce: TemplateIfBeginPrefix
+			reduce(72), // for, reduce: TemplateIfBeginPrefix
+			reduce(72), // endfor, reduce: TemplateIfBeginPrefix
+			reduce(72), // elif, reduce: TemplateIfBeginPrefix
+			reduce(72), // endif, reduce: TemplateIfBeginPrefix
+			reduce(72), // set, reduce: TemplateIfBeginPrefix
+			reduce(72), // ?, reduce: TemplateIfBeginPrefix
+			reduce(72), // :, reduce: TemplateIfBeginPrefix
+			reduce(72), // comment, reduce: TemplateIfBeginPrefix
+			reduce(72), // template_block_end, reduce: TemplateIfBeginPrefix
+			reduce(72), // template_block_start, reduce: TemplateIfBeginPrefix
+			reduce(72), // template_comment, reduce: TemplateIfBeginPrefix
+			nil,        // template_variable_end
+			reduce(72), // template_variable_start, reduce: TemplateIfBeginPrefix
+		},
+	},
+	actionRow{ // S132
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(80), // identifier, reduce: TemplateForBeginPrefix
+			reduce(80), // bytes_literal, reduce: TemplateForBeginPrefix
+			reduce(80), // string_literal, reduce: TemplateForBeginPrefix
+			reduce(80), // integer_literal, reduce: TemplateForBeginPrefix
+			reduce(80), // floating_point_literal, reduce: TemplateForBeginPrefix
+			reduce(80), // newline, reduce: TemplateForBeginPrefix
+			reduce(80), // *, reduce: TemplateForBeginPrefix
+			reduce(80), // <, reduce: TemplateForBeginPrefix
+			reduce(80), // >, reduce: TemplateForBeginPrefix
+			reduce(80), // [, reduce: TemplateForBeginPrefix
+			reduce(80), // ], reduce: TemplateForBeginPrefix
+			reduce(80), // (, reduce: TemplateForBeginPrefix
+			reduce(80), // ), reduce: TemplateForBeginPrefix
+			reduce(80), // ,, reduce: TemplateForBeginPrefix
+			reduce(80), // ., reduce: TemplateForBeginPrefix
+			reduce(80), // |, reduce: TemplateForBeginPrefix
+			reduce(80), // ^, reduce: TemplateForBeginPrefix
+			reduce(80), // &, reduce: TemplateForBeginPrefix
+			reduce(80), // <<, reduce: TemplateForBeginPrefix
+			reduce(80), // >>, reduce: TemplateForBeginPrefix
+			reduce(80), // =>, reduce: TemplateForBeginPrefix
+			reduce(80), // /, reduce: TemplateForBeginPrefix
+			reduce(80), // +, reduce: TemplateForBeginPrefix
+			reduce(80), // -, reduce: TemplateForBeginPrefix
+			reduce(80), // ||, reduce: TemplateForBeginPrefix
+			reduce(80), // <>, reduce: TemplateForBeginPrefix
+			reduce(80), // !=, reduce: TemplateForBeginPrefix
+			reduce(80), // =, reduce: TemplateForBeginPrefix
+			reduce(80), // <=, reduce: TemplateForBeginPrefix
+			reduce(80), // >=, reduce: TemplateForBeginPrefix
+			reduce(80), // ;, reduce: TemplateForBeginPrefix
+			reduce(80), // @, reduce: TemplateForBeginPrefix
+			reduce(80), // {, reduce: TemplateForBeginPrefix
+			reduce(80), // }, reduce: TemplateForBeginPrefix
+			reduce(80), // ~, reduce: TemplateForBeginPrefix
+			reduce(80), // else, reduce: TemplateForBeginPrefix
+			reduce(80), // if, reduce: TemplateForBeginPrefix
+			reduce(80), // for, reduce: TemplateForBeginPrefix
+			reduce(80), // endfor, reduce: TemplateForBeginPrefix
+			reduce(80), // elif, reduce: TemplateForBeginPrefix
+			reduce(80), // endif, reduce: TemplateForBeginPrefix
+			reduce(80), // set, reduce: TemplateForBeginPrefix
+			reduce(80), // ?, reduce: TemplateForBeginPrefix
+			reduce(80), // :, reduce: TemplateForBeginPrefix
+			reduce(80), // comment, reduce: TemplateForBeginPrefix
+			reduce(80), // template_block_end, reduce: TemplateForBeginPrefix
+			reduce(80), // template_block_start, reduce: TemplateForBeginPrefix
+			reduce(80), // template_comment, reduce: TemplateForBeginPrefix
+			nil,        // template_variable_end
+			reduce(80), // template_variable_start, reduce: TemplateForBeginPrefix
+		},
+	},
+	actionRow{ // S133
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(64), // identifier, reduce: TemplateSetBlockPrefix
+			reduce(64), // bytes_literal, reduce: TemplateSetBlockPrefix
+			reduce(64), // string_literal, reduce: TemplateSetBlockPrefix
+			reduce(64), // integer_literal, reduce: TemplateSetBlockPrefix
+			reduce(64), // floating_point_literal, reduce: TemplateSetBlockPrefix
+			reduce(64), // newline, reduce: TemplateSetBlockPrefix
+			reduce(64), // *, reduce: TemplateSetBlockPrefix
+			reduce(64), // <, reduce: TemplateSetBlockPrefix
+			reduce(64), // >, reduce: TemplateSetBlockPrefix
+			reduce(64), // [, reduce: TemplateSetBlockPrefix
+			reduce(64), // ], reduce: TemplateSetBlockPrefix
+			reduce(64), // (, reduce: TemplateSetBlockPrefix
+			reduce(64), // ), reduce: TemplateSetBlockPrefix
+			reduce(64), // ,, reduce: TemplateSetBlockPrefix
+			reduce(64), // ., reduce: TemplateSetBlockPrefix
+			reduce(64), // |, reduce: TemplateSetBlockPrefix
+			reduce(64), // ^, reduce: TemplateSetBlockPrefix
+			reduce(64), // &, reduce: TemplateSetBlockPrefix
+			reduce(64), // <<, reduce: TemplateSetBlockPrefix
+			reduce(64), // >>, reduce: TemplateSetBlockPrefix
+			reduce(64), // =>, reduce: TemplateSetBlockPrefix
+			reduce(64), // /, reduce: TemplateSetBlockPrefix
+			reduce(64), // +, reduce: TemplateSetBlockPrefix
+			reduce(64), // -, reduce: TemplateSetBlockPrefix
+			reduce(64), // ||, reduce: TemplateSetBlockPrefix
+			reduce(64), // <>, reduce: TemplateSetBlockPrefix
+			reduce(64), // !=, reduce: TemplateSetBlockPrefix
+			reduce(64), // =, reduce: TemplateSetBlockPrefix
+			reduce(64), // <=, reduce: TemplateSetBlockPrefix
+			reduce(64), // >=, reduce: TemplateSetBlockPrefix
+			reduce(64), // ;, reduce: TemplateSetBlockPrefix
+			reduce(64), // @, reduce: TemplateSetBlockPrefix
+			reduce(64), // {, reduce: TemplateSetBlockPrefix
+			reduce(64), // }, reduce: TemplateSetBlockPrefix
+			reduce(64), // ~, reduce: TemplateSetBlockPrefix
+			reduce(64), // else, reduce: TemplateSetBlockPrefix
+			reduce(64), // if, reduce: TemplateSetBlockPrefix
+			reduce(64), // for, reduce: TemplateSetBlockPrefix
+			reduce(64), // endfor, reduce: TemplateSetBlockPrefix
+			reduce(64), // elif, reduce: TemplateSetBlockPrefix
+			reduce(64), // endif, reduce: TemplateSetBlockPrefix
+			reduce(64), // set, reduce: TemplateSetBlockPrefix
+			reduce(64), // ?, reduce: TemplateSetBlockPrefix
+			reduce(64), // :, reduce: TemplateSetBlockPrefix
+			reduce(64), // comment, reduce: TemplateSetBlockPrefix
+			reduce(64), // template_block_end, reduce: TemplateSetBlockPrefix
+			reduce(64), // template_block_start, reduce: TemplateSetBlockPrefix
+			reduce(64), // template_comment, reduce: TemplateSetBlockPrefix
+			nil,        // template_variable_end
+			reduce(64), // template_variable_start, reduce: TemplateSetBlockPrefix
+		},
+	},
+	actionRow{ // S134
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(70), // identifier, reduce: TemplateIfBlockPrefix
+			reduce(70), // bytes_literal, reduce: TemplateIfBlockPrefix
+			reduce(70), // string_literal, reduce: TemplateIfBlockPrefix
+			reduce(70), // integer_literal, reduce: TemplateIfBlockPrefix
+			reduce(70), // floating_point_literal, reduce: TemplateIfBlockPrefix
+			reduce(70), // newline, reduce: TemplateIfBlockPrefix
+			reduce(70), // *, reduce: TemplateIfBlockPrefix
+			reduce(70), // <, reduce: TemplateIfBlockPrefix
+			reduce(70), // >, reduce: TemplateIfBlockPrefix
+			reduce(70), // [, reduce: TemplateIfBlockPrefix
+			reduce(70), // ], reduce: TemplateIfBlockPrefix
+			reduce(70), // (, reduce: TemplateIfBlockPrefix
+			reduce(70), // ), reduce: TemplateIfBlockPrefix
+			reduce(70), // ,, reduce: TemplateIfBlockPrefix
+			reduce(70), // ., reduce: TemplateIfBlockPrefix
+			reduce(70), // |, reduce: TemplateIfBlockPrefix
+			reduce(70), // ^, reduce: TemplateIfBlockPrefix
+			reduce(70), // &, reduce: TemplateIfBlockPrefix
+			reduce(70), // <<, reduce: TemplateIfBlockPrefix
+			reduce(70), // >>, reduce: TemplateIfBlockPrefix
+			reduce(70), // =>, reduce: TemplateIfBlockPrefix
+			reduce(70), // /, reduce: TemplateIfBlockPrefix
+			reduce(70), // +, reduce: TemplateIfBlockPrefix
+			reduce(70), // -, reduce: TemplateIfBlockPrefix
+			reduce(70), // ||, reduce: TemplateIfBlockPrefix
+			reduce(70), // <>, reduce: TemplateIfBlockPrefix
+			reduce(70), // !=, reduce: TemplateIfBlockPrefix
+			reduce(70), // =, reduce: TemplateIfBlockPrefix
+			reduce(70), // <=, reduce: TemplateIfBlockPrefix
+			reduce(70), // >=, reduce: TemplateIfBlockPrefix
+			reduce(70), // ;, reduce: TemplateIfBlockPrefix
+			reduce(70), // @, reduce: TemplateIfBlockPrefix
+			reduce(70), // {, reduce: TemplateIfBlockPrefix
+			reduce(70), // }, reduce: TemplateIfBlockPrefix
+			reduce(70), // ~, reduce: TemplateIfBlockPrefix
+			reduce(70), // else, reduce: TemplateIfBlockPrefix
+			reduce(70), // if, reduce: TemplateIfBlockPrefix
+			reduce(70), // for, reduce: TemplateIfBlockPrefix
+			reduce(70), // endfor, reduce: TemplateIfBlockPrefix
+			reduce(70), // elif, reduce: TemplateIfBlockPrefix
+			reduce(70), // endif, reduce: TemplateIfBlockPrefix
+			reduce(70), // set, reduce: TemplateIfBlockPrefix
+			reduce(70), // ?, reduce: TemplateIfBlockPrefix
+			reduce(70), // :, reduce: TemplateIfBlockPrefix
+			reduce(70), // comment, reduce: TemplateIfBlockPrefix
+			nil,        // template_block_end
+			reduce(70), // template_block_start, reduce: TemplateIfBlockPrefix
+			reduce(70), // template_comment, reduce: TemplateIfBlockPrefix
+			nil,        // template_variable_end
+			reduce(70), // template_variable_start, reduce: TemplateIfBlockPrefix
+		},
+	},
+	actionRow{ // S135
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(11), // identifier, reduce: Element
+			reduce(11), // bytes_literal, reduce: Element
+			reduce(11), // string_literal, reduce: Element
+			reduce(11), // integer_literal, reduce: Element
+			reduce(11), // floating_point_literal, reduce: Element
+			reduce(11), // newline, reduce: Element
+			reduce(11), // *, reduce: Element
+			reduce(11), // <, reduce: Element
+			reduce(11), // >, reduce: Element
+			reduce(11), // [, reduce: Element
+			reduce(11), // ], reduce: Element
+			reduce(11), // (, reduce: Element
+			reduce(11), // ), reduce: Element
+			reduce(11), // ,, reduce: Element
+			reduce(11), // ., reduce: Element
+			reduce(11), // |, reduce: Element
+			reduce(11), // ^, reduce: Element
+			reduce(11), // &, reduce: Element
+			reduce(11), // <<, reduce: Element
+			reduce(11), // >>, reduce: Element
+			reduce(11), // =>, reduce: Element
+			reduce(11), // /, reduce: Element
+			reduce(11), // +, reduce: Element
+			reduce(11), // -, reduce: Element
+			reduce(11), // ||, reduce: Element
+			reduce(11), // <>, reduce: Element
+			reduce(11), // !=, reduce: Element
+			reduce(11), // =, reduce: Element
+			reduce(11), // <=, reduce: Element
+			reduce(11), // >=, reduce: Element
+			reduce(11), // ;, reduce: Element
+			reduce(11), // @, reduce: Element
+			reduce(11), // {, reduce: Element
+			reduce(11), // }, reduce: Element
+			reduce(11), // ~, reduce: Element
+			reduce(11), // else, reduce: Element
+			reduce(11), // if, reduce: Element
+			reduce(11), // for, reduce: Element
+			reduce(11), // endfor, reduce: Element
+			reduce(11), // elif, reduce: Element
+			reduce(11), // endif, reduce: Element
+			reduce(11), // set, reduce: Element
+			reduce(11), // ?, reduce: Element
+			reduce(11), // :, reduce: Element
+			reduce(11), // comment, reduce: Element
+			nil,        // template_block_end
+			reduce(11), // template_block_start, reduce: Element
+			reduce(11), // template_comment, reduce: Element
+			nil,        // template_variable_end
+			reduce(11), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S136
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // INVALID
+			nil,       // ␚
+			reduce(8), // identifier, reduce: Element
+			reduce(8), // bytes_literal, reduce: Element
+			reduce(8), // string_literal, reduce: Element
+			reduce(8), // integer_literal, reduce: Element
+			reduce(8), // floating_point_literal, reduce: Element
+			reduce(8), // newline, reduce: Element
+			reduce(8), // *, reduce: Element
+			reduce(8), // <, reduce: Element
+			reduce(8), // >, reduce: Element
+			reduce(8), // [, reduce: Element
+			reduce(8), // ], reduce: Element
+			reduce(8), // (, reduce: Element
+			reduce(8), // ), reduce: Element
+			reduce(8), // ,, reduce: Element
+			reduce(8), // ., reduce: Element
+			reduce(8), // |, reduce: Element
+			reduce(8), // ^, reduce: Element
+			reduce(8), // &, reduce: Element
+			reduce(8), // <<, reduce: Element
+			reduce(8), // >>, reduce: Element
+			reduce(8), // =>, reduce: Element
+			reduce(8), // /, reduce: Element
+			reduce(8), // +, reduce: Element
+			reduce(8), // -, reduce: Element
+			reduce(8), // ||, reduce: Element
+			reduce(8), // <>, reduce: Element
+			reduce(8), // !=, reduce: Element
+			reduce(8), // =, reduce: Element
+			reduce(8), // <=, reduce: Element
+			reduce(8), // >=, reduce: Element
+			reduce(8), // ;, reduce: Element
+			reduce(8), // @, reduce: Element
+			reduce(8), // {, reduce: Element
+			reduce(8), // }, reduce: Element
+			reduce(8), // ~, reduce: Element
+			reduce(8), // else, reduce: Element
+			reduce(8), // if, reduce: Element
+			reduce(8), // for, reduce: Element
+			reduce(8), // endfor, reduce: Element
+			reduce(8), // elif, reduce: Element
+			reduce(8), // endif, reduce: Element
+			reduce(8), // set, reduce: Element
+			reduce(8), // ?, reduce: Element
+			reduce(8), // :, reduce: Element
+			reduce(8), // comment, reduce: Element
+			nil,       // template_block_end
+			reduce(8), // template_block_start, reduce: Element
+			reduce(8), // template_comment, reduce: Element
+			nil,       // template_variable_end
+			reduce(8), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S137
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // INVALID
+			nil,       // ␚
+			reduce(9), // identifier, reduce: Element
+			reduce(9), // bytes_literal, reduce: Element
+			reduce(9), // string_literal, reduce: Element
+			reduce(9), // integer_literal, reduce: Element
+			reduce(9), // floating_point_literal, reduce: Element
+			reduce(9), // newline, reduce: Element
+			reduce(9), // *, reduce: Element
+			reduce(9), // <, reduce: Element
+			reduce(9), // >, reduce: Element
+			reduce(9), // [, reduce: Element
+			reduce(9), // ], reduce: Element
+			reduce(9), // (, reduce: Element
+			reduce(9), // ), reduce: Element
+			reduce(9), // ,, reduce: Element
+			reduce(9), // ., reduce: Element
+			reduce(9), // |, reduce: Element
+			reduce(9), // ^, reduce: Element
+			reduce(9), // &, reduce: Element
+			reduce(9), // <<, reduce: Element
+			reduce(9), // >>, reduce: Element
+			reduce(9), // =>, reduce: Element
+			reduce(9), // /, reduce: Element
+			reduce(9), // +, reduce: Element
+			reduce(9), // -, reduce: Element
+			reduce(9), // ||, reduce: Element
+			reduce(9), // <>, reduce: Element
+			reduce(9), // !=, reduce: Element
+			reduce(9), // =, reduce: Element
+			reduce(9), // <=, reduce: Element
+			reduce(9), // >=, reduce: Element
+			reduce(9), // ;, reduce: Element
+			reduce(9), // @, reduce: Element
+			reduce(9), // {, reduce: Element
+			reduce(9), // }, reduce: Element
+			reduce(9), // ~, reduce: Element
+			reduce(9), // else, reduce: Element
+			reduce(9), // if, reduce: Element
+			reduce(9), // for, reduce: Element
+			reduce(9), // endfor, reduce: Element
+			reduce(9), // elif, reduce: Element
+			reduce(9), // endif, reduce: Element
+			reduce(9), // set, reduce: Element
+			reduce(9), // ?, reduce: Element
+			reduce(9), // :, reduce: Element
+			reduce(9), // comment, reduce: Element
+			nil,       // template_block_end
+			reduce(9), // template_block_start, reduce: Element
+			reduce(9), // template_comment, reduce: Element
+			nil,       // template_variable_end
+			reduce(9), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S138
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(10), // identifier, reduce: Element
+			reduce(10), // bytes_literal, reduce: Element
+			reduce(10), // string_literal, reduce: Element
+			reduce(10), // integer_literal, reduce: Element
+			reduce(10), // floating_point_literal, reduce: Element
+			reduce(10), // newline, reduce: Element
+			reduce(10), // *, reduce: Element
+			reduce(10), // <, reduce: Element
+			reduce(10), // >, reduce: Element
+			reduce(10), // [, reduce: Element
+			reduce(10), // ], reduce: Element
+			reduce(10), // (, reduce: Element
+			reduce(10), // ), reduce: Element
+			reduce(10), // ,, reduce: Element
+			reduce(10), // ., reduce: Element
+			reduce(10), // |, reduce: Element
+			reduce(10), // ^, reduce: Element
+			reduce(10), // &, reduce: Element
+			reduce(10), // <<, reduce: Element
+			reduce(10), // >>, reduce: Element
+			reduce(10), // =>, reduce: Element
+			reduce(10), // /, reduce: Element
+			reduce(10), // +, reduce: Element
+			reduce(10), // -, reduce: Element
+			reduce(10), // ||, reduce: Element
+			reduce(10), // <>, reduce: Element
+			reduce(10), // !=, reduce: Element
+			reduce(10), // =, reduce: Element
+			reduce(10), // <=, reduce: Element
+			reduce(10), // >=, reduce: Element
+			reduce(10), // ;, reduce: Element
+			reduce(10), // @, reduce: Element
+			reduce(10), // {, reduce: Element
+			reduce(10), // }, reduce: Element
+			reduce(10), // ~, reduce: Element
+			reduce(10), // else, reduce: Element
+			reduce(10), // if, reduce: Element
+			reduce(10), // for, reduce: Element
+			reduce(10), // endfor, reduce: Element
+			reduce(10), // elif, reduce: Element
+			reduce(10), // endif, reduce: Element
+			reduce(10), // set, reduce: Element
+			reduce(10), // ?, reduce: Element
+			reduce(10), // :, reduce: Element
+			reduce(10), // comment, reduce: Element
+			nil,        // template_block_end
+			reduce(10), // template_block_start, reduce: Element
+			reduce(10), // template_comment, reduce: Element
+			nil,        // template_variable_end
+			reduce(10), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S139
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(12), // identifier, reduce: Element
+			reduce(12), // bytes_literal, reduce: Element
+			reduce(12), // string_literal, reduce: Element
+			reduce(12), // integer_literal, reduce: Element
+			reduce(12), // floating_point_literal, reduce: Element
+			reduce(12), // newline, reduce: Element
+			reduce(12), // *, reduce: Element
+			reduce(12), // <, reduce: Element
+			reduce(12), // >, reduce: Element
+			reduce(12), // [, reduce: Element
+			reduce(12), // ], reduce: Element
+			reduce(12), // (, reduce: Element
+			reduce(12), // ), reduce: Element
+			reduce(12), // ,, reduce: Element
+			reduce(12), // ., reduce: Element
+			reduce(12), // |, reduce: Element
+			reduce(12), // ^, reduce: Element
+			reduce(12), // &, reduce: Element
+			reduce(12), // <<, reduce: Element
+			reduce(12), // >>, reduce: Element
+			reduce(12), // =>, reduce: Element
+			reduce(12), // /, reduce: Element
+			reduce(12), // +, reduce: Element
+			reduce(12), // -, reduce: Element
+			reduce(12), // ||, reduce: Element
+			reduce(12), // <>, reduce: Element
+			reduce(12), // !=, reduce: Element
+			reduce(12), // =, reduce: Element
+			reduce(12), // <=, reduce: Element
+			reduce(12), // >=, reduce: Element
+			reduce(12), // ;, reduce: Element
+			reduce(12), // @, reduce: Element
+			reduce(12), // {, reduce: Element
+			reduce(12), // }, reduce: Element
+			reduce(12), // ~, reduce: Element
+			reduce(12), // else, reduce: Element
+			reduce(12), // if, reduce: Element
+			reduce(12), // for, reduce: Element
+			reduce(12), // endfor, reduce: Element
+			reduce(12), // elif, reduce: Element
+			reduce(12), // endif, reduce: Element
+			reduce(12), // set, reduce: Element
+			reduce(12), // ?, reduce: Element
+			reduce(12), // :, reduce: Element
+			reduce(12), // comment, reduce: Element
+			nil,        // template_block_end
+			reduce(12), // template_block_start, reduce: Element
+			reduce(12), // template_comment, reduce: Element
+			nil,        // template_variable_end
+			reduce(12), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S140
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(13), // identifier, reduce: Element
+			reduce(13), // bytes_literal, reduce: Element
+			reduce(13), // string_literal, reduce: Element
+			reduce(13), // integer_literal, reduce: Element
+			reduce(13), // floating_point_literal, reduce: Element
+			reduce(13), // newline, reduce: Element
+			reduce(13), // *, reduce: Element
+			reduce(13), // <, reduce: Element
+			reduce(13), // >, reduce: Element
+			reduce(13), // [, reduce: Element
+			reduce(13), // ], reduce: Element
+			reduce(13), // (, reduce: Element
+			reduce(13), // ), reduce: Element
+			reduce(13), // ,, reduce: Element
+			reduce(13), // ., reduce: Element
+			reduce(13), // |, reduce: Element
+			reduce(13), // ^, reduce: Element
+			reduce(13), // &, reduce: Element
+			reduce(13), // <<, reduce: Element
+			reduce(13), // >>, reduce: Element
+			reduce(13), // =>, reduce: Element
+			reduce(13), // /, reduce: Element
+			reduce(13), // +, reduce: Element
+			reduce(13), // -, reduce: Element
+			reduce(13), // ||, reduce: Element
+			reduce(13), // <>, reduce: Element
+			reduce(13), // !=, reduce: Element
+			reduce(13), // =, reduce: Element
+			reduce(13), // <=, reduce: Element
+			reduce(13), // >=, reduce: Element
+			reduce(13), // ;, reduce: Element
+			reduce(13), // @, reduce: Element
+			reduce(13), // {, reduce: Element
+			reduce(13), // }, reduce: Element
+			reduce(13), // ~, reduce: Element
+			reduce(13), // else, reduce: Element
+			reduce(13), // if, reduce: Element
+			reduce(13), // for, reduce: Element
+			reduce(13), // endfor, reduce: Element
+			reduce(13), // elif, reduce: Element
+			reduce(13), // endif, reduce: Element
+			reduce(13), // set, reduce: Element
+			reduce(13), // ?, reduce: Element
+			reduce(13), // :, reduce: Element
+			reduce(13), // comment, reduce: Element
+			nil,        // template_block_end
+			reduce(13), // template_block_start, reduce: Element
+			reduce(13), // template_comment, reduce: Element
+			nil,        // template_variable_end
+			reduce(13), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S141
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(14), // identifier, reduce: Element2
+			reduce(14), // bytes_literal, reduce: Element2
+			reduce(14), // string_literal, reduce: Element2
+			reduce(14), // integer_literal, reduce: Element2
+			reduce(14), // floating_point_literal, reduce: Element2
+			reduce(14), // newline, reduce: Element2
+			reduce(14), // *, reduce: Element2
+			reduce(14), // <, reduce: Element2
+			reduce(14), // >, reduce: Element2
+			reduce(14), // [, reduce: Element2
+			reduce(14), // ], reduce: Element2
+			reduce(14), // (, reduce: Element2
+			reduce(14), // ), reduce: Element2
+			reduce(14), // ,, reduce: Element2
+			reduce(14), // ., reduce: Element2
+			reduce(14), // |, reduce: Element2
+			reduce(14), // ^, reduce: Element2
+			reduce(14), // &, reduce: Element2
+			reduce(14), // <<, reduce: Element2
+			reduce(14), // >>, reduce: Element2
+			reduce(14), // =>, reduce: Element2
+			reduce(14), // /, reduce: Element2
+			reduce(14), // +, reduce: Element2
+			reduce(14), // -, reduce: Element2
+			reduce(14), // ||, reduce: Element2
+			reduce(14), // <>, reduce: Element2
+			reduce(14), // !=, reduce: Element2
+			reduce(14), // =, reduce: Element2
+			reduce(14), // <=, reduce: Element2
+			reduce(14), // >=, reduce: Element2
+			reduce(14), // ;, reduce: Element2
+			reduce(14), // @, reduce: Element2
+			reduce(14), // {, reduce: Element2
+			reduce(14), // }, reduce: Element2
+			reduce(14), // ~, reduce: Element2
+			reduce(14), // else, reduce: Element2
+			reduce(14), // if, reduce: Element2
+			reduce(14), // for, reduce: Element2
+			reduce(14), // endfor, reduce: Element2
+			reduce(14), // elif, reduce: Element2
+			reduce(14), // endif, reduce: Element2
+			reduce(14), // set, reduce: Element2
+			reduce(14), // ?, reduce: Element2
+			reduce(14), // :, reduce: Element2
+			reduce(14), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(14), // template_block_start, reduce: Element2
+			reduce(14), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(14), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S142
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(15), // identifier, reduce: Element2
+			reduce(15), // bytes_literal, reduce: Element2
+			reduce(15), // string_literal, reduce: Element2
+			reduce(15), // integer_literal, reduce: Element2
+			reduce(15), // floating_point_literal, reduce: Element2
+			reduce(15), // newline, reduce: Element2
+			reduce(15), // *, reduce: Element2
+			reduce(15), // <, reduce: Element2
+			reduce(15), // >, reduce: Element2
+			reduce(15), // [, reduce: Element2
+			reduce(15), // ], reduce: Element2
+			reduce(15), // (, reduce: Element2
+			reduce(15), // ), reduce: Element2
+			reduce(15), // ,, reduce: Element2
+			reduce(15), // ., reduce: Element2
+			reduce(15), // |, reduce: Element2
+			reduce(15), // ^, reduce: Element2
+			reduce(15), // &, reduce: Element2
+			reduce(15), // <<, reduce: Element2
+			reduce(15), // >>, reduce: Element2
+			reduce(15), // =>, reduce: Element2
+			reduce(15), // /, reduce: Element2
+			reduce(15), // +, reduce: Element2
+			reduce(15), // -, reduce: Element2
+			reduce(15), // ||, reduce: Element2
+			reduce(15), // <>, reduce: Element2
+			reduce(15), // !=, reduce: Element2
+			reduce(15), // =, reduce: Element2
+			reduce(15), // <=, reduce: Element2
+			reduce(15), // >=, reduce: Element2
+			reduce(15), // ;, reduce: Element2
+			reduce(15), // @, reduce: Element2
+			reduce(15), // {, reduce: Element2
+			reduce(15), // }, reduce: Element2
+			reduce(15), // ~, reduce: Element2
+			reduce(15), // else, reduce: Element2
+			reduce(15), // if, reduce: Element2
+			reduce(15), // for, reduce: Element2
+			reduce(15), // endfor, reduce: Element2
+			reduce(15), // elif, reduce: Element2
+			reduce(15), // endif, reduce: Element2
+			reduce(15), // set, reduce: Element2
+			reduce(15), // ?, reduce: Element2
+			reduce(15), // :, reduce: Element2
+			reduce(15), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(15), // template_block_start, reduce: Element2
+			reduce(15), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(15), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S143
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(16), // identifier, reduce: Element2
+			reduce(16), // bytes_literal, reduce: Element2
+			reduce(16), // string_literal, reduce: Element2
+			reduce(16), // integer_literal, reduce: Element2
+			reduce(16), // floating_point_literal, reduce: Element2
+			reduce(16), // newline, reduce: Element2
+			reduce(16), // *, reduce: Element2
+			reduce(16), // <, reduce: Element2
+			reduce(16), // >, reduce: Element2
+			reduce(16), // [, reduce: Element2
+			reduce(16), // ], reduce: Element2
+			reduce(16), // (, reduce: Element2
+			reduce(16), // ), reduce: Element2
+			reduce(16), // ,, reduce: Element2
+			reduce(16), // ., reduce: Element2
+			reduce(16), // |, reduce: Element2
+			reduce(16), // ^, reduce: Element2
+			reduce(16), // &, reduce: Element2
+			reduce(16), // <<, reduce: Element2
+			reduce(16), // >>, reduce: Element2
+			reduce(16), // =>, reduce: Element2
+			reduce(16), // /, reduce: Element2
+			reduce(16), // +, reduce: Element2
+			reduce(16), // -, reduce: Element2
+			reduce(16), // ||, reduce: Element2
+			reduce(16), // <>, reduce: Element2
+			reduce(16), // !=, reduce: Element2
+			reduce(16), // =, reduce: Element2
+			reduce(16), // <=, reduce: Element2
+			reduce(16), // >=, reduce: Element2
+			reduce(16), // ;, reduce: Element2
+			reduce(16), // @, reduce: Element2
+			reduce(16), // {, reduce: Element2
+			reduce(16), // }, reduce: Element2
+			reduce(16), // ~, reduce: Element2
+			reduce(16), // else, reduce: Element2
+			reduce(16), // if, reduce: Element2
+			reduce(16), // for, reduce: Element2
+			reduce(16), // endfor, reduce: Element2
+			reduce(16), // elif, reduce: Element2
+			reduce(16), // endif, reduce: Element2
+			reduce(16), // set, reduce: Element2
+			reduce(16), // ?, reduce: Element2
+			reduce(16), // :, reduce: Element2
+			reduce(16), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(16), // template_block_start, reduce: Element2
+			reduce(16), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(16), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S144
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(17), // identifier, reduce: Element2
+			reduce(17), // bytes_literal, reduce: Element2
+			reduce(17), // string_literal, reduce: Element2
+			reduce(17), // integer_literal, reduce: Element2
+			reduce(17), // floating_point_literal, reduce: Element2
+			reduce(17), // newline, reduce: Element2
+			reduce(17), // *, reduce: Element2
+			reduce(17), // <, reduce: Element2
+			reduce(17), // >, reduce: Element2
+			reduce(17), // [, reduce: Element2
+			reduce(17), // ], reduce: Element2
+			reduce(17), // (, reduce: Element2
+			reduce(17), // ), reduce: Element2
+			reduce(17), // ,, reduce: Element2
+			reduce(17), // ., reduce: Element2
+			reduce(17), // |, reduce: Element2
+			reduce(17), // ^, reduce: Element2
+			reduce(17), // &, reduce: Element2
+			reduce(17), // <<, reduce: Element2
+			reduce(17), // >>, reduce: Element2
+			reduce(17), // =>, reduce: Element2
+			reduce(17), // /, reduce: Element2
+			reduce(17), // +, reduce: Element2
+			reduce(17), // -, reduce: Element2
+			reduce(17), // ||, reduce: Element2
+			reduce(17), // <>, reduce: Element2
+			reduce(17), // !=, reduce: Element2
+			reduce(17), // =, reduce: Element2
+			reduce(17), // <=, reduce: Element2
+			reduce(17), // >=, reduce: Element2
+			reduce(17), // ;, reduce: Element2
+			reduce(17), // @, reduce: Element2
+			reduce(17), // {, reduce: Element2
+			reduce(17), // }, reduce: Element2
+			reduce(17), // ~, reduce: Element2
+			reduce(17), // else, reduce: Element2
+			reduce(17), // if, reduce: Element2
+			reduce(17), // for, reduce: Element2
+			reduce(17), // endfor, reduce: Element2
+			reduce(17), // elif, reduce: Element2
+			reduce(17), // endif, reduce: Element2
+			reduce(17), // set, reduce: Element2
+			reduce(17), // ?, reduce: Element2
+			reduce(17), // :, reduce: Element2
+			reduce(17), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(17), // template_block_start, reduce: Element2
+			reduce(17), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(17), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S145
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(18), // identifier, reduce: Element2
+			reduce(18), // bytes_literal, reduce: Element2
+			reduce(18), // string_literal, reduce: Element2
+			reduce(18), // integer_literal, reduce: Element2
+			reduce(18), // floating_point_literal, reduce: Element2
+			reduce(18), // newline, reduce: Element2
+			reduce(18), // *, reduce: Element2
+			reduce(18), // <, reduce: Element2
+			reduce(18), // >, reduce: Element2
+			reduce(18), // [, reduce: Element2
+			reduce(18), // ], reduce: Element2
+			reduce(18), // (, reduce: Element2
+			reduce(18), // ), reduce: Element2
+			reduce(18), // ,, reduce: Element2
+			reduce(18), // ., reduce: Element2
+			reduce(18), // |, reduce: Element2
+			reduce(18), // ^, reduce: Element2
+			reduce(18), // &, reduce: Element2
+			reduce(18), // <<, reduce: Element2
+			reduce(18), // >>, reduce: Element2
+			reduce(18), // =>, reduce: Element2
+			reduce(18), // /, reduce: Element2
+			reduce(18), // +, reduce: Element2
+			reduce(18), // -, reduce: Element2
+			reduce(18), // ||, reduce: Element2
+			reduce(18), // <>, reduce: Element2
+			reduce(18), // !=, reduce: Element2
+			reduce(18), // =, reduce: Element2
+			reduce(18), // <=, reduce: Element2
+			reduce(18), // >=, reduce: Element2
+			reduce(18), // ;, reduce: Element2
+			reduce(18), // @, reduce: Element2
+			reduce(18), // {, reduce: Element2
+			reduce(18), // }, reduce: Element2
+			reduce(18), // ~, reduce: Element2
+			reduce(18), // else, reduce: Element2
+			reduce(18), // if, reduce: Element2
+			reduce(18), // for, reduce: Element2
+			reduce(18), // endfor, reduce: Element2
+			reduce(18), // elif, reduce: Element2
+			reduce(18), // endif, reduce: Element2
+			reduce(18), // set, reduce: Element2
+			reduce(18), // ?, reduce: Element2
+			reduce(18), // :, reduce: Element2
+			reduce(18), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(18), // template_block_start, reduce: Element2
+			reduce(18), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(18), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S146
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(19), // identifier, reduce: Element2
+			reduce(19), // bytes_literal, reduce: Element2
+			reduce(19), // string_literal, reduce: Element2
+			reduce(19), // integer_literal, reduce: Element2
+			reduce(19), // floating_point_literal, reduce: Element2
+			reduce(19), // newline, reduce: Element2
+			reduce(19), // *, reduce: Element2
+			reduce(19), // <, reduce: Element2
+			reduce(19), // >, reduce: Element2
+			reduce(19), // [, reduce: Element2
+			reduce(19), // ], reduce: Element2
+			reduce(19), // (, reduce: Element2
+			reduce(19), // ), reduce: Element2
+			reduce(19), // ,, reduce: Element2
+			reduce(19), // ., reduce: Element2
+			reduce(19), // |, reduce: Element2
+			reduce(19), // ^, reduce: Element2
+			reduce(19), // &, reduce: Element2
+			reduce(19), // <<, reduce: Element2
+			reduce(19), // >>, reduce: Element2
+			reduce(19), // =>, reduce: Element2
+			reduce(19), // /, reduce: Element2
+			reduce(19), // +, reduce: Element2
+			reduce(19), // -, reduce: Element2
+			reduce(19), // ||, reduce: Element2
+			reduce(19), // <>, reduce: Element2
+			reduce(19), // !=, reduce: Element2
+			reduce(19), // =, reduce: Element2
+			reduce(19), // <=, reduce: Element2
+			reduce(19), // >=, reduce: Element2
+			reduce(19), // ;, reduce: Element2
+			reduce(19), // @, reduce: Element2
+			reduce(19), // {, reduce: Element2
+			reduce(19), // }, reduce: Element2
+			reduce(19), // ~, reduce: Element2
+			reduce(19), // else, reduce: Element2
+			reduce(19), // if, reduce: Element2
+			reduce(19), // for, reduce: Element2
+			reduce(19), // endfor, reduce: Element2
+			reduce(19), // elif, reduce: Element2
+			reduce(19), // endif, reduce: Element2
+			reduce(19), // set, reduce: Element2
+			reduce(19), // ?, reduce: Element2
+			reduce(19), // :, reduce: Element2
+			reduce(19), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(19), // template_block_start, reduce: Element2
+			reduce(19), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(19), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S147
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(20), // identifier, reduce: Element2
+			reduce(20), // bytes_literal, reduce: Element2
+			reduce(20), // string_literal, reduce: Element2
+			reduce(20), // integer_literal, reduce: Element2
+			reduce(20), // floating_point_literal, reduce: Element2
+			reduce(20), // newline, reduce: Element2
+			reduce(20), // *, reduce: Element2
+			reduce(20), // <, reduce: Element2
+			reduce(20), // >, reduce: Element2
+			reduce(20), // [, reduce: Element2
+			reduce(20), // ], reduce: Element2
+			reduce(20), // (, reduce: Element2
+			reduce(20), // ), reduce: Element2
+			reduce(20), // ,, reduce: Element2
+			reduce(20), // ., reduce: Element2
+			reduce(20), // |, reduce: Element2
+			reduce(20), // ^, reduce: Element2
+			reduce(20), // &, reduce: Element2
+			reduce(20), // <<, reduce: Element2
+			reduce(20), // >>, reduce: Element2
+			reduce(20), // =>, reduce: Element2
+			reduce(20), // /, reduce: Element2
+			reduce(20), // +, reduce: Element2
+			reduce(20), // -, reduce: Element2
+			reduce(20), // ||, reduce: Element2
+			reduce(20), // <>, reduce: Element2
+			reduce(20), // !=, reduce: Element2
+			reduce(20), // =, reduce: Element2
+			reduce(20), // <=, reduce: Element2
+			reduce(20), // >=, reduce: Element2
+			reduce(20), // ;, reduce: Element2
+			reduce(20), // @, reduce: Element2
+			reduce(20), // {, reduce: Element2
+			reduce(20), // }, reduce: Element2
+			reduce(20), // ~, reduce: Element2
+			reduce(20), // else, reduce: Element2
+			reduce(20), // if, reduce: Element2
+			reduce(20), // for, reduce: Element2
+			reduce(20), // endfor, reduce: Element2
+			reduce(20), // elif, reduce: Element2
+			reduce(20), // endif, reduce: Element2
+			reduce(20), // set, reduce: Element2
+			reduce(20), // ?, reduce: Element2
+			reduce(20), // :, reduce: Element2
+			reduce(20), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(20), // template_block_start, reduce: Element2
+			reduce(20), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(20), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S148
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(21), // identifier, reduce: Element2
+			reduce(21), // bytes_literal, reduce: Element2
+			reduce(21), // string_literal, reduce: Element2
+			reduce(21), // integer_literal, reduce: Element2
+			reduce(21), // floating_point_literal, reduce: Element2
+			reduce(21), // newline, reduce: Element2
+			reduce(21), // *, reduce: Element2
+			reduce(21), // <, reduce: Element2
+			reduce(21), // >, reduce: Element2
+			reduce(21), // [, reduce: Element2
+			reduce(21), // ], reduce: Element2
+			reduce(21), // (, reduce: Element2
+			reduce(21), // ), reduce: Element2
+			reduce(21), // ,, reduce: Element2
+			reduce(21), // ., reduce: Element2
+			reduce(21), // |, reduce: Element2
+			reduce(21), // ^, reduce: Element2
+			reduce(21), // &, reduce: Element2
+			reduce(21), // <<, reduce: Element2
+			reduce(21), // >>, reduce: Element2
+			reduce(21), // =>, reduce: Element2
+			reduce(21), // /, reduce: Element2
+			reduce(21), // +, reduce: Element2
+			reduce(21), // -, reduce: Element2
+			reduce(21), // ||, reduce: Element2
+			reduce(21), // <>, reduce: Element2
+			reduce(21), // !=, reduce: Element2
+			reduce(21), // =, reduce: Element2
+			reduce(21), // <=, reduce: Element2
+			reduce(21), // >=, reduce: Element2
+			reduce(21), // ;, reduce: Element2
+			reduce(21), // @, reduce: Element2
+			reduce(21), // {, reduce: Element2
+			reduce(21), // }, reduce: Element2
+			reduce(21), // ~, reduce: Element2
+			reduce(21), // else, reduce: Element2
+			reduce(21), // if, reduce: Element2
+			reduce(21), // for, reduce: Element2
+			reduce(21), // endfor, reduce: Element2
+			reduce(21), // elif, reduce: Element2
+			reduce(21), // endif, reduce: Element2
+			reduce(21), // set, reduce: Element2
+			reduce(21), // ?, reduce: Element2
+			reduce(21), // :, reduce: Element2
+			reduce(21), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(21), // template_block_start, reduce: Element2
+			reduce(21), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(21), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S149
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(22), // identifier, reduce: Element2
+			reduce(22), // bytes_literal, reduce: Element2
+			reduce(22), // string_literal, reduce: Element2
+			reduce(22), // integer_literal, reduce: Element2
+			reduce(22), // floating_point_literal, reduce: Element2
+			reduce(22), // newline, reduce: Element2
+			reduce(22), // *, reduce: Element2
+			reduce(22), // <, reduce: Element2
+			reduce(22), // >, reduce: Element2
+			reduce(22), // [, reduce: Element2
+			reduce(22), // ], reduce: Element2
+			reduce(22), // (, reduce: Element2
+			reduce(22), // ), reduce: Element2
+			reduce(22), // ,, reduce: Element2
+			reduce(22), // ., reduce: Element2
+			reduce(22), // |, reduce: Element2
+			reduce(22), // ^, reduce: Element2
+			reduce(22), // &, reduce: Element2
+			reduce(22), // <<, reduce: Element2
+			reduce(22), // >>, reduce: Element2
+			reduce(22), // =>, reduce: Element2
+			reduce(22), // /, reduce: Element2
+			reduce(22), // +, reduce: Element2
+			reduce(22), // -, reduce: Element2
+			reduce(22), // ||, reduce: Element2
+			reduce(22), // <>, reduce: Element2
+			reduce(22), // !=, reduce: Element2
+			reduce(22), // =, reduce: Element2
+			reduce(22), // <=, reduce: Element2
+			reduce(22), // >=, reduce: Element2
+			reduce(22), // ;, reduce: Element2
+			reduce(22), // @, reduce: Element2
+			reduce(22), // {, reduce: Element2
+			reduce(22), // }, reduce: Element2
+			reduce(22), // ~, reduce: Element2
+			reduce(22), // else, reduce: Element2
+			reduce(22), // if, reduce: Element2
+			reduce(22), // for, reduce: Element2
+			reduce(22), // endfor, reduce: Element2
+			reduce(22), // elif, reduce: Element2
+			reduce(22), // endif, reduce: Element2
+			reduce(22), // set, reduce: Element2
+			reduce(22), // ?, reduce: Element2
+			reduce(22), // :, reduce: Element2
+			reduce(22), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(22), // template_block_start, reduce: Element2
+			reduce(22), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(22), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S150
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(23), // identifier, reduce: Element2
+			reduce(23), // bytes_literal, reduce: Element2
+			reduce(23), // string_literal, reduce: Element2
+			reduce(23), // integer_literal, reduce: Element2
+			reduce(23), // floating_point_literal, reduce: Element2
+			reduce(23), // newline, reduce: Element2
+			reduce(23), // *, reduce: Element2
+			reduce(23), // <, reduce: Element2
+			reduce(23), // >, reduce: Element2
+			reduce(23), // [, reduce: Element2
+			reduce(23), // ], reduce: Element2
+			reduce(23), // (, reduce: Element2
+			reduce(23), // ), reduce: Element2
+			reduce(23), // ,, reduce: Element2
+			reduce(23), // ., reduce: Element2
+			reduce(23), // |, reduce: Element2
+			reduce(23), // ^, reduce: Element2
+			reduce(23), // &, reduce: Element2
+			reduce(23), // <<, reduce: Element2
+			reduce(23), // >>, reduce: Element2
+			reduce(23), // =>, reduce: Element2
+			reduce(23), // /, reduce: Element2
+			reduce(23), // +, reduce: Element2
+			reduce(23), // -, reduce: Element2
+			reduce(23), // ||, reduce: Element2
+			reduce(23), // <>, reduce: Element2
+			reduce(23), // !=, reduce: Element2
+			reduce(23), // =, reduce: Element2
+			reduce(23), // <=, reduce: Element2
+			reduce(23), // >=, reduce: Element2
+			reduce(23), // ;, reduce: Element2
+			reduce(23), // @, reduce: Element2
+			reduce(23), // {, reduce: Element2
+			reduce(23), // }, reduce: Element2
+			reduce(23), // ~, reduce: Element2
+			reduce(23), // else, reduce: Element2
+			reduce(23), // if, reduce: Element2
+			reduce(23), // for, reduce: Element2
+			reduce(23), // endfor, reduce: Element2
+			reduce(23), // elif, reduce: Element2
+			reduce(23), // endif, reduce: Element2
+			reduce(23), // set, reduce: Element2
+			reduce(23), // ?, reduce: Element2
+			reduce(23), // :, reduce: Element2
+			reduce(23), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(23), // template_block_start, reduce: Element2
+			reduce(23), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(23), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S151
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(24), // identifier, reduce: Element2
+			reduce(24), // bytes_literal, reduce: Element2
+			reduce(24), // string_literal, reduce: Element2
+			reduce(24), // integer_literal, reduce: Element2
+			reduce(24), // floating_point_literal, reduce: Element2
+			reduce(24), // newline, reduce: Element2
+			reduce(24), // *, reduce: Element2
+			reduce(24), // <, reduce: Element2
+			reduce(24), // >, reduce: Element2
+			reduce(24), // [, reduce: Element2
+			reduce(24), // ], reduce: Element2
+			reduce(24), // (, reduce: Element2
+			reduce(24), // ), reduce: Element2
+			reduce(24), // ,, reduce: Element2
+			reduce(24), // ., reduce: Element2
+			reduce(24), // |, reduce: Element2
+			reduce(24), // ^, reduce: Element2
+			reduce(24), // &, reduce: Element2
+			reduce(24), // <<, reduce: Element2
+			reduce(24), // >>, reduce: Element2
+			reduce(24), // =>, reduce: Element2
+			reduce(24), // /, reduce: Element2
+			reduce(24), // +, reduce: Element2
+			reduce(24), // -, reduce: Element2
+			reduce(24), // ||, reduce: Element2
+			reduce(24), // <>, reduce: Element2
+			reduce(24), // !=, reduce: Element2
+			reduce(24), // =, reduce: Element2
+			reduce(24), // <=, reduce: Element2
+			reduce(24), // >=, reduce: Element2
+			reduce(24), // ;, reduce: Element2
+			reduce(24), // @, reduce: Element2
+			reduce(24), // {, reduce: Element2
+			reduce(24), // }, reduce: Element2
+			reduce(24), // ~, reduce: Element2
+			reduce(24), // else, reduce: Element2
+			reduce(24), // if, reduce: Element2
+			reduce(24), // for, reduce: Element2
+			reduce(24), // endfor, reduce: Element2
+			reduce(24), // elif, reduce: Element2
+			reduce(24), // endif, reduce: Element2
+			reduce(24), // set, reduce: Element2
+			reduce(24), // ?, reduce: Element2
+			reduce(24), // :, reduce: Element2
+			reduce(24), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(24), // template_block_start, reduce: Element2
+			reduce(24), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(24), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S152
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(25), // identifier, reduce: Element2
+			reduce(25), // bytes_literal, reduce: Element2
+			reduce(25), // string_literal, reduce: Element2
+			reduce(25), // integer_literal, reduce: Element2
+			reduce(25), // floating_point_literal, reduce: Element2
+			reduce(25), // newline, reduce: Element2
+			reduce(25), // *, reduce: Element2
+			reduce(25), // <, reduce: Element2
+			reduce(25), // >, reduce: Element2
+			reduce(25), // [, reduce: Element2
+			reduce(25), // ], reduce: Element2
+			reduce(25), // (, reduce: Element2
+			reduce(25), // ), reduce: Element2
+			reduce(25), // ,, reduce: Element2
+			reduce(25), // ., reduce: Element2
+			reduce(25), // |, reduce: Element2
+			reduce(25), // ^, reduce: Element2
+			reduce(25), // &, reduce: Element2
+			reduce(25), // <<, reduce: Element2
+			reduce(25), // >>, reduce: Element2
+			reduce(25), // =>, reduce: Element2
+			reduce(25), // /, reduce: Element2
+			reduce(25), // +, reduce: Element2
+			reduce(25), // -, reduce: Element2
+			reduce(25), // ||, reduce: Element2
+			reduce(25), // <>, reduce: Element2
+			reduce(25), // !=, reduce: Element2
+			reduce(25), // =, reduce: Element2
+			reduce(25), // <=, reduce: Element2
+			reduce(25), // >=, reduce: Element2
+			reduce(25), // ;, reduce: Element2
+			reduce(25), // @, reduce: Element2
+			reduce(25), // {, reduce: Element2
+			reduce(25), // }, reduce: Element2
+			reduce(25), // ~, reduce: Element2
+			reduce(25), // else, reduce: Element2
+			reduce(25), // if, reduce: Element2
+			reduce(25), // for, reduce: Element2
+			reduce(25), // endfor, reduce: Element2
+			reduce(25), // elif, reduce: Element2
+			reduce(25), // endif, reduce: Element2
+			reduce(25), // set, reduce: Element2
+			reduce(25), // ?, reduce: Element2
+			reduce(25), // :, reduce: Element2
+			reduce(25), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(25), // template_block_start, reduce: Element2
+			reduce(25), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(25), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S153
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(26), // identifier, reduce: Element2
+			reduce(26), // bytes_literal, reduce: Element2
+			reduce(26), // string_literal, reduce: Element2
+			reduce(26), // integer_literal, reduce: Element2
+			reduce(26), // floating_point_literal, reduce: Element2
+			reduce(26), // newline, reduce: Element2
+			reduce(26), // *, reduce: Element2
+			reduce(26), // <, reduce: Element2
+			reduce(26), // >, reduce: Element2
+			reduce(26), // [, reduce: Element2
+			reduce(26), // ], reduce: Element2
+			reduce(26), // (, reduce: Element2
+			reduce(26), // ), reduce: Element2
+			reduce(26), // ,, reduce: Element2
+			reduce(26), // ., reduce: Element2
+			reduce(26), // |, reduce: Element2
+			reduce(26), // ^, reduce: Element2
+			reduce(26), // &, reduce: Element2
+			reduce(26), // <<, reduce: Element2
+			reduce(26), // >>, reduce: Element2
+			reduce(26), // =>, reduce: Element2
+			reduce(26), // /, reduce: Element2
+			reduce(26), // +, reduce: Element2
+			reduce(26), // -, reduce: Element2
+			reduce(26), // ||, reduce: Element2
+			reduce(26), // <>, reduce: Element2
+			reduce(26), // !=, reduce: Element2
+			reduce(26), // =, reduce: Element2
+			reduce(26), // <=, reduce: Element2
+			reduce(26), // >=, reduce: Element2
+			reduce(26), // ;, reduce: Element2
+			reduce(26), // @, reduce: Element2
+			reduce(26), // {, reduce: Element2
+			reduce(26), // }, reduce: Element2
+			reduce(26), // ~, reduce: Element2
+			reduce(26), // else, reduce: Element2
+			reduce(26), // if, reduce: Element2
+			reduce(26), // for, reduce: Element2
+			reduce(26), // endfor, reduce: Element2
+			reduce(26), // elif, reduce: Element2
+			reduce(26), // endif, reduce: Element2
+			reduce(26), // set, reduce: Element2
+			reduce(26), // ?, reduce: Element2
+			reduce(26), // :, reduce: Element2
+			reduce(26), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(26), // template_block_start, reduce: Element2
+			reduce(26), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(26), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S154
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(27), // identifier, reduce: Element2
+			reduce(27), // bytes_literal, reduce: Element2
+			reduce(27), // string_literal, reduce: Element2
+			reduce(27), // integer_literal, reduce: Element2
+			reduce(27), // floating_point_literal, reduce: Element2
+			reduce(27), // newline, reduce: Element2
+			reduce(27), // *, reduce: Element2
+			reduce(27), // <, reduce: Element2
+			reduce(27), // >, reduce: Element2
+			reduce(27), // [, reduce: Element2
+			reduce(27), // ], reduce: Element2
+			reduce(27), // (, reduce: Element2
+			reduce(27), // ), reduce: Element2
+			reduce(27), // ,, reduce: Element2
+			reduce(27), // ., reduce: Element2
+			reduce(27), // |, reduce: Element2
+			reduce(27), // ^, reduce: Element2
+			reduce(27), // &, reduce: Element2
+			reduce(27), // <<, reduce: Element2
+			reduce(27), // >>, reduce: Element2
+			reduce(27), // =>, reduce: Element2
+			reduce(27), // /, reduce: Element2
+			reduce(27), // +, reduce: Element2
+			reduce(27), // -, reduce: Element2
+			reduce(27), // ||, reduce: Element2
+			reduce(27), // <>, reduce: Element2
+			reduce(27), // !=, reduce: Element2
+			reduce(27), // =, reduce: Element2
+			reduce(27), // <=, reduce: Element2
+			reduce(27), // >=, reduce: Element2
+			reduce(27), // ;, reduce: Element2
+			reduce(27), // @, reduce: Element2
+			reduce(27), // {, reduce: Element2
+			reduce(27), // }, reduce: Element2
+			reduce(27), // ~, reduce: Element2
+			reduce(27), // else, reduce: Element2
+			reduce(27), // if, reduce: Element2
+			reduce(27), // for, reduce: Element2
+			reduce(27), // endfor, reduce: Element2
+			reduce(27), // elif, reduce: Element2
+			reduce(27), // endif, reduce: Element2
+			reduce(27), // set, reduce: Element2
+			reduce(27), // ?, reduce: Element2
+			reduce(27), // :, reduce: Element2
+			reduce(27), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(27), // template_block_start, reduce: Element2
+			reduce(27), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(27), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S155
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(28), // identifier, reduce: Element2
+			reduce(28), // bytes_literal, reduce: Element2
+			reduce(28), // string_literal, reduce: Element2
+			reduce(28), // integer_literal, reduce: Element2
+			reduce(28), // floating_point_literal, reduce: Element2
+			reduce(28), // newline, reduce: Element2
+			reduce(28), // *, reduce: Element2
+			reduce(28), // <, reduce: Element2
+			reduce(28), // >, reduce: Element2
+			reduce(28), // [, reduce: Element2
+			reduce(28), // ], reduce: Element2
+			reduce(28), // (, reduce: Element2
+			reduce(28), // ), reduce: Element2
+			reduce(28), // ,, reduce: Element2
+			reduce(28), // ., reduce: Element2
+			reduce(28), // |, reduce: Element2
+			reduce(28), // ^, reduce: Element2
+			reduce(28), // &, reduce: Element2
+			reduce(28), // <<, reduce: Element2
+			reduce(28), // >>, reduce: Element2
+			reduce(28), // =>, reduce: Element2
+			reduce(28), // /, reduce: Element2
+			reduce(28), // +, reduce: Element2
+			reduce(28), // -, reduce: Element2
+			reduce(28), // ||, reduce: Element2
+			reduce(28), // <>, reduce: Element2
+			reduce(28), // !=, reduce: Element2
+			reduce(28), // =, reduce: Element2
+			reduce(28), // <=, reduce: Element2
+			reduce(28), // >=, reduce: Element2
+			reduce(28), // ;, reduce: Element2
+			reduce(28), // @, reduce: Element2
+			reduce(28), // {, reduce: Element2
+			reduce(28), // }, reduce: Element2
+			reduce(28), // ~, reduce: Element2
+			reduce(28), // else, reduce: Element2
+			reduce(28), // if, reduce: Element2
+			reduce(28), // for, reduce: Element2
+			reduce(28), // endfor, reduce: Element2
+			reduce(28), // elif, reduce: Element2
+			reduce(28), // endif, reduce: Element2
+			reduce(28), // set, reduce: Element2
+			reduce(28), // ?, reduce: Element2
+			reduce(28), // :, reduce: Element2
+			reduce(28), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(28), // template_block_start, reduce: Element2
+			reduce(28), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(28), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S156
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(29), // identifier, reduce: Element2
+			reduce(29), // bytes_literal, reduce: Element2
+			reduce(29), // string_literal, reduce: Element2
+			reduce(29), // integer_literal, reduce: Element2
+			reduce(29), // floating_point_literal, reduce: Element2
+			reduce(29), // newline, reduce: Element2
+			reduce(29), // *, reduce: Element2
+			reduce(29), // <, reduce: Element2
+			reduce(29), // >, reduce: Element2
+			reduce(29), // [, reduce: Element2
+			reduce(29), // ], reduce: Element2
+			reduce(29), // (, reduce: Element2
+			reduce(29), // ), reduce: Element2
+			reduce(29), // ,, reduce: Element2
+			reduce(29), // ., reduce: Element2
+			reduce(29), // |, reduce: Element2
+			reduce(29), // ^, reduce: Element2
+			reduce(29), // &, reduce: Element2
+			reduce(29), // <<, reduce: Element2
+			reduce(29), // >>, reduce: Element2
+			reduce(29), // =>, reduce: Element2
+			reduce(29), // /, reduce: Element2
+			reduce(29), // +, reduce: Element2
+			reduce(29), // -, reduce: Element2
+			reduce(29), // ||, reduce: Element2
+			reduce(29), // <>, reduce: Element2
+			reduce(29), // !=, reduce: Element2
+			reduce(29), // =, reduce: Element2
+			reduce(29), // <=, reduce: Element2
+			reduce(29), // >=, reduce: Element2
+			reduce(29), // ;, reduce: Element2
+			reduce(29), // @, reduce: Element2
+			reduce(29), // {, reduce: Element2
+			reduce(29), // }, reduce: Element2
+			reduce(29), // ~, reduce: Element2
+			reduce(29), // else, reduce: Element2
+			reduce(29), // if, reduce: Element2
+			reduce(29), // for, reduce: Element2
+			reduce(29), // endfor, reduce: Element2
+			reduce(29), // elif, reduce: Element2
+			reduce(29), // endif, reduce: Element2
+			reduce(29), // set, reduce: Element2
+			reduce(29), // ?, reduce: Element2
+			reduce(29), // :, reduce: Element2
+			reduce(29), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(29), // template_block_start, reduce: Element2
+			reduce(29), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(29), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S157
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(30), // identifier, reduce: Element2
+			reduce(30), // bytes_literal, reduce: Element2
+			reduce(30), // string_literal, reduce: Element2
+			reduce(30), // integer_literal, reduce: Element2
+			reduce(30), // floating_point_literal, reduce: Element2
+			reduce(30), // newline, reduce: Element2
+			reduce(30), // *, reduce: Element2
+			reduce(30), // <, reduce: Element2
+			reduce(30), // >, reduce: Element2
+			reduce(30), // [, reduce: Element2
+			reduce(30), // ], reduce: Element2
+			reduce(30), // (, reduce: Element2
+			reduce(30), // ), reduce: Element2
+			reduce(30), // ,, reduce: Element2
+			reduce(30), // ., reduce: Element2
+			reduce(30), // |, reduce: Element2
+			reduce(30), // ^, reduce: Element2
+			reduce(30), // &, reduce: Element2
+			reduce(30), // <<, reduce: Element2
+			reduce(30), // >>, reduce: Element2
+			reduce(30), // =>, reduce: Element2
+			reduce(30), // /, reduce: Element2
+			reduce(30), // +, reduce: Element2
+			reduce(30), // -, reduce: Element2
+			reduce(30), // ||, reduce: Element2
+			reduce(30), // <>, reduce: Element2
+			reduce(30), // !=, reduce: Element2
+			reduce(30), // =, reduce: Element2
+			reduce(30), // <=, reduce: Element2
+			reduce(30), // >=, reduce: Element2
+			reduce(30), // ;, reduce: Element2
+			reduce(30), // @, reduce: Element2
+			reduce(30), // {, reduce: Element2
+			reduce(30), // }, reduce: Element2
+			reduce(30), // ~, reduce: Element2
+			reduce(30), // else, reduce: Element2
+			reduce(30), // if, reduce: Element2
+			reduce(30), // for, reduce: Element2
+			reduce(30), // endfor, reduce: Element2
+			reduce(30), // elif, reduce: Element2
+			reduce(30), // endif, reduce: Element2
+			reduce(30), // set, reduce: Element2
+			reduce(30), // ?, reduce: Element2
+			reduce(30), // :, reduce: Element2
+			reduce(30), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(30), // template_block_start, reduce: Element2
+			reduce(30), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(30), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S158
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(31), // identifier, reduce: Element2
+			reduce(31), // bytes_literal, reduce: Element2
+			reduce(31), // string_literal, reduce: Element2
+			reduce(31), // integer_literal, reduce: Element2
+			reduce(31), // floating_point_literal, reduce: Element2
+			reduce(31), // newline, reduce: Element2
+			reduce(31), // *, reduce: Element2
+			reduce(31), // <, reduce: Element2
+			reduce(31), // >, reduce: Element2
+			reduce(31), // [, reduce: Element2
+			reduce(31), // ], reduce: Element2
+			reduce(31), // (, reduce: Element2
+			reduce(31), // ), reduce: Element2
+			reduce(31), // ,, reduce: Element2
+			reduce(31), // ., reduce: Element2
+			reduce(31), // |, reduce: Element2
+			reduce(31), // ^, reduce: Element2
+			reduce(31), // &, reduce: Element2
+			reduce(31), // <<, reduce: Element2
+			reduce(31), // >>, reduce: Element2
+			reduce(31), // =>, reduce: Element2
+			reduce(31), // /, reduce: Element2
+			reduce(31), // +, reduce: Element2
+			reduce(31), // -, reduce: Element2
+			reduce(31), // ||, reduce: Element2
+			reduce(31), // <>, reduce: Element2
+			reduce(31), // !=, reduce: Element2
+			reduce(31), // =, reduce: Element2
+			reduce(31), // <=, reduce: Element2
+			reduce(31), // >=, reduce: Element2
+			reduce(31), // ;, reduce: Element2
+			reduce(31), // @, reduce: Element2
+			reduce(31), // {, reduce: Element2
+			reduce(31), // }, reduce: Element2
+			reduce(31), // ~, reduce: Element2
+			reduce(31), // else, reduce: Element2
+			reduce(31), // if, reduce: Element2
+			reduce(31), // for, reduce: Element2
+			reduce(31), // endfor, reduce: Element2
+			reduce(31), // elif, reduce: Element2
+			reduce(31), // endif, reduce: Element2
+			reduce(31), // set, reduce: Element2
+			reduce(31), // ?, reduce: Element2
+			reduce(31), // :, reduce: Element2
+			reduce(31), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(31), // template_block_start, reduce: Element2
+			reduce(31), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(31), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S159
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(32), // identifier, reduce: Element2
+			reduce(32), // bytes_literal, reduce: Element2
+			reduce(32), // string_literal, reduce: Element2
+			reduce(32), // integer_literal, reduce: Element2
+			reduce(32), // floating_point_literal, reduce: Element2
+			reduce(32), // newline, reduce: Element2
+			reduce(32), // *, reduce: Element2
+			reduce(32), // <, reduce: Element2
+			reduce(32), // >, reduce: Element2
+			reduce(32), // [, reduce: Element2
+			reduce(32), // ], reduce: Element2
+			reduce(32), // (, reduce: Element2
+			reduce(32), // ), reduce: Element2
+			reduce(32), // ,, reduce: Element2
+			reduce(32), // ., reduce: Element2
+			reduce(32), // |, reduce: Element2
+			reduce(32), // ^, reduce: Element2
+			reduce(32), // &, reduce: Element2
+			reduce(32), // <<, reduce: Element2
+			reduce(32), // >>, reduce: Element2
+			reduce(32), // =>, reduce: Element2
+			reduce(32), // /, reduce: Element2
+			reduce(32), // +, reduce: Element2
+			reduce(32), // -, reduce: Element2
+			reduce(32), // ||, reduce: Element2
+			reduce(32), // <>, reduce: Element2
+			reduce(32), // !=, reduce: Element2
+			reduce(32), // =, reduce: Element2
+			reduce(32), // <=, reduce: Element2
+			reduce(32), // >=, reduce: Element2
+			reduce(32), // ;, reduce: Element2
+			reduce(32), // @, reduce: Element2
+			reduce(32), // {, reduce: Element2
+			reduce(32), // }, reduce: Element2
+			reduce(32), // ~, reduce: Element2
+			reduce(32), // else, reduce: Element2
+			reduce(32), // if, reduce: Element2
+			reduce(32), // for, reduce: Element2
+			reduce(32), // endfor, reduce: Element2
+			reduce(32), // elif, reduce: Element2
+			reduce(32), // endif, reduce: Element2
+			reduce(32), // set, reduce: Element2
+			reduce(32), // ?, reduce: Element2
+			reduce(32), // :, reduce: Element2
+			reduce(32), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(32), // template_block_start, reduce: Element2
+			reduce(32), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(32), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S160
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(33), // identifier, reduce: Element2
+			reduce(33), // bytes_literal, reduce: Element2
+			reduce(33), // string_literal, reduce: Element2
+			reduce(33), // integer_literal, reduce: Element2
+			reduce(33), // floating_point_literal, reduce: Element2
+			reduce(33), // newline, reduce: Element2
+			reduce(33), // *, reduce: Element2
+			reduce(33), // <, reduce: Element2
+			reduce(33), // >, reduce: Element2
+			reduce(33), // [, reduce: Element2
+			reduce(33), // ], reduce: Element2
+			reduce(33), // (, reduce: Element2
+			reduce(33), // ), reduce: Element2
+			reduce(33), // ,, reduce: Element2
+			reduce(33), // ., reduce: Element2
+			reduce(33), // |, reduce: Element2
+			reduce(33), // ^, reduce: Element2
+			reduce(33), // &, reduce: Element2
+			reduce(33), // <<, reduce: Element2
+			reduce(33), // >>, reduce: Element2
+			reduce(33), // =>, reduce: Element2
+			reduce(33), // /, reduce: Element2
+			reduce(33), // +, reduce: Element2
+			reduce(33), // -, reduce: Element2
+			reduce(33), // ||, reduce: Element2
+			reduce(33), // <>, reduce: Element2
+			reduce(33), // !=, reduce: Element2
+			reduce(33), // =, reduce: Element2
+			reduce(33), // <=, reduce: Element2
+			reduce(33), // >=, reduce: Element2
+			reduce(33), // ;, reduce: Element2
+			reduce(33), // @, reduce: Element2
+			reduce(33), // {, reduce: Element2
+			reduce(33), // }, reduce: Element2
+			reduce(33), // ~, reduce: Element2
+			reduce(33), // else, reduce: Element2
+			reduce(33), // if, reduce: Element2
+			reduce(33), // for, reduce: Element2
+			reduce(33), // endfor, reduce: Element2
+			reduce(33), // elif, reduce: Element2
+			reduce(33), // endif, reduce: Element2
+			reduce(33), // set, reduce: Element2
+			reduce(33), // ?, reduce: Element2
+			reduce(33), // :, reduce: Element2
+			reduce(33), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(33), // template_block_start, reduce: Element2
+			reduce(33), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(33), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S161
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(34), // identifier, reduce: Element2
+			reduce(34), // bytes_literal, reduce: Element2
+			reduce(34), // string_literal, reduce: Element2
+			reduce(34), // integer_literal, reduce: Element2
+			reduce(34), // floating_point_literal, reduce: Element2
+			reduce(34), // newline, reduce: Element2
+			reduce(34), // *, reduce: Element2
+			reduce(34), // <, reduce: Element2
+			reduce(34), // >, reduce: Element2
+			reduce(34), // [, reduce: Element2
+			reduce(34), // ], reduce: Element2
+			reduce(34), // (, reduce: Element2
+			reduce(34), // ), reduce: Element2
+			reduce(34), // ,, reduce: Element2
+			reduce(34), // ., reduce: Element2
+			reduce(34), // |, reduce: Element2
+			reduce(34), // ^, reduce: Element2
+			reduce(34), // &, reduce: Element2
+			reduce(34), // <<, reduce: Element2
+			reduce(34), // >>, reduce: Element2
+			reduce(34), // =>, reduce: Element2
+			reduce(34), // /, reduce: Element2
+			reduce(34), // +, reduce: Element2
+			reduce(34), // -, reduce: Element2
+			reduce(34), // ||, reduce: Element2
+			reduce(34), // <>, reduce: Element2
+			reduce(34), // !=, reduce: Element2
+			reduce(34), // =, reduce: Element2
+			reduce(34), // <=, reduce: Element2
+			reduce(34), // >=, reduce: Element2
+			reduce(34), // ;, reduce: Element2
+			reduce(34), // @, reduce: Element2
+			reduce(34), // {, reduce: Element2
+			reduce(34), // }, reduce: Element2
+			reduce(34), // ~, reduce: Element2
+			reduce(34), // else, reduce: Element2
+			reduce(34), // if, reduce: Element2
+			reduce(34), // for, reduce: Element2
+			reduce(34), // endfor, reduce: Element2
+			reduce(34), // elif, reduce: Element2
+			reduce(34), // endif, reduce: Element2
+			reduce(34), // set, reduce: Element2
+			reduce(34), // ?, reduce: Element2
+			reduce(34), // :, reduce: Element2
+			reduce(34), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(34), // template_block_start, reduce: Element2
+			reduce(34), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(34), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S162
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(35), // identifier, reduce: Element2
+			reduce(35), // bytes_literal, reduce: Element2
+			reduce(35), // string_literal, reduce: Element2
+			reduce(35), // integer_literal, reduce: Element2
+			reduce(35), // floating_point_literal, reduce: Element2
+			reduce(35), // newline, reduce: Element2
+			reduce(35), // *, reduce: Element2
+			reduce(35), // <, reduce: Element2
+			reduce(35), // >, reduce: Element2
+			reduce(35), // [, reduce: Element2
+			reduce(35), // ], reduce: Element2
+			reduce(35), // (, reduce: Element2
+			reduce(35), // ), reduce: Element2
+			reduce(35), // ,, reduce: Element2
+			reduce(35), // ., reduce: Element2
+			reduce(35), // |, reduce: Element2
+			reduce(35), // ^, reduce: Element2
+			reduce(35), // &, reduce: Element2
+			reduce(35), // <<, reduce: Element2
+			reduce(35), // >>, reduce: Element2
+			reduce(35), // =>, reduce: Element2
+			reduce(35), // /, reduce: Element2
+			reduce(35), // +, reduce: Element2
+			reduce(35), // -, reduce: Element2
+			reduce(35), // ||, reduce: Element2
+			reduce(35), // <>, reduce: Element2
+			reduce(35), // !=, reduce: Element2
+			reduce(35), // =, reduce: Element2
+			reduce(35), // <=, reduce: Element2
+			reduce(35), // >=, reduce: Element2
+			reduce(35), // ;, reduce: Element2
+			reduce(35), // @, reduce: Element2
+			reduce(35), // {, reduce: Element2
+			reduce(35), // }, reduce: Element2
+			reduce(35), // ~, reduce: Element2
+			reduce(35), // else, reduce: Element2
+			reduce(35), // if, reduce: Element2
+			reduce(35), // for, reduce: Element2
+			reduce(35), // endfor, reduce: Element2
+			reduce(35), // elif, reduce: Element2
+			reduce(35), // endif, reduce: Element2
+			reduce(35), // set, reduce: Element2
+			reduce(35), // ?, reduce: Element2
+			reduce(35), // :, reduce: Element2
+			reduce(35), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(35), // template_block_start, reduce: Element2
+			reduce(35), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(35), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S163
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(36), // identifier, reduce: Element2
+			reduce(36), // bytes_literal, reduce: Element2
+			reduce(36), // string_literal, reduce: Element2
+			reduce(36), // integer_literal, reduce: Element2
+			reduce(36), // floating_point_literal, reduce: Element2
+			reduce(36), // newline, reduce: Element2
+			reduce(36), // *, reduce: Element2
+			reduce(36), // <, reduce: Element2
+			reduce(36), // >, reduce: Element2
+			reduce(36), // [, reduce: Element2
+			reduce(36), // ], reduce: Element2
+			reduce(36), // (, reduce: Element2
+			reduce(36), // ), reduce: Element2
+			reduce(36), // ,, reduce: Element2
+			reduce(36), // ., reduce: Element2
+			reduce(36), // |, reduce: Element2
+			reduce(36), // ^, reduce: Element2
+			reduce(36), // &, reduce: Element2
+			reduce(36), // <<, reduce: Element2
+			reduce(36), // >>, reduce: Element2
+			reduce(36), // =>, reduce: Element2
+			reduce(36), // /, reduce: Element2
+			reduce(36), // +, reduce: Element2
+			reduce(36), // -, reduce: Element2
+			reduce(36), // ||, reduce: Element2
+			reduce(36), // <>, reduce: Element2
+			reduce(36), // !=, reduce: Element2
+			reduce(36), // =, reduce: Element2
+			reduce(36), // <=, reduce: Element2
+			reduce(36), // >=, reduce: Element2
+			reduce(36), // ;, reduce: Element2
+			reduce(36), // @, reduce: Element2
+			reduce(36), // {, reduce: Element2
+			reduce(36), // }, reduce: Element2
+			reduce(36), // ~, reduce: Element2
+			reduce(36), // else, reduce: Element2
+			reduce(36), // if, reduce: Element2
+			reduce(36), // for, reduce: Element2
+			reduce(36), // endfor, reduce: Element2
+			reduce(36), // elif, reduce: Element2
+			reduce(36), // endif, reduce: Element2
+			reduce(36), // set, reduce: Element2
+			reduce(36), // ?, reduce: Element2
+			reduce(36), // :, reduce: Element2
+			reduce(36), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(36), // template_block_start, reduce: Element2
+			reduce(36), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(36), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S164
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(37), // identifier, reduce: Element2
+			reduce(37), // bytes_literal, reduce: Element2
+			reduce(37), // string_literal, reduce: Element2
+			reduce(37), // integer_literal, reduce: Element2
+			reduce(37), // floating_point_literal, reduce: Element2
+			reduce(37), // newline, reduce: Element2
+			reduce(37), // *, reduce: Element2
+			reduce(37), // <, reduce: Element2
+			reduce(37), // >, reduce: Element2
+			reduce(37), // [, reduce: Element2
+			reduce(37), // ], reduce: Element2
+			reduce(37), // (, reduce: Element2
+			reduce(37), // ), reduce: Element2
+			reduce(37), // ,, reduce: Element2
+			reduce(37), // ., reduce: Element2
+			reduce(37), // |, reduce: Element2
+			reduce(37), // ^, reduce: Element2
+			reduce(37), // &, reduce: Element2
+			reduce(37), // <<, reduce: Element2
+			reduce(37), // >>, reduce: Element2
+			reduce(37), // =>, reduce: Element2
+			reduce(37), // /, reduce: Element2
+			reduce(37), // +, reduce: Element2
+			reduce(37), // -, reduce: Element2
+			reduce(37), // ||, reduce: Element2
+			reduce(37), // <>, reduce: Element2
+			reduce(37), // !=, reduce: Element2
+			reduce(37), // =, reduce: Element2
+			reduce(37), // <=, reduce: Element2
+			reduce(37), // >=, reduce: Element2
+			reduce(37), // ;, reduce: Element2
+			reduce(37), // @, reduce: Element2
+			reduce(37), // {, reduce: Element2
+			reduce(37), // }, reduce: Element2
+			reduce(37), // ~, reduce: Element2
+			reduce(37), // else, reduce: Element2
+			reduce(37), // if, reduce: Element2
+			reduce(37), // for, reduce: Element2
+			reduce(37), // endfor, reduce: Element2
+			reduce(37), // elif, reduce: Element2
+			reduce(37), // endif, reduce: Element2
+			reduce(37), // set, reduce: Element2
+			reduce(37), // ?, reduce: Element2
+			reduce(37), // :, reduce: Element2
+			reduce(37), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(37), // template_block_start, reduce: Element2
+			reduce(37), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(37), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S165
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(38), // identifier, reduce: Element2
+			reduce(38), // bytes_literal, reduce: Element2
+			reduce(38), // string_literal, reduce: Element2
+			reduce(38), // integer_literal, reduce: Element2
+			reduce(38), // floating_point_literal, reduce: Element2
+			reduce(38), // newline, reduce: Element2
+			reduce(38), // *, reduce: Element2
+			reduce(38), // <, reduce: Element2
+			reduce(38), // >, reduce: Element2
+			reduce(38), // [, reduce: Element2
+			reduce(38), // ], reduce: Element2
+			reduce(38), // (, reduce: Element2
+			reduce(38), // ), reduce: Element2
+			reduce(38), // ,, reduce: Element2
+			reduce(38), // ., reduce: Element2
+			reduce(38), // |, reduce: Element2
+			reduce(38), // ^, reduce: Element2
+			reduce(38), // &, reduce: Element2
+			reduce(38), // <<, reduce: Element2
+			reduce(38), // >>, reduce: Element2
+			reduce(38), // =>, reduce: Element2
+			reduce(38), // /, reduce: Element2
+			reduce(38), // +, reduce: Element2
+			reduce(38), // -, reduce: Element2
+			reduce(38), // ||, reduce: Element2
+			reduce(38), // <>, reduce: Element2
+			reduce(38), // !=, reduce: Element2
+			reduce(38), // =, reduce: Element2
+			reduce(38), // <=, reduce: Element2
+			reduce(38), // >=, reduce: Element2
+			reduce(38), // ;, reduce: Element2
+			reduce(38), // @, reduce: Element2
+			reduce(38), // {, reduce: Element2
+			reduce(38), // }, reduce: Element2
+			reduce(38), // ~, reduce: Element2
+			reduce(38), // else, reduce: Element2
+			reduce(38), // if, reduce: Element2
+			reduce(38), // for, reduce: Element2
+			reduce(38), // endfor, reduce: Element2
+			reduce(38), // elif, reduce: Element2
+			reduce(38), // endif, reduce: Element2
+			reduce(38), // set, reduce: Element2
+			reduce(38), // ?, reduce: Element2
+			reduce(38), // :, reduce: Element2
+			reduce(38), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(38), // template_block_start, reduce: Element2
+			reduce(38), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(38), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S166
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(39), // identifier, reduce: Element2
+			reduce(39), // bytes_literal, reduce: Element2
+			reduce(39), // string_literal, reduce: Element2
+			reduce(39), // integer_literal, reduce: Element2
+			reduce(39), // floating_point_literal, reduce: Element2
+			reduce(39), // newline, reduce: Element2
+			reduce(39), // *, reduce: Element2
+			reduce(39), // <, reduce: Element2
+			reduce(39), // >, reduce: Element2
+			reduce(39), // [, reduce: Element2
+			reduce(39), // ], reduce: Element2
+			reduce(39), // (, reduce: Element2
+			reduce(39), // ), reduce: Element2
+			reduce(39), // ,, reduce: Element2
+			reduce(39), // ., reduce: Element2
+			reduce(39), // |, reduce: Element2
+			reduce(39), // ^, reduce: Element2
+			reduce(39), // &, reduce: Element2
+			reduce(39), // <<, reduce: Element2
+			reduce(39), // >>, reduce: Element2
+			reduce(39), // =>, reduce: Element2
+			reduce(39), // /, reduce: Element2
+			reduce(39), // +, reduce: Element2
+			reduce(39), // -, reduce: Element2
+			reduce(39), // ||, reduce: Element2
+			reduce(39), // <>, reduce: Element2
+			reduce(39), // !=, reduce: Element2
+			reduce(39), // =, reduce: Element2
+			reduce(39), // <=, reduce: Element2
+			reduce(39), // >=, reduce: Element2
+			reduce(39), // ;, reduce: Element2
+			reduce(39), // @, reduce: Element2
+			reduce(39), // {, reduce: Element2
+			reduce(39), // }, reduce: Element2
+			reduce(39), // ~, reduce: Element2
+			reduce(39), // else, reduce: Element2
+			reduce(39), // if, reduce: Element2
+			reduce(39), // for, reduce: Element2
+			reduce(39), // endfor, reduce: Element2
+			reduce(39), // elif, reduce: Element2
+			reduce(39), // endif, reduce: Element2
+			reduce(39), // set, reduce: Element2
+			reduce(39), // ?, reduce: Element2
+			reduce(39), // :, reduce: Element2
+			reduce(39), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(39), // template_block_start, reduce: Element2
+			reduce(39), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(39), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S167
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(40), // identifier, reduce: Element2
+			reduce(40), // bytes_literal, reduce: Element2
+			reduce(40), // string_literal, reduce: Element2
+			reduce(40), // integer_literal, reduce: Element2
+			reduce(40), // floating_point_literal, reduce: Element2
+			reduce(40), // newline, reduce: Element2
+			reduce(40), // *, reduce: Element2
+			reduce(40), // <, reduce: Element2
+			reduce(40), // >, reduce: Element2
+			reduce(40), // [, reduce: Element2
+			reduce(40), // ], reduce: Element2
+			reduce(40), // (, reduce: Element2
+			reduce(40), // ), reduce: Element2
+			reduce(40), // ,, reduce: Element2
+			reduce(40), // ., reduce: Element2
+			reduce(40), // |, reduce: Element2
+			reduce(40), // ^, reduce: Element2
+			reduce(40), // &, reduce: Element2
+			reduce(40), // <<, reduce: Element2
+			reduce(40), // >>, reduce: Element2
+			reduce(40), // =>, reduce: Element2
+			reduce(40), // /, reduce: Element2
+			reduce(40), // +, reduce: Element2
+			reduce(40), // -, reduce: Element2
+			reduce(40), // ||, reduce: Element2
+			reduce(40), // <>, reduce: Element2
+			reduce(40), // !=, reduce: Element2
+			reduce(40), // =, reduce: Element2
+			reduce(40), // <=, reduce: Element2
+			reduce(40), // >=, reduce: Element2
+			reduce(40), // ;, reduce: Element2
+			reduce(40), // @, reduce: Element2
+			reduce(40), // {, reduce: Element2
+			reduce(40), // }, reduce: Element2
+			reduce(40), // ~, reduce: Element2
+			reduce(40), // else, reduce: Element2
+			reduce(40), // if, reduce: Element2
+			reduce(40), // for, reduce: Element2
+			reduce(40), // endfor, reduce: Element2
+			reduce(40), // elif, reduce: Element2
+			reduce(40), // endif, reduce: Element2
+			reduce(40), // set, reduce: Element2
+			reduce(40), // ?, reduce: Element2
+			reduce(40), // :, reduce: Element2
+			reduce(40), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(40), // template_block_start, reduce: Element2
+			reduce(40), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(40), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S168
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(41), // identifier, reduce: Element2
+			reduce(41), // bytes_literal, reduce: Element2
+			reduce(41), // string_literal, reduce: Element2
+			reduce(41), // integer_literal, reduce: Element2
+			reduce(41), // floating_point_literal, reduce: Element2
+			reduce(41), // newline, reduce: Element2
+			reduce(41), // *, reduce: Element2
+			reduce(41), // <, reduce: Element2
+			reduce(41), // >, reduce: Element2
+			reduce(41), // [, reduce: Element2
+			reduce(41), // ], reduce: Element2
+			reduce(41), // (, reduce: Element2
+			reduce(41), // ), reduce: Element2
+			reduce(41), // ,, reduce: Element2
+			reduce(41), // ., reduce: Element2
+			reduce(41), // |, reduce: Element2
+			reduce(41), // ^, reduce: Element2
+			reduce(41), // &, reduce: Element2
+			reduce(41), // <<, reduce: Element2
+			reduce(41), // >>, reduce: Element2
+			reduce(41), // =>, reduce: Element2
+			reduce(41), // /, reduce: Element2
+			reduce(41), // +, reduce: Element2
+			reduce(41), // -, reduce: Element2
+			reduce(41), // ||, reduce: Element2
+			reduce(41), // <>, reduce: Element2
+			reduce(41), // !=, reduce: Element2
+			reduce(41), // =, reduce: Element2
+			reduce(41), // <=, reduce: Element2
+			reduce(41), // >=, reduce: Element2
+			reduce(41), // ;, reduce: Element2
+			reduce(41), // @, reduce: Element2
+			reduce(41), // {, reduce: Element2
+			reduce(41), // }, reduce: Element2
+			reduce(41), // ~, reduce: Element2
+			reduce(41), // else, reduce: Element2
+			reduce(41), // if, reduce: Element2
+			reduce(41), // for, reduce: Element2
+			reduce(41), // endfor, reduce: Element2
+			reduce(41), // elif, reduce: Element2
+			reduce(41), // endif, reduce: Element2
+			reduce(41), // set, reduce: Element2
+			reduce(41), // ?, reduce: Element2
+			reduce(41), // :, reduce: Element2
+			reduce(41), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(41), // template_block_start, reduce: Element2
+			reduce(41), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(41), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S169
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(42), // identifier, reduce: Element2
+			reduce(42), // bytes_literal, reduce: Element2
+			reduce(42), // string_literal, reduce: Element2
+			reduce(42), // integer_literal, reduce: Element2
+			reduce(42), // floating_point_literal, reduce: Element2
+			reduce(42), // newline, reduce: Element2
+			reduce(42), // *, reduce: Element2
+			reduce(42), // <, reduce: Element2
+			reduce(42), // >, reduce: Element2
+			reduce(42), // [, reduce: Element2
+			reduce(42), // ], reduce: Element2
+			reduce(42), // (, reduce: Element2
+			reduce(42), // ), reduce: Element2
+			reduce(42), // ,, reduce: Element2
+			reduce(42), // ., reduce: Element2
+			reduce(42), // |, reduce: Element2
+			reduce(42), // ^, reduce: Element2
+			reduce(42), // &, reduce: Element2
+			reduce(42), // <<, reduce: Element2
+			reduce(42), // >>, reduce: Element2
+			reduce(42), // =>, reduce: Element2
+			reduce(42), // /, reduce: Element2
+			reduce(42), // +, reduce: Element2
+			reduce(42), // -, reduce: Element2
+			reduce(42), // ||, reduce: Element2
+			reduce(42), // <>, reduce: Element2
+			reduce(42), // !=, reduce: Element2
+			reduce(42), // =, reduce: Element2
+			reduce(42), // <=, reduce: Element2
+			reduce(42), // >=, reduce: Element2
+			reduce(42), // ;, reduce: Element2
+			reduce(42), // @, reduce: Element2
+			reduce(42), // {, reduce: Element2
+			reduce(42), // }, reduce: Element2
+			reduce(42), // ~, reduce: Element2
+			reduce(42), // else, reduce: Element2
+			reduce(42), // if, reduce: Element2
+			reduce(42), // for, reduce: Element2
+			reduce(42), // endfor, reduce: Element2
+			reduce(42), // elif, reduce: Element2
+			reduce(42), // endif, reduce: Element2
+			reduce(42), // set, reduce: Element2
+			reduce(42), // ?, reduce: Element2
+			reduce(42), // :, reduce: Element2
+			reduce(42), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(42), // template_block_start, reduce: Element2
+			reduce(42), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(42), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S170
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(44), // identifier, reduce: Element2
+			reduce(44), // bytes_literal, reduce: Element2
+			reduce(44), // string_literal, reduce: Element2
+			reduce(44), // integer_literal, reduce: Element2
+			reduce(44), // floating_point_literal, reduce: Element2
+			reduce(44), // newline, reduce: Element2
+			reduce(44), // *, reduce: Element2
+			reduce(44), // <, reduce: Element2
+			reduce(44), // >, reduce: Element2
+			reduce(44), // [, reduce: Element2
+			reduce(44), // ], reduce: Element2
+			reduce(44), // (, reduce: Element2
+			reduce(44), // ), reduce: Element2
+			reduce(44), // ,, reduce: Element2
+			reduce(44), // ., reduce: Element2
+			reduce(44), // |, reduce: Element2
+			reduce(44), // ^, reduce: Element2
+			reduce(44), // &, reduce: Element2
+			reduce(44), // <<, reduce: Element2
+			reduce(44), // >>, reduce: Element2
+			reduce(44), // =>, reduce: Element2
+			reduce(44), // /, reduce: Element2
+			reduce(44), // +, reduce: Element2
+			reduce(44), // -, reduce: Element2
+			reduce(44), // ||, reduce: Element2
+			reduce(44), // <>, reduce: Element2
+			reduce(44), // !=, reduce: Element2
+			reduce(44), // =, reduce: Element2
+			reduce(44), // <=, reduce: Element2
+			reduce(44), // >=, reduce: Element2
+			reduce(44), // ;, reduce: Element2
+			reduce(44), // @, reduce: Element2
+			reduce(44), // {, reduce: Element2
+			reduce(44), // }, reduce: Element2
+			reduce(44), // ~, reduce: Element2
+			reduce(44), // else, reduce: Element2
+			reduce(44), // if, reduce: Element2
+			reduce(44), // for, reduce: Element2
+			reduce(44), // endfor, reduce: Element2
+			reduce(44), // elif, reduce: Element2
+			reduce(44), // endif, reduce: Element2
+			reduce(44), // set, reduce: Element2
+			reduce(44), // ?, reduce: Element2
+			reduce(44), // :, reduce: Element2
+			reduce(44), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(44), // template_block_start, reduce: Element2
+			reduce(44), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(44), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S171
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(46), // identifier, reduce: Element2
+			reduce(46), // bytes_literal, reduce: Element2
+			reduce(46), // string_literal, reduce: Element2
+			reduce(46), // integer_literal, reduce: Element2
+			reduce(46), // floating_point_literal, reduce: Element2
+			reduce(46), // newline, reduce: Element2
+			reduce(46), // *, reduce: Element2
+			reduce(46), // <, reduce: Element2
+			reduce(46), // >, reduce: Element2
+			reduce(46), // [, reduce: Element2
+			reduce(46), // ], reduce: Element2
+			reduce(46), // (, reduce: Element2
+			reduce(46), // ), reduce: Element2
+			reduce(46), // ,, reduce: Element2
+			reduce(46), // ., reduce: Element2
+			reduce(46), // |, reduce: Element2
+			reduce(46), // ^, reduce: Element2
+			reduce(46), // &, reduce: Element2
+			reduce(46), // <<, reduce: Element2
+			reduce(46), // >>, reduce: Element2
+			reduce(46), // =>, reduce: Element2
+			reduce(46), // /, reduce: Element2
+			reduce(46), // +, reduce: Element2
+			reduce(46), // -, reduce: Element2
+			reduce(46), // ||, reduce: Element2
+			reduce(46), // <>, reduce: Element2
+			reduce(46), // !=, reduce: Element2
+			reduce(46), // =, reduce: Element2
+			reduce(46), // <=, reduce: Element2
+			reduce(46), // >=, reduce: Element2
+			reduce(46), // ;, reduce: Element2
+			reduce(46), // @, reduce: Element2
+			reduce(46), // {, reduce: Element2
+			reduce(46), // }, reduce: Element2
+			reduce(46), // ~, reduce: Element2
+			reduce(46), // else, reduce: Element2
+			reduce(46), // if, reduce: Element2
+			reduce(46), // for, reduce: Element2
+			reduce(46), // endfor, reduce: Element2
+			reduce(46), // elif, reduce: Element2
+			reduce(46), // endif, reduce: Element2
+			reduce(46), // set, reduce: Element2
+			reduce(46), // ?, reduce: Element2
+			reduce(46), // :, reduce: Element2
+			reduce(46), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(46), // template_block_start, reduce: Element2
+			reduce(46), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(46), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S172
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(47), // identifier, reduce: Element2
+			reduce(47), // bytes_literal, reduce: Element2
+			reduce(47), // string_literal, reduce: Element2
+			reduce(47), // integer_literal, reduce: Element2
+			reduce(47), // floating_point_literal, reduce: Element2
+			reduce(47), // newline, reduce: Element2
+			reduce(47), // *, reduce: Element2
+			reduce(47), // <, reduce: Element2
+			reduce(47), // >, reduce: Element2
+			reduce(47), // [, reduce: Element2
+			reduce(47), // ], reduce: Element2
+			reduce(47), // (, reduce: Element2
+			reduce(47), // ), reduce: Element2
+			reduce(47), // ,, reduce: Element2
+			reduce(47), // ., reduce: Element2
+			reduce(47), // |, reduce: Element2
+			reduce(47), // ^, reduce: Element2
+			reduce(47), // &, reduce: Element2
+			reduce(47), // <<, reduce: Element2
+			reduce(47), // >>, reduce: Element2
+			reduce(47), // =>, reduce: Element2
+			reduce(47), // /, reduce: Element2
+			reduce(47), // +, reduce: Element2
+			reduce(47), // -, reduce: Element2
+			reduce(47), // ||, reduce: Element2
+			reduce(47), // <>, reduce: Element2
+			reduce(47), // !=, reduce: Element2
+			reduce(47), // =, reduce: Element2
+			reduce(47), // <=, reduce: Element2
+			reduce(47), // >=, reduce: Element2
+			reduce(47), // ;, reduce: Element2
+			reduce(47), // @, reduce: Element2
+			reduce(47), // {, reduce: Element2
+			reduce(47), // }, reduce: Element2
+			reduce(47), // ~, reduce: Element2
+			reduce(47), // else, reduce: Element2
+			reduce(47), // if, reduce: Element2
+			reduce(47), // for, reduce: Element2
+			reduce(47), // endfor, reduce: Element2
+			reduce(47), // elif, reduce: Element2
+			reduce(47), // endif, reduce: Element2
+			reduce(47), // set, reduce: Element2
+			reduce(47), // ?, reduce: Element2
+			reduce(47), // :, reduce: Element2
+			reduce(47), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(47), // template_block_start, reduce: Element2
+			reduce(47), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(47), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S173
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(49), // identifier, reduce: Element2
+			reduce(49), // bytes_literal, reduce: Element2
+			reduce(49), // string_literal, reduce: Element2
+			reduce(49), // integer_literal, reduce: Element2
+			reduce(49), // floating_point_literal, reduce: Element2
+			reduce(49), // newline, reduce: Element2
+			reduce(49), // *, reduce: Element2
+			reduce(49), // <, reduce: Element2
+			reduce(49), // >, reduce: Element2
+			reduce(49), // [, reduce: Element2
+			reduce(49), // ], reduce: Element2
+			reduce(49), // (, reduce: Element2
+			reduce(49), // ), reduce: Element2
+			reduce(49), // ,, reduce: Element2
+			reduce(49), // ., reduce: Element2
+			reduce(49), // |, reduce: Element2
+			reduce(49), // ^, reduce: Element2
+			reduce(49), // &, reduce: Element2
+			reduce(49), // <<, reduce: Element2
+			reduce(49), // >>, reduce: Element2
+			reduce(49), // =>, reduce: Element2
+			reduce(49), // /, reduce: Element2
+			reduce(49), // +, reduce: Element2
+			reduce(49), // -, reduce: Element2
+			reduce(49), // ||, reduce: Element2
+			reduce(49), // <>, reduce: Element2
+			reduce(49), // !=, reduce: Element2
+			reduce(49), // =, reduce: Element2
+			reduce(49), // <=, reduce: Element2
+			reduce(49), // >=, reduce: Element2
+			reduce(49), // ;, reduce: Element2
+			reduce(49), // @, reduce: Element2
+			reduce(49), // {, reduce: Element2
+			reduce(49), // }, reduce: Element2
+			reduce(49), // ~, reduce: Element2
+			reduce(49), // else, reduce: Element2
+			reduce(49), // if, reduce: Element2
+			reduce(49), // for, reduce: Element2
+			reduce(49), // endfor, reduce: Element2
+			reduce(49), // elif, reduce: Element2
+			reduce(49), // endif, reduce: Element2
+			reduce(49), // set, reduce: Element2
+			reduce(49), // ?, reduce: Element2
+			reduce(49), // :, reduce: Element2
+			reduce(49), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(49), // template_block_start, reduce: Element2
+			reduce(49), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(49), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S174
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(50), // identifier, reduce: Element2
+			reduce(50), // bytes_literal, reduce: Element2
+			reduce(50), // string_literal, reduce: Element2
+			reduce(50), // integer_literal, reduce: Element2
+			reduce(50), // floating_point_literal, reduce: Element2
+			reduce(50), // newline, reduce: Element2
+			reduce(50), // *, reduce: Element2
+			reduce(50), // <, reduce: Element2
+			reduce(50), // >, reduce: Element2
+			reduce(50), // [, reduce: Element2
+			reduce(50), // ], reduce: Element2
+			reduce(50), // (, reduce: Element2
+			reduce(50), // ), reduce: Element2
+			reduce(50), // ,, reduce: Element2
+			reduce(50), // ., reduce: Element2
+			reduce(50), // |, reduce: Element2
+			reduce(50), // ^, reduce: Element2
+			reduce(50), // &, reduce: Element2
+			reduce(50), // <<, reduce: Element2
+			reduce(50), // >>, reduce: Element2
+			reduce(50), // =>, reduce: Element2
+			reduce(50), // /, reduce: Element2
+			reduce(50), // +, reduce: Element2
+			reduce(50), // -, reduce: Element2
+			reduce(50), // ||, reduce: Element2
+			reduce(50), // <>, reduce: Element2
+			reduce(50), // !=, reduce: Element2
+			reduce(50), // =, reduce: Element2
+			reduce(50), // <=, reduce: Element2
+			reduce(50), // >=, reduce: Element2
+			reduce(50), // ;, reduce: Element2
+			reduce(50), // @, reduce: Element2
+			reduce(50), // {, reduce: Element2
+			reduce(50), // }, reduce: Element2
+			reduce(50), // ~, reduce: Element2
+			reduce(50), // else, reduce: Element2
+			reduce(50), // if, reduce: Element2
+			reduce(50), // for, reduce: Element2
+			reduce(50), // endfor, reduce: Element2
+			reduce(50), // elif, reduce: Element2
+			reduce(50), // endif, reduce: Element2
+			reduce(50), // set, reduce: Element2
+			reduce(50), // ?, reduce: Element2
+			reduce(50), // :, reduce: Element2
+			reduce(50), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(50), // template_block_start, reduce: Element2
+			reduce(50), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(50), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S175
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(51), // identifier, reduce: Element2
+			reduce(51), // bytes_literal, reduce: Element2
+			reduce(51), // string_literal, reduce: Element2
+			reduce(51), // integer_literal, reduce: Element2
+			reduce(51), // floating_point_literal, reduce: Element2
+			reduce(51), // newline, reduce: Element2
+			reduce(51), // *, reduce: Element2
+			reduce(51), // <, reduce: Element2
+			reduce(51), // >, reduce: Element2
+			reduce(51), // [, reduce: Element2
+			reduce(51), // ], reduce: Element2
+			reduce(51), // (, reduce: Element2
+			reduce(51), // ), reduce: Element2
+			reduce(51), // ,, reduce: Element2
+			reduce(51), // ., reduce: Element2
+			reduce(51), // |, reduce: Element2
+			reduce(51), // ^, reduce: Element2
+			reduce(51), // &, reduce: Element2
+			reduce(51), // <<, reduce: Element2
+			reduce(51), // >>, reduce: Element2
+			reduce(51), // =>, reduce: Element2
+			reduce(51), // /, reduce: Element2
+			reduce(51), // +, reduce: Element2
+			reduce(51), // -, reduce: Element2
+			reduce(51), // ||, reduce: Element2
+			reduce(51), // <>, reduce: Element2
+			reduce(51), // !=, reduce: Element2
+			reduce(51), // =, reduce: Element2
+			reduce(51), // <=, reduce: Element2
+			reduce(51), // >=, reduce: Element2
+			reduce(51), // ;, reduce: Element2
+			reduce(51), // @, reduce: Element2
+			reduce(51), // {, reduce: Element2
+			reduce(51), // }, reduce: Element2
+			reduce(51), // ~, reduce: Element2
+			reduce(51), // else, reduce: Element2
+			reduce(51), // if, reduce: Element2
+			reduce(51), // for, reduce: Element2
+			reduce(51), // endfor, reduce: Element2
+			reduce(51), // elif, reduce: Element2
+			reduce(51), // endif, reduce: Element2
+			reduce(51), // set, reduce: Element2
+			reduce(51), // ?, reduce: Element2
+			reduce(51), // :, reduce: Element2
+			reduce(51), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(51), // template_block_start, reduce: Element2
+			reduce(51), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(51), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S176
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(52), // identifier, reduce: Element2
+			reduce(52), // bytes_literal, reduce: Element2
+			reduce(52), // string_literal, reduce: Element2
+			reduce(52), // integer_literal, reduce: Element2
+			reduce(52), // floating_point_literal, reduce: Element2
+			reduce(52), // newline, reduce: Element2
+			reduce(52), // *, reduce: Element2
+			reduce(52), // <, reduce: Element2
+			reduce(52), // >, reduce: Element2
+			reduce(52), // [, reduce: Element2
+			reduce(52), // ], reduce: Element2
+			reduce(52), // (, reduce: Element2
+			reduce(52), // ), reduce: Element2
+			reduce(52), // ,, reduce: Element2
+			reduce(52), // ., reduce: Element2
+			reduce(52), // |, reduce: Element2
+			reduce(52), // ^, reduce: Element2
+			reduce(52), // &, reduce: Element2
+			reduce(52), // <<, reduce: Element2
+			reduce(52), // >>, reduce: Element2
+			reduce(52), // =>, reduce: Element2
+			reduce(52), // /, reduce: Element2
+			reduce(52), // +, reduce: Element2
+			reduce(52), // -, reduce: Element2
+			reduce(52), // ||, reduce: Element2
+			reduce(52), // <>, reduce: Element2
+			reduce(52), // !=, reduce: Element2
+			reduce(52), // =, reduce: Element2
+			reduce(52), // <=, reduce: Element2
+			reduce(52), // >=, reduce: Element2
+			reduce(52), // ;, reduce: Element2
+			reduce(52), // @, reduce: Element2
+			reduce(52), // {, reduce: Element2
+			reduce(52), // }, reduce: Element2
+			reduce(52), // ~, reduce: Element2
+			reduce(52), // else, reduce: Element2
+			reduce(52), // if, reduce: Element2
+			reduce(52), // for, reduce: Element2
+			reduce(52), // endfor, reduce: Element2
+			reduce(52), // elif, reduce: Element2
+			reduce(52), // endif, reduce: Element2
+			reduce(52), // set, reduce: Element2
+			reduce(52), // ?, reduce: Element2
+			reduce(52), // :, reduce: Element2
+			reduce(52), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(52), // template_block_start, reduce: Element2
+			reduce(52), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(52), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S177
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(53), // identifier, reduce: Element2
+			reduce(53), // bytes_literal, reduce: Element2
+			reduce(53), // string_literal, reduce: Element2
+			reduce(53), // integer_literal, reduce: Element2
+			reduce(53), // floating_point_literal, reduce: Element2
+			reduce(53), // newline, reduce: Element2
+			reduce(53), // *, reduce: Element2
+			reduce(53), // <, reduce: Element2
+			reduce(53), // >, reduce: Element2
+			reduce(53), // [, reduce: Element2
+			reduce(53), // ], reduce: Element2
+			reduce(53), // (, reduce: Element2
+			reduce(53), // ), reduce: Element2
+			reduce(53), // ,, reduce: Element2
+			reduce(53), // ., reduce: Element2
+			reduce(53), // |, reduce: Element2
+			reduce(53), // ^, reduce: Element2
+			reduce(53), // &, reduce: Element2
+			reduce(53), // <<, reduce: Element2
+			reduce(53), // >>, reduce: Element2
+			reduce(53), // =>, reduce: Element2
+			reduce(53), // /, reduce: Element2
+			reduce(53), // +, reduce: Element2
+			reduce(53), // -, reduce: Element2
+			reduce(53), // ||, reduce: Element2
+			reduce(53), // <>, reduce: Element2
+			reduce(53), // !=, reduce: Element2
+			reduce(53), // =, reduce: Element2
+			reduce(53), // <=, reduce: Element2
+			reduce(53), // >=, reduce: Element2
+			reduce(53), // ;, reduce: Element2
+			reduce(53), // @, reduce: Element2
+			reduce(53), // {, reduce: Element2
+			reduce(53), // }, reduce: Element2
+			reduce(53), // ~, reduce: Element2
+			reduce(53), // else, reduce: Element2
+			reduce(53), // if, reduce: Element2
+			reduce(53), // for, reduce: Element2
+			reduce(53), // endfor, reduce: Element2
+			reduce(53), // elif, reduce: Element2
+			reduce(53), // endif, reduce: Element2
+			reduce(53), // set, reduce: Element2
+			reduce(53), // ?, reduce: Element2
+			reduce(53), // :, reduce: Element2
+			reduce(53), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(53), // template_block_start, reduce: Element2
+			reduce(53), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(53), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S178
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(54), // identifier, reduce: Element2
+			reduce(54), // bytes_literal, reduce: Element2
+			reduce(54), // string_literal, reduce: Element2
+			reduce(54), // integer_literal, reduce: Element2
+			reduce(54), // floating_point_literal, reduce: Element2
+			reduce(54), // newline, reduce: Element2
+			reduce(54), // *, reduce: Element2
+			reduce(54), // <, reduce: Element2
+			reduce(54), // >, reduce: Element2
+			reduce(54), // [, reduce: Element2
+			reduce(54), // ], reduce: Element2
+			reduce(54), // (, reduce: Element2
+			reduce(54), // ), reduce: Element2
+			reduce(54), // ,, reduce: Element2
+			reduce(54), // ., reduce: Element2
+			reduce(54), // |, reduce: Element2
+			reduce(54), // ^, reduce: Element2
+			reduce(54), // &, reduce: Element2
+			reduce(54), // <<, reduce: Element2
+			reduce(54), // >>, reduce: Element2
+			reduce(54), // =>, reduce: Element2
+			reduce(54), // /, reduce: Element2
+			reduce(54), // +, reduce: Element2
+			reduce(54), // -, reduce: Element2
+			reduce(54), // ||, reduce: Element2
+			reduce(54), // <>, reduce: Element2
+			reduce(54), // !=, reduce: Element2
+			reduce(54), // =, reduce: Element2
+			reduce(54), // <=, reduce: Element2
+			reduce(54), // >=, reduce: Element2
+			reduce(54), // ;, reduce: Element2
+			reduce(54), // @, reduce: Element2
+			reduce(54), // {, reduce: Element2
+			reduce(54), // }, reduce: Element2
+			reduce(54), // ~, reduce: Element2
+			reduce(54), // else, reduce: Element2
+			reduce(54), // if, reduce: Element2
+			reduce(54), // for, reduce: Element2
+			reduce(54), // endfor, reduce: Element2
+			reduce(54), // elif, reduce: Element2
+			reduce(54), // endif, reduce: Element2
+			reduce(54), // set, reduce: Element2
+			reduce(54), // ?, reduce: Element2
+			reduce(54), // :, reduce: Element2
+			reduce(54), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(54), // template_block_start, reduce: Element2
+			reduce(54), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(54), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S179
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(55), // identifier, reduce: Element2
+			reduce(55), // bytes_literal, reduce: Element2
+			reduce(55), // string_literal, reduce: Element2
+			reduce(55), // integer_literal, reduce: Element2
+			reduce(55), // floating_point_literal, reduce: Element2
+			reduce(55), // newline, reduce: Element2
+			reduce(55), // *, reduce: Element2
+			reduce(55), // <, reduce: Element2
+			reduce(55), // >, reduce: Element2
+			reduce(55), // [, reduce: Element2
+			reduce(55), // ], reduce: Element2
+			reduce(55), // (, reduce: Element2
+			reduce(55), // ), reduce: Element2
+			reduce(55), // ,, reduce: Element2
+			reduce(55), // ., reduce: Element2
+			reduce(55), // |, reduce: Element2
+			reduce(55), // ^, reduce: Element2
+			reduce(55), // &, reduce: Element2
+			reduce(55), // <<, reduce: Element2
+			reduce(55), // >>, reduce: Element2
+			reduce(55), // =>, reduce: Element2
+			reduce(55), // /, reduce: Element2
+			reduce(55), // +, reduce: Element2
+			reduce(55), // -, reduce: Element2
+			reduce(55), // ||, reduce: Element2
+			reduce(55), // <>, reduce: Element2
+			reduce(55), // !=, reduce: Element2
+			reduce(55), // =, reduce: Element2
+			reduce(55), // <=, reduce: Element2
+			reduce(55), // >=, reduce: Element2
+			reduce(55), // ;, reduce: Element2
+			reduce(55), // @, reduce: Element2
+			reduce(55), // {, reduce: Element2
+			reduce(55), // }, reduce: Element2
+			reduce(55), // ~, reduce: Element2
+			reduce(55), // else, reduce: Element2
+			reduce(55), // if, reduce: Element2
+			reduce(55), // for, reduce: Element2
+			reduce(55), // endfor, reduce: Element2
+			reduce(55), // elif, reduce: Element2
+			reduce(55), // endif, reduce: Element2
+			reduce(55), // set, reduce: Element2
+			reduce(55), // ?, reduce: Element2
+			reduce(55), // :, reduce: Element2
+			reduce(55), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(55), // template_block_start, reduce: Element2
+			reduce(55), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(55), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S180
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(56), // identifier, reduce: Element2
+			reduce(56), // bytes_literal, reduce: Element2
+			reduce(56), // string_literal, reduce: Element2
+			reduce(56), // integer_literal, reduce: Element2
+			reduce(56), // floating_point_literal, reduce: Element2
+			reduce(56), // newline, reduce: Element2
+			reduce(56), // *, reduce: Element2
+			reduce(56), // <, reduce: Element2
+			reduce(56), // >, reduce: Element2
+			reduce(56), // [, reduce: Element2
+			reduce(56), // ], reduce: Element2
+			reduce(56), // (, reduce: Element2
+			reduce(56), // ), reduce: Element2
+			reduce(56), // ,, reduce: Element2
+			reduce(56), // ., reduce: Element2
+			reduce(56), // |, reduce: Element2
+			reduce(56), // ^, reduce: Element2
+			reduce(56), // &, reduce: Element2
+			reduce(56), // <<, reduce: Element2
+			reduce(56), // >>, reduce: Element2
+			reduce(56), // =>, reduce: Element2
+			reduce(56), // /, reduce: Element2
+			reduce(56), // +, reduce: Element2
+			reduce(56), // -, reduce: Element2
+			reduce(56), // ||, reduce: Element2
+			reduce(56), // <>, reduce: Element2
+			reduce(56), // !=, reduce: Element2
+			reduce(56), // =, reduce: Element2
+			reduce(56), // <=, reduce: Element2
+			reduce(56), // >=, reduce: Element2
+			reduce(56), // ;, reduce: Element2
+			reduce(56), // @, reduce: Element2
+			reduce(56), // {, reduce: Element2
+			reduce(56), // }, reduce: Element2
+			reduce(56), // ~, reduce: Element2
+			reduce(56), // else, reduce: Element2
+			reduce(56), // if, reduce: Element2
+			reduce(56), // for, reduce: Element2
+			reduce(56), // endfor, reduce: Element2
+			reduce(56), // elif, reduce: Element2
+			reduce(56), // endif, reduce: Element2
+			reduce(56), // set, reduce: Element2
+			reduce(56), // ?, reduce: Element2
+			reduce(56), // :, reduce: Element2
+			reduce(56), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(56), // template_block_start, reduce: Element2
+			reduce(56), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(56), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S181
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(57), // identifier, reduce: Element2
+			reduce(57), // bytes_literal, reduce: Element2
+			reduce(57), // string_literal, reduce: Element2
+			reduce(57), // integer_literal, reduce: Element2
+			reduce(57), // floating_point_literal, reduce: Element2
+			reduce(57), // newline, reduce: Element2
+			reduce(57), // *, reduce: Element2
+			reduce(57), // <, reduce: Element2
+			reduce(57), // >, reduce: Element2
+			reduce(57), // [, reduce: Element2
+			reduce(57), // ], reduce: Element2
+			reduce(57), // (, reduce: Element2
+			reduce(57), // ), reduce: Element2
+			reduce(57), // ,, reduce: Element2
+			reduce(57), // ., reduce: Element2
+			reduce(57), // |, reduce: Element2
+			reduce(57), // ^, reduce: Element2
+			reduce(57), // &, reduce: Element2
+			reduce(57), // <<, reduce: Element2
+			reduce(57), // >>, reduce: Element2
+			reduce(57), // =>, reduce: Element2
+			reduce(57), // /, reduce: Element2
+			reduce(57), // +, reduce: Element2
+			reduce(57), // -, reduce: Element2
+			reduce(57), // ||, reduce: Element2
+			reduce(57), // <>, reduce: Element2
+			reduce(57), // !=, reduce: Element2
+			reduce(57), // =, reduce: Element2
+			reduce(57), // <=, reduce: Element2
+			reduce(57), // >=, reduce: Element2
+			reduce(57), // ;, reduce: Element2
+			reduce(57), // @, reduce: Element2
+			reduce(57), // {, reduce: Element2
+			reduce(57), // }, reduce: Element2
+			reduce(57), // ~, reduce: Element2
+			reduce(57), // else, reduce: Element2
+			reduce(57), // if, reduce: Element2
+			reduce(57), // for, reduce: Element2
+			reduce(57), // endfor, reduce: Element2
+			reduce(57), // elif, reduce: Element2
+			reduce(57), // endif, reduce: Element2
+			reduce(57), // set, reduce: Element2
+			reduce(57), // ?, reduce: Element2
+			reduce(57), // :, reduce: Element2
+			reduce(57), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(57), // template_block_start, reduce: Element2
+			reduce(57), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(57), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S182
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(58), // identifier, reduce: Element2
+			reduce(58), // bytes_literal, reduce: Element2
+			reduce(58), // string_literal, reduce: Element2
+			reduce(58), // integer_literal, reduce: Element2
+			reduce(58), // floating_point_literal, reduce: Element2
+			reduce(58), // newline, reduce: Element2
+			reduce(58), // *, reduce: Element2
+			reduce(58), // <, reduce: Element2
+			reduce(58), // >, reduce: Element2
+			reduce(58), // [, reduce: Element2
+			reduce(58), // ], reduce: Element2
+			reduce(58), // (, reduce: Element2
+			reduce(58), // ), reduce: Element2
+			reduce(58), // ,, reduce: Element2
+			reduce(58), // ., reduce: Element2
+			reduce(58), // |, reduce: Element2
+			reduce(58), // ^, reduce: Element2
+			reduce(58), // &, reduce: Element2
+			reduce(58), // <<, reduce: Element2
+			reduce(58), // >>, reduce: Element2
+			reduce(58), // =>, reduce: Element2
+			reduce(58), // /, reduce: Element2
+			reduce(58), // +, reduce: Element2
+			reduce(58), // -, reduce: Element2
+			reduce(58), // ||, reduce: Element2
+			reduce(58), // <>, reduce: Element2
+			reduce(58), // !=, reduce: Element2
+			reduce(58), // =, reduce: Element2
+			reduce(58), // <=, reduce: Element2
+			reduce(58), // >=, reduce: Element2
+			reduce(58), // ;, reduce: Element2
+			reduce(58), // @, reduce: Element2
+			reduce(58), // {, reduce: Element2
+			reduce(58), // }, reduce: Element2
+			reduce(58), // ~, reduce: Element2
+			reduce(58), // else, reduce: Element2
+			reduce(58), // if, reduce: Element2
+			reduce(58), // for, reduce: Element2
+			reduce(58), // endfor, reduce: Element2
+			reduce(58), // elif, reduce: Element2
+			reduce(58), // endif, reduce: Element2
+			reduce(58), // set, reduce: Element2
+			reduce(58), // ?, reduce: Element2
+			reduce(58), // :, reduce: Element2
+			reduce(58), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(58), // template_block_start, reduce: Element2
+			reduce(58), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(58), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S183
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(59), // identifier, reduce: Element2
+			reduce(59), // bytes_literal, reduce: Element2
+			reduce(59), // string_literal, reduce: Element2
+			reduce(59), // integer_literal, reduce: Element2
+			reduce(59), // floating_point_literal, reduce: Element2
+			reduce(59), // newline, reduce: Element2
+			reduce(59), // *, reduce: Element2
+			reduce(59), // <, reduce: Element2
+			reduce(59), // >, reduce: Element2
+			reduce(59), // [, reduce: Element2
+			reduce(59), // ], reduce: Element2
+			reduce(59), // (, reduce: Element2
+			reduce(59), // ), reduce: Element2
+			reduce(59), // ,, reduce: Element2
+			reduce(59), // ., reduce: Element2
+			reduce(59), // |, reduce: Element2
+			reduce(59), // ^, reduce: Element2
+			reduce(59), // &, reduce: Element2
+			reduce(59), // <<, reduce: Element2
+			reduce(59), // >>, reduce: Element2
+			reduce(59), // =>, reduce: Element2
+			reduce(59), // /, reduce: Element2
+			reduce(59), // +, reduce: Element2
+			reduce(59), // -, reduce: Element2
+			reduce(59), // ||, reduce: Element2
+			reduce(59), // <>, reduce: Element2
+			reduce(59), // !=, reduce: Element2
+			reduce(59), // =, reduce: Element2
+			reduce(59), // <=, reduce: Element2
+			reduce(59), // >=, reduce: Element2
+			reduce(59), // ;, reduce: Element2
+			reduce(59), // @, reduce: Element2
+			reduce(59), // {, reduce: Element2
+			reduce(59), // }, reduce: Element2
+			reduce(59), // ~, reduce: Element2
+			reduce(59), // else, reduce: Element2
+			reduce(59), // if, reduce: Element2
+			reduce(59), // for, reduce: Element2
+			reduce(59), // endfor, reduce: Element2
+			reduce(59), // elif, reduce: Element2
+			reduce(59), // endif, reduce: Element2
+			reduce(59), // set, reduce: Element2
+			reduce(59), // ?, reduce: Element2
+			reduce(59), // :, reduce: Element2
+			reduce(59), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(59), // template_block_start, reduce: Element2
+			reduce(59), // template_comment, reduce: Element2
+			nil,        // template_variable_end
+			reduce(59), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S184
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(60), // identifier, reduce: Element2
+			reduce(60), // bytes_literal, reduce: Element2
+			reduce(60), // string_literal, reduce: Element2
+			reduce(60), // integer_literal, reduce: Element2
+			reduce(60), // floating_point_literal, reduce: Element2
+			reduce(60), // newline, reduce: Element2
+			reduce(60), // *, reduce: Element2
+			reduce(60), // <, reduce: Element2
+			reduce(60), // >, reduce: Element2
+			reduce(60), // [, reduce: Element2
+			reduce(60), // ], reduce: Element2
+			reduce(60), // (, reduce: Element2
+			reduce(60), // ), reduce: Element2
+			reduce(60), // ,, reduce: Element2
+			reduce(60), // ., reduce: Element2
+			reduce(60), // |, reduce: Element2
+			reduce(60), // ^, reduce: Element2
+			reduce(60), // &, reduce: Element2
+			reduce(60), // <<, reduce: Element2
+			reduce(60), // >>, reduce: Element2
+			reduce(60), // =>, reduce: Element2
+			reduce(60), // /, reduce: Element2
+			reduce(60), // +, reduce: Element2
+			reduce(60), // -, reduce: Element2
+			reduce(60), // ||, reduce: Element2
+			reduce(60), // <>, reduce: Element2
+			reduce(60), // !=, reduce: Element2
+			reduce(60), // =, reduce: Element2
+			reduce(60), // <=, reduce: Element2
+			reduce(60), // >=, reduce: Element2
+			reduce(60), // ;, reduce: Element2
+			reduce(60), // @, reduce: Element2
+			reduce(60), // {, reduce: Element2
+			reduce(60), // }, reduce: Element2
+			reduce(60), // ~, reduce: Element2
+			reduce(60), // else, reduce: Element2
+			reduce(60), // if, reduce: Element2
+			reduce(60), // for, reduce: Element2
+			reduce(60), // endfor, reduce: Element2
+			reduce(60), // elif, reduce: Element2
+			reduce(60), // endif, reduce: Element2
+			reduce(60), // set, reduce: Element2
+			reduce(60), // ?, reduce: Element2
+			reduce(60), // :, reduce: Element2
 			reduce(60), // comment, reduce: Element2
 			nil,        // template_block_end
 			reduce(60), // template_block_start, reduce: Element2
 			reduce(60), // template_comment, reduce: Element2
-			reduce(60), // template_variable_end, reduce: Element2
+			nil,        // template_variable_end
 			reduce(60), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S251
+	actionRow{ // S185
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(61), // identifier, reduce: Comment
-			reduce(61), // bytes_literal, reduce: Comment
-			reduce(61), // string_literal, reduce: Comment
-			reduce(61), // integer_literal, reduce: Comment
-			reduce(61), // floating_point_literal, reduce: Comment
-			reduce(61), // newline, reduce: Comment
-			reduce(61), // *, reduce: Comment
-			reduce(61), // <, reduce: Comment
-			reduce(61), // >, reduce: Comment
-			reduce(61), // [, reduce: Comment
-			reduce(61), // ], reduce: Comment
-			reduce(61), // (, reduce: Comment
-			reduce(61), // ), reduce: Comment
-			reduce(61), // ,, reduce: Comment
-			reduce(61), // ., reduce: Comment
-			reduce(61), // |, reduce: Comment
-			reduce(61), // ^, reduce: Comment
-			reduce(61), // &, reduce: Comment
-			reduce(61), // <<, reduce: Comment
-			reduce(61), // >>, reduce: Comment
-			reduce(61), // =>, reduce: Comment
-			reduce(61), // /, reduce: Comment
-			reduce(61), // +, reduce: Comment
-			reduce(61), // -, reduce: Comment
-			reduce(61), // ||, reduce: Comment
-			reduce(61), // <>, reduce: Comment
-			reduce(61), // !=, reduce: Comment
-			reduce(61), // =, reduce: Comment
-			reduce(61), // <=, reduce: Comment
-			reduce(61), // >=, reduce: Comment
-			reduce(61), // ;, reduce: Comment
-			reduce(61), // @, reduce: Comment
-			reduce(61), // {, reduce: Comment
-			reduce(61), // }, reduce: Comment
-			reduce(61), // ~, reduce: Comment
-			reduce(61), // else, reduce: Comment
-			reduce(61), // if, reduce: Comment
-			reduce(61), // for, reduce: Comment
-			reduce(61), // endfor, reduce: Comment
-			reduce(61), // elif, reduce: Comment
-			reduce(61), // endif, reduce: Comment
-			reduce(61), // set, reduce: Comment
-			reduce(61), // ?, reduce: Comment
-			reduce(61), // comment, reduce: Comment
+			reduce(61), // identifier, reduce: Element2
+			reduce(61), // bytes_literal, reduce: Element2
+			reduce(61), // string_literal, reduce: Element2
+			reduce(61), // integer_literal, reduce: Element2
+			reduce(61), // floating_point_literal, reduce: Element2
+			reduce(61), // newline, reduce: Element2
+			reduce(61), // *, reduce: Element2
+			reduce(61), // <, reduce: Element2
+			reduce(61), // >, reduce: Element2
+			reduce(61), // [, reduce: Element2
+			reduce(61), // ], reduce: Element2
+			reduce(61), // (, reduce: Element2
+			reduce(61), // ), reduce: Element2
+			reduce(61), // ,, reduce: Element2
+			reduce(61), // ., reduce: Element2
+			reduce(61), // |, reduce: Element2
+			reduce(61), // ^, reduce: Element2
+			reduce(61), // &, reduce: Element2
+			reduce(61), // <<, reduce: Element2
+			reduce(61), // >>, reduce: Element2
+			reduce(61), // =>, reduce: Element2
+			reduce(61), // /, reduce: Element2
+			reduce(61), // +, reduce: Element2
+			reduce(61), // -, reduce: Element2
+			reduce(61), // ||, reduce: Element2
+			reduce(61), // <>, reduce: Element2
+			reduce(61), // !=, reduce: Element2
+			reduce(61), // =, reduce: Element2
+			reduce(61), // <=, reduce: Element2
+			reduce(61), // >=, reduce: Element2
+			reduce(61), // ;, reduce: Element2
+			reduce(61), // @, reduce: Element2
+			reduce(61), // {, reduce: Element2
+			reduce(61), // }, reduce: Element2
+			reduce(61), // ~, reduce: Element2
+			reduce(61), // else, reduce: Element2
+			reduce(61), // if, reduce: Element2
+			reduce(61), // for, reduce: Element2
+			reduce(61), // endfor, reduce: Element2
+			reduce(61), // elif, reduce: Element2
+			reduce(61), // endif, reduce: Element2
+			reduce(61), // set, reduce: Element2
+			reduce(61), // ?, reduce: Element2
+			reduce(61), // :, reduce: Element2
+			reduce(61), // comment, reduce: Element2
 			nil,        // template_block_end
-			reduce(61), // template_block_start, reduce: Comment
-			reduce(61), // template_comment, reduce: Comment
-			reduce(61), // template_variable_end, reduce: Comment
-			reduce(61), // template_variable_start, reduce: Comment
-		},
-	},
-	actionRow{ // S252
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(79),  // identifier
-			shift(80),  // bytes_literal
-			shift(81),  // string_literal
-			shift(82),  // integer_literal
-			shift(83),  // floating_point_literal
-			shift(84),  // newline
-			shift(85),  // *
-			shift(86),  // <
-			shift(87),  // >
-			shift(88),  // [
-			shift(89),  // ]
-			shift(90),  // (
-			shift(91),  // )
-			shift(92),  // ,
-			shift(93),  // .
-			shift(94),  // |
-			shift(95),  // ^
-			shift(96),  // &
-			shift(97),  // <<
-			shift(98),  // >>
-			shift(99),  // =>
-			shift(100), // /
-			shift(101), // +
-			shift(102), // -
-			shift(103), // ||
-			shift(104), // <>
-			shift(105), // !=
-			shift(106), // =
-			shift(107), // <=
-			shift(108), // >=
-			shift(109), // ;
-			shift(110), // @
-			shift(111), // {
-			shift(112), // }
-			shift(113), // ~
-			shift(114), // else
-			shift(115), // if
-			shift(116), // for
-			shift(117), // endfor
-			shift(118), // elif
-			shift(119), // endif
-			shift(120), // set
-			shift(121), // ?
-			shift(122), // comment
-			shift(334), // template_block_end
-			shift(55),  // template_block_start
-			shift(127), // template_comment
+			reduce(61), // template_block_start, reduce: Element2
+			reduce(61), // template_comment, reduce: Element2
 			nil,        // template_variable_end
-			shift(64),  // template_variable_start
+			reduce(61), // template_variable_start, reduce: Element2
 		},
 	},
-	actionRow{ // S253
+	actionRow{ // S186
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			shift(140), // identifier
-			shift(141), // bytes_literal
-			shift(142), // string_literal
-			shift(143), // integer_literal
-			shift(144), // floating_point_literal
-			shift(145), // newline
-			shift(146), // *
-			shift(147), // <
-			shift(148), // >
-			shift(149), // [
-			shift(150), // ]
-			shift(151), // (
-			shift(152), // )
-			shift(153), // ,
-			shift(154), // .
-			shift(155), // |
-			shift(156), // ^
-			shift(157), // &
-			shift(158), // <<
-			shift(159), // >>
-			shift(160), // =>
-			shift(161), // /
-			shift(162), // +
-			shift(163), // -
-			shift(164), // ||
-			shift(165), // <>
-			shift(166), // !=
-			shift(167), // =
-			shift(168), // <=
-			shift(169), // >=
-			shift(170), // ;
-			shift(171), // @
-			shift(172), // {
-			shift(173), // }
-			shift(174), // ~
-			shift(175), // else
-			shift(176), // if
-			shift(177), // for
-			shift(178), // endfor
-			shift(179), // elif
-			shift(180), // endif
-			shift(181), // set
-			shift(182), // ?
-			shift(183), // comment
+			reduce(62), // identifier, reduce: Comment
+			reduce(62), // bytes_literal, reduce: Comment
+			reduce(62), // string_literal, reduce: Comment
+			reduce(62), // integer_literal, reduce: Comment
+			reduce(62), // floating_point_literal, reduce: Comment
+			reduce(62), // newline, reduce: Comment
+			reduce(62), // *, reduce: Comment
+			reduce(62), // <, reduce: Comment
+			reduce(62), // >, reduce: Comment
+			reduce(62), // [, reduce: Comment
+			reduce(62), // ], reduce: Comment
+			reduce(62), // (, reduce: Comment
+			reduce(62), // ), reduce: Comment
+			reduce(62), // ,, reduce: Comment
+			reduce(62), // ., reduce: Comment
+			reduce(62), // |, reduce: Comment
+			reduce(62), // ^, reduce: Comment
+			reduce(62), // &, reduce: Comment
+			reduce(62), // <<, reduce: Comment
+			reduce(62), // >>, reduce: Comment
+			reduce(62), // =>, reduce: Comment
+			reduce(62), // /, reduce: Comment
+			reduce(62), // +, reduce: Comment
+			reduce(62), // -, reduce: Comment
+			reduce(62), // ||, reduce: Comment
+			reduce(62), // <>, reduce: Comment
+			reduce(62), // !=, reduce: Comment
+			reduce(62), // =, reduce: Comment
+			reduce(62), // <=, reduce: Comment
+			reduce(62), // >=, reduce: Comment
+			reduce(62), // ;, reduce: Comment
+			reduce(62), // @, reduce: Comment
+			reduce(62), // {, reduce: Comment
+			reduce(62), // }, reduce: Comment
+			reduce(62), // ~, reduce: Comment
+			reduce(62), // else, reduce: Comment
+			reduce(62), // if, reduce: Comment
+			reduce(62), // for, reduce: Comment
+			reduce(62), // endfor, reduce: Comment
+			reduce(62), // elif, reduce: Comment
+			reduce(62), // endif, reduce: Comment
+			reduce(62), // set, reduce: Comment
+			reduce(62), // ?, reduce: Comment
+			reduce(62), // :, reduce: Comment
+			reduce(62), // comment, reduce: Comment
 			nil,        // template_block_end
-			shift(335), // template_block_start
-			shift(190), // template_comment
+			reduce(62), // template_block_start, reduce: Comment
+			reduce(62), // template_comment, reduce: Comment
 			nil,        // template_variable_end
-			shift(64),  // template_variable_start
+			reduce(62), // template_variable_start, reduce: Comment
 		},
 	},
-	actionRow{ // S254
+	actionRow{ // S187
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			shift(140), // identifier
-			shift(141), // bytes_literal
-			shift(142), // string_literal
-			shift(143), // integer_literal
-			shift(144), // floating_point_literal
-			shift(145), // newline
-			shift(146), // *
-			shift(147), // <
-			shift(148), // >
-			shift(149), // [
-			shift(150), // ]
-			shift(151), // (
-			shift(152), // )
-			shift(153), // ,
-			shift(154), // .
-			shift(155), // |
-			shift(156), // ^
-			shift(157), // &
-			shift(158), // <<
-			shift(159), // >>
-			shift(160), // =>
-			shift(161), // /
-			shift(162), // +
-			shift(163), // -
-			shift(164), // ||
-			shift(165), // <>
-			shift(166), // !=
-			shift(167), // =
-			shift(168), // <=
-			shift(169), // >=
-			shift(170), // ;
-			shift(171), // @
-			shift(172), // {
-			shift(173), // }
-			shift(174), // ~
-			shift(175), // else
-			shift(176), // if
-			shift(177), // for
-			shift(178), // endfor
-			shift(179), // elif
-			shift(180), // endif
-			shift(181), // set
-			shift(182), // ?
-			shift(183), // comment
-			nil,        // template_block_end
-			shift(338), // template_block_start
-			shift(190), // template_comment
+			shift(80),  // identifier
+			shift(81),  // bytes_literal
+			shift(82),  // string_literal
+			shift(83),  // integer_literal
+			shift(84),  // floating_point_literal
+			shift(85),  // newline
+			shift(86),  // *
+			shift(87),  // <
+			shift(88),  // >
+			shift(89),  // [
+			shift(90),  // ]
+			shift(91),  // (
+			shift(92),  // )
+			shift(93),  // ,
+			shift(94),  // .
+			shift(95),  // |
+			shift(96),  // ^
+			shift(97),  // &
+			shift(98),  // <<
+			shift(99),  // >>
+			shift(100), // =>
+			shift(101), // /
+			shift(102), // +
+			shift(103), // -
+			shift(104), // ||
+			shift(105), // <>
+			shift(106), // !=
+			shift(107), // =
+			shift(108), // <=
+			shift(109), // >=
+			shift(110), // ;
+			shift(111), // @
+			shift(112), // {
+			shift(113), // }
+			shift(114), // ~
+			shift(115), // else
+			shift(116), // if
+			shift(117), // for
+			shift(118), // endfor
+			shift(119), // elif
+			shift(120), // endif
+			shift(121), // set
+			shift(122), // ?
+			shift(123), // :
+			shift(124), // comment
+			shift(269), // template_block_end
+			shift(56),  // template_block_start
+			shift(129), // template_comment
 			nil,        // template_variable_end
-			shift(64),  // template_variable_start
+			shift(65),  // template_variable_start
 		},
 	},
-	actionRow{ // S255
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(82), // identifier, reduce: TemplateComment
-			reduce(82), // bytes_literal, reduce: TemplateComment
-			reduce(82), // string_literal, reduce: TemplateComment
-			reduce(82), // integer_literal, reduce: TemplateComment
-			reduce(82), // floating_point_literal, reduce: TemplateComment
-			reduce(82), // newline, reduce: TemplateComment
-			reduce(82), // *, reduce: TemplateComment
-			reduce(82), // <, reduce: TemplateComment
-			reduce(82), // >, reduce: TemplateComment
-			reduce(82), // [, reduce: TemplateComment
-			reduce(82), // ], reduce: TemplateComment
-			reduce(82), // (, reduce: TemplateComment
-			reduce(82), // ), reduce: TemplateComment
-			reduce(82), // ,, reduce: TemplateComment
-			reduce(82), // ., reduce: TemplateComment
-			reduce(82), // |, reduce: TemplateComment
-			reduce(82), // ^, reduce: TemplateComment
-			reduce(82), // &, reduce: TemplateComment
-			reduce(82), // <<, reduce: TemplateComment
-			reduce(82), // >>, reduce: TemplateComment
-			reduce(82), // =>, reduce: TemplateComment
-			reduce(82), // /, reduce: TemplateComment
-			reduce(82), // +, reduce: TemplateComment
-			reduce(82), // -, reduce: TemplateComment
-			reduce(82), // ||, reduce: TemplateComment
-			reduce(82), // <>, reduce: TemplateComment
-			reduce(82), // !=, reduce: TemplateComment
-			reduce(82), // =, reduce: TemplateComment
-			reduce(82), // <=, reduce: TemplateComment
-			reduce(82), // >=, reduce: TemplateComment
-			reduce(82), // ;, reduce: TemplateComment
-			reduce(82), // @, reduce: TemplateComment
-			reduce(82), // {, reduce: TemplateComment
-			reduce(82), // }, reduce: TemplateComment
-			reduce(82), // ~, reduce: TemplateComment
-			reduce(82), // else, reduce: TemplateComment
-			reduce(82), // if, reduce: TemplateComment
-			reduce(82), // for, reduce: TemplateComment
-			reduce(82), // endfor, reduce: TemplateComment
-			reduce(82), // elif, reduce: TemplateComment
-			reduce(82), // endif, reduce: TemplateComment
-			reduce(82), // set, reduce: TemplateComment
-			reduce(82), // ?, reduce: TemplateComment
-			reduce(82), // comment, reduce: TemplateComment
-			nil,        // template_block_end
-			reduce(82), // template_block_start, reduce: TemplateComment
-			reduce(82), // template_comment, reduce: TemplateComment
-			reduce(82), // template_variable_end, reduce: TemplateComment
-			reduce(82), // template_variable_start, reduce: TemplateComment
-		},
-	},
-	actionRow{ // S256
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(208), // identifier
-			shift(209), // bytes_literal
-			shift(210), // string_literal
-			shift(211), // integer_literal
-			shift(212), // floating_point_literal
-			shift(213), // newline
-			shift(214), // *
-			shift(215), // <
-			shift(216), // >
-			shift(217), // [
-			shift(218), // ]
-			shift(219), // (
-			shift(220), // )
-			shift(221), // ,
-			shift(222), // .
-			shift(223), // |
-			shift(224), // ^
-			shift(225), // &
-			shift(226), // <<
-			shift(227), // >>
-			shift(228), // =>
-			shift(229), // /
-			shift(230), // +
-			shift(231), // -
-			shift(232), // ||
-			shift(233), // <>
-			shift(234), // !=
-			shift(235), // =
-			shift(236), // <=
-			shift(237), // >=
-			shift(238), // ;
-			shift(239), // @
-			shift(240), // {
-			shift(241), // }
-			shift(242), // ~
-			shift(243), // else
-			shift(244), // if
-			shift(245), // for
-			shift(246), // endfor
-			shift(247), // elif
-			shift(248), // endif
-			shift(249), // set
-			shift(250), // ?
-			shift(251), // comment
-			nil,        // template_block_end
-			shift(55),  // template_block_start
-			shift(255), // template_comment
-			shift(340), // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S257
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			reduce(83), // ␚, reduce: TemplateVariable
-			reduce(83), // identifier, reduce: TemplateVariable
-			reduce(83), // bytes_literal, reduce: TemplateVariable
-			reduce(83), // string_literal, reduce: TemplateVariable
-			reduce(83), // integer_literal, reduce: TemplateVariable
-			reduce(83), // floating_point_literal, reduce: TemplateVariable
-			reduce(83), // newline, reduce: TemplateVariable
-			reduce(83), // *, reduce: TemplateVariable
-			reduce(83), // <, reduce: TemplateVariable
-			reduce(83), // >, reduce: TemplateVariable
-			reduce(83), // [, reduce: TemplateVariable
-			reduce(83), // ], reduce: TemplateVariable
-			reduce(83), // (, reduce: TemplateVariable
-			reduce(83), // ), reduce: TemplateVariable
-			reduce(83), // ,, reduce: TemplateVariable
-			reduce(83), // ., reduce: TemplateVariable
-			reduce(83), // |, reduce: TemplateVariable
-			reduce(83), // ^, reduce: TemplateVariable
-			reduce(83), // &, reduce: TemplateVariable
-			reduce(83), // <<, reduce: TemplateVariable
-			reduce(83), // >>, reduce: TemplateVariable
-			reduce(83), // =>, reduce: TemplateVariable
-			reduce(83), // /, reduce: TemplateVariable
-			reduce(83), // +, reduce: TemplateVariable
-			reduce(83), // -, reduce: TemplateVariable
-			reduce(83), // ||, reduce: TemplateVariable
-			reduce(83), // <>, reduce: TemplateVariable
-			reduce(83), // !=, reduce: TemplateVariable
-			reduce(83), // =, reduce: TemplateVariable
-			reduce(83), // <=, reduce: TemplateVariable
-			reduce(83), // >=, reduce: TemplateVariable
-			reduce(83), // ;, reduce: TemplateVariable
-			reduce(83), // @, reduce: TemplateVariable
-			reduce(83), // {, reduce: TemplateVariable
-			reduce(83), // }, reduce: TemplateVariable
-			reduce(83), // ~, reduce: TemplateVariable
-			reduce(83), // else, reduce: TemplateVariable
-			reduce(83), // if, reduce: TemplateVariable
-			reduce(83), // for, reduce: TemplateVariable
-			reduce(83), // endfor, reduce: TemplateVariable
-			reduce(83), // elif, reduce: TemplateVariable
-			reduce(83), // endif, reduce: TemplateVariable
-			reduce(83), // set, reduce: TemplateVariable
-			reduce(83), // ?, reduce: TemplateVariable
-			reduce(83), // comment, reduce: TemplateVariable
-			nil,        // template_block_end
-			reduce(83), // template_block_start, reduce: TemplateVariable
-			reduce(83), // template_comment, reduce: TemplateVariable
-			nil,        // template_variable_end
-			reduce(83), // template_variable_start, reduce: TemplateVariable
-		},
-	},
-	actionRow{ // S258
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(62), // identifier, reduce: TemplateSetBlock
-			reduce(62), // bytes_literal, reduce: TemplateSetBlock
-			reduce(62), // string_literal, reduce: TemplateSetBlock
-			reduce(62), // integer_literal, reduce: TemplateSetBlock
-			reduce(62), // floating_point_literal, reduce: TemplateSetBlock
-			reduce(62), // newline, reduce: TemplateSetBlock
-			reduce(62), // *, reduce: TemplateSetBlock
-			reduce(62), // <, reduce: TemplateSetBlock
-			reduce(62), // >, reduce: TemplateSetBlock
-			reduce(62), // [, reduce: TemplateSetBlock
-			reduce(62), // ], reduce: TemplateSetBlock
-			reduce(62), // (, reduce: TemplateSetBlock
-			reduce(62), // ), reduce: TemplateSetBlock
-			reduce(62), // ,, reduce: TemplateSetBlock
-			reduce(62), // ., reduce: TemplateSetBlock
-			reduce(62), // |, reduce: TemplateSetBlock
-			reduce(62), // ^, reduce: TemplateSetBlock
-			reduce(62), // &, reduce: TemplateSetBlock
-			reduce(62), // <<, reduce: TemplateSetBlock
-			reduce(62), // >>, reduce: TemplateSetBlock
-			reduce(62), // =>, reduce: TemplateSetBlock
-			reduce(62), // /, reduce: TemplateSetBlock
-			reduce(62), // +, reduce: TemplateSetBlock
-			reduce(62), // -, reduce: TemplateSetBlock
-			reduce(62), // ||, reduce: TemplateSetBlock
-			reduce(62), // <>, reduce: TemplateSetBlock
-			reduce(62), // !=, reduce: TemplateSetBlock
-			reduce(62), // =, reduce: TemplateSetBlock
-			reduce(62), // <=, reduce: TemplateSetBlock
-			reduce(62), // >=, reduce: TemplateSetBlock
-			reduce(62), // ;, reduce: TemplateSetBlock
-			reduce(62), // @, reduce: TemplateSetBlock
-			reduce(62), // {, reduce: TemplateSetBlock
-			reduce(62), // }, reduce: TemplateSetBlock
-			reduce(62), // ~, reduce: TemplateSetBlock
-			reduce(62), // else, reduce: TemplateSetBlock
-			reduce(62), // if, reduce: TemplateSetBlock
-			reduce(62), // for, reduce: TemplateSetBlock
-			reduce(62), // endfor, reduce: TemplateSetBlock
-			reduce(62), // elif, reduce: TemplateSetBlock
-			reduce(62), // endif, reduce: TemplateSetBlock
-			reduce(62), // set, reduce: TemplateSetBlock
-			reduce(62), // ?, reduce: TemplateSetBlock
-			reduce(62), // comment, reduce: TemplateSetBlock
-			reduce(62), // template_block_end, reduce: TemplateSetBlock
-			reduce(62), // template_block_start, reduce: TemplateSetBlock
-			reduce(62), // template_comment, reduce: TemplateSetBlock
-			nil,        // template_variable_end
-			reduce(62), // template_variable_start, reduce: TemplateSetBlock
-		},
-	},
-	actionRow{ // S259
+	actionRow{ // S188
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -14555,14 +10767,15 @@ var actionTab = actionTable{
 			nil,        // {
 			nil,        // }
 			nil,        // ~
-			shift(266), // else
-			shift(129), // if
-			shift(130), // for
+			shift(270), // else
+			shift(131), // if
+			shift(132), // for
 			nil,        // endfor
 			nil,        // elif
-			shift(341), // endif
-			shift(131), // set
+			shift(271), // endif
+			shift(133), // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
 			nil,        // template_block_start
@@ -14571,119 +10784,520 @@ var actionTab = actionTable{
 			nil,        // template_variable_start
 		},
 	},
-	actionRow{ // S260
+	actionRow{ // S189
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(65), // identifier, reduce: TemplateIfBlock
-			reduce(65), // bytes_literal, reduce: TemplateIfBlock
-			reduce(65), // string_literal, reduce: TemplateIfBlock
-			reduce(65), // integer_literal, reduce: TemplateIfBlock
-			reduce(65), // floating_point_literal, reduce: TemplateIfBlock
-			reduce(65), // newline, reduce: TemplateIfBlock
-			reduce(65), // *, reduce: TemplateIfBlock
-			reduce(65), // <, reduce: TemplateIfBlock
-			reduce(65), // >, reduce: TemplateIfBlock
-			reduce(65), // [, reduce: TemplateIfBlock
-			reduce(65), // ], reduce: TemplateIfBlock
-			reduce(65), // (, reduce: TemplateIfBlock
-			reduce(65), // ), reduce: TemplateIfBlock
-			reduce(65), // ,, reduce: TemplateIfBlock
-			reduce(65), // ., reduce: TemplateIfBlock
-			reduce(65), // |, reduce: TemplateIfBlock
-			reduce(65), // ^, reduce: TemplateIfBlock
-			reduce(65), // &, reduce: TemplateIfBlock
-			reduce(65), // <<, reduce: TemplateIfBlock
-			reduce(65), // >>, reduce: TemplateIfBlock
-			reduce(65), // =>, reduce: TemplateIfBlock
-			reduce(65), // /, reduce: TemplateIfBlock
-			reduce(65), // +, reduce: TemplateIfBlock
-			reduce(65), // -, reduce: TemplateIfBlock
-			reduce(65), // ||, reduce: TemplateIfBlock
-			reduce(65), // <>, reduce: TemplateIfBlock
-			reduce(65), // !=, reduce: TemplateIfBlock
-			reduce(65), // =, reduce: TemplateIfBlock
-			reduce(65), // <=, reduce: TemplateIfBlock
-			reduce(65), // >=, reduce: TemplateIfBlock
-			reduce(65), // ;, reduce: TemplateIfBlock
-			reduce(65), // @, reduce: TemplateIfBlock
-			reduce(65), // {, reduce: TemplateIfBlock
-			reduce(65), // }, reduce: TemplateIfBlock
-			reduce(65), // ~, reduce: TemplateIfBlock
-			reduce(65), // else, reduce: TemplateIfBlock
-			reduce(65), // if, reduce: TemplateIfBlock
-			reduce(65), // for, reduce: TemplateIfBlock
-			reduce(65), // endfor, reduce: TemplateIfBlock
-			reduce(65), // elif, reduce: TemplateIfBlock
-			reduce(65), // endif, reduce: TemplateIfBlock
-			reduce(65), // set, reduce: TemplateIfBlock
-			reduce(65), // ?, reduce: TemplateIfBlock
-			reduce(65), // comment, reduce: TemplateIfBlock
-			reduce(65), // template_block_end, reduce: TemplateIfBlock
-			reduce(65), // template_block_start, reduce: TemplateIfBlock
-			reduce(65), // template_comment, reduce: TemplateIfBlock
-			nil,        // template_variable_end
-			reduce(65), // template_variable_start, reduce: TemplateIfBlock
-		},
-	},
-	actionRow{ // S261
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(279), // identifier
-			shift(280), // bytes_literal
-			shift(281), // string_literal
-			shift(282), // integer_literal
-			shift(283), // floating_point_literal
-			shift(284), // newline
-			shift(285), // *
-			shift(286), // <
-			shift(287), // >
-			shift(288), // [
-			shift(289), // ]
-			shift(290), // (
-			shift(291), // )
-			shift(292), // ,
-			shift(293), // .
-			shift(294), // |
-			shift(295), // ^
-			shift(296), // &
-			shift(297), // <<
-			shift(298), // >>
-			shift(299), // =>
-			shift(300), // /
-			shift(301), // +
-			shift(302), // -
-			shift(303), // ||
-			shift(304), // <>
-			shift(305), // !=
-			shift(306), // =
-			shift(307), // <=
-			shift(308), // >=
-			shift(309), // ;
-			shift(310), // @
-			shift(311), // {
-			shift(312), // }
-			shift(313), // ~
-			shift(314), // else
-			shift(315), // if
-			shift(316), // for
-			shift(317), // endfor
-			shift(318), // elif
-			shift(319), // endif
-			shift(320), // set
-			shift(321), // ?
-			shift(322), // comment
+			shift(142), // identifier
+			shift(143), // bytes_literal
+			shift(144), // string_literal
+			shift(145), // integer_literal
+			shift(146), // floating_point_literal
+			shift(147), // newline
+			shift(148), // *
+			shift(149), // <
+			shift(150), // >
+			shift(151), // [
+			shift(152), // ]
+			shift(153), // (
+			shift(154), // )
+			shift(155), // ,
+			shift(156), // .
+			shift(157), // |
+			shift(158), // ^
+			shift(159), // &
+			shift(160), // <<
+			shift(161), // >>
+			shift(162), // =>
+			shift(163), // /
+			shift(164), // +
+			shift(165), // -
+			shift(166), // ||
+			shift(167), // <>
+			shift(168), // !=
+			shift(169), // =
+			shift(170), // <=
+			shift(171), // >=
+			shift(172), // ;
+			shift(173), // @
+			shift(174), // {
+			shift(175), // }
+			shift(176), // ~
+			shift(177), // else
+			shift(178), // if
+			shift(179), // for
+			shift(180), // endfor
+			shift(181), // elif
+			shift(182), // endif
+			shift(183), // set
+			shift(184), // ?
+			shift(185), // :
+			shift(186), // comment
 			nil,        // template_block_end
-			shift(343), // template_block_start
-			shift(328), // template_comment
+			shift(272), // template_block_start
+			shift(193), // template_comment
 			nil,        // template_variable_end
-			shift(64),  // template_variable_start
+			shift(65),  // template_variable_start
 		},
 	},
-	actionRow{ // S262
+	actionRow{ // S190
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			reduce(66), // ␚, reduce: TemplateIfBlock
+			reduce(66), // identifier, reduce: TemplateIfBlock
+			reduce(66), // bytes_literal, reduce: TemplateIfBlock
+			reduce(66), // string_literal, reduce: TemplateIfBlock
+			reduce(66), // integer_literal, reduce: TemplateIfBlock
+			reduce(66), // floating_point_literal, reduce: TemplateIfBlock
+			reduce(66), // newline, reduce: TemplateIfBlock
+			reduce(66), // *, reduce: TemplateIfBlock
+			reduce(66), // <, reduce: TemplateIfBlock
+			reduce(66), // >, reduce: TemplateIfBlock
+			reduce(66), // [, reduce: TemplateIfBlock
+			reduce(66), // ], reduce: TemplateIfBlock
+			reduce(66), // (, reduce: TemplateIfBlock
+			reduce(66), // ), reduce: TemplateIfBlock
+			reduce(66), // ,, reduce: TemplateIfBlock
+			reduce(66), // ., reduce: TemplateIfBlock
+			reduce(66), // |, reduce: TemplateIfBlock
+			reduce(66), // ^, reduce: TemplateIfBlock
+			reduce(66), // &, reduce: TemplateIfBlock
+			reduce(66), // <<, reduce: TemplateIfBlock
+			reduce(66), // >>, reduce: TemplateIfBlock
+			reduce(66), // =>, reduce: TemplateIfBlock
+			reduce(66), // /, reduce: TemplateIfBlock
+			reduce(66), // +, reduce: TemplateIfBlock
+			reduce(66), // -, reduce: TemplateIfBlock
+			reduce(66), // ||, reduce: TemplateIfBlock
+			reduce(66), // <>, reduce: TemplateIfBlock
+			reduce(66), // !=, reduce: TemplateIfBlock
+			reduce(66), // =, reduce: TemplateIfBlock
+			reduce(66), // <=, reduce: TemplateIfBlock
+			reduce(66), // >=, reduce: TemplateIfBlock
+			reduce(66), // ;, reduce: TemplateIfBlock
+			reduce(66), // @, reduce: TemplateIfBlock
+			reduce(66), // {, reduce: TemplateIfBlock
+			reduce(66), // }, reduce: TemplateIfBlock
+			reduce(66), // ~, reduce: TemplateIfBlock
+			reduce(66), // else, reduce: TemplateIfBlock
+			reduce(66), // if, reduce: TemplateIfBlock
+			reduce(66), // for, reduce: TemplateIfBlock
+			reduce(66), // endfor, reduce: TemplateIfBlock
+			reduce(66), // elif, reduce: TemplateIfBlock
+			reduce(66), // endif, reduce: TemplateIfBlock
+			reduce(66), // set, reduce: TemplateIfBlock
+			reduce(66), // ?, reduce: TemplateIfBlock
+			reduce(66), // :, reduce: TemplateIfBlock
+			reduce(66), // comment, reduce: TemplateIfBlock
+			nil,        // template_block_end
+			reduce(66), // template_block_start, reduce: TemplateIfBlock
+			reduce(66), // template_comment, reduce: TemplateIfBlock
+			nil,        // template_variable_end
+			reduce(66), // template_variable_start, reduce: TemplateIfBlock
+		},
+	},
+	actionRow{ // S191
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(283), // identifier
+			shift(284), // bytes_literal
+			shift(285), // string_literal
+			shift(286), // integer_literal
+			shift(287), // floating_point_literal
+			shift(288), // newline
+			shift(289), // *
+			shift(290), // <
+			shift(291), // >
+			shift(292), // [
+			shift(293), // ]
+			shift(294), // (
+			shift(295), // )
+			shift(296), // ,
+			shift(297), // .
+			shift(298), // |
+			shift(299), // ^
+			shift(300), // &
+			shift(301), // <<
+			shift(302), // >>
+			shift(303), // =>
+			shift(304), // /
+			shift(305), // +
+			shift(306), // -
+			shift(307), // ||
+			shift(308), // <>
+			shift(309), // !=
+			shift(310), // =
+			shift(311), // <=
+			shift(312), // >=
+			shift(313), // ;
+			shift(314), // @
+			shift(315), // {
+			shift(316), // }
+			shift(317), // ~
+			shift(318), // else
+			shift(319), // if
+			shift(320), // for
+			shift(321), // endfor
+			shift(322), // elif
+			shift(323), // endif
+			shift(324), // set
+			shift(325), // ?
+			shift(326), // :
+			shift(327), // comment
+			nil,        // template_block_end
+			shift(329), // template_block_start
+			shift(333), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S192
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(142), // identifier
+			shift(143), // bytes_literal
+			shift(144), // string_literal
+			shift(145), // integer_literal
+			shift(146), // floating_point_literal
+			shift(147), // newline
+			shift(148), // *
+			shift(149), // <
+			shift(150), // >
+			shift(151), // [
+			shift(152), // ]
+			shift(153), // (
+			shift(154), // )
+			shift(155), // ,
+			shift(156), // .
+			shift(157), // |
+			shift(158), // ^
+			shift(159), // &
+			shift(160), // <<
+			shift(161), // >>
+			shift(162), // =>
+			shift(163), // /
+			shift(164), // +
+			shift(165), // -
+			shift(166), // ||
+			shift(167), // <>
+			shift(168), // !=
+			shift(169), // =
+			shift(170), // <=
+			shift(171), // >=
+			shift(172), // ;
+			shift(173), // @
+			shift(174), // {
+			shift(175), // }
+			shift(176), // ~
+			shift(177), // else
+			shift(178), // if
+			shift(179), // for
+			shift(180), // endfor
+			shift(181), // elif
+			shift(182), // endif
+			shift(183), // set
+			shift(184), // ?
+			shift(185), // :
+			shift(186), // comment
+			nil,        // template_block_end
+			shift(335), // template_block_start
+			shift(193), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S193
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(83), // identifier, reduce: TemplateComment
+			reduce(83), // bytes_literal, reduce: TemplateComment
+			reduce(83), // string_literal, reduce: TemplateComment
+			reduce(83), // integer_literal, reduce: TemplateComment
+			reduce(83), // floating_point_literal, reduce: TemplateComment
+			reduce(83), // newline, reduce: TemplateComment
+			reduce(83), // *, reduce: TemplateComment
+			reduce(83), // <, reduce: TemplateComment
+			reduce(83), // >, reduce: TemplateComment
+			reduce(83), // [, reduce: TemplateComment
+			reduce(83), // ], reduce: TemplateComment
+			reduce(83), // (, reduce: TemplateComment
+			reduce(83), // ), reduce: TemplateComment
+			reduce(83), // ,, reduce: TemplateComment
+			reduce(83), // ., reduce: TemplateComment
+			reduce(83), // |, reduce: TemplateComment
+			reduce(83), // ^, reduce: TemplateComment
+			reduce(83), // &, reduce: TemplateComment
+			reduce(83), // <<, reduce: TemplateComment
+			reduce(83), // >>, reduce: TemplateComment
+			reduce(83), // =>, reduce: TemplateComment
+			reduce(83), // /, reduce: TemplateComment
+			reduce(83), // +, reduce: TemplateComment
+			reduce(83), // -, reduce: TemplateComment
+			reduce(83), // ||, reduce: TemplateComment
+			reduce(83), // <>, reduce: TemplateComment
+			reduce(83), // !=, reduce: TemplateComment
+			reduce(83), // =, reduce: TemplateComment
+			reduce(83), // <=, reduce: TemplateComment
+			reduce(83), // >=, reduce: TemplateComment
+			reduce(83), // ;, reduce: TemplateComment
+			reduce(83), // @, reduce: TemplateComment
+			reduce(83), // {, reduce: TemplateComment
+			reduce(83), // }, reduce: TemplateComment
+			reduce(83), // ~, reduce: TemplateComment
+			reduce(83), // else, reduce: TemplateComment
+			reduce(83), // if, reduce: TemplateComment
+			reduce(83), // for, reduce: TemplateComment
+			reduce(83), // endfor, reduce: TemplateComment
+			reduce(83), // elif, reduce: TemplateComment
+			reduce(83), // endif, reduce: TemplateComment
+			reduce(83), // set, reduce: TemplateComment
+			reduce(83), // ?, reduce: TemplateComment
+			reduce(83), // :, reduce: TemplateComment
+			reduce(83), // comment, reduce: TemplateComment
+			nil,        // template_block_end
+			reduce(83), // template_block_start, reduce: TemplateComment
+			reduce(83), // template_comment, reduce: TemplateComment
+			nil,        // template_variable_end
+			reduce(83), // template_variable_start, reduce: TemplateComment
+		},
+	},
+	actionRow{ // S194
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(211), // identifier
+			shift(212), // bytes_literal
+			shift(213), // string_literal
+			shift(214), // integer_literal
+			shift(215), // floating_point_literal
+			shift(216), // newline
+			shift(217), // *
+			shift(218), // <
+			shift(219), // >
+			shift(220), // [
+			shift(221), // ]
+			shift(222), // (
+			shift(223), // )
+			shift(224), // ,
+			shift(225), // .
+			shift(226), // |
+			shift(227), // ^
+			shift(228), // &
+			shift(229), // <<
+			shift(230), // >>
+			shift(231), // =>
+			shift(232), // /
+			shift(233), // +
+			shift(234), // -
+			shift(235), // ||
+			shift(236), // <>
+			shift(237), // !=
+			shift(238), // =
+			shift(239), // <=
+			shift(240), // >=
+			shift(241), // ;
+			shift(242), // @
+			shift(243), // {
+			shift(244), // }
+			shift(245), // ~
+			shift(246), // else
+			shift(247), // if
+			shift(248), // for
+			shift(249), // endfor
+			shift(250), // elif
+			shift(251), // endif
+			shift(252), // set
+			shift(253), // ?
+			shift(254), // :
+			shift(255), // comment
+			nil,        // template_block_end
+			shift(56),  // template_block_start
+			shift(259), // template_comment
+			shift(337), // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S195
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(73), // identifier, reduce: TemplateIfBeginPrefix
+			reduce(73), // bytes_literal, reduce: TemplateIfBeginPrefix
+			reduce(73), // string_literal, reduce: TemplateIfBeginPrefix
+			reduce(73), // integer_literal, reduce: TemplateIfBeginPrefix
+			reduce(73), // floating_point_literal, reduce: TemplateIfBeginPrefix
+			reduce(73), // newline, reduce: TemplateIfBeginPrefix
+			reduce(73), // *, reduce: TemplateIfBeginPrefix
+			reduce(73), // <, reduce: TemplateIfBeginPrefix
+			reduce(73), // >, reduce: TemplateIfBeginPrefix
+			reduce(73), // [, reduce: TemplateIfBeginPrefix
+			reduce(73), // ], reduce: TemplateIfBeginPrefix
+			reduce(73), // (, reduce: TemplateIfBeginPrefix
+			reduce(73), // ), reduce: TemplateIfBeginPrefix
+			reduce(73), // ,, reduce: TemplateIfBeginPrefix
+			reduce(73), // ., reduce: TemplateIfBeginPrefix
+			reduce(73), // |, reduce: TemplateIfBeginPrefix
+			reduce(73), // ^, reduce: TemplateIfBeginPrefix
+			reduce(73), // &, reduce: TemplateIfBeginPrefix
+			reduce(73), // <<, reduce: TemplateIfBeginPrefix
+			reduce(73), // >>, reduce: TemplateIfBeginPrefix
+			reduce(73), // =>, reduce: TemplateIfBeginPrefix
+			reduce(73), // /, reduce: TemplateIfBeginPrefix
+			reduce(73), // +, reduce: TemplateIfBeginPrefix
+			reduce(73), // -, reduce: TemplateIfBeginPrefix
+			reduce(73), // ||, reduce: TemplateIfBeginPrefix
+			reduce(73), // <>, reduce: TemplateIfBeginPrefix
+			reduce(73), // !=, reduce: TemplateIfBeginPrefix
+			reduce(73), // =, reduce: TemplateIfBeginPrefix
+			reduce(73), // <=, reduce: TemplateIfBeginPrefix
+			reduce(73), // >=, reduce: TemplateIfBeginPrefix
+			reduce(73), // ;, reduce: TemplateIfBeginPrefix
+			reduce(73), // @, reduce: TemplateIfBeginPrefix
+			reduce(73), // {, reduce: TemplateIfBeginPrefix
+			reduce(73), // }, reduce: TemplateIfBeginPrefix
+			reduce(73), // ~, reduce: TemplateIfBeginPrefix
+			reduce(73), // else, reduce: TemplateIfBeginPrefix
+			reduce(73), // if, reduce: TemplateIfBeginPrefix
+			reduce(73), // for, reduce: TemplateIfBeginPrefix
+			reduce(73), // endfor, reduce: TemplateIfBeginPrefix
+			reduce(73), // elif, reduce: TemplateIfBeginPrefix
+			reduce(73), // endif, reduce: TemplateIfBeginPrefix
+			reduce(73), // set, reduce: TemplateIfBeginPrefix
+			reduce(73), // ?, reduce: TemplateIfBeginPrefix
+			reduce(73), // :, reduce: TemplateIfBeginPrefix
+			reduce(73), // comment, reduce: TemplateIfBeginPrefix
+			reduce(73), // template_block_end, reduce: TemplateIfBeginPrefix
+			reduce(73), // template_block_start, reduce: TemplateIfBeginPrefix
+			reduce(73), // template_comment, reduce: TemplateIfBeginPrefix
+			nil,        // template_variable_end
+			reduce(73), // template_variable_start, reduce: TemplateIfBeginPrefix
+		},
+	},
+	actionRow{ // S196
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(71), // identifier, reduce: TemplateIfBegin
+			reduce(71), // bytes_literal, reduce: TemplateIfBegin
+			reduce(71), // string_literal, reduce: TemplateIfBegin
+			reduce(71), // integer_literal, reduce: TemplateIfBegin
+			reduce(71), // floating_point_literal, reduce: TemplateIfBegin
+			reduce(71), // newline, reduce: TemplateIfBegin
+			reduce(71), // *, reduce: TemplateIfBegin
+			reduce(71), // <, reduce: TemplateIfBegin
+			reduce(71), // >, reduce: TemplateIfBegin
+			reduce(71), // [, reduce: TemplateIfBegin
+			reduce(71), // ], reduce: TemplateIfBegin
+			reduce(71), // (, reduce: TemplateIfBegin
+			reduce(71), // ), reduce: TemplateIfBegin
+			reduce(71), // ,, reduce: TemplateIfBegin
+			reduce(71), // ., reduce: TemplateIfBegin
+			reduce(71), // |, reduce: TemplateIfBegin
+			reduce(71), // ^, reduce: TemplateIfBegin
+			reduce(71), // &, reduce: TemplateIfBegin
+			reduce(71), // <<, reduce: TemplateIfBegin
+			reduce(71), // >>, reduce: TemplateIfBegin
+			reduce(71), // =>, reduce: TemplateIfBegin
+			reduce(71), // /, reduce: TemplateIfBegin
+			reduce(71), // +, reduce: TemplateIfBegin
+			reduce(71), // -, reduce: TemplateIfBegin
+			reduce(71), // ||, reduce: TemplateIfBegin
+			reduce(71), // <>, reduce: TemplateIfBegin
+			reduce(71), // !=, reduce: TemplateIfBegin
+			reduce(71), // =, reduce: TemplateIfBegin
+			reduce(71), // <=, reduce: TemplateIfBegin
+			reduce(71), // >=, reduce: TemplateIfBegin
+			reduce(71), // ;, reduce: TemplateIfBegin
+			reduce(71), // @, reduce: TemplateIfBegin
+			reduce(71), // {, reduce: TemplateIfBegin
+			reduce(71), // }, reduce: TemplateIfBegin
+			reduce(71), // ~, reduce: TemplateIfBegin
+			reduce(71), // else, reduce: TemplateIfBegin
+			reduce(71), // if, reduce: TemplateIfBegin
+			reduce(71), // for, reduce: TemplateIfBegin
+			reduce(71), // endfor, reduce: TemplateIfBegin
+			reduce(71), // elif, reduce: TemplateIfBegin
+			reduce(71), // endif, reduce: TemplateIfBegin
+			reduce(71), // set, reduce: TemplateIfBegin
+			reduce(71), // ?, reduce: TemplateIfBegin
+			reduce(71), // :, reduce: TemplateIfBegin
+			reduce(71), // comment, reduce: TemplateIfBegin
+			nil,        // template_block_end
+			reduce(71), // template_block_start, reduce: TemplateIfBegin
+			reduce(71), // template_comment, reduce: TemplateIfBegin
+			nil,        // template_variable_end
+			reduce(71), // template_variable_start, reduce: TemplateIfBegin
+		},
+	},
+	actionRow{ // S197
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(78), // identifier, reduce: TemplateForBlockPrefix
+			reduce(78), // bytes_literal, reduce: TemplateForBlockPrefix
+			reduce(78), // string_literal, reduce: TemplateForBlockPrefix
+			reduce(78), // integer_literal, reduce: TemplateForBlockPrefix
+			reduce(78), // floating_point_literal, reduce: TemplateForBlockPrefix
+			reduce(78), // newline, reduce: TemplateForBlockPrefix
+			reduce(78), // *, reduce: TemplateForBlockPrefix
+			reduce(78), // <, reduce: TemplateForBlockPrefix
+			reduce(78), // >, reduce: TemplateForBlockPrefix
+			reduce(78), // [, reduce: TemplateForBlockPrefix
+			reduce(78), // ], reduce: TemplateForBlockPrefix
+			reduce(78), // (, reduce: TemplateForBlockPrefix
+			reduce(78), // ), reduce: TemplateForBlockPrefix
+			reduce(78), // ,, reduce: TemplateForBlockPrefix
+			reduce(78), // ., reduce: TemplateForBlockPrefix
+			reduce(78), // |, reduce: TemplateForBlockPrefix
+			reduce(78), // ^, reduce: TemplateForBlockPrefix
+			reduce(78), // &, reduce: TemplateForBlockPrefix
+			reduce(78), // <<, reduce: TemplateForBlockPrefix
+			reduce(78), // >>, reduce: TemplateForBlockPrefix
+			reduce(78), // =>, reduce: TemplateForBlockPrefix
+			reduce(78), // /, reduce: TemplateForBlockPrefix
+			reduce(78), // +, reduce: TemplateForBlockPrefix
+			reduce(78), // -, reduce: TemplateForBlockPrefix
+			reduce(78), // ||, reduce: TemplateForBlockPrefix
+			reduce(78), // <>, reduce: TemplateForBlockPrefix
+			reduce(78), // !=, reduce: TemplateForBlockPrefix
+			reduce(78), // =, reduce: TemplateForBlockPrefix
+			reduce(78), // <=, reduce: TemplateForBlockPrefix
+			reduce(78), // >=, reduce: TemplateForBlockPrefix
+			reduce(78), // ;, reduce: TemplateForBlockPrefix
+			reduce(78), // @, reduce: TemplateForBlockPrefix
+			reduce(78), // {, reduce: TemplateForBlockPrefix
+			reduce(78), // }, reduce: TemplateForBlockPrefix
+			reduce(78), // ~, reduce: TemplateForBlockPrefix
+			reduce(78), // else, reduce: TemplateForBlockPrefix
+			reduce(78), // if, reduce: TemplateForBlockPrefix
+			reduce(78), // for, reduce: TemplateForBlockPrefix
+			reduce(78), // endfor, reduce: TemplateForBlockPrefix
+			reduce(78), // elif, reduce: TemplateForBlockPrefix
+			reduce(78), // endif, reduce: TemplateForBlockPrefix
+			reduce(78), // set, reduce: TemplateForBlockPrefix
+			reduce(78), // ?, reduce: TemplateForBlockPrefix
+			reduce(78), // :, reduce: TemplateForBlockPrefix
+			reduce(78), // comment, reduce: TemplateForBlockPrefix
+			nil,        // template_block_end
+			reduce(78), // template_block_start, reduce: TemplateForBlockPrefix
+			reduce(78), // template_comment, reduce: TemplateForBlockPrefix
+			nil,        // template_variable_end
+			reduce(78), // template_variable_start, reduce: TemplateForBlockPrefix
+		},
+	},
+	actionRow{ // S198
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -14724,13 +11338,14 @@ var actionTab = actionTable{
 			nil,        // }
 			nil,        // ~
 			nil,        // else
-			shift(129), // if
-			shift(130), // for
-			shift(345), // endfor
+			shift(131), // if
+			shift(132), // for
+			shift(338), // endfor
 			nil,        // elif
 			nil,        // endif
-			shift(131), // set
+			shift(133), // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
 			nil,        // template_block_start
@@ -14739,60 +11354,3709 @@ var actionTab = actionTable{
 			nil,        // template_variable_start
 		},
 	},
+	actionRow{ // S199
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			reduce(76), // ␚, reduce: TemplateForBlock
+			reduce(76), // identifier, reduce: TemplateForBlock
+			reduce(76), // bytes_literal, reduce: TemplateForBlock
+			reduce(76), // string_literal, reduce: TemplateForBlock
+			reduce(76), // integer_literal, reduce: TemplateForBlock
+			reduce(76), // floating_point_literal, reduce: TemplateForBlock
+			reduce(76), // newline, reduce: TemplateForBlock
+			reduce(76), // *, reduce: TemplateForBlock
+			reduce(76), // <, reduce: TemplateForBlock
+			reduce(76), // >, reduce: TemplateForBlock
+			reduce(76), // [, reduce: TemplateForBlock
+			reduce(76), // ], reduce: TemplateForBlock
+			reduce(76), // (, reduce: TemplateForBlock
+			reduce(76), // ), reduce: TemplateForBlock
+			reduce(76), // ,, reduce: TemplateForBlock
+			reduce(76), // ., reduce: TemplateForBlock
+			reduce(76), // |, reduce: TemplateForBlock
+			reduce(76), // ^, reduce: TemplateForBlock
+			reduce(76), // &, reduce: TemplateForBlock
+			reduce(76), // <<, reduce: TemplateForBlock
+			reduce(76), // >>, reduce: TemplateForBlock
+			reduce(76), // =>, reduce: TemplateForBlock
+			reduce(76), // /, reduce: TemplateForBlock
+			reduce(76), // +, reduce: TemplateForBlock
+			reduce(76), // -, reduce: TemplateForBlock
+			reduce(76), // ||, reduce: TemplateForBlock
+			reduce(76), // <>, reduce: TemplateForBlock
+			reduce(76), // !=, reduce: TemplateForBlock
+			reduce(76), // =, reduce: TemplateForBlock
+			reduce(76), // <=, reduce: TemplateForBlock
+			reduce(76), // >=, reduce: TemplateForBlock
+			reduce(76), // ;, reduce: TemplateForBlock
+			reduce(76), // @, reduce: TemplateForBlock
+			reduce(76), // {, reduce: TemplateForBlock
+			reduce(76), // }, reduce: TemplateForBlock
+			reduce(76), // ~, reduce: TemplateForBlock
+			reduce(76), // else, reduce: TemplateForBlock
+			reduce(76), // if, reduce: TemplateForBlock
+			reduce(76), // for, reduce: TemplateForBlock
+			reduce(76), // endfor, reduce: TemplateForBlock
+			reduce(76), // elif, reduce: TemplateForBlock
+			reduce(76), // endif, reduce: TemplateForBlock
+			reduce(76), // set, reduce: TemplateForBlock
+			reduce(76), // ?, reduce: TemplateForBlock
+			reduce(76), // :, reduce: TemplateForBlock
+			reduce(76), // comment, reduce: TemplateForBlock
+			nil,        // template_block_end
+			reduce(76), // template_block_start, reduce: TemplateForBlock
+			reduce(76), // template_comment, reduce: TemplateForBlock
+			nil,        // template_variable_end
+			reduce(76), // template_variable_start, reduce: TemplateForBlock
+		},
+	},
+	actionRow{ // S200
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(77), // identifier, reduce: TemplateForBlockPrefix
+			reduce(77), // bytes_literal, reduce: TemplateForBlockPrefix
+			reduce(77), // string_literal, reduce: TemplateForBlockPrefix
+			reduce(77), // integer_literal, reduce: TemplateForBlockPrefix
+			reduce(77), // floating_point_literal, reduce: TemplateForBlockPrefix
+			reduce(77), // newline, reduce: TemplateForBlockPrefix
+			reduce(77), // *, reduce: TemplateForBlockPrefix
+			reduce(77), // <, reduce: TemplateForBlockPrefix
+			reduce(77), // >, reduce: TemplateForBlockPrefix
+			reduce(77), // [, reduce: TemplateForBlockPrefix
+			reduce(77), // ], reduce: TemplateForBlockPrefix
+			reduce(77), // (, reduce: TemplateForBlockPrefix
+			reduce(77), // ), reduce: TemplateForBlockPrefix
+			reduce(77), // ,, reduce: TemplateForBlockPrefix
+			reduce(77), // ., reduce: TemplateForBlockPrefix
+			reduce(77), // |, reduce: TemplateForBlockPrefix
+			reduce(77), // ^, reduce: TemplateForBlockPrefix
+			reduce(77), // &, reduce: TemplateForBlockPrefix
+			reduce(77), // <<, reduce: TemplateForBlockPrefix
+			reduce(77), // >>, reduce: TemplateForBlockPrefix
+			reduce(77), // =>, reduce: TemplateForBlockPrefix
+			reduce(77), // /, reduce: TemplateForBlockPrefix
+			reduce(77), // +, reduce: TemplateForBlockPrefix
+			reduce(77), // -, reduce: TemplateForBlockPrefix
+			reduce(77), // ||, reduce: TemplateForBlockPrefix
+			reduce(77), // <>, reduce: TemplateForBlockPrefix
+			reduce(77), // !=, reduce: TemplateForBlockPrefix
+			reduce(77), // =, reduce: TemplateForBlockPrefix
+			reduce(77), // <=, reduce: TemplateForBlockPrefix
+			reduce(77), // >=, reduce: TemplateForBlockPrefix
+			reduce(77), // ;, reduce: TemplateForBlockPrefix
+			reduce(77), // @, reduce: TemplateForBlockPrefix
+			reduce(77), // {, reduce: TemplateForBlockPrefix
+			reduce(77), // }, reduce: TemplateForBlockPrefix
+			reduce(77), // ~, reduce: TemplateForBlockPrefix
+			reduce(77), // else, reduce: TemplateForBlockPrefix
+			reduce(77), // if, reduce: TemplateForBlockPrefix
+			reduce(77), // for, reduce: TemplateForBlockPrefix
+			reduce(77), // endfor, reduce: TemplateForBlockPrefix
+			reduce(77), // elif, reduce: TemplateForBlockPrefix
+			reduce(77), // endif, reduce: TemplateForBlockPrefix
+			reduce(77), // set, reduce: TemplateForBlockPrefix
+			reduce(77), // ?, reduce: TemplateForBlockPrefix
+			reduce(77), // :, reduce: TemplateForBlockPrefix
+			reduce(77), // comment, reduce: TemplateForBlockPrefix
+			nil,        // template_block_end
+			reduce(77), // template_block_start, reduce: TemplateForBlockPrefix
+			reduce(77), // template_comment, reduce: TemplateForBlockPrefix
+			nil,        // template_variable_end
+			reduce(77), // template_variable_start, reduce: TemplateForBlockPrefix
+		},
+	},
+	actionRow{ // S201
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(81), // identifier, reduce: TemplateForBeginPrefix
+			reduce(81), // bytes_literal, reduce: TemplateForBeginPrefix
+			reduce(81), // string_literal, reduce: TemplateForBeginPrefix
+			reduce(81), // integer_literal, reduce: TemplateForBeginPrefix
+			reduce(81), // floating_point_literal, reduce: TemplateForBeginPrefix
+			reduce(81), // newline, reduce: TemplateForBeginPrefix
+			reduce(81), // *, reduce: TemplateForBeginPrefix
+			reduce(81), // <, reduce: TemplateForBeginPrefix
+			reduce(81), // >, reduce: TemplateForBeginPrefix
+			reduce(81), // [, reduce: TemplateForBeginPrefix
+			reduce(81), // ], reduce: TemplateForBeginPrefix
+			reduce(81), // (, reduce: TemplateForBeginPrefix
+			reduce(81), // ), reduce: TemplateForBeginPrefix
+			reduce(81), // ,, reduce: TemplateForBeginPrefix
+			reduce(81), // ., reduce: TemplateForBeginPrefix
+			reduce(81), // |, reduce: TemplateForBeginPrefix
+			reduce(81), // ^, reduce: TemplateForBeginPrefix
+			reduce(81), // &, reduce: TemplateForBeginPrefix
+			reduce(81), // <<, reduce: TemplateForBeginPrefix
+			reduce(81), // >>, reduce: TemplateForBeginPrefix
+			reduce(81), // =>, reduce: TemplateForBeginPrefix
+			reduce(81), // /, reduce: TemplateForBeginPrefix
+			reduce(81), // +, reduce: TemplateForBeginPrefix
+			reduce(81), // -, reduce: TemplateForBeginPrefix
+			reduce(81), // ||, reduce: TemplateForBeginPrefix
+			reduce(81), // <>, reduce: TemplateForBeginPrefix
+			reduce(81), // !=, reduce: TemplateForBeginPrefix
+			reduce(81), // =, reduce: TemplateForBeginPrefix
+			reduce(81), // <=, reduce: TemplateForBeginPrefix
+			reduce(81), // >=, reduce: TemplateForBeginPrefix
+			reduce(81), // ;, reduce: TemplateForBeginPrefix
+			reduce(81), // @, reduce: TemplateForBeginPrefix
+			reduce(81), // {, reduce: TemplateForBeginPrefix
+			reduce(81), // }, reduce: TemplateForBeginPrefix
+			reduce(81), // ~, reduce: TemplateForBeginPrefix
+			reduce(81), // else, reduce: TemplateForBeginPrefix
+			reduce(81), // if, reduce: TemplateForBeginPrefix
+			reduce(81), // for, reduce: TemplateForBeginPrefix
+			reduce(81), // endfor, reduce: TemplateForBeginPrefix
+			reduce(81), // elif, reduce: TemplateForBeginPrefix
+			reduce(81), // endif, reduce: TemplateForBeginPrefix
+			reduce(81), // set, reduce: TemplateForBeginPrefix
+			reduce(81), // ?, reduce: TemplateForBeginPrefix
+			reduce(81), // :, reduce: TemplateForBeginPrefix
+			reduce(81), // comment, reduce: TemplateForBeginPrefix
+			reduce(81), // template_block_end, reduce: TemplateForBeginPrefix
+			reduce(81), // template_block_start, reduce: TemplateForBeginPrefix
+			reduce(81), // template_comment, reduce: TemplateForBeginPrefix
+			nil,        // template_variable_end
+			reduce(81), // template_variable_start, reduce: TemplateForBeginPrefix
+		},
+	},
+	actionRow{ // S202
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(79), // identifier, reduce: TemplateForBegin
+			reduce(79), // bytes_literal, reduce: TemplateForBegin
+			reduce(79), // string_literal, reduce: TemplateForBegin
+			reduce(79), // integer_literal, reduce: TemplateForBegin
+			reduce(79), // floating_point_literal, reduce: TemplateForBegin
+			reduce(79), // newline, reduce: TemplateForBegin
+			reduce(79), // *, reduce: TemplateForBegin
+			reduce(79), // <, reduce: TemplateForBegin
+			reduce(79), // >, reduce: TemplateForBegin
+			reduce(79), // [, reduce: TemplateForBegin
+			reduce(79), // ], reduce: TemplateForBegin
+			reduce(79), // (, reduce: TemplateForBegin
+			reduce(79), // ), reduce: TemplateForBegin
+			reduce(79), // ,, reduce: TemplateForBegin
+			reduce(79), // ., reduce: TemplateForBegin
+			reduce(79), // |, reduce: TemplateForBegin
+			reduce(79), // ^, reduce: TemplateForBegin
+			reduce(79), // &, reduce: TemplateForBegin
+			reduce(79), // <<, reduce: TemplateForBegin
+			reduce(79), // >>, reduce: TemplateForBegin
+			reduce(79), // =>, reduce: TemplateForBegin
+			reduce(79), // /, reduce: TemplateForBegin
+			reduce(79), // +, reduce: TemplateForBegin
+			reduce(79), // -, reduce: TemplateForBegin
+			reduce(79), // ||, reduce: TemplateForBegin
+			reduce(79), // <>, reduce: TemplateForBegin
+			reduce(79), // !=, reduce: TemplateForBegin
+			reduce(79), // =, reduce: TemplateForBegin
+			reduce(79), // <=, reduce: TemplateForBegin
+			reduce(79), // >=, reduce: TemplateForBegin
+			reduce(79), // ;, reduce: TemplateForBegin
+			reduce(79), // @, reduce: TemplateForBegin
+			reduce(79), // {, reduce: TemplateForBegin
+			reduce(79), // }, reduce: TemplateForBegin
+			reduce(79), // ~, reduce: TemplateForBegin
+			reduce(79), // else, reduce: TemplateForBegin
+			reduce(79), // if, reduce: TemplateForBegin
+			reduce(79), // for, reduce: TemplateForBegin
+			reduce(79), // endfor, reduce: TemplateForBegin
+			reduce(79), // elif, reduce: TemplateForBegin
+			reduce(79), // endif, reduce: TemplateForBegin
+			reduce(79), // set, reduce: TemplateForBegin
+			reduce(79), // ?, reduce: TemplateForBegin
+			reduce(79), // :, reduce: TemplateForBegin
+			reduce(79), // comment, reduce: TemplateForBegin
+			nil,        // template_block_end
+			reduce(79), // template_block_start, reduce: TemplateForBegin
+			reduce(79), // template_comment, reduce: TemplateForBegin
+			nil,        // template_variable_end
+			reduce(79), // template_variable_start, reduce: TemplateForBegin
+		},
+	},
+	actionRow{ // S203
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(86), // identifier, reduce: TemplateVariablePrefix
+			reduce(86), // bytes_literal, reduce: TemplateVariablePrefix
+			reduce(86), // string_literal, reduce: TemplateVariablePrefix
+			reduce(86), // integer_literal, reduce: TemplateVariablePrefix
+			reduce(86), // floating_point_literal, reduce: TemplateVariablePrefix
+			reduce(86), // newline, reduce: TemplateVariablePrefix
+			reduce(86), // *, reduce: TemplateVariablePrefix
+			reduce(86), // <, reduce: TemplateVariablePrefix
+			reduce(86), // >, reduce: TemplateVariablePrefix
+			reduce(86), // [, reduce: TemplateVariablePrefix
+			reduce(86), // ], reduce: TemplateVariablePrefix
+			reduce(86), // (, reduce: TemplateVariablePrefix
+			reduce(86), // ), reduce: TemplateVariablePrefix
+			reduce(86), // ,, reduce: TemplateVariablePrefix
+			reduce(86), // ., reduce: TemplateVariablePrefix
+			reduce(86), // |, reduce: TemplateVariablePrefix
+			reduce(86), // ^, reduce: TemplateVariablePrefix
+			reduce(86), // &, reduce: TemplateVariablePrefix
+			reduce(86), // <<, reduce: TemplateVariablePrefix
+			reduce(86), // >>, reduce: TemplateVariablePrefix
+			reduce(86), // =>, reduce: TemplateVariablePrefix
+			reduce(86), // /, reduce: TemplateVariablePrefix
+			reduce(86), // +, reduce: TemplateVariablePrefix
+			reduce(86), // -, reduce: TemplateVariablePrefix
+			reduce(86), // ||, reduce: TemplateVariablePrefix
+			reduce(86), // <>, reduce: TemplateVariablePrefix
+			reduce(86), // !=, reduce: TemplateVariablePrefix
+			reduce(86), // =, reduce: TemplateVariablePrefix
+			reduce(86), // <=, reduce: TemplateVariablePrefix
+			reduce(86), // >=, reduce: TemplateVariablePrefix
+			reduce(86), // ;, reduce: TemplateVariablePrefix
+			reduce(86), // @, reduce: TemplateVariablePrefix
+			reduce(86), // {, reduce: TemplateVariablePrefix
+			reduce(86), // }, reduce: TemplateVariablePrefix
+			reduce(86), // ~, reduce: TemplateVariablePrefix
+			reduce(86), // else, reduce: TemplateVariablePrefix
+			reduce(86), // if, reduce: TemplateVariablePrefix
+			reduce(86), // for, reduce: TemplateVariablePrefix
+			reduce(86), // endfor, reduce: TemplateVariablePrefix
+			reduce(86), // elif, reduce: TemplateVariablePrefix
+			reduce(86), // endif, reduce: TemplateVariablePrefix
+			reduce(86), // set, reduce: TemplateVariablePrefix
+			reduce(86), // ?, reduce: TemplateVariablePrefix
+			reduce(86), // :, reduce: TemplateVariablePrefix
+			reduce(86), // comment, reduce: TemplateVariablePrefix
+			nil,        // template_block_end
+			reduce(86), // template_block_start, reduce: TemplateVariablePrefix
+			reduce(86), // template_comment, reduce: TemplateVariablePrefix
+			reduce(86), // template_variable_end, reduce: TemplateVariablePrefix
+			reduce(86), // template_variable_start, reduce: TemplateVariablePrefix
+		},
+	},
+	actionRow{ // S204
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(11), // identifier, reduce: Element
+			reduce(11), // bytes_literal, reduce: Element
+			reduce(11), // string_literal, reduce: Element
+			reduce(11), // integer_literal, reduce: Element
+			reduce(11), // floating_point_literal, reduce: Element
+			reduce(11), // newline, reduce: Element
+			reduce(11), // *, reduce: Element
+			reduce(11), // <, reduce: Element
+			reduce(11), // >, reduce: Element
+			reduce(11), // [, reduce: Element
+			reduce(11), // ], reduce: Element
+			reduce(11), // (, reduce: Element
+			reduce(11), // ), reduce: Element
+			reduce(11), // ,, reduce: Element
+			reduce(11), // ., reduce: Element
+			reduce(11), // |, reduce: Element
+			reduce(11), // ^, reduce: Element
+			reduce(11), // &, reduce: Element
+			reduce(11), // <<, reduce: Element
+			reduce(11), // >>, reduce: Element
+			reduce(11), // =>, reduce: Element
+			reduce(11), // /, reduce: Element
+			reduce(11), // +, reduce: Element
+			reduce(11), // -, reduce: Element
+			reduce(11), // ||, reduce: Element
+			reduce(11), // <>, reduce: Element
+			reduce(11), // !=, reduce: Element
+			reduce(11), // =, reduce: Element
+			reduce(11), // <=, reduce: Element
+			reduce(11), // >=, reduce: Element
+			reduce(11), // ;, reduce: Element
+			reduce(11), // @, reduce: Element
+			reduce(11), // {, reduce: Element
+			reduce(11), // }, reduce: Element
+			reduce(11), // ~, reduce: Element
+			reduce(11), // else, reduce: Element
+			reduce(11), // if, reduce: Element
+			reduce(11), // for, reduce: Element
+			reduce(11), // endfor, reduce: Element
+			reduce(11), // elif, reduce: Element
+			reduce(11), // endif, reduce: Element
+			reduce(11), // set, reduce: Element
+			reduce(11), // ?, reduce: Element
+			reduce(11), // :, reduce: Element
+			reduce(11), // comment, reduce: Element
+			nil,        // template_block_end
+			reduce(11), // template_block_start, reduce: Element
+			reduce(11), // template_comment, reduce: Element
+			reduce(11), // template_variable_end, reduce: Element
+			reduce(11), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S205
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // INVALID
+			nil,       // ␚
+			reduce(8), // identifier, reduce: Element
+			reduce(8), // bytes_literal, reduce: Element
+			reduce(8), // string_literal, reduce: Element
+			reduce(8), // integer_literal, reduce: Element
+			reduce(8), // floating_point_literal, reduce: Element
+			reduce(8), // newline, reduce: Element
+			reduce(8), // *, reduce: Element
+			reduce(8), // <, reduce: Element
+			reduce(8), // >, reduce: Element
+			reduce(8), // [, reduce: Element
+			reduce(8), // ], reduce: Element
+			reduce(8), // (, reduce: Element
+			reduce(8), // ), reduce: Element
+			reduce(8), // ,, reduce: Element
+			reduce(8), // ., reduce: Element
+			reduce(8), // |, reduce: Element
+			reduce(8), // ^, reduce: Element
+			reduce(8), // &, reduce: Element
+			reduce(8), // <<, reduce: Element
+			reduce(8), // >>, reduce: Element
+			reduce(8), // =>, reduce: Element
+			reduce(8), // /, reduce: Element
+			reduce(8), // +, reduce: Element
+			reduce(8), // -, reduce: Element
+			reduce(8), // ||, reduce: Element
+			reduce(8), // <>, reduce: Element
+			reduce(8), // !=, reduce: Element
+			reduce(8), // =, reduce: Element
+			reduce(8), // <=, reduce: Element
+			reduce(8), // >=, reduce: Element
+			reduce(8), // ;, reduce: Element
+			reduce(8), // @, reduce: Element
+			reduce(8), // {, reduce: Element
+			reduce(8), // }, reduce: Element
+			reduce(8), // ~, reduce: Element
+			reduce(8), // else, reduce: Element
+			reduce(8), // if, reduce: Element
+			reduce(8), // for, reduce: Element
+			reduce(8), // endfor, reduce: Element
+			reduce(8), // elif, reduce: Element
+			reduce(8), // endif, reduce: Element
+			reduce(8), // set, reduce: Element
+			reduce(8), // ?, reduce: Element
+			reduce(8), // :, reduce: Element
+			reduce(8), // comment, reduce: Element
+			nil,       // template_block_end
+			reduce(8), // template_block_start, reduce: Element
+			reduce(8), // template_comment, reduce: Element
+			reduce(8), // template_variable_end, reduce: Element
+			reduce(8), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S206
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // INVALID
+			nil,       // ␚
+			reduce(9), // identifier, reduce: Element
+			reduce(9), // bytes_literal, reduce: Element
+			reduce(9), // string_literal, reduce: Element
+			reduce(9), // integer_literal, reduce: Element
+			reduce(9), // floating_point_literal, reduce: Element
+			reduce(9), // newline, reduce: Element
+			reduce(9), // *, reduce: Element
+			reduce(9), // <, reduce: Element
+			reduce(9), // >, reduce: Element
+			reduce(9), // [, reduce: Element
+			reduce(9), // ], reduce: Element
+			reduce(9), // (, reduce: Element
+			reduce(9), // ), reduce: Element
+			reduce(9), // ,, reduce: Element
+			reduce(9), // ., reduce: Element
+			reduce(9), // |, reduce: Element
+			reduce(9), // ^, reduce: Element
+			reduce(9), // &, reduce: Element
+			reduce(9), // <<, reduce: Element
+			reduce(9), // >>, reduce: Element
+			reduce(9), // =>, reduce: Element
+			reduce(9), // /, reduce: Element
+			reduce(9), // +, reduce: Element
+			reduce(9), // -, reduce: Element
+			reduce(9), // ||, reduce: Element
+			reduce(9), // <>, reduce: Element
+			reduce(9), // !=, reduce: Element
+			reduce(9), // =, reduce: Element
+			reduce(9), // <=, reduce: Element
+			reduce(9), // >=, reduce: Element
+			reduce(9), // ;, reduce: Element
+			reduce(9), // @, reduce: Element
+			reduce(9), // {, reduce: Element
+			reduce(9), // }, reduce: Element
+			reduce(9), // ~, reduce: Element
+			reduce(9), // else, reduce: Element
+			reduce(9), // if, reduce: Element
+			reduce(9), // for, reduce: Element
+			reduce(9), // endfor, reduce: Element
+			reduce(9), // elif, reduce: Element
+			reduce(9), // endif, reduce: Element
+			reduce(9), // set, reduce: Element
+			reduce(9), // ?, reduce: Element
+			reduce(9), // :, reduce: Element
+			reduce(9), // comment, reduce: Element
+			nil,       // template_block_end
+			reduce(9), // template_block_start, reduce: Element
+			reduce(9), // template_comment, reduce: Element
+			reduce(9), // template_variable_end, reduce: Element
+			reduce(9), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S207
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(10), // identifier, reduce: Element
+			reduce(10), // bytes_literal, reduce: Element
+			reduce(10), // string_literal, reduce: Element
+			reduce(10), // integer_literal, reduce: Element
+			reduce(10), // floating_point_literal, reduce: Element
+			reduce(10), // newline, reduce: Element
+			reduce(10), // *, reduce: Element
+			reduce(10), // <, reduce: Element
+			reduce(10), // >, reduce: Element
+			reduce(10), // [, reduce: Element
+			reduce(10), // ], reduce: Element
+			reduce(10), // (, reduce: Element
+			reduce(10), // ), reduce: Element
+			reduce(10), // ,, reduce: Element
+			reduce(10), // ., reduce: Element
+			reduce(10), // |, reduce: Element
+			reduce(10), // ^, reduce: Element
+			reduce(10), // &, reduce: Element
+			reduce(10), // <<, reduce: Element
+			reduce(10), // >>, reduce: Element
+			reduce(10), // =>, reduce: Element
+			reduce(10), // /, reduce: Element
+			reduce(10), // +, reduce: Element
+			reduce(10), // -, reduce: Element
+			reduce(10), // ||, reduce: Element
+			reduce(10), // <>, reduce: Element
+			reduce(10), // !=, reduce: Element
+			reduce(10), // =, reduce: Element
+			reduce(10), // <=, reduce: Element
+			reduce(10), // >=, reduce: Element
+			reduce(10), // ;, reduce: Element
+			reduce(10), // @, reduce: Element
+			reduce(10), // {, reduce: Element
+			reduce(10), // }, reduce: Element
+			reduce(10), // ~, reduce: Element
+			reduce(10), // else, reduce: Element
+			reduce(10), // if, reduce: Element
+			reduce(10), // for, reduce: Element
+			reduce(10), // endfor, reduce: Element
+			reduce(10), // elif, reduce: Element
+			reduce(10), // endif, reduce: Element
+			reduce(10), // set, reduce: Element
+			reduce(10), // ?, reduce: Element
+			reduce(10), // :, reduce: Element
+			reduce(10), // comment, reduce: Element
+			nil,        // template_block_end
+			reduce(10), // template_block_start, reduce: Element
+			reduce(10), // template_comment, reduce: Element
+			reduce(10), // template_variable_end, reduce: Element
+			reduce(10), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S208
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(12), // identifier, reduce: Element
+			reduce(12), // bytes_literal, reduce: Element
+			reduce(12), // string_literal, reduce: Element
+			reduce(12), // integer_literal, reduce: Element
+			reduce(12), // floating_point_literal, reduce: Element
+			reduce(12), // newline, reduce: Element
+			reduce(12), // *, reduce: Element
+			reduce(12), // <, reduce: Element
+			reduce(12), // >, reduce: Element
+			reduce(12), // [, reduce: Element
+			reduce(12), // ], reduce: Element
+			reduce(12), // (, reduce: Element
+			reduce(12), // ), reduce: Element
+			reduce(12), // ,, reduce: Element
+			reduce(12), // ., reduce: Element
+			reduce(12), // |, reduce: Element
+			reduce(12), // ^, reduce: Element
+			reduce(12), // &, reduce: Element
+			reduce(12), // <<, reduce: Element
+			reduce(12), // >>, reduce: Element
+			reduce(12), // =>, reduce: Element
+			reduce(12), // /, reduce: Element
+			reduce(12), // +, reduce: Element
+			reduce(12), // -, reduce: Element
+			reduce(12), // ||, reduce: Element
+			reduce(12), // <>, reduce: Element
+			reduce(12), // !=, reduce: Element
+			reduce(12), // =, reduce: Element
+			reduce(12), // <=, reduce: Element
+			reduce(12), // >=, reduce: Element
+			reduce(12), // ;, reduce: Element
+			reduce(12), // @, reduce: Element
+			reduce(12), // {, reduce: Element
+			reduce(12), // }, reduce: Element
+			reduce(12), // ~, reduce: Element
+			reduce(12), // else, reduce: Element
+			reduce(12), // if, reduce: Element
+			reduce(12), // for, reduce: Element
+			reduce(12), // endfor, reduce: Element
+			reduce(12), // elif, reduce: Element
+			reduce(12), // endif, reduce: Element
+			reduce(12), // set, reduce: Element
+			reduce(12), // ?, reduce: Element
+			reduce(12), // :, reduce: Element
+			reduce(12), // comment, reduce: Element
+			nil,        // template_block_end
+			reduce(12), // template_block_start, reduce: Element
+			reduce(12), // template_comment, reduce: Element
+			reduce(12), // template_variable_end, reduce: Element
+			reduce(12), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S209
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(13), // identifier, reduce: Element
+			reduce(13), // bytes_literal, reduce: Element
+			reduce(13), // string_literal, reduce: Element
+			reduce(13), // integer_literal, reduce: Element
+			reduce(13), // floating_point_literal, reduce: Element
+			reduce(13), // newline, reduce: Element
+			reduce(13), // *, reduce: Element
+			reduce(13), // <, reduce: Element
+			reduce(13), // >, reduce: Element
+			reduce(13), // [, reduce: Element
+			reduce(13), // ], reduce: Element
+			reduce(13), // (, reduce: Element
+			reduce(13), // ), reduce: Element
+			reduce(13), // ,, reduce: Element
+			reduce(13), // ., reduce: Element
+			reduce(13), // |, reduce: Element
+			reduce(13), // ^, reduce: Element
+			reduce(13), // &, reduce: Element
+			reduce(13), // <<, reduce: Element
+			reduce(13), // >>, reduce: Element
+			reduce(13), // =>, reduce: Element
+			reduce(13), // /, reduce: Element
+			reduce(13), // +, reduce: Element
+			reduce(13), // -, reduce: Element
+			reduce(13), // ||, reduce: Element
+			reduce(13), // <>, reduce: Element
+			reduce(13), // !=, reduce: Element
+			reduce(13), // =, reduce: Element
+			reduce(13), // <=, reduce: Element
+			reduce(13), // >=, reduce: Element
+			reduce(13), // ;, reduce: Element
+			reduce(13), // @, reduce: Element
+			reduce(13), // {, reduce: Element
+			reduce(13), // }, reduce: Element
+			reduce(13), // ~, reduce: Element
+			reduce(13), // else, reduce: Element
+			reduce(13), // if, reduce: Element
+			reduce(13), // for, reduce: Element
+			reduce(13), // endfor, reduce: Element
+			reduce(13), // elif, reduce: Element
+			reduce(13), // endif, reduce: Element
+			reduce(13), // set, reduce: Element
+			reduce(13), // ?, reduce: Element
+			reduce(13), // :, reduce: Element
+			reduce(13), // comment, reduce: Element
+			nil,        // template_block_end
+			reduce(13), // template_block_start, reduce: Element
+			reduce(13), // template_comment, reduce: Element
+			reduce(13), // template_variable_end, reduce: Element
+			reduce(13), // template_variable_start, reduce: Element
+		},
+	},
+	actionRow{ // S210
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(14), // identifier, reduce: Element2
+			reduce(14), // bytes_literal, reduce: Element2
+			reduce(14), // string_literal, reduce: Element2
+			reduce(14), // integer_literal, reduce: Element2
+			reduce(14), // floating_point_literal, reduce: Element2
+			reduce(14), // newline, reduce: Element2
+			reduce(14), // *, reduce: Element2
+			reduce(14), // <, reduce: Element2
+			reduce(14), // >, reduce: Element2
+			reduce(14), // [, reduce: Element2
+			reduce(14), // ], reduce: Element2
+			reduce(14), // (, reduce: Element2
+			reduce(14), // ), reduce: Element2
+			reduce(14), // ,, reduce: Element2
+			reduce(14), // ., reduce: Element2
+			reduce(14), // |, reduce: Element2
+			reduce(14), // ^, reduce: Element2
+			reduce(14), // &, reduce: Element2
+			reduce(14), // <<, reduce: Element2
+			reduce(14), // >>, reduce: Element2
+			reduce(14), // =>, reduce: Element2
+			reduce(14), // /, reduce: Element2
+			reduce(14), // +, reduce: Element2
+			reduce(14), // -, reduce: Element2
+			reduce(14), // ||, reduce: Element2
+			reduce(14), // <>, reduce: Element2
+			reduce(14), // !=, reduce: Element2
+			reduce(14), // =, reduce: Element2
+			reduce(14), // <=, reduce: Element2
+			reduce(14), // >=, reduce: Element2
+			reduce(14), // ;, reduce: Element2
+			reduce(14), // @, reduce: Element2
+			reduce(14), // {, reduce: Element2
+			reduce(14), // }, reduce: Element2
+			reduce(14), // ~, reduce: Element2
+			reduce(14), // else, reduce: Element2
+			reduce(14), // if, reduce: Element2
+			reduce(14), // for, reduce: Element2
+			reduce(14), // endfor, reduce: Element2
+			reduce(14), // elif, reduce: Element2
+			reduce(14), // endif, reduce: Element2
+			reduce(14), // set, reduce: Element2
+			reduce(14), // ?, reduce: Element2
+			reduce(14), // :, reduce: Element2
+			reduce(14), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(14), // template_block_start, reduce: Element2
+			reduce(14), // template_comment, reduce: Element2
+			reduce(14), // template_variable_end, reduce: Element2
+			reduce(14), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S211
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(15), // identifier, reduce: Element2
+			reduce(15), // bytes_literal, reduce: Element2
+			reduce(15), // string_literal, reduce: Element2
+			reduce(15), // integer_literal, reduce: Element2
+			reduce(15), // floating_point_literal, reduce: Element2
+			reduce(15), // newline, reduce: Element2
+			reduce(15), // *, reduce: Element2
+			reduce(15), // <, reduce: Element2
+			reduce(15), // >, reduce: Element2
+			reduce(15), // [, reduce: Element2
+			reduce(15), // ], reduce: Element2
+			reduce(15), // (, reduce: Element2
+			reduce(15), // ), reduce: Element2
+			reduce(15), // ,, reduce: Element2
+			reduce(15), // ., reduce: Element2
+			reduce(15), // |, reduce: Element2
+			reduce(15), // ^, reduce: Element2
+			reduce(15), // &, reduce: Element2
+			reduce(15), // <<, reduce: Element2
+			reduce(15), // >>, reduce: Element2
+			reduce(15), // =>, reduce: Element2
+			reduce(15), // /, reduce: Element2
+			reduce(15), // +, reduce: Element2
+			reduce(15), // -, reduce: Element2
+			reduce(15), // ||, reduce: Element2
+			reduce(15), // <>, reduce: Element2
+			reduce(15), // !=, reduce: Element2
+			reduce(15), // =, reduce: Element2
+			reduce(15), // <=, reduce: Element2
+			reduce(15), // >=, reduce: Element2
+			reduce(15), // ;, reduce: Element2
+			reduce(15), // @, reduce: Element2
+			reduce(15), // {, reduce: Element2
+			reduce(15), // }, reduce: Element2
+			reduce(15), // ~, reduce: Element2
+			reduce(15), // else, reduce: Element2
+			reduce(15), // if, reduce: Element2
+			reduce(15), // for, reduce: Element2
+			reduce(15), // endfor, reduce: Element2
+			reduce(15), // elif, reduce: Element2
+			reduce(15), // endif, reduce: Element2
+			reduce(15), // set, reduce: Element2
+			reduce(15), // ?, reduce: Element2
+			reduce(15), // :, reduce: Element2
+			reduce(15), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(15), // template_block_start, reduce: Element2
+			reduce(15), // template_comment, reduce: Element2
+			reduce(15), // template_variable_end, reduce: Element2
+			reduce(15), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S212
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(16), // identifier, reduce: Element2
+			reduce(16), // bytes_literal, reduce: Element2
+			reduce(16), // string_literal, reduce: Element2
+			reduce(16), // integer_literal, reduce: Element2
+			reduce(16), // floating_point_literal, reduce: Element2
+			reduce(16), // newline, reduce: Element2
+			reduce(16), // *, reduce: Element2
+			reduce(16), // <, reduce: Element2
+			reduce(16), // >, reduce: Element2
+			reduce(16), // [, reduce: Element2
+			reduce(16), // ], reduce: Element2
+			reduce(16), // (, reduce: Element2
+			reduce(16), // ), reduce: Element2
+			reduce(16), // ,, reduce: Element2
+			reduce(16), // ., reduce: Element2
+			reduce(16), // |, reduce: Element2
+			reduce(16), // ^, reduce: Element2
+			reduce(16), // &, reduce: Element2
+			reduce(16), // <<, reduce: Element2
+			reduce(16), // >>, reduce: Element2
+			reduce(16), // =>, reduce: Element2
+			reduce(16), // /, reduce: Element2
+			reduce(16), // +, reduce: Element2
+			reduce(16), // -, reduce: Element2
+			reduce(16), // ||, reduce: Element2
+			reduce(16), // <>, reduce: Element2
+			reduce(16), // !=, reduce: Element2
+			reduce(16), // =, reduce: Element2
+			reduce(16), // <=, reduce: Element2
+			reduce(16), // >=, reduce: Element2
+			reduce(16), // ;, reduce: Element2
+			reduce(16), // @, reduce: Element2
+			reduce(16), // {, reduce: Element2
+			reduce(16), // }, reduce: Element2
+			reduce(16), // ~, reduce: Element2
+			reduce(16), // else, reduce: Element2
+			reduce(16), // if, reduce: Element2
+			reduce(16), // for, reduce: Element2
+			reduce(16), // endfor, reduce: Element2
+			reduce(16), // elif, reduce: Element2
+			reduce(16), // endif, reduce: Element2
+			reduce(16), // set, reduce: Element2
+			reduce(16), // ?, reduce: Element2
+			reduce(16), // :, reduce: Element2
+			reduce(16), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(16), // template_block_start, reduce: Element2
+			reduce(16), // template_comment, reduce: Element2
+			reduce(16), // template_variable_end, reduce: Element2
+			reduce(16), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S213
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(17), // identifier, reduce: Element2
+			reduce(17), // bytes_literal, reduce: Element2
+			reduce(17), // string_literal, reduce: Element2
+			reduce(17), // integer_literal, reduce: Element2
+			reduce(17), // floating_point_literal, reduce: Element2
+			reduce(17), // newline, reduce: Element2
+			reduce(17), // *, reduce: Element2
+			reduce(17), // <, reduce: Element2
+			reduce(17), // >, reduce: Element2
+			reduce(17), // [, reduce: Element2
+			reduce(17), // ], reduce: Element2
+			reduce(17), // (, reduce: Element2
+			reduce(17), // ), reduce: Element2
+			reduce(17), // ,, reduce: Element2
+			reduce(17), // ., reduce: Element2
+			reduce(17), // |, reduce: Element2
+			reduce(17), // ^, reduce: Element2
+			reduce(17), // &, reduce: Element2
+			reduce(17), // <<, reduce: Element2
+			reduce(17), // >>, reduce: Element2
+			reduce(17), // =>, reduce: Element2
+			reduce(17), // /, reduce: Element2
+			reduce(17), // +, reduce: Element2
+			reduce(17), // -, reduce: Element2
+			reduce(17), // ||, reduce: Element2
+			reduce(17), // <>, reduce: Element2
+			reduce(17), // !=, reduce: Element2
+			reduce(17), // =, reduce: Element2
+			reduce(17), // <=, reduce: Element2
+			reduce(17), // >=, reduce: Element2
+			reduce(17), // ;, reduce: Element2
+			reduce(17), // @, reduce: Element2
+			reduce(17), // {, reduce: Element2
+			reduce(17), // }, reduce: Element2
+			reduce(17), // ~, reduce: Element2
+			reduce(17), // else, reduce: Element2
+			reduce(17), // if, reduce: Element2
+			reduce(17), // for, reduce: Element2
+			reduce(17), // endfor, reduce: Element2
+			reduce(17), // elif, reduce: Element2
+			reduce(17), // endif, reduce: Element2
+			reduce(17), // set, reduce: Element2
+			reduce(17), // ?, reduce: Element2
+			reduce(17), // :, reduce: Element2
+			reduce(17), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(17), // template_block_start, reduce: Element2
+			reduce(17), // template_comment, reduce: Element2
+			reduce(17), // template_variable_end, reduce: Element2
+			reduce(17), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S214
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(18), // identifier, reduce: Element2
+			reduce(18), // bytes_literal, reduce: Element2
+			reduce(18), // string_literal, reduce: Element2
+			reduce(18), // integer_literal, reduce: Element2
+			reduce(18), // floating_point_literal, reduce: Element2
+			reduce(18), // newline, reduce: Element2
+			reduce(18), // *, reduce: Element2
+			reduce(18), // <, reduce: Element2
+			reduce(18), // >, reduce: Element2
+			reduce(18), // [, reduce: Element2
+			reduce(18), // ], reduce: Element2
+			reduce(18), // (, reduce: Element2
+			reduce(18), // ), reduce: Element2
+			reduce(18), // ,, reduce: Element2
+			reduce(18), // ., reduce: Element2
+			reduce(18), // |, reduce: Element2
+			reduce(18), // ^, reduce: Element2
+			reduce(18), // &, reduce: Element2
+			reduce(18), // <<, reduce: Element2
+			reduce(18), // >>, reduce: Element2
+			reduce(18), // =>, reduce: Element2
+			reduce(18), // /, reduce: Element2
+			reduce(18), // +, reduce: Element2
+			reduce(18), // -, reduce: Element2
+			reduce(18), // ||, reduce: Element2
+			reduce(18), // <>, reduce: Element2
+			reduce(18), // !=, reduce: Element2
+			reduce(18), // =, reduce: Element2
+			reduce(18), // <=, reduce: Element2
+			reduce(18), // >=, reduce: Element2
+			reduce(18), // ;, reduce: Element2
+			reduce(18), // @, reduce: Element2
+			reduce(18), // {, reduce: Element2
+			reduce(18), // }, reduce: Element2
+			reduce(18), // ~, reduce: Element2
+			reduce(18), // else, reduce: Element2
+			reduce(18), // if, reduce: Element2
+			reduce(18), // for, reduce: Element2
+			reduce(18), // endfor, reduce: Element2
+			reduce(18), // elif, reduce: Element2
+			reduce(18), // endif, reduce: Element2
+			reduce(18), // set, reduce: Element2
+			reduce(18), // ?, reduce: Element2
+			reduce(18), // :, reduce: Element2
+			reduce(18), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(18), // template_block_start, reduce: Element2
+			reduce(18), // template_comment, reduce: Element2
+			reduce(18), // template_variable_end, reduce: Element2
+			reduce(18), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S215
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(19), // identifier, reduce: Element2
+			reduce(19), // bytes_literal, reduce: Element2
+			reduce(19), // string_literal, reduce: Element2
+			reduce(19), // integer_literal, reduce: Element2
+			reduce(19), // floating_point_literal, reduce: Element2
+			reduce(19), // newline, reduce: Element2
+			reduce(19), // *, reduce: Element2
+			reduce(19), // <, reduce: Element2
+			reduce(19), // >, reduce: Element2
+			reduce(19), // [, reduce: Element2
+			reduce(19), // ], reduce: Element2
+			reduce(19), // (, reduce: Element2
+			reduce(19), // ), reduce: Element2
+			reduce(19), // ,, reduce: Element2
+			reduce(19), // ., reduce: Element2
+			reduce(19), // |, reduce: Element2
+			reduce(19), // ^, reduce: Element2
+			reduce(19), // &, reduce: Element2
+			reduce(19), // <<, reduce: Element2
+			reduce(19), // >>, reduce: Element2
+			reduce(19), // =>, reduce: Element2
+			reduce(19), // /, reduce: Element2
+			reduce(19), // +, reduce: Element2
+			reduce(19), // -, reduce: Element2
+			reduce(19), // ||, reduce: Element2
+			reduce(19), // <>, reduce: Element2
+			reduce(19), // !=, reduce: Element2
+			reduce(19), // =, reduce: Element2
+			reduce(19), // <=, reduce: Element2
+			reduce(19), // >=, reduce: Element2
+			reduce(19), // ;, reduce: Element2
+			reduce(19), // @, reduce: Element2
+			reduce(19), // {, reduce: Element2
+			reduce(19), // }, reduce: Element2
+			reduce(19), // ~, reduce: Element2
+			reduce(19), // else, reduce: Element2
+			reduce(19), // if, reduce: Element2
+			reduce(19), // for, reduce: Element2
+			reduce(19), // endfor, reduce: Element2
+			reduce(19), // elif, reduce: Element2
+			reduce(19), // endif, reduce: Element2
+			reduce(19), // set, reduce: Element2
+			reduce(19), // ?, reduce: Element2
+			reduce(19), // :, reduce: Element2
+			reduce(19), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(19), // template_block_start, reduce: Element2
+			reduce(19), // template_comment, reduce: Element2
+			reduce(19), // template_variable_end, reduce: Element2
+			reduce(19), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S216
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(20), // identifier, reduce: Element2
+			reduce(20), // bytes_literal, reduce: Element2
+			reduce(20), // string_literal, reduce: Element2
+			reduce(20), // integer_literal, reduce: Element2
+			reduce(20), // floating_point_literal, reduce: Element2
+			reduce(20), // newline, reduce: Element2
+			reduce(20), // *, reduce: Element2
+			reduce(20), // <, reduce: Element2
+			reduce(20), // >, reduce: Element2
+			reduce(20), // [, reduce: Element2
+			reduce(20), // ], reduce: Element2
+			reduce(20), // (, reduce: Element2
+			reduce(20), // ), reduce: Element2
+			reduce(20), // ,, reduce: Element2
+			reduce(20), // ., reduce: Element2
+			reduce(20), // |, reduce: Element2
+			reduce(20), // ^, reduce: Element2
+			reduce(20), // &, reduce: Element2
+			reduce(20), // <<, reduce: Element2
+			reduce(20), // >>, reduce: Element2
+			reduce(20), // =>, reduce: Element2
+			reduce(20), // /, reduce: Element2
+			reduce(20), // +, reduce: Element2
+			reduce(20), // -, reduce: Element2
+			reduce(20), // ||, reduce: Element2
+			reduce(20), // <>, reduce: Element2
+			reduce(20), // !=, reduce: Element2
+			reduce(20), // =, reduce: Element2
+			reduce(20), // <=, reduce: Element2
+			reduce(20), // >=, reduce: Element2
+			reduce(20), // ;, reduce: Element2
+			reduce(20), // @, reduce: Element2
+			reduce(20), // {, reduce: Element2
+			reduce(20), // }, reduce: Element2
+			reduce(20), // ~, reduce: Element2
+			reduce(20), // else, reduce: Element2
+			reduce(20), // if, reduce: Element2
+			reduce(20), // for, reduce: Element2
+			reduce(20), // endfor, reduce: Element2
+			reduce(20), // elif, reduce: Element2
+			reduce(20), // endif, reduce: Element2
+			reduce(20), // set, reduce: Element2
+			reduce(20), // ?, reduce: Element2
+			reduce(20), // :, reduce: Element2
+			reduce(20), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(20), // template_block_start, reduce: Element2
+			reduce(20), // template_comment, reduce: Element2
+			reduce(20), // template_variable_end, reduce: Element2
+			reduce(20), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S217
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(21), // identifier, reduce: Element2
+			reduce(21), // bytes_literal, reduce: Element2
+			reduce(21), // string_literal, reduce: Element2
+			reduce(21), // integer_literal, reduce: Element2
+			reduce(21), // floating_point_literal, reduce: Element2
+			reduce(21), // newline, reduce: Element2
+			reduce(21), // *, reduce: Element2
+			reduce(21), // <, reduce: Element2
+			reduce(21), // >, reduce: Element2
+			reduce(21), // [, reduce: Element2
+			reduce(21), // ], reduce: Element2
+			reduce(21), // (, reduce: Element2
+			reduce(21), // ), reduce: Element2
+			reduce(21), // ,, reduce: Element2
+			reduce(21), // ., reduce: Element2
+			reduce(21), // |, reduce: Element2
+			reduce(21), // ^, reduce: Element2
+			reduce(21), // &, reduce: Element2
+			reduce(21), // <<, reduce: Element2
+			reduce(21), // >>, reduce: Element2
+			reduce(21), // =>, reduce: Element2
+			reduce(21), // /, reduce: Element2
+			reduce(21), // +, reduce: Element2
+			reduce(21), // -, reduce: Element2
+			reduce(21), // ||, reduce: Element2
+			reduce(21), // <>, reduce: Element2
+			reduce(21), // !=, reduce: Element2
+			reduce(21), // =, reduce: Element2
+			reduce(21), // <=, reduce: Element2
+			reduce(21), // >=, reduce: Element2
+			reduce(21), // ;, reduce: Element2
+			reduce(21), // @, reduce: Element2
+			reduce(21), // {, reduce: Element2
+			reduce(21), // }, reduce: Element2
+			reduce(21), // ~, reduce: Element2
+			reduce(21), // else, reduce: Element2
+			reduce(21), // if, reduce: Element2
+			reduce(21), // for, reduce: Element2
+			reduce(21), // endfor, reduce: Element2
+			reduce(21), // elif, reduce: Element2
+			reduce(21), // endif, reduce: Element2
+			reduce(21), // set, reduce: Element2
+			reduce(21), // ?, reduce: Element2
+			reduce(21), // :, reduce: Element2
+			reduce(21), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(21), // template_block_start, reduce: Element2
+			reduce(21), // template_comment, reduce: Element2
+			reduce(21), // template_variable_end, reduce: Element2
+			reduce(21), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S218
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(22), // identifier, reduce: Element2
+			reduce(22), // bytes_literal, reduce: Element2
+			reduce(22), // string_literal, reduce: Element2
+			reduce(22), // integer_literal, reduce: Element2
+			reduce(22), // floating_point_literal, reduce: Element2
+			reduce(22), // newline, reduce: Element2
+			reduce(22), // *, reduce: Element2
+			reduce(22), // <, reduce: Element2
+			reduce(22), // >, reduce: Element2
+			reduce(22), // [, reduce: Element2
+			reduce(22), // ], reduce: Element2
+			reduce(22), // (, reduce: Element2
+			reduce(22), // ), reduce: Element2
+			reduce(22), // ,, reduce: Element2
+			reduce(22), // ., reduce: Element2
+			reduce(22), // |, reduce: Element2
+			reduce(22), // ^, reduce: Element2
+			reduce(22), // &, reduce: Element2
+			reduce(22), // <<, reduce: Element2
+			reduce(22), // >>, reduce: Element2
+			reduce(22), // =>, reduce: Element2
+			reduce(22), // /, reduce: Element2
+			reduce(22), // +, reduce: Element2
+			reduce(22), // -, reduce: Element2
+			reduce(22), // ||, reduce: Element2
+			reduce(22), // <>, reduce: Element2
+			reduce(22), // !=, reduce: Element2
+			reduce(22), // =, reduce: Element2
+			reduce(22), // <=, reduce: Element2
+			reduce(22), // >=, reduce: Element2
+			reduce(22), // ;, reduce: Element2
+			reduce(22), // @, reduce: Element2
+			reduce(22), // {, reduce: Element2
+			reduce(22), // }, reduce: Element2
+			reduce(22), // ~, reduce: Element2
+			reduce(22), // else, reduce: Element2
+			reduce(22), // if, reduce: Element2
+			reduce(22), // for, reduce: Element2
+			reduce(22), // endfor, reduce: Element2
+			reduce(22), // elif, reduce: Element2
+			reduce(22), // endif, reduce: Element2
+			reduce(22), // set, reduce: Element2
+			reduce(22), // ?, reduce: Element2
+			reduce(22), // :, reduce: Element2
+			reduce(22), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(22), // template_block_start, reduce: Element2
+			reduce(22), // template_comment, reduce: Element2
+			reduce(22), // template_variable_end, reduce: Element2
+			reduce(22), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S219
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(23), // identifier, reduce: Element2
+			reduce(23), // bytes_literal, reduce: Element2
+			reduce(23), // string_literal, reduce: Element2
+			reduce(23), // integer_literal, reduce: Element2
+			reduce(23), // floating_point_literal, reduce: Element2
+			reduce(23), // newline, reduce: Element2
+			reduce(23), // *, reduce: Element2
+			reduce(23), // <, reduce: Element2
+			reduce(23), // >, reduce: Element2
+			reduce(23), // [, reduce: Element2
+			reduce(23), // ], reduce: Element2
+			reduce(23), // (, reduce: Element2
+			reduce(23), // ), reduce: Element2
+			reduce(23), // ,, reduce: Element2
+			reduce(23), // ., reduce: Element2
+			reduce(23), // |, reduce: Element2
+			reduce(23), // ^, reduce: Element2
+			reduce(23), // &, reduce: Element2
+			reduce(23), // <<, reduce: Element2
+			reduce(23), // >>, reduce: Element2
+			reduce(23), // =>, reduce: Element2
+			reduce(23), // /, reduce: Element2
+			reduce(23), // +, reduce: Element2
+			reduce(23), // -, reduce: Element2
+			reduce(23), // ||, reduce: Element2
+			reduce(23), // <>, reduce: Element2
+			reduce(23), // !=, reduce: Element2
+			reduce(23), // =, reduce: Element2
+			reduce(23), // <=, reduce: Element2
+			reduce(23), // >=, reduce: Element2
+			reduce(23), // ;, reduce: Element2
+			reduce(23), // @, reduce: Element2
+			reduce(23), // {, reduce: Element2
+			reduce(23), // }, reduce: Element2
+			reduce(23), // ~, reduce: Element2
+			reduce(23), // else, reduce: Element2
+			reduce(23), // if, reduce: Element2
+			reduce(23), // for, reduce: Element2
+			reduce(23), // endfor, reduce: Element2
+			reduce(23), // elif, reduce: Element2
+			reduce(23), // endif, reduce: Element2
+			reduce(23), // set, reduce: Element2
+			reduce(23), // ?, reduce: Element2
+			reduce(23), // :, reduce: Element2
+			reduce(23), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(23), // template_block_start, reduce: Element2
+			reduce(23), // template_comment, reduce: Element2
+			reduce(23), // template_variable_end, reduce: Element2
+			reduce(23), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S220
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(24), // identifier, reduce: Element2
+			reduce(24), // bytes_literal, reduce: Element2
+			reduce(24), // string_literal, reduce: Element2
+			reduce(24), // integer_literal, reduce: Element2
+			reduce(24), // floating_point_literal, reduce: Element2
+			reduce(24), // newline, reduce: Element2
+			reduce(24), // *, reduce: Element2
+			reduce(24), // <, reduce: Element2
+			reduce(24), // >, reduce: Element2
+			reduce(24), // [, reduce: Element2
+			reduce(24), // ], reduce: Element2
+			reduce(24), // (, reduce: Element2
+			reduce(24), // ), reduce: Element2
+			reduce(24), // ,, reduce: Element2
+			reduce(24), // ., reduce: Element2
+			reduce(24), // |, reduce: Element2
+			reduce(24), // ^, reduce: Element2
+			reduce(24), // &, reduce: Element2
+			reduce(24), // <<, reduce: Element2
+			reduce(24), // >>, reduce: Element2
+			reduce(24), // =>, reduce: Element2
+			reduce(24), // /, reduce: Element2
+			reduce(24), // +, reduce: Element2
+			reduce(24), // -, reduce: Element2
+			reduce(24), // ||, reduce: Element2
+			reduce(24), // <>, reduce: Element2
+			reduce(24), // !=, reduce: Element2
+			reduce(24), // =, reduce: Element2
+			reduce(24), // <=, reduce: Element2
+			reduce(24), // >=, reduce: Element2
+			reduce(24), // ;, reduce: Element2
+			reduce(24), // @, reduce: Element2
+			reduce(24), // {, reduce: Element2
+			reduce(24), // }, reduce: Element2
+			reduce(24), // ~, reduce: Element2
+			reduce(24), // else, reduce: Element2
+			reduce(24), // if, reduce: Element2
+			reduce(24), // for, reduce: Element2
+			reduce(24), // endfor, reduce: Element2
+			reduce(24), // elif, reduce: Element2
+			reduce(24), // endif, reduce: Element2
+			reduce(24), // set, reduce: Element2
+			reduce(24), // ?, reduce: Element2
+			reduce(24), // :, reduce: Element2
+			reduce(24), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(24), // template_block_start, reduce: Element2
+			reduce(24), // template_comment, reduce: Element2
+			reduce(24), // template_variable_end, reduce: Element2
+			reduce(24), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S221
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(25), // identifier, reduce: Element2
+			reduce(25), // bytes_literal, reduce: Element2
+			reduce(25), // string_literal, reduce: Element2
+			reduce(25), // integer_literal, reduce: Element2
+			reduce(25), // floating_point_literal, reduce: Element2
+			reduce(25), // newline, reduce: Element2
+			reduce(25), // *, reduce: Element2
+			reduce(25), // <, reduce: Element2
+			reduce(25), // >, reduce: Element2
+			reduce(25), // [, reduce: Element2
+			reduce(25), // ], reduce: Element2
+			reduce(25), // (, reduce: Element2
+			reduce(25), // ), reduce: Element2
+			reduce(25), // ,, reduce: Element2
+			reduce(25), // ., reduce: Element2
+			reduce(25), // |, reduce: Element2
+			reduce(25), // ^, reduce: Element2
+			reduce(25), // &, reduce: Element2
+			reduce(25), // <<, reduce: Element2
+			reduce(25), // >>, reduce: Element2
+			reduce(25), // =>, reduce: Element2
+			reduce(25), // /, reduce: Element2
+			reduce(25), // +, reduce: Element2
+			reduce(25), // -, reduce: Element2
+			reduce(25), // ||, reduce: Element2
+			reduce(25), // <>, reduce: Element2
+			reduce(25), // !=, reduce: Element2
+			reduce(25), // =, reduce: Element2
+			reduce(25), // <=, reduce: Element2
+			reduce(25), // >=, reduce: Element2
+			reduce(25), // ;, reduce: Element2
+			reduce(25), // @, reduce: Element2
+			reduce(25), // {, reduce: Element2
+			reduce(25), // }, reduce: Element2
+			reduce(25), // ~, reduce: Element2
+			reduce(25), // else, reduce: Element2
+			reduce(25), // if, reduce: Element2
+			reduce(25), // for, reduce: Element2
+			reduce(25), // endfor, reduce: Element2
+			reduce(25), // elif, reduce: Element2
+			reduce(25), // endif, reduce: Element2
+			reduce(25), // set, reduce: Element2
+			reduce(25), // ?, reduce: Element2
+			reduce(25), // :, reduce: Element2
+			reduce(25), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(25), // template_block_start, reduce: Element2
+			reduce(25), // template_comment, reduce: Element2
+			reduce(25), // template_variable_end, reduce: Element2
+			reduce(25), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S222
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(26), // identifier, reduce: Element2
+			reduce(26), // bytes_literal, reduce: Element2
+			reduce(26), // string_literal, reduce: Element2
+			reduce(26), // integer_literal, reduce: Element2
+			reduce(26), // floating_point_literal, reduce: Element2
+			reduce(26), // newline, reduce: Element2
+			reduce(26), // *, reduce: Element2
+			reduce(26), // <, reduce: Element2
+			reduce(26), // >, reduce: Element2
+			reduce(26), // [, reduce: Element2
+			reduce(26), // ], reduce: Element2
+			reduce(26), // (, reduce: Element2
+			reduce(26), // ), reduce: Element2
+			reduce(26), // ,, reduce: Element2
+			reduce(26), // ., reduce: Element2
+			reduce(26), // |, reduce: Element2
+			reduce(26), // ^, reduce: Element2
+			reduce(26), // &, reduce: Element2
+			reduce(26), // <<, reduce: Element2
+			reduce(26), // >>, reduce: Element2
+			reduce(26), // =>, reduce: Element2
+			reduce(26), // /, reduce: Element2
+			reduce(26), // +, reduce: Element2
+			reduce(26), // -, reduce: Element2
+			reduce(26), // ||, reduce: Element2
+			reduce(26), // <>, reduce: Element2
+			reduce(26), // !=, reduce: Element2
+			reduce(26), // =, reduce: Element2
+			reduce(26), // <=, reduce: Element2
+			reduce(26), // >=, reduce: Element2
+			reduce(26), // ;, reduce: Element2
+			reduce(26), // @, reduce: Element2
+			reduce(26), // {, reduce: Element2
+			reduce(26), // }, reduce: Element2
+			reduce(26), // ~, reduce: Element2
+			reduce(26), // else, reduce: Element2
+			reduce(26), // if, reduce: Element2
+			reduce(26), // for, reduce: Element2
+			reduce(26), // endfor, reduce: Element2
+			reduce(26), // elif, reduce: Element2
+			reduce(26), // endif, reduce: Element2
+			reduce(26), // set, reduce: Element2
+			reduce(26), // ?, reduce: Element2
+			reduce(26), // :, reduce: Element2
+			reduce(26), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(26), // template_block_start, reduce: Element2
+			reduce(26), // template_comment, reduce: Element2
+			reduce(26), // template_variable_end, reduce: Element2
+			reduce(26), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S223
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(27), // identifier, reduce: Element2
+			reduce(27), // bytes_literal, reduce: Element2
+			reduce(27), // string_literal, reduce: Element2
+			reduce(27), // integer_literal, reduce: Element2
+			reduce(27), // floating_point_literal, reduce: Element2
+			reduce(27), // newline, reduce: Element2
+			reduce(27), // *, reduce: Element2
+			reduce(27), // <, reduce: Element2
+			reduce(27), // >, reduce: Element2
+			reduce(27), // [, reduce: Element2
+			reduce(27), // ], reduce: Element2
+			reduce(27), // (, reduce: Element2
+			reduce(27), // ), reduce: Element2
+			reduce(27), // ,, reduce: Element2
+			reduce(27), // ., reduce: Element2
+			reduce(27), // |, reduce: Element2
+			reduce(27), // ^, reduce: Element2
+			reduce(27), // &, reduce: Element2
+			reduce(27), // <<, reduce: Element2
+			reduce(27), // >>, reduce: Element2
+			reduce(27), // =>, reduce: Element2
+			reduce(27), // /, reduce: Element2
+			reduce(27), // +, reduce: Element2
+			reduce(27), // -, reduce: Element2
+			reduce(27), // ||, reduce: Element2
+			reduce(27), // <>, reduce: Element2
+			reduce(27), // !=, reduce: Element2
+			reduce(27), // =, reduce: Element2
+			reduce(27), // <=, reduce: Element2
+			reduce(27), // >=, reduce: Element2
+			reduce(27), // ;, reduce: Element2
+			reduce(27), // @, reduce: Element2
+			reduce(27), // {, reduce: Element2
+			reduce(27), // }, reduce: Element2
+			reduce(27), // ~, reduce: Element2
+			reduce(27), // else, reduce: Element2
+			reduce(27), // if, reduce: Element2
+			reduce(27), // for, reduce: Element2
+			reduce(27), // endfor, reduce: Element2
+			reduce(27), // elif, reduce: Element2
+			reduce(27), // endif, reduce: Element2
+			reduce(27), // set, reduce: Element2
+			reduce(27), // ?, reduce: Element2
+			reduce(27), // :, reduce: Element2
+			reduce(27), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(27), // template_block_start, reduce: Element2
+			reduce(27), // template_comment, reduce: Element2
+			reduce(27), // template_variable_end, reduce: Element2
+			reduce(27), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S224
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(28), // identifier, reduce: Element2
+			reduce(28), // bytes_literal, reduce: Element2
+			reduce(28), // string_literal, reduce: Element2
+			reduce(28), // integer_literal, reduce: Element2
+			reduce(28), // floating_point_literal, reduce: Element2
+			reduce(28), // newline, reduce: Element2
+			reduce(28), // *, reduce: Element2
+			reduce(28), // <, reduce: Element2
+			reduce(28), // >, reduce: Element2
+			reduce(28), // [, reduce: Element2
+			reduce(28), // ], reduce: Element2
+			reduce(28), // (, reduce: Element2
+			reduce(28), // ), reduce: Element2
+			reduce(28), // ,, reduce: Element2
+			reduce(28), // ., reduce: Element2
+			reduce(28), // |, reduce: Element2
+			reduce(28), // ^, reduce: Element2
+			reduce(28), // &, reduce: Element2
+			reduce(28), // <<, reduce: Element2
+			reduce(28), // >>, reduce: Element2
+			reduce(28), // =>, reduce: Element2
+			reduce(28), // /, reduce: Element2
+			reduce(28), // +, reduce: Element2
+			reduce(28), // -, reduce: Element2
+			reduce(28), // ||, reduce: Element2
+			reduce(28), // <>, reduce: Element2
+			reduce(28), // !=, reduce: Element2
+			reduce(28), // =, reduce: Element2
+			reduce(28), // <=, reduce: Element2
+			reduce(28), // >=, reduce: Element2
+			reduce(28), // ;, reduce: Element2
+			reduce(28), // @, reduce: Element2
+			reduce(28), // {, reduce: Element2
+			reduce(28), // }, reduce: Element2
+			reduce(28), // ~, reduce: Element2
+			reduce(28), // else, reduce: Element2
+			reduce(28), // if, reduce: Element2
+			reduce(28), // for, reduce: Element2
+			reduce(28), // endfor, reduce: Element2
+			reduce(28), // elif, reduce: Element2
+			reduce(28), // endif, reduce: Element2
+			reduce(28), // set, reduce: Element2
+			reduce(28), // ?, reduce: Element2
+			reduce(28), // :, reduce: Element2
+			reduce(28), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(28), // template_block_start, reduce: Element2
+			reduce(28), // template_comment, reduce: Element2
+			reduce(28), // template_variable_end, reduce: Element2
+			reduce(28), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S225
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(29), // identifier, reduce: Element2
+			reduce(29), // bytes_literal, reduce: Element2
+			reduce(29), // string_literal, reduce: Element2
+			reduce(29), // integer_literal, reduce: Element2
+			reduce(29), // floating_point_literal, reduce: Element2
+			reduce(29), // newline, reduce: Element2
+			reduce(29), // *, reduce: Element2
+			reduce(29), // <, reduce: Element2
+			reduce(29), // >, reduce: Element2
+			reduce(29), // [, reduce: Element2
+			reduce(29), // ], reduce: Element2
+			reduce(29), // (, reduce: Element2
+			reduce(29), // ), reduce: Element2
+			reduce(29), // ,, reduce: Element2
+			reduce(29), // ., reduce: Element2
+			reduce(29), // |, reduce: Element2
+			reduce(29), // ^, reduce: Element2
+			reduce(29), // &, reduce: Element2
+			reduce(29), // <<, reduce: Element2
+			reduce(29), // >>, reduce: Element2
+			reduce(29), // =>, reduce: Element2
+			reduce(29), // /, reduce: Element2
+			reduce(29), // +, reduce: Element2
+			reduce(29), // -, reduce: Element2
+			reduce(29), // ||, reduce: Element2
+			reduce(29), // <>, reduce: Element2
+			reduce(29), // !=, reduce: Element2
+			reduce(29), // =, reduce: Element2
+			reduce(29), // <=, reduce: Element2
+			reduce(29), // >=, reduce: Element2
+			reduce(29), // ;, reduce: Element2
+			reduce(29), // @, reduce: Element2
+			reduce(29), // {, reduce: Element2
+			reduce(29), // }, reduce: Element2
+			reduce(29), // ~, reduce: Element2
+			reduce(29), // else, reduce: Element2
+			reduce(29), // if, reduce: Element2
+			reduce(29), // for, reduce: Element2
+			reduce(29), // endfor, reduce: Element2
+			reduce(29), // elif, reduce: Element2
+			reduce(29), // endif, reduce: Element2
+			reduce(29), // set, reduce: Element2
+			reduce(29), // ?, reduce: Element2
+			reduce(29), // :, reduce: Element2
+			reduce(29), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(29), // template_block_start, reduce: Element2
+			reduce(29), // template_comment, reduce: Element2
+			reduce(29), // template_variable_end, reduce: Element2
+			reduce(29), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S226
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(30), // identifier, reduce: Element2
+			reduce(30), // bytes_literal, reduce: Element2
+			reduce(30), // string_literal, reduce: Element2
+			reduce(30), // integer_literal, reduce: Element2
+			reduce(30), // floating_point_literal, reduce: Element2
+			reduce(30), // newline, reduce: Element2
+			reduce(30), // *, reduce: Element2
+			reduce(30), // <, reduce: Element2
+			reduce(30), // >, reduce: Element2
+			reduce(30), // [, reduce: Element2
+			reduce(30), // ], reduce: Element2
+			reduce(30), // (, reduce: Element2
+			reduce(30), // ), reduce: Element2
+			reduce(30), // ,, reduce: Element2
+			reduce(30), // ., reduce: Element2
+			reduce(30), // |, reduce: Element2
+			reduce(30), // ^, reduce: Element2
+			reduce(30), // &, reduce: Element2
+			reduce(30), // <<, reduce: Element2
+			reduce(30), // >>, reduce: Element2
+			reduce(30), // =>, reduce: Element2
+			reduce(30), // /, reduce: Element2
+			reduce(30), // +, reduce: Element2
+			reduce(30), // -, reduce: Element2
+			reduce(30), // ||, reduce: Element2
+			reduce(30), // <>, reduce: Element2
+			reduce(30), // !=, reduce: Element2
+			reduce(30), // =, reduce: Element2
+			reduce(30), // <=, reduce: Element2
+			reduce(30), // >=, reduce: Element2
+			reduce(30), // ;, reduce: Element2
+			reduce(30), // @, reduce: Element2
+			reduce(30), // {, reduce: Element2
+			reduce(30), // }, reduce: Element2
+			reduce(30), // ~, reduce: Element2
+			reduce(30), // else, reduce: Element2
+			reduce(30), // if, reduce: Element2
+			reduce(30), // for, reduce: Element2
+			reduce(30), // endfor, reduce: Element2
+			reduce(30), // elif, reduce: Element2
+			reduce(30), // endif, reduce: Element2
+			reduce(30), // set, reduce: Element2
+			reduce(30), // ?, reduce: Element2
+			reduce(30), // :, reduce: Element2
+			reduce(30), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(30), // template_block_start, reduce: Element2
+			reduce(30), // template_comment, reduce: Element2
+			reduce(30), // template_variable_end, reduce: Element2
+			reduce(30), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S227
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(31), // identifier, reduce: Element2
+			reduce(31), // bytes_literal, reduce: Element2
+			reduce(31), // string_literal, reduce: Element2
+			reduce(31), // integer_literal, reduce: Element2
+			reduce(31), // floating_point_literal, reduce: Element2
+			reduce(31), // newline, reduce: Element2
+			reduce(31), // *, reduce: Element2
+			reduce(31), // <, reduce: Element2
+			reduce(31), // >, reduce: Element2
+			reduce(31), // [, reduce: Element2
+			reduce(31), // ], reduce: Element2
+			reduce(31), // (, reduce: Element2
+			reduce(31), // ), reduce: Element2
+			reduce(31), // ,, reduce: Element2
+			reduce(31), // ., reduce: Element2
+			reduce(31), // |, reduce: Element2
+			reduce(31), // ^, reduce: Element2
+			reduce(31), // &, reduce: Element2
+			reduce(31), // <<, reduce: Element2
+			reduce(31), // >>, reduce: Element2
+			reduce(31), // =>, reduce: Element2
+			reduce(31), // /, reduce: Element2
+			reduce(31), // +, reduce: Element2
+			reduce(31), // -, reduce: Element2
+			reduce(31), // ||, reduce: Element2
+			reduce(31), // <>, reduce: Element2
+			reduce(31), // !=, reduce: Element2
+			reduce(31), // =, reduce: Element2
+			reduce(31), // <=, reduce: Element2
+			reduce(31), // >=, reduce: Element2
+			reduce(31), // ;, reduce: Element2
+			reduce(31), // @, reduce: Element2
+			reduce(31), // {, reduce: Element2
+			reduce(31), // }, reduce: Element2
+			reduce(31), // ~, reduce: Element2
+			reduce(31), // else, reduce: Element2
+			reduce(31), // if, reduce: Element2
+			reduce(31), // for, reduce: Element2
+			reduce(31), // endfor, reduce: Element2
+			reduce(31), // elif, reduce: Element2
+			reduce(31), // endif, reduce: Element2
+			reduce(31), // set, reduce: Element2
+			reduce(31), // ?, reduce: Element2
+			reduce(31), // :, reduce: Element2
+			reduce(31), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(31), // template_block_start, reduce: Element2
+			reduce(31), // template_comment, reduce: Element2
+			reduce(31), // template_variable_end, reduce: Element2
+			reduce(31), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S228
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(32), // identifier, reduce: Element2
+			reduce(32), // bytes_literal, reduce: Element2
+			reduce(32), // string_literal, reduce: Element2
+			reduce(32), // integer_literal, reduce: Element2
+			reduce(32), // floating_point_literal, reduce: Element2
+			reduce(32), // newline, reduce: Element2
+			reduce(32), // *, reduce: Element2
+			reduce(32), // <, reduce: Element2
+			reduce(32), // >, reduce: Element2
+			reduce(32), // [, reduce: Element2
+			reduce(32), // ], reduce: Element2
+			reduce(32), // (, reduce: Element2
+			reduce(32), // ), reduce: Element2
+			reduce(32), // ,, reduce: Element2
+			reduce(32), // ., reduce: Element2
+			reduce(32), // |, reduce: Element2
+			reduce(32), // ^, reduce: Element2
+			reduce(32), // &, reduce: Element2
+			reduce(32), // <<, reduce: Element2
+			reduce(32), // >>, reduce: Element2
+			reduce(32), // =>, reduce: Element2
+			reduce(32), // /, reduce: Element2
+			reduce(32), // +, reduce: Element2
+			reduce(32), // -, reduce: Element2
+			reduce(32), // ||, reduce: Element2
+			reduce(32), // <>, reduce: Element2
+			reduce(32), // !=, reduce: Element2
+			reduce(32), // =, reduce: Element2
+			reduce(32), // <=, reduce: Element2
+			reduce(32), // >=, reduce: Element2
+			reduce(32), // ;, reduce: Element2
+			reduce(32), // @, reduce: Element2
+			reduce(32), // {, reduce: Element2
+			reduce(32), // }, reduce: Element2
+			reduce(32), // ~, reduce: Element2
+			reduce(32), // else, reduce: Element2
+			reduce(32), // if, reduce: Element2
+			reduce(32), // for, reduce: Element2
+			reduce(32), // endfor, reduce: Element2
+			reduce(32), // elif, reduce: Element2
+			reduce(32), // endif, reduce: Element2
+			reduce(32), // set, reduce: Element2
+			reduce(32), // ?, reduce: Element2
+			reduce(32), // :, reduce: Element2
+			reduce(32), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(32), // template_block_start, reduce: Element2
+			reduce(32), // template_comment, reduce: Element2
+			reduce(32), // template_variable_end, reduce: Element2
+			reduce(32), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S229
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(33), // identifier, reduce: Element2
+			reduce(33), // bytes_literal, reduce: Element2
+			reduce(33), // string_literal, reduce: Element2
+			reduce(33), // integer_literal, reduce: Element2
+			reduce(33), // floating_point_literal, reduce: Element2
+			reduce(33), // newline, reduce: Element2
+			reduce(33), // *, reduce: Element2
+			reduce(33), // <, reduce: Element2
+			reduce(33), // >, reduce: Element2
+			reduce(33), // [, reduce: Element2
+			reduce(33), // ], reduce: Element2
+			reduce(33), // (, reduce: Element2
+			reduce(33), // ), reduce: Element2
+			reduce(33), // ,, reduce: Element2
+			reduce(33), // ., reduce: Element2
+			reduce(33), // |, reduce: Element2
+			reduce(33), // ^, reduce: Element2
+			reduce(33), // &, reduce: Element2
+			reduce(33), // <<, reduce: Element2
+			reduce(33), // >>, reduce: Element2
+			reduce(33), // =>, reduce: Element2
+			reduce(33), // /, reduce: Element2
+			reduce(33), // +, reduce: Element2
+			reduce(33), // -, reduce: Element2
+			reduce(33), // ||, reduce: Element2
+			reduce(33), // <>, reduce: Element2
+			reduce(33), // !=, reduce: Element2
+			reduce(33), // =, reduce: Element2
+			reduce(33), // <=, reduce: Element2
+			reduce(33), // >=, reduce: Element2
+			reduce(33), // ;, reduce: Element2
+			reduce(33), // @, reduce: Element2
+			reduce(33), // {, reduce: Element2
+			reduce(33), // }, reduce: Element2
+			reduce(33), // ~, reduce: Element2
+			reduce(33), // else, reduce: Element2
+			reduce(33), // if, reduce: Element2
+			reduce(33), // for, reduce: Element2
+			reduce(33), // endfor, reduce: Element2
+			reduce(33), // elif, reduce: Element2
+			reduce(33), // endif, reduce: Element2
+			reduce(33), // set, reduce: Element2
+			reduce(33), // ?, reduce: Element2
+			reduce(33), // :, reduce: Element2
+			reduce(33), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(33), // template_block_start, reduce: Element2
+			reduce(33), // template_comment, reduce: Element2
+			reduce(33), // template_variable_end, reduce: Element2
+			reduce(33), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S230
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(34), // identifier, reduce: Element2
+			reduce(34), // bytes_literal, reduce: Element2
+			reduce(34), // string_literal, reduce: Element2
+			reduce(34), // integer_literal, reduce: Element2
+			reduce(34), // floating_point_literal, reduce: Element2
+			reduce(34), // newline, reduce: Element2
+			reduce(34), // *, reduce: Element2
+			reduce(34), // <, reduce: Element2
+			reduce(34), // >, reduce: Element2
+			reduce(34), // [, reduce: Element2
+			reduce(34), // ], reduce: Element2
+			reduce(34), // (, reduce: Element2
+			reduce(34), // ), reduce: Element2
+			reduce(34), // ,, reduce: Element2
+			reduce(34), // ., reduce: Element2
+			reduce(34), // |, reduce: Element2
+			reduce(34), // ^, reduce: Element2
+			reduce(34), // &, reduce: Element2
+			reduce(34), // <<, reduce: Element2
+			reduce(34), // >>, reduce: Element2
+			reduce(34), // =>, reduce: Element2
+			reduce(34), // /, reduce: Element2
+			reduce(34), // +, reduce: Element2
+			reduce(34), // -, reduce: Element2
+			reduce(34), // ||, reduce: Element2
+			reduce(34), // <>, reduce: Element2
+			reduce(34), // !=, reduce: Element2
+			reduce(34), // =, reduce: Element2
+			reduce(34), // <=, reduce: Element2
+			reduce(34), // >=, reduce: Element2
+			reduce(34), // ;, reduce: Element2
+			reduce(34), // @, reduce: Element2
+			reduce(34), // {, reduce: Element2
+			reduce(34), // }, reduce: Element2
+			reduce(34), // ~, reduce: Element2
+			reduce(34), // else, reduce: Element2
+			reduce(34), // if, reduce: Element2
+			reduce(34), // for, reduce: Element2
+			reduce(34), // endfor, reduce: Element2
+			reduce(34), // elif, reduce: Element2
+			reduce(34), // endif, reduce: Element2
+			reduce(34), // set, reduce: Element2
+			reduce(34), // ?, reduce: Element2
+			reduce(34), // :, reduce: Element2
+			reduce(34), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(34), // template_block_start, reduce: Element2
+			reduce(34), // template_comment, reduce: Element2
+			reduce(34), // template_variable_end, reduce: Element2
+			reduce(34), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S231
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(35), // identifier, reduce: Element2
+			reduce(35), // bytes_literal, reduce: Element2
+			reduce(35), // string_literal, reduce: Element2
+			reduce(35), // integer_literal, reduce: Element2
+			reduce(35), // floating_point_literal, reduce: Element2
+			reduce(35), // newline, reduce: Element2
+			reduce(35), // *, reduce: Element2
+			reduce(35), // <, reduce: Element2
+			reduce(35), // >, reduce: Element2
+			reduce(35), // [, reduce: Element2
+			reduce(35), // ], reduce: Element2
+			reduce(35), // (, reduce: Element2
+			reduce(35), // ), reduce: Element2
+			reduce(35), // ,, reduce: Element2
+			reduce(35), // ., reduce: Element2
+			reduce(35), // |, reduce: Element2
+			reduce(35), // ^, reduce: Element2
+			reduce(35), // &, reduce: Element2
+			reduce(35), // <<, reduce: Element2
+			reduce(35), // >>, reduce: Element2
+			reduce(35), // =>, reduce: Element2
+			reduce(35), // /, reduce: Element2
+			reduce(35), // +, reduce: Element2
+			reduce(35), // -, reduce: Element2
+			reduce(35), // ||, reduce: Element2
+			reduce(35), // <>, reduce: Element2
+			reduce(35), // !=, reduce: Element2
+			reduce(35), // =, reduce: Element2
+			reduce(35), // <=, reduce: Element2
+			reduce(35), // >=, reduce: Element2
+			reduce(35), // ;, reduce: Element2
+			reduce(35), // @, reduce: Element2
+			reduce(35), // {, reduce: Element2
+			reduce(35), // }, reduce: Element2
+			reduce(35), // ~, reduce: Element2
+			reduce(35), // else, reduce: Element2
+			reduce(35), // if, reduce: Element2
+			reduce(35), // for, reduce: Element2
+			reduce(35), // endfor, reduce: Element2
+			reduce(35), // elif, reduce: Element2
+			reduce(35), // endif, reduce: Element2
+			reduce(35), // set, reduce: Element2
+			reduce(35), // ?, reduce: Element2
+			reduce(35), // :, reduce: Element2
+			reduce(35), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(35), // template_block_start, reduce: Element2
+			reduce(35), // template_comment, reduce: Element2
+			reduce(35), // template_variable_end, reduce: Element2
+			reduce(35), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S232
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(36), // identifier, reduce: Element2
+			reduce(36), // bytes_literal, reduce: Element2
+			reduce(36), // string_literal, reduce: Element2
+			reduce(36), // integer_literal, reduce: Element2
+			reduce(36), // floating_point_literal, reduce: Element2
+			reduce(36), // newline, reduce: Element2
+			reduce(36), // *, reduce: Element2
+			reduce(36), // <, reduce: Element2
+			reduce(36), // >, reduce: Element2
+			reduce(36), // [, reduce: Element2
+			reduce(36), // ], reduce: Element2
+			reduce(36), // (, reduce: Element2
+			reduce(36), // ), reduce: Element2
+			reduce(36), // ,, reduce: Element2
+			reduce(36), // ., reduce: Element2
+			reduce(36), // |, reduce: Element2
+			reduce(36), // ^, reduce: Element2
+			reduce(36), // &, reduce: Element2
+			reduce(36), // <<, reduce: Element2
+			reduce(36), // >>, reduce: Element2
+			reduce(36), // =>, reduce: Element2
+			reduce(36), // /, reduce: Element2
+			reduce(36), // +, reduce: Element2
+			reduce(36), // -, reduce: Element2
+			reduce(36), // ||, reduce: Element2
+			reduce(36), // <>, reduce: Element2
+			reduce(36), // !=, reduce: Element2
+			reduce(36), // =, reduce: Element2
+			reduce(36), // <=, reduce: Element2
+			reduce(36), // >=, reduce: Element2
+			reduce(36), // ;, reduce: Element2
+			reduce(36), // @, reduce: Element2
+			reduce(36), // {, reduce: Element2
+			reduce(36), // }, reduce: Element2
+			reduce(36), // ~, reduce: Element2
+			reduce(36), // else, reduce: Element2
+			reduce(36), // if, reduce: Element2
+			reduce(36), // for, reduce: Element2
+			reduce(36), // endfor, reduce: Element2
+			reduce(36), // elif, reduce: Element2
+			reduce(36), // endif, reduce: Element2
+			reduce(36), // set, reduce: Element2
+			reduce(36), // ?, reduce: Element2
+			reduce(36), // :, reduce: Element2
+			reduce(36), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(36), // template_block_start, reduce: Element2
+			reduce(36), // template_comment, reduce: Element2
+			reduce(36), // template_variable_end, reduce: Element2
+			reduce(36), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S233
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(37), // identifier, reduce: Element2
+			reduce(37), // bytes_literal, reduce: Element2
+			reduce(37), // string_literal, reduce: Element2
+			reduce(37), // integer_literal, reduce: Element2
+			reduce(37), // floating_point_literal, reduce: Element2
+			reduce(37), // newline, reduce: Element2
+			reduce(37), // *, reduce: Element2
+			reduce(37), // <, reduce: Element2
+			reduce(37), // >, reduce: Element2
+			reduce(37), // [, reduce: Element2
+			reduce(37), // ], reduce: Element2
+			reduce(37), // (, reduce: Element2
+			reduce(37), // ), reduce: Element2
+			reduce(37), // ,, reduce: Element2
+			reduce(37), // ., reduce: Element2
+			reduce(37), // |, reduce: Element2
+			reduce(37), // ^, reduce: Element2
+			reduce(37), // &, reduce: Element2
+			reduce(37), // <<, reduce: Element2
+			reduce(37), // >>, reduce: Element2
+			reduce(37), // =>, reduce: Element2
+			reduce(37), // /, reduce: Element2
+			reduce(37), // +, reduce: Element2
+			reduce(37), // -, reduce: Element2
+			reduce(37), // ||, reduce: Element2
+			reduce(37), // <>, reduce: Element2
+			reduce(37), // !=, reduce: Element2
+			reduce(37), // =, reduce: Element2
+			reduce(37), // <=, reduce: Element2
+			reduce(37), // >=, reduce: Element2
+			reduce(37), // ;, reduce: Element2
+			reduce(37), // @, reduce: Element2
+			reduce(37), // {, reduce: Element2
+			reduce(37), // }, reduce: Element2
+			reduce(37), // ~, reduce: Element2
+			reduce(37), // else, reduce: Element2
+			reduce(37), // if, reduce: Element2
+			reduce(37), // for, reduce: Element2
+			reduce(37), // endfor, reduce: Element2
+			reduce(37), // elif, reduce: Element2
+			reduce(37), // endif, reduce: Element2
+			reduce(37), // set, reduce: Element2
+			reduce(37), // ?, reduce: Element2
+			reduce(37), // :, reduce: Element2
+			reduce(37), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(37), // template_block_start, reduce: Element2
+			reduce(37), // template_comment, reduce: Element2
+			reduce(37), // template_variable_end, reduce: Element2
+			reduce(37), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S234
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(38), // identifier, reduce: Element2
+			reduce(38), // bytes_literal, reduce: Element2
+			reduce(38), // string_literal, reduce: Element2
+			reduce(38), // integer_literal, reduce: Element2
+			reduce(38), // floating_point_literal, reduce: Element2
+			reduce(38), // newline, reduce: Element2
+			reduce(38), // *, reduce: Element2
+			reduce(38), // <, reduce: Element2
+			reduce(38), // >, reduce: Element2
+			reduce(38), // [, reduce: Element2
+			reduce(38), // ], reduce: Element2
+			reduce(38), // (, reduce: Element2
+			reduce(38), // ), reduce: Element2
+			reduce(38), // ,, reduce: Element2
+			reduce(38), // ., reduce: Element2
+			reduce(38), // |, reduce: Element2
+			reduce(38), // ^, reduce: Element2
+			reduce(38), // &, reduce: Element2
+			reduce(38), // <<, reduce: Element2
+			reduce(38), // >>, reduce: Element2
+			reduce(38), // =>, reduce: Element2
+			reduce(38), // /, reduce: Element2
+			reduce(38), // +, reduce: Element2
+			reduce(38), // -, reduce: Element2
+			reduce(38), // ||, reduce: Element2
+			reduce(38), // <>, reduce: Element2
+			reduce(38), // !=, reduce: Element2
+			reduce(38), // =, reduce: Element2
+			reduce(38), // <=, reduce: Element2
+			reduce(38), // >=, reduce: Element2
+			reduce(38), // ;, reduce: Element2
+			reduce(38), // @, reduce: Element2
+			reduce(38), // {, reduce: Element2
+			reduce(38), // }, reduce: Element2
+			reduce(38), // ~, reduce: Element2
+			reduce(38), // else, reduce: Element2
+			reduce(38), // if, reduce: Element2
+			reduce(38), // for, reduce: Element2
+			reduce(38), // endfor, reduce: Element2
+			reduce(38), // elif, reduce: Element2
+			reduce(38), // endif, reduce: Element2
+			reduce(38), // set, reduce: Element2
+			reduce(38), // ?, reduce: Element2
+			reduce(38), // :, reduce: Element2
+			reduce(38), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(38), // template_block_start, reduce: Element2
+			reduce(38), // template_comment, reduce: Element2
+			reduce(38), // template_variable_end, reduce: Element2
+			reduce(38), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S235
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(39), // identifier, reduce: Element2
+			reduce(39), // bytes_literal, reduce: Element2
+			reduce(39), // string_literal, reduce: Element2
+			reduce(39), // integer_literal, reduce: Element2
+			reduce(39), // floating_point_literal, reduce: Element2
+			reduce(39), // newline, reduce: Element2
+			reduce(39), // *, reduce: Element2
+			reduce(39), // <, reduce: Element2
+			reduce(39), // >, reduce: Element2
+			reduce(39), // [, reduce: Element2
+			reduce(39), // ], reduce: Element2
+			reduce(39), // (, reduce: Element2
+			reduce(39), // ), reduce: Element2
+			reduce(39), // ,, reduce: Element2
+			reduce(39), // ., reduce: Element2
+			reduce(39), // |, reduce: Element2
+			reduce(39), // ^, reduce: Element2
+			reduce(39), // &, reduce: Element2
+			reduce(39), // <<, reduce: Element2
+			reduce(39), // >>, reduce: Element2
+			reduce(39), // =>, reduce: Element2
+			reduce(39), // /, reduce: Element2
+			reduce(39), // +, reduce: Element2
+			reduce(39), // -, reduce: Element2
+			reduce(39), // ||, reduce: Element2
+			reduce(39), // <>, reduce: Element2
+			reduce(39), // !=, reduce: Element2
+			reduce(39), // =, reduce: Element2
+			reduce(39), // <=, reduce: Element2
+			reduce(39), // >=, reduce: Element2
+			reduce(39), // ;, reduce: Element2
+			reduce(39), // @, reduce: Element2
+			reduce(39), // {, reduce: Element2
+			reduce(39), // }, reduce: Element2
+			reduce(39), // ~, reduce: Element2
+			reduce(39), // else, reduce: Element2
+			reduce(39), // if, reduce: Element2
+			reduce(39), // for, reduce: Element2
+			reduce(39), // endfor, reduce: Element2
+			reduce(39), // elif, reduce: Element2
+			reduce(39), // endif, reduce: Element2
+			reduce(39), // set, reduce: Element2
+			reduce(39), // ?, reduce: Element2
+			reduce(39), // :, reduce: Element2
+			reduce(39), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(39), // template_block_start, reduce: Element2
+			reduce(39), // template_comment, reduce: Element2
+			reduce(39), // template_variable_end, reduce: Element2
+			reduce(39), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S236
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(40), // identifier, reduce: Element2
+			reduce(40), // bytes_literal, reduce: Element2
+			reduce(40), // string_literal, reduce: Element2
+			reduce(40), // integer_literal, reduce: Element2
+			reduce(40), // floating_point_literal, reduce: Element2
+			reduce(40), // newline, reduce: Element2
+			reduce(40), // *, reduce: Element2
+			reduce(40), // <, reduce: Element2
+			reduce(40), // >, reduce: Element2
+			reduce(40), // [, reduce: Element2
+			reduce(40), // ], reduce: Element2
+			reduce(40), // (, reduce: Element2
+			reduce(40), // ), reduce: Element2
+			reduce(40), // ,, reduce: Element2
+			reduce(40), // ., reduce: Element2
+			reduce(40), // |, reduce: Element2
+			reduce(40), // ^, reduce: Element2
+			reduce(40), // &, reduce: Element2
+			reduce(40), // <<, reduce: Element2
+			reduce(40), // >>, reduce: Element2
+			reduce(40), // =>, reduce: Element2
+			reduce(40), // /, reduce: Element2
+			reduce(40), // +, reduce: Element2
+			reduce(40), // -, reduce: Element2
+			reduce(40), // ||, reduce: Element2
+			reduce(40), // <>, reduce: Element2
+			reduce(40), // !=, reduce: Element2
+			reduce(40), // =, reduce: Element2
+			reduce(40), // <=, reduce: Element2
+			reduce(40), // >=, reduce: Element2
+			reduce(40), // ;, reduce: Element2
+			reduce(40), // @, reduce: Element2
+			reduce(40), // {, reduce: Element2
+			reduce(40), // }, reduce: Element2
+			reduce(40), // ~, reduce: Element2
+			reduce(40), // else, reduce: Element2
+			reduce(40), // if, reduce: Element2
+			reduce(40), // for, reduce: Element2
+			reduce(40), // endfor, reduce: Element2
+			reduce(40), // elif, reduce: Element2
+			reduce(40), // endif, reduce: Element2
+			reduce(40), // set, reduce: Element2
+			reduce(40), // ?, reduce: Element2
+			reduce(40), // :, reduce: Element2
+			reduce(40), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(40), // template_block_start, reduce: Element2
+			reduce(40), // template_comment, reduce: Element2
+			reduce(40), // template_variable_end, reduce: Element2
+			reduce(40), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S237
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(41), // identifier, reduce: Element2
+			reduce(41), // bytes_literal, reduce: Element2
+			reduce(41), // string_literal, reduce: Element2
+			reduce(41), // integer_literal, reduce: Element2
+			reduce(41), // floating_point_literal, reduce: Element2
+			reduce(41), // newline, reduce: Element2
+			reduce(41), // *, reduce: Element2
+			reduce(41), // <, reduce: Element2
+			reduce(41), // >, reduce: Element2
+			reduce(41), // [, reduce: Element2
+			reduce(41), // ], reduce: Element2
+			reduce(41), // (, reduce: Element2
+			reduce(41), // ), reduce: Element2
+			reduce(41), // ,, reduce: Element2
+			reduce(41), // ., reduce: Element2
+			reduce(41), // |, reduce: Element2
+			reduce(41), // ^, reduce: Element2
+			reduce(41), // &, reduce: Element2
+			reduce(41), // <<, reduce: Element2
+			reduce(41), // >>, reduce: Element2
+			reduce(41), // =>, reduce: Element2
+			reduce(41), // /, reduce: Element2
+			reduce(41), // +, reduce: Element2
+			reduce(41), // -, reduce: Element2
+			reduce(41), // ||, reduce: Element2
+			reduce(41), // <>, reduce: Element2
+			reduce(41), // !=, reduce: Element2
+			reduce(41), // =, reduce: Element2
+			reduce(41), // <=, reduce: Element2
+			reduce(41), // >=, reduce: Element2
+			reduce(41), // ;, reduce: Element2
+			reduce(41), // @, reduce: Element2
+			reduce(41), // {, reduce: Element2
+			reduce(41), // }, reduce: Element2
+			reduce(41), // ~, reduce: Element2
+			reduce(41), // else, reduce: Element2
+			reduce(41), // if, reduce: Element2
+			reduce(41), // for, reduce: Element2
+			reduce(41), // endfor, reduce: Element2
+			reduce(41), // elif, reduce: Element2
+			reduce(41), // endif, reduce: Element2
+			reduce(41), // set, reduce: Element2
+			reduce(41), // ?, reduce: Element2
+			reduce(41), // :, reduce: Element2
+			reduce(41), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(41), // template_block_start, reduce: Element2
+			reduce(41), // template_comment, reduce: Element2
+			reduce(41), // template_variable_end, reduce: Element2
+			reduce(41), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S238
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(42), // identifier, reduce: Element2
+			reduce(42), // bytes_literal, reduce: Element2
+			reduce(42), // string_literal, reduce: Element2
+			reduce(42), // integer_literal, reduce: Element2
+			reduce(42), // floating_point_literal, reduce: Element2
+			reduce(42), // newline, reduce: Element2
+			reduce(42), // *, reduce: Element2
+			reduce(42), // <, reduce: Element2
+			reduce(42), // >, reduce: Element2
+			reduce(42), // [, reduce: Element2
+			reduce(42), // ], reduce: Element2
+			reduce(42), // (, reduce: Element2
+			reduce(42), // ), reduce: Element2
+			reduce(42), // ,, reduce: Element2
+			reduce(42), // ., reduce: Element2
+			reduce(42), // |, reduce: Element2
+			reduce(42), // ^, reduce: Element2
+			reduce(42), // &, reduce: Element2
+			reduce(42), // <<, reduce: Element2
+			reduce(42), // >>, reduce: Element2
+			reduce(42), // =>, reduce: Element2
+			reduce(42), // /, reduce: Element2
+			reduce(42), // +, reduce: Element2
+			reduce(42), // -, reduce: Element2
+			reduce(42), // ||, reduce: Element2
+			reduce(42), // <>, reduce: Element2
+			reduce(42), // !=, reduce: Element2
+			reduce(42), // =, reduce: Element2
+			reduce(42), // <=, reduce: Element2
+			reduce(42), // >=, reduce: Element2
+			reduce(42), // ;, reduce: Element2
+			reduce(42), // @, reduce: Element2
+			reduce(42), // {, reduce: Element2
+			reduce(42), // }, reduce: Element2
+			reduce(42), // ~, reduce: Element2
+			reduce(42), // else, reduce: Element2
+			reduce(42), // if, reduce: Element2
+			reduce(42), // for, reduce: Element2
+			reduce(42), // endfor, reduce: Element2
+			reduce(42), // elif, reduce: Element2
+			reduce(42), // endif, reduce: Element2
+			reduce(42), // set, reduce: Element2
+			reduce(42), // ?, reduce: Element2
+			reduce(42), // :, reduce: Element2
+			reduce(42), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(42), // template_block_start, reduce: Element2
+			reduce(42), // template_comment, reduce: Element2
+			reduce(42), // template_variable_end, reduce: Element2
+			reduce(42), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S239
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(44), // identifier, reduce: Element2
+			reduce(44), // bytes_literal, reduce: Element2
+			reduce(44), // string_literal, reduce: Element2
+			reduce(44), // integer_literal, reduce: Element2
+			reduce(44), // floating_point_literal, reduce: Element2
+			reduce(44), // newline, reduce: Element2
+			reduce(44), // *, reduce: Element2
+			reduce(44), // <, reduce: Element2
+			reduce(44), // >, reduce: Element2
+			reduce(44), // [, reduce: Element2
+			reduce(44), // ], reduce: Element2
+			reduce(44), // (, reduce: Element2
+			reduce(44), // ), reduce: Element2
+			reduce(44), // ,, reduce: Element2
+			reduce(44), // ., reduce: Element2
+			reduce(44), // |, reduce: Element2
+			reduce(44), // ^, reduce: Element2
+			reduce(44), // &, reduce: Element2
+			reduce(44), // <<, reduce: Element2
+			reduce(44), // >>, reduce: Element2
+			reduce(44), // =>, reduce: Element2
+			reduce(44), // /, reduce: Element2
+			reduce(44), // +, reduce: Element2
+			reduce(44), // -, reduce: Element2
+			reduce(44), // ||, reduce: Element2
+			reduce(44), // <>, reduce: Element2
+			reduce(44), // !=, reduce: Element2
+			reduce(44), // =, reduce: Element2
+			reduce(44), // <=, reduce: Element2
+			reduce(44), // >=, reduce: Element2
+			reduce(44), // ;, reduce: Element2
+			reduce(44), // @, reduce: Element2
+			reduce(44), // {, reduce: Element2
+			reduce(44), // }, reduce: Element2
+			reduce(44), // ~, reduce: Element2
+			reduce(44), // else, reduce: Element2
+			reduce(44), // if, reduce: Element2
+			reduce(44), // for, reduce: Element2
+			reduce(44), // endfor, reduce: Element2
+			reduce(44), // elif, reduce: Element2
+			reduce(44), // endif, reduce: Element2
+			reduce(44), // set, reduce: Element2
+			reduce(44), // ?, reduce: Element2
+			reduce(44), // :, reduce: Element2
+			reduce(44), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(44), // template_block_start, reduce: Element2
+			reduce(44), // template_comment, reduce: Element2
+			reduce(44), // template_variable_end, reduce: Element2
+			reduce(44), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S240
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(46), // identifier, reduce: Element2
+			reduce(46), // bytes_literal, reduce: Element2
+			reduce(46), // string_literal, reduce: Element2
+			reduce(46), // integer_literal, reduce: Element2
+			reduce(46), // floating_point_literal, reduce: Element2
+			reduce(46), // newline, reduce: Element2
+			reduce(46), // *, reduce: Element2
+			reduce(46), // <, reduce: Element2
+			reduce(46), // >, reduce: Element2
+			reduce(46), // [, reduce: Element2
+			reduce(46), // ], reduce: Element2
+			reduce(46), // (, reduce: Element2
+			reduce(46), // ), reduce: Element2
+			reduce(46), // ,, reduce: Element2
+			reduce(46), // ., reduce: Element2
+			reduce(46), // |, reduce: Element2
+			reduce(46), // ^, reduce: Element2
+			reduce(46), // &, reduce: Element2
+			reduce(46), // <<, reduce: Element2
+			reduce(46), // >>, reduce: Element2
+			reduce(46), // =>, reduce: Element2
+			reduce(46), // /, reduce: Element2
+			reduce(46), // +, reduce: Element2
+			reduce(46), // -, reduce: Element2
+			reduce(46), // ||, reduce: Element2
+			reduce(46), // <>, reduce: Element2
+			reduce(46), // !=, reduce: Element2
+			reduce(46), // =, reduce: Element2
+			reduce(46), // <=, reduce: Element2
+			reduce(46), // >=, reduce: Element2
+			reduce(46), // ;, reduce: Element2
+			reduce(46), // @, reduce: Element2
+			reduce(46), // {, reduce: Element2
+			reduce(46), // }, reduce: Element2
+			reduce(46), // ~, reduce: Element2
+			reduce(46), // else, reduce: Element2
+			reduce(46), // if, reduce: Element2
+			reduce(46), // for, reduce: Element2
+			reduce(46), // endfor, reduce: Element2
+			reduce(46), // elif, reduce: Element2
+			reduce(46), // endif, reduce: Element2
+			reduce(46), // set, reduce: Element2
+			reduce(46), // ?, reduce: Element2
+			reduce(46), // :, reduce: Element2
+			reduce(46), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(46), // template_block_start, reduce: Element2
+			reduce(46), // template_comment, reduce: Element2
+			reduce(46), // template_variable_end, reduce: Element2
+			reduce(46), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S241
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(47), // identifier, reduce: Element2
+			reduce(47), // bytes_literal, reduce: Element2
+			reduce(47), // string_literal, reduce: Element2
+			reduce(47), // integer_literal, reduce: Element2
+			reduce(47), // floating_point_literal, reduce: Element2
+			reduce(47), // newline, reduce: Element2
+			reduce(47), // *, reduce: Element2
+			reduce(47), // <, reduce: Element2
+			reduce(47), // >, reduce: Element2
+			reduce(47), // [, reduce: Element2
+			reduce(47), // ], reduce: Element2
+			reduce(47), // (, reduce: Element2
+			reduce(47), // ), reduce: Element2
+			reduce(47), // ,, reduce: Element2
+			reduce(47), // ., reduce: Element2
+			reduce(47), // |, reduce: Element2
+			reduce(47), // ^, reduce: Element2
+			reduce(47), // &, reduce: Element2
+			reduce(47), // <<, reduce: Element2
+			reduce(47), // >>, reduce: Element2
+			reduce(47), // =>, reduce: Element2
+			reduce(47), // /, reduce: Element2
+			reduce(47), // +, reduce: Element2
+			reduce(47), // -, reduce: Element2
+			reduce(47), // ||, reduce: Element2
+			reduce(47), // <>, reduce: Element2
+			reduce(47), // !=, reduce: Element2
+			reduce(47), // =, reduce: Element2
+			reduce(47), // <=, reduce: Element2
+			reduce(47), // >=, reduce: Element2
+			reduce(47), // ;, reduce: Element2
+			reduce(47), // @, reduce: Element2
+			reduce(47), // {, reduce: Element2
+			reduce(47), // }, reduce: Element2
+			reduce(47), // ~, reduce: Element2
+			reduce(47), // else, reduce: Element2
+			reduce(47), // if, reduce: Element2
+			reduce(47), // for, reduce: Element2
+			reduce(47), // endfor, reduce: Element2
+			reduce(47), // elif, reduce: Element2
+			reduce(47), // endif, reduce: Element2
+			reduce(47), // set, reduce: Element2
+			reduce(47), // ?, reduce: Element2
+			reduce(47), // :, reduce: Element2
+			reduce(47), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(47), // template_block_start, reduce: Element2
+			reduce(47), // template_comment, reduce: Element2
+			reduce(47), // template_variable_end, reduce: Element2
+			reduce(47), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S242
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(49), // identifier, reduce: Element2
+			reduce(49), // bytes_literal, reduce: Element2
+			reduce(49), // string_literal, reduce: Element2
+			reduce(49), // integer_literal, reduce: Element2
+			reduce(49), // floating_point_literal, reduce: Element2
+			reduce(49), // newline, reduce: Element2
+			reduce(49), // *, reduce: Element2
+			reduce(49), // <, reduce: Element2
+			reduce(49), // >, reduce: Element2
+			reduce(49), // [, reduce: Element2
+			reduce(49), // ], reduce: Element2
+			reduce(49), // (, reduce: Element2
+			reduce(49), // ), reduce: Element2
+			reduce(49), // ,, reduce: Element2
+			reduce(49), // ., reduce: Element2
+			reduce(49), // |, reduce: Element2
+			reduce(49), // ^, reduce: Element2
+			reduce(49), // &, reduce: Element2
+			reduce(49), // <<, reduce: Element2
+			reduce(49), // >>, reduce: Element2
+			reduce(49), // =>, reduce: Element2
+			reduce(49), // /, reduce: Element2
+			reduce(49), // +, reduce: Element2
+			reduce(49), // -, reduce: Element2
+			reduce(49), // ||, reduce: Element2
+			reduce(49), // <>, reduce: Element2
+			reduce(49), // !=, reduce: Element2
+			reduce(49), // =, reduce: Element2
+			reduce(49), // <=, reduce: Element2
+			reduce(49), // >=, reduce: Element2
+			reduce(49), // ;, reduce: Element2
+			reduce(49), // @, reduce: Element2
+			reduce(49), // {, reduce: Element2
+			reduce(49), // }, reduce: Element2
+			reduce(49), // ~, reduce: Element2
+			reduce(49), // else, reduce: Element2
+			reduce(49), // if, reduce: Element2
+			reduce(49), // for, reduce: Element2
+			reduce(49), // endfor, reduce: Element2
+			reduce(49), // elif, reduce: Element2
+			reduce(49), // endif, reduce: Element2
+			reduce(49), // set, reduce: Element2
+			reduce(49), // ?, reduce: Element2
+			reduce(49), // :, reduce: Element2
+			reduce(49), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(49), // template_block_start, reduce: Element2
+			reduce(49), // template_comment, reduce: Element2
+			reduce(49), // template_variable_end, reduce: Element2
+			reduce(49), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S243
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(50), // identifier, reduce: Element2
+			reduce(50), // bytes_literal, reduce: Element2
+			reduce(50), // string_literal, reduce: Element2
+			reduce(50), // integer_literal, reduce: Element2
+			reduce(50), // floating_point_literal, reduce: Element2
+			reduce(50), // newline, reduce: Element2
+			reduce(50), // *, reduce: Element2
+			reduce(50), // <, reduce: Element2
+			reduce(50), // >, reduce: Element2
+			reduce(50), // [, reduce: Element2
+			reduce(50), // ], reduce: Element2
+			reduce(50), // (, reduce: Element2
+			reduce(50), // ), reduce: Element2
+			reduce(50), // ,, reduce: Element2
+			reduce(50), // ., reduce: Element2
+			reduce(50), // |, reduce: Element2
+			reduce(50), // ^, reduce: Element2
+			reduce(50), // &, reduce: Element2
+			reduce(50), // <<, reduce: Element2
+			reduce(50), // >>, reduce: Element2
+			reduce(50), // =>, reduce: Element2
+			reduce(50), // /, reduce: Element2
+			reduce(50), // +, reduce: Element2
+			reduce(50), // -, reduce: Element2
+			reduce(50), // ||, reduce: Element2
+			reduce(50), // <>, reduce: Element2
+			reduce(50), // !=, reduce: Element2
+			reduce(50), // =, reduce: Element2
+			reduce(50), // <=, reduce: Element2
+			reduce(50), // >=, reduce: Element2
+			reduce(50), // ;, reduce: Element2
+			reduce(50), // @, reduce: Element2
+			reduce(50), // {, reduce: Element2
+			reduce(50), // }, reduce: Element2
+			reduce(50), // ~, reduce: Element2
+			reduce(50), // else, reduce: Element2
+			reduce(50), // if, reduce: Element2
+			reduce(50), // for, reduce: Element2
+			reduce(50), // endfor, reduce: Element2
+			reduce(50), // elif, reduce: Element2
+			reduce(50), // endif, reduce: Element2
+			reduce(50), // set, reduce: Element2
+			reduce(50), // ?, reduce: Element2
+			reduce(50), // :, reduce: Element2
+			reduce(50), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(50), // template_block_start, reduce: Element2
+			reduce(50), // template_comment, reduce: Element2
+			reduce(50), // template_variable_end, reduce: Element2
+			reduce(50), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S244
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(51), // identifier, reduce: Element2
+			reduce(51), // bytes_literal, reduce: Element2
+			reduce(51), // string_literal, reduce: Element2
+			reduce(51), // integer_literal, reduce: Element2
+			reduce(51), // floating_point_literal, reduce: Element2
+			reduce(51), // newline, reduce: Element2
+			reduce(51), // *, reduce: Element2
+			reduce(51), // <, reduce: Element2
+			reduce(51), // >, reduce: Element2
+			reduce(51), // [, reduce: Element2
+			reduce(51), // ], reduce: Element2
+			reduce(51), // (, reduce: Element2
+			reduce(51), // ), reduce: Element2
+			reduce(51), // ,, reduce: Element2
+			reduce(51), // ., reduce: Element2
+			reduce(51), // |, reduce: Element2
+			reduce(51), // ^, reduce: Element2
+			reduce(51), // &, reduce: Element2
+			reduce(51), // <<, reduce: Element2
+			reduce(51), // >>, reduce: Element2
+			reduce(51), // =>, reduce: Element2
+			reduce(51), // /, reduce: Element2
+			reduce(51), // +, reduce: Element2
+			reduce(51), // -, reduce: Element2
+			reduce(51), // ||, reduce: Element2
+			reduce(51), // <>, reduce: Element2
+			reduce(51), // !=, reduce: Element2
+			reduce(51), // =, reduce: Element2
+			reduce(51), // <=, reduce: Element2
+			reduce(51), // >=, reduce: Element2
+			reduce(51), // ;, reduce: Element2
+			reduce(51), // @, reduce: Element2
+			reduce(51), // {, reduce: Element2
+			reduce(51), // }, reduce: Element2
+			reduce(51), // ~, reduce: Element2
+			reduce(51), // else, reduce: Element2
+			reduce(51), // if, reduce: Element2
+			reduce(51), // for, reduce: Element2
+			reduce(51), // endfor, reduce: Element2
+			reduce(51), // elif, reduce: Element2
+			reduce(51), // endif, reduce: Element2
+			reduce(51), // set, reduce: Element2
+			reduce(51), // ?, reduce: Element2
+			reduce(51), // :, reduce: Element2
+			reduce(51), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(51), // template_block_start, reduce: Element2
+			reduce(51), // template_comment, reduce: Element2
+			reduce(51), // template_variable_end, reduce: Element2
+			reduce(51), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S245
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(52), // identifier, reduce: Element2
+			reduce(52), // bytes_literal, reduce: Element2
+			reduce(52), // string_literal, reduce: Element2
+			reduce(52), // integer_literal, reduce: Element2
+			reduce(52), // floating_point_literal, reduce: Element2
+			reduce(52), // newline, reduce: Element2
+			reduce(52), // *, reduce: Element2
+			reduce(52), // <, reduce: Element2
+			reduce(52), // >, reduce: Element2
+			reduce(52), // [, reduce: Element2
+			reduce(52), // ], reduce: Element2
+			reduce(52), // (, reduce: Element2
+			reduce(52), // ), reduce: Element2
+			reduce(52), // ,, reduce: Element2
+			reduce(52), // ., reduce: Element2
+			reduce(52), // |, reduce: Element2
+			reduce(52), // ^, reduce: Element2
+			reduce(52), // &, reduce: Element2
+			reduce(52), // <<, reduce: Element2
+			reduce(52), // >>, reduce: Element2
+			reduce(52), // =>, reduce: Element2
+			reduce(52), // /, reduce: Element2
+			reduce(52), // +, reduce: Element2
+			reduce(52), // -, reduce: Element2
+			reduce(52), // ||, reduce: Element2
+			reduce(52), // <>, reduce: Element2
+			reduce(52), // !=, reduce: Element2
+			reduce(52), // =, reduce: Element2
+			reduce(52), // <=, reduce: Element2
+			reduce(52), // >=, reduce: Element2
+			reduce(52), // ;, reduce: Element2
+			reduce(52), // @, reduce: Element2
+			reduce(52), // {, reduce: Element2
+			reduce(52), // }, reduce: Element2
+			reduce(52), // ~, reduce: Element2
+			reduce(52), // else, reduce: Element2
+			reduce(52), // if, reduce: Element2
+			reduce(52), // for, reduce: Element2
+			reduce(52), // endfor, reduce: Element2
+			reduce(52), // elif, reduce: Element2
+			reduce(52), // endif, reduce: Element2
+			reduce(52), // set, reduce: Element2
+			reduce(52), // ?, reduce: Element2
+			reduce(52), // :, reduce: Element2
+			reduce(52), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(52), // template_block_start, reduce: Element2
+			reduce(52), // template_comment, reduce: Element2
+			reduce(52), // template_variable_end, reduce: Element2
+			reduce(52), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S246
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(53), // identifier, reduce: Element2
+			reduce(53), // bytes_literal, reduce: Element2
+			reduce(53), // string_literal, reduce: Element2
+			reduce(53), // integer_literal, reduce: Element2
+			reduce(53), // floating_point_literal, reduce: Element2
+			reduce(53), // newline, reduce: Element2
+			reduce(53), // *, reduce: Element2
+			reduce(53), // <, reduce: Element2
+			reduce(53), // >, reduce: Element2
+			reduce(53), // [, reduce: Element2
+			reduce(53), // ], reduce: Element2
+			reduce(53), // (, reduce: Element2
+			reduce(53), // ), reduce: Element2
+			reduce(53), // ,, reduce: Element2
+			reduce(53), // ., reduce: Element2
+			reduce(53), // |, reduce: Element2
+			reduce(53), // ^, reduce: Element2
+			reduce(53), // &, reduce: Element2
+			reduce(53), // <<, reduce: Element2
+			reduce(53), // >>, reduce: Element2
+			reduce(53), // =>, reduce: Element2
+			reduce(53), // /, reduce: Element2
+			reduce(53), // +, reduce: Element2
+			reduce(53), // -, reduce: Element2
+			reduce(53), // ||, reduce: Element2
+			reduce(53), // <>, reduce: Element2
+			reduce(53), // !=, reduce: Element2
+			reduce(53), // =, reduce: Element2
+			reduce(53), // <=, reduce: Element2
+			reduce(53), // >=, reduce: Element2
+			reduce(53), // ;, reduce: Element2
+			reduce(53), // @, reduce: Element2
+			reduce(53), // {, reduce: Element2
+			reduce(53), // }, reduce: Element2
+			reduce(53), // ~, reduce: Element2
+			reduce(53), // else, reduce: Element2
+			reduce(53), // if, reduce: Element2
+			reduce(53), // for, reduce: Element2
+			reduce(53), // endfor, reduce: Element2
+			reduce(53), // elif, reduce: Element2
+			reduce(53), // endif, reduce: Element2
+			reduce(53), // set, reduce: Element2
+			reduce(53), // ?, reduce: Element2
+			reduce(53), // :, reduce: Element2
+			reduce(53), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(53), // template_block_start, reduce: Element2
+			reduce(53), // template_comment, reduce: Element2
+			reduce(53), // template_variable_end, reduce: Element2
+			reduce(53), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S247
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(54), // identifier, reduce: Element2
+			reduce(54), // bytes_literal, reduce: Element2
+			reduce(54), // string_literal, reduce: Element2
+			reduce(54), // integer_literal, reduce: Element2
+			reduce(54), // floating_point_literal, reduce: Element2
+			reduce(54), // newline, reduce: Element2
+			reduce(54), // *, reduce: Element2
+			reduce(54), // <, reduce: Element2
+			reduce(54), // >, reduce: Element2
+			reduce(54), // [, reduce: Element2
+			reduce(54), // ], reduce: Element2
+			reduce(54), // (, reduce: Element2
+			reduce(54), // ), reduce: Element2
+			reduce(54), // ,, reduce: Element2
+			reduce(54), // ., reduce: Element2
+			reduce(54), // |, reduce: Element2
+			reduce(54), // ^, reduce: Element2
+			reduce(54), // &, reduce: Element2
+			reduce(54), // <<, reduce: Element2
+			reduce(54), // >>, reduce: Element2
+			reduce(54), // =>, reduce: Element2
+			reduce(54), // /, reduce: Element2
+			reduce(54), // +, reduce: Element2
+			reduce(54), // -, reduce: Element2
+			reduce(54), // ||, reduce: Element2
+			reduce(54), // <>, reduce: Element2
+			reduce(54), // !=, reduce: Element2
+			reduce(54), // =, reduce: Element2
+			reduce(54), // <=, reduce: Element2
+			reduce(54), // >=, reduce: Element2
+			reduce(54), // ;, reduce: Element2
+			reduce(54), // @, reduce: Element2
+			reduce(54), // {, reduce: Element2
+			reduce(54), // }, reduce: Element2
+			reduce(54), // ~, reduce: Element2
+			reduce(54), // else, reduce: Element2
+			reduce(54), // if, reduce: Element2
+			reduce(54), // for, reduce: Element2
+			reduce(54), // endfor, reduce: Element2
+			reduce(54), // elif, reduce: Element2
+			reduce(54), // endif, reduce: Element2
+			reduce(54), // set, reduce: Element2
+			reduce(54), // ?, reduce: Element2
+			reduce(54), // :, reduce: Element2
+			reduce(54), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(54), // template_block_start, reduce: Element2
+			reduce(54), // template_comment, reduce: Element2
+			reduce(54), // template_variable_end, reduce: Element2
+			reduce(54), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S248
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(55), // identifier, reduce: Element2
+			reduce(55), // bytes_literal, reduce: Element2
+			reduce(55), // string_literal, reduce: Element2
+			reduce(55), // integer_literal, reduce: Element2
+			reduce(55), // floating_point_literal, reduce: Element2
+			reduce(55), // newline, reduce: Element2
+			reduce(55), // *, reduce: Element2
+			reduce(55), // <, reduce: Element2
+			reduce(55), // >, reduce: Element2
+			reduce(55), // [, reduce: Element2
+			reduce(55), // ], reduce: Element2
+			reduce(55), // (, reduce: Element2
+			reduce(55), // ), reduce: Element2
+			reduce(55), // ,, reduce: Element2
+			reduce(55), // ., reduce: Element2
+			reduce(55), // |, reduce: Element2
+			reduce(55), // ^, reduce: Element2
+			reduce(55), // &, reduce: Element2
+			reduce(55), // <<, reduce: Element2
+			reduce(55), // >>, reduce: Element2
+			reduce(55), // =>, reduce: Element2
+			reduce(55), // /, reduce: Element2
+			reduce(55), // +, reduce: Element2
+			reduce(55), // -, reduce: Element2
+			reduce(55), // ||, reduce: Element2
+			reduce(55), // <>, reduce: Element2
+			reduce(55), // !=, reduce: Element2
+			reduce(55), // =, reduce: Element2
+			reduce(55), // <=, reduce: Element2
+			reduce(55), // >=, reduce: Element2
+			reduce(55), // ;, reduce: Element2
+			reduce(55), // @, reduce: Element2
+			reduce(55), // {, reduce: Element2
+			reduce(55), // }, reduce: Element2
+			reduce(55), // ~, reduce: Element2
+			reduce(55), // else, reduce: Element2
+			reduce(55), // if, reduce: Element2
+			reduce(55), // for, reduce: Element2
+			reduce(55), // endfor, reduce: Element2
+			reduce(55), // elif, reduce: Element2
+			reduce(55), // endif, reduce: Element2
+			reduce(55), // set, reduce: Element2
+			reduce(55), // ?, reduce: Element2
+			reduce(55), // :, reduce: Element2
+			reduce(55), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(55), // template_block_start, reduce: Element2
+			reduce(55), // template_comment, reduce: Element2
+			reduce(55), // template_variable_end, reduce: Element2
+			reduce(55), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S249
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(56), // identifier, reduce: Element2
+			reduce(56), // bytes_literal, reduce: Element2
+			reduce(56), // string_literal, reduce: Element2
+			reduce(56), // integer_literal, reduce: Element2
+			reduce(56), // floating_point_literal, reduce: Element2
+			reduce(56), // newline, reduce: Element2
+			reduce(56), // *, reduce: Element2
+			reduce(56), // <, reduce: Element2
+			reduce(56), // >, reduce: Element2
+			reduce(56), // [, reduce: Element2
+			reduce(56), // ], reduce: Element2
+			reduce(56), // (, reduce: Element2
+			reduce(56), // ), reduce: Element2
+			reduce(56), // ,, reduce: Element2
+			reduce(56), // ., reduce: Element2
+			reduce(56), // |, reduce: Element2
+			reduce(56), // ^, reduce: Element2
+			reduce(56), // &, reduce: Element2
+			reduce(56), // <<, reduce: Element2
+			reduce(56), // >>, reduce: Element2
+			reduce(56), // =>, reduce: Element2
+			reduce(56), // /, reduce: Element2
+			reduce(56), // +, reduce: Element2
+			reduce(56), // -, reduce: Element2
+			reduce(56), // ||, reduce: Element2
+			reduce(56), // <>, reduce: Element2
+			reduce(56), // !=, reduce: Element2
+			reduce(56), // =, reduce: Element2
+			reduce(56), // <=, reduce: Element2
+			reduce(56), // >=, reduce: Element2
+			reduce(56), // ;, reduce: Element2
+			reduce(56), // @, reduce: Element2
+			reduce(56), // {, reduce: Element2
+			reduce(56), // }, reduce: Element2
+			reduce(56), // ~, reduce: Element2
+			reduce(56), // else, reduce: Element2
+			reduce(56), // if, reduce: Element2
+			reduce(56), // for, reduce: Element2
+			reduce(56), // endfor, reduce: Element2
+			reduce(56), // elif, reduce: Element2
+			reduce(56), // endif, reduce: Element2
+			reduce(56), // set, reduce: Element2
+			reduce(56), // ?, reduce: Element2
+			reduce(56), // :, reduce: Element2
+			reduce(56), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(56), // template_block_start, reduce: Element2
+			reduce(56), // template_comment, reduce: Element2
+			reduce(56), // template_variable_end, reduce: Element2
+			reduce(56), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S250
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(57), // identifier, reduce: Element2
+			reduce(57), // bytes_literal, reduce: Element2
+			reduce(57), // string_literal, reduce: Element2
+			reduce(57), // integer_literal, reduce: Element2
+			reduce(57), // floating_point_literal, reduce: Element2
+			reduce(57), // newline, reduce: Element2
+			reduce(57), // *, reduce: Element2
+			reduce(57), // <, reduce: Element2
+			reduce(57), // >, reduce: Element2
+			reduce(57), // [, reduce: Element2
+			reduce(57), // ], reduce: Element2
+			reduce(57), // (, reduce: Element2
+			reduce(57), // ), reduce: Element2
+			reduce(57), // ,, reduce: Element2
+			reduce(57), // ., reduce: Element2
+			reduce(57), // |, reduce: Element2
+			reduce(57), // ^, reduce: Element2
+			reduce(57), // &, reduce: Element2
+			reduce(57), // <<, reduce: Element2
+			reduce(57), // >>, reduce: Element2
+			reduce(57), // =>, reduce: Element2
+			reduce(57), // /, reduce: Element2
+			reduce(57), // +, reduce: Element2
+			reduce(57), // -, reduce: Element2
+			reduce(57), // ||, reduce: Element2
+			reduce(57), // <>, reduce: Element2
+			reduce(57), // !=, reduce: Element2
+			reduce(57), // =, reduce: Element2
+			reduce(57), // <=, reduce: Element2
+			reduce(57), // >=, reduce: Element2
+			reduce(57), // ;, reduce: Element2
+			reduce(57), // @, reduce: Element2
+			reduce(57), // {, reduce: Element2
+			reduce(57), // }, reduce: Element2
+			reduce(57), // ~, reduce: Element2
+			reduce(57), // else, reduce: Element2
+			reduce(57), // if, reduce: Element2
+			reduce(57), // for, reduce: Element2
+			reduce(57), // endfor, reduce: Element2
+			reduce(57), // elif, reduce: Element2
+			reduce(57), // endif, reduce: Element2
+			reduce(57), // set, reduce: Element2
+			reduce(57), // ?, reduce: Element2
+			reduce(57), // :, reduce: Element2
+			reduce(57), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(57), // template_block_start, reduce: Element2
+			reduce(57), // template_comment, reduce: Element2
+			reduce(57), // template_variable_end, reduce: Element2
+			reduce(57), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S251
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(58), // identifier, reduce: Element2
+			reduce(58), // bytes_literal, reduce: Element2
+			reduce(58), // string_literal, reduce: Element2
+			reduce(58), // integer_literal, reduce: Element2
+			reduce(58), // floating_point_literal, reduce: Element2
+			reduce(58), // newline, reduce: Element2
+			reduce(58), // *, reduce: Element2
+			reduce(58), // <, reduce: Element2
+			reduce(58), // >, reduce: Element2
+			reduce(58), // [, reduce: Element2
+			reduce(58), // ], reduce: Element2
+			reduce(58), // (, reduce: Element2
+			reduce(58), // ), reduce: Element2
+			reduce(58), // ,, reduce: Element2
+			reduce(58), // ., reduce: Element2
+			reduce(58), // |, reduce: Element2
+			reduce(58), // ^, reduce: Element2
+			reduce(58), // &, reduce: Element2
+			reduce(58), // <<, reduce: Element2
+			reduce(58), // >>, reduce: Element2
+			reduce(58), // =>, reduce: Element2
+			reduce(58), // /, reduce: Element2
+			reduce(58), // +, reduce: Element2
+			reduce(58), // -, reduce: Element2
+			reduce(58), // ||, reduce: Element2
+			reduce(58), // <>, reduce: Element2
+			reduce(58), // !=, reduce: Element2
+			reduce(58), // =, reduce: Element2
+			reduce(58), // <=, reduce: Element2
+			reduce(58), // >=, reduce: Element2
+			reduce(58), // ;, reduce: Element2
+			reduce(58), // @, reduce: Element2
+			reduce(58), // {, reduce: Element2
+			reduce(58), // }, reduce: Element2
+			reduce(58), // ~, reduce: Element2
+			reduce(58), // else, reduce: Element2
+			reduce(58), // if, reduce: Element2
+			reduce(58), // for, reduce: Element2
+			reduce(58), // endfor, reduce: Element2
+			reduce(58), // elif, reduce: Element2
+			reduce(58), // endif, reduce: Element2
+			reduce(58), // set, reduce: Element2
+			reduce(58), // ?, reduce: Element2
+			reduce(58), // :, reduce: Element2
+			reduce(58), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(58), // template_block_start, reduce: Element2
+			reduce(58), // template_comment, reduce: Element2
+			reduce(58), // template_variable_end, reduce: Element2
+			reduce(58), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S252
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(59), // identifier, reduce: Element2
+			reduce(59), // bytes_literal, reduce: Element2
+			reduce(59), // string_literal, reduce: Element2
+			reduce(59), // integer_literal, reduce: Element2
+			reduce(59), // floating_point_literal, reduce: Element2
+			reduce(59), // newline, reduce: Element2
+			reduce(59), // *, reduce: Element2
+			reduce(59), // <, reduce: Element2
+			reduce(59), // >, reduce: Element2
+			reduce(59), // [, reduce: Element2
+			reduce(59), // ], reduce: Element2
+			reduce(59), // (, reduce: Element2
+			reduce(59), // ), reduce: Element2
+			reduce(59), // ,, reduce: Element2
+			reduce(59), // ., reduce: Element2
+			reduce(59), // |, reduce: Element2
+			reduce(59), // ^, reduce: Element2
+			reduce(59), // &, reduce: Element2
+			reduce(59), // <<, reduce: Element2
+			reduce(59), // >>, reduce: Element2
+			reduce(59), // =>, reduce: Element2
+			reduce(59), // /, reduce: Element2
+			reduce(59), // +, reduce: Element2
+			reduce(59), // -, reduce: Element2
+			reduce(59), // ||, reduce: Element2
+			reduce(59), // <>, reduce: Element2
+			reduce(59), // !=, reduce: Element2
+			reduce(59), // =, reduce: Element2
+			reduce(59), // <=, reduce: Element2
+			reduce(59), // >=, reduce: Element2
+			reduce(59), // ;, reduce: Element2
+			reduce(59), // @, reduce: Element2
+			reduce(59), // {, reduce: Element2
+			reduce(59), // }, reduce: Element2
+			reduce(59), // ~, reduce: Element2
+			reduce(59), // else, reduce: Element2
+			reduce(59), // if, reduce: Element2
+			reduce(59), // for, reduce: Element2
+			reduce(59), // endfor, reduce: Element2
+			reduce(59), // elif, reduce: Element2
+			reduce(59), // endif, reduce: Element2
+			reduce(59), // set, reduce: Element2
+			reduce(59), // ?, reduce: Element2
+			reduce(59), // :, reduce: Element2
+			reduce(59), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(59), // template_block_start, reduce: Element2
+			reduce(59), // template_comment, reduce: Element2
+			reduce(59), // template_variable_end, reduce: Element2
+			reduce(59), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S253
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(60), // identifier, reduce: Element2
+			reduce(60), // bytes_literal, reduce: Element2
+			reduce(60), // string_literal, reduce: Element2
+			reduce(60), // integer_literal, reduce: Element2
+			reduce(60), // floating_point_literal, reduce: Element2
+			reduce(60), // newline, reduce: Element2
+			reduce(60), // *, reduce: Element2
+			reduce(60), // <, reduce: Element2
+			reduce(60), // >, reduce: Element2
+			reduce(60), // [, reduce: Element2
+			reduce(60), // ], reduce: Element2
+			reduce(60), // (, reduce: Element2
+			reduce(60), // ), reduce: Element2
+			reduce(60), // ,, reduce: Element2
+			reduce(60), // ., reduce: Element2
+			reduce(60), // |, reduce: Element2
+			reduce(60), // ^, reduce: Element2
+			reduce(60), // &, reduce: Element2
+			reduce(60), // <<, reduce: Element2
+			reduce(60), // >>, reduce: Element2
+			reduce(60), // =>, reduce: Element2
+			reduce(60), // /, reduce: Element2
+			reduce(60), // +, reduce: Element2
+			reduce(60), // -, reduce: Element2
+			reduce(60), // ||, reduce: Element2
+			reduce(60), // <>, reduce: Element2
+			reduce(60), // !=, reduce: Element2
+			reduce(60), // =, reduce: Element2
+			reduce(60), // <=, reduce: Element2
+			reduce(60), // >=, reduce: Element2
+			reduce(60), // ;, reduce: Element2
+			reduce(60), // @, reduce: Element2
+			reduce(60), // {, reduce: Element2
+			reduce(60), // }, reduce: Element2
+			reduce(60), // ~, reduce: Element2
+			reduce(60), // else, reduce: Element2
+			reduce(60), // if, reduce: Element2
+			reduce(60), // for, reduce: Element2
+			reduce(60), // endfor, reduce: Element2
+			reduce(60), // elif, reduce: Element2
+			reduce(60), // endif, reduce: Element2
+			reduce(60), // set, reduce: Element2
+			reduce(60), // ?, reduce: Element2
+			reduce(60), // :, reduce: Element2
+			reduce(60), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(60), // template_block_start, reduce: Element2
+			reduce(60), // template_comment, reduce: Element2
+			reduce(60), // template_variable_end, reduce: Element2
+			reduce(60), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S254
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(61), // identifier, reduce: Element2
+			reduce(61), // bytes_literal, reduce: Element2
+			reduce(61), // string_literal, reduce: Element2
+			reduce(61), // integer_literal, reduce: Element2
+			reduce(61), // floating_point_literal, reduce: Element2
+			reduce(61), // newline, reduce: Element2
+			reduce(61), // *, reduce: Element2
+			reduce(61), // <, reduce: Element2
+			reduce(61), // >, reduce: Element2
+			reduce(61), // [, reduce: Element2
+			reduce(61), // ], reduce: Element2
+			reduce(61), // (, reduce: Element2
+			reduce(61), // ), reduce: Element2
+			reduce(61), // ,, reduce: Element2
+			reduce(61), // ., reduce: Element2
+			reduce(61), // |, reduce: Element2
+			reduce(61), // ^, reduce: Element2
+			reduce(61), // &, reduce: Element2
+			reduce(61), // <<, reduce: Element2
+			reduce(61), // >>, reduce: Element2
+			reduce(61), // =>, reduce: Element2
+			reduce(61), // /, reduce: Element2
+			reduce(61), // +, reduce: Element2
+			reduce(61), // -, reduce: Element2
+			reduce(61), // ||, reduce: Element2
+			reduce(61), // <>, reduce: Element2
+			reduce(61), // !=, reduce: Element2
+			reduce(61), // =, reduce: Element2
+			reduce(61), // <=, reduce: Element2
+			reduce(61), // >=, reduce: Element2
+			reduce(61), // ;, reduce: Element2
+			reduce(61), // @, reduce: Element2
+			reduce(61), // {, reduce: Element2
+			reduce(61), // }, reduce: Element2
+			reduce(61), // ~, reduce: Element2
+			reduce(61), // else, reduce: Element2
+			reduce(61), // if, reduce: Element2
+			reduce(61), // for, reduce: Element2
+			reduce(61), // endfor, reduce: Element2
+			reduce(61), // elif, reduce: Element2
+			reduce(61), // endif, reduce: Element2
+			reduce(61), // set, reduce: Element2
+			reduce(61), // ?, reduce: Element2
+			reduce(61), // :, reduce: Element2
+			reduce(61), // comment, reduce: Element2
+			nil,        // template_block_end
+			reduce(61), // template_block_start, reduce: Element2
+			reduce(61), // template_comment, reduce: Element2
+			reduce(61), // template_variable_end, reduce: Element2
+			reduce(61), // template_variable_start, reduce: Element2
+		},
+	},
+	actionRow{ // S255
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(62), // identifier, reduce: Comment
+			reduce(62), // bytes_literal, reduce: Comment
+			reduce(62), // string_literal, reduce: Comment
+			reduce(62), // integer_literal, reduce: Comment
+			reduce(62), // floating_point_literal, reduce: Comment
+			reduce(62), // newline, reduce: Comment
+			reduce(62), // *, reduce: Comment
+			reduce(62), // <, reduce: Comment
+			reduce(62), // >, reduce: Comment
+			reduce(62), // [, reduce: Comment
+			reduce(62), // ], reduce: Comment
+			reduce(62), // (, reduce: Comment
+			reduce(62), // ), reduce: Comment
+			reduce(62), // ,, reduce: Comment
+			reduce(62), // ., reduce: Comment
+			reduce(62), // |, reduce: Comment
+			reduce(62), // ^, reduce: Comment
+			reduce(62), // &, reduce: Comment
+			reduce(62), // <<, reduce: Comment
+			reduce(62), // >>, reduce: Comment
+			reduce(62), // =>, reduce: Comment
+			reduce(62), // /, reduce: Comment
+			reduce(62), // +, reduce: Comment
+			reduce(62), // -, reduce: Comment
+			reduce(62), // ||, reduce: Comment
+			reduce(62), // <>, reduce: Comment
+			reduce(62), // !=, reduce: Comment
+			reduce(62), // =, reduce: Comment
+			reduce(62), // <=, reduce: Comment
+			reduce(62), // >=, reduce: Comment
+			reduce(62), // ;, reduce: Comment
+			reduce(62), // @, reduce: Comment
+			reduce(62), // {, reduce: Comment
+			reduce(62), // }, reduce: Comment
+			reduce(62), // ~, reduce: Comment
+			reduce(62), // else, reduce: Comment
+			reduce(62), // if, reduce: Comment
+			reduce(62), // for, reduce: Comment
+			reduce(62), // endfor, reduce: Comment
+			reduce(62), // elif, reduce: Comment
+			reduce(62), // endif, reduce: Comment
+			reduce(62), // set, reduce: Comment
+			reduce(62), // ?, reduce: Comment
+			reduce(62), // :, reduce: Comment
+			reduce(62), // comment, reduce: Comment
+			nil,        // template_block_end
+			reduce(62), // template_block_start, reduce: Comment
+			reduce(62), // template_comment, reduce: Comment
+			reduce(62), // template_variable_end, reduce: Comment
+			reduce(62), // template_variable_start, reduce: Comment
+		},
+	},
+	actionRow{ // S256
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(80),  // identifier
+			shift(81),  // bytes_literal
+			shift(82),  // string_literal
+			shift(83),  // integer_literal
+			shift(84),  // floating_point_literal
+			shift(85),  // newline
+			shift(86),  // *
+			shift(87),  // <
+			shift(88),  // >
+			shift(89),  // [
+			shift(90),  // ]
+			shift(91),  // (
+			shift(92),  // )
+			shift(93),  // ,
+			shift(94),  // .
+			shift(95),  // |
+			shift(96),  // ^
+			shift(97),  // &
+			shift(98),  // <<
+			shift(99),  // >>
+			shift(100), // =>
+			shift(101), // /
+			shift(102), // +
+			shift(103), // -
+			shift(104), // ||
+			shift(105), // <>
+			shift(106), // !=
+			shift(107), // =
+			shift(108), // <=
+			shift(109), // >=
+			shift(110), // ;
+			shift(111), // @
+			shift(112), // {
+			shift(113), // }
+			shift(114), // ~
+			shift(115), // else
+			shift(116), // if
+			shift(117), // for
+			shift(118), // endfor
+			shift(119), // elif
+			shift(120), // endif
+			shift(121), // set
+			shift(122), // ?
+			shift(123), // :
+			shift(124), // comment
+			shift(339), // template_block_end
+			shift(56),  // template_block_start
+			shift(129), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S257
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(142), // identifier
+			shift(143), // bytes_literal
+			shift(144), // string_literal
+			shift(145), // integer_literal
+			shift(146), // floating_point_literal
+			shift(147), // newline
+			shift(148), // *
+			shift(149), // <
+			shift(150), // >
+			shift(151), // [
+			shift(152), // ]
+			shift(153), // (
+			shift(154), // )
+			shift(155), // ,
+			shift(156), // .
+			shift(157), // |
+			shift(158), // ^
+			shift(159), // &
+			shift(160), // <<
+			shift(161), // >>
+			shift(162), // =>
+			shift(163), // /
+			shift(164), // +
+			shift(165), // -
+			shift(166), // ||
+			shift(167), // <>
+			shift(168), // !=
+			shift(169), // =
+			shift(170), // <=
+			shift(171), // >=
+			shift(172), // ;
+			shift(173), // @
+			shift(174), // {
+			shift(175), // }
+			shift(176), // ~
+			shift(177), // else
+			shift(178), // if
+			shift(179), // for
+			shift(180), // endfor
+			shift(181), // elif
+			shift(182), // endif
+			shift(183), // set
+			shift(184), // ?
+			shift(185), // :
+			shift(186), // comment
+			nil,        // template_block_end
+			shift(340), // template_block_start
+			shift(193), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S258
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(142), // identifier
+			shift(143), // bytes_literal
+			shift(144), // string_literal
+			shift(145), // integer_literal
+			shift(146), // floating_point_literal
+			shift(147), // newline
+			shift(148), // *
+			shift(149), // <
+			shift(150), // >
+			shift(151), // [
+			shift(152), // ]
+			shift(153), // (
+			shift(154), // )
+			shift(155), // ,
+			shift(156), // .
+			shift(157), // |
+			shift(158), // ^
+			shift(159), // &
+			shift(160), // <<
+			shift(161), // >>
+			shift(162), // =>
+			shift(163), // /
+			shift(164), // +
+			shift(165), // -
+			shift(166), // ||
+			shift(167), // <>
+			shift(168), // !=
+			shift(169), // =
+			shift(170), // <=
+			shift(171), // >=
+			shift(172), // ;
+			shift(173), // @
+			shift(174), // {
+			shift(175), // }
+			shift(176), // ~
+			shift(177), // else
+			shift(178), // if
+			shift(179), // for
+			shift(180), // endfor
+			shift(181), // elif
+			shift(182), // endif
+			shift(183), // set
+			shift(184), // ?
+			shift(185), // :
+			shift(186), // comment
+			nil,        // template_block_end
+			shift(343), // template_block_start
+			shift(193), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S259
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(83), // identifier, reduce: TemplateComment
+			reduce(83), // bytes_literal, reduce: TemplateComment
+			reduce(83), // string_literal, reduce: TemplateComment
+			reduce(83), // integer_literal, reduce: TemplateComment
+			reduce(83), // floating_point_literal, reduce: TemplateComment
+			reduce(83), // newline, reduce: TemplateComment
+			reduce(83), // *, reduce: TemplateComment
+			reduce(83), // <, reduce: TemplateComment
+			reduce(83), // >, reduce: TemplateComment
+			reduce(83), // [, reduce: TemplateComment
+			reduce(83), // ], reduce: TemplateComment
+			reduce(83), // (, reduce: TemplateComment
+			reduce(83), // ), reduce: TemplateComment
+			reduce(83), // ,, reduce: TemplateComment
+			reduce(83), // ., reduce: TemplateComment
+			reduce(83), // |, reduce: TemplateComment
+			reduce(83), // ^, reduce: TemplateComment
+			reduce(83), // &, reduce: TemplateComment
+			reduce(83), // <<, reduce: TemplateComment
+			reduce(83), // >>, reduce: TemplateComment
+			reduce(83), // =>, reduce: TemplateComment
+			reduce(83), // /, reduce: TemplateComment
+			reduce(83), // +, reduce: TemplateComment
+			reduce(83), // -, reduce: TemplateComment
+			reduce(83), // ||, reduce: TemplateComment
+			reduce(83), // <>, reduce: TemplateComment
+			reduce(83), // !=, reduce: TemplateComment
+			reduce(83), // =, reduce: TemplateComment
+			reduce(83), // <=, reduce: TemplateComment
+			reduce(83), // >=, reduce: TemplateComment
+			reduce(83), // ;, reduce: TemplateComment
+			reduce(83), // @, reduce: TemplateComment
+			reduce(83), // {, reduce: TemplateComment
+			reduce(83), // }, reduce: TemplateComment
+			reduce(83), // ~, reduce: TemplateComment
+			reduce(83), // else, reduce: TemplateComment
+			reduce(83), // if, reduce: TemplateComment
+			reduce(83), // for, reduce: TemplateComment
+			reduce(83), // endfor, reduce: TemplateComment
+			reduce(83), // elif, reduce: TemplateComment
+			reduce(83), // endif, reduce: TemplateComment
+			reduce(83), // set, reduce: TemplateComment
+			reduce(83), // ?, reduce: TemplateComment
+			reduce(83), // :, reduce: TemplateComment
+			reduce(83), // comment, reduce: TemplateComment
+			nil,        // template_block_end
+			reduce(83), // template_block_start, reduce: TemplateComment
+			reduce(83), // template_comment, reduce: TemplateComment
+			reduce(83), // template_variable_end, reduce: TemplateComment
+			reduce(83), // template_variable_start, reduce: TemplateComment
+		},
+	},
+	actionRow{ // S260
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(211), // identifier
+			shift(212), // bytes_literal
+			shift(213), // string_literal
+			shift(214), // integer_literal
+			shift(215), // floating_point_literal
+			shift(216), // newline
+			shift(217), // *
+			shift(218), // <
+			shift(219), // >
+			shift(220), // [
+			shift(221), // ]
+			shift(222), // (
+			shift(223), // )
+			shift(224), // ,
+			shift(225), // .
+			shift(226), // |
+			shift(227), // ^
+			shift(228), // &
+			shift(229), // <<
+			shift(230), // >>
+			shift(231), // =>
+			shift(232), // /
+			shift(233), // +
+			shift(234), // -
+			shift(235), // ||
+			shift(236), // <>
+			shift(237), // !=
+			shift(238), // =
+			shift(239), // <=
+			shift(240), // >=
+			shift(241), // ;
+			shift(242), // @
+			shift(243), // {
+			shift(244), // }
+			shift(245), // ~
+			shift(246), // else
+			shift(247), // if
+			shift(248), // for
+			shift(249), // endfor
+			shift(250), // elif
+			shift(251), // endif
+			shift(252), // set
+			shift(253), // ?
+			shift(254), // :
+			shift(255), // comment
+			nil,        // template_block_end
+			shift(56),  // template_block_start
+			shift(259), // template_comment
+			shift(345), // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S261
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			reduce(84), // ␚, reduce: TemplateVariable
+			reduce(84), // identifier, reduce: TemplateVariable
+			reduce(84), // bytes_literal, reduce: TemplateVariable
+			reduce(84), // string_literal, reduce: TemplateVariable
+			reduce(84), // integer_literal, reduce: TemplateVariable
+			reduce(84), // floating_point_literal, reduce: TemplateVariable
+			reduce(84), // newline, reduce: TemplateVariable
+			reduce(84), // *, reduce: TemplateVariable
+			reduce(84), // <, reduce: TemplateVariable
+			reduce(84), // >, reduce: TemplateVariable
+			reduce(84), // [, reduce: TemplateVariable
+			reduce(84), // ], reduce: TemplateVariable
+			reduce(84), // (, reduce: TemplateVariable
+			reduce(84), // ), reduce: TemplateVariable
+			reduce(84), // ,, reduce: TemplateVariable
+			reduce(84), // ., reduce: TemplateVariable
+			reduce(84), // |, reduce: TemplateVariable
+			reduce(84), // ^, reduce: TemplateVariable
+			reduce(84), // &, reduce: TemplateVariable
+			reduce(84), // <<, reduce: TemplateVariable
+			reduce(84), // >>, reduce: TemplateVariable
+			reduce(84), // =>, reduce: TemplateVariable
+			reduce(84), // /, reduce: TemplateVariable
+			reduce(84), // +, reduce: TemplateVariable
+			reduce(84), // -, reduce: TemplateVariable
+			reduce(84), // ||, reduce: TemplateVariable
+			reduce(84), // <>, reduce: TemplateVariable
+			reduce(84), // !=, reduce: TemplateVariable
+			reduce(84), // =, reduce: TemplateVariable
+			reduce(84), // <=, reduce: TemplateVariable
+			reduce(84), // >=, reduce: TemplateVariable
+			reduce(84), // ;, reduce: TemplateVariable
+			reduce(84), // @, reduce: TemplateVariable
+			reduce(84), // {, reduce: TemplateVariable
+			reduce(84), // }, reduce: TemplateVariable
+			reduce(84), // ~, reduce: TemplateVariable
+			reduce(84), // else, reduce: TemplateVariable
+			reduce(84), // if, reduce: TemplateVariable
+			reduce(84), // for, reduce: TemplateVariable
+			reduce(84), // endfor, reduce: TemplateVariable
+			reduce(84), // elif, reduce: TemplateVariable
+			reduce(84), // endif, reduce: TemplateVariable
+			reduce(84), // set, reduce: TemplateVariable
+			reduce(84), // ?, reduce: TemplateVariable
+			reduce(84), // :, reduce: TemplateVariable
+			reduce(84), // comment, reduce: TemplateVariable
+			nil,        // template_block_end
+			reduce(84), // template_block_start, reduce: TemplateVariable
+			reduce(84), // template_comment, reduce: TemplateVariable
+			nil,        // template_variable_end
+			reduce(84), // template_variable_start, reduce: TemplateVariable
+		},
+	},
+	actionRow{ // S262
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(63), // identifier, reduce: TemplateSetBlock
+			reduce(63), // bytes_literal, reduce: TemplateSetBlock
+			reduce(63), // string_literal, reduce: TemplateSetBlock
+			reduce(63), // integer_literal, reduce: TemplateSetBlock
+			reduce(63), // floating_point_literal, reduce: TemplateSetBlock
+			reduce(63), // newline, reduce: TemplateSetBlock
+			reduce(63), // *, reduce: TemplateSetBlock
+			reduce(63), // <, reduce: TemplateSetBlock
+			reduce(63), // >, reduce: TemplateSetBlock
+			reduce(63), // [, reduce: TemplateSetBlock
+			reduce(63), // ], reduce: TemplateSetBlock
+			reduce(63), // (, reduce: TemplateSetBlock
+			reduce(63), // ), reduce: TemplateSetBlock
+			reduce(63), // ,, reduce: TemplateSetBlock
+			reduce(63), // ., reduce: TemplateSetBlock
+			reduce(63), // |, reduce: TemplateSetBlock
+			reduce(63), // ^, reduce: TemplateSetBlock
+			reduce(63), // &, reduce: TemplateSetBlock
+			reduce(63), // <<, reduce: TemplateSetBlock
+			reduce(63), // >>, reduce: TemplateSetBlock
+			reduce(63), // =>, reduce: TemplateSetBlock
+			reduce(63), // /, reduce: TemplateSetBlock
+			reduce(63), // +, reduce: TemplateSetBlock
+			reduce(63), // -, reduce: TemplateSetBlock
+			reduce(63), // ||, reduce: TemplateSetBlock
+			reduce(63), // <>, reduce: TemplateSetBlock
+			reduce(63), // !=, reduce: TemplateSetBlock
+			reduce(63), // =, reduce: TemplateSetBlock
+			reduce(63), // <=, reduce: TemplateSetBlock
+			reduce(63), // >=, reduce: TemplateSetBlock
+			reduce(63), // ;, reduce: TemplateSetBlock
+			reduce(63), // @, reduce: TemplateSetBlock
+			reduce(63), // {, reduce: TemplateSetBlock
+			reduce(63), // }, reduce: TemplateSetBlock
+			reduce(63), // ~, reduce: TemplateSetBlock
+			reduce(63), // else, reduce: TemplateSetBlock
+			reduce(63), // if, reduce: TemplateSetBlock
+			reduce(63), // for, reduce: TemplateSetBlock
+			reduce(63), // endfor, reduce: TemplateSetBlock
+			reduce(63), // elif, reduce: TemplateSetBlock
+			reduce(63), // endif, reduce: TemplateSetBlock
+			reduce(63), // set, reduce: TemplateSetBlock
+			reduce(63), // ?, reduce: TemplateSetBlock
+			reduce(63), // :, reduce: TemplateSetBlock
+			reduce(63), // comment, reduce: TemplateSetBlock
+			reduce(63), // template_block_end, reduce: TemplateSetBlock
+			reduce(63), // template_block_start, reduce: TemplateSetBlock
+			reduce(63), // template_comment, reduce: TemplateSetBlock
+			nil,        // template_variable_end
+			reduce(63), // template_variable_start, reduce: TemplateSetBlock
+		},
+	},
 	actionRow{ // S263
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(75), // identifier, reduce: TemplateForBlock
-			reduce(75), // bytes_literal, reduce: TemplateForBlock
-			reduce(75), // string_literal, reduce: TemplateForBlock
-			reduce(75), // integer_literal, reduce: TemplateForBlock
-			reduce(75), // floating_point_literal, reduce: TemplateForBlock
-			reduce(75), // newline, reduce: TemplateForBlock
-			reduce(75), // *, reduce: TemplateForBlock
-			reduce(75), // <, reduce: TemplateForBlock
-			reduce(75), // >, reduce: TemplateForBlock
-			reduce(75), // [, reduce: TemplateForBlock
-			reduce(75), // ], reduce: TemplateForBlock
-			reduce(75), // (, reduce: TemplateForBlock
-			reduce(75), // ), reduce: TemplateForBlock
-			reduce(75), // ,, reduce: TemplateForBlock
-			reduce(75), // ., reduce: TemplateForBlock
-			reduce(75), // |, reduce: TemplateForBlock
-			reduce(75), // ^, reduce: TemplateForBlock
-			reduce(75), // &, reduce: TemplateForBlock
-			reduce(75), // <<, reduce: TemplateForBlock
-			reduce(75), // >>, reduce: TemplateForBlock
-			reduce(75), // =>, reduce: TemplateForBlock
-			reduce(75), // /, reduce: TemplateForBlock
-			reduce(75), // +, reduce: TemplateForBlock
-			reduce(75), // -, reduce: TemplateForBlock
-			reduce(75), // ||, reduce: TemplateForBlock
-			reduce(75), // <>, reduce: TemplateForBlock
-			reduce(75), // !=, reduce: TemplateForBlock
-			reduce(75), // =, reduce: TemplateForBlock
-			reduce(75), // <=, reduce: TemplateForBlock
-			reduce(75), // >=, reduce: TemplateForBlock
-			reduce(75), // ;, reduce: TemplateForBlock
-			reduce(75), // @, reduce: TemplateForBlock
-			reduce(75), // {, reduce: TemplateForBlock
-			reduce(75), // }, reduce: TemplateForBlock
-			reduce(75), // ~, reduce: TemplateForBlock
-			reduce(75), // else, reduce: TemplateForBlock
-			reduce(75), // if, reduce: TemplateForBlock
-			reduce(75), // for, reduce: TemplateForBlock
-			reduce(75), // endfor, reduce: TemplateForBlock
-			reduce(75), // elif, reduce: TemplateForBlock
-			reduce(75), // endif, reduce: TemplateForBlock
-			reduce(75), // set, reduce: TemplateForBlock
-			reduce(75), // ?, reduce: TemplateForBlock
-			reduce(75), // comment, reduce: TemplateForBlock
-			reduce(75), // template_block_end, reduce: TemplateForBlock
-			reduce(75), // template_block_start, reduce: TemplateForBlock
-			reduce(75), // template_comment, reduce: TemplateForBlock
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			shift(270), // else
+			shift(131), // if
+			shift(132), // for
+			nil,        // endfor
+			nil,        // elif
+			shift(346), // endif
+			shift(133), // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			nil,        // template_block_start
+			nil,        // template_comment
 			nil,        // template_variable_end
-			reduce(75), // template_variable_start, reduce: TemplateForBlock
+			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S264
@@ -14800,55 +15064,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(83), // identifier, reduce: TemplateVariable
-			reduce(83), // bytes_literal, reduce: TemplateVariable
-			reduce(83), // string_literal, reduce: TemplateVariable
-			reduce(83), // integer_literal, reduce: TemplateVariable
-			reduce(83), // floating_point_literal, reduce: TemplateVariable
-			reduce(83), // newline, reduce: TemplateVariable
-			reduce(83), // *, reduce: TemplateVariable
-			reduce(83), // <, reduce: TemplateVariable
-			reduce(83), // >, reduce: TemplateVariable
-			reduce(83), // [, reduce: TemplateVariable
-			reduce(83), // ], reduce: TemplateVariable
-			reduce(83), // (, reduce: TemplateVariable
-			reduce(83), // ), reduce: TemplateVariable
-			reduce(83), // ,, reduce: TemplateVariable
-			reduce(83), // ., reduce: TemplateVariable
-			reduce(83), // |, reduce: TemplateVariable
-			reduce(83), // ^, reduce: TemplateVariable
-			reduce(83), // &, reduce: TemplateVariable
-			reduce(83), // <<, reduce: TemplateVariable
-			reduce(83), // >>, reduce: TemplateVariable
-			reduce(83), // =>, reduce: TemplateVariable
-			reduce(83), // /, reduce: TemplateVariable
-			reduce(83), // +, reduce: TemplateVariable
-			reduce(83), // -, reduce: TemplateVariable
-			reduce(83), // ||, reduce: TemplateVariable
-			reduce(83), // <>, reduce: TemplateVariable
-			reduce(83), // !=, reduce: TemplateVariable
-			reduce(83), // =, reduce: TemplateVariable
-			reduce(83), // <=, reduce: TemplateVariable
-			reduce(83), // >=, reduce: TemplateVariable
-			reduce(83), // ;, reduce: TemplateVariable
-			reduce(83), // @, reduce: TemplateVariable
-			reduce(83), // {, reduce: TemplateVariable
-			reduce(83), // }, reduce: TemplateVariable
-			reduce(83), // ~, reduce: TemplateVariable
-			reduce(83), // else, reduce: TemplateVariable
-			reduce(83), // if, reduce: TemplateVariable
-			reduce(83), // for, reduce: TemplateVariable
-			reduce(83), // endfor, reduce: TemplateVariable
-			reduce(83), // elif, reduce: TemplateVariable
-			reduce(83), // endif, reduce: TemplateVariable
-			reduce(83), // set, reduce: TemplateVariable
-			reduce(83), // ?, reduce: TemplateVariable
-			reduce(83), // comment, reduce: TemplateVariable
-			reduce(83), // template_block_end, reduce: TemplateVariable
-			reduce(83), // template_block_start, reduce: TemplateVariable
-			reduce(83), // template_comment, reduce: TemplateVariable
+			reduce(66), // identifier, reduce: TemplateIfBlock
+			reduce(66), // bytes_literal, reduce: TemplateIfBlock
+			reduce(66), // string_literal, reduce: TemplateIfBlock
+			reduce(66), // integer_literal, reduce: TemplateIfBlock
+			reduce(66), // floating_point_literal, reduce: TemplateIfBlock
+			reduce(66), // newline, reduce: TemplateIfBlock
+			reduce(66), // *, reduce: TemplateIfBlock
+			reduce(66), // <, reduce: TemplateIfBlock
+			reduce(66), // >, reduce: TemplateIfBlock
+			reduce(66), // [, reduce: TemplateIfBlock
+			reduce(66), // ], reduce: TemplateIfBlock
+			reduce(66), // (, reduce: TemplateIfBlock
+			reduce(66), // ), reduce: TemplateIfBlock
+			reduce(66), // ,, reduce: TemplateIfBlock
+			reduce(66), // ., reduce: TemplateIfBlock
+			reduce(66), // |, reduce: TemplateIfBlock
+			reduce(66), // ^, reduce: TemplateIfBlock
+			reduce(66), // &, reduce: TemplateIfBlock
+			reduce(66), // <<, reduce: TemplateIfBlock
+			reduce(66), // >>, reduce: TemplateIfBlock
+			reduce(66), // =>, reduce: TemplateIfBlock
+			reduce(66), // /, reduce: TemplateIfBlock
+			reduce(66), // +, reduce: TemplateIfBlock
+			reduce(66), // -, reduce: TemplateIfBlock
+			reduce(66), // ||, reduce: TemplateIfBlock
+			reduce(66), // <>, reduce: TemplateIfBlock
+			reduce(66), // !=, reduce: TemplateIfBlock
+			reduce(66), // =, reduce: TemplateIfBlock
+			reduce(66), // <=, reduce: TemplateIfBlock
+			reduce(66), // >=, reduce: TemplateIfBlock
+			reduce(66), // ;, reduce: TemplateIfBlock
+			reduce(66), // @, reduce: TemplateIfBlock
+			reduce(66), // {, reduce: TemplateIfBlock
+			reduce(66), // }, reduce: TemplateIfBlock
+			reduce(66), // ~, reduce: TemplateIfBlock
+			reduce(66), // else, reduce: TemplateIfBlock
+			reduce(66), // if, reduce: TemplateIfBlock
+			reduce(66), // for, reduce: TemplateIfBlock
+			reduce(66), // endfor, reduce: TemplateIfBlock
+			reduce(66), // elif, reduce: TemplateIfBlock
+			reduce(66), // endif, reduce: TemplateIfBlock
+			reduce(66), // set, reduce: TemplateIfBlock
+			reduce(66), // ?, reduce: TemplateIfBlock
+			reduce(66), // :, reduce: TemplateIfBlock
+			reduce(66), // comment, reduce: TemplateIfBlock
+			reduce(66), // template_block_end, reduce: TemplateIfBlock
+			reduce(66), // template_block_start, reduce: TemplateIfBlock
+			reduce(66), // template_comment, reduce: TemplateIfBlock
 			nil,        // template_variable_end
-			reduce(83), // template_variable_start, reduce: TemplateVariable
+			reduce(66), // template_variable_start, reduce: TemplateIfBlock
 		},
 	},
 	actionRow{ // S265
@@ -14856,55 +15121,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(62), // identifier, reduce: TemplateSetBlock
-			reduce(62), // bytes_literal, reduce: TemplateSetBlock
-			reduce(62), // string_literal, reduce: TemplateSetBlock
-			reduce(62), // integer_literal, reduce: TemplateSetBlock
-			reduce(62), // floating_point_literal, reduce: TemplateSetBlock
-			reduce(62), // newline, reduce: TemplateSetBlock
-			reduce(62), // *, reduce: TemplateSetBlock
-			reduce(62), // <, reduce: TemplateSetBlock
-			reduce(62), // >, reduce: TemplateSetBlock
-			reduce(62), // [, reduce: TemplateSetBlock
-			reduce(62), // ], reduce: TemplateSetBlock
-			reduce(62), // (, reduce: TemplateSetBlock
-			reduce(62), // ), reduce: TemplateSetBlock
-			reduce(62), // ,, reduce: TemplateSetBlock
-			reduce(62), // ., reduce: TemplateSetBlock
-			reduce(62), // |, reduce: TemplateSetBlock
-			reduce(62), // ^, reduce: TemplateSetBlock
-			reduce(62), // &, reduce: TemplateSetBlock
-			reduce(62), // <<, reduce: TemplateSetBlock
-			reduce(62), // >>, reduce: TemplateSetBlock
-			reduce(62), // =>, reduce: TemplateSetBlock
-			reduce(62), // /, reduce: TemplateSetBlock
-			reduce(62), // +, reduce: TemplateSetBlock
-			reduce(62), // -, reduce: TemplateSetBlock
-			reduce(62), // ||, reduce: TemplateSetBlock
-			reduce(62), // <>, reduce: TemplateSetBlock
-			reduce(62), // !=, reduce: TemplateSetBlock
-			reduce(62), // =, reduce: TemplateSetBlock
-			reduce(62), // <=, reduce: TemplateSetBlock
-			reduce(62), // >=, reduce: TemplateSetBlock
-			reduce(62), // ;, reduce: TemplateSetBlock
-			reduce(62), // @, reduce: TemplateSetBlock
-			reduce(62), // {, reduce: TemplateSetBlock
-			reduce(62), // }, reduce: TemplateSetBlock
-			reduce(62), // ~, reduce: TemplateSetBlock
-			reduce(62), // else, reduce: TemplateSetBlock
-			reduce(62), // if, reduce: TemplateSetBlock
-			reduce(62), // for, reduce: TemplateSetBlock
-			reduce(62), // endfor, reduce: TemplateSetBlock
-			reduce(62), // elif, reduce: TemplateSetBlock
-			reduce(62), // endif, reduce: TemplateSetBlock
-			reduce(62), // set, reduce: TemplateSetBlock
-			reduce(62), // ?, reduce: TemplateSetBlock
-			reduce(62), // comment, reduce: TemplateSetBlock
+			shift(283), // identifier
+			shift(284), // bytes_literal
+			shift(285), // string_literal
+			shift(286), // integer_literal
+			shift(287), // floating_point_literal
+			shift(288), // newline
+			shift(289), // *
+			shift(290), // <
+			shift(291), // >
+			shift(292), // [
+			shift(293), // ]
+			shift(294), // (
+			shift(295), // )
+			shift(296), // ,
+			shift(297), // .
+			shift(298), // |
+			shift(299), // ^
+			shift(300), // &
+			shift(301), // <<
+			shift(302), // >>
+			shift(303), // =>
+			shift(304), // /
+			shift(305), // +
+			shift(306), // -
+			shift(307), // ||
+			shift(308), // <>
+			shift(309), // !=
+			shift(310), // =
+			shift(311), // <=
+			shift(312), // >=
+			shift(313), // ;
+			shift(314), // @
+			shift(315), // {
+			shift(316), // }
+			shift(317), // ~
+			shift(318), // else
+			shift(319), // if
+			shift(320), // for
+			shift(321), // endfor
+			shift(322), // elif
+			shift(323), // endif
+			shift(324), // set
+			shift(325), // ?
+			shift(326), // :
+			shift(327), // comment
 			nil,        // template_block_end
-			reduce(62), // template_block_start, reduce: TemplateSetBlock
-			reduce(62), // template_comment, reduce: TemplateSetBlock
+			shift(348), // template_block_start
+			shift(333), // template_comment
 			nil,        // template_variable_end
-			reduce(62), // template_variable_start, reduce: TemplateSetBlock
+			shift(65),  // template_variable_start
 		},
 	},
 	actionRow{ // S266
@@ -14948,15 +15214,16 @@ var actionTab = actionTable{
 			nil,        // }
 			nil,        // ~
 			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
+			shift(131), // if
+			shift(132), // for
+			shift(350), // endfor
 			nil,        // elif
 			nil,        // endif
-			nil,        // set
+			shift(133), // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
-			shift(346), // template_block_end
+			nil,        // template_block_end
 			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
@@ -14964,6 +15231,177 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S267
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(76), // identifier, reduce: TemplateForBlock
+			reduce(76), // bytes_literal, reduce: TemplateForBlock
+			reduce(76), // string_literal, reduce: TemplateForBlock
+			reduce(76), // integer_literal, reduce: TemplateForBlock
+			reduce(76), // floating_point_literal, reduce: TemplateForBlock
+			reduce(76), // newline, reduce: TemplateForBlock
+			reduce(76), // *, reduce: TemplateForBlock
+			reduce(76), // <, reduce: TemplateForBlock
+			reduce(76), // >, reduce: TemplateForBlock
+			reduce(76), // [, reduce: TemplateForBlock
+			reduce(76), // ], reduce: TemplateForBlock
+			reduce(76), // (, reduce: TemplateForBlock
+			reduce(76), // ), reduce: TemplateForBlock
+			reduce(76), // ,, reduce: TemplateForBlock
+			reduce(76), // ., reduce: TemplateForBlock
+			reduce(76), // |, reduce: TemplateForBlock
+			reduce(76), // ^, reduce: TemplateForBlock
+			reduce(76), // &, reduce: TemplateForBlock
+			reduce(76), // <<, reduce: TemplateForBlock
+			reduce(76), // >>, reduce: TemplateForBlock
+			reduce(76), // =>, reduce: TemplateForBlock
+			reduce(76), // /, reduce: TemplateForBlock
+			reduce(76), // +, reduce: TemplateForBlock
+			reduce(76), // -, reduce: TemplateForBlock
+			reduce(76), // ||, reduce: TemplateForBlock
+			reduce(76), // <>, reduce: TemplateForBlock
+			reduce(76), // !=, reduce: TemplateForBlock
+			reduce(76), // =, reduce: TemplateForBlock
+			reduce(76), // <=, reduce: TemplateForBlock
+			reduce(76), // >=, reduce: TemplateForBlock
+			reduce(76), // ;, reduce: TemplateForBlock
+			reduce(76), // @, reduce: TemplateForBlock
+			reduce(76), // {, reduce: TemplateForBlock
+			reduce(76), // }, reduce: TemplateForBlock
+			reduce(76), // ~, reduce: TemplateForBlock
+			reduce(76), // else, reduce: TemplateForBlock
+			reduce(76), // if, reduce: TemplateForBlock
+			reduce(76), // for, reduce: TemplateForBlock
+			reduce(76), // endfor, reduce: TemplateForBlock
+			reduce(76), // elif, reduce: TemplateForBlock
+			reduce(76), // endif, reduce: TemplateForBlock
+			reduce(76), // set, reduce: TemplateForBlock
+			reduce(76), // ?, reduce: TemplateForBlock
+			reduce(76), // :, reduce: TemplateForBlock
+			reduce(76), // comment, reduce: TemplateForBlock
+			reduce(76), // template_block_end, reduce: TemplateForBlock
+			reduce(76), // template_block_start, reduce: TemplateForBlock
+			reduce(76), // template_comment, reduce: TemplateForBlock
+			nil,        // template_variable_end
+			reduce(76), // template_variable_start, reduce: TemplateForBlock
+		},
+	},
+	actionRow{ // S268
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(84), // identifier, reduce: TemplateVariable
+			reduce(84), // bytes_literal, reduce: TemplateVariable
+			reduce(84), // string_literal, reduce: TemplateVariable
+			reduce(84), // integer_literal, reduce: TemplateVariable
+			reduce(84), // floating_point_literal, reduce: TemplateVariable
+			reduce(84), // newline, reduce: TemplateVariable
+			reduce(84), // *, reduce: TemplateVariable
+			reduce(84), // <, reduce: TemplateVariable
+			reduce(84), // >, reduce: TemplateVariable
+			reduce(84), // [, reduce: TemplateVariable
+			reduce(84), // ], reduce: TemplateVariable
+			reduce(84), // (, reduce: TemplateVariable
+			reduce(84), // ), reduce: TemplateVariable
+			reduce(84), // ,, reduce: TemplateVariable
+			reduce(84), // ., reduce: TemplateVariable
+			reduce(84), // |, reduce: TemplateVariable
+			reduce(84), // ^, reduce: TemplateVariable
+			reduce(84), // &, reduce: TemplateVariable
+			reduce(84), // <<, reduce: TemplateVariable
+			reduce(84), // >>, reduce: TemplateVariable
+			reduce(84), // =>, reduce: TemplateVariable
+			reduce(84), // /, reduce: TemplateVariable
+			reduce(84), // +, reduce: TemplateVariable
+			reduce(84), // -, reduce: TemplateVariable
+			reduce(84), // ||, reduce: TemplateVariable
+			reduce(84), // <>, reduce: TemplateVariable
+			reduce(84), // !=, reduce: TemplateVariable
+			reduce(84), // =, reduce: TemplateVariable
+			reduce(84), // <=, reduce: TemplateVariable
+			reduce(84), // >=, reduce: TemplateVariable
+			reduce(84), // ;, reduce: TemplateVariable
+			reduce(84), // @, reduce: TemplateVariable
+			reduce(84), // {, reduce: TemplateVariable
+			reduce(84), // }, reduce: TemplateVariable
+			reduce(84), // ~, reduce: TemplateVariable
+			reduce(84), // else, reduce: TemplateVariable
+			reduce(84), // if, reduce: TemplateVariable
+			reduce(84), // for, reduce: TemplateVariable
+			reduce(84), // endfor, reduce: TemplateVariable
+			reduce(84), // elif, reduce: TemplateVariable
+			reduce(84), // endif, reduce: TemplateVariable
+			reduce(84), // set, reduce: TemplateVariable
+			reduce(84), // ?, reduce: TemplateVariable
+			reduce(84), // :, reduce: TemplateVariable
+			reduce(84), // comment, reduce: TemplateVariable
+			reduce(84), // template_block_end, reduce: TemplateVariable
+			reduce(84), // template_block_start, reduce: TemplateVariable
+			reduce(84), // template_comment, reduce: TemplateVariable
+			nil,        // template_variable_end
+			reduce(84), // template_variable_start, reduce: TemplateVariable
+		},
+	},
+	actionRow{ // S269
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(63), // identifier, reduce: TemplateSetBlock
+			reduce(63), // bytes_literal, reduce: TemplateSetBlock
+			reduce(63), // string_literal, reduce: TemplateSetBlock
+			reduce(63), // integer_literal, reduce: TemplateSetBlock
+			reduce(63), // floating_point_literal, reduce: TemplateSetBlock
+			reduce(63), // newline, reduce: TemplateSetBlock
+			reduce(63), // *, reduce: TemplateSetBlock
+			reduce(63), // <, reduce: TemplateSetBlock
+			reduce(63), // >, reduce: TemplateSetBlock
+			reduce(63), // [, reduce: TemplateSetBlock
+			reduce(63), // ], reduce: TemplateSetBlock
+			reduce(63), // (, reduce: TemplateSetBlock
+			reduce(63), // ), reduce: TemplateSetBlock
+			reduce(63), // ,, reduce: TemplateSetBlock
+			reduce(63), // ., reduce: TemplateSetBlock
+			reduce(63), // |, reduce: TemplateSetBlock
+			reduce(63), // ^, reduce: TemplateSetBlock
+			reduce(63), // &, reduce: TemplateSetBlock
+			reduce(63), // <<, reduce: TemplateSetBlock
+			reduce(63), // >>, reduce: TemplateSetBlock
+			reduce(63), // =>, reduce: TemplateSetBlock
+			reduce(63), // /, reduce: TemplateSetBlock
+			reduce(63), // +, reduce: TemplateSetBlock
+			reduce(63), // -, reduce: TemplateSetBlock
+			reduce(63), // ||, reduce: TemplateSetBlock
+			reduce(63), // <>, reduce: TemplateSetBlock
+			reduce(63), // !=, reduce: TemplateSetBlock
+			reduce(63), // =, reduce: TemplateSetBlock
+			reduce(63), // <=, reduce: TemplateSetBlock
+			reduce(63), // >=, reduce: TemplateSetBlock
+			reduce(63), // ;, reduce: TemplateSetBlock
+			reduce(63), // @, reduce: TemplateSetBlock
+			reduce(63), // {, reduce: TemplateSetBlock
+			reduce(63), // }, reduce: TemplateSetBlock
+			reduce(63), // ~, reduce: TemplateSetBlock
+			reduce(63), // else, reduce: TemplateSetBlock
+			reduce(63), // if, reduce: TemplateSetBlock
+			reduce(63), // for, reduce: TemplateSetBlock
+			reduce(63), // endfor, reduce: TemplateSetBlock
+			reduce(63), // elif, reduce: TemplateSetBlock
+			reduce(63), // endif, reduce: TemplateSetBlock
+			reduce(63), // set, reduce: TemplateSetBlock
+			reduce(63), // ?, reduce: TemplateSetBlock
+			reduce(63), // :, reduce: TemplateSetBlock
+			reduce(63), // comment, reduce: TemplateSetBlock
+			nil,        // template_block_end
+			reduce(63), // template_block_start, reduce: TemplateSetBlock
+			reduce(63), // template_comment, reduce: TemplateSetBlock
+			nil,        // template_variable_end
+			reduce(63), // template_variable_start, reduce: TemplateSetBlock
+		},
+	},
+	actionRow{ // S270
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -15011,180 +15449,13 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
-			shift(347), // template_block_end
+			shift(351), // template_block_end
 			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S268
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			shift(266), // else
-			shift(129), // if
-			shift(130), // for
-			nil,        // endfor
-			nil,        // elif
-			shift(348), // endif
-			shift(131), // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S269
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(65), // identifier, reduce: TemplateIfBlock
-			reduce(65), // bytes_literal, reduce: TemplateIfBlock
-			reduce(65), // string_literal, reduce: TemplateIfBlock
-			reduce(65), // integer_literal, reduce: TemplateIfBlock
-			reduce(65), // floating_point_literal, reduce: TemplateIfBlock
-			reduce(65), // newline, reduce: TemplateIfBlock
-			reduce(65), // *, reduce: TemplateIfBlock
-			reduce(65), // <, reduce: TemplateIfBlock
-			reduce(65), // >, reduce: TemplateIfBlock
-			reduce(65), // [, reduce: TemplateIfBlock
-			reduce(65), // ], reduce: TemplateIfBlock
-			reduce(65), // (, reduce: TemplateIfBlock
-			reduce(65), // ), reduce: TemplateIfBlock
-			reduce(65), // ,, reduce: TemplateIfBlock
-			reduce(65), // ., reduce: TemplateIfBlock
-			reduce(65), // |, reduce: TemplateIfBlock
-			reduce(65), // ^, reduce: TemplateIfBlock
-			reduce(65), // &, reduce: TemplateIfBlock
-			reduce(65), // <<, reduce: TemplateIfBlock
-			reduce(65), // >>, reduce: TemplateIfBlock
-			reduce(65), // =>, reduce: TemplateIfBlock
-			reduce(65), // /, reduce: TemplateIfBlock
-			reduce(65), // +, reduce: TemplateIfBlock
-			reduce(65), // -, reduce: TemplateIfBlock
-			reduce(65), // ||, reduce: TemplateIfBlock
-			reduce(65), // <>, reduce: TemplateIfBlock
-			reduce(65), // !=, reduce: TemplateIfBlock
-			reduce(65), // =, reduce: TemplateIfBlock
-			reduce(65), // <=, reduce: TemplateIfBlock
-			reduce(65), // >=, reduce: TemplateIfBlock
-			reduce(65), // ;, reduce: TemplateIfBlock
-			reduce(65), // @, reduce: TemplateIfBlock
-			reduce(65), // {, reduce: TemplateIfBlock
-			reduce(65), // }, reduce: TemplateIfBlock
-			reduce(65), // ~, reduce: TemplateIfBlock
-			reduce(65), // else, reduce: TemplateIfBlock
-			reduce(65), // if, reduce: TemplateIfBlock
-			reduce(65), // for, reduce: TemplateIfBlock
-			reduce(65), // endfor, reduce: TemplateIfBlock
-			reduce(65), // elif, reduce: TemplateIfBlock
-			reduce(65), // endif, reduce: TemplateIfBlock
-			reduce(65), // set, reduce: TemplateIfBlock
-			reduce(65), // ?, reduce: TemplateIfBlock
-			reduce(65), // comment, reduce: TemplateIfBlock
-			nil,        // template_block_end
-			reduce(65), // template_block_start, reduce: TemplateIfBlock
-			reduce(65), // template_comment, reduce: TemplateIfBlock
-			nil,        // template_variable_end
-			reduce(65), // template_variable_start, reduce: TemplateIfBlock
-		},
-	},
-	actionRow{ // S270
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(279), // identifier
-			shift(280), // bytes_literal
-			shift(281), // string_literal
-			shift(282), // integer_literal
-			shift(283), // floating_point_literal
-			shift(284), // newline
-			shift(285), // *
-			shift(286), // <
-			shift(287), // >
-			shift(288), // [
-			shift(289), // ]
-			shift(290), // (
-			shift(291), // )
-			shift(292), // ,
-			shift(293), // .
-			shift(294), // |
-			shift(295), // ^
-			shift(296), // &
-			shift(297), // <<
-			shift(298), // >>
-			shift(299), // =>
-			shift(300), // /
-			shift(301), // +
-			shift(302), // -
-			shift(303), // ||
-			shift(304), // <>
-			shift(305), // !=
-			shift(306), // =
-			shift(307), // <=
-			shift(308), // >=
-			shift(309), // ;
-			shift(310), // @
-			shift(311), // {
-			shift(312), // }
-			shift(313), // ~
-			shift(314), // else
-			shift(315), // if
-			shift(316), // for
-			shift(317), // endfor
-			shift(318), // elif
-			shift(319), // endif
-			shift(320), // set
-			shift(321), // ?
-			shift(322), // comment
-			nil,        // template_block_end
-			shift(350), // template_block_start
-			shift(328), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
 		},
 	},
 	actionRow{ // S271
@@ -15235,9 +15506,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
-			nil,        // template_block_end
-			shift(352), // template_block_start
+			shift(352), // template_block_end
+			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -15283,17 +15555,18 @@ var actionTab = actionTable{
 			nil,        // {
 			nil,        // }
 			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
+			shift(270), // else
+			shift(131), // if
+			shift(132), // for
 			nil,        // endfor
 			nil,        // elif
-			nil,        // endif
-			nil,        // set
+			shift(353), // endif
+			shift(133), // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(11), // template_block_start, reduce: Element
+			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -15302,113 +15575,115 @@ var actionTab = actionTable{
 	actionRow{ // S273
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       // INVALID
-			nil,       // ␚
-			nil,       // identifier
-			nil,       // bytes_literal
-			nil,       // string_literal
-			nil,       // integer_literal
-			nil,       // floating_point_literal
-			nil,       // newline
-			nil,       // *
-			nil,       // <
-			nil,       // >
-			nil,       // [
-			nil,       // ]
-			nil,       // (
-			nil,       // )
-			nil,       // ,
-			nil,       // .
-			nil,       // |
-			nil,       // ^
-			nil,       // &
-			nil,       // <<
-			nil,       // >>
-			nil,       // =>
-			nil,       // /
-			nil,       // +
-			nil,       // -
-			nil,       // ||
-			nil,       // <>
-			nil,       // !=
-			nil,       // =
-			nil,       // <=
-			nil,       // >=
-			nil,       // ;
-			nil,       // @
-			nil,       // {
-			nil,       // }
-			nil,       // ~
-			nil,       // else
-			nil,       // if
-			nil,       // for
-			nil,       // endfor
-			nil,       // elif
-			nil,       // endif
-			nil,       // set
-			nil,       // ?
-			nil,       // comment
-			nil,       // template_block_end
-			reduce(8), // template_block_start, reduce: Element
-			nil,       // template_comment
-			nil,       // template_variable_end
-			nil,       // template_variable_start
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(66), // identifier, reduce: TemplateIfBlock
+			reduce(66), // bytes_literal, reduce: TemplateIfBlock
+			reduce(66), // string_literal, reduce: TemplateIfBlock
+			reduce(66), // integer_literal, reduce: TemplateIfBlock
+			reduce(66), // floating_point_literal, reduce: TemplateIfBlock
+			reduce(66), // newline, reduce: TemplateIfBlock
+			reduce(66), // *, reduce: TemplateIfBlock
+			reduce(66), // <, reduce: TemplateIfBlock
+			reduce(66), // >, reduce: TemplateIfBlock
+			reduce(66), // [, reduce: TemplateIfBlock
+			reduce(66), // ], reduce: TemplateIfBlock
+			reduce(66), // (, reduce: TemplateIfBlock
+			reduce(66), // ), reduce: TemplateIfBlock
+			reduce(66), // ,, reduce: TemplateIfBlock
+			reduce(66), // ., reduce: TemplateIfBlock
+			reduce(66), // |, reduce: TemplateIfBlock
+			reduce(66), // ^, reduce: TemplateIfBlock
+			reduce(66), // &, reduce: TemplateIfBlock
+			reduce(66), // <<, reduce: TemplateIfBlock
+			reduce(66), // >>, reduce: TemplateIfBlock
+			reduce(66), // =>, reduce: TemplateIfBlock
+			reduce(66), // /, reduce: TemplateIfBlock
+			reduce(66), // +, reduce: TemplateIfBlock
+			reduce(66), // -, reduce: TemplateIfBlock
+			reduce(66), // ||, reduce: TemplateIfBlock
+			reduce(66), // <>, reduce: TemplateIfBlock
+			reduce(66), // !=, reduce: TemplateIfBlock
+			reduce(66), // =, reduce: TemplateIfBlock
+			reduce(66), // <=, reduce: TemplateIfBlock
+			reduce(66), // >=, reduce: TemplateIfBlock
+			reduce(66), // ;, reduce: TemplateIfBlock
+			reduce(66), // @, reduce: TemplateIfBlock
+			reduce(66), // {, reduce: TemplateIfBlock
+			reduce(66), // }, reduce: TemplateIfBlock
+			reduce(66), // ~, reduce: TemplateIfBlock
+			reduce(66), // else, reduce: TemplateIfBlock
+			reduce(66), // if, reduce: TemplateIfBlock
+			reduce(66), // for, reduce: TemplateIfBlock
+			reduce(66), // endfor, reduce: TemplateIfBlock
+			reduce(66), // elif, reduce: TemplateIfBlock
+			reduce(66), // endif, reduce: TemplateIfBlock
+			reduce(66), // set, reduce: TemplateIfBlock
+			reduce(66), // ?, reduce: TemplateIfBlock
+			reduce(66), // :, reduce: TemplateIfBlock
+			reduce(66), // comment, reduce: TemplateIfBlock
+			nil,        // template_block_end
+			reduce(66), // template_block_start, reduce: TemplateIfBlock
+			reduce(66), // template_comment, reduce: TemplateIfBlock
+			nil,        // template_variable_end
+			reduce(66), // template_variable_start, reduce: TemplateIfBlock
 		},
 	},
 	actionRow{ // S274
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       // INVALID
-			nil,       // ␚
-			nil,       // identifier
-			nil,       // bytes_literal
-			nil,       // string_literal
-			nil,       // integer_literal
-			nil,       // floating_point_literal
-			nil,       // newline
-			nil,       // *
-			nil,       // <
-			nil,       // >
-			nil,       // [
-			nil,       // ]
-			nil,       // (
-			nil,       // )
-			nil,       // ,
-			nil,       // .
-			nil,       // |
-			nil,       // ^
-			nil,       // &
-			nil,       // <<
-			nil,       // >>
-			nil,       // =>
-			nil,       // /
-			nil,       // +
-			nil,       // -
-			nil,       // ||
-			nil,       // <>
-			nil,       // !=
-			nil,       // =
-			nil,       // <=
-			nil,       // >=
-			nil,       // ;
-			nil,       // @
-			nil,       // {
-			nil,       // }
-			nil,       // ~
-			nil,       // else
-			nil,       // if
-			nil,       // for
-			nil,       // endfor
-			nil,       // elif
-			nil,       // endif
-			nil,       // set
-			nil,       // ?
-			nil,       // comment
-			nil,       // template_block_end
-			reduce(9), // template_block_start, reduce: Element
-			nil,       // template_comment
-			nil,       // template_variable_end
-			nil,       // template_variable_start
+			nil,        // INVALID
+			nil,        // ␚
+			shift(283), // identifier
+			shift(284), // bytes_literal
+			shift(285), // string_literal
+			shift(286), // integer_literal
+			shift(287), // floating_point_literal
+			shift(288), // newline
+			shift(289), // *
+			shift(290), // <
+			shift(291), // >
+			shift(292), // [
+			shift(293), // ]
+			shift(294), // (
+			shift(295), // )
+			shift(296), // ,
+			shift(297), // .
+			shift(298), // |
+			shift(299), // ^
+			shift(300), // &
+			shift(301), // <<
+			shift(302), // >>
+			shift(303), // =>
+			shift(304), // /
+			shift(305), // +
+			shift(306), // -
+			shift(307), // ||
+			shift(308), // <>
+			shift(309), // !=
+			shift(310), // =
+			shift(311), // <=
+			shift(312), // >=
+			shift(313), // ;
+			shift(314), // @
+			shift(315), // {
+			shift(316), // }
+			shift(317), // ~
+			shift(318), // else
+			shift(319), // if
+			shift(320), // for
+			shift(321), // endfor
+			shift(322), // elif
+			shift(323), // endif
+			shift(324), // set
+			shift(325), // ?
+			shift(326), // :
+			shift(327), // comment
+			nil,        // template_block_end
+			shift(355), // template_block_start
+			shift(333), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
 		},
 	},
 	actionRow{ // S275
@@ -15459,9 +15734,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(10), // template_block_start, reduce: Element
+			shift(357), // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -15515,9 +15791,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(12), // template_block_start, reduce: Element
+			reduce(11), // template_block_start, reduce: Element
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -15526,113 +15803,115 @@ var actionTab = actionTable{
 	actionRow{ // S277
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
-			nil,        // elif
-			nil,        // endif
-			nil,        // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			reduce(13), // template_block_start, reduce: Element
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
+			nil,       // INVALID
+			nil,       // ␚
+			nil,       // identifier
+			nil,       // bytes_literal
+			nil,       // string_literal
+			nil,       // integer_literal
+			nil,       // floating_point_literal
+			nil,       // newline
+			nil,       // *
+			nil,       // <
+			nil,       // >
+			nil,       // [
+			nil,       // ]
+			nil,       // (
+			nil,       // )
+			nil,       // ,
+			nil,       // .
+			nil,       // |
+			nil,       // ^
+			nil,       // &
+			nil,       // <<
+			nil,       // >>
+			nil,       // =>
+			nil,       // /
+			nil,       // +
+			nil,       // -
+			nil,       // ||
+			nil,       // <>
+			nil,       // !=
+			nil,       // =
+			nil,       // <=
+			nil,       // >=
+			nil,       // ;
+			nil,       // @
+			nil,       // {
+			nil,       // }
+			nil,       // ~
+			nil,       // else
+			nil,       // if
+			nil,       // for
+			nil,       // endfor
+			nil,       // elif
+			nil,       // endif
+			nil,       // set
+			nil,       // ?
+			nil,       // :
+			nil,       // comment
+			nil,       // template_block_end
+			reduce(8), // template_block_start, reduce: Element
+			nil,       // template_comment
+			nil,       // template_variable_end
+			nil,       // template_variable_start
 		},
 	},
 	actionRow{ // S278
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
-			nil,        // elif
-			nil,        // endif
-			nil,        // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			reduce(14), // template_block_start, reduce: Element2
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
+			nil,       // INVALID
+			nil,       // ␚
+			nil,       // identifier
+			nil,       // bytes_literal
+			nil,       // string_literal
+			nil,       // integer_literal
+			nil,       // floating_point_literal
+			nil,       // newline
+			nil,       // *
+			nil,       // <
+			nil,       // >
+			nil,       // [
+			nil,       // ]
+			nil,       // (
+			nil,       // )
+			nil,       // ,
+			nil,       // .
+			nil,       // |
+			nil,       // ^
+			nil,       // &
+			nil,       // <<
+			nil,       // >>
+			nil,       // =>
+			nil,       // /
+			nil,       // +
+			nil,       // -
+			nil,       // ||
+			nil,       // <>
+			nil,       // !=
+			nil,       // =
+			nil,       // <=
+			nil,       // >=
+			nil,       // ;
+			nil,       // @
+			nil,       // {
+			nil,       // }
+			nil,       // ~
+			nil,       // else
+			nil,       // if
+			nil,       // for
+			nil,       // endfor
+			nil,       // elif
+			nil,       // endif
+			nil,       // set
+			nil,       // ?
+			nil,       // :
+			nil,       // comment
+			nil,       // template_block_end
+			reduce(9), // template_block_start, reduce: Element
+			nil,       // template_comment
+			nil,       // template_variable_end
+			nil,       // template_variable_start
 		},
 	},
 	actionRow{ // S279
@@ -15683,9 +15962,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(15), // template_block_start, reduce: Element2
+			reduce(10), // template_block_start, reduce: Element
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -15739,9 +16019,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(16), // template_block_start, reduce: Element2
+			reduce(12), // template_block_start, reduce: Element
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -15795,9 +16076,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(17), // template_block_start, reduce: Element2
+			reduce(13), // template_block_start, reduce: Element
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -15851,9 +16133,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(18), // template_block_start, reduce: Element2
+			reduce(14), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -15907,9 +16190,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(19), // template_block_start, reduce: Element2
+			reduce(15), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -15963,9 +16247,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(20), // template_block_start, reduce: Element2
+			reduce(16), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16019,9 +16304,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(21), // template_block_start, reduce: Element2
+			reduce(17), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16075,9 +16361,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(22), // template_block_start, reduce: Element2
+			reduce(18), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16131,9 +16418,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(23), // template_block_start, reduce: Element2
+			reduce(19), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16187,9 +16475,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(24), // template_block_start, reduce: Element2
+			reduce(20), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16243,9 +16532,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(25), // template_block_start, reduce: Element2
+			reduce(21), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16299,9 +16589,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(26), // template_block_start, reduce: Element2
+			reduce(22), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16355,9 +16646,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(27), // template_block_start, reduce: Element2
+			reduce(23), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16411,9 +16703,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(28), // template_block_start, reduce: Element2
+			reduce(24), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16467,9 +16760,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(29), // template_block_start, reduce: Element2
+			reduce(25), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16523,9 +16817,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(30), // template_block_start, reduce: Element2
+			reduce(26), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16579,9 +16874,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(31), // template_block_start, reduce: Element2
+			reduce(27), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16635,9 +16931,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(32), // template_block_start, reduce: Element2
+			reduce(28), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16691,9 +16988,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(33), // template_block_start, reduce: Element2
+			reduce(29), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16747,9 +17045,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(34), // template_block_start, reduce: Element2
+			reduce(30), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16803,9 +17102,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(35), // template_block_start, reduce: Element2
+			reduce(31), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16859,9 +17159,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(36), // template_block_start, reduce: Element2
+			reduce(32), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16915,9 +17216,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(37), // template_block_start, reduce: Element2
+			reduce(33), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -16971,9 +17273,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(38), // template_block_start, reduce: Element2
+			reduce(34), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17027,9 +17330,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(39), // template_block_start, reduce: Element2
+			reduce(35), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17083,9 +17387,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(40), // template_block_start, reduce: Element2
+			reduce(36), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17139,9 +17444,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(41), // template_block_start, reduce: Element2
+			reduce(37), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17195,9 +17501,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(42), // template_block_start, reduce: Element2
+			reduce(38), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17251,9 +17558,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(44), // template_block_start, reduce: Element2
+			reduce(39), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17307,9 +17615,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(46), // template_block_start, reduce: Element2
+			reduce(40), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17363,9 +17672,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(47), // template_block_start, reduce: Element2
+			reduce(41), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17419,9 +17729,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(49), // template_block_start, reduce: Element2
+			reduce(42), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17475,9 +17786,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(50), // template_block_start, reduce: Element2
+			reduce(44), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17531,9 +17843,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(51), // template_block_start, reduce: Element2
+			reduce(46), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17587,9 +17900,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(52), // template_block_start, reduce: Element2
+			reduce(47), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17643,9 +17957,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(53), // template_block_start, reduce: Element2
+			reduce(49), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17699,9 +18014,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(54), // template_block_start, reduce: Element2
+			reduce(50), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17755,9 +18071,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(55), // template_block_start, reduce: Element2
+			reduce(51), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17811,9 +18128,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(56), // template_block_start, reduce: Element2
+			reduce(52), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17867,9 +18185,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(57), // template_block_start, reduce: Element2
+			reduce(53), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17923,9 +18242,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(58), // template_block_start, reduce: Element2
+			reduce(54), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -17979,9 +18299,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(59), // template_block_start, reduce: Element2
+			reduce(55), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -18035,9 +18356,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(60), // template_block_start, reduce: Element2
+			reduce(56), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -18091,295 +18413,16 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(61), // template_block_start, reduce: Comment
+			reduce(57), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S323
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(79),  // identifier
-			shift(80),  // bytes_literal
-			shift(81),  // string_literal
-			shift(82),  // integer_literal
-			shift(83),  // floating_point_literal
-			shift(84),  // newline
-			shift(85),  // *
-			shift(86),  // <
-			shift(87),  // >
-			shift(88),  // [
-			shift(89),  // ]
-			shift(90),  // (
-			shift(91),  // )
-			shift(92),  // ,
-			shift(93),  // .
-			shift(94),  // |
-			shift(95),  // ^
-			shift(96),  // &
-			shift(97),  // <<
-			shift(98),  // >>
-			shift(99),  // =>
-			shift(100), // /
-			shift(101), // +
-			shift(102), // -
-			shift(103), // ||
-			shift(104), // <>
-			shift(105), // !=
-			shift(106), // =
-			shift(107), // <=
-			shift(108), // >=
-			shift(109), // ;
-			shift(110), // @
-			shift(111), // {
-			shift(112), // }
-			shift(113), // ~
-			shift(114), // else
-			shift(115), // if
-			shift(116), // for
-			shift(117), // endfor
-			shift(118), // elif
-			shift(119), // endif
-			shift(120), // set
-			shift(121), // ?
-			shift(122), // comment
-			shift(354), // template_block_end
-			shift(55),  // template_block_start
-			shift(127), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S324
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			shift(129), // if
-			shift(130), // for
-			nil,        // endfor
-			nil,        // elif
-			shift(267), // endif
-			shift(131), // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S325
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(140), // identifier
-			shift(141), // bytes_literal
-			shift(142), // string_literal
-			shift(143), // integer_literal
-			shift(144), // floating_point_literal
-			shift(145), // newline
-			shift(146), // *
-			shift(147), // <
-			shift(148), // >
-			shift(149), // [
-			shift(150), // ]
-			shift(151), // (
-			shift(152), // )
-			shift(153), // ,
-			shift(154), // .
-			shift(155), // |
-			shift(156), // ^
-			shift(157), // &
-			shift(158), // <<
-			shift(159), // >>
-			shift(160), // =>
-			shift(161), // /
-			shift(162), // +
-			shift(163), // -
-			shift(164), // ||
-			shift(165), // <>
-			shift(166), // !=
-			shift(167), // =
-			shift(168), // <=
-			shift(169), // >=
-			shift(170), // ;
-			shift(171), // @
-			shift(172), // {
-			shift(173), // }
-			shift(174), // ~
-			shift(175), // else
-			shift(176), // if
-			shift(177), // for
-			shift(178), // endfor
-			shift(179), // elif
-			shift(180), // endif
-			shift(181), // set
-			shift(182), // ?
-			shift(183), // comment
-			nil,        // template_block_end
-			shift(355), // template_block_start
-			shift(190), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S326
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			reduce(67), // ␚, reduce: TemplateIfBlock
-			reduce(67), // identifier, reduce: TemplateIfBlock
-			reduce(67), // bytes_literal, reduce: TemplateIfBlock
-			reduce(67), // string_literal, reduce: TemplateIfBlock
-			reduce(67), // integer_literal, reduce: TemplateIfBlock
-			reduce(67), // floating_point_literal, reduce: TemplateIfBlock
-			reduce(67), // newline, reduce: TemplateIfBlock
-			reduce(67), // *, reduce: TemplateIfBlock
-			reduce(67), // <, reduce: TemplateIfBlock
-			reduce(67), // >, reduce: TemplateIfBlock
-			reduce(67), // [, reduce: TemplateIfBlock
-			reduce(67), // ], reduce: TemplateIfBlock
-			reduce(67), // (, reduce: TemplateIfBlock
-			reduce(67), // ), reduce: TemplateIfBlock
-			reduce(67), // ,, reduce: TemplateIfBlock
-			reduce(67), // ., reduce: TemplateIfBlock
-			reduce(67), // |, reduce: TemplateIfBlock
-			reduce(67), // ^, reduce: TemplateIfBlock
-			reduce(67), // &, reduce: TemplateIfBlock
-			reduce(67), // <<, reduce: TemplateIfBlock
-			reduce(67), // >>, reduce: TemplateIfBlock
-			reduce(67), // =>, reduce: TemplateIfBlock
-			reduce(67), // /, reduce: TemplateIfBlock
-			reduce(67), // +, reduce: TemplateIfBlock
-			reduce(67), // -, reduce: TemplateIfBlock
-			reduce(67), // ||, reduce: TemplateIfBlock
-			reduce(67), // <>, reduce: TemplateIfBlock
-			reduce(67), // !=, reduce: TemplateIfBlock
-			reduce(67), // =, reduce: TemplateIfBlock
-			reduce(67), // <=, reduce: TemplateIfBlock
-			reduce(67), // >=, reduce: TemplateIfBlock
-			reduce(67), // ;, reduce: TemplateIfBlock
-			reduce(67), // @, reduce: TemplateIfBlock
-			reduce(67), // {, reduce: TemplateIfBlock
-			reduce(67), // }, reduce: TemplateIfBlock
-			reduce(67), // ~, reduce: TemplateIfBlock
-			reduce(67), // else, reduce: TemplateIfBlock
-			reduce(67), // if, reduce: TemplateIfBlock
-			reduce(67), // for, reduce: TemplateIfBlock
-			reduce(67), // endfor, reduce: TemplateIfBlock
-			reduce(67), // elif, reduce: TemplateIfBlock
-			reduce(67), // endif, reduce: TemplateIfBlock
-			reduce(67), // set, reduce: TemplateIfBlock
-			reduce(67), // ?, reduce: TemplateIfBlock
-			reduce(67), // comment, reduce: TemplateIfBlock
-			nil,        // template_block_end
-			reduce(67), // template_block_start, reduce: TemplateIfBlock
-			reduce(67), // template_comment, reduce: TemplateIfBlock
-			nil,        // template_variable_end
-			reduce(67), // template_variable_start, reduce: TemplateIfBlock
-		},
-	},
-	actionRow{ // S327
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(140), // identifier
-			shift(141), // bytes_literal
-			shift(142), // string_literal
-			shift(143), // integer_literal
-			shift(144), // floating_point_literal
-			shift(145), // newline
-			shift(146), // *
-			shift(147), // <
-			shift(148), // >
-			shift(149), // [
-			shift(150), // ]
-			shift(151), // (
-			shift(152), // )
-			shift(153), // ,
-			shift(154), // .
-			shift(155), // |
-			shift(156), // ^
-			shift(157), // &
-			shift(158), // <<
-			shift(159), // >>
-			shift(160), // =>
-			shift(161), // /
-			shift(162), // +
-			shift(163), // -
-			shift(164), // ||
-			shift(165), // <>
-			shift(166), // !=
-			shift(167), // =
-			shift(168), // <=
-			shift(169), // >=
-			shift(170), // ;
-			shift(171), // @
-			shift(172), // {
-			shift(173), // }
-			shift(174), // ~
-			shift(175), // else
-			shift(176), // if
-			shift(177), // for
-			shift(178), // endfor
-			shift(179), // elif
-			shift(180), // endif
-			shift(181), // set
-			shift(182), // ?
-			shift(183), // comment
-			nil,        // template_block_end
-			shift(358), // template_block_start
-			shift(190), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S328
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -18427,71 +18470,16 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(82), // template_block_start, reduce: TemplateComment
+			reduce(58), // template_block_start, reduce: Element2
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
 		},
 	},
-	actionRow{ // S329
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(208), // identifier
-			shift(209), // bytes_literal
-			shift(210), // string_literal
-			shift(211), // integer_literal
-			shift(212), // floating_point_literal
-			shift(213), // newline
-			shift(214), // *
-			shift(215), // <
-			shift(216), // >
-			shift(217), // [
-			shift(218), // ]
-			shift(219), // (
-			shift(220), // )
-			shift(221), // ,
-			shift(222), // .
-			shift(223), // |
-			shift(224), // ^
-			shift(225), // &
-			shift(226), // <<
-			shift(227), // >>
-			shift(228), // =>
-			shift(229), // /
-			shift(230), // +
-			shift(231), // -
-			shift(232), // ||
-			shift(233), // <>
-			shift(234), // !=
-			shift(235), // =
-			shift(236), // <=
-			shift(237), // >=
-			shift(238), // ;
-			shift(239), // @
-			shift(240), // {
-			shift(241), // }
-			shift(242), // ~
-			shift(243), // else
-			shift(244), // if
-			shift(245), // for
-			shift(246), // endfor
-			shift(247), // elif
-			shift(248), // endif
-			shift(249), // set
-			shift(250), // ?
-			shift(251), // comment
-			nil,        // template_block_end
-			shift(55),  // template_block_start
-			shift(255), // template_comment
-			shift(360), // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S330
+	actionRow{ // S324
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -18532,13 +18520,299 @@ var actionTab = actionTable{
 			nil,        // }
 			nil,        // ~
 			nil,        // else
-			shift(129), // if
-			shift(130), // for
-			shift(361), // endfor
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
 			nil,        // elif
 			nil,        // endif
-			shift(131), // set
+			nil,        // set
 			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			reduce(59), // template_block_start, reduce: Element2
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S325
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			reduce(60), // template_block_start, reduce: Element2
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S326
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			reduce(61), // template_block_start, reduce: Element2
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S327
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			reduce(62), // template_block_start, reduce: Comment
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S328
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(80),  // identifier
+			shift(81),  // bytes_literal
+			shift(82),  // string_literal
+			shift(83),  // integer_literal
+			shift(84),  // floating_point_literal
+			shift(85),  // newline
+			shift(86),  // *
+			shift(87),  // <
+			shift(88),  // >
+			shift(89),  // [
+			shift(90),  // ]
+			shift(91),  // (
+			shift(92),  // )
+			shift(93),  // ,
+			shift(94),  // .
+			shift(95),  // |
+			shift(96),  // ^
+			shift(97),  // &
+			shift(98),  // <<
+			shift(99),  // >>
+			shift(100), // =>
+			shift(101), // /
+			shift(102), // +
+			shift(103), // -
+			shift(104), // ||
+			shift(105), // <>
+			shift(106), // !=
+			shift(107), // =
+			shift(108), // <=
+			shift(109), // >=
+			shift(110), // ;
+			shift(111), // @
+			shift(112), // {
+			shift(113), // }
+			shift(114), // ~
+			shift(115), // else
+			shift(116), // if
+			shift(117), // for
+			shift(118), // endfor
+			shift(119), // elif
+			shift(120), // endif
+			shift(121), // set
+			shift(122), // ?
+			shift(123), // :
+			shift(124), // comment
+			shift(359), // template_block_end
+			shift(56),  // template_block_start
+			shift(129), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S329
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			shift(131), // if
+			shift(132), // for
+			nil,        // endfor
+			nil,        // elif
+			shift(271), // endif
+			shift(133), // set
+			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
 			nil,        // template_block_start
@@ -18547,60 +18821,118 @@ var actionTab = actionTable{
 			nil,        // template_variable_start
 		},
 	},
-	actionRow{ // S331
+	actionRow{ // S330
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(75), // identifier, reduce: TemplateForBlock
-			reduce(75), // bytes_literal, reduce: TemplateForBlock
-			reduce(75), // string_literal, reduce: TemplateForBlock
-			reduce(75), // integer_literal, reduce: TemplateForBlock
-			reduce(75), // floating_point_literal, reduce: TemplateForBlock
-			reduce(75), // newline, reduce: TemplateForBlock
-			reduce(75), // *, reduce: TemplateForBlock
-			reduce(75), // <, reduce: TemplateForBlock
-			reduce(75), // >, reduce: TemplateForBlock
-			reduce(75), // [, reduce: TemplateForBlock
-			reduce(75), // ], reduce: TemplateForBlock
-			reduce(75), // (, reduce: TemplateForBlock
-			reduce(75), // ), reduce: TemplateForBlock
-			reduce(75), // ,, reduce: TemplateForBlock
-			reduce(75), // ., reduce: TemplateForBlock
-			reduce(75), // |, reduce: TemplateForBlock
-			reduce(75), // ^, reduce: TemplateForBlock
-			reduce(75), // &, reduce: TemplateForBlock
-			reduce(75), // <<, reduce: TemplateForBlock
-			reduce(75), // >>, reduce: TemplateForBlock
-			reduce(75), // =>, reduce: TemplateForBlock
-			reduce(75), // /, reduce: TemplateForBlock
-			reduce(75), // +, reduce: TemplateForBlock
-			reduce(75), // -, reduce: TemplateForBlock
-			reduce(75), // ||, reduce: TemplateForBlock
-			reduce(75), // <>, reduce: TemplateForBlock
-			reduce(75), // !=, reduce: TemplateForBlock
-			reduce(75), // =, reduce: TemplateForBlock
-			reduce(75), // <=, reduce: TemplateForBlock
-			reduce(75), // >=, reduce: TemplateForBlock
-			reduce(75), // ;, reduce: TemplateForBlock
-			reduce(75), // @, reduce: TemplateForBlock
-			reduce(75), // {, reduce: TemplateForBlock
-			reduce(75), // }, reduce: TemplateForBlock
-			reduce(75), // ~, reduce: TemplateForBlock
-			reduce(75), // else, reduce: TemplateForBlock
-			reduce(75), // if, reduce: TemplateForBlock
-			reduce(75), // for, reduce: TemplateForBlock
-			reduce(75), // endfor, reduce: TemplateForBlock
-			reduce(75), // elif, reduce: TemplateForBlock
-			reduce(75), // endif, reduce: TemplateForBlock
-			reduce(75), // set, reduce: TemplateForBlock
-			reduce(75), // ?, reduce: TemplateForBlock
-			reduce(75), // comment, reduce: TemplateForBlock
+			shift(142), // identifier
+			shift(143), // bytes_literal
+			shift(144), // string_literal
+			shift(145), // integer_literal
+			shift(146), // floating_point_literal
+			shift(147), // newline
+			shift(148), // *
+			shift(149), // <
+			shift(150), // >
+			shift(151), // [
+			shift(152), // ]
+			shift(153), // (
+			shift(154), // )
+			shift(155), // ,
+			shift(156), // .
+			shift(157), // |
+			shift(158), // ^
+			shift(159), // &
+			shift(160), // <<
+			shift(161), // >>
+			shift(162), // =>
+			shift(163), // /
+			shift(164), // +
+			shift(165), // -
+			shift(166), // ||
+			shift(167), // <>
+			shift(168), // !=
+			shift(169), // =
+			shift(170), // <=
+			shift(171), // >=
+			shift(172), // ;
+			shift(173), // @
+			shift(174), // {
+			shift(175), // }
+			shift(176), // ~
+			shift(177), // else
+			shift(178), // if
+			shift(179), // for
+			shift(180), // endfor
+			shift(181), // elif
+			shift(182), // endif
+			shift(183), // set
+			shift(184), // ?
+			shift(185), // :
+			shift(186), // comment
 			nil,        // template_block_end
-			reduce(75), // template_block_start, reduce: TemplateForBlock
-			reduce(75), // template_comment, reduce: TemplateForBlock
+			shift(360), // template_block_start
+			shift(193), // template_comment
 			nil,        // template_variable_end
-			reduce(75), // template_variable_start, reduce: TemplateForBlock
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S331
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			reduce(68), // ␚, reduce: TemplateIfBlock
+			reduce(68), // identifier, reduce: TemplateIfBlock
+			reduce(68), // bytes_literal, reduce: TemplateIfBlock
+			reduce(68), // string_literal, reduce: TemplateIfBlock
+			reduce(68), // integer_literal, reduce: TemplateIfBlock
+			reduce(68), // floating_point_literal, reduce: TemplateIfBlock
+			reduce(68), // newline, reduce: TemplateIfBlock
+			reduce(68), // *, reduce: TemplateIfBlock
+			reduce(68), // <, reduce: TemplateIfBlock
+			reduce(68), // >, reduce: TemplateIfBlock
+			reduce(68), // [, reduce: TemplateIfBlock
+			reduce(68), // ], reduce: TemplateIfBlock
+			reduce(68), // (, reduce: TemplateIfBlock
+			reduce(68), // ), reduce: TemplateIfBlock
+			reduce(68), // ,, reduce: TemplateIfBlock
+			reduce(68), // ., reduce: TemplateIfBlock
+			reduce(68), // |, reduce: TemplateIfBlock
+			reduce(68), // ^, reduce: TemplateIfBlock
+			reduce(68), // &, reduce: TemplateIfBlock
+			reduce(68), // <<, reduce: TemplateIfBlock
+			reduce(68), // >>, reduce: TemplateIfBlock
+			reduce(68), // =>, reduce: TemplateIfBlock
+			reduce(68), // /, reduce: TemplateIfBlock
+			reduce(68), // +, reduce: TemplateIfBlock
+			reduce(68), // -, reduce: TemplateIfBlock
+			reduce(68), // ||, reduce: TemplateIfBlock
+			reduce(68), // <>, reduce: TemplateIfBlock
+			reduce(68), // !=, reduce: TemplateIfBlock
+			reduce(68), // =, reduce: TemplateIfBlock
+			reduce(68), // <=, reduce: TemplateIfBlock
+			reduce(68), // >=, reduce: TemplateIfBlock
+			reduce(68), // ;, reduce: TemplateIfBlock
+			reduce(68), // @, reduce: TemplateIfBlock
+			reduce(68), // {, reduce: TemplateIfBlock
+			reduce(68), // }, reduce: TemplateIfBlock
+			reduce(68), // ~, reduce: TemplateIfBlock
+			reduce(68), // else, reduce: TemplateIfBlock
+			reduce(68), // if, reduce: TemplateIfBlock
+			reduce(68), // for, reduce: TemplateIfBlock
+			reduce(68), // endfor, reduce: TemplateIfBlock
+			reduce(68), // elif, reduce: TemplateIfBlock
+			reduce(68), // endif, reduce: TemplateIfBlock
+			reduce(68), // set, reduce: TemplateIfBlock
+			reduce(68), // ?, reduce: TemplateIfBlock
+			reduce(68), // :, reduce: TemplateIfBlock
+			reduce(68), // comment, reduce: TemplateIfBlock
+			nil,        // template_block_end
+			reduce(68), // template_block_start, reduce: TemplateIfBlock
+			reduce(68), // template_comment, reduce: TemplateIfBlock
+			nil,        // template_variable_end
+			reduce(68), // template_variable_start, reduce: TemplateIfBlock
 		},
 	},
 	actionRow{ // S332
@@ -18608,55 +18940,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(83), // identifier, reduce: TemplateVariable
-			reduce(83), // bytes_literal, reduce: TemplateVariable
-			reduce(83), // string_literal, reduce: TemplateVariable
-			reduce(83), // integer_literal, reduce: TemplateVariable
-			reduce(83), // floating_point_literal, reduce: TemplateVariable
-			reduce(83), // newline, reduce: TemplateVariable
-			reduce(83), // *, reduce: TemplateVariable
-			reduce(83), // <, reduce: TemplateVariable
-			reduce(83), // >, reduce: TemplateVariable
-			reduce(83), // [, reduce: TemplateVariable
-			reduce(83), // ], reduce: TemplateVariable
-			reduce(83), // (, reduce: TemplateVariable
-			reduce(83), // ), reduce: TemplateVariable
-			reduce(83), // ,, reduce: TemplateVariable
-			reduce(83), // ., reduce: TemplateVariable
-			reduce(83), // |, reduce: TemplateVariable
-			reduce(83), // ^, reduce: TemplateVariable
-			reduce(83), // &, reduce: TemplateVariable
-			reduce(83), // <<, reduce: TemplateVariable
-			reduce(83), // >>, reduce: TemplateVariable
-			reduce(83), // =>, reduce: TemplateVariable
-			reduce(83), // /, reduce: TemplateVariable
-			reduce(83), // +, reduce: TemplateVariable
-			reduce(83), // -, reduce: TemplateVariable
-			reduce(83), // ||, reduce: TemplateVariable
-			reduce(83), // <>, reduce: TemplateVariable
-			reduce(83), // !=, reduce: TemplateVariable
-			reduce(83), // =, reduce: TemplateVariable
-			reduce(83), // <=, reduce: TemplateVariable
-			reduce(83), // >=, reduce: TemplateVariable
-			reduce(83), // ;, reduce: TemplateVariable
-			reduce(83), // @, reduce: TemplateVariable
-			reduce(83), // {, reduce: TemplateVariable
-			reduce(83), // }, reduce: TemplateVariable
-			reduce(83), // ~, reduce: TemplateVariable
-			reduce(83), // else, reduce: TemplateVariable
-			reduce(83), // if, reduce: TemplateVariable
-			reduce(83), // for, reduce: TemplateVariable
-			reduce(83), // endfor, reduce: TemplateVariable
-			reduce(83), // elif, reduce: TemplateVariable
-			reduce(83), // endif, reduce: TemplateVariable
-			reduce(83), // set, reduce: TemplateVariable
-			reduce(83), // ?, reduce: TemplateVariable
-			reduce(83), // comment, reduce: TemplateVariable
+			shift(142), // identifier
+			shift(143), // bytes_literal
+			shift(144), // string_literal
+			shift(145), // integer_literal
+			shift(146), // floating_point_literal
+			shift(147), // newline
+			shift(148), // *
+			shift(149), // <
+			shift(150), // >
+			shift(151), // [
+			shift(152), // ]
+			shift(153), // (
+			shift(154), // )
+			shift(155), // ,
+			shift(156), // .
+			shift(157), // |
+			shift(158), // ^
+			shift(159), // &
+			shift(160), // <<
+			shift(161), // >>
+			shift(162), // =>
+			shift(163), // /
+			shift(164), // +
+			shift(165), // -
+			shift(166), // ||
+			shift(167), // <>
+			shift(168), // !=
+			shift(169), // =
+			shift(170), // <=
+			shift(171), // >=
+			shift(172), // ;
+			shift(173), // @
+			shift(174), // {
+			shift(175), // }
+			shift(176), // ~
+			shift(177), // else
+			shift(178), // if
+			shift(179), // for
+			shift(180), // endfor
+			shift(181), // elif
+			shift(182), // endif
+			shift(183), // set
+			shift(184), // ?
+			shift(185), // :
+			shift(186), // comment
 			nil,        // template_block_end
-			reduce(83), // template_block_start, reduce: TemplateVariable
-			reduce(83), // template_comment, reduce: TemplateVariable
+			shift(363), // template_block_start
+			shift(193), // template_comment
 			nil,        // template_variable_end
-			reduce(83), // template_variable_start, reduce: TemplateVariable
+			shift(65),  // template_variable_start
 		},
 	},
 	actionRow{ // S333
@@ -18707,9 +19040,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
-			shift(362), // template_block_end
-			nil,        // template_block_start
+			nil,        // template_block_end
+			reduce(83), // template_block_start, reduce: TemplateComment
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -18720,55 +19054,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(62), // identifier, reduce: TemplateSetBlock
-			reduce(62), // bytes_literal, reduce: TemplateSetBlock
-			reduce(62), // string_literal, reduce: TemplateSetBlock
-			reduce(62), // integer_literal, reduce: TemplateSetBlock
-			reduce(62), // floating_point_literal, reduce: TemplateSetBlock
-			reduce(62), // newline, reduce: TemplateSetBlock
-			reduce(62), // *, reduce: TemplateSetBlock
-			reduce(62), // <, reduce: TemplateSetBlock
-			reduce(62), // >, reduce: TemplateSetBlock
-			reduce(62), // [, reduce: TemplateSetBlock
-			reduce(62), // ], reduce: TemplateSetBlock
-			reduce(62), // (, reduce: TemplateSetBlock
-			reduce(62), // ), reduce: TemplateSetBlock
-			reduce(62), // ,, reduce: TemplateSetBlock
-			reduce(62), // ., reduce: TemplateSetBlock
-			reduce(62), // |, reduce: TemplateSetBlock
-			reduce(62), // ^, reduce: TemplateSetBlock
-			reduce(62), // &, reduce: TemplateSetBlock
-			reduce(62), // <<, reduce: TemplateSetBlock
-			reduce(62), // >>, reduce: TemplateSetBlock
-			reduce(62), // =>, reduce: TemplateSetBlock
-			reduce(62), // /, reduce: TemplateSetBlock
-			reduce(62), // +, reduce: TemplateSetBlock
-			reduce(62), // -, reduce: TemplateSetBlock
-			reduce(62), // ||, reduce: TemplateSetBlock
-			reduce(62), // <>, reduce: TemplateSetBlock
-			reduce(62), // !=, reduce: TemplateSetBlock
-			reduce(62), // =, reduce: TemplateSetBlock
-			reduce(62), // <=, reduce: TemplateSetBlock
-			reduce(62), // >=, reduce: TemplateSetBlock
-			reduce(62), // ;, reduce: TemplateSetBlock
-			reduce(62), // @, reduce: TemplateSetBlock
-			reduce(62), // {, reduce: TemplateSetBlock
-			reduce(62), // }, reduce: TemplateSetBlock
-			reduce(62), // ~, reduce: TemplateSetBlock
-			reduce(62), // else, reduce: TemplateSetBlock
-			reduce(62), // if, reduce: TemplateSetBlock
-			reduce(62), // for, reduce: TemplateSetBlock
-			reduce(62), // endfor, reduce: TemplateSetBlock
-			reduce(62), // elif, reduce: TemplateSetBlock
-			reduce(62), // endif, reduce: TemplateSetBlock
-			reduce(62), // set, reduce: TemplateSetBlock
-			reduce(62), // ?, reduce: TemplateSetBlock
-			reduce(62), // comment, reduce: TemplateSetBlock
+			shift(211), // identifier
+			shift(212), // bytes_literal
+			shift(213), // string_literal
+			shift(214), // integer_literal
+			shift(215), // floating_point_literal
+			shift(216), // newline
+			shift(217), // *
+			shift(218), // <
+			shift(219), // >
+			shift(220), // [
+			shift(221), // ]
+			shift(222), // (
+			shift(223), // )
+			shift(224), // ,
+			shift(225), // .
+			shift(226), // |
+			shift(227), // ^
+			shift(228), // &
+			shift(229), // <<
+			shift(230), // >>
+			shift(231), // =>
+			shift(232), // /
+			shift(233), // +
+			shift(234), // -
+			shift(235), // ||
+			shift(236), // <>
+			shift(237), // !=
+			shift(238), // =
+			shift(239), // <=
+			shift(240), // >=
+			shift(241), // ;
+			shift(242), // @
+			shift(243), // {
+			shift(244), // }
+			shift(245), // ~
+			shift(246), // else
+			shift(247), // if
+			shift(248), // for
+			shift(249), // endfor
+			shift(250), // elif
+			shift(251), // endif
+			shift(252), // set
+			shift(253), // ?
+			shift(254), // :
+			shift(255), // comment
 			nil,        // template_block_end
-			reduce(62), // template_block_start, reduce: TemplateSetBlock
-			reduce(62), // template_comment, reduce: TemplateSetBlock
-			reduce(62), // template_variable_end, reduce: TemplateSetBlock
-			reduce(62), // template_variable_start, reduce: TemplateSetBlock
+			shift(56),  // template_block_start
+			shift(259), // template_comment
+			shift(365), // template_variable_end
+			shift(65),  // template_variable_start
 		},
 	},
 	actionRow{ // S335
@@ -18811,14 +19146,15 @@ var actionTab = actionTable{
 			nil,        // {
 			nil,        // }
 			nil,        // ~
-			shift(266), // else
-			shift(129), // if
-			shift(130), // for
-			nil,        // endfor
+			nil,        // else
+			shift(131), // if
+			shift(132), // for
+			shift(366), // endfor
 			nil,        // elif
-			shift(363), // endif
-			shift(131), // set
+			nil,        // endif
+			shift(133), // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
 			nil,        // template_block_start
@@ -18832,55 +19168,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(65), // identifier, reduce: TemplateIfBlock
-			reduce(65), // bytes_literal, reduce: TemplateIfBlock
-			reduce(65), // string_literal, reduce: TemplateIfBlock
-			reduce(65), // integer_literal, reduce: TemplateIfBlock
-			reduce(65), // floating_point_literal, reduce: TemplateIfBlock
-			reduce(65), // newline, reduce: TemplateIfBlock
-			reduce(65), // *, reduce: TemplateIfBlock
-			reduce(65), // <, reduce: TemplateIfBlock
-			reduce(65), // >, reduce: TemplateIfBlock
-			reduce(65), // [, reduce: TemplateIfBlock
-			reduce(65), // ], reduce: TemplateIfBlock
-			reduce(65), // (, reduce: TemplateIfBlock
-			reduce(65), // ), reduce: TemplateIfBlock
-			reduce(65), // ,, reduce: TemplateIfBlock
-			reduce(65), // ., reduce: TemplateIfBlock
-			reduce(65), // |, reduce: TemplateIfBlock
-			reduce(65), // ^, reduce: TemplateIfBlock
-			reduce(65), // &, reduce: TemplateIfBlock
-			reduce(65), // <<, reduce: TemplateIfBlock
-			reduce(65), // >>, reduce: TemplateIfBlock
-			reduce(65), // =>, reduce: TemplateIfBlock
-			reduce(65), // /, reduce: TemplateIfBlock
-			reduce(65), // +, reduce: TemplateIfBlock
-			reduce(65), // -, reduce: TemplateIfBlock
-			reduce(65), // ||, reduce: TemplateIfBlock
-			reduce(65), // <>, reduce: TemplateIfBlock
-			reduce(65), // !=, reduce: TemplateIfBlock
-			reduce(65), // =, reduce: TemplateIfBlock
-			reduce(65), // <=, reduce: TemplateIfBlock
-			reduce(65), // >=, reduce: TemplateIfBlock
-			reduce(65), // ;, reduce: TemplateIfBlock
-			reduce(65), // @, reduce: TemplateIfBlock
-			reduce(65), // {, reduce: TemplateIfBlock
-			reduce(65), // }, reduce: TemplateIfBlock
-			reduce(65), // ~, reduce: TemplateIfBlock
-			reduce(65), // else, reduce: TemplateIfBlock
-			reduce(65), // if, reduce: TemplateIfBlock
-			reduce(65), // for, reduce: TemplateIfBlock
-			reduce(65), // endfor, reduce: TemplateIfBlock
-			reduce(65), // elif, reduce: TemplateIfBlock
-			reduce(65), // endif, reduce: TemplateIfBlock
-			reduce(65), // set, reduce: TemplateIfBlock
-			reduce(65), // ?, reduce: TemplateIfBlock
-			reduce(65), // comment, reduce: TemplateIfBlock
+			reduce(76), // identifier, reduce: TemplateForBlock
+			reduce(76), // bytes_literal, reduce: TemplateForBlock
+			reduce(76), // string_literal, reduce: TemplateForBlock
+			reduce(76), // integer_literal, reduce: TemplateForBlock
+			reduce(76), // floating_point_literal, reduce: TemplateForBlock
+			reduce(76), // newline, reduce: TemplateForBlock
+			reduce(76), // *, reduce: TemplateForBlock
+			reduce(76), // <, reduce: TemplateForBlock
+			reduce(76), // >, reduce: TemplateForBlock
+			reduce(76), // [, reduce: TemplateForBlock
+			reduce(76), // ], reduce: TemplateForBlock
+			reduce(76), // (, reduce: TemplateForBlock
+			reduce(76), // ), reduce: TemplateForBlock
+			reduce(76), // ,, reduce: TemplateForBlock
+			reduce(76), // ., reduce: TemplateForBlock
+			reduce(76), // |, reduce: TemplateForBlock
+			reduce(76), // ^, reduce: TemplateForBlock
+			reduce(76), // &, reduce: TemplateForBlock
+			reduce(76), // <<, reduce: TemplateForBlock
+			reduce(76), // >>, reduce: TemplateForBlock
+			reduce(76), // =>, reduce: TemplateForBlock
+			reduce(76), // /, reduce: TemplateForBlock
+			reduce(76), // +, reduce: TemplateForBlock
+			reduce(76), // -, reduce: TemplateForBlock
+			reduce(76), // ||, reduce: TemplateForBlock
+			reduce(76), // <>, reduce: TemplateForBlock
+			reduce(76), // !=, reduce: TemplateForBlock
+			reduce(76), // =, reduce: TemplateForBlock
+			reduce(76), // <=, reduce: TemplateForBlock
+			reduce(76), // >=, reduce: TemplateForBlock
+			reduce(76), // ;, reduce: TemplateForBlock
+			reduce(76), // @, reduce: TemplateForBlock
+			reduce(76), // {, reduce: TemplateForBlock
+			reduce(76), // }, reduce: TemplateForBlock
+			reduce(76), // ~, reduce: TemplateForBlock
+			reduce(76), // else, reduce: TemplateForBlock
+			reduce(76), // if, reduce: TemplateForBlock
+			reduce(76), // for, reduce: TemplateForBlock
+			reduce(76), // endfor, reduce: TemplateForBlock
+			reduce(76), // elif, reduce: TemplateForBlock
+			reduce(76), // endif, reduce: TemplateForBlock
+			reduce(76), // set, reduce: TemplateForBlock
+			reduce(76), // ?, reduce: TemplateForBlock
+			reduce(76), // :, reduce: TemplateForBlock
+			reduce(76), // comment, reduce: TemplateForBlock
 			nil,        // template_block_end
-			reduce(65), // template_block_start, reduce: TemplateIfBlock
-			reduce(65), // template_comment, reduce: TemplateIfBlock
-			reduce(65), // template_variable_end, reduce: TemplateIfBlock
-			reduce(65), // template_variable_start, reduce: TemplateIfBlock
+			reduce(76), // template_block_start, reduce: TemplateForBlock
+			reduce(76), // template_comment, reduce: TemplateForBlock
+			nil,        // template_variable_end
+			reduce(76), // template_variable_start, reduce: TemplateForBlock
 		},
 	},
 	actionRow{ // S337
@@ -18888,55 +19225,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			shift(279), // identifier
-			shift(280), // bytes_literal
-			shift(281), // string_literal
-			shift(282), // integer_literal
-			shift(283), // floating_point_literal
-			shift(284), // newline
-			shift(285), // *
-			shift(286), // <
-			shift(287), // >
-			shift(288), // [
-			shift(289), // ]
-			shift(290), // (
-			shift(291), // )
-			shift(292), // ,
-			shift(293), // .
-			shift(294), // |
-			shift(295), // ^
-			shift(296), // &
-			shift(297), // <<
-			shift(298), // >>
-			shift(299), // =>
-			shift(300), // /
-			shift(301), // +
-			shift(302), // -
-			shift(303), // ||
-			shift(304), // <>
-			shift(305), // !=
-			shift(306), // =
-			shift(307), // <=
-			shift(308), // >=
-			shift(309), // ;
-			shift(310), // @
-			shift(311), // {
-			shift(312), // }
-			shift(313), // ~
-			shift(314), // else
-			shift(315), // if
-			shift(316), // for
-			shift(317), // endfor
-			shift(318), // elif
-			shift(319), // endif
-			shift(320), // set
-			shift(321), // ?
-			shift(322), // comment
+			reduce(84), // identifier, reduce: TemplateVariable
+			reduce(84), // bytes_literal, reduce: TemplateVariable
+			reduce(84), // string_literal, reduce: TemplateVariable
+			reduce(84), // integer_literal, reduce: TemplateVariable
+			reduce(84), // floating_point_literal, reduce: TemplateVariable
+			reduce(84), // newline, reduce: TemplateVariable
+			reduce(84), // *, reduce: TemplateVariable
+			reduce(84), // <, reduce: TemplateVariable
+			reduce(84), // >, reduce: TemplateVariable
+			reduce(84), // [, reduce: TemplateVariable
+			reduce(84), // ], reduce: TemplateVariable
+			reduce(84), // (, reduce: TemplateVariable
+			reduce(84), // ), reduce: TemplateVariable
+			reduce(84), // ,, reduce: TemplateVariable
+			reduce(84), // ., reduce: TemplateVariable
+			reduce(84), // |, reduce: TemplateVariable
+			reduce(84), // ^, reduce: TemplateVariable
+			reduce(84), // &, reduce: TemplateVariable
+			reduce(84), // <<, reduce: TemplateVariable
+			reduce(84), // >>, reduce: TemplateVariable
+			reduce(84), // =>, reduce: TemplateVariable
+			reduce(84), // /, reduce: TemplateVariable
+			reduce(84), // +, reduce: TemplateVariable
+			reduce(84), // -, reduce: TemplateVariable
+			reduce(84), // ||, reduce: TemplateVariable
+			reduce(84), // <>, reduce: TemplateVariable
+			reduce(84), // !=, reduce: TemplateVariable
+			reduce(84), // =, reduce: TemplateVariable
+			reduce(84), // <=, reduce: TemplateVariable
+			reduce(84), // >=, reduce: TemplateVariable
+			reduce(84), // ;, reduce: TemplateVariable
+			reduce(84), // @, reduce: TemplateVariable
+			reduce(84), // {, reduce: TemplateVariable
+			reduce(84), // }, reduce: TemplateVariable
+			reduce(84), // ~, reduce: TemplateVariable
+			reduce(84), // else, reduce: TemplateVariable
+			reduce(84), // if, reduce: TemplateVariable
+			reduce(84), // for, reduce: TemplateVariable
+			reduce(84), // endfor, reduce: TemplateVariable
+			reduce(84), // elif, reduce: TemplateVariable
+			reduce(84), // endif, reduce: TemplateVariable
+			reduce(84), // set, reduce: TemplateVariable
+			reduce(84), // ?, reduce: TemplateVariable
+			reduce(84), // :, reduce: TemplateVariable
+			reduce(84), // comment, reduce: TemplateVariable
 			nil,        // template_block_end
-			shift(365), // template_block_start
-			shift(328), // template_comment
+			reduce(84), // template_block_start, reduce: TemplateVariable
+			reduce(84), // template_comment, reduce: TemplateVariable
 			nil,        // template_variable_end
-			shift(64),  // template_variable_start
+			reduce(84), // template_variable_start, reduce: TemplateVariable
 		},
 	},
 	actionRow{ // S338
@@ -18980,15 +19318,16 @@ var actionTab = actionTable{
 			nil,        // }
 			nil,        // ~
 			nil,        // else
-			shift(129), // if
-			shift(130), // for
-			shift(367), // endfor
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
 			nil,        // elif
 			nil,        // endif
-			shift(131), // set
+			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
-			nil,        // template_block_end
+			shift(367), // template_block_end
 			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
@@ -19000,55 +19339,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(75), // identifier, reduce: TemplateForBlock
-			reduce(75), // bytes_literal, reduce: TemplateForBlock
-			reduce(75), // string_literal, reduce: TemplateForBlock
-			reduce(75), // integer_literal, reduce: TemplateForBlock
-			reduce(75), // floating_point_literal, reduce: TemplateForBlock
-			reduce(75), // newline, reduce: TemplateForBlock
-			reduce(75), // *, reduce: TemplateForBlock
-			reduce(75), // <, reduce: TemplateForBlock
-			reduce(75), // >, reduce: TemplateForBlock
-			reduce(75), // [, reduce: TemplateForBlock
-			reduce(75), // ], reduce: TemplateForBlock
-			reduce(75), // (, reduce: TemplateForBlock
-			reduce(75), // ), reduce: TemplateForBlock
-			reduce(75), // ,, reduce: TemplateForBlock
-			reduce(75), // ., reduce: TemplateForBlock
-			reduce(75), // |, reduce: TemplateForBlock
-			reduce(75), // ^, reduce: TemplateForBlock
-			reduce(75), // &, reduce: TemplateForBlock
-			reduce(75), // <<, reduce: TemplateForBlock
-			reduce(75), // >>, reduce: TemplateForBlock
-			reduce(75), // =>, reduce: TemplateForBlock
-			reduce(75), // /, reduce: TemplateForBlock
-			reduce(75), // +, reduce: TemplateForBlock
-			reduce(75), // -, reduce: TemplateForBlock
-			reduce(75), // ||, reduce: TemplateForBlock
-			reduce(75), // <>, reduce: TemplateForBlock
-			reduce(75), // !=, reduce: TemplateForBlock
-			reduce(75), // =, reduce: TemplateForBlock
-			reduce(75), // <=, reduce: TemplateForBlock
-			reduce(75), // >=, reduce: TemplateForBlock
-			reduce(75), // ;, reduce: TemplateForBlock
-			reduce(75), // @, reduce: TemplateForBlock
-			reduce(75), // {, reduce: TemplateForBlock
-			reduce(75), // }, reduce: TemplateForBlock
-			reduce(75), // ~, reduce: TemplateForBlock
-			reduce(75), // else, reduce: TemplateForBlock
-			reduce(75), // if, reduce: TemplateForBlock
-			reduce(75), // for, reduce: TemplateForBlock
-			reduce(75), // endfor, reduce: TemplateForBlock
-			reduce(75), // elif, reduce: TemplateForBlock
-			reduce(75), // endif, reduce: TemplateForBlock
-			reduce(75), // set, reduce: TemplateForBlock
-			reduce(75), // ?, reduce: TemplateForBlock
-			reduce(75), // comment, reduce: TemplateForBlock
+			reduce(63), // identifier, reduce: TemplateSetBlock
+			reduce(63), // bytes_literal, reduce: TemplateSetBlock
+			reduce(63), // string_literal, reduce: TemplateSetBlock
+			reduce(63), // integer_literal, reduce: TemplateSetBlock
+			reduce(63), // floating_point_literal, reduce: TemplateSetBlock
+			reduce(63), // newline, reduce: TemplateSetBlock
+			reduce(63), // *, reduce: TemplateSetBlock
+			reduce(63), // <, reduce: TemplateSetBlock
+			reduce(63), // >, reduce: TemplateSetBlock
+			reduce(63), // [, reduce: TemplateSetBlock
+			reduce(63), // ], reduce: TemplateSetBlock
+			reduce(63), // (, reduce: TemplateSetBlock
+			reduce(63), // ), reduce: TemplateSetBlock
+			reduce(63), // ,, reduce: TemplateSetBlock
+			reduce(63), // ., reduce: TemplateSetBlock
+			reduce(63), // |, reduce: TemplateSetBlock
+			reduce(63), // ^, reduce: TemplateSetBlock
+			reduce(63), // &, reduce: TemplateSetBlock
+			reduce(63), // <<, reduce: TemplateSetBlock
+			reduce(63), // >>, reduce: TemplateSetBlock
+			reduce(63), // =>, reduce: TemplateSetBlock
+			reduce(63), // /, reduce: TemplateSetBlock
+			reduce(63), // +, reduce: TemplateSetBlock
+			reduce(63), // -, reduce: TemplateSetBlock
+			reduce(63), // ||, reduce: TemplateSetBlock
+			reduce(63), // <>, reduce: TemplateSetBlock
+			reduce(63), // !=, reduce: TemplateSetBlock
+			reduce(63), // =, reduce: TemplateSetBlock
+			reduce(63), // <=, reduce: TemplateSetBlock
+			reduce(63), // >=, reduce: TemplateSetBlock
+			reduce(63), // ;, reduce: TemplateSetBlock
+			reduce(63), // @, reduce: TemplateSetBlock
+			reduce(63), // {, reduce: TemplateSetBlock
+			reduce(63), // }, reduce: TemplateSetBlock
+			reduce(63), // ~, reduce: TemplateSetBlock
+			reduce(63), // else, reduce: TemplateSetBlock
+			reduce(63), // if, reduce: TemplateSetBlock
+			reduce(63), // for, reduce: TemplateSetBlock
+			reduce(63), // endfor, reduce: TemplateSetBlock
+			reduce(63), // elif, reduce: TemplateSetBlock
+			reduce(63), // endif, reduce: TemplateSetBlock
+			reduce(63), // set, reduce: TemplateSetBlock
+			reduce(63), // ?, reduce: TemplateSetBlock
+			reduce(63), // :, reduce: TemplateSetBlock
+			reduce(63), // comment, reduce: TemplateSetBlock
 			nil,        // template_block_end
-			reduce(75), // template_block_start, reduce: TemplateForBlock
-			reduce(75), // template_comment, reduce: TemplateForBlock
-			reduce(75), // template_variable_end, reduce: TemplateForBlock
-			reduce(75), // template_variable_start, reduce: TemplateForBlock
+			reduce(63), // template_block_start, reduce: TemplateSetBlock
+			reduce(63), // template_comment, reduce: TemplateSetBlock
+			reduce(63), // template_variable_end, reduce: TemplateSetBlock
+			reduce(63), // template_variable_start, reduce: TemplateSetBlock
 		},
 	},
 	actionRow{ // S340
@@ -19056,55 +19396,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(83), // identifier, reduce: TemplateVariable
-			reduce(83), // bytes_literal, reduce: TemplateVariable
-			reduce(83), // string_literal, reduce: TemplateVariable
-			reduce(83), // integer_literal, reduce: TemplateVariable
-			reduce(83), // floating_point_literal, reduce: TemplateVariable
-			reduce(83), // newline, reduce: TemplateVariable
-			reduce(83), // *, reduce: TemplateVariable
-			reduce(83), // <, reduce: TemplateVariable
-			reduce(83), // >, reduce: TemplateVariable
-			reduce(83), // [, reduce: TemplateVariable
-			reduce(83), // ], reduce: TemplateVariable
-			reduce(83), // (, reduce: TemplateVariable
-			reduce(83), // ), reduce: TemplateVariable
-			reduce(83), // ,, reduce: TemplateVariable
-			reduce(83), // ., reduce: TemplateVariable
-			reduce(83), // |, reduce: TemplateVariable
-			reduce(83), // ^, reduce: TemplateVariable
-			reduce(83), // &, reduce: TemplateVariable
-			reduce(83), // <<, reduce: TemplateVariable
-			reduce(83), // >>, reduce: TemplateVariable
-			reduce(83), // =>, reduce: TemplateVariable
-			reduce(83), // /, reduce: TemplateVariable
-			reduce(83), // +, reduce: TemplateVariable
-			reduce(83), // -, reduce: TemplateVariable
-			reduce(83), // ||, reduce: TemplateVariable
-			reduce(83), // <>, reduce: TemplateVariable
-			reduce(83), // !=, reduce: TemplateVariable
-			reduce(83), // =, reduce: TemplateVariable
-			reduce(83), // <=, reduce: TemplateVariable
-			reduce(83), // >=, reduce: TemplateVariable
-			reduce(83), // ;, reduce: TemplateVariable
-			reduce(83), // @, reduce: TemplateVariable
-			reduce(83), // {, reduce: TemplateVariable
-			reduce(83), // }, reduce: TemplateVariable
-			reduce(83), // ~, reduce: TemplateVariable
-			reduce(83), // else, reduce: TemplateVariable
-			reduce(83), // if, reduce: TemplateVariable
-			reduce(83), // for, reduce: TemplateVariable
-			reduce(83), // endfor, reduce: TemplateVariable
-			reduce(83), // elif, reduce: TemplateVariable
-			reduce(83), // endif, reduce: TemplateVariable
-			reduce(83), // set, reduce: TemplateVariable
-			reduce(83), // ?, reduce: TemplateVariable
-			reduce(83), // comment, reduce: TemplateVariable
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			shift(270), // else
+			shift(131), // if
+			shift(132), // for
+			nil,        // endfor
+			nil,        // elif
+			shift(368), // endif
+			shift(133), // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
 			nil,        // template_block_end
-			reduce(83), // template_block_start, reduce: TemplateVariable
-			reduce(83), // template_comment, reduce: TemplateVariable
-			reduce(83), // template_variable_end, reduce: TemplateVariable
-			reduce(83), // template_variable_start, reduce: TemplateVariable
+			nil,        // template_block_start
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S341
@@ -19112,678 +19453,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
-			nil,        // elif
-			nil,        // endif
-			nil,        // set
-			nil,        // ?
-			nil,        // comment
-			shift(368), // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S342
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
-			nil,        // elif
-			nil,        // endif
-			nil,        // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			shift(369), // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S343
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			shift(129), // if
-			shift(130), // for
-			nil,        // endfor
-			nil,        // elif
-			shift(341), // endif
-			shift(131), // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S344
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(67), // identifier, reduce: TemplateIfBlock
-			reduce(67), // bytes_literal, reduce: TemplateIfBlock
-			reduce(67), // string_literal, reduce: TemplateIfBlock
-			reduce(67), // integer_literal, reduce: TemplateIfBlock
-			reduce(67), // floating_point_literal, reduce: TemplateIfBlock
-			reduce(67), // newline, reduce: TemplateIfBlock
-			reduce(67), // *, reduce: TemplateIfBlock
-			reduce(67), // <, reduce: TemplateIfBlock
-			reduce(67), // >, reduce: TemplateIfBlock
-			reduce(67), // [, reduce: TemplateIfBlock
-			reduce(67), // ], reduce: TemplateIfBlock
-			reduce(67), // (, reduce: TemplateIfBlock
-			reduce(67), // ), reduce: TemplateIfBlock
-			reduce(67), // ,, reduce: TemplateIfBlock
-			reduce(67), // ., reduce: TemplateIfBlock
-			reduce(67), // |, reduce: TemplateIfBlock
-			reduce(67), // ^, reduce: TemplateIfBlock
-			reduce(67), // &, reduce: TemplateIfBlock
-			reduce(67), // <<, reduce: TemplateIfBlock
-			reduce(67), // >>, reduce: TemplateIfBlock
-			reduce(67), // =>, reduce: TemplateIfBlock
-			reduce(67), // /, reduce: TemplateIfBlock
-			reduce(67), // +, reduce: TemplateIfBlock
-			reduce(67), // -, reduce: TemplateIfBlock
-			reduce(67), // ||, reduce: TemplateIfBlock
-			reduce(67), // <>, reduce: TemplateIfBlock
-			reduce(67), // !=, reduce: TemplateIfBlock
-			reduce(67), // =, reduce: TemplateIfBlock
-			reduce(67), // <=, reduce: TemplateIfBlock
-			reduce(67), // >=, reduce: TemplateIfBlock
-			reduce(67), // ;, reduce: TemplateIfBlock
-			reduce(67), // @, reduce: TemplateIfBlock
-			reduce(67), // {, reduce: TemplateIfBlock
-			reduce(67), // }, reduce: TemplateIfBlock
-			reduce(67), // ~, reduce: TemplateIfBlock
-			reduce(67), // else, reduce: TemplateIfBlock
-			reduce(67), // if, reduce: TemplateIfBlock
-			reduce(67), // for, reduce: TemplateIfBlock
-			reduce(67), // endfor, reduce: TemplateIfBlock
-			reduce(67), // elif, reduce: TemplateIfBlock
-			reduce(67), // endif, reduce: TemplateIfBlock
-			reduce(67), // set, reduce: TemplateIfBlock
-			reduce(67), // ?, reduce: TemplateIfBlock
-			reduce(67), // comment, reduce: TemplateIfBlock
-			reduce(67), // template_block_end, reduce: TemplateIfBlock
-			reduce(67), // template_block_start, reduce: TemplateIfBlock
-			reduce(67), // template_comment, reduce: TemplateIfBlock
-			nil,        // template_variable_end
-			reduce(67), // template_variable_start, reduce: TemplateIfBlock
-		},
-	},
-	actionRow{ // S345
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
-			nil,        // elif
-			nil,        // endif
-			nil,        // set
-			nil,        // ?
-			nil,        // comment
-			shift(371), // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S346
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(74), // identifier, reduce: TemplateElse
-			reduce(74), // bytes_literal, reduce: TemplateElse
-			reduce(74), // string_literal, reduce: TemplateElse
-			reduce(74), // integer_literal, reduce: TemplateElse
-			reduce(74), // floating_point_literal, reduce: TemplateElse
-			reduce(74), // newline, reduce: TemplateElse
-			reduce(74), // *, reduce: TemplateElse
-			reduce(74), // <, reduce: TemplateElse
-			reduce(74), // >, reduce: TemplateElse
-			reduce(74), // [, reduce: TemplateElse
-			reduce(74), // ], reduce: TemplateElse
-			reduce(74), // (, reduce: TemplateElse
-			reduce(74), // ), reduce: TemplateElse
-			reduce(74), // ,, reduce: TemplateElse
-			reduce(74), // ., reduce: TemplateElse
-			reduce(74), // |, reduce: TemplateElse
-			reduce(74), // ^, reduce: TemplateElse
-			reduce(74), // &, reduce: TemplateElse
-			reduce(74), // <<, reduce: TemplateElse
-			reduce(74), // >>, reduce: TemplateElse
-			reduce(74), // =>, reduce: TemplateElse
-			reduce(74), // /, reduce: TemplateElse
-			reduce(74), // +, reduce: TemplateElse
-			reduce(74), // -, reduce: TemplateElse
-			reduce(74), // ||, reduce: TemplateElse
-			reduce(74), // <>, reduce: TemplateElse
-			reduce(74), // !=, reduce: TemplateElse
-			reduce(74), // =, reduce: TemplateElse
-			reduce(74), // <=, reduce: TemplateElse
-			reduce(74), // >=, reduce: TemplateElse
-			reduce(74), // ;, reduce: TemplateElse
-			reduce(74), // @, reduce: TemplateElse
-			reduce(74), // {, reduce: TemplateElse
-			reduce(74), // }, reduce: TemplateElse
-			reduce(74), // ~, reduce: TemplateElse
-			reduce(74), // else, reduce: TemplateElse
-			reduce(74), // if, reduce: TemplateElse
-			reduce(74), // for, reduce: TemplateElse
-			reduce(74), // endfor, reduce: TemplateElse
-			reduce(74), // elif, reduce: TemplateElse
-			reduce(74), // endif, reduce: TemplateElse
-			reduce(74), // set, reduce: TemplateElse
-			reduce(74), // ?, reduce: TemplateElse
-			reduce(74), // comment, reduce: TemplateElse
-			nil,        // template_block_end
-			reduce(74), // template_block_start, reduce: TemplateElse
-			reduce(74), // template_comment, reduce: TemplateElse
-			nil,        // template_variable_end
-			reduce(74), // template_variable_start, reduce: TemplateElse
-		},
-	},
-	actionRow{ // S347
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			reduce(73), // ␚, reduce: TemplateIfEnd
-			reduce(73), // identifier, reduce: TemplateIfEnd
-			reduce(73), // bytes_literal, reduce: TemplateIfEnd
-			reduce(73), // string_literal, reduce: TemplateIfEnd
-			reduce(73), // integer_literal, reduce: TemplateIfEnd
-			reduce(73), // floating_point_literal, reduce: TemplateIfEnd
-			reduce(73), // newline, reduce: TemplateIfEnd
-			reduce(73), // *, reduce: TemplateIfEnd
-			reduce(73), // <, reduce: TemplateIfEnd
-			reduce(73), // >, reduce: TemplateIfEnd
-			reduce(73), // [, reduce: TemplateIfEnd
-			reduce(73), // ], reduce: TemplateIfEnd
-			reduce(73), // (, reduce: TemplateIfEnd
-			reduce(73), // ), reduce: TemplateIfEnd
-			reduce(73), // ,, reduce: TemplateIfEnd
-			reduce(73), // ., reduce: TemplateIfEnd
-			reduce(73), // |, reduce: TemplateIfEnd
-			reduce(73), // ^, reduce: TemplateIfEnd
-			reduce(73), // &, reduce: TemplateIfEnd
-			reduce(73), // <<, reduce: TemplateIfEnd
-			reduce(73), // >>, reduce: TemplateIfEnd
-			reduce(73), // =>, reduce: TemplateIfEnd
-			reduce(73), // /, reduce: TemplateIfEnd
-			reduce(73), // +, reduce: TemplateIfEnd
-			reduce(73), // -, reduce: TemplateIfEnd
-			reduce(73), // ||, reduce: TemplateIfEnd
-			reduce(73), // <>, reduce: TemplateIfEnd
-			reduce(73), // !=, reduce: TemplateIfEnd
-			reduce(73), // =, reduce: TemplateIfEnd
-			reduce(73), // <=, reduce: TemplateIfEnd
-			reduce(73), // >=, reduce: TemplateIfEnd
-			reduce(73), // ;, reduce: TemplateIfEnd
-			reduce(73), // @, reduce: TemplateIfEnd
-			reduce(73), // {, reduce: TemplateIfEnd
-			reduce(73), // }, reduce: TemplateIfEnd
-			reduce(73), // ~, reduce: TemplateIfEnd
-			reduce(73), // else, reduce: TemplateIfEnd
-			reduce(73), // if, reduce: TemplateIfEnd
-			reduce(73), // for, reduce: TemplateIfEnd
-			reduce(73), // endfor, reduce: TemplateIfEnd
-			reduce(73), // elif, reduce: TemplateIfEnd
-			reduce(73), // endif, reduce: TemplateIfEnd
-			reduce(73), // set, reduce: TemplateIfEnd
-			reduce(73), // ?, reduce: TemplateIfEnd
-			reduce(73), // comment, reduce: TemplateIfEnd
-			nil,        // template_block_end
-			reduce(73), // template_block_start, reduce: TemplateIfEnd
-			reduce(73), // template_comment, reduce: TemplateIfEnd
-			nil,        // template_variable_end
-			reduce(73), // template_variable_start, reduce: TemplateIfEnd
-		},
-	},
-	actionRow{ // S348
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
-			nil,        // elif
-			nil,        // endif
-			nil,        // set
-			nil,        // ?
-			nil,        // comment
-			shift(372), // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S349
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
-			nil,        // elif
-			nil,        // endif
-			nil,        // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			shift(373), // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S350
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			shift(129), // if
-			shift(130), // for
-			nil,        // endfor
-			nil,        // elif
-			shift(348), // endif
-			shift(131), // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S351
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(67), // identifier, reduce: TemplateIfBlock
-			reduce(67), // bytes_literal, reduce: TemplateIfBlock
-			reduce(67), // string_literal, reduce: TemplateIfBlock
-			reduce(67), // integer_literal, reduce: TemplateIfBlock
-			reduce(67), // floating_point_literal, reduce: TemplateIfBlock
-			reduce(67), // newline, reduce: TemplateIfBlock
-			reduce(67), // *, reduce: TemplateIfBlock
-			reduce(67), // <, reduce: TemplateIfBlock
-			reduce(67), // >, reduce: TemplateIfBlock
-			reduce(67), // [, reduce: TemplateIfBlock
-			reduce(67), // ], reduce: TemplateIfBlock
-			reduce(67), // (, reduce: TemplateIfBlock
-			reduce(67), // ), reduce: TemplateIfBlock
-			reduce(67), // ,, reduce: TemplateIfBlock
-			reduce(67), // ., reduce: TemplateIfBlock
-			reduce(67), // |, reduce: TemplateIfBlock
-			reduce(67), // ^, reduce: TemplateIfBlock
-			reduce(67), // &, reduce: TemplateIfBlock
-			reduce(67), // <<, reduce: TemplateIfBlock
-			reduce(67), // >>, reduce: TemplateIfBlock
-			reduce(67), // =>, reduce: TemplateIfBlock
-			reduce(67), // /, reduce: TemplateIfBlock
-			reduce(67), // +, reduce: TemplateIfBlock
-			reduce(67), // -, reduce: TemplateIfBlock
-			reduce(67), // ||, reduce: TemplateIfBlock
-			reduce(67), // <>, reduce: TemplateIfBlock
-			reduce(67), // !=, reduce: TemplateIfBlock
-			reduce(67), // =, reduce: TemplateIfBlock
-			reduce(67), // <=, reduce: TemplateIfBlock
-			reduce(67), // >=, reduce: TemplateIfBlock
-			reduce(67), // ;, reduce: TemplateIfBlock
-			reduce(67), // @, reduce: TemplateIfBlock
-			reduce(67), // {, reduce: TemplateIfBlock
-			reduce(67), // }, reduce: TemplateIfBlock
-			reduce(67), // ~, reduce: TemplateIfBlock
-			reduce(67), // else, reduce: TemplateIfBlock
-			reduce(67), // if, reduce: TemplateIfBlock
-			reduce(67), // for, reduce: TemplateIfBlock
-			reduce(67), // endfor, reduce: TemplateIfBlock
-			reduce(67), // elif, reduce: TemplateIfBlock
-			reduce(67), // endif, reduce: TemplateIfBlock
-			reduce(67), // set, reduce: TemplateIfBlock
-			reduce(67), // ?, reduce: TemplateIfBlock
-			reduce(67), // comment, reduce: TemplateIfBlock
-			nil,        // template_block_end
-			reduce(67), // template_block_start, reduce: TemplateIfBlock
-			reduce(67), // template_comment, reduce: TemplateIfBlock
-			nil,        // template_variable_end
-			reduce(67), // template_variable_start, reduce: TemplateIfBlock
-		},
-	},
-	actionRow{ // S352
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
-			nil,        // elif
-			shift(267), // endif
-			nil,        // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S353
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			reduce(66), // ␚, reduce: TemplateIfBlock
 			reduce(66), // identifier, reduce: TemplateIfBlock
 			reduce(66), // bytes_literal, reduce: TemplateIfBlock
 			reduce(66), // string_literal, reduce: TemplateIfBlock
@@ -19827,12 +19496,697 @@ var actionTab = actionTable{
 			reduce(66), // endif, reduce: TemplateIfBlock
 			reduce(66), // set, reduce: TemplateIfBlock
 			reduce(66), // ?, reduce: TemplateIfBlock
+			reduce(66), // :, reduce: TemplateIfBlock
 			reduce(66), // comment, reduce: TemplateIfBlock
 			nil,        // template_block_end
 			reduce(66), // template_block_start, reduce: TemplateIfBlock
 			reduce(66), // template_comment, reduce: TemplateIfBlock
-			nil,        // template_variable_end
+			reduce(66), // template_variable_end, reduce: TemplateIfBlock
 			reduce(66), // template_variable_start, reduce: TemplateIfBlock
+		},
+	},
+	actionRow{ // S342
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			shift(283), // identifier
+			shift(284), // bytes_literal
+			shift(285), // string_literal
+			shift(286), // integer_literal
+			shift(287), // floating_point_literal
+			shift(288), // newline
+			shift(289), // *
+			shift(290), // <
+			shift(291), // >
+			shift(292), // [
+			shift(293), // ]
+			shift(294), // (
+			shift(295), // )
+			shift(296), // ,
+			shift(297), // .
+			shift(298), // |
+			shift(299), // ^
+			shift(300), // &
+			shift(301), // <<
+			shift(302), // >>
+			shift(303), // =>
+			shift(304), // /
+			shift(305), // +
+			shift(306), // -
+			shift(307), // ||
+			shift(308), // <>
+			shift(309), // !=
+			shift(310), // =
+			shift(311), // <=
+			shift(312), // >=
+			shift(313), // ;
+			shift(314), // @
+			shift(315), // {
+			shift(316), // }
+			shift(317), // ~
+			shift(318), // else
+			shift(319), // if
+			shift(320), // for
+			shift(321), // endfor
+			shift(322), // elif
+			shift(323), // endif
+			shift(324), // set
+			shift(325), // ?
+			shift(326), // :
+			shift(327), // comment
+			nil,        // template_block_end
+			shift(370), // template_block_start
+			shift(333), // template_comment
+			nil,        // template_variable_end
+			shift(65),  // template_variable_start
+		},
+	},
+	actionRow{ // S343
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			shift(131), // if
+			shift(132), // for
+			shift(372), // endfor
+			nil,        // elif
+			nil,        // endif
+			shift(133), // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			nil,        // template_block_start
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S344
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(76), // identifier, reduce: TemplateForBlock
+			reduce(76), // bytes_literal, reduce: TemplateForBlock
+			reduce(76), // string_literal, reduce: TemplateForBlock
+			reduce(76), // integer_literal, reduce: TemplateForBlock
+			reduce(76), // floating_point_literal, reduce: TemplateForBlock
+			reduce(76), // newline, reduce: TemplateForBlock
+			reduce(76), // *, reduce: TemplateForBlock
+			reduce(76), // <, reduce: TemplateForBlock
+			reduce(76), // >, reduce: TemplateForBlock
+			reduce(76), // [, reduce: TemplateForBlock
+			reduce(76), // ], reduce: TemplateForBlock
+			reduce(76), // (, reduce: TemplateForBlock
+			reduce(76), // ), reduce: TemplateForBlock
+			reduce(76), // ,, reduce: TemplateForBlock
+			reduce(76), // ., reduce: TemplateForBlock
+			reduce(76), // |, reduce: TemplateForBlock
+			reduce(76), // ^, reduce: TemplateForBlock
+			reduce(76), // &, reduce: TemplateForBlock
+			reduce(76), // <<, reduce: TemplateForBlock
+			reduce(76), // >>, reduce: TemplateForBlock
+			reduce(76), // =>, reduce: TemplateForBlock
+			reduce(76), // /, reduce: TemplateForBlock
+			reduce(76), // +, reduce: TemplateForBlock
+			reduce(76), // -, reduce: TemplateForBlock
+			reduce(76), // ||, reduce: TemplateForBlock
+			reduce(76), // <>, reduce: TemplateForBlock
+			reduce(76), // !=, reduce: TemplateForBlock
+			reduce(76), // =, reduce: TemplateForBlock
+			reduce(76), // <=, reduce: TemplateForBlock
+			reduce(76), // >=, reduce: TemplateForBlock
+			reduce(76), // ;, reduce: TemplateForBlock
+			reduce(76), // @, reduce: TemplateForBlock
+			reduce(76), // {, reduce: TemplateForBlock
+			reduce(76), // }, reduce: TemplateForBlock
+			reduce(76), // ~, reduce: TemplateForBlock
+			reduce(76), // else, reduce: TemplateForBlock
+			reduce(76), // if, reduce: TemplateForBlock
+			reduce(76), // for, reduce: TemplateForBlock
+			reduce(76), // endfor, reduce: TemplateForBlock
+			reduce(76), // elif, reduce: TemplateForBlock
+			reduce(76), // endif, reduce: TemplateForBlock
+			reduce(76), // set, reduce: TemplateForBlock
+			reduce(76), // ?, reduce: TemplateForBlock
+			reduce(76), // :, reduce: TemplateForBlock
+			reduce(76), // comment, reduce: TemplateForBlock
+			nil,        // template_block_end
+			reduce(76), // template_block_start, reduce: TemplateForBlock
+			reduce(76), // template_comment, reduce: TemplateForBlock
+			reduce(76), // template_variable_end, reduce: TemplateForBlock
+			reduce(76), // template_variable_start, reduce: TemplateForBlock
+		},
+	},
+	actionRow{ // S345
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(84), // identifier, reduce: TemplateVariable
+			reduce(84), // bytes_literal, reduce: TemplateVariable
+			reduce(84), // string_literal, reduce: TemplateVariable
+			reduce(84), // integer_literal, reduce: TemplateVariable
+			reduce(84), // floating_point_literal, reduce: TemplateVariable
+			reduce(84), // newline, reduce: TemplateVariable
+			reduce(84), // *, reduce: TemplateVariable
+			reduce(84), // <, reduce: TemplateVariable
+			reduce(84), // >, reduce: TemplateVariable
+			reduce(84), // [, reduce: TemplateVariable
+			reduce(84), // ], reduce: TemplateVariable
+			reduce(84), // (, reduce: TemplateVariable
+			reduce(84), // ), reduce: TemplateVariable
+			reduce(84), // ,, reduce: TemplateVariable
+			reduce(84), // ., reduce: TemplateVariable
+			reduce(84), // |, reduce: TemplateVariable
+			reduce(84), // ^, reduce: TemplateVariable
+			reduce(84), // &, reduce: TemplateVariable
+			reduce(84), // <<, reduce: TemplateVariable
+			reduce(84), // >>, reduce: TemplateVariable
+			reduce(84), // =>, reduce: TemplateVariable
+			reduce(84), // /, reduce: TemplateVariable
+			reduce(84), // +, reduce: TemplateVariable
+			reduce(84), // -, reduce: TemplateVariable
+			reduce(84), // ||, reduce: TemplateVariable
+			reduce(84), // <>, reduce: TemplateVariable
+			reduce(84), // !=, reduce: TemplateVariable
+			reduce(84), // =, reduce: TemplateVariable
+			reduce(84), // <=, reduce: TemplateVariable
+			reduce(84), // >=, reduce: TemplateVariable
+			reduce(84), // ;, reduce: TemplateVariable
+			reduce(84), // @, reduce: TemplateVariable
+			reduce(84), // {, reduce: TemplateVariable
+			reduce(84), // }, reduce: TemplateVariable
+			reduce(84), // ~, reduce: TemplateVariable
+			reduce(84), // else, reduce: TemplateVariable
+			reduce(84), // if, reduce: TemplateVariable
+			reduce(84), // for, reduce: TemplateVariable
+			reduce(84), // endfor, reduce: TemplateVariable
+			reduce(84), // elif, reduce: TemplateVariable
+			reduce(84), // endif, reduce: TemplateVariable
+			reduce(84), // set, reduce: TemplateVariable
+			reduce(84), // ?, reduce: TemplateVariable
+			reduce(84), // :, reduce: TemplateVariable
+			reduce(84), // comment, reduce: TemplateVariable
+			nil,        // template_block_end
+			reduce(84), // template_block_start, reduce: TemplateVariable
+			reduce(84), // template_comment, reduce: TemplateVariable
+			reduce(84), // template_variable_end, reduce: TemplateVariable
+			reduce(84), // template_variable_start, reduce: TemplateVariable
+		},
+	},
+	actionRow{ // S346
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			shift(373), // template_block_end
+			nil,        // template_block_start
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S347
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			shift(374), // template_block_start
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S348
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			shift(131), // if
+			shift(132), // for
+			nil,        // endfor
+			nil,        // elif
+			shift(346), // endif
+			shift(133), // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			nil,        // template_block_start
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S349
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(68), // identifier, reduce: TemplateIfBlock
+			reduce(68), // bytes_literal, reduce: TemplateIfBlock
+			reduce(68), // string_literal, reduce: TemplateIfBlock
+			reduce(68), // integer_literal, reduce: TemplateIfBlock
+			reduce(68), // floating_point_literal, reduce: TemplateIfBlock
+			reduce(68), // newline, reduce: TemplateIfBlock
+			reduce(68), // *, reduce: TemplateIfBlock
+			reduce(68), // <, reduce: TemplateIfBlock
+			reduce(68), // >, reduce: TemplateIfBlock
+			reduce(68), // [, reduce: TemplateIfBlock
+			reduce(68), // ], reduce: TemplateIfBlock
+			reduce(68), // (, reduce: TemplateIfBlock
+			reduce(68), // ), reduce: TemplateIfBlock
+			reduce(68), // ,, reduce: TemplateIfBlock
+			reduce(68), // ., reduce: TemplateIfBlock
+			reduce(68), // |, reduce: TemplateIfBlock
+			reduce(68), // ^, reduce: TemplateIfBlock
+			reduce(68), // &, reduce: TemplateIfBlock
+			reduce(68), // <<, reduce: TemplateIfBlock
+			reduce(68), // >>, reduce: TemplateIfBlock
+			reduce(68), // =>, reduce: TemplateIfBlock
+			reduce(68), // /, reduce: TemplateIfBlock
+			reduce(68), // +, reduce: TemplateIfBlock
+			reduce(68), // -, reduce: TemplateIfBlock
+			reduce(68), // ||, reduce: TemplateIfBlock
+			reduce(68), // <>, reduce: TemplateIfBlock
+			reduce(68), // !=, reduce: TemplateIfBlock
+			reduce(68), // =, reduce: TemplateIfBlock
+			reduce(68), // <=, reduce: TemplateIfBlock
+			reduce(68), // >=, reduce: TemplateIfBlock
+			reduce(68), // ;, reduce: TemplateIfBlock
+			reduce(68), // @, reduce: TemplateIfBlock
+			reduce(68), // {, reduce: TemplateIfBlock
+			reduce(68), // }, reduce: TemplateIfBlock
+			reduce(68), // ~, reduce: TemplateIfBlock
+			reduce(68), // else, reduce: TemplateIfBlock
+			reduce(68), // if, reduce: TemplateIfBlock
+			reduce(68), // for, reduce: TemplateIfBlock
+			reduce(68), // endfor, reduce: TemplateIfBlock
+			reduce(68), // elif, reduce: TemplateIfBlock
+			reduce(68), // endif, reduce: TemplateIfBlock
+			reduce(68), // set, reduce: TemplateIfBlock
+			reduce(68), // ?, reduce: TemplateIfBlock
+			reduce(68), // :, reduce: TemplateIfBlock
+			reduce(68), // comment, reduce: TemplateIfBlock
+			reduce(68), // template_block_end, reduce: TemplateIfBlock
+			reduce(68), // template_block_start, reduce: TemplateIfBlock
+			reduce(68), // template_comment, reduce: TemplateIfBlock
+			nil,        // template_variable_end
+			reduce(68), // template_variable_start, reduce: TemplateIfBlock
+		},
+	},
+	actionRow{ // S350
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			shift(376), // template_block_end
+			nil,        // template_block_start
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S351
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(75), // identifier, reduce: TemplateElse
+			reduce(75), // bytes_literal, reduce: TemplateElse
+			reduce(75), // string_literal, reduce: TemplateElse
+			reduce(75), // integer_literal, reduce: TemplateElse
+			reduce(75), // floating_point_literal, reduce: TemplateElse
+			reduce(75), // newline, reduce: TemplateElse
+			reduce(75), // *, reduce: TemplateElse
+			reduce(75), // <, reduce: TemplateElse
+			reduce(75), // >, reduce: TemplateElse
+			reduce(75), // [, reduce: TemplateElse
+			reduce(75), // ], reduce: TemplateElse
+			reduce(75), // (, reduce: TemplateElse
+			reduce(75), // ), reduce: TemplateElse
+			reduce(75), // ,, reduce: TemplateElse
+			reduce(75), // ., reduce: TemplateElse
+			reduce(75), // |, reduce: TemplateElse
+			reduce(75), // ^, reduce: TemplateElse
+			reduce(75), // &, reduce: TemplateElse
+			reduce(75), // <<, reduce: TemplateElse
+			reduce(75), // >>, reduce: TemplateElse
+			reduce(75), // =>, reduce: TemplateElse
+			reduce(75), // /, reduce: TemplateElse
+			reduce(75), // +, reduce: TemplateElse
+			reduce(75), // -, reduce: TemplateElse
+			reduce(75), // ||, reduce: TemplateElse
+			reduce(75), // <>, reduce: TemplateElse
+			reduce(75), // !=, reduce: TemplateElse
+			reduce(75), // =, reduce: TemplateElse
+			reduce(75), // <=, reduce: TemplateElse
+			reduce(75), // >=, reduce: TemplateElse
+			reduce(75), // ;, reduce: TemplateElse
+			reduce(75), // @, reduce: TemplateElse
+			reduce(75), // {, reduce: TemplateElse
+			reduce(75), // }, reduce: TemplateElse
+			reduce(75), // ~, reduce: TemplateElse
+			reduce(75), // else, reduce: TemplateElse
+			reduce(75), // if, reduce: TemplateElse
+			reduce(75), // for, reduce: TemplateElse
+			reduce(75), // endfor, reduce: TemplateElse
+			reduce(75), // elif, reduce: TemplateElse
+			reduce(75), // endif, reduce: TemplateElse
+			reduce(75), // set, reduce: TemplateElse
+			reduce(75), // ?, reduce: TemplateElse
+			reduce(75), // :, reduce: TemplateElse
+			reduce(75), // comment, reduce: TemplateElse
+			nil,        // template_block_end
+			reduce(75), // template_block_start, reduce: TemplateElse
+			reduce(75), // template_comment, reduce: TemplateElse
+			nil,        // template_variable_end
+			reduce(75), // template_variable_start, reduce: TemplateElse
+		},
+	},
+	actionRow{ // S352
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			reduce(74), // ␚, reduce: TemplateIfEnd
+			reduce(74), // identifier, reduce: TemplateIfEnd
+			reduce(74), // bytes_literal, reduce: TemplateIfEnd
+			reduce(74), // string_literal, reduce: TemplateIfEnd
+			reduce(74), // integer_literal, reduce: TemplateIfEnd
+			reduce(74), // floating_point_literal, reduce: TemplateIfEnd
+			reduce(74), // newline, reduce: TemplateIfEnd
+			reduce(74), // *, reduce: TemplateIfEnd
+			reduce(74), // <, reduce: TemplateIfEnd
+			reduce(74), // >, reduce: TemplateIfEnd
+			reduce(74), // [, reduce: TemplateIfEnd
+			reduce(74), // ], reduce: TemplateIfEnd
+			reduce(74), // (, reduce: TemplateIfEnd
+			reduce(74), // ), reduce: TemplateIfEnd
+			reduce(74), // ,, reduce: TemplateIfEnd
+			reduce(74), // ., reduce: TemplateIfEnd
+			reduce(74), // |, reduce: TemplateIfEnd
+			reduce(74), // ^, reduce: TemplateIfEnd
+			reduce(74), // &, reduce: TemplateIfEnd
+			reduce(74), // <<, reduce: TemplateIfEnd
+			reduce(74), // >>, reduce: TemplateIfEnd
+			reduce(74), // =>, reduce: TemplateIfEnd
+			reduce(74), // /, reduce: TemplateIfEnd
+			reduce(74), // +, reduce: TemplateIfEnd
+			reduce(74), // -, reduce: TemplateIfEnd
+			reduce(74), // ||, reduce: TemplateIfEnd
+			reduce(74), // <>, reduce: TemplateIfEnd
+			reduce(74), // !=, reduce: TemplateIfEnd
+			reduce(74), // =, reduce: TemplateIfEnd
+			reduce(74), // <=, reduce: TemplateIfEnd
+			reduce(74), // >=, reduce: TemplateIfEnd
+			reduce(74), // ;, reduce: TemplateIfEnd
+			reduce(74), // @, reduce: TemplateIfEnd
+			reduce(74), // {, reduce: TemplateIfEnd
+			reduce(74), // }, reduce: TemplateIfEnd
+			reduce(74), // ~, reduce: TemplateIfEnd
+			reduce(74), // else, reduce: TemplateIfEnd
+			reduce(74), // if, reduce: TemplateIfEnd
+			reduce(74), // for, reduce: TemplateIfEnd
+			reduce(74), // endfor, reduce: TemplateIfEnd
+			reduce(74), // elif, reduce: TemplateIfEnd
+			reduce(74), // endif, reduce: TemplateIfEnd
+			reduce(74), // set, reduce: TemplateIfEnd
+			reduce(74), // ?, reduce: TemplateIfEnd
+			reduce(74), // :, reduce: TemplateIfEnd
+			reduce(74), // comment, reduce: TemplateIfEnd
+			nil,        // template_block_end
+			reduce(74), // template_block_start, reduce: TemplateIfEnd
+			reduce(74), // template_comment, reduce: TemplateIfEnd
+			nil,        // template_variable_end
+			reduce(74), // template_variable_start, reduce: TemplateIfEnd
+		},
+	},
+	actionRow{ // S353
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			shift(377), // template_block_end
+			nil,        // template_block_start
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S354
@@ -19883,9 +20237,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(62), // template_block_start, reduce: TemplateSetBlock
+			shift(378), // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -19931,14 +20286,15 @@ var actionTab = actionTable{
 			nil,        // {
 			nil,        // }
 			nil,        // ~
-			shift(266), // else
-			shift(129), // if
-			shift(130), // for
+			nil,        // else
+			shift(131), // if
+			shift(132), // for
 			nil,        // endfor
 			nil,        // elif
-			shift(375), // endif
-			shift(131), // set
+			shift(353), // endif
+			shift(133), // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
 			nil,        // template_block_start
@@ -19948,6 +20304,63 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S356
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(68), // identifier, reduce: TemplateIfBlock
+			reduce(68), // bytes_literal, reduce: TemplateIfBlock
+			reduce(68), // string_literal, reduce: TemplateIfBlock
+			reduce(68), // integer_literal, reduce: TemplateIfBlock
+			reduce(68), // floating_point_literal, reduce: TemplateIfBlock
+			reduce(68), // newline, reduce: TemplateIfBlock
+			reduce(68), // *, reduce: TemplateIfBlock
+			reduce(68), // <, reduce: TemplateIfBlock
+			reduce(68), // >, reduce: TemplateIfBlock
+			reduce(68), // [, reduce: TemplateIfBlock
+			reduce(68), // ], reduce: TemplateIfBlock
+			reduce(68), // (, reduce: TemplateIfBlock
+			reduce(68), // ), reduce: TemplateIfBlock
+			reduce(68), // ,, reduce: TemplateIfBlock
+			reduce(68), // ., reduce: TemplateIfBlock
+			reduce(68), // |, reduce: TemplateIfBlock
+			reduce(68), // ^, reduce: TemplateIfBlock
+			reduce(68), // &, reduce: TemplateIfBlock
+			reduce(68), // <<, reduce: TemplateIfBlock
+			reduce(68), // >>, reduce: TemplateIfBlock
+			reduce(68), // =>, reduce: TemplateIfBlock
+			reduce(68), // /, reduce: TemplateIfBlock
+			reduce(68), // +, reduce: TemplateIfBlock
+			reduce(68), // -, reduce: TemplateIfBlock
+			reduce(68), // ||, reduce: TemplateIfBlock
+			reduce(68), // <>, reduce: TemplateIfBlock
+			reduce(68), // !=, reduce: TemplateIfBlock
+			reduce(68), // =, reduce: TemplateIfBlock
+			reduce(68), // <=, reduce: TemplateIfBlock
+			reduce(68), // >=, reduce: TemplateIfBlock
+			reduce(68), // ;, reduce: TemplateIfBlock
+			reduce(68), // @, reduce: TemplateIfBlock
+			reduce(68), // {, reduce: TemplateIfBlock
+			reduce(68), // }, reduce: TemplateIfBlock
+			reduce(68), // ~, reduce: TemplateIfBlock
+			reduce(68), // else, reduce: TemplateIfBlock
+			reduce(68), // if, reduce: TemplateIfBlock
+			reduce(68), // for, reduce: TemplateIfBlock
+			reduce(68), // endfor, reduce: TemplateIfBlock
+			reduce(68), // elif, reduce: TemplateIfBlock
+			reduce(68), // endif, reduce: TemplateIfBlock
+			reduce(68), // set, reduce: TemplateIfBlock
+			reduce(68), // ?, reduce: TemplateIfBlock
+			reduce(68), // :, reduce: TemplateIfBlock
+			reduce(68), // comment, reduce: TemplateIfBlock
+			nil,        // template_block_end
+			reduce(68), // template_block_start, reduce: TemplateIfBlock
+			reduce(68), // template_comment, reduce: TemplateIfBlock
+			nil,        // template_variable_end
+			reduce(68), // template_variable_start, reduce: TemplateIfBlock
+		},
+	},
+	actionRow{ // S357
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -19992,127 +20405,73 @@ var actionTab = actionTable{
 			nil,        // for
 			nil,        // endfor
 			nil,        // elif
-			nil,        // endif
+			shift(271), // endif
 			nil,        // set
 			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			reduce(65), // template_block_start, reduce: TemplateIfBlock
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S357
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			shift(279), // identifier
-			shift(280), // bytes_literal
-			shift(281), // string_literal
-			shift(282), // integer_literal
-			shift(283), // floating_point_literal
-			shift(284), // newline
-			shift(285), // *
-			shift(286), // <
-			shift(287), // >
-			shift(288), // [
-			shift(289), // ]
-			shift(290), // (
-			shift(291), // )
-			shift(292), // ,
-			shift(293), // .
-			shift(294), // |
-			shift(295), // ^
-			shift(296), // &
-			shift(297), // <<
-			shift(298), // >>
-			shift(299), // =>
-			shift(300), // /
-			shift(301), // +
-			shift(302), // -
-			shift(303), // ||
-			shift(304), // <>
-			shift(305), // !=
-			shift(306), // =
-			shift(307), // <=
-			shift(308), // >=
-			shift(309), // ;
-			shift(310), // @
-			shift(311), // {
-			shift(312), // }
-			shift(313), // ~
-			shift(314), // else
-			shift(315), // if
-			shift(316), // for
-			shift(317), // endfor
-			shift(318), // elif
-			shift(319), // endif
-			shift(320), // set
-			shift(321), // ?
-			shift(322), // comment
-			nil,        // template_block_end
-			shift(377), // template_block_start
-			shift(328), // template_comment
-			nil,        // template_variable_end
-			shift(64),  // template_variable_start
-		},
-	},
-	actionRow{ // S358
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			shift(129), // if
-			shift(130), // for
-			shift(379), // endfor
-			nil,        // elif
-			nil,        // endif
-			shift(131), // set
-			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
 			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S358
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			reduce(67), // ␚, reduce: TemplateIfBlock
+			reduce(67), // identifier, reduce: TemplateIfBlock
+			reduce(67), // bytes_literal, reduce: TemplateIfBlock
+			reduce(67), // string_literal, reduce: TemplateIfBlock
+			reduce(67), // integer_literal, reduce: TemplateIfBlock
+			reduce(67), // floating_point_literal, reduce: TemplateIfBlock
+			reduce(67), // newline, reduce: TemplateIfBlock
+			reduce(67), // *, reduce: TemplateIfBlock
+			reduce(67), // <, reduce: TemplateIfBlock
+			reduce(67), // >, reduce: TemplateIfBlock
+			reduce(67), // [, reduce: TemplateIfBlock
+			reduce(67), // ], reduce: TemplateIfBlock
+			reduce(67), // (, reduce: TemplateIfBlock
+			reduce(67), // ), reduce: TemplateIfBlock
+			reduce(67), // ,, reduce: TemplateIfBlock
+			reduce(67), // ., reduce: TemplateIfBlock
+			reduce(67), // |, reduce: TemplateIfBlock
+			reduce(67), // ^, reduce: TemplateIfBlock
+			reduce(67), // &, reduce: TemplateIfBlock
+			reduce(67), // <<, reduce: TemplateIfBlock
+			reduce(67), // >>, reduce: TemplateIfBlock
+			reduce(67), // =>, reduce: TemplateIfBlock
+			reduce(67), // /, reduce: TemplateIfBlock
+			reduce(67), // +, reduce: TemplateIfBlock
+			reduce(67), // -, reduce: TemplateIfBlock
+			reduce(67), // ||, reduce: TemplateIfBlock
+			reduce(67), // <>, reduce: TemplateIfBlock
+			reduce(67), // !=, reduce: TemplateIfBlock
+			reduce(67), // =, reduce: TemplateIfBlock
+			reduce(67), // <=, reduce: TemplateIfBlock
+			reduce(67), // >=, reduce: TemplateIfBlock
+			reduce(67), // ;, reduce: TemplateIfBlock
+			reduce(67), // @, reduce: TemplateIfBlock
+			reduce(67), // {, reduce: TemplateIfBlock
+			reduce(67), // }, reduce: TemplateIfBlock
+			reduce(67), // ~, reduce: TemplateIfBlock
+			reduce(67), // else, reduce: TemplateIfBlock
+			reduce(67), // if, reduce: TemplateIfBlock
+			reduce(67), // for, reduce: TemplateIfBlock
+			reduce(67), // endfor, reduce: TemplateIfBlock
+			reduce(67), // elif, reduce: TemplateIfBlock
+			reduce(67), // endif, reduce: TemplateIfBlock
+			reduce(67), // set, reduce: TemplateIfBlock
+			reduce(67), // ?, reduce: TemplateIfBlock
+			reduce(67), // :, reduce: TemplateIfBlock
+			reduce(67), // comment, reduce: TemplateIfBlock
+			nil,        // template_block_end
+			reduce(67), // template_block_start, reduce: TemplateIfBlock
+			reduce(67), // template_comment, reduce: TemplateIfBlock
+			nil,        // template_variable_end
+			reduce(67), // template_variable_start, reduce: TemplateIfBlock
 		},
 	},
 	actionRow{ // S359
@@ -20163,9 +20522,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(75), // template_block_start, reduce: TemplateForBlock
+			reduce(63), // template_block_start, reduce: TemplateSetBlock
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -20211,17 +20571,18 @@ var actionTab = actionTable{
 			nil,        // {
 			nil,        // }
 			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
+			shift(270), // else
+			shift(131), // if
+			shift(132), // for
 			nil,        // endfor
 			nil,        // elif
-			nil,        // endif
-			nil,        // set
+			shift(380), // endif
+			shift(133), // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(83), // template_block_start, reduce: TemplateVariable
+			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -20275,9 +20636,10 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
-			shift(380), // template_block_end
-			nil,        // template_block_start
+			nil,        // template_block_end
+			reduce(66), // template_block_start, reduce: TemplateIfBlock
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -20287,56 +20649,57 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			reduce(81), // ␚, reduce: TemplateForEnd
-			reduce(81), // identifier, reduce: TemplateForEnd
-			reduce(81), // bytes_literal, reduce: TemplateForEnd
-			reduce(81), // string_literal, reduce: TemplateForEnd
-			reduce(81), // integer_literal, reduce: TemplateForEnd
-			reduce(81), // floating_point_literal, reduce: TemplateForEnd
-			reduce(81), // newline, reduce: TemplateForEnd
-			reduce(81), // *, reduce: TemplateForEnd
-			reduce(81), // <, reduce: TemplateForEnd
-			reduce(81), // >, reduce: TemplateForEnd
-			reduce(81), // [, reduce: TemplateForEnd
-			reduce(81), // ], reduce: TemplateForEnd
-			reduce(81), // (, reduce: TemplateForEnd
-			reduce(81), // ), reduce: TemplateForEnd
-			reduce(81), // ,, reduce: TemplateForEnd
-			reduce(81), // ., reduce: TemplateForEnd
-			reduce(81), // |, reduce: TemplateForEnd
-			reduce(81), // ^, reduce: TemplateForEnd
-			reduce(81), // &, reduce: TemplateForEnd
-			reduce(81), // <<, reduce: TemplateForEnd
-			reduce(81), // >>, reduce: TemplateForEnd
-			reduce(81), // =>, reduce: TemplateForEnd
-			reduce(81), // /, reduce: TemplateForEnd
-			reduce(81), // +, reduce: TemplateForEnd
-			reduce(81), // -, reduce: TemplateForEnd
-			reduce(81), // ||, reduce: TemplateForEnd
-			reduce(81), // <>, reduce: TemplateForEnd
-			reduce(81), // !=, reduce: TemplateForEnd
-			reduce(81), // =, reduce: TemplateForEnd
-			reduce(81), // <=, reduce: TemplateForEnd
-			reduce(81), // >=, reduce: TemplateForEnd
-			reduce(81), // ;, reduce: TemplateForEnd
-			reduce(81), // @, reduce: TemplateForEnd
-			reduce(81), // {, reduce: TemplateForEnd
-			reduce(81), // }, reduce: TemplateForEnd
-			reduce(81), // ~, reduce: TemplateForEnd
-			reduce(81), // else, reduce: TemplateForEnd
-			reduce(81), // if, reduce: TemplateForEnd
-			reduce(81), // for, reduce: TemplateForEnd
-			reduce(81), // endfor, reduce: TemplateForEnd
-			reduce(81), // elif, reduce: TemplateForEnd
-			reduce(81), // endif, reduce: TemplateForEnd
-			reduce(81), // set, reduce: TemplateForEnd
-			reduce(81), // ?, reduce: TemplateForEnd
-			reduce(81), // comment, reduce: TemplateForEnd
+			nil,        // ␚
+			shift(283), // identifier
+			shift(284), // bytes_literal
+			shift(285), // string_literal
+			shift(286), // integer_literal
+			shift(287), // floating_point_literal
+			shift(288), // newline
+			shift(289), // *
+			shift(290), // <
+			shift(291), // >
+			shift(292), // [
+			shift(293), // ]
+			shift(294), // (
+			shift(295), // )
+			shift(296), // ,
+			shift(297), // .
+			shift(298), // |
+			shift(299), // ^
+			shift(300), // &
+			shift(301), // <<
+			shift(302), // >>
+			shift(303), // =>
+			shift(304), // /
+			shift(305), // +
+			shift(306), // -
+			shift(307), // ||
+			shift(308), // <>
+			shift(309), // !=
+			shift(310), // =
+			shift(311), // <=
+			shift(312), // >=
+			shift(313), // ;
+			shift(314), // @
+			shift(315), // {
+			shift(316), // }
+			shift(317), // ~
+			shift(318), // else
+			shift(319), // if
+			shift(320), // for
+			shift(321), // endfor
+			shift(322), // elif
+			shift(323), // endif
+			shift(324), // set
+			shift(325), // ?
+			shift(326), // :
+			shift(327), // comment
 			nil,        // template_block_end
-			reduce(81), // template_block_start, reduce: TemplateForEnd
-			reduce(81), // template_comment, reduce: TemplateForEnd
+			shift(382), // template_block_start
+			shift(333), // template_comment
 			nil,        // template_variable_end
-			reduce(81), // template_variable_start, reduce: TemplateForEnd
+			shift(65),  // template_variable_start
 		},
 	},
 	actionRow{ // S363
@@ -20380,15 +20743,16 @@ var actionTab = actionTable{
 			nil,        // }
 			nil,        // ~
 			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
+			shift(131), // if
+			shift(132), // for
+			shift(384), // endfor
 			nil,        // elif
 			nil,        // endif
-			nil,        // set
+			shift(133), // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
-			shift(381), // template_block_end
+			nil,        // template_block_end
 			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
@@ -20443,127 +20807,16 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			shift(382), // template_block_start
+			reduce(76), // template_block_start, reduce: TemplateForBlock
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S365
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			shift(129), // if
-			shift(130), // for
-			nil,        // endfor
-			nil,        // elif
-			shift(363), // endif
-			shift(131), // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
-			nil,        // template_variable_end
-			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S366
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(67), // identifier, reduce: TemplateIfBlock
-			reduce(67), // bytes_literal, reduce: TemplateIfBlock
-			reduce(67), // string_literal, reduce: TemplateIfBlock
-			reduce(67), // integer_literal, reduce: TemplateIfBlock
-			reduce(67), // floating_point_literal, reduce: TemplateIfBlock
-			reduce(67), // newline, reduce: TemplateIfBlock
-			reduce(67), // *, reduce: TemplateIfBlock
-			reduce(67), // <, reduce: TemplateIfBlock
-			reduce(67), // >, reduce: TemplateIfBlock
-			reduce(67), // [, reduce: TemplateIfBlock
-			reduce(67), // ], reduce: TemplateIfBlock
-			reduce(67), // (, reduce: TemplateIfBlock
-			reduce(67), // ), reduce: TemplateIfBlock
-			reduce(67), // ,, reduce: TemplateIfBlock
-			reduce(67), // ., reduce: TemplateIfBlock
-			reduce(67), // |, reduce: TemplateIfBlock
-			reduce(67), // ^, reduce: TemplateIfBlock
-			reduce(67), // &, reduce: TemplateIfBlock
-			reduce(67), // <<, reduce: TemplateIfBlock
-			reduce(67), // >>, reduce: TemplateIfBlock
-			reduce(67), // =>, reduce: TemplateIfBlock
-			reduce(67), // /, reduce: TemplateIfBlock
-			reduce(67), // +, reduce: TemplateIfBlock
-			reduce(67), // -, reduce: TemplateIfBlock
-			reduce(67), // ||, reduce: TemplateIfBlock
-			reduce(67), // <>, reduce: TemplateIfBlock
-			reduce(67), // !=, reduce: TemplateIfBlock
-			reduce(67), // =, reduce: TemplateIfBlock
-			reduce(67), // <=, reduce: TemplateIfBlock
-			reduce(67), // >=, reduce: TemplateIfBlock
-			reduce(67), // ;, reduce: TemplateIfBlock
-			reduce(67), // @, reduce: TemplateIfBlock
-			reduce(67), // {, reduce: TemplateIfBlock
-			reduce(67), // }, reduce: TemplateIfBlock
-			reduce(67), // ~, reduce: TemplateIfBlock
-			reduce(67), // else, reduce: TemplateIfBlock
-			reduce(67), // if, reduce: TemplateIfBlock
-			reduce(67), // for, reduce: TemplateIfBlock
-			reduce(67), // endfor, reduce: TemplateIfBlock
-			reduce(67), // elif, reduce: TemplateIfBlock
-			reduce(67), // endif, reduce: TemplateIfBlock
-			reduce(67), // set, reduce: TemplateIfBlock
-			reduce(67), // ?, reduce: TemplateIfBlock
-			reduce(67), // comment, reduce: TemplateIfBlock
-			nil,        // template_block_end
-			reduce(67), // template_block_start, reduce: TemplateIfBlock
-			reduce(67), // template_comment, reduce: TemplateIfBlock
-			reduce(67), // template_variable_end, reduce: TemplateIfBlock
-			reduce(67), // template_variable_start, reduce: TemplateIfBlock
-		},
-	},
-	actionRow{ // S367
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -20611,12 +20864,127 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
-			shift(384), // template_block_end
+			nil,        // template_block_end
+			reduce(84), // template_block_start, reduce: TemplateVariable
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S366
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			shift(385), // template_block_end
 			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S367
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			reduce(82), // ␚, reduce: TemplateForEnd
+			reduce(82), // identifier, reduce: TemplateForEnd
+			reduce(82), // bytes_literal, reduce: TemplateForEnd
+			reduce(82), // string_literal, reduce: TemplateForEnd
+			reduce(82), // integer_literal, reduce: TemplateForEnd
+			reduce(82), // floating_point_literal, reduce: TemplateForEnd
+			reduce(82), // newline, reduce: TemplateForEnd
+			reduce(82), // *, reduce: TemplateForEnd
+			reduce(82), // <, reduce: TemplateForEnd
+			reduce(82), // >, reduce: TemplateForEnd
+			reduce(82), // [, reduce: TemplateForEnd
+			reduce(82), // ], reduce: TemplateForEnd
+			reduce(82), // (, reduce: TemplateForEnd
+			reduce(82), // ), reduce: TemplateForEnd
+			reduce(82), // ,, reduce: TemplateForEnd
+			reduce(82), // ., reduce: TemplateForEnd
+			reduce(82), // |, reduce: TemplateForEnd
+			reduce(82), // ^, reduce: TemplateForEnd
+			reduce(82), // &, reduce: TemplateForEnd
+			reduce(82), // <<, reduce: TemplateForEnd
+			reduce(82), // >>, reduce: TemplateForEnd
+			reduce(82), // =>, reduce: TemplateForEnd
+			reduce(82), // /, reduce: TemplateForEnd
+			reduce(82), // +, reduce: TemplateForEnd
+			reduce(82), // -, reduce: TemplateForEnd
+			reduce(82), // ||, reduce: TemplateForEnd
+			reduce(82), // <>, reduce: TemplateForEnd
+			reduce(82), // !=, reduce: TemplateForEnd
+			reduce(82), // =, reduce: TemplateForEnd
+			reduce(82), // <=, reduce: TemplateForEnd
+			reduce(82), // >=, reduce: TemplateForEnd
+			reduce(82), // ;, reduce: TemplateForEnd
+			reduce(82), // @, reduce: TemplateForEnd
+			reduce(82), // {, reduce: TemplateForEnd
+			reduce(82), // }, reduce: TemplateForEnd
+			reduce(82), // ~, reduce: TemplateForEnd
+			reduce(82), // else, reduce: TemplateForEnd
+			reduce(82), // if, reduce: TemplateForEnd
+			reduce(82), // for, reduce: TemplateForEnd
+			reduce(82), // endfor, reduce: TemplateForEnd
+			reduce(82), // elif, reduce: TemplateForEnd
+			reduce(82), // endif, reduce: TemplateForEnd
+			reduce(82), // set, reduce: TemplateForEnd
+			reduce(82), // ?, reduce: TemplateForEnd
+			reduce(82), // :, reduce: TemplateForEnd
+			reduce(82), // comment, reduce: TemplateForEnd
+			nil,        // template_block_end
+			reduce(82), // template_block_start, reduce: TemplateForEnd
+			reduce(82), // template_comment, reduce: TemplateForEnd
+			nil,        // template_variable_end
+			reduce(82), // template_variable_start, reduce: TemplateForEnd
 		},
 	},
 	actionRow{ // S368
@@ -20624,55 +20992,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(73), // identifier, reduce: TemplateIfEnd
-			reduce(73), // bytes_literal, reduce: TemplateIfEnd
-			reduce(73), // string_literal, reduce: TemplateIfEnd
-			reduce(73), // integer_literal, reduce: TemplateIfEnd
-			reduce(73), // floating_point_literal, reduce: TemplateIfEnd
-			reduce(73), // newline, reduce: TemplateIfEnd
-			reduce(73), // *, reduce: TemplateIfEnd
-			reduce(73), // <, reduce: TemplateIfEnd
-			reduce(73), // >, reduce: TemplateIfEnd
-			reduce(73), // [, reduce: TemplateIfEnd
-			reduce(73), // ], reduce: TemplateIfEnd
-			reduce(73), // (, reduce: TemplateIfEnd
-			reduce(73), // ), reduce: TemplateIfEnd
-			reduce(73), // ,, reduce: TemplateIfEnd
-			reduce(73), // ., reduce: TemplateIfEnd
-			reduce(73), // |, reduce: TemplateIfEnd
-			reduce(73), // ^, reduce: TemplateIfEnd
-			reduce(73), // &, reduce: TemplateIfEnd
-			reduce(73), // <<, reduce: TemplateIfEnd
-			reduce(73), // >>, reduce: TemplateIfEnd
-			reduce(73), // =>, reduce: TemplateIfEnd
-			reduce(73), // /, reduce: TemplateIfEnd
-			reduce(73), // +, reduce: TemplateIfEnd
-			reduce(73), // -, reduce: TemplateIfEnd
-			reduce(73), // ||, reduce: TemplateIfEnd
-			reduce(73), // <>, reduce: TemplateIfEnd
-			reduce(73), // !=, reduce: TemplateIfEnd
-			reduce(73), // =, reduce: TemplateIfEnd
-			reduce(73), // <=, reduce: TemplateIfEnd
-			reduce(73), // >=, reduce: TemplateIfEnd
-			reduce(73), // ;, reduce: TemplateIfEnd
-			reduce(73), // @, reduce: TemplateIfEnd
-			reduce(73), // {, reduce: TemplateIfEnd
-			reduce(73), // }, reduce: TemplateIfEnd
-			reduce(73), // ~, reduce: TemplateIfEnd
-			reduce(73), // else, reduce: TemplateIfEnd
-			reduce(73), // if, reduce: TemplateIfEnd
-			reduce(73), // for, reduce: TemplateIfEnd
-			reduce(73), // endfor, reduce: TemplateIfEnd
-			reduce(73), // elif, reduce: TemplateIfEnd
-			reduce(73), // endif, reduce: TemplateIfEnd
-			reduce(73), // set, reduce: TemplateIfEnd
-			reduce(73), // ?, reduce: TemplateIfEnd
-			reduce(73), // comment, reduce: TemplateIfEnd
-			reduce(73), // template_block_end, reduce: TemplateIfEnd
-			reduce(73), // template_block_start, reduce: TemplateIfEnd
-			reduce(73), // template_comment, reduce: TemplateIfEnd
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			shift(386), // template_block_end
+			nil,        // template_block_start
+			nil,        // template_comment
 			nil,        // template_variable_end
-			reduce(73), // template_variable_start, reduce: TemplateIfEnd
+			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S369
@@ -20720,12 +21089,13 @@ var actionTab = actionTable{
 			nil,        // for
 			nil,        // endfor
 			nil,        // elif
-			shift(341), // endif
+			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			nil,        // template_block_start
+			shift(387), // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
@@ -20736,55 +21106,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(66), // identifier, reduce: TemplateIfBlock
-			reduce(66), // bytes_literal, reduce: TemplateIfBlock
-			reduce(66), // string_literal, reduce: TemplateIfBlock
-			reduce(66), // integer_literal, reduce: TemplateIfBlock
-			reduce(66), // floating_point_literal, reduce: TemplateIfBlock
-			reduce(66), // newline, reduce: TemplateIfBlock
-			reduce(66), // *, reduce: TemplateIfBlock
-			reduce(66), // <, reduce: TemplateIfBlock
-			reduce(66), // >, reduce: TemplateIfBlock
-			reduce(66), // [, reduce: TemplateIfBlock
-			reduce(66), // ], reduce: TemplateIfBlock
-			reduce(66), // (, reduce: TemplateIfBlock
-			reduce(66), // ), reduce: TemplateIfBlock
-			reduce(66), // ,, reduce: TemplateIfBlock
-			reduce(66), // ., reduce: TemplateIfBlock
-			reduce(66), // |, reduce: TemplateIfBlock
-			reduce(66), // ^, reduce: TemplateIfBlock
-			reduce(66), // &, reduce: TemplateIfBlock
-			reduce(66), // <<, reduce: TemplateIfBlock
-			reduce(66), // >>, reduce: TemplateIfBlock
-			reduce(66), // =>, reduce: TemplateIfBlock
-			reduce(66), // /, reduce: TemplateIfBlock
-			reduce(66), // +, reduce: TemplateIfBlock
-			reduce(66), // -, reduce: TemplateIfBlock
-			reduce(66), // ||, reduce: TemplateIfBlock
-			reduce(66), // <>, reduce: TemplateIfBlock
-			reduce(66), // !=, reduce: TemplateIfBlock
-			reduce(66), // =, reduce: TemplateIfBlock
-			reduce(66), // <=, reduce: TemplateIfBlock
-			reduce(66), // >=, reduce: TemplateIfBlock
-			reduce(66), // ;, reduce: TemplateIfBlock
-			reduce(66), // @, reduce: TemplateIfBlock
-			reduce(66), // {, reduce: TemplateIfBlock
-			reduce(66), // }, reduce: TemplateIfBlock
-			reduce(66), // ~, reduce: TemplateIfBlock
-			reduce(66), // else, reduce: TemplateIfBlock
-			reduce(66), // if, reduce: TemplateIfBlock
-			reduce(66), // for, reduce: TemplateIfBlock
-			reduce(66), // endfor, reduce: TemplateIfBlock
-			reduce(66), // elif, reduce: TemplateIfBlock
-			reduce(66), // endif, reduce: TemplateIfBlock
-			reduce(66), // set, reduce: TemplateIfBlock
-			reduce(66), // ?, reduce: TemplateIfBlock
-			reduce(66), // comment, reduce: TemplateIfBlock
-			reduce(66), // template_block_end, reduce: TemplateIfBlock
-			reduce(66), // template_block_start, reduce: TemplateIfBlock
-			reduce(66), // template_comment, reduce: TemplateIfBlock
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			shift(131), // if
+			shift(132), // for
+			nil,        // endfor
+			nil,        // elif
+			shift(368), // endif
+			shift(133), // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			nil,        // template_block_start
+			nil,        // template_comment
 			nil,        // template_variable_end
-			reduce(66), // template_variable_start, reduce: TemplateIfBlock
+			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S371
@@ -20792,55 +21163,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(81), // identifier, reduce: TemplateForEnd
-			reduce(81), // bytes_literal, reduce: TemplateForEnd
-			reduce(81), // string_literal, reduce: TemplateForEnd
-			reduce(81), // integer_literal, reduce: TemplateForEnd
-			reduce(81), // floating_point_literal, reduce: TemplateForEnd
-			reduce(81), // newline, reduce: TemplateForEnd
-			reduce(81), // *, reduce: TemplateForEnd
-			reduce(81), // <, reduce: TemplateForEnd
-			reduce(81), // >, reduce: TemplateForEnd
-			reduce(81), // [, reduce: TemplateForEnd
-			reduce(81), // ], reduce: TemplateForEnd
-			reduce(81), // (, reduce: TemplateForEnd
-			reduce(81), // ), reduce: TemplateForEnd
-			reduce(81), // ,, reduce: TemplateForEnd
-			reduce(81), // ., reduce: TemplateForEnd
-			reduce(81), // |, reduce: TemplateForEnd
-			reduce(81), // ^, reduce: TemplateForEnd
-			reduce(81), // &, reduce: TemplateForEnd
-			reduce(81), // <<, reduce: TemplateForEnd
-			reduce(81), // >>, reduce: TemplateForEnd
-			reduce(81), // =>, reduce: TemplateForEnd
-			reduce(81), // /, reduce: TemplateForEnd
-			reduce(81), // +, reduce: TemplateForEnd
-			reduce(81), // -, reduce: TemplateForEnd
-			reduce(81), // ||, reduce: TemplateForEnd
-			reduce(81), // <>, reduce: TemplateForEnd
-			reduce(81), // !=, reduce: TemplateForEnd
-			reduce(81), // =, reduce: TemplateForEnd
-			reduce(81), // <=, reduce: TemplateForEnd
-			reduce(81), // >=, reduce: TemplateForEnd
-			reduce(81), // ;, reduce: TemplateForEnd
-			reduce(81), // @, reduce: TemplateForEnd
-			reduce(81), // {, reduce: TemplateForEnd
-			reduce(81), // }, reduce: TemplateForEnd
-			reduce(81), // ~, reduce: TemplateForEnd
-			reduce(81), // else, reduce: TemplateForEnd
-			reduce(81), // if, reduce: TemplateForEnd
-			reduce(81), // for, reduce: TemplateForEnd
-			reduce(81), // endfor, reduce: TemplateForEnd
-			reduce(81), // elif, reduce: TemplateForEnd
-			reduce(81), // endif, reduce: TemplateForEnd
-			reduce(81), // set, reduce: TemplateForEnd
-			reduce(81), // ?, reduce: TemplateForEnd
-			reduce(81), // comment, reduce: TemplateForEnd
-			reduce(81), // template_block_end, reduce: TemplateForEnd
-			reduce(81), // template_block_start, reduce: TemplateForEnd
-			reduce(81), // template_comment, reduce: TemplateForEnd
-			nil,        // template_variable_end
-			reduce(81), // template_variable_start, reduce: TemplateForEnd
+			reduce(68), // identifier, reduce: TemplateIfBlock
+			reduce(68), // bytes_literal, reduce: TemplateIfBlock
+			reduce(68), // string_literal, reduce: TemplateIfBlock
+			reduce(68), // integer_literal, reduce: TemplateIfBlock
+			reduce(68), // floating_point_literal, reduce: TemplateIfBlock
+			reduce(68), // newline, reduce: TemplateIfBlock
+			reduce(68), // *, reduce: TemplateIfBlock
+			reduce(68), // <, reduce: TemplateIfBlock
+			reduce(68), // >, reduce: TemplateIfBlock
+			reduce(68), // [, reduce: TemplateIfBlock
+			reduce(68), // ], reduce: TemplateIfBlock
+			reduce(68), // (, reduce: TemplateIfBlock
+			reduce(68), // ), reduce: TemplateIfBlock
+			reduce(68), // ,, reduce: TemplateIfBlock
+			reduce(68), // ., reduce: TemplateIfBlock
+			reduce(68), // |, reduce: TemplateIfBlock
+			reduce(68), // ^, reduce: TemplateIfBlock
+			reduce(68), // &, reduce: TemplateIfBlock
+			reduce(68), // <<, reduce: TemplateIfBlock
+			reduce(68), // >>, reduce: TemplateIfBlock
+			reduce(68), // =>, reduce: TemplateIfBlock
+			reduce(68), // /, reduce: TemplateIfBlock
+			reduce(68), // +, reduce: TemplateIfBlock
+			reduce(68), // -, reduce: TemplateIfBlock
+			reduce(68), // ||, reduce: TemplateIfBlock
+			reduce(68), // <>, reduce: TemplateIfBlock
+			reduce(68), // !=, reduce: TemplateIfBlock
+			reduce(68), // =, reduce: TemplateIfBlock
+			reduce(68), // <=, reduce: TemplateIfBlock
+			reduce(68), // >=, reduce: TemplateIfBlock
+			reduce(68), // ;, reduce: TemplateIfBlock
+			reduce(68), // @, reduce: TemplateIfBlock
+			reduce(68), // {, reduce: TemplateIfBlock
+			reduce(68), // }, reduce: TemplateIfBlock
+			reduce(68), // ~, reduce: TemplateIfBlock
+			reduce(68), // else, reduce: TemplateIfBlock
+			reduce(68), // if, reduce: TemplateIfBlock
+			reduce(68), // for, reduce: TemplateIfBlock
+			reduce(68), // endfor, reduce: TemplateIfBlock
+			reduce(68), // elif, reduce: TemplateIfBlock
+			reduce(68), // endif, reduce: TemplateIfBlock
+			reduce(68), // set, reduce: TemplateIfBlock
+			reduce(68), // ?, reduce: TemplateIfBlock
+			reduce(68), // :, reduce: TemplateIfBlock
+			reduce(68), // comment, reduce: TemplateIfBlock
+			nil,        // template_block_end
+			reduce(68), // template_block_start, reduce: TemplateIfBlock
+			reduce(68), // template_comment, reduce: TemplateIfBlock
+			reduce(68), // template_variable_end, reduce: TemplateIfBlock
+			reduce(68), // template_variable_start, reduce: TemplateIfBlock
 		},
 	},
 	actionRow{ // S372
@@ -20848,55 +21220,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(73), // identifier, reduce: TemplateIfEnd
-			reduce(73), // bytes_literal, reduce: TemplateIfEnd
-			reduce(73), // string_literal, reduce: TemplateIfEnd
-			reduce(73), // integer_literal, reduce: TemplateIfEnd
-			reduce(73), // floating_point_literal, reduce: TemplateIfEnd
-			reduce(73), // newline, reduce: TemplateIfEnd
-			reduce(73), // *, reduce: TemplateIfEnd
-			reduce(73), // <, reduce: TemplateIfEnd
-			reduce(73), // >, reduce: TemplateIfEnd
-			reduce(73), // [, reduce: TemplateIfEnd
-			reduce(73), // ], reduce: TemplateIfEnd
-			reduce(73), // (, reduce: TemplateIfEnd
-			reduce(73), // ), reduce: TemplateIfEnd
-			reduce(73), // ,, reduce: TemplateIfEnd
-			reduce(73), // ., reduce: TemplateIfEnd
-			reduce(73), // |, reduce: TemplateIfEnd
-			reduce(73), // ^, reduce: TemplateIfEnd
-			reduce(73), // &, reduce: TemplateIfEnd
-			reduce(73), // <<, reduce: TemplateIfEnd
-			reduce(73), // >>, reduce: TemplateIfEnd
-			reduce(73), // =>, reduce: TemplateIfEnd
-			reduce(73), // /, reduce: TemplateIfEnd
-			reduce(73), // +, reduce: TemplateIfEnd
-			reduce(73), // -, reduce: TemplateIfEnd
-			reduce(73), // ||, reduce: TemplateIfEnd
-			reduce(73), // <>, reduce: TemplateIfEnd
-			reduce(73), // !=, reduce: TemplateIfEnd
-			reduce(73), // =, reduce: TemplateIfEnd
-			reduce(73), // <=, reduce: TemplateIfEnd
-			reduce(73), // >=, reduce: TemplateIfEnd
-			reduce(73), // ;, reduce: TemplateIfEnd
-			reduce(73), // @, reduce: TemplateIfEnd
-			reduce(73), // {, reduce: TemplateIfEnd
-			reduce(73), // }, reduce: TemplateIfEnd
-			reduce(73), // ~, reduce: TemplateIfEnd
-			reduce(73), // else, reduce: TemplateIfEnd
-			reduce(73), // if, reduce: TemplateIfEnd
-			reduce(73), // for, reduce: TemplateIfEnd
-			reduce(73), // endfor, reduce: TemplateIfEnd
-			reduce(73), // elif, reduce: TemplateIfEnd
-			reduce(73), // endif, reduce: TemplateIfEnd
-			reduce(73), // set, reduce: TemplateIfEnd
-			reduce(73), // ?, reduce: TemplateIfEnd
-			reduce(73), // comment, reduce: TemplateIfEnd
-			nil,        // template_block_end
-			reduce(73), // template_block_start, reduce: TemplateIfEnd
-			reduce(73), // template_comment, reduce: TemplateIfEnd
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			shift(389), // template_block_end
+			nil,        // template_block_start
+			nil,        // template_comment
 			nil,        // template_variable_end
-			reduce(73), // template_variable_start, reduce: TemplateIfEnd
+			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S373
@@ -20904,55 +21277,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
-			nil,        // elif
-			shift(348), // endif
-			nil,        // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
+			reduce(74), // identifier, reduce: TemplateIfEnd
+			reduce(74), // bytes_literal, reduce: TemplateIfEnd
+			reduce(74), // string_literal, reduce: TemplateIfEnd
+			reduce(74), // integer_literal, reduce: TemplateIfEnd
+			reduce(74), // floating_point_literal, reduce: TemplateIfEnd
+			reduce(74), // newline, reduce: TemplateIfEnd
+			reduce(74), // *, reduce: TemplateIfEnd
+			reduce(74), // <, reduce: TemplateIfEnd
+			reduce(74), // >, reduce: TemplateIfEnd
+			reduce(74), // [, reduce: TemplateIfEnd
+			reduce(74), // ], reduce: TemplateIfEnd
+			reduce(74), // (, reduce: TemplateIfEnd
+			reduce(74), // ), reduce: TemplateIfEnd
+			reduce(74), // ,, reduce: TemplateIfEnd
+			reduce(74), // ., reduce: TemplateIfEnd
+			reduce(74), // |, reduce: TemplateIfEnd
+			reduce(74), // ^, reduce: TemplateIfEnd
+			reduce(74), // &, reduce: TemplateIfEnd
+			reduce(74), // <<, reduce: TemplateIfEnd
+			reduce(74), // >>, reduce: TemplateIfEnd
+			reduce(74), // =>, reduce: TemplateIfEnd
+			reduce(74), // /, reduce: TemplateIfEnd
+			reduce(74), // +, reduce: TemplateIfEnd
+			reduce(74), // -, reduce: TemplateIfEnd
+			reduce(74), // ||, reduce: TemplateIfEnd
+			reduce(74), // <>, reduce: TemplateIfEnd
+			reduce(74), // !=, reduce: TemplateIfEnd
+			reduce(74), // =, reduce: TemplateIfEnd
+			reduce(74), // <=, reduce: TemplateIfEnd
+			reduce(74), // >=, reduce: TemplateIfEnd
+			reduce(74), // ;, reduce: TemplateIfEnd
+			reduce(74), // @, reduce: TemplateIfEnd
+			reduce(74), // {, reduce: TemplateIfEnd
+			reduce(74), // }, reduce: TemplateIfEnd
+			reduce(74), // ~, reduce: TemplateIfEnd
+			reduce(74), // else, reduce: TemplateIfEnd
+			reduce(74), // if, reduce: TemplateIfEnd
+			reduce(74), // for, reduce: TemplateIfEnd
+			reduce(74), // endfor, reduce: TemplateIfEnd
+			reduce(74), // elif, reduce: TemplateIfEnd
+			reduce(74), // endif, reduce: TemplateIfEnd
+			reduce(74), // set, reduce: TemplateIfEnd
+			reduce(74), // ?, reduce: TemplateIfEnd
+			reduce(74), // :, reduce: TemplateIfEnd
+			reduce(74), // comment, reduce: TemplateIfEnd
+			reduce(74), // template_block_end, reduce: TemplateIfEnd
+			reduce(74), // template_block_start, reduce: TemplateIfEnd
+			reduce(74), // template_comment, reduce: TemplateIfEnd
 			nil,        // template_variable_end
-			nil,        // template_variable_start
+			reduce(74), // template_variable_start, reduce: TemplateIfEnd
 		},
 	},
 	actionRow{ // S374
@@ -20960,55 +21334,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(66), // identifier, reduce: TemplateIfBlock
-			reduce(66), // bytes_literal, reduce: TemplateIfBlock
-			reduce(66), // string_literal, reduce: TemplateIfBlock
-			reduce(66), // integer_literal, reduce: TemplateIfBlock
-			reduce(66), // floating_point_literal, reduce: TemplateIfBlock
-			reduce(66), // newline, reduce: TemplateIfBlock
-			reduce(66), // *, reduce: TemplateIfBlock
-			reduce(66), // <, reduce: TemplateIfBlock
-			reduce(66), // >, reduce: TemplateIfBlock
-			reduce(66), // [, reduce: TemplateIfBlock
-			reduce(66), // ], reduce: TemplateIfBlock
-			reduce(66), // (, reduce: TemplateIfBlock
-			reduce(66), // ), reduce: TemplateIfBlock
-			reduce(66), // ,, reduce: TemplateIfBlock
-			reduce(66), // ., reduce: TemplateIfBlock
-			reduce(66), // |, reduce: TemplateIfBlock
-			reduce(66), // ^, reduce: TemplateIfBlock
-			reduce(66), // &, reduce: TemplateIfBlock
-			reduce(66), // <<, reduce: TemplateIfBlock
-			reduce(66), // >>, reduce: TemplateIfBlock
-			reduce(66), // =>, reduce: TemplateIfBlock
-			reduce(66), // /, reduce: TemplateIfBlock
-			reduce(66), // +, reduce: TemplateIfBlock
-			reduce(66), // -, reduce: TemplateIfBlock
-			reduce(66), // ||, reduce: TemplateIfBlock
-			reduce(66), // <>, reduce: TemplateIfBlock
-			reduce(66), // !=, reduce: TemplateIfBlock
-			reduce(66), // =, reduce: TemplateIfBlock
-			reduce(66), // <=, reduce: TemplateIfBlock
-			reduce(66), // >=, reduce: TemplateIfBlock
-			reduce(66), // ;, reduce: TemplateIfBlock
-			reduce(66), // @, reduce: TemplateIfBlock
-			reduce(66), // {, reduce: TemplateIfBlock
-			reduce(66), // }, reduce: TemplateIfBlock
-			reduce(66), // ~, reduce: TemplateIfBlock
-			reduce(66), // else, reduce: TemplateIfBlock
-			reduce(66), // if, reduce: TemplateIfBlock
-			reduce(66), // for, reduce: TemplateIfBlock
-			reduce(66), // endfor, reduce: TemplateIfBlock
-			reduce(66), // elif, reduce: TemplateIfBlock
-			reduce(66), // endif, reduce: TemplateIfBlock
-			reduce(66), // set, reduce: TemplateIfBlock
-			reduce(66), // ?, reduce: TemplateIfBlock
-			reduce(66), // comment, reduce: TemplateIfBlock
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			shift(346), // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
 			nil,        // template_block_end
-			reduce(66), // template_block_start, reduce: TemplateIfBlock
-			reduce(66), // template_comment, reduce: TemplateIfBlock
+			nil,        // template_block_start
+			nil,        // template_comment
 			nil,        // template_variable_end
-			reduce(66), // template_variable_start, reduce: TemplateIfBlock
+			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S375
@@ -21016,55 +21391,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
-			nil,        // elif
-			nil,        // endif
-			nil,        // set
-			nil,        // ?
-			nil,        // comment
-			shift(385), // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
+			reduce(67), // identifier, reduce: TemplateIfBlock
+			reduce(67), // bytes_literal, reduce: TemplateIfBlock
+			reduce(67), // string_literal, reduce: TemplateIfBlock
+			reduce(67), // integer_literal, reduce: TemplateIfBlock
+			reduce(67), // floating_point_literal, reduce: TemplateIfBlock
+			reduce(67), // newline, reduce: TemplateIfBlock
+			reduce(67), // *, reduce: TemplateIfBlock
+			reduce(67), // <, reduce: TemplateIfBlock
+			reduce(67), // >, reduce: TemplateIfBlock
+			reduce(67), // [, reduce: TemplateIfBlock
+			reduce(67), // ], reduce: TemplateIfBlock
+			reduce(67), // (, reduce: TemplateIfBlock
+			reduce(67), // ), reduce: TemplateIfBlock
+			reduce(67), // ,, reduce: TemplateIfBlock
+			reduce(67), // ., reduce: TemplateIfBlock
+			reduce(67), // |, reduce: TemplateIfBlock
+			reduce(67), // ^, reduce: TemplateIfBlock
+			reduce(67), // &, reduce: TemplateIfBlock
+			reduce(67), // <<, reduce: TemplateIfBlock
+			reduce(67), // >>, reduce: TemplateIfBlock
+			reduce(67), // =>, reduce: TemplateIfBlock
+			reduce(67), // /, reduce: TemplateIfBlock
+			reduce(67), // +, reduce: TemplateIfBlock
+			reduce(67), // -, reduce: TemplateIfBlock
+			reduce(67), // ||, reduce: TemplateIfBlock
+			reduce(67), // <>, reduce: TemplateIfBlock
+			reduce(67), // !=, reduce: TemplateIfBlock
+			reduce(67), // =, reduce: TemplateIfBlock
+			reduce(67), // <=, reduce: TemplateIfBlock
+			reduce(67), // >=, reduce: TemplateIfBlock
+			reduce(67), // ;, reduce: TemplateIfBlock
+			reduce(67), // @, reduce: TemplateIfBlock
+			reduce(67), // {, reduce: TemplateIfBlock
+			reduce(67), // }, reduce: TemplateIfBlock
+			reduce(67), // ~, reduce: TemplateIfBlock
+			reduce(67), // else, reduce: TemplateIfBlock
+			reduce(67), // if, reduce: TemplateIfBlock
+			reduce(67), // for, reduce: TemplateIfBlock
+			reduce(67), // endfor, reduce: TemplateIfBlock
+			reduce(67), // elif, reduce: TemplateIfBlock
+			reduce(67), // endif, reduce: TemplateIfBlock
+			reduce(67), // set, reduce: TemplateIfBlock
+			reduce(67), // ?, reduce: TemplateIfBlock
+			reduce(67), // :, reduce: TemplateIfBlock
+			reduce(67), // comment, reduce: TemplateIfBlock
+			reduce(67), // template_block_end, reduce: TemplateIfBlock
+			reduce(67), // template_block_start, reduce: TemplateIfBlock
+			reduce(67), // template_comment, reduce: TemplateIfBlock
 			nil,        // template_variable_end
-			nil,        // template_variable_start
+			reduce(67), // template_variable_start, reduce: TemplateIfBlock
 		},
 	},
 	actionRow{ // S376
@@ -21072,55 +21448,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			nil,        // if
-			nil,        // for
-			nil,        // endfor
-			nil,        // elif
-			nil,        // endif
-			nil,        // set
-			nil,        // ?
-			nil,        // comment
-			nil,        // template_block_end
-			shift(386), // template_block_start
-			nil,        // template_comment
+			reduce(82), // identifier, reduce: TemplateForEnd
+			reduce(82), // bytes_literal, reduce: TemplateForEnd
+			reduce(82), // string_literal, reduce: TemplateForEnd
+			reduce(82), // integer_literal, reduce: TemplateForEnd
+			reduce(82), // floating_point_literal, reduce: TemplateForEnd
+			reduce(82), // newline, reduce: TemplateForEnd
+			reduce(82), // *, reduce: TemplateForEnd
+			reduce(82), // <, reduce: TemplateForEnd
+			reduce(82), // >, reduce: TemplateForEnd
+			reduce(82), // [, reduce: TemplateForEnd
+			reduce(82), // ], reduce: TemplateForEnd
+			reduce(82), // (, reduce: TemplateForEnd
+			reduce(82), // ), reduce: TemplateForEnd
+			reduce(82), // ,, reduce: TemplateForEnd
+			reduce(82), // ., reduce: TemplateForEnd
+			reduce(82), // |, reduce: TemplateForEnd
+			reduce(82), // ^, reduce: TemplateForEnd
+			reduce(82), // &, reduce: TemplateForEnd
+			reduce(82), // <<, reduce: TemplateForEnd
+			reduce(82), // >>, reduce: TemplateForEnd
+			reduce(82), // =>, reduce: TemplateForEnd
+			reduce(82), // /, reduce: TemplateForEnd
+			reduce(82), // +, reduce: TemplateForEnd
+			reduce(82), // -, reduce: TemplateForEnd
+			reduce(82), // ||, reduce: TemplateForEnd
+			reduce(82), // <>, reduce: TemplateForEnd
+			reduce(82), // !=, reduce: TemplateForEnd
+			reduce(82), // =, reduce: TemplateForEnd
+			reduce(82), // <=, reduce: TemplateForEnd
+			reduce(82), // >=, reduce: TemplateForEnd
+			reduce(82), // ;, reduce: TemplateForEnd
+			reduce(82), // @, reduce: TemplateForEnd
+			reduce(82), // {, reduce: TemplateForEnd
+			reduce(82), // }, reduce: TemplateForEnd
+			reduce(82), // ~, reduce: TemplateForEnd
+			reduce(82), // else, reduce: TemplateForEnd
+			reduce(82), // if, reduce: TemplateForEnd
+			reduce(82), // for, reduce: TemplateForEnd
+			reduce(82), // endfor, reduce: TemplateForEnd
+			reduce(82), // elif, reduce: TemplateForEnd
+			reduce(82), // endif, reduce: TemplateForEnd
+			reduce(82), // set, reduce: TemplateForEnd
+			reduce(82), // ?, reduce: TemplateForEnd
+			reduce(82), // :, reduce: TemplateForEnd
+			reduce(82), // comment, reduce: TemplateForEnd
+			reduce(82), // template_block_end, reduce: TemplateForEnd
+			reduce(82), // template_block_start, reduce: TemplateForEnd
+			reduce(82), // template_comment, reduce: TemplateForEnd
 			nil,        // template_variable_end
-			nil,        // template_variable_start
+			reduce(82), // template_variable_start, reduce: TemplateForEnd
 		},
 	},
 	actionRow{ // S377
@@ -21128,55 +21505,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			nil,        // identifier
-			nil,        // bytes_literal
-			nil,        // string_literal
-			nil,        // integer_literal
-			nil,        // floating_point_literal
-			nil,        // newline
-			nil,        // *
-			nil,        // <
-			nil,        // >
-			nil,        // [
-			nil,        // ]
-			nil,        // (
-			nil,        // )
-			nil,        // ,
-			nil,        // .
-			nil,        // |
-			nil,        // ^
-			nil,        // &
-			nil,        // <<
-			nil,        // >>
-			nil,        // =>
-			nil,        // /
-			nil,        // +
-			nil,        // -
-			nil,        // ||
-			nil,        // <>
-			nil,        // !=
-			nil,        // =
-			nil,        // <=
-			nil,        // >=
-			nil,        // ;
-			nil,        // @
-			nil,        // {
-			nil,        // }
-			nil,        // ~
-			nil,        // else
-			shift(129), // if
-			shift(130), // for
-			nil,        // endfor
-			nil,        // elif
-			shift(375), // endif
-			shift(131), // set
-			nil,        // ?
-			nil,        // comment
+			reduce(74), // identifier, reduce: TemplateIfEnd
+			reduce(74), // bytes_literal, reduce: TemplateIfEnd
+			reduce(74), // string_literal, reduce: TemplateIfEnd
+			reduce(74), // integer_literal, reduce: TemplateIfEnd
+			reduce(74), // floating_point_literal, reduce: TemplateIfEnd
+			reduce(74), // newline, reduce: TemplateIfEnd
+			reduce(74), // *, reduce: TemplateIfEnd
+			reduce(74), // <, reduce: TemplateIfEnd
+			reduce(74), // >, reduce: TemplateIfEnd
+			reduce(74), // [, reduce: TemplateIfEnd
+			reduce(74), // ], reduce: TemplateIfEnd
+			reduce(74), // (, reduce: TemplateIfEnd
+			reduce(74), // ), reduce: TemplateIfEnd
+			reduce(74), // ,, reduce: TemplateIfEnd
+			reduce(74), // ., reduce: TemplateIfEnd
+			reduce(74), // |, reduce: TemplateIfEnd
+			reduce(74), // ^, reduce: TemplateIfEnd
+			reduce(74), // &, reduce: TemplateIfEnd
+			reduce(74), // <<, reduce: TemplateIfEnd
+			reduce(74), // >>, reduce: TemplateIfEnd
+			reduce(74), // =>, reduce: TemplateIfEnd
+			reduce(74), // /, reduce: TemplateIfEnd
+			reduce(74), // +, reduce: TemplateIfEnd
+			reduce(74), // -, reduce: TemplateIfEnd
+			reduce(74), // ||, reduce: TemplateIfEnd
+			reduce(74), // <>, reduce: TemplateIfEnd
+			reduce(74), // !=, reduce: TemplateIfEnd
+			reduce(74), // =, reduce: TemplateIfEnd
+			reduce(74), // <=, reduce: TemplateIfEnd
+			reduce(74), // >=, reduce: TemplateIfEnd
+			reduce(74), // ;, reduce: TemplateIfEnd
+			reduce(74), // @, reduce: TemplateIfEnd
+			reduce(74), // {, reduce: TemplateIfEnd
+			reduce(74), // }, reduce: TemplateIfEnd
+			reduce(74), // ~, reduce: TemplateIfEnd
+			reduce(74), // else, reduce: TemplateIfEnd
+			reduce(74), // if, reduce: TemplateIfEnd
+			reduce(74), // for, reduce: TemplateIfEnd
+			reduce(74), // endfor, reduce: TemplateIfEnd
+			reduce(74), // elif, reduce: TemplateIfEnd
+			reduce(74), // endif, reduce: TemplateIfEnd
+			reduce(74), // set, reduce: TemplateIfEnd
+			reduce(74), // ?, reduce: TemplateIfEnd
+			reduce(74), // :, reduce: TemplateIfEnd
+			reduce(74), // comment, reduce: TemplateIfEnd
 			nil,        // template_block_end
-			nil,        // template_block_start
-			nil,        // template_comment
+			reduce(74), // template_block_start, reduce: TemplateIfEnd
+			reduce(74), // template_comment, reduce: TemplateIfEnd
 			nil,        // template_variable_end
-			nil,        // template_variable_start
+			reduce(74), // template_variable_start, reduce: TemplateIfEnd
 		},
 	},
 	actionRow{ // S378
@@ -21224,18 +21602,76 @@ var actionTab = actionTable{
 			nil,        // for
 			nil,        // endfor
 			nil,        // elif
-			nil,        // endif
+			shift(353), // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(67), // template_block_start, reduce: TemplateIfBlock
+			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S379
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(67), // identifier, reduce: TemplateIfBlock
+			reduce(67), // bytes_literal, reduce: TemplateIfBlock
+			reduce(67), // string_literal, reduce: TemplateIfBlock
+			reduce(67), // integer_literal, reduce: TemplateIfBlock
+			reduce(67), // floating_point_literal, reduce: TemplateIfBlock
+			reduce(67), // newline, reduce: TemplateIfBlock
+			reduce(67), // *, reduce: TemplateIfBlock
+			reduce(67), // <, reduce: TemplateIfBlock
+			reduce(67), // >, reduce: TemplateIfBlock
+			reduce(67), // [, reduce: TemplateIfBlock
+			reduce(67), // ], reduce: TemplateIfBlock
+			reduce(67), // (, reduce: TemplateIfBlock
+			reduce(67), // ), reduce: TemplateIfBlock
+			reduce(67), // ,, reduce: TemplateIfBlock
+			reduce(67), // ., reduce: TemplateIfBlock
+			reduce(67), // |, reduce: TemplateIfBlock
+			reduce(67), // ^, reduce: TemplateIfBlock
+			reduce(67), // &, reduce: TemplateIfBlock
+			reduce(67), // <<, reduce: TemplateIfBlock
+			reduce(67), // >>, reduce: TemplateIfBlock
+			reduce(67), // =>, reduce: TemplateIfBlock
+			reduce(67), // /, reduce: TemplateIfBlock
+			reduce(67), // +, reduce: TemplateIfBlock
+			reduce(67), // -, reduce: TemplateIfBlock
+			reduce(67), // ||, reduce: TemplateIfBlock
+			reduce(67), // <>, reduce: TemplateIfBlock
+			reduce(67), // !=, reduce: TemplateIfBlock
+			reduce(67), // =, reduce: TemplateIfBlock
+			reduce(67), // <=, reduce: TemplateIfBlock
+			reduce(67), // >=, reduce: TemplateIfBlock
+			reduce(67), // ;, reduce: TemplateIfBlock
+			reduce(67), // @, reduce: TemplateIfBlock
+			reduce(67), // {, reduce: TemplateIfBlock
+			reduce(67), // }, reduce: TemplateIfBlock
+			reduce(67), // ~, reduce: TemplateIfBlock
+			reduce(67), // else, reduce: TemplateIfBlock
+			reduce(67), // if, reduce: TemplateIfBlock
+			reduce(67), // for, reduce: TemplateIfBlock
+			reduce(67), // endfor, reduce: TemplateIfBlock
+			reduce(67), // elif, reduce: TemplateIfBlock
+			reduce(67), // endif, reduce: TemplateIfBlock
+			reduce(67), // set, reduce: TemplateIfBlock
+			reduce(67), // ?, reduce: TemplateIfBlock
+			reduce(67), // :, reduce: TemplateIfBlock
+			reduce(67), // comment, reduce: TemplateIfBlock
+			nil,        // template_block_end
+			reduce(67), // template_block_start, reduce: TemplateIfBlock
+			reduce(67), // template_comment, reduce: TemplateIfBlock
+			nil,        // template_variable_end
+			reduce(67), // template_variable_start, reduce: TemplateIfBlock
+		},
+	},
+	actionRow{ // S380
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -21283,68 +21719,13 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
-			shift(388), // template_block_end
+			shift(390), // template_block_end
 			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
-		},
-	},
-	actionRow{ // S380
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(81), // identifier, reduce: TemplateForEnd
-			reduce(81), // bytes_literal, reduce: TemplateForEnd
-			reduce(81), // string_literal, reduce: TemplateForEnd
-			reduce(81), // integer_literal, reduce: TemplateForEnd
-			reduce(81), // floating_point_literal, reduce: TemplateForEnd
-			reduce(81), // newline, reduce: TemplateForEnd
-			reduce(81), // *, reduce: TemplateForEnd
-			reduce(81), // <, reduce: TemplateForEnd
-			reduce(81), // >, reduce: TemplateForEnd
-			reduce(81), // [, reduce: TemplateForEnd
-			reduce(81), // ], reduce: TemplateForEnd
-			reduce(81), // (, reduce: TemplateForEnd
-			reduce(81), // ), reduce: TemplateForEnd
-			reduce(81), // ,, reduce: TemplateForEnd
-			reduce(81), // ., reduce: TemplateForEnd
-			reduce(81), // |, reduce: TemplateForEnd
-			reduce(81), // ^, reduce: TemplateForEnd
-			reduce(81), // &, reduce: TemplateForEnd
-			reduce(81), // <<, reduce: TemplateForEnd
-			reduce(81), // >>, reduce: TemplateForEnd
-			reduce(81), // =>, reduce: TemplateForEnd
-			reduce(81), // /, reduce: TemplateForEnd
-			reduce(81), // +, reduce: TemplateForEnd
-			reduce(81), // -, reduce: TemplateForEnd
-			reduce(81), // ||, reduce: TemplateForEnd
-			reduce(81), // <>, reduce: TemplateForEnd
-			reduce(81), // !=, reduce: TemplateForEnd
-			reduce(81), // =, reduce: TemplateForEnd
-			reduce(81), // <=, reduce: TemplateForEnd
-			reduce(81), // >=, reduce: TemplateForEnd
-			reduce(81), // ;, reduce: TemplateForEnd
-			reduce(81), // @, reduce: TemplateForEnd
-			reduce(81), // {, reduce: TemplateForEnd
-			reduce(81), // }, reduce: TemplateForEnd
-			reduce(81), // ~, reduce: TemplateForEnd
-			reduce(81), // else, reduce: TemplateForEnd
-			reduce(81), // if, reduce: TemplateForEnd
-			reduce(81), // for, reduce: TemplateForEnd
-			reduce(81), // endfor, reduce: TemplateForEnd
-			reduce(81), // elif, reduce: TemplateForEnd
-			reduce(81), // endif, reduce: TemplateForEnd
-			reduce(81), // set, reduce: TemplateForEnd
-			reduce(81), // ?, reduce: TemplateForEnd
-			reduce(81), // comment, reduce: TemplateForEnd
-			nil,        // template_block_end
-			reduce(81), // template_block_start, reduce: TemplateForEnd
-			reduce(81), // template_comment, reduce: TemplateForEnd
-			nil,        // template_variable_end
-			reduce(81), // template_variable_start, reduce: TemplateForEnd
 		},
 	},
 	actionRow{ // S381
@@ -21352,55 +21733,56 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // INVALID
 			nil,        // ␚
-			reduce(73), // identifier, reduce: TemplateIfEnd
-			reduce(73), // bytes_literal, reduce: TemplateIfEnd
-			reduce(73), // string_literal, reduce: TemplateIfEnd
-			reduce(73), // integer_literal, reduce: TemplateIfEnd
-			reduce(73), // floating_point_literal, reduce: TemplateIfEnd
-			reduce(73), // newline, reduce: TemplateIfEnd
-			reduce(73), // *, reduce: TemplateIfEnd
-			reduce(73), // <, reduce: TemplateIfEnd
-			reduce(73), // >, reduce: TemplateIfEnd
-			reduce(73), // [, reduce: TemplateIfEnd
-			reduce(73), // ], reduce: TemplateIfEnd
-			reduce(73), // (, reduce: TemplateIfEnd
-			reduce(73), // ), reduce: TemplateIfEnd
-			reduce(73), // ,, reduce: TemplateIfEnd
-			reduce(73), // ., reduce: TemplateIfEnd
-			reduce(73), // |, reduce: TemplateIfEnd
-			reduce(73), // ^, reduce: TemplateIfEnd
-			reduce(73), // &, reduce: TemplateIfEnd
-			reduce(73), // <<, reduce: TemplateIfEnd
-			reduce(73), // >>, reduce: TemplateIfEnd
-			reduce(73), // =>, reduce: TemplateIfEnd
-			reduce(73), // /, reduce: TemplateIfEnd
-			reduce(73), // +, reduce: TemplateIfEnd
-			reduce(73), // -, reduce: TemplateIfEnd
-			reduce(73), // ||, reduce: TemplateIfEnd
-			reduce(73), // <>, reduce: TemplateIfEnd
-			reduce(73), // !=, reduce: TemplateIfEnd
-			reduce(73), // =, reduce: TemplateIfEnd
-			reduce(73), // <=, reduce: TemplateIfEnd
-			reduce(73), // >=, reduce: TemplateIfEnd
-			reduce(73), // ;, reduce: TemplateIfEnd
-			reduce(73), // @, reduce: TemplateIfEnd
-			reduce(73), // {, reduce: TemplateIfEnd
-			reduce(73), // }, reduce: TemplateIfEnd
-			reduce(73), // ~, reduce: TemplateIfEnd
-			reduce(73), // else, reduce: TemplateIfEnd
-			reduce(73), // if, reduce: TemplateIfEnd
-			reduce(73), // for, reduce: TemplateIfEnd
-			reduce(73), // endfor, reduce: TemplateIfEnd
-			reduce(73), // elif, reduce: TemplateIfEnd
-			reduce(73), // endif, reduce: TemplateIfEnd
-			reduce(73), // set, reduce: TemplateIfEnd
-			reduce(73), // ?, reduce: TemplateIfEnd
-			reduce(73), // comment, reduce: TemplateIfEnd
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
 			nil,        // template_block_end
-			reduce(73), // template_block_start, reduce: TemplateIfEnd
-			reduce(73), // template_comment, reduce: TemplateIfEnd
-			reduce(73), // template_variable_end, reduce: TemplateIfEnd
-			reduce(73), // template_variable_start, reduce: TemplateIfEnd
+			shift(391), // template_block_start
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S382
@@ -21444,13 +21826,14 @@ var actionTab = actionTable{
 			nil,        // }
 			nil,        // ~
 			nil,        // else
-			nil,        // if
-			nil,        // for
+			shift(131), // if
+			shift(132), // for
 			nil,        // endfor
 			nil,        // elif
-			shift(363), // endif
-			nil,        // set
+			shift(380), // endif
+			shift(133), // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
 			nil,        // template_block_start
@@ -21460,118 +21843,6 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S383
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(66), // identifier, reduce: TemplateIfBlock
-			reduce(66), // bytes_literal, reduce: TemplateIfBlock
-			reduce(66), // string_literal, reduce: TemplateIfBlock
-			reduce(66), // integer_literal, reduce: TemplateIfBlock
-			reduce(66), // floating_point_literal, reduce: TemplateIfBlock
-			reduce(66), // newline, reduce: TemplateIfBlock
-			reduce(66), // *, reduce: TemplateIfBlock
-			reduce(66), // <, reduce: TemplateIfBlock
-			reduce(66), // >, reduce: TemplateIfBlock
-			reduce(66), // [, reduce: TemplateIfBlock
-			reduce(66), // ], reduce: TemplateIfBlock
-			reduce(66), // (, reduce: TemplateIfBlock
-			reduce(66), // ), reduce: TemplateIfBlock
-			reduce(66), // ,, reduce: TemplateIfBlock
-			reduce(66), // ., reduce: TemplateIfBlock
-			reduce(66), // |, reduce: TemplateIfBlock
-			reduce(66), // ^, reduce: TemplateIfBlock
-			reduce(66), // &, reduce: TemplateIfBlock
-			reduce(66), // <<, reduce: TemplateIfBlock
-			reduce(66), // >>, reduce: TemplateIfBlock
-			reduce(66), // =>, reduce: TemplateIfBlock
-			reduce(66), // /, reduce: TemplateIfBlock
-			reduce(66), // +, reduce: TemplateIfBlock
-			reduce(66), // -, reduce: TemplateIfBlock
-			reduce(66), // ||, reduce: TemplateIfBlock
-			reduce(66), // <>, reduce: TemplateIfBlock
-			reduce(66), // !=, reduce: TemplateIfBlock
-			reduce(66), // =, reduce: TemplateIfBlock
-			reduce(66), // <=, reduce: TemplateIfBlock
-			reduce(66), // >=, reduce: TemplateIfBlock
-			reduce(66), // ;, reduce: TemplateIfBlock
-			reduce(66), // @, reduce: TemplateIfBlock
-			reduce(66), // {, reduce: TemplateIfBlock
-			reduce(66), // }, reduce: TemplateIfBlock
-			reduce(66), // ~, reduce: TemplateIfBlock
-			reduce(66), // else, reduce: TemplateIfBlock
-			reduce(66), // if, reduce: TemplateIfBlock
-			reduce(66), // for, reduce: TemplateIfBlock
-			reduce(66), // endfor, reduce: TemplateIfBlock
-			reduce(66), // elif, reduce: TemplateIfBlock
-			reduce(66), // endif, reduce: TemplateIfBlock
-			reduce(66), // set, reduce: TemplateIfBlock
-			reduce(66), // ?, reduce: TemplateIfBlock
-			reduce(66), // comment, reduce: TemplateIfBlock
-			nil,        // template_block_end
-			reduce(66), // template_block_start, reduce: TemplateIfBlock
-			reduce(66), // template_comment, reduce: TemplateIfBlock
-			reduce(66), // template_variable_end, reduce: TemplateIfBlock
-			reduce(66), // template_variable_start, reduce: TemplateIfBlock
-		},
-	},
-	actionRow{ // S384
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // INVALID
-			nil,        // ␚
-			reduce(81), // identifier, reduce: TemplateForEnd
-			reduce(81), // bytes_literal, reduce: TemplateForEnd
-			reduce(81), // string_literal, reduce: TemplateForEnd
-			reduce(81), // integer_literal, reduce: TemplateForEnd
-			reduce(81), // floating_point_literal, reduce: TemplateForEnd
-			reduce(81), // newline, reduce: TemplateForEnd
-			reduce(81), // *, reduce: TemplateForEnd
-			reduce(81), // <, reduce: TemplateForEnd
-			reduce(81), // >, reduce: TemplateForEnd
-			reduce(81), // [, reduce: TemplateForEnd
-			reduce(81), // ], reduce: TemplateForEnd
-			reduce(81), // (, reduce: TemplateForEnd
-			reduce(81), // ), reduce: TemplateForEnd
-			reduce(81), // ,, reduce: TemplateForEnd
-			reduce(81), // ., reduce: TemplateForEnd
-			reduce(81), // |, reduce: TemplateForEnd
-			reduce(81), // ^, reduce: TemplateForEnd
-			reduce(81), // &, reduce: TemplateForEnd
-			reduce(81), // <<, reduce: TemplateForEnd
-			reduce(81), // >>, reduce: TemplateForEnd
-			reduce(81), // =>, reduce: TemplateForEnd
-			reduce(81), // /, reduce: TemplateForEnd
-			reduce(81), // +, reduce: TemplateForEnd
-			reduce(81), // -, reduce: TemplateForEnd
-			reduce(81), // ||, reduce: TemplateForEnd
-			reduce(81), // <>, reduce: TemplateForEnd
-			reduce(81), // !=, reduce: TemplateForEnd
-			reduce(81), // =, reduce: TemplateForEnd
-			reduce(81), // <=, reduce: TemplateForEnd
-			reduce(81), // >=, reduce: TemplateForEnd
-			reduce(81), // ;, reduce: TemplateForEnd
-			reduce(81), // @, reduce: TemplateForEnd
-			reduce(81), // {, reduce: TemplateForEnd
-			reduce(81), // }, reduce: TemplateForEnd
-			reduce(81), // ~, reduce: TemplateForEnd
-			reduce(81), // else, reduce: TemplateForEnd
-			reduce(81), // if, reduce: TemplateForEnd
-			reduce(81), // for, reduce: TemplateForEnd
-			reduce(81), // endfor, reduce: TemplateForEnd
-			reduce(81), // elif, reduce: TemplateForEnd
-			reduce(81), // endif, reduce: TemplateForEnd
-			reduce(81), // set, reduce: TemplateForEnd
-			reduce(81), // ?, reduce: TemplateForEnd
-			reduce(81), // comment, reduce: TemplateForEnd
-			nil,        // template_block_end
-			reduce(81), // template_block_start, reduce: TemplateForEnd
-			reduce(81), // template_comment, reduce: TemplateForEnd
-			reduce(81), // template_variable_end, reduce: TemplateForEnd
-			reduce(81), // template_variable_start, reduce: TemplateForEnd
-		},
-	},
-	actionRow{ // S385
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -21619,15 +21890,16 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(73), // template_block_start, reduce: TemplateIfEnd
+			reduce(68), // template_block_start, reduce: TemplateIfBlock
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
 		},
 	},
-	actionRow{ // S386
+	actionRow{ // S384
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -21672,15 +21944,130 @@ var actionTab = actionTable{
 			nil,        // for
 			nil,        // endfor
 			nil,        // elif
-			shift(375), // endif
+			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
-			nil,        // template_block_end
+			shift(393), // template_block_end
 			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S385
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(82), // identifier, reduce: TemplateForEnd
+			reduce(82), // bytes_literal, reduce: TemplateForEnd
+			reduce(82), // string_literal, reduce: TemplateForEnd
+			reduce(82), // integer_literal, reduce: TemplateForEnd
+			reduce(82), // floating_point_literal, reduce: TemplateForEnd
+			reduce(82), // newline, reduce: TemplateForEnd
+			reduce(82), // *, reduce: TemplateForEnd
+			reduce(82), // <, reduce: TemplateForEnd
+			reduce(82), // >, reduce: TemplateForEnd
+			reduce(82), // [, reduce: TemplateForEnd
+			reduce(82), // ], reduce: TemplateForEnd
+			reduce(82), // (, reduce: TemplateForEnd
+			reduce(82), // ), reduce: TemplateForEnd
+			reduce(82), // ,, reduce: TemplateForEnd
+			reduce(82), // ., reduce: TemplateForEnd
+			reduce(82), // |, reduce: TemplateForEnd
+			reduce(82), // ^, reduce: TemplateForEnd
+			reduce(82), // &, reduce: TemplateForEnd
+			reduce(82), // <<, reduce: TemplateForEnd
+			reduce(82), // >>, reduce: TemplateForEnd
+			reduce(82), // =>, reduce: TemplateForEnd
+			reduce(82), // /, reduce: TemplateForEnd
+			reduce(82), // +, reduce: TemplateForEnd
+			reduce(82), // -, reduce: TemplateForEnd
+			reduce(82), // ||, reduce: TemplateForEnd
+			reduce(82), // <>, reduce: TemplateForEnd
+			reduce(82), // !=, reduce: TemplateForEnd
+			reduce(82), // =, reduce: TemplateForEnd
+			reduce(82), // <=, reduce: TemplateForEnd
+			reduce(82), // >=, reduce: TemplateForEnd
+			reduce(82), // ;, reduce: TemplateForEnd
+			reduce(82), // @, reduce: TemplateForEnd
+			reduce(82), // {, reduce: TemplateForEnd
+			reduce(82), // }, reduce: TemplateForEnd
+			reduce(82), // ~, reduce: TemplateForEnd
+			reduce(82), // else, reduce: TemplateForEnd
+			reduce(82), // if, reduce: TemplateForEnd
+			reduce(82), // for, reduce: TemplateForEnd
+			reduce(82), // endfor, reduce: TemplateForEnd
+			reduce(82), // elif, reduce: TemplateForEnd
+			reduce(82), // endif, reduce: TemplateForEnd
+			reduce(82), // set, reduce: TemplateForEnd
+			reduce(82), // ?, reduce: TemplateForEnd
+			reduce(82), // :, reduce: TemplateForEnd
+			reduce(82), // comment, reduce: TemplateForEnd
+			nil,        // template_block_end
+			reduce(82), // template_block_start, reduce: TemplateForEnd
+			reduce(82), // template_comment, reduce: TemplateForEnd
+			nil,        // template_variable_end
+			reduce(82), // template_variable_start, reduce: TemplateForEnd
+		},
+	},
+	actionRow{ // S386
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(74), // identifier, reduce: TemplateIfEnd
+			reduce(74), // bytes_literal, reduce: TemplateIfEnd
+			reduce(74), // string_literal, reduce: TemplateIfEnd
+			reduce(74), // integer_literal, reduce: TemplateIfEnd
+			reduce(74), // floating_point_literal, reduce: TemplateIfEnd
+			reduce(74), // newline, reduce: TemplateIfEnd
+			reduce(74), // *, reduce: TemplateIfEnd
+			reduce(74), // <, reduce: TemplateIfEnd
+			reduce(74), // >, reduce: TemplateIfEnd
+			reduce(74), // [, reduce: TemplateIfEnd
+			reduce(74), // ], reduce: TemplateIfEnd
+			reduce(74), // (, reduce: TemplateIfEnd
+			reduce(74), // ), reduce: TemplateIfEnd
+			reduce(74), // ,, reduce: TemplateIfEnd
+			reduce(74), // ., reduce: TemplateIfEnd
+			reduce(74), // |, reduce: TemplateIfEnd
+			reduce(74), // ^, reduce: TemplateIfEnd
+			reduce(74), // &, reduce: TemplateIfEnd
+			reduce(74), // <<, reduce: TemplateIfEnd
+			reduce(74), // >>, reduce: TemplateIfEnd
+			reduce(74), // =>, reduce: TemplateIfEnd
+			reduce(74), // /, reduce: TemplateIfEnd
+			reduce(74), // +, reduce: TemplateIfEnd
+			reduce(74), // -, reduce: TemplateIfEnd
+			reduce(74), // ||, reduce: TemplateIfEnd
+			reduce(74), // <>, reduce: TemplateIfEnd
+			reduce(74), // !=, reduce: TemplateIfEnd
+			reduce(74), // =, reduce: TemplateIfEnd
+			reduce(74), // <=, reduce: TemplateIfEnd
+			reduce(74), // >=, reduce: TemplateIfEnd
+			reduce(74), // ;, reduce: TemplateIfEnd
+			reduce(74), // @, reduce: TemplateIfEnd
+			reduce(74), // {, reduce: TemplateIfEnd
+			reduce(74), // }, reduce: TemplateIfEnd
+			reduce(74), // ~, reduce: TemplateIfEnd
+			reduce(74), // else, reduce: TemplateIfEnd
+			reduce(74), // if, reduce: TemplateIfEnd
+			reduce(74), // for, reduce: TemplateIfEnd
+			reduce(74), // endfor, reduce: TemplateIfEnd
+			reduce(74), // elif, reduce: TemplateIfEnd
+			reduce(74), // endif, reduce: TemplateIfEnd
+			reduce(74), // set, reduce: TemplateIfEnd
+			reduce(74), // ?, reduce: TemplateIfEnd
+			reduce(74), // :, reduce: TemplateIfEnd
+			reduce(74), // comment, reduce: TemplateIfEnd
+			nil,        // template_block_end
+			reduce(74), // template_block_start, reduce: TemplateIfEnd
+			reduce(74), // template_comment, reduce: TemplateIfEnd
+			reduce(74), // template_variable_end, reduce: TemplateIfEnd
+			reduce(74), // template_variable_start, reduce: TemplateIfEnd
 		},
 	},
 	actionRow{ // S387
@@ -21728,18 +22115,133 @@ var actionTab = actionTable{
 			nil,        // for
 			nil,        // endfor
 			nil,        // elif
-			nil,        // endif
+			shift(368), // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(66), // template_block_start, reduce: TemplateIfBlock
+			nil,        // template_block_start
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start
 		},
 	},
 	actionRow{ // S388
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(67), // identifier, reduce: TemplateIfBlock
+			reduce(67), // bytes_literal, reduce: TemplateIfBlock
+			reduce(67), // string_literal, reduce: TemplateIfBlock
+			reduce(67), // integer_literal, reduce: TemplateIfBlock
+			reduce(67), // floating_point_literal, reduce: TemplateIfBlock
+			reduce(67), // newline, reduce: TemplateIfBlock
+			reduce(67), // *, reduce: TemplateIfBlock
+			reduce(67), // <, reduce: TemplateIfBlock
+			reduce(67), // >, reduce: TemplateIfBlock
+			reduce(67), // [, reduce: TemplateIfBlock
+			reduce(67), // ], reduce: TemplateIfBlock
+			reduce(67), // (, reduce: TemplateIfBlock
+			reduce(67), // ), reduce: TemplateIfBlock
+			reduce(67), // ,, reduce: TemplateIfBlock
+			reduce(67), // ., reduce: TemplateIfBlock
+			reduce(67), // |, reduce: TemplateIfBlock
+			reduce(67), // ^, reduce: TemplateIfBlock
+			reduce(67), // &, reduce: TemplateIfBlock
+			reduce(67), // <<, reduce: TemplateIfBlock
+			reduce(67), // >>, reduce: TemplateIfBlock
+			reduce(67), // =>, reduce: TemplateIfBlock
+			reduce(67), // /, reduce: TemplateIfBlock
+			reduce(67), // +, reduce: TemplateIfBlock
+			reduce(67), // -, reduce: TemplateIfBlock
+			reduce(67), // ||, reduce: TemplateIfBlock
+			reduce(67), // <>, reduce: TemplateIfBlock
+			reduce(67), // !=, reduce: TemplateIfBlock
+			reduce(67), // =, reduce: TemplateIfBlock
+			reduce(67), // <=, reduce: TemplateIfBlock
+			reduce(67), // >=, reduce: TemplateIfBlock
+			reduce(67), // ;, reduce: TemplateIfBlock
+			reduce(67), // @, reduce: TemplateIfBlock
+			reduce(67), // {, reduce: TemplateIfBlock
+			reduce(67), // }, reduce: TemplateIfBlock
+			reduce(67), // ~, reduce: TemplateIfBlock
+			reduce(67), // else, reduce: TemplateIfBlock
+			reduce(67), // if, reduce: TemplateIfBlock
+			reduce(67), // for, reduce: TemplateIfBlock
+			reduce(67), // endfor, reduce: TemplateIfBlock
+			reduce(67), // elif, reduce: TemplateIfBlock
+			reduce(67), // endif, reduce: TemplateIfBlock
+			reduce(67), // set, reduce: TemplateIfBlock
+			reduce(67), // ?, reduce: TemplateIfBlock
+			reduce(67), // :, reduce: TemplateIfBlock
+			reduce(67), // comment, reduce: TemplateIfBlock
+			nil,        // template_block_end
+			reduce(67), // template_block_start, reduce: TemplateIfBlock
+			reduce(67), // template_comment, reduce: TemplateIfBlock
+			reduce(67), // template_variable_end, reduce: TemplateIfBlock
+			reduce(67), // template_variable_start, reduce: TemplateIfBlock
+		},
+	},
+	actionRow{ // S389
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			reduce(82), // identifier, reduce: TemplateForEnd
+			reduce(82), // bytes_literal, reduce: TemplateForEnd
+			reduce(82), // string_literal, reduce: TemplateForEnd
+			reduce(82), // integer_literal, reduce: TemplateForEnd
+			reduce(82), // floating_point_literal, reduce: TemplateForEnd
+			reduce(82), // newline, reduce: TemplateForEnd
+			reduce(82), // *, reduce: TemplateForEnd
+			reduce(82), // <, reduce: TemplateForEnd
+			reduce(82), // >, reduce: TemplateForEnd
+			reduce(82), // [, reduce: TemplateForEnd
+			reduce(82), // ], reduce: TemplateForEnd
+			reduce(82), // (, reduce: TemplateForEnd
+			reduce(82), // ), reduce: TemplateForEnd
+			reduce(82), // ,, reduce: TemplateForEnd
+			reduce(82), // ., reduce: TemplateForEnd
+			reduce(82), // |, reduce: TemplateForEnd
+			reduce(82), // ^, reduce: TemplateForEnd
+			reduce(82), // &, reduce: TemplateForEnd
+			reduce(82), // <<, reduce: TemplateForEnd
+			reduce(82), // >>, reduce: TemplateForEnd
+			reduce(82), // =>, reduce: TemplateForEnd
+			reduce(82), // /, reduce: TemplateForEnd
+			reduce(82), // +, reduce: TemplateForEnd
+			reduce(82), // -, reduce: TemplateForEnd
+			reduce(82), // ||, reduce: TemplateForEnd
+			reduce(82), // <>, reduce: TemplateForEnd
+			reduce(82), // !=, reduce: TemplateForEnd
+			reduce(82), // =, reduce: TemplateForEnd
+			reduce(82), // <=, reduce: TemplateForEnd
+			reduce(82), // >=, reduce: TemplateForEnd
+			reduce(82), // ;, reduce: TemplateForEnd
+			reduce(82), // @, reduce: TemplateForEnd
+			reduce(82), // {, reduce: TemplateForEnd
+			reduce(82), // }, reduce: TemplateForEnd
+			reduce(82), // ~, reduce: TemplateForEnd
+			reduce(82), // else, reduce: TemplateForEnd
+			reduce(82), // if, reduce: TemplateForEnd
+			reduce(82), // for, reduce: TemplateForEnd
+			reduce(82), // endfor, reduce: TemplateForEnd
+			reduce(82), // elif, reduce: TemplateForEnd
+			reduce(82), // endif, reduce: TemplateForEnd
+			reduce(82), // set, reduce: TemplateForEnd
+			reduce(82), // ?, reduce: TemplateForEnd
+			reduce(82), // :, reduce: TemplateForEnd
+			reduce(82), // comment, reduce: TemplateForEnd
+			nil,        // template_block_end
+			reduce(82), // template_block_start, reduce: TemplateForEnd
+			reduce(82), // template_comment, reduce: TemplateForEnd
+			reduce(82), // template_variable_end, reduce: TemplateForEnd
+			reduce(82), // template_variable_start, reduce: TemplateForEnd
+		},
+	},
+	actionRow{ // S390
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
@@ -21787,9 +22289,181 @@ var actionTab = actionTable{
 			nil,        // endif
 			nil,        // set
 			nil,        // ?
+			nil,        // :
 			nil,        // comment
 			nil,        // template_block_end
-			reduce(81), // template_block_start, reduce: TemplateForEnd
+			reduce(74), // template_block_start, reduce: TemplateIfEnd
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S391
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			shift(380), // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			nil,        // template_block_start
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S392
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			reduce(67), // template_block_start, reduce: TemplateIfBlock
+			nil,        // template_comment
+			nil,        // template_variable_end
+			nil,        // template_variable_start
+		},
+	},
+	actionRow{ // S393
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // INVALID
+			nil,        // ␚
+			nil,        // identifier
+			nil,        // bytes_literal
+			nil,        // string_literal
+			nil,        // integer_literal
+			nil,        // floating_point_literal
+			nil,        // newline
+			nil,        // *
+			nil,        // <
+			nil,        // >
+			nil,        // [
+			nil,        // ]
+			nil,        // (
+			nil,        // )
+			nil,        // ,
+			nil,        // .
+			nil,        // |
+			nil,        // ^
+			nil,        // &
+			nil,        // <<
+			nil,        // >>
+			nil,        // =>
+			nil,        // /
+			nil,        // +
+			nil,        // -
+			nil,        // ||
+			nil,        // <>
+			nil,        // !=
+			nil,        // =
+			nil,        // <=
+			nil,        // >=
+			nil,        // ;
+			nil,        // @
+			nil,        // {
+			nil,        // }
+			nil,        // ~
+			nil,        // else
+			nil,        // if
+			nil,        // for
+			nil,        // endfor
+			nil,        // elif
+			nil,        // endif
+			nil,        // set
+			nil,        // ?
+			nil,        // :
+			nil,        // comment
+			nil,        // template_block_end
+			reduce(82), // template_block_start, reduce: TemplateForEnd
 			nil,        // template_comment
 			nil,        // template_variable_end
 			nil,        // template_variable_start

@@ -8,6 +8,7 @@ import (
 
 func (p *Printer) visitBeginEndBlock(ctx Context, n *sql.BeginEndBlock) {
 	p.moveBefore(n)
+	p.accept(ctx.WithValue(KeyLabelDeclaration, true), n.Label())
 	p.println(p.keyword("BEGIN"))
 	p.incDepth()
 	p.accept(ctx, n.StatementListNode())
@@ -20,7 +21,19 @@ func (p *Printer) visitBeginEndBlock(ctx Context, n *sql.BeginEndBlock) {
 	p.movePast(n)
 	p.println("")
 	p.decDepth()
-	p.println(p.keyword("END"))
+	// Check if block ends with a label.
+	if l := n.Label(); l != nil {
+		label := l.Name().GetAsString()
+		if strings.HasSuffix(p.viewInput(n.Location()), label) {
+			p.print(p.keyword("END"))
+			p.accept(ctx, l)
+			p.println("")
+		} else {
+			p.println(p.keyword("END"))
+		}
+	} else {
+		p.println(p.keyword("END"))
+	}
 }
 
 func (p *Printer) visitBeginStatementNode(_ Context, n *sql.BeginStatement) {
@@ -130,6 +143,7 @@ func (p *Printer) visitExecuteUsingClause(ctx Context, n *sql.ExecuteUsingClause
 func (p *Printer) visitForInStatement(ctx Context, n *sql.ForInStatement) {
 	p.moveBefore(n)
 	pp := p.nest()
+	pp.accept(ctx.WithValue(KeyLabelDeclaration, true), n.Label())
 	pp.print(pp.keyword("FOR"))
 	pp.accept(ctx, n.Variable())
 	query := n.Query()
@@ -156,7 +170,18 @@ func (p *Printer) visitForInStatement(ctx Context, n *sql.ForInStatement) {
 	p.acceptNestedLeft(ctx, n.Body())
 	p.println("")
 	p.decDepth()
-	p.println(p.keyword("END FOR"))
+	// Check if ends with label.
+	if l := n.Label(); l != nil {
+		label := l.Name().GetAsString()
+		if strings.HasSuffix(p.viewInput(n.Location()), label) {
+			p.print(p.keyword("END FOR"))
+			p.accept(ctx, l)
+		} else {
+			p.println(p.keyword("END FOR"))
+		}
+	} else {
+		p.println(p.keyword("END FOR"))
+	}
 	p.movePast(n)
 }
 
@@ -229,7 +254,11 @@ func (p *Printer) visitIfStatement(ctx Context, n *sql.IfStatement) {
 
 func (p *Printer) visitLabel(ctx Context, n *sql.Label) {
 	p.moveBefore(n)
-	p.accept(ctx, n.Name())
+	if ctx.Bool(KeyLabelDeclaration) {
+		p.println(p.toString(ctx, n.Name()) + ":")
+	} else {
+		p.accept(ctx, n.Name())
+	}
 }
 
 func (p *Printer) visitParameterAssignment(ctx Context, n *sql.ParameterAssignment) {
@@ -261,6 +290,7 @@ func (p *Printer) visitReturnStatement(_ Context, n *sql.ReturnStatement) {
 
 func (p *Printer) visitRepeatStatement(ctx Context, n *sql.RepeatStatement) {
 	p.moveBefore(n)
+	p.accept(ctx.WithValue(KeyLabelDeclaration, true), n.Label())
 	p.println(p.keyword("REPEAT"))
 	p.incDepth()
 	p.acceptNestedLeft(ctx, n.Body())
@@ -269,7 +299,19 @@ func (p *Printer) visitRepeatStatement(ctx Context, n *sql.RepeatStatement) {
 	p.acceptNestedLeft(ctx, n.UntilClause())
 	p.println("")
 	p.decDepth()
-	p.println(p.keyword("END REPEAT"))
+	// Check if ends with label.
+	if l := n.Label(); l != nil {
+		label := l.Name().GetAsString()
+		if strings.HasSuffix(p.viewInput(n.Location()), label) {
+			p.print(p.keyword("END REPEAT"))
+			p.accept(ctx, l)
+			p.println("")
+		} else {
+			p.println(p.keyword("END REPEAT"))
+		}
+	} else {
+		p.println(p.keyword("END REPEAT"))
+	}
 }
 
 func (p *Printer) visitUntilClause(ctx Context, n *sql.UntilClause) {
@@ -328,7 +370,8 @@ func (p *Printer) visitVariableDeclaration(ctx Context, n *sql.VariableDeclarati
 func (p *Printer) visitWhileStatement(ctx Context, n *sql.WhileStatement) {
 	p.moveBefore(n)
 	pp := p.nest()
-	whileKeyword := hasPrefixEqualFold(p.viewInput(n.Location()), "WHILE")
+	pp.accept(ctx.WithValue(KeyLabelDeclaration, true), n.Label())
+	whileKeyword := sql.Defined(n.Condition())
 	cond := n.Condition()
 	simple := isSimpleExpr(cond)
 	if whileKeyword {
@@ -352,10 +395,23 @@ func (p *Printer) visitWhileStatement(ctx Context, n *sql.WhileStatement) {
 	pp.acceptNestedLeft(ctx, n.Body())
 	pp.println("")
 	pp.decDepth()
+	var endKeyword string
 	if whileKeyword {
-		pp.println(pp.keyword("END WHILE"))
+		endKeyword = pp.keyword("END WHILE")
 	} else {
-		pp.println(pp.keyword("END LOOP"))
+		endKeyword = pp.keyword("END LOOP")
+	}
+	// Check if ends with label.
+	if l := n.Label(); l != nil {
+		label := l.Name().GetAsString()
+		if strings.HasSuffix(pp.viewInput(n.Location()), label) {
+			pp.print(endKeyword)
+			pp.accept(ctx, l)
+		} else {
+			pp.println(endKeyword)
+		}
+	} else {
+		pp.println(endKeyword)
 	}
 	p.print(pp.unnestLeft())
 	p.movePast(n)

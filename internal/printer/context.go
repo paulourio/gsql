@@ -29,6 +29,7 @@ const (
 	KeyInUnaryNot                                 // bool
 	KeyPathParts                                  // int1
 	KeyInSingleAssignment                         // bool
+	KeyLabelDeclaration                           // bool
 )
 
 // Context allows to pass additional context information during printing.

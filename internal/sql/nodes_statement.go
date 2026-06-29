@@ -243,6 +243,10 @@ func newBeginEndBlock(r *googlesql.ASTBeginEndBlock) *BeginEndBlock {
 
 func (n *BeginEndBlock) isStatement() {}
 
+func (n *BeginEndBlock) Label() *Label {
+	return newLabel(must(n.raw.Label()))
+}
+
 func (n *BeginEndBlock) StatementListNode() *StatementList {
 	return newStatementList(must(n.raw.StatementListNode()))
 }
@@ -1137,18 +1141,11 @@ func newForInStatement(r *googlesql.ASTForInStatement) *ForInStatement {
 	return &ForInStatement{baseNode[*googlesql.ASTForInStatement]{raw: r}}
 }
 
-func (n *ForInStatement) isStatement() {}
-func (n *ForInStatement) Variable() *Identifier {
-	return newIdentifier(must(n.raw.Variable()))
-}
-
-func (n *ForInStatement) Query() *Query {
-	return newQuery(must(n.raw.Query()))
-}
-
-func (n *ForInStatement) Body() *StatementList {
-	return newStatementList(must(n.raw.Body()))
-}
+func (n *ForInStatement) isStatement()          {}
+func (n *ForInStatement) Label() *Label         { return newLabel(must(n.raw.Label())) }
+func (n *ForInStatement) Variable() *Identifier { return newIdentifier(must(n.raw.Variable())) }
+func (n *ForInStatement) Query() *Query         { return newQuery(must(n.raw.Query())) }
+func (n *ForInStatement) Body() *StatementList  { return newStatementList(must(n.raw.Body())) }
 
 // MergeStatement wraps *googlesql.ASTMergeStatement.
 type MergeStatement struct {
@@ -1252,6 +1249,10 @@ func newRepeatStatement(r *googlesql.ASTRepeatStatement) *RepeatStatement {
 }
 
 func (n *RepeatStatement) isStatement() {}
+
+func (n *RepeatStatement) Label() *Label {
+	return newLabel(must(n.raw.Label()))
+}
 
 func (n *RepeatStatement) Body() *StatementList {
 	return newStatementList(must(n.raw.Body()))
@@ -1425,5 +1426,7 @@ func newWhileStatement(r *googlesql.ASTWhileStatement) *WhileStatement {
 }
 
 func (n *WhileStatement) isStatement()              {}
+func (n *WhileStatement) IsLoopStatement() bool     { return must(n.raw.IsLoopStatement()) }
+func (n *WhileStatement) Label() *Label             { return newLabel(must(n.raw.Label())) }
 func (n *WhileStatement) Condition() ExpressionNode { return wrapExpr(must(n.raw.Condition())) }
 func (n *WhileStatement) Body() *StatementList      { return newStatementList(must(n.raw.Body())) }

@@ -1,0 +1,293 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+[[cases]]
+description = "Labeled BEGIN block without end label"
+input = """
+label_1: BEGIN
+  SELECT 1;
+  BREAK label_1;
+  SELECT 2;
+END;
+"""
+formatted = """
+label_1:
+BEGIN
+  SELECT 1;
+
+  BREAK label_1;
+
+  SELECT 2;
+END
+"""
+
+[[cases]]
+description = "Labeled BEGIN block with end label"
+input = """
+label_1: BEGIN
+  SELECT 1;
+  BREAK label_1;
+  SELECT 2;
+END label_1;
+"""
+formatted = """
+label_1:
+BEGIN
+  SELECT 1;
+
+  BREAK label_1;
+
+  SELECT 2;
+END label_1
+"""
+
+[[cases]]
+description = "Labeled LOOP without end label"
+input = """
+label_1:
+LOOP
+  BREAK label_1;
+END LOOP;
+"""
+formatted = """
+label_1:
+LOOP
+  BREAK label_1;
+END LOOP
+"""
+
+[[cases]]
+description = "Labeled LOOP with end label"
+input = """
+label_1: LOOP
+  BREAK label_1;
+END LOOP label_1;
+"""
+formatted = """
+label_1:
+LOOP
+  BREAK label_1;
+END LOOP label_1
+"""
+
+[[cases]]
+description = "Labeled WHILE loop without end label"
+input = """
+label_1: WHILE x < 1 DO
+  CONTINUE label_1;
+END WHILE;
+"""
+formatted = """
+label_1:
+WHILE x < 1 DO
+  CONTINUE label_1;
+END WHILE
+"""
+
+[[cases]]
+description = "Labeled WHILE loop with end label"
+input = """
+label_1: WHILE x < 1 DO
+  CONTINUE label_1;
+END WHILE label_1;
+"""
+formatted = """
+label_1:
+WHILE x < 1 DO
+  CONTINUE label_1;
+END WHILE label_1
+"""
+
+[[cases]]
+description = "Labeled FOR loop without end label"
+input = """
+label_1: FOR x IN (SELECT 1) DO
+  BREAK label_1;
+END FOR;
+"""
+formatted = """
+label_1:
+FOR x IN (SELECT 1)
+DO
+  BREAK label_1;
+END FOR
+"""
+
+[[cases]]
+description = "Labeled FOR loop with end label"
+input = """
+label_1: FOR x IN (SELECT 1) DO
+  BREAK label_1;
+END FOR label_1;
+"""
+formatted = """
+label_1:
+FOR x IN (SELECT 1)
+DO
+  BREAK label_1;
+END FOR label_1
+"""
+
+[[cases]]
+description = "Labeled REPEAT loop without end label"
+input = """
+label_1: REPEAT
+  BREAK label_1;
+  UNTIL TRUE
+END REPEAT;
+"""
+formatted = """
+label_1:
+REPEAT
+  BREAK label_1;
+
+  UNTIL TRUE
+END REPEAT
+"""
+
+[[cases]]
+description = "Labeled REPEAT loop with end label"
+input = """
+label_1: REPEAT
+  BREAK label_1;
+  UNTIL TRUE
+END REPEAT label_1;
+"""
+formatted = """
+label_1:
+REPEAT
+  BREAK label_1;
+
+  UNTIL TRUE
+END REPEAT label_1
+"""
+
+[[cases]]
+description = "Repeated label names in non-overlapping parts"
+input = """
+label_1: BEGIN
+  BREAK label_1;
+END;
+
+label_2: BEGIN
+  BREAK label_2;
+END label_2;
+
+label_1: BEGIN
+  BREAK label_1;
+END;
+"""
+formatted = """
+label_1:
+BEGIN
+  BREAK label_1;
+END;
+
+label_2:
+BEGIN
+  BREAK label_2;
+END label_2;
+
+label_1:
+BEGIN
+  BREAK label_1;
+END;
+"""
+
+[[cases]]
+description = "Nested loops and blocks with different labels"
+input = """
+label_1: BEGIN
+  label_2: BEGIN
+    BREAK label_1;
+  END;
+END;
+"""
+formatted = """
+label_1:
+BEGIN
+  label_2:
+  BEGIN
+    BREAK label_1;
+  END;
+END
+"""
+
+[[cases]]
+description = "Label and variable with the same name"
+input = """
+label_1: BEGIN
+  DECLARE label_1 INT64;
+  BREAK label_1;
+END;
+"""
+formatted = """
+label_1:
+BEGIN
+  DECLARE label_1 INT64;
+
+  BREAK label_1;
+END
+"""
+
+[[cases]]
+description = "Complex nested loops targeting outer labels"
+input = """
+label_1: LOOP
+  WHILE x < 1 DO
+    IF y < 1 THEN
+      CONTINUE label_1;
+    ELSE
+      BREAK label_1;
+    END IF;
+  END WHILE;
+END LOOP label_1;
+"""
+formatted = """
+label_1:
+LOOP
+  WHILE x < 1 DO
+    IF y < 1 THEN
+      CONTINUE label_1;
+    ELSE
+      BREAK label_1;
+    END IF;
+  END WHILE;
+END LOOP label_1
+"""
+
+[[cases]]
+description = "Exiting block from exception handler"
+input = """
+label_1: BEGIN
+  SELECT 1;
+EXCEPTION WHEN ERROR THEN
+  BREAK label_1;
+  SELECT 2;
+END;
+"""
+formatted = """
+label_1:
+BEGIN
+  SELECT 1;
+EXCEPTION WHEN ERROR THEN
+  BREAK label_1;
+
+  SELECT 2;
+END
+"""

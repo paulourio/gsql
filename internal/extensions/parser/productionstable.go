@@ -628,10 +628,20 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
+		String: `Element2 : ":"	<<  >>`,
+		Id:         "Element2",
+		NTType:     3,
+		Index:      61,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
 		String: `Comment : comment	<< NewComment(X[0]) >>`,
 		Id:         "Comment",
 		NTType:     4,
-		Index:      61,
+		Index:      62,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return NewComment(X[0])
@@ -641,7 +651,7 @@ var productionsTable = ProdTab{
 		String: `TemplateSetBlock : TemplateSetBlockPrefix template_block_end	<< UpdateLoc(X[0], X[1]) >>`,
 		Id:         "TemplateSetBlock",
 		NTType:     5,
-		Index:      62,
+		Index:      63,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return UpdateLoc(X[0], X[1])
@@ -651,7 +661,7 @@ var productionsTable = ProdTab{
 		String: `TemplateSetBlockPrefix : template_block_start "set"	<< NewTemplateSetBlock(X[0]) >>`,
 		Id:         "TemplateSetBlockPrefix",
 		NTType:     6,
-		Index:      63,
+		Index:      64,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return NewTemplateSetBlock(X[0])
@@ -661,7 +671,7 @@ var productionsTable = ProdTab{
 		String: `TemplateSetBlockPrefix : TemplateSetBlockPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateSetBlockPrefix",
 		NTType:     6,
-		Index:      64,
+		Index:      65,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return WithExtraChild(X[0], X[1])
@@ -671,7 +681,7 @@ var productionsTable = ProdTab{
 		String: `TemplateIfBlock : TemplateIfBlockPrefix TemplateIfEnd	<< UpdateLoc(X[0], X[1]) >>`,
 		Id:         "TemplateIfBlock",
 		NTType:     7,
-		Index:      65,
+		Index:      66,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return UpdateLoc(X[0], X[1])
@@ -687,7 +697,7 @@ var productionsTable = ProdTab{
       }() >>`,
 		Id:         "TemplateIfBlock",
 		NTType:     7,
-		Index:      66,
+		Index:      67,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return func() (Attrib, error) {
@@ -703,7 +713,7 @@ var productionsTable = ProdTab{
 		String: `TemplateIfBlock : TemplateIfBlockPrefix TemplateElse TemplateIfEnd	<< UpdateLoc(X[0], X[2]) >>`,
 		Id:         "TemplateIfBlock",
 		NTType:     7,
-		Index:      67,
+		Index:      68,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return UpdateLoc(X[0], X[2])
@@ -713,7 +723,7 @@ var productionsTable = ProdTab{
 		String: `TemplateIfBlockPrefix : TemplateIfBegin	<<  >>`,
 		Id:         "TemplateIfBlockPrefix",
 		NTType:     8,
-		Index:      68,
+		Index:      69,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -723,7 +733,7 @@ var productionsTable = ProdTab{
 		String: `TemplateIfBlockPrefix : TemplateIfBlockPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateIfBlockPrefix",
 		NTType:     8,
-		Index:      69,
+		Index:      70,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return WithExtraChild(X[0], X[1])
@@ -733,7 +743,7 @@ var productionsTable = ProdTab{
 		String: `TemplateIfBegin : TemplateIfBeginPrefix template_block_end	<< UpdateLoc(X[0], X[1]) >>`,
 		Id:         "TemplateIfBegin",
 		NTType:     9,
-		Index:      70,
+		Index:      71,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return UpdateLoc(X[0], X[1])
@@ -743,7 +753,7 @@ var productionsTable = ProdTab{
 		String: `TemplateIfBeginPrefix : template_block_start "if"	<< NewTemplateIfBlock(X[0]) >>`,
 		Id:         "TemplateIfBeginPrefix",
 		NTType:     10,
-		Index:      71,
+		Index:      72,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return NewTemplateIfBlock(X[0])
@@ -753,7 +763,7 @@ var productionsTable = ProdTab{
 		String: `TemplateIfBeginPrefix : TemplateIfBeginPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateIfBeginPrefix",
 		NTType:     10,
-		Index:      72,
+		Index:      73,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return WithExtraChild(X[0], X[1])
@@ -763,7 +773,7 @@ var productionsTable = ProdTab{
 		String: `TemplateIfEnd : template_block_start "endif" template_block_end	<< X[2], nil >>`,
 		Id:         "TemplateIfEnd",
 		NTType:     11,
-		Index:      73,
+		Index:      74,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[2], nil
@@ -773,7 +783,7 @@ var productionsTable = ProdTab{
 		String: `TemplateElse : template_block_start "else" template_block_end	<< X[2], nil >>`,
 		Id:         "TemplateElse",
 		NTType:     12,
-		Index:      74,
+		Index:      75,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[2], nil
@@ -783,7 +793,7 @@ var productionsTable = ProdTab{
 		String: `TemplateForBlock : TemplateForBlockPrefix TemplateForEnd	<< UpdateLoc(X[0], X[1]) >>`,
 		Id:         "TemplateForBlock",
 		NTType:     13,
-		Index:      75,
+		Index:      76,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return UpdateLoc(X[0], X[1])
@@ -793,7 +803,7 @@ var productionsTable = ProdTab{
 		String: `TemplateForBlockPrefix : TemplateForBegin Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateForBlockPrefix",
 		NTType:     14,
-		Index:      76,
+		Index:      77,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return WithExtraChild(X[0], X[1])
@@ -803,7 +813,7 @@ var productionsTable = ProdTab{
 		String: `TemplateForBlockPrefix : TemplateForBlockPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateForBlockPrefix",
 		NTType:     14,
-		Index:      77,
+		Index:      78,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return WithExtraChild(X[0], X[1])
@@ -813,7 +823,7 @@ var productionsTable = ProdTab{
 		String: `TemplateForBegin : TemplateForBeginPrefix template_block_end	<< UpdateLoc(X[0], X[1]) >>`,
 		Id:         "TemplateForBegin",
 		NTType:     15,
-		Index:      78,
+		Index:      79,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return UpdateLoc(X[0], X[1])
@@ -823,7 +833,7 @@ var productionsTable = ProdTab{
 		String: `TemplateForBeginPrefix : template_block_start "for"	<< NewTemplateForBlock(X[0]) >>`,
 		Id:         "TemplateForBeginPrefix",
 		NTType:     16,
-		Index:      79,
+		Index:      80,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return NewTemplateForBlock(X[0])
@@ -833,7 +843,7 @@ var productionsTable = ProdTab{
 		String: `TemplateForBeginPrefix : TemplateForBeginPrefix Element	<< WithExtraChild(X[0], X[1]) >>`,
 		Id:         "TemplateForBeginPrefix",
 		NTType:     16,
-		Index:      80,
+		Index:      81,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return WithExtraChild(X[0], X[1])
@@ -843,7 +853,7 @@ var productionsTable = ProdTab{
 		String: `TemplateForEnd : template_block_start "endfor" template_block_end	<< X[2], nil >>`,
 		Id:         "TemplateForEnd",
 		NTType:     17,
-		Index:      81,
+		Index:      82,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[2], nil
@@ -853,7 +863,7 @@ var productionsTable = ProdTab{
 		String: `TemplateComment : template_comment	<< NewTemplateComment(X[0]) >>`,
 		Id:         "TemplateComment",
 		NTType:     18,
-		Index:      82,
+		Index:      83,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return NewTemplateComment(X[0])
@@ -863,7 +873,7 @@ var productionsTable = ProdTab{
 		String: `TemplateVariable : TemplateVariablePrefix template_variable_end	<< NewTemplateVariable(X[0], X[1]) >>`,
 		Id:         "TemplateVariable",
 		NTType:     19,
-		Index:      83,
+		Index:      84,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return NewTemplateVariable(X[0], X[1])
@@ -873,7 +883,7 @@ var productionsTable = ProdTab{
 		String: `TemplateVariablePrefix : template_variable_start	<<  >>`,
 		Id:         "TemplateVariablePrefix",
 		NTType:     20,
-		Index:      84,
+		Index:      85,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -883,7 +893,7 @@ var productionsTable = ProdTab{
 		String: `TemplateVariablePrefix : TemplateVariablePrefix Element	<<  >>`,
 		Id:         "TemplateVariablePrefix",
 		NTType:     20,
-		Index:      85,
+		Index:      86,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
