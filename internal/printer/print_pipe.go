@@ -158,7 +158,7 @@ func (p *Printer) visitPipeSelect(ctx Context, n *sql.PipeSelect) {
 	p.movePast(n)
 }
 
-func (p *Printer) visitPipeDistinct(ctx Context, n *sql.PipeDistinct) {
+func (p *Printer) visitPipeDistinct(_ Context, n *sql.PipeDistinct) {
 	p.moveBefore(n)
 	p.lnprint("|> DISTINCT")
 	p.movePast(n)

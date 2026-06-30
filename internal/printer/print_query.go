@@ -55,9 +55,8 @@ func (p *Printer) visitQuery(ctx Context, n *sql.Query) {
 	}
 }
 
-func (p *Printer) visitLockMode(ctx Context, n *sql.LockMode) {
+func (p *Printer) visitLockMode(_ Context, n *sql.LockMode) {
 	p.moveBefore(n)
-	// TODO: Support FOR SHARE if/when added to parser.
 	p.print(p.keyword("FOR UPDATE"))
 	p.movePast(n)
 }

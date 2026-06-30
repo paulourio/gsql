@@ -1587,6 +1587,7 @@ func (n *CreateModelStatement) InputOutputClause() Node { return Wrap(must(n.raw
 func (n *CreateModelStatement) AliasedQueryList() *AliasedQueryList {
 	return newAliasedQueryList(must(n.raw.AliasedQueryList()))
 }
+
 func (n *CreateModelStatement) WithConnectionClause() *WithConnectionClause {
 	return newWithConnectionClause(must(n.raw.WithConnectionClause()))
 }
