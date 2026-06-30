@@ -149,83 +149,97 @@ FROM q2
    GROUP BY key
 """
 
-# [[cases]]
-# input = """
-# from t
-# |> select sum(x) over(w), count(*) over (w2)
-#    window w AS (),
-#           w2 AS (partition by a)
-# |> extend max(y) over (w partition by x)
-#    window w AS (ORDER BY b ROWS CURRENT ROW)
-# """
-# formatted = """
-# FROM t
-# |> SELECT sum(x) OVER(w), count(*) OVER (w2)
-#    WINDOW w AS (),
-#           w2 AS (PARTITION BY a)
-# |> EXTEND max(y) OVER (w PARTITION BY x)
-#    WINDOW w AS (ORDER BY b ROWS CURRENT ROW)
-# """
+[[cases]]
+input = """
+from t
+|> select sum(x) over(w), count(*) over (w2)
+   window w AS (),
+          w2 AS (partition by a)
+|> extend max(y) over (w partition by x)
+   window w AS (ORDER BY b ROWS CURRENT ROW)
+"""
+formatted = """
+FROM t
+|> SELECT SUM(x) OVER w,
+          COUNT(*) OVER w2
+   WINDOW w AS (),
+          w2 AS (
+            PARTITION BY a
+          )
+|> EXTEND MAX(y) OVER (
+            w
+            PARTITION BY x
+          )
+   WINDOW w AS (
+            ORDER BY b
+             ROWS CURRENT ROW
+          )
+"""
 
-# [[cases]]
-# description = "Unused window"
-# input = """
-# from t
-# |> select sum(x)
-#    window w AS ()
-# """
-# formatted = """
-# FROM t
-# |> SELECT sum(x)
-#    WINDOW w AS ()
-# """
+[[cases]]
+description = "Unused window"
+input = """
+from t
+|> select sum(x)
+   window w AS ()
+"""
+formatted = """
+FROM t
+|> SELECT SUM(x)
+   WINDOW w AS ()
+"""
 
-# [[cases]]
-# description = "Trailing comma on the window list, and the select-list before WINDOW."
-# input = """
-# from t
-# |> select sum(x) over (w),
-#    window w AS (),# Trailing comma on the window list, and the select-list before WINDOW.
-# """
-# formatted = """
-# FROM t
-# |> SELECT sum(x) OVER (w),
-#    WINDOW w AS (),# Trailing comma ON the WINDOW list, AND the SELECT-list before WINDOW.
-# """
+[[cases]]
+description = "Trailing comma on the window list, and the select-list before WINDOW."
+input = """
+from t
+|> select sum(x) over (w),
+   window w AS (),
+"""
+formatted = """
+FROM t
+|> SELECT SUM(x) OVER w
+   WINDOW w AS ()
+"""
 
-# [[cases]]
-# input = """
-# from t
-# |> extend sum(x) over (w),
-#    window w AS (),
-# """
-# formatted = """
-# FROM t
-# |> EXTEND sum(x) OVER (w),
-#    WINDOW w AS (),
-# """
+[[cases]]
+input = """
+from t
+|> extend sum(x) over (w),
+   window w AS (),
+"""
+formatted = """
+FROM t
+|> EXTEND SUM(x) OVER w
+   WINDOW w AS ()
+"""
 
-# [[cases]]
-# input = """
-# select 1
-# |> order by x
-# |> order by 1, x, y, x+1, sum(x), x() OVER ()
-# |> order @{hint=1} by y
-# |> order by x ASC, y DESC
-# |> order by x COLLATE "abc"
-# |> order by x NULLS FIRST
-# |> order by x COLLATE "abc" ASC NULLS LAST
-# """
-# formatted = """
-# SELECT 1
-# |> ORDER BY x
-# |> ORDER BY 1, x, y, x+1, sum(x), x() OVER ()
-# |> ORDER @{hint=1} BY y
-# |> ORDER BY x ASC, y DESC
-# |> ORDER BY x COLLATE "abc"
-# |> ORDER BY x NULLS FIRST
-# |> ORDER BY x COLLATE "abc" ASC NULLS LAST
-# """
+[[cases]]
+input = """
+select 1
+|> order by x
+|> order by 1, x, y, x+1, sum(x), x() OVER ()
+|> order @{hint=1} by y
+|> order by x ASC, y DESC
+|> order by x COLLATE "abc"
+|> order by x NULLS FIRST
+|> order by x COLLATE "abc" ASC NULLS LAST
+"""
+formatted = """
+SELECT 1
+|> ORDER BY x
+|> ORDER BY 1,
+            x,
+            y,
+            x + 1,
+            SUM(x),
+            x() OVER ()
+|> ORDER @{hint=1} BY y
+|> ORDER BY x ASC, y DESC
+|> ORDER BY x COLLATE 'abc'
+|> ORDER BY x NULLS FIRST
+|> ORDER BY x COLLATE 'abc' ASC NULLS LAST
+"""
 
 # [[cases]]
 # description = "Trailing commas."
@@ -818,4 +832,3 @@ FROM (SELECT 1) AS q
 # SELECT x
 # |> SET x = 1+2, y = 3, z = z ,
 # """
-

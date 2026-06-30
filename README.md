@@ -207,7 +207,7 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [x] `|> DISTINCT`
 - [x] `|> DROP`
 - [ ] `|> EXPORT DATA`
-- [ ] `|> EXTEND`
+- [x] `|> EXTEND`
 - [ ] `|> FORK`
 - [ ] `|> IF`
 - [ ] `|> INSERT`
@@ -215,7 +215,7 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [ ] `|> LIMIT`
 - [ ] `|> LOG`
 - [ ] `|> MATCH_RECOGNIZE`
-- [ ] `|> ORDER BY`
+- [x] `|> ORDER BY`
 - [ ] `|> PIVOT`
 - [ ] `|> RECURSIVE UNION`
 - [ ] `|> RENAME`

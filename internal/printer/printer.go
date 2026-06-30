@@ -454,6 +454,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeJoin(ctx, n.(*sql.PipeJoin))
 	case sql.PipeSelectKind:
 		p.visitPipeSelect(ctx, n.(*sql.PipeSelect))
+	case sql.PipeOrderByKind:
+		p.visitPipeOrderBy(ctx, n.(*sql.PipeOrderBy))
 	case sql.PipeDistinctKind:
 		p.visitPipeDistinct(ctx, n.(*sql.PipeDistinct))
 	case sql.PipeExtendKind:

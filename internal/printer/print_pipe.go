@@ -176,7 +176,7 @@ func (p *Printer) visitPipeWhere(ctx Context, n *sql.PipeWhere) {
 func (p *Printer) visitPipeExtend(ctx Context, n *sql.PipeExtend) {
 	p.moveBefore(n)
 	pp := p.nest()
-	pp.lnprint("|> EXTEND")
+	pp.lnprint("|>")
 	pp.acceptNestedLeft(ctx, n.Select())
 	p.print(pp.unnestLeft())
 	p.movePast(n)
@@ -184,17 +184,47 @@ func (p *Printer) visitPipeExtend(ctx Context, n *sql.PipeExtend) {
 
 func (p *Printer) visitPipeExtendSelect(ctx Context, n *sql.Select) {
 	p.moveBefore(n)
+	p.print(p.keyword("EXTEND"))
 	singleLine := p.maybeSingleLineColumns(n)
 	ctx = ctx.WithValue(KeySingleLineCols, singleLine)
-	if !singleLine {
-		p.println("")
-		p.incDepth()
-	}
 	pp := p.nest()
 	pp.accept(ctx, n.SelectList())
-	p.print(pp.unnest())
-	if !singleLine {
-		p.decDepth()
+	p.print(pp.unnestLeft())
+	if win := n.WindowClause(); win != nil {
+		p.moveBefore(win)
+		p.println("")
+		pp := p.nest()
+		pp.print(pp.keyword("WINDOW") + " ")
+		pp.acceptNestedLeft(ctx, win)
+		p.print(strings.TrimLeft(pp.unnestLeft(), "\v"))
 	}
+	p.movePastLine(n)
+}
+
+func (p *Printer) visitPipeSelectSelect(ctx Context, n *sql.Select) {
+	p.moveBefore(n)
+	p.print(p.keyword("SELECT"))
+	singleLine := p.maybeSingleLineColumns(n)
+	ctx = ctx.WithValue(KeySingleLineCols, singleLine)
+	pp := p.nest()
+	pp.accept(ctx, n.SelectList())
+	p.print(pp.unnestLeft())
+	if win := n.WindowClause(); win != nil {
+		p.moveBefore(win)
+		p.println("")
+		pp := p.nest()
+		pp.print(pp.keyword("WINDOW") + " ")
+		pp.acceptNestedLeft(ctx, win)
+		p.print(strings.TrimLeft(pp.unnestLeft(), "\v"))
+	}
+	p.movePastLine(n)
+}
+
+func (p *Printer) visitPipeOrderBy(ctx Context, n *sql.PipeOrderBy) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|> ")
+	pp.acceptNestedLeft(ctx, n.OrderBy())
+	p.print(pp.unnestLeft())
 	p.movePast(n)
 }
