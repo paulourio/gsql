@@ -255,6 +255,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitAssignmentFromStruct(ctx, n.(*sql.AssignmentFromStruct))
 	case sql.DeleteStatementKind:
 		p.visitDeleteStatement(ctx, n.(*sql.DeleteStatement))
+	case sql.ExportDataStatementKind:
+		p.visitExportDataStatement(ctx, n.(*sql.ExportDataStatement))
 	case sql.InsertStatementKind:
 		p.visitInsertStatement(ctx, n.(*sql.InsertStatement))
 	case sql.InsertValuesRowKind:
@@ -1037,7 +1039,8 @@ func (p *Printer) isParenNeeded(n sql.Node) bool {
 				case sql.CreateTableStatementKind,
 					sql.CreateViewStatementKind,
 					sql.CreateMaterializedViewStatementKind,
-					sql.CreateTableFunctionStatementKind:
+					sql.CreateTableFunctionStatementKind,
+					sql.ExportDataStatementKind:
 					return false
 				}
 			}

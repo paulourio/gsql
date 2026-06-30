@@ -59,6 +59,21 @@ func (p *Printer) visitDeleteStatement(ctx Context, n *sql.DeleteStatement) {
 	p.print(pp.unnestLeft())
 }
 
+func (p *Printer) visitExportDataStatement(ctx Context, n *sql.ExportDataStatement) {
+	p.moveBefore(n)
+	p.print(p.keyword("EXPORT DATA"))
+	p.lnaccept(ctx, n.WithConnectionClause())
+	p.lnaccept(ctx, n.OptionsList())
+	p.println("")
+	p.println(p.keyword("AS") + " (")
+	p1 := p.nest()
+	p1.incDepth()
+	p1.accept(ctx, n.Query())
+	p.println(p1.unnest())
+	p.println(")")
+	p.movePast(n)
+}
+
 func (p *Printer) visitInsertStatement(ctx Context, n *sql.InsertStatement) {
 	cl := n.ColumnList()
 	pp := p.nest()

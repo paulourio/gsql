@@ -1,0 +1,159 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+[[cases]]
+input = """
+export data as select 1;
+"""
+formatted = """
+EXPORT DATA
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+export data options() as select 1;
+"""
+formatted = """
+EXPORT DATA
+OPTIONS ()
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+export data with connection default options(x=5) as select 1;
+"""
+formatted = """
+EXPORT DATA
+WITH CONNECTION DEFAULT
+OPTIONS (x=5)
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+export data with connection connection_id options(x=5) as select 1;
+"""
+formatted = """
+EXPORT DATA
+WITH CONNECTION connection_id
+OPTIONS (x=5)
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+export data with connection connection options(x=5) as select 1;
+"""
+formatted = """
+EXPORT DATA
+WITH CONNECTION connection
+OPTIONS (x=5)
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+export data with connection a.b.c options(x=5) as select 1;
+"""
+formatted = """
+EXPORT DATA
+WITH CONNECTION a.b.c
+OPTIONS (x=5)
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+export data options (x=5) as select 1;
+"""
+formatted = """
+EXPORT DATA
+OPTIONS (x=5)
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+export data options(a=b, c='d') as (select 1)
+"""
+formatted = """
+EXPORT DATA
+OPTIONS (
+  a = b,
+  c = 'd'
+)
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+export data options (a=b, c=d) as
+with q as (select 1), q2 as (select * from q)
+select * from q2
+"""
+formatted = """
+EXPORT DATA
+OPTIONS (
+  a = b,
+  c = d
+)
+AS (
+  WITH
+    q AS (
+      SELECT 1
+    ),
+    q2 AS (
+      SELECT *
+        FROM q
+    )
+  SELECT *
+    FROM q2
+)
+"""
+
+# [[cases]]
+# input = """
+# EXPORT DATA AS
+# GRAPH g
+# MATCH (a)
+# RETURN 1 as x
+# """
+# formatted = """
+# EXPORT DATA AS
+# GRAPH g
+#   MATCH (a)
+#   RETURN 1 AS x
+# """

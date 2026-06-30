@@ -168,7 +168,7 @@ Formatting without comment is always idempotent, but formatting code preserving 
 
 #### Export and load statements
 
-- [ ] EXPORT DATA
+- [x] EXPORT DATA
 - [ ] EXPORT MODEL
 - [ ] EXPORT METADATA
 - [ ] LOAD DATA
@@ -197,37 +197,37 @@ Formatting without comment is always idempotent, but formatting code preserving 
 
 The googlesql parser now supports the pipe query syntax (`|>`). None of the pipe operators are currently formatted by `bqfmt`.
 
-- [ ] `|> SELECT`
-- [ ] `|> WHERE`
-- [ ] `|> EXTEND`
-- [ ] `|> RENAME`
-- [ ] `|> AS`
-- [ ] `|> LIMIT`
-- [ ] `|> ORDER BY`
-- [ ] `|> AGGREGATE`
-- [ ] `|> DISTINCT`
-- [ ] `|> SET`
-- [ ] `|> DROP`
-- [ ] `|> JOIN`
-- [ ] `|> CALL`
-- [ ] `|> WINDOW`
-- [ ] `|> PIVOT`
-- [ ] `|> UNPIVOT`
-- [ ] `|> TABLESAMPLE`
-- [ ] `|> INSERT`
-- [ ] `|> CREATE TABLE`
+- [x] `|> AGGREGATE`
+- [x] `|> AS`
+- [x] `|> ASSERT`
+- [x] `|> CALL`
+- [x] `|> CREATE TABLE`
+- [ ] `|> DESCRIBE`
+- [x] `|> DISTINCT`
+- [x] `|> DROP`
 - [ ] `|> EXPORT DATA`
-- [ ] `|> ASSERT`
-- [ ] `|> LOG`
-- [ ] `|> TEE`
+- [ ] `|> EXTEND`
 - [ ] `|> FORK`
 - [ ] `|> IF`
-- [ ] `|> DESCRIBE`
-- [ ] `|> WITH`
-- [ ] `|> SET OPERATION` (UNION, INTERSECT, EXCEPT)
-- [ ] `|> STATIC_DESCRIBE`
+- [ ] `|> INSERT`
+- [x] `|> JOIN`
+- [ ] `|> LIMIT`
+- [ ] `|> LOG`
 - [ ] `|> MATCH_RECOGNIZE`
+- [ ] `|> ORDER BY`
+- [ ] `|> PIVOT`
 - [ ] `|> RECURSIVE UNION`
+- [ ] `|> RENAME`
+- [x] `|> SELECT`
+- [ ] `|> SET OPERATION` (UNION, INTERSECT, EXCEPT)
+- [ ] `|> SET`
+- [ ] `|> STATIC_DESCRIBE`
+- [ ] `|> TABLESAMPLE`
+- [ ] `|> TEE`
+- [ ] `|> UNPIVOT`
+- [ ] `|> WHERE`
+- [ ] `|> WINDOW`
+- [ ] `|> WITH`
 
 #### Extensions
 
