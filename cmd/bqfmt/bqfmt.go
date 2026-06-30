@@ -25,6 +25,7 @@ const (
 var (
 	flagWrite  = flag.Bool("w", false, "write result to (source) file instead of stdout")
 	flagConfig = flag.String("config", "", "path to .bqfmt.toml config file (default: search upward)")
+	flagForce  = flag.Bool("f", false, "treat idempotency errors as warnings and output/write anyway")
 )
 
 func main() {
@@ -193,13 +194,19 @@ func formatAndOutput(
 	// Idempotency check: format the output again.
 	reformatted, err := formatter.FormatWithOptions(formatted, opts)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "bqfmt: %s: idempotency reformat failed: %v\n", name, err)
-		return exitIdempotencyFail
-	}
-
-	if reformatted != formatted {
-		fmt.Fprintf(os.Stderr, "bqfmt: %s: idempotency check failed (output differs on second format)\n", name)
-		return exitIdempotencyFail
+		if *flagForce {
+			fmt.Fprintf(os.Stderr, "bqfmt: WARNING: %s: idempotency reformat failed: %v\n", name, err)
+		} else {
+			fmt.Fprintf(os.Stderr, "bqfmt: %s: idempotency reformat failed: %v\n", name, err)
+			return exitIdempotencyFail
+		}
+	} else if reformatted != formatted {
+		if *flagForce {
+			fmt.Fprintf(os.Stderr, "bqfmt: WARNING: %s: idempotency check failed (output differs on second format)\n", name)
+		} else {
+			fmt.Fprintf(os.Stderr, "bqfmt: %s: idempotency check failed (output differs on second format)\n", name)
+			return exitIdempotencyFail
+		}
 	}
 
 	// Write output.
