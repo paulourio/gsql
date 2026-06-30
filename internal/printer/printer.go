@@ -1068,6 +1068,9 @@ func (p *Printer) isParenNeeded(n sql.Node) bool {
 		}
 		return true
 	}
+	if n.Kind() == sql.QueryKind && parent != nil && parent.Kind() == sql.QueryKind {
+		return true
+	}
 	if eval, ok := hasLowerPrecedence(parent, n); ok && eval {
 		return true
 	}

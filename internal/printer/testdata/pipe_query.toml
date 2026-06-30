@@ -405,157 +405,166 @@ formatted = """
 ) AS q
 """
 
-# [[cases]]
-# description = "Pipe WHERE basic usage."
-# input = """
-# select 1,2,3
-# |> where true;
-# """
-# formatted = """
-# SELECT 1,2,3
-# |> WHERE TRUE;
-# """
+[[cases]]
+description = "Pipe WHERE basic usage."
+input = """
+select 1,2,3
+|> where true;
+"""
+formatted = """
+SELECT 1, 2, 3
+|> WHERE TRUE
+"""
 
-# [[cases]]
-# description = "Multiple pipe WHERE operators following standard WHERE."
-# input = """
-# select * from t where x=1
-# |> where y=1
-# |> where y=2
-# ;
-# """
-# formatted = """
-# SELECT * FROM t WHERE x=1
-# |> WHERE y=1
-# |> WHERE y=2
-# ;
-# """
+[[cases]]
+description = "Multiple pipe WHERE operators following standard WHERE."
+input = """
+select * from t where x=1
+|> where y=1
+|> where y=2
+;
+"""
+formatted = """
+SELECT *
+  FROM t
+ WHERE x = 1
+|> WHERE y = 1
+|> WHERE y = 2
+"""
 
-# [[cases]]
-# description = "Pipe WHERE inside FROM subquery."
-# input = """
-# select 5
-# from (
-#   select 1
-#   |> where true
-# )
-# """
-# formatted = """
-# SELECT 5
-# FROM (
-#   SELECT 1
-#   |> WHERE TRUE
-# )
-# """
+[[cases]]
+description = "Pipe WHERE inside FROM subquery."
+input = """
+select 5
+from (
+  select 1
+  |> where true
+)
+"""
+formatted = """
+SELECT 5
+  FROM (
+         SELECT 1
+         |> WHERE TRUE
+       )
+"""
 
-# [[cases]]
-# description = "Pipe WHERE inside expression subquery."
-# input = """
-# select (select 1 |> where true)
-# """
-# formatted = """
-# SELECT (SELECT 1 |> WHERE TRUE)
-# """
+[[cases]]
+description = "Pipe WHERE inside expression subquery."
+input = """
+select (select 1 |> where true)
+"""
+formatted = """
+SELECT (
+         SELECT 1
+         |> WHERE TRUE
+       )
+"""
 
-# [[cases]]
-# description = "Pipe WHERE after UNION ALL."
-# input = """
-# select 1
-# union all
-# select 2
-# |> where true
-# """
-# formatted = """
-# SELECT 1
-# UNION ALL
-# SELECT 2
-# |> WHERE TRUE
-# """
+[[cases]]
+description = "Pipe WHERE after UNION ALL."
+input = """
+select 1
+union all
+select 2
+|> where true
+"""
+formatted = """
+SELECT 1
+ UNION ALL
+SELECT 2
+|> WHERE TRUE
+"""
 
-# [[cases]]
-# description = "Pipe WHERE after UNION ALL, ORDER BY, and LIMIT."
-# input = """
-# select 1
-# union all
-# select 2
-# order by x
-# limit 5
-# |> where false
-# """
-# formatted = """
-# SELECT 1
-# UNION ALL
-# SELECT 2
-# ORDER BY x
-# LIMIT 5
-# |> WHERE FALSE
-# """
+[[cases]]
+description = "Pipe WHERE after UNION ALL, ORDER BY, and LIMIT."
+input = """
+select 1
+union all
+select 2
+order by x
+limit 5
+|> where false
+"""
+formatted = """
+SELECT 1
+ UNION ALL
+SELECT 2
+ORDER BY x
+LIMIT 5
+|> WHERE FALSE
+"""
 
-# [[cases]]
-# description = "Pipe WHERE inside and after WITH clause."
-# input = """
-# WITH q1 AS (select 1 x |> where true)
-# select * from q1
-# |> where false
-# """
-# formatted = """
-# WITH q1 AS (SELECT 1 x |> WHERE TRUE)
-# SELECT * FROM q1
-# |> WHERE FALSE
-# """
+[[cases]]
+description = "Pipe WHERE inside and after WITH clause."
+input = """
+WITH q1 AS (select 1 x |> where true)
+select * from q1
+|> where false
+"""
+formatted = """
+WITH
+  q1 AS (
+    SELECT 1 AS x
+    |> WHERE TRUE
+  )
+SELECT *
+  FROM q1
+|> WHERE FALSE
+"""
 
-# [[cases]]
-# description = "Nested parenthesized query with WITH and pipe WHERE."
-# input = """
-# (
-#   WITH q1 AS (select 1 x |> where 1)
-#   select * from q1
-#   |> where 2
-# )
-# |> where 3
-# """
-# formatted = """
-# (
-#   WITH q1 AS (SELECT 1 x |> WHERE 1)
-#   SELECT * FROM q1
-#   |> WHERE 2
-# )
-# |> WHERE 3
-# """
+[[cases]]
+description = "Nested parenthesized query with WITH and pipe WHERE."
+input = """
+(
+  WITH q1 AS (select 1 x |> where 1)
+  select * from q1
+  |> where 2
+)
+|> where 3
+"""
+formatted = """
+(
+  WITH q1 AS (SELECT 1 x |> WHERE 1)
+  SELECT * FROM q1
+  |> WHERE 2
+)
+|> WHERE 3
+"""
 
-# [[cases]]
-# description = "Pipe WHERE inside and after parenthesized UNION ALL."
-# input = """
-# (
-#   select 1
-#   UNION ALL
-#   select 2
-#   |> where 2
-# )
-# |> where 3
-# """
-# formatted = """
-# (
-#   SELECT 1
-#   UNION ALL
-#   SELECT 2
-#   |> WHERE 2
-# )
-# |> WHERE 3
-# """
+[[cases]]
+description = "Pipe WHERE inside and after parenthesized UNION ALL."
+input = """
+(
+  select 1
+  UNION ALL
+  select 2
+  |> where 2
+)
+|> where 3
+"""
+formatted = """
+(
+  SELECT 1
+   UNION ALL
+  SELECT 2
+  |> WHERE 2
+)
+|> WHERE 3
+"""
 
-# [[cases]]
-# description = "Pipe WHERE after LIMIT."
-# input = """
-# select 1 x
-# limit 10
-# |> where 1
-# """
-# formatted = """
-# SELECT 1 x
-# LIMIT 10
-# |> WHERE 1
-# """
+[[cases]]
+description = "Pipe WHERE after LIMIT."
+input = """
+select 1 x
+limit 10
+|> where 1
+"""
+formatted = """
+SELECT 1 x
+LIMIT 10
+|> WHERE 1
+"""
 
 # [[cases]]
 # description = "Pipe WHERE after ORDER BY."

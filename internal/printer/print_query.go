@@ -22,13 +22,14 @@ func (p *Printer) visitAliasedQueryExpression(ctx Context, n *sql.AliasedQueryEx
 }
 
 func (p *Printer) visitQuery(ctx Context, n *sql.Query) {
+	p.moveBefore(n)
+	p.printOpenParenIfNeeded(n)
 	pp := p.nest()
 	nestedWith := withInsideWith(n)
 	if nestedWith {
 		pp.incDepth()
 	}
 	pp.moveBefore(n)
-	pp.printOpenParenIfNeeded(n)
 	pp.accept(ctx, n.WithClause())
 	q := n.QueryExpr()
 	pp.accept(ctx, q)
@@ -62,11 +63,11 @@ func (p *Printer) visitQuery(ctx Context, n *sql.Query) {
 	if nestedWith {
 		pp.decDepth()
 	}
-	pp.printCloseParenIfNeeded(n)
 	p.print(pp.unnest())
 	for _, op := range n.PipeOperatorList() {
 		p.lnaccept(ctx, op)
 	}
+	p.printCloseParenIfNeeded(n)
 }
 
 func (p *Printer) visitLockMode(_ Context, n *sql.LockMode) {
