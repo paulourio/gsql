@@ -438,6 +438,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 
 	case sql.FromQueryKind:
 		p.visitFromQuery(ctx, n.(*sql.FromQuery))
+	case sql.WithModifierKind:
+		p.visitWithModifier(ctx, n.(*sql.WithModifier))
 	case sql.PipeAggregateKind:
 		p.visitPipeAggregate(ctx, n.(*sql.PipeAggregate))
 	case sql.PipeAsKind:
@@ -462,6 +464,20 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeExtend(ctx, n.(*sql.PipeExtend))
 	case sql.PipeWhereKind:
 		p.visitPipeWhere(ctx, n.(*sql.PipeWhere))
+	case sql.PipeLimitOffsetKind:
+		p.visitPipeLimitOffset(ctx, n.(*sql.PipeLimitOffset))
+	case sql.PipeStaticDescribeKind:
+		p.visitPipeStaticDescribe(ctx, n.(*sql.PipeStaticDescribe))
+	case sql.PipeDescribeKind:
+		p.visitPipeDescribe(ctx, n.(*sql.PipeDescribe))
+	case sql.PipeRenameKind:
+		p.visitPipeRename(ctx, n.(*sql.PipeRename))
+	case sql.PipeRenameItemKind:
+		p.visitPipeRenameItem(ctx, n.(*sql.PipeRenameItem))
+	case sql.PipeSetKind:
+		p.visitPipeSet(ctx, n.(*sql.PipeSet))
+	case sql.PipeSetItemKind:
+		p.visitPipeSetItem(ctx, n.(*sql.PipeSetItem))
 
 	// ── print_procedural.go ────────────────────────────────────────────────────────
 

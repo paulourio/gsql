@@ -203,7 +203,7 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [x] `|> ASSERT`
 - [x] `|> CALL`
 - [x] `|> CREATE TABLE`
-- [ ] `|> DESCRIBE`
+- [x] `|> DESCRIBE`
 - [x] `|> DISTINCT`
 - [x] `|> DROP`
 - [ ] `|> EXPORT DATA`
@@ -212,21 +212,21 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [ ] `|> IF`
 - [ ] `|> INSERT`
 - [x] `|> JOIN`
-- [ ] `|> LIMIT`
+- [x] `|> LIMIT`
 - [ ] `|> LOG`
 - [ ] `|> MATCH_RECOGNIZE`
 - [x] `|> ORDER BY`
 - [ ] `|> PIVOT`
 - [ ] `|> RECURSIVE UNION`
-- [ ] `|> RENAME`
+- [x] `|> RENAME`
 - [x] `|> SELECT`
 - [ ] `|> SET OPERATION` (UNION, INTERSECT, EXCEPT)
-- [ ] `|> SET`
-- [ ] `|> STATIC_DESCRIBE`
+- [x] `|> SET`
+- [x] `|> STATIC_DESCRIBE`
 - [ ] `|> TABLESAMPLE`
 - [ ] `|> TEE`
 - [ ] `|> UNPIVOT`
-- [ ] `|> WHERE`
+- [x] `|> WHERE`
 - [ ] `|> WINDOW`
 - [ ] `|> WITH`
 

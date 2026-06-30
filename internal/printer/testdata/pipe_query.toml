@@ -584,32 +584,48 @@ SELECT 1 AS x
 |> WHERE 1
 """
 
-# [[cases]]
-# description = "Pipe SELECT basic usage and various modifiers."
-# input = """
-# select 1
-# |> select 1,2,"abc"
-# |> select distinct x
-# |> select as struct x,y
-# |> select as value z
-# |> select as c.TypeName z
-# |> select *, * except(abc), * replace(abc as def)
-# |> select @{hint=1} *, * except(abc), * replace(abc as def)
-# |> select abc.def.*, abc.* except(x)
-# |> select with anonymization 1,2
-# """
-# formatted = """
-# SELECT 1
-# |> SELECT 1,2,"abc"
-# |> SELECT DISTINCT x
-# |> SELECT AS struct x,y
-# |> SELECT AS value z
-# |> SELECT AS c.TypeName z
-# |> SELECT *, * EXCEPT(abc), * REPLACE(abc AS def)
-# |> SELECT @{hint=1} *, * EXCEPT(abc), * REPLACE(abc AS def)
-# |> SELECT abc.def.*, abc.* EXCEPT(x)
-# |> SELECT WITH anonymization 1,2
-# """
+[[cases]]
+description = "Pipe SELECT basic usage and various modifiers."
+input = """
+select 1
+|> select 1,2,"abc"
+|> select distinct x
+|> select as struct x,y
+|> select as value z
+|> select as c.TypeName z
+|> select *, * except(abc), * replace(abc as def)
+|> select @{hint=1} *, * except(abc), * replace(abc as def)
+|> select abc.def.*, abc.* except(x)
+|> select with anonymization 1,2
+"""
+formatted = """
+SELECT 1
+|> SELECT 1, 2, 'abc'
+|> SELECT DISTINCT x
+|> SELECT AS STRUCT
+          x, y
+|> SELECT AS VALUE
+          z
+|> SELECT AS c.TypeName
+          z
+|> SELECT *,
+          * EXCEPT(abc),
+          *
+          REPLACE(
+            abc AS def
+          )
+|> SELECT @{hint=1}
+          *,
+          * EXCEPT(abc),
+          *
+          REPLACE(
+            abc AS def
+          )
+|> SELECT abc.def.*,
+          abc.* EXCEPT(x)
+|> SELECT WITH ANONYMIZATION
+          1, 2
+"""
 
 [[cases]]
 description = "Trailing commas are allowed."
@@ -703,110 +719,109 @@ SELECT 1 AS x
           SUM(x) OVER ()
 """
 
-# [[cases]]
-# description = "Commented out test: LIMIT syntax."
-# input = """
-# select 1 x
-# |> limit 10
-# |> limit 12 offset 22
-# |> limit @x offset @y
-# |> limit cast(@z as int64)
-# """
-# formatted = """
-# SELECT 1 x
-# |> LIMIT 10
-# |> LIMIT 12 OFFSET 22
-# |> LIMIT @x OFFSET @y
-# |> LIMIT CAST(@z AS INT64)
-# """
+[[cases]]
+description = "Commented out test: LIMIT syntax."
+input = """
+select 1 x
+|> limit 10
+|> limit 12 offset 22
+|> limit @x offset @y
+|> limit cast(@z as int64)
+"""
+formatted = """
+SELECT 1 AS x
+|> LIMIT 10
+|> LIMIT 12 OFFSET 22
+|> LIMIT @x OFFSET @y
+|> LIMIT CAST(@z AS INT64)
+"""
 
-# [[cases]]
-# description = "Commented out test: LIMIT syntax."
-# input = """
-# SELECT
-#   1 AS x
-# |> LIMIT 1 + 2
-# """
-# formatted = """
-# SELECT
-#   1 AS x
-# |> LIMIT 1 + 2
-# """
+[[cases]]
+description = "Commented out test: LIMIT syntax."
+input = """
+SELECT
+  1 AS x
+|> LIMIT 1 + 2
+"""
+formatted = """
+SELECT 1 AS x
+|> LIMIT 1 + 2
+"""
 
-# [[cases]]
-# description = "Commented out test: STATIC_DESCRIBE syntax."
-# input = """
-# from t
-# |> static_describe
-# |> static_describe
-# |> where true
-# """
-# formatted = """
-# FROM t
-# |> STATIC_DESCRIBE
-# |> STATIC_DESCRIBE
-# |> WHERE TRUE
-# """
+[[cases]]
+description = "Commented out test: STATIC_DESCRIBE syntax."
+input = """
+from t
+|> static_describe
+|> static_describe
+|> where true
+"""
+formatted = """
+FROM t
+|> STATIC_DESCRIBE
+|> STATIC_DESCRIBE
+|> WHERE TRUE
+"""
 
-# [[cases]]
-# description = "Commented out test: DESCRIBE syntax."
-# input = """
-# from t
-# |> describe
-# |> select 123
-# |> describe
-# """
-# formatted = """
-# FROM t
-# |> DESCRIBE
-# |> SELECT 123
-# |> DESCRIBE
-# """
+[[cases]]
+description = "Commented out test: DESCRIBE syntax."
+input = """
+from t
+|> describe
+|> select 123
+|> describe
+"""
+formatted = """
+FROM t
+|> DESCRIBE
+|> SELECT 123
+|> DESCRIBE
+"""
 
-# [[cases]]
-# description = "Commented out test: RENAME syntax."
-# input = """
-# select 1
-# |> RENAME x AS y
-# |> RENAME `a b` AS `d e`, x AS y, aaa bbb
-# """
-# formatted = """
-# SELECT 1
-# |> RENAME x AS y
-# |> RENAME `a b` AS `d e`, x AS y, aaa bbb
-# """
+[[cases]]
+description = "Commented out test: RENAME syntax."
+input = """
+select 1
+|> RENAME x AS y
+|> RENAME `a b` AS `d e`, x AS y, aaa bbb
+"""
+formatted = """
+SELECT 1
+|> RENAME x AS y
+|> RENAME `a b` AS `d e`, x AS y, aaa AS bbb
+"""
 
-# [[cases]]
-# description = "Trailing commas"
-# input = """
-# select 1
-# |> RENAME a b,
-# |> RENAME a b, c AS d,
-# """
-# formatted = """
-# SELECT 1
-# |> RENAME a b,
-# |> RENAME a b, c AS d,
-# """
+[[cases]]
+description = "Trailing commas"
+input = """
+select 1
+|> RENAME a b,
+|> RENAME a b, c AS d,
+"""
+formatted = """
+SELECT 1
+|> RENAME a AS b
+|> RENAME a AS b, c AS d
+"""
 
-# [[cases]]
-# description = "Commented out test: SET syntax."
-# input = """
-# select x
-# |> SET x = 1+2 ,
-# """
-# formatted = """
-# SELECT x
-# |> SET x = 1+2 ,
-# """
+[[cases]]
+description = "Commented out test: SET syntax."
+input = """
+select x
+|> SET x = 1+2 ,
+"""
+formatted = """
+SELECT x
+|> SET x = 1 + 2
+"""
 
-# [[cases]]
-# description = "Commented out test: SET syntax."
-# input = """
-# select x
-# |> set x = 1+2, y = 3, z = z ,
-# """
-# formatted = """
-# SELECT x
-# |> SET x = 1+2, y = 3, z = z ,
-# """
+[[cases]]
+description = "Commented out test: SET syntax."
+input = """
+select x
+|> set x = 1+2, y = 3, z = z ,
+"""
+formatted = """
+SELECT x
+|> SET x = 1 + 2, y = 3, z = z
+"""

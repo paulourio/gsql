@@ -204,11 +204,32 @@ func (p *Printer) visitPipeExtendSelect(ctx Context, n *sql.Select) {
 func (p *Printer) visitPipeSelectSelect(ctx Context, n *sql.Select) {
 	p.moveBefore(n)
 	p.print(p.keyword("SELECT"))
+	
+	pp := p.nest()
+	if h := n.Hint(); h != nil {
+		pp.accept(ctx, h)
+	}
+	
 	singleLine := p.maybeSingleLineColumns(n)
 	ctx = ctx.WithValue(KeySingleLineCols, singleLine)
-	pp := p.nest()
+
+	if n.Distinct() {
+		pp.print(pp.keyword("DISTINCT"))
+	}
+	if sa := n.SelectAs(); sa != nil {
+		pp.accept(ctx, sa)
+	}
+	if wm := n.WithModifier(); wm != nil {
+		pp.accept(ctx, wm)
+	}
+	
+	if n.Hint() != nil || n.WithModifier() != nil {
+		pp.println("")
+	}
+	
 	pp.accept(ctx, n.SelectList())
 	p.print(pp.unnestLeft())
+	
 	if win := n.WindowClause(); win != nil {
 		p.moveBefore(win)
 		p.println("")
@@ -227,4 +248,69 @@ func (p *Printer) visitPipeOrderBy(ctx Context, n *sql.PipeOrderBy) {
 	pp.acceptNestedLeft(ctx, n.OrderBy())
 	p.print(pp.unnestLeft())
 	p.movePast(n)
+}
+
+func (p *Printer) visitPipeLimitOffset(ctx Context, n *sql.PipeLimitOffset) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.acceptNestedLeft(ctx, n.LimitOffset())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeStaticDescribe(ctx Context, n *sql.PipeStaticDescribe) {
+	p.moveBefore(n)
+	p.lnprint("|> " + p.keyword("STATIC_DESCRIBE"))
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeDescribe(ctx Context, n *sql.PipeDescribe) {
+	p.moveBefore(n)
+	p.lnprint("|> " + p.keyword("DESCRIBE"))
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeRename(ctx Context, n *sql.PipeRename) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.print(pp.keyword("RENAME"))
+	items := n.RenameItemList()
+	for i, item := range items {
+		if i > 0 {
+			pp.print(",")
+		}
+		pp.acceptNestedLeft(ctx, item)
+	}
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeRenameItem(ctx Context, n *sql.PipeRenameItem) {
+	p.accept(ctx, n.OldName())
+	p.print(" " + p.keyword("AS") + " ")
+	p.accept(ctx, n.NewName())
+}
+
+func (p *Printer) visitPipeSet(ctx Context, n *sql.PipeSet) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.print(pp.keyword("SET"))
+	items := n.SetItemList()
+	for i, item := range items {
+		if i > 0 {
+			pp.print(",")
+		}
+		pp.acceptNestedLeft(ctx, item)
+	}
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeSetItem(ctx Context, n *sql.PipeSetItem) {
+	p.accept(ctx, n.Column())
+	p.print(" = ")
+	p.accept(ctx, n.Expression())
 }

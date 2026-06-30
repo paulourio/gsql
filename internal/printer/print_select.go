@@ -1483,6 +1483,9 @@ func (p *Printer) visitSelect(ctx Context, n *sql.Select) {
 		}
 	}
 	pp3.accept(ctx, n.SelectAs())
+	if wm := n.WithModifier(); wm != nil {
+		pp3.accept(ctx, wm)
+	}
 	pp3.accept(ctx, n.SelectList())
 	fc := n.FromClause()
 	w := n.WhereClause()
@@ -1922,4 +1925,18 @@ func (p *Printer) visitUnaryExpression(ctx Context, n *sql.UnaryExpression) {
 		p.Writer.addUnary(p.keyword("IS NOT UNKNOWN"))
 	}
 	p.movePast(n)
+}
+
+func (p *Printer) visitWithModifier(ctx Context, n *sql.WithModifier) {
+	p.print(p.keyword("WITH") + " ")
+	for i, c := range n.Children() {
+		if i > 0 {
+			p.print(" ")
+		}
+		if id, ok := c.(*sql.Identifier); ok {
+			p.print(p.keyword(strings.ToUpper(id.GetAsString())))
+		} else {
+			p.accept(ctx, c)
+		}
+	}
 }
