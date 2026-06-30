@@ -265,71 +265,76 @@ SELECT 1
 |> ORDER BY x, y
 """
 
-# [[cases]]
-# description = "Parenthesized FROM clause with alias."
-# input = """
-# (FROM t1) q1
-# |> WHERE true
-# """
-# formatted = """
-# (FROM t1) q1
-# |> WHERE TRUE
-# """
+[[cases]]
+description = "Parenthesized FROM clause with AS alias."
+input = """
+(FROM t1) as q1
+|> WHERE true
+"""
+formatted = """
+(
+  FROM t1
+) AS q1
+|> WHERE TRUE
+"""
 
-# [[cases]]
-# description = "Parenthesized FROM clause with AS alias."
-# input = """
-# (FROM t1) as q1
-# |> WHERE true
-# """
-# formatted = """
-# (FROM t1) AS q1
-# |> WHERE TRUE
-# """
+[[cases]]
+description = "UNION ALL of parenthesized SELECT statements with aliases."
+input = """
+(SELECT * FROM t1) AS q1
+UNION ALL
+(SELECT * FROM t2) AS q2
+"""
+formatted = """
+(
+  SELECT *
+    FROM t1
+) AS q1
+ UNION ALL
+(
+  SELECT *
+    FROM t2
+) AS q2
+"""
 
-# [[cases]]
-# description = "UNION ALL of parenthesized SELECT statements with aliases."
-# input = """
-# (SELECT * FROM t1) AS q1
-# UNION ALL
-# (SELECT * FROM t2) AS q2
-# """
-# formatted = """
-# (SELECT * FROM t1) AS q1
-# UNION ALL
-# (SELECT * FROM t2) AS q2
-# """
+[[cases]]
+description = "ORDER BY on parenthesized SELECT with alias."
+input = """
+(SELECT * FROM t1) AS q1
+ORDER BY x
+"""
+formatted = """
+(
+  SELECT *
+    FROM t1
+) AS q1
+ORDER BY x
+"""
 
-# [[cases]]
-# description = "ORDER BY on parenthesized SELECT with alias."
-# input = """
-# (SELECT * FROM t1) AS q1
-# ORDER BY x
-# """
-# formatted = """
-# (SELECT * FROM t1) AS q1
-# ORDER BY x
-# """
+[[cases]]
+description = "LIMIT on parenthesized SELECT with alias."
+input = """
+(SELECT * FROM t1) AS q1
+LIMIT 10
+"""
+formatted = """
+(
+  SELECT *
+    FROM t1
+) AS q1
+LIMIT 10
+"""
 
-# [[cases]]
-# description = "LIMIT on parenthesized SELECT with alias."
-# input = """
-# (SELECT * FROM t1) AS q1
-# LIMIT 10
-# """
-# formatted = """
-# (SELECT * FROM t1) AS q1
-# LIMIT 10
-# """
-
-# [[cases]]
-# description = "Simple parenthesized SELECT with alias."
-# input = """
-# (SELECT 1) AS q
-# """
-# formatted = """
-# (SELECT 1) AS q
-# """
+[[cases]]
+description = "Simple parenthesized SELECT with alias."
+input = """
+(SELECT 1) AS q
+"""
+formatted = """
+(
+  SELECT 1
+) AS q
+"""
 
 [[cases]]
 description = "FROM subquery."
@@ -340,45 +345,65 @@ formatted = """
 FROM (SELECT 1) AS q
 """
 
-# [[cases]]
-# description = "Nested parenthesized SELECT with alias."
-# input = """
-# (((SELECT 1))) AS q1
-# """
-# formatted = """
-# (((SELECT 1))) AS q1
-# """
+[[cases]]
+description = "Nested parenthesized SELECT with alias."
+input = """
+(((SELECT 1))) AS q1
+"""
+formatted = """
+(
+  (
+    SELECT 1
+  )
+) AS q1
+"""
 
-# [[cases]]
-# description = "Nested parenthesized SELECT with internal alias."
-# input = """
-# (((SELECT 1) AS q1))
-# """
-# formatted = """
-# (((SELECT 1) AS q1))
-# """
+[[cases]]
+description = "Nested parenthesized SELECT with internal alias."
+input = """
+(
+  (
+    SELECT 1
+  ) AS q1
+)
+"""
+formatted = """
+(
+  (
+    SELECT 1
+  ) AS q1
+)
+"""
 
-# [[cases]]
-# description = "Nested parenthesized SELECT with multiple aliases."
-# input = """
-# (((SELECT 1) AS q1) AS q2) AS q3
-# """
-# formatted = """
-# (((SELECT 1) AS q1) AS q2) AS q3
-# """
+[[cases]]
+description = "Nested parenthesized SELECT with multiple aliases."
+input = """
+(((SELECT 1) AS q1) AS q2) AS q3
+"""
+formatted = """
+(
+  (
+    (
+      SELECT 1
+    ) AS q1
+  ) AS q2
+) AS q3
+"""
 
-# [[cases]]
-# description = "Test another kind of QueryExpression with an alias."
-# input = """
-# (select 1
-#  union all
-#  select 2) AS q
-# """
-# formatted = """
-# (SELECT 1
-#  UNION ALL
-#  SELECT 2) AS q
-# """
+[[cases]]
+description = "Test another kind of QueryExpression with an alias."
+input = """
+(select 1
+ union all
+ select 2) AS q
+"""
+formatted = """
+(
+  SELECT 1
+   UNION ALL
+  SELECT 2
+) AS q
+"""
 
 # [[cases]]
 # description = "Pipe WHERE basic usage."

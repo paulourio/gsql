@@ -7,6 +7,20 @@ import (
 	"github.com/paulourio/gsql/internal/sql"
 )
 
+func (p *Printer) visitAliasedQueryExpression(ctx Context, n *sql.AliasedQueryExpression) {
+	p.print("(")
+	p.println("")
+	p.incDepth()
+	p.accept(ctx, n.Query())
+	p.println("")
+	p.decDepth()
+	p.print(")")
+	if sql.Defined(n.Alias()) {
+		p.print(" ")
+		p.accept(ctx, n.Alias())
+	}
+}
+
 func (p *Printer) visitQuery(ctx Context, n *sql.Query) {
 	pp := p.nest()
 	nestedWith := withInsideWith(n)

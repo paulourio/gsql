@@ -535,6 +535,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 
 	// ── print_select.go ────────────────────────────────────────────────────────
 
+	case sql.AliasedQueryExpressionKind:
+		p.visitAliasedQueryExpression(ctx, n.(*sql.AliasedQueryExpression))
 	case sql.AliasKind:
 		p.visitAlias(ctx, n.(*sql.Alias))
 	case sql.AnalyticFunctionCallKind:

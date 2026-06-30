@@ -1343,6 +1343,7 @@ func newAliasedQueryExpression(r *googlesql.ASTAliasedQueryExpression) *AliasedQ
 	}
 	return &AliasedQueryExpression{baseNode[*googlesql.ASTAliasedQueryExpression]{raw: r}}
 }
+func (n *AliasedQueryExpression) isQueryExpression() {}
 func (n *AliasedQueryExpression) Alias() *Alias { return newAlias(must(n.raw.Alias())) }
 func (n *AliasedQueryExpression) Query() *Query { return newQuery(must(n.raw.Query())) }
 
