@@ -464,6 +464,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeExtend(ctx, n.(*sql.PipeExtend))
 	case sql.PipeWhereKind:
 		p.visitPipeWhere(ctx, n.(*sql.PipeWhere))
+	case sql.PipeTablesampleKind:
+		p.visitPipeTablesample(ctx, n.(*sql.PipeTablesample))
 	case sql.PipeLimitOffsetKind:
 		p.visitPipeLimitOffset(ctx, n.(*sql.PipeLimitOffset))
 	case sql.PipeStaticDescribeKind:

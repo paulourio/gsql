@@ -124,99 +124,38 @@ SELECT 1
 |> CALL f(input)
 """
 
-# [[cases]]
-# description = "Commented out test: TABLESAMPLE syntax."
-# input = """
-# from t
-# |> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
-# |> TABLESAMPLE RESERVOIR (cast(100 as int32) ROWS) REPEATABLE(cast(10 as int32))
-# |> TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
-# |> TABLESAMPLE bernoulli (cast(@param1 as int32) ROWS)
-#       REPEATABLE(cast(@param2 as string))
-# """
-# formatted = """
-# FROM t
-# |> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
-# |> TABLESAMPLE RESERVOIR (cast(100 AS int32) ROWS) REPEATABLE(cast(10 AS int32))
-# |> TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
-# |> TABLESAMPLE BERNOULLI (cast(@param1 AS int32) ROWS)
-#       REPEATABLE(cast(@param2 AS string))
-# """
+[[cases]]
+description = "TABLESAMPLE syntax."
+input = """
+from t
+|> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
+|> TABLESAMPLE RESERVOIR (cast(100 as int32) ROWS) REPEATABLE(cast(10 as int32))
+|> TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
+|> TABLESAMPLE bernoulli (cast(@param1 as int32) ROWS)
+      REPEATABLE(cast(@param2 as string))
+"""
+formatted = """
+FROM t
+|> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
+|> TABLESAMPLE RESERVOIR (CAST(100 AS INT32) ROWS) REPEATABLE(CAST(10 AS INT32))
+|> TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
+|> TABLESAMPLE BERNOULLI (CAST(@param1 AS INT32) ROWS) REPEATABLE(CAST(@param2 AS STRING))
+"""
 
-# [[cases]]
-# description = "Commented out test: TABLESAMPLE syntax."
-# input = """
-# from Users
-# |> TABLESAMPLE abc (100 ROWS)
-# |> TABLESAMPLE abc (0.1 PERCENT)
-# |> TABLESAMPLE random (10 ROWS PARTITION BY state, zipcode)
-# """
-# formatted = """
-# FROM Users
-# |> TABLESAMPLE abc (100 ROWS)
-# |> TABLESAMPLE abc (0.1 PERCENT)
-# |> TABLESAMPLE random (10 ROWS PARTITION BY state, zipcode)
-# """
-
-# [[cases]]
-# description = "Commented out test: TABLESAMPLE syntax."
-# input = """
-# FROM Users
-# |> TABLESAMPLE RESERVOIR (1 ROWS)
-#    WITH WEIGHT {{|weight|AS weight}} {{|REPEATABLE(1)}}
-# """
-# formatted = """
-# FROM Users
-# |> TABLESAMPLE RESERVOIR (1 ROWS)
-#    WITH WEIGHT {{|WEIGHT|AS WEIGHT}} {{|REPEATABLE(1)}}
-# """
-
-# [[cases]]
-# description = "Commented out test: TABLESAMPLE syntax."
-# input = """
-# from t
-# |> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
-# |> TABLESAMPLE RESERVOIR (cast(100 as int32) ROWS) REPEATABLE(cast(10 as int32))
-# |> TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
-# |> TABLESAMPLE bernoulli (cast(@param1 as int32) ROWS)
-#       REPEATABLE(cast(@param2 as string))
-# """
-# formatted = """
-# FROM t
-# |> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
-# |> TABLESAMPLE RESERVOIR (cast(100 AS int32) ROWS) REPEATABLE(cast(10 AS int32))
-# |> TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
-# |> TABLESAMPLE BERNOULLI (cast(@param1 AS int32) ROWS)
-#       REPEATABLE(cast(@param2 AS string))
-# """
-
-# [[cases]]
-# description = "Commented out test: TABLESAMPLE syntax."
-# input = """
-# from Users
-# |> TABLESAMPLE abc (100 ROWS)
-# |> TABLESAMPLE abc (0.1 PERCENT)
-# |> TABLESAMPLE random (10 ROWS PARTITION BY state, zipcode)
-# """
-# formatted = """
-# FROM Users
-# |> TABLESAMPLE abc (100 ROWS)
-# |> TABLESAMPLE abc (0.1 PERCENT)
-# |> TABLESAMPLE random (10 ROWS PARTITION BY state, zipcode)
-# """
-
-# [[cases]]
-# description = "Commented out test: TABLESAMPLE syntax."
-# input = """
-# FROM Users
-# |> TABLESAMPLE RESERVOIR (1 ROWS)
-#    WITH WEIGHT {{|weight|AS weight}} {{|REPEATABLE(1)}}
-# """
-# formatted = """
-# FROM Users
-# |> TABLESAMPLE RESERVOIR (1 ROWS)
-#    WITH WEIGHT {{|WEIGHT|AS WEIGHT}} {{|REPEATABLE(1)}}
-# """
+[[cases]]
+description = "TABLESAMPLE syntax."
+input = """
+from Users
+|> TABLESAMPLE abc (100 ROWS)
+|> TABLESAMPLE abc (0.1 PERCENT)
+|> TABLESAMPLE random (10 ROWS PARTITION BY state, zipcode)
+"""
+formatted = """
+FROM Users
+|> TABLESAMPLE ABC (100 ROWS)
+|> TABLESAMPLE ABC (0.1 PERCENT)
+|> TABLESAMPLE RANDOM (10 ROWS PARTITION BY state, zipcode)
+"""
 
 # [[cases]]
 # description = "Commented out test: WHERE syntax."
@@ -298,4 +237,3 @@ SELECT 1
 # |> WITH t3 AS (FROM t5)
 # |> SELECT x
 # """
-

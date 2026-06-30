@@ -314,3 +314,12 @@ func (p *Printer) visitPipeSetItem(ctx Context, n *sql.PipeSetItem) {
 	p.print(" = ")
 	p.accept(ctx, n.Expression())
 }
+
+func (p *Printer) visitPipeTablesample(ctx Context, n *sql.PipeTablesample) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|> ")
+	pp.acceptNestedLeft(ctx, n.Sample())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}

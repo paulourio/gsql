@@ -150,7 +150,7 @@ func (p *Printer) visitParenthesizedJoin(ctx Context, n *sql.ParenthesizedJoin) 
 	p.decDepth()
 	p.println("")
 	p.print(")")
-	p.accept(ctx, n.SampleClause())
+	p.lnaccept(ctx, n.SampleClause())
 }
 
 func (p *Printer) visitTVF(ctx Context, n *sql.TVF) {
@@ -194,7 +194,7 @@ func (p *Printer) visitTVF(ctx Context, n *sql.TVF) {
 	p.accept(ctx, n.Alias())
 	p.accept(ctx, n.PivotClause())
 	p.accept(ctx, n.UnpivotClause())
-	p.accept(ctx, n.SampleClause())
+	p.lnaccept(ctx, n.SampleClause())
 	p.movePast(n)
 }
 
@@ -214,7 +214,7 @@ func (p *Printer) visitTablePathExpression(ctx Context, n *sql.TablePathExpressi
 	p.accept(ctx, n.PivotClause())
 	p.accept(ctx, n.UnpivotClause())
 	p.accept(ctx, n.ForSystemTime())
-	p.accept(ctx, n.SampleClause())
+	p.lnaccept(ctx, n.SampleClause())
 }
 
 func (p *Printer) visitTableSubquery(ctx Context, n *sql.TableSubquery) {
@@ -234,7 +234,7 @@ func (p *Printer) visitTableSubquery(ctx Context, n *sql.TableSubquery) {
 	p.print(")")
 	p.accept(ctx, n.PivotClause())
 	p.accept(ctx, n.UnpivotClause())
-	p.accept(ctx, n.SampleClause())
+	p.lnaccept(ctx, n.SampleClause())
 	p.accept(ctx, n.Alias())
 }
 

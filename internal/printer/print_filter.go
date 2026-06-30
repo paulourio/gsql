@@ -513,7 +513,6 @@ func (p *Printer) visitRollup(ctx Context, n *sql.Rollup) {
 
 func (p *Printer) visitSampleClause(ctx Context, n *sql.SampleClause) {
 	p.moveBefore(n)
-	p.println("")
 	p.print(p.keyword("TABLESAMPLE"))
 	p.print(p.keyword(p.toString(ctx, n.SampleMethod())) + " ")
 	p.print("(")
