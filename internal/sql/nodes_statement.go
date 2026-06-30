@@ -1584,6 +1584,12 @@ func (n *CreateModelStatement) OptionsList() *OptionsList {
 func (n *CreateModelStatement) IsRemote() bool          { return must(n.raw.IsRemote()) }
 func (n *CreateModelStatement) TransformClause() Node   { return Wrap(must(n.raw.TransformClause())) }
 func (n *CreateModelStatement) InputOutputClause() Node { return Wrap(must(n.raw.InputOutputClause())) }
+func (n *CreateModelStatement) AliasedQueryList() *AliasedQueryList {
+	return newAliasedQueryList(must(n.raw.AliasedQueryList()))
+}
+func (n *CreateModelStatement) WithConnectionClause() *WithConnectionClause {
+	return newWithConnectionClause(must(n.raw.WithConnectionClause()))
+}
 
 // CreateSequenceStatement wraps *googlesql.ASTCreateSequenceStatement.
 type CreateSequenceStatement struct {

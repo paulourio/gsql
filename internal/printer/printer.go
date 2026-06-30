@@ -152,6 +152,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitCreateExternalTableStatement(ctx, n.(*sql.CreateExternalTableStatement))
 	case sql.CreateFunctionStatementKind:
 		p.visitCreateFunctionStatement(ctx, n.(*sql.CreateFunctionStatement))
+	case sql.CreateModelStatementKind:
+		p.visitCreateModelStatement(ctx, n.(*sql.CreateModelStatement))
 	case sql.CreateProcedureStatementKind:
 		p.visitCreateProcedureStatement(ctx, n.(*sql.CreateProcedureStatement))
 	case sql.CreateRowAccessPolicyStatementKind:
@@ -214,6 +216,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		}
 	case sql.TableElementListKind:
 		p.visitTableElementList(ctx, n.(*sql.TableElementList))
+	case sql.TransformClauseKind:
+		p.visitTransformClause(ctx, n.(*sql.TransformClause))
 	case sql.WithConnectionClauseKind:
 		p.visitWithConnectionClause(ctx, n.(*sql.WithConnectionClause))
 	case sql.WithPartitionColumnsClauseKind:
@@ -328,6 +332,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitHint(ctx, n.(*sql.Hint))
 	case sql.HintedStatementKind:
 		p.visitHintedStatement(ctx, n.(*sql.HintedStatement))
+	case sql.InputOutputClauseKind:
+		p.visitInputOutputClause(ctx, n.(*sql.InputOutputClause))
 	case sql.LimitKind:
 		p.visitLimit(ctx, n.(*sql.Limit))
 	case sql.LimitOffsetKind:
@@ -399,6 +405,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitAliasedGroupRows(ctx, n.(*sql.AliasedGroupRows))
 	case sql.AliasedQueryKind:
 		p.visitAliasedQuery(ctx, n.(*sql.AliasedQuery))
+	case sql.AliasedQueryListKind:
+		p.visitAliasedQueryList(ctx, n.(*sql.AliasedQueryList))
 	case sql.FromClauseKind:
 		p.visitFromClause(ctx, n.(*sql.FromClause))
 	case sql.JoinKind:
@@ -1042,7 +1050,8 @@ func (p *Printer) isParenNeeded(n sql.Node) bool {
 					sql.CreateViewStatementKind,
 					sql.CreateMaterializedViewStatementKind,
 					sql.CreateTableFunctionStatementKind,
-					sql.ExportDataStatementKind:
+					sql.ExportDataStatementKind,
+					sql.CreateModelStatementKind:
 					return false
 				}
 			}

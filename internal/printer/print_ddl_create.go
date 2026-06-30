@@ -623,6 +623,39 @@ func (p *Printer) visitStructColumnField(ctx Context, n *sql.StructColumnField) 
 	p.movePast(n)
 }
 
+func (p *Printer) visitInputOutputClause(ctx Context, n *sql.InputOutputClause) {
+	p.moveBefore(n)
+	if n.Input() != nil {
+		pp := p.nest()
+		pp.print(pp.keyword("INPUT ("))
+		elems := n.Input().Elements()
+		for i, e := range elems {
+			if i > 0 {
+				pp.print(", ")
+			}
+			pp.accept(ctx, e)
+		}
+		pp.print(")")
+		p.print(pp.unnest())
+	}
+	if n.Output() != nil {
+		if n.Input() != nil {
+			p.println("")
+		}
+		pp := p.nest()
+		pp.print(pp.keyword("OUTPUT ("))
+		elems := n.Output().Elements()
+		for i, e := range elems {
+			if i > 0 {
+				pp.print(", ")
+			}
+			pp.accept(ctx, e)
+		}
+		pp.print(")")
+		p.print(pp.unnest())
+	}
+}
+
 func (p *Printer) visitStructColumnSchema(ctx Context, n *sql.StructColumnSchema) {
 	pp := p.nest()
 	pp.moveBefore(n)
@@ -713,4 +746,64 @@ func (p *Printer) visitWithPartitionColumnsClause(ctx Context, n *sql.WithPartit
 	pp := p.nest()
 	pp.accept(ctx, n.TableElementList())
 	p.print(pp.String())
+}
+
+func (p *Printer) visitCreateModelStatement(ctx Context, n *sql.CreateModelStatement) {
+	p.moveBefore(n)
+	p.print(p.keyword(createStatementKeywords(n, false, false, "MODEL")))
+	p.accept(ctx, n.Name())
+
+	if n.InputOutputClause() != nil {
+		p.println("")
+		p.visit(ctx, n.InputOutputClause(), false)
+	}
+	if n.TransformClause() != nil {
+		p.println("")
+		p.visit(ctx, n.TransformClause(), false)
+	}
+	if n.IsRemote() {
+		p.println("")
+		p.print(p.keyword("REMOTE"))
+	}
+	if n.WithConnectionClause() != nil {
+		if !n.IsRemote() {
+			p.println("")
+		} else {
+			p.print(" ")
+		}
+		p.accept(ctx, n.WithConnectionClause())
+	}
+	p.lnaccept(ctx, n.OptionsList())
+
+	if n.Query() != nil {
+		p.println("")
+		p.println(p.keyword("AS ("))
+		p1 := p.nest()
+		p1.incDepth()
+		p1.accept(ctx, n.Query())
+		p1.movePastLine(n)
+		p.println(p1.unnest())
+		p.print(")")
+	} else if n.AliasedQueryList() != nil {
+		p.println("")
+		p.println(p.keyword("AS ("))
+		p1 := p.nest()
+		p1.incDepth()
+		p1.accept(ctx, n.AliasedQueryList())
+		p1.movePastLine(n)
+		p.println(p1.unnest())
+		p.print(")")
+	}
+}
+
+func (p *Printer) visitTransformClause(ctx Context, n *sql.TransformClause) {
+	p.moveBefore(n)
+	p.println(p.keyword("TRANSFORM ("))
+	p.incDepth()
+	if n.SelectList() != nil {
+		p.visit(ctx, n.SelectList(), false)
+	}
+	p.println("")
+	p.decDepth()
+	p.print(")")
 }

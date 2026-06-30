@@ -323,3 +323,14 @@ func (p *Printer) visitWithExpression(ctx Context, n *sql.WithExpression) {
 	p.print(")")
 	p.movePast(n)
 }
+
+func (p *Printer) visitAliasedQueryList(ctx Context, n *sql.AliasedQueryList) {
+	p.moveBefore(n)
+	for i, q := range n.Children() {
+		if i > 0 {
+			p.println(",")
+		}
+		p.accept(ctx, q)
+	}
+	p.movePast(n)
+}

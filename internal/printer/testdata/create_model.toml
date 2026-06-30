@@ -1,0 +1,660 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_name_style = "UPPER_CASE"
+bool_style = "UPPER_CASE"
+null_style = "UPPER_CASE"
+bytes_style = "AS_IS"
+hex_style = "AS_IS"
+string_style = "AS_IS"
+
+[[cases]]
+input = """
+create model t1
+"""
+formatted = """
+CREATE MODEL t1
+"""
+
+[[cases]]
+input = """
+create model t1 input (i1 INT64, i2 FLOAT64) output (o1 BOOL)
+"""
+formatted = """
+CREATE MODEL t1
+INPUT (i1 INT64, i2 FLOAT64)
+OUTPUT (o1 BOOL)
+"""
+
+[[cases]]
+input = """
+create model t1 remote
+"""
+formatted = """
+CREATE MODEL t1
+REMOTE
+"""
+
+[[cases]]
+input = """
+create model t1 with connection conn_1
+"""
+formatted = """
+CREATE MODEL t1
+WITH CONNECTION conn_1
+"""
+
+[[cases]]
+input = """
+create model t1 with connection default
+"""
+formatted = """
+CREATE MODEL t1
+WITH CONNECTION DEFAULT
+"""
+
+[[cases]]
+input = """
+create model t1 remote with connection conn_1
+"""
+formatted = """
+CREATE MODEL t1
+REMOTE WITH CONNECTION conn_1
+"""
+
+[[cases]]
+input = """
+create model t1 options (abc = def)
+"""
+formatted = """
+CREATE MODEL t1
+OPTIONS (abc=def)
+"""
+
+[[cases]]
+input = """
+create model t1 as select * from t2;
+"""
+formatted = """
+CREATE MODEL t1
+AS (
+  SELECT *
+    FROM t2
+)
+"""
+
+[[cases]]
+input = """
+create model t1 transform(*) as select * from t2;
+"""
+formatted = """
+CREATE MODEL t1
+TRANSFORM (
+  *
+)
+AS (
+  SELECT *
+    FROM t2
+)
+"""
+
+[[cases]]
+input = """
+create model t1 transform(* except(a, b), c) as select * from t2;
+"""
+formatted = """
+CREATE MODEL t1
+TRANSFORM (
+  * EXCEPT(a, b),
+  c
+)
+AS (
+  SELECT *
+    FROM t2
+)
+"""
+
+[[cases]]
+input = """
+create model t1 transform(* replace(a as b)) as select * from t2;
+"""
+formatted = """
+CREATE MODEL t1
+TRANSFORM (
+  *
+  REPLACE(
+    a AS b
+  )
+)
+AS (
+  SELECT *
+    FROM t2
+)
+"""
+
+[[cases]]
+input = """
+create model t1 transform(a label) as select * from t2;
+"""
+formatted = """
+CREATE MODEL t1
+TRANSFORM (
+  a AS label
+)
+AS (
+  SELECT *
+    FROM t2
+)
+"""
+
+[[cases]]
+input = """
+create model t1 transform(a as label) as select * from t2;
+"""
+formatted = """
+CREATE MODEL t1
+TRANSFORM (
+  a AS label
+)
+AS (
+  SELECT *
+    FROM t2
+)
+"""
+
+[[cases]]
+input = """
+create model t1 transform(ml.cross(a, b) as c) as select * from t2;
+"""
+formatted = """
+CREATE MODEL t1
+TRANSFORM (
+  ml.cross(a, b) AS c
+)
+AS (
+  SELECT *
+    FROM t2
+)
+"""
+
+[[cases]]
+input = """
+create model t1 transform(a, 2 as b) as select * from t2;
+"""
+formatted = """
+CREATE MODEL t1
+TRANSFORM (
+  a,
+  2 AS b
+)
+AS (
+  SELECT *
+    FROM t2
+)
+"""
+
+[[cases]]
+input = """
+create temp model pkg1.`pkg2`.`t 2` as
+select 1 as a;
+"""
+formatted = """
+CREATE TEMP MODEL pkg1.`pkg2`.`t 2`
+AS (
+  SELECT 1 AS a
+)
+"""
+
+[[cases]]
+input = """
+create temp model pkg1.`pkg2`.`t 2` as
+select 1 from t2 union all select 2 from t3 cross join t4
+"""
+formatted = """
+CREATE TEMP MODEL pkg1.`pkg2`.`t 2`
+AS (
+  SELECT 1
+    FROM t2
+   UNION ALL
+  SELECT 2
+    FROM t3
+         CROSS JOIN
+         t4
+)
+"""
+
+[[cases]]
+description = "WITH goes inside create model."
+input = """
+create model t3 as
+with tt as (select * from KeyValue)
+select * from tt
+"""
+formatted = """
+CREATE MODEL t3
+AS (
+  WITH
+    tt AS (
+      SELECT *
+        FROM KeyValue
+    )
+  SELECT *
+    FROM tt
+)
+"""
+
+[[cases]]
+input = """
+create model t4 options(x=y) as
+with t1 as (select 1), t2 as (select 2)
+select 3
+"""
+formatted = """
+CREATE MODEL t4
+OPTIONS (x=y)
+AS (
+  WITH
+    t1 AS (
+      SELECT 1
+    ),
+    t2 AS (
+      SELECT 2
+    )
+  SELECT 3
+)
+"""
+
+[[cases]]
+description = "Create model without AS."
+input = """
+create model t4 options(x=y)
+"""
+formatted = """
+CREATE MODEL t4
+OPTIONS (x=y)
+"""
+
+[[cases]]
+input = """
+create model tt
+options (x = 1)
+as select 1;
+"""
+formatted = """
+CREATE MODEL tt
+OPTIONS (x=1)
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+create model tt
+transform (a as b) options (x = 1)
+as select 1;
+"""
+formatted = """
+CREATE MODEL tt
+TRANSFORM (
+  a AS b
+)
+OPTIONS (x=1)
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+create temporary model tt
+options (x = 5, y = 'abc', z = @param, zz = ident, zzz = @@sysvar)
+as select 2;
+"""
+formatted = """
+CREATE TEMP MODEL tt
+OPTIONS (
+  x   = 5,
+  y   = 'abc',
+  z   = @param,
+  zz  = ident,
+  zzz = @@sysvar
+)
+AS (
+  SELECT 2
+)
+"""
+
+[[cases]]
+input = """
+create model tt
+options ()
+as select 2
+"""
+formatted = """
+CREATE MODEL tt
+OPTIONS ()
+AS (
+  SELECT 2
+)
+"""
+
+[[cases]]
+input = """
+create model tt
+options (x=5.5, y=a, z=b.c)
+as select 2
+"""
+formatted = """
+CREATE MODEL tt
+OPTIONS (
+  x = 5.5,
+  y = a,
+  z = b.c
+)
+AS (
+  SELECT 2
+)
+"""
+
+[[cases]]
+input = """
+create model tt
+options (y='b.c', z=`b.c`)
+as select 2
+"""
+formatted = """
+CREATE MODEL tt
+OPTIONS (
+  y = 'b.c',
+  z = `b.c`
+)
+AS (
+  SELECT 2
+)
+"""
+
+[[cases]]
+description = "Options is a non-reserved keyword so can be used as an identifier."
+input = """
+create model options as select 1 x;
+"""
+formatted = """
+CREATE MODEL options
+AS (
+  SELECT 1 AS x
+)
+"""
+
+[[cases]]
+input = """
+create model options OPTIONS (x=y) AS select 1 x;
+"""
+formatted = """
+CREATE MODEL options
+OPTIONS (x=y)
+AS (
+  SELECT 1 AS x
+)
+"""
+
+[[cases]]
+description = "This is parsed as a model named options with an options clause."
+input = """
+create model options options(x=y) as select 1 x;
+"""
+formatted = """
+CREATE MODEL options
+OPTIONS (x=y)
+AS (
+  SELECT 1 AS x
+)
+"""
+
+[[cases]]
+description = "This is parsed as a model named options with an options clause."
+input = """
+create model options options(x=y) as select 1 x;
+"""
+formatted = """
+CREATE MODEL options
+OPTIONS (x=y)
+AS (
+  SELECT 1 AS x
+)
+"""
+
+[[cases]]
+input = """
+create or replace model xyz as (select 1)
+"""
+formatted = """
+CREATE OR REPLACE MODEL xyz
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+create model if not exists xyz as (select 1)
+"""
+formatted = """
+CREATE MODEL IF NOT EXISTS xyz
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+description = "One with everything.  This is not legal, but parses successfully."
+input = """
+create or replace temporary model if not exists a.b.c options(d=e) as select 1
+"""
+formatted = """
+CREATE OR REPLACE TEMP MODEL IF NOT EXISTS a.b.c
+OPTIONS (d=e)
+AS (
+  SELECT 1
+)
+"""
+
+[[cases]]
+input = """
+create model t as
+with q as (select 1), q2 as (select * from q)
+select * from q2
+"""
+formatted = """
+CREATE MODEL t
+AS (
+  WITH
+    q AS (
+      SELECT 1
+    ),
+    q2 AS (
+      SELECT *
+        FROM q
+    )
+  SELECT *
+    FROM q2
+)
+"""
+
+[[cases]]
+description = "All remote model clauses"
+input = """
+create model t1
+input (i1 INT64, i2 FLOAT64)
+output (o1 BOOL)
+remote with connection conn_1
+options (abc = def)
+"""
+formatted = """
+CREATE MODEL t1
+INPUT (i1 INT64, i2 FLOAT64)
+OUTPUT (o1 BOOL)
+REMOTE WITH CONNECTION conn_1
+OPTIONS (abc=def)
+"""
+
+[[cases]]
+description = "All clauses"
+input = """
+create model t1
+input (i1 INT64, i2 FLOAT64)
+output (o1 BOOL)
+transform(a, 2 as b)
+remote with connection conn_1
+options (abc = def)
+as select * from t2;
+"""
+formatted = """
+CREATE MODEL t1
+INPUT (i1 INT64, i2 FLOAT64)
+OUTPUT (o1 BOOL)
+TRANSFORM (
+  a,
+  2 AS b
+)
+REMOTE WITH CONNECTION conn_1
+OPTIONS (abc=def)
+AS (
+  SELECT *
+    FROM t2
+)
+"""
+
+[[cases]]
+description = "Create model with one query in aliased query list"
+input = """
+create model m
+as
+(
+  a1 as (select * from t1)
+)
+"""
+formatted = """
+CREATE MODEL m
+AS (
+  a1 AS (
+    SELECT *
+      FROM t1
+  )
+)
+"""
+
+[[cases]]
+description = "Create model with multiple queries in aliased query list"
+input = """
+create model m
+as
+(
+  a1 as (select * from t1),
+  a2 as (select * from t2)
+)
+"""
+formatted = """
+CREATE MODEL m
+AS (
+  a1 AS (
+    SELECT *
+      FROM t1
+  ),
+  a2 AS (
+    SELECT *
+      FROM t2
+  )
+)
+"""
+
+[[cases]]
+description = "Create model with select query within parenthesis. It should be treated as ASTQuery."
+input = """
+create model m
+as
+(select * from t1)
+"""
+formatted = """
+CREATE MODEL m
+AS (
+  SELECT *
+    FROM t1
+)
+"""
+
+[[cases]]
+description = "Create model with a with clause inside of parenthesis. It should be treated as ASTQuery"
+input = """
+create model m
+as
+(with a1 as (select * from t1) select * from a1)
+"""
+formatted = """
+CREATE MODEL m
+AS (
+  WITH
+    a1 AS (
+      SELECT *
+        FROM t1
+    )
+  SELECT *
+    FROM a1
+)
+"""
+
+[[cases]]
+description = "Create model with aliased query list with WITH clause in the subquery is permitted."
+input = """
+create model m
+as
+(
+  a1 as (with aa1 as (select * from tt1) select * from aa1),
+  a2 as (with aa2 as (select * from tt2) select * from aa2)
+)
+"""
+formatted = """
+CREATE MODEL m
+AS (
+  a1 AS (
+    WITH
+      aa1 AS (
+        SELECT *
+          FROM tt1
+      )
+    SELECT *
+      FROM aa1
+  ),
+  a2 AS (
+    WITH
+      aa2 AS (
+        SELECT *
+          FROM tt2
+      )
+    SELECT *
+      FROM aa2
+  )
+)
+"""
+
+# [[cases]]
+# input = """
+# create model m AS
+# graph aml
+# return 1 as x
+# """
+# formatted = """
+# CREATE MODEL m
+# AS (
+#   GRAPH aml
+#   RETURN 1 AS x
+# )
+# """

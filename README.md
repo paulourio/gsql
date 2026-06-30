@@ -169,7 +169,7 @@ Formatting without comment is always idempotent, but formatting code preserving 
 #### Export and load statements
 
 - [x] EXPORT DATA
-- [ ] EXPORT MODEL
+- [x] EXPORT MODEL
 - [ ] EXPORT METADATA
 - [ ] LOAD DATA
 
@@ -190,7 +190,7 @@ Formatting without comment is always idempotent, but formatting code preserving 
 
 #### BigQuery ML SQL
 
-- [ ] CREATE MODEL
+- [x] CREATE MODEL
 - [ ] ALTER MODEL
 
 #### Pipe syntax
