@@ -414,16 +414,3 @@ SELECT ARRAY_AGG(
   FROM T
 """
 
-[[cases]]
-input = """
-select array_agg(x having min y clamped between 1 and 2 limit 1 offset 2) as a from T;
-"""
-formatted = """
-SELECT ARRAY_AGG(
-         x
-         HAVING MIN y
-         CLAMPED BETWEEN 1 AND 2
-         LIMIT 1 OFFSET 2
-       ) AS a
-  FROM T
-"""

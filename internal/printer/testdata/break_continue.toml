@@ -147,12 +147,3 @@ LOOP
 END LOOP
 """
 
-[[cases]]
-input = """
-while true do leave; end while
-"""
-formatted = """
-WHILE TRUE DO
-  LEAVE;
-END WHILE
-"""

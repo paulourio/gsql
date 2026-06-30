@@ -99,28 +99,6 @@ SELECT * EXCEPT(order_id)
 """
 
 [[cases]]
-description = "SELECT * EXCEPT"
-input = """
-WITH orders AS
-  (SELECT 5 as order_id,
-  "sprocket" as item_name,
-  200 as quantity)
-SELECT * EXCEPT (order_id)
-FROM orders;
-
-"""
-formatted = """
-WITH
-  orders AS (
-    SELECT 5          AS order_id,
-           'sprocket' AS item_name,
-           200        AS quantity
-  )
-SELECT * EXCEPT(order_id)
-  FROM orders
-"""
-
-[[cases]]
 description = "SELECT * REPLACE"
 input = """
 WITH orders AS

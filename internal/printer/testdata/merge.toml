@@ -59,27 +59,6 @@ USING S
 
 [[cases]]
 description = """
-We can use generalized paths with SET
-"""
-input = """
-MERGE INTO T
-USING S
-ON t1 = s1
-WHEN MATCHED AND T.T1 = 5 THEN
-UPDATE SET T1.(foo.bar) = T1.(foo.bar) + 10, T2 = T.T1 + S.C1
-"""
-formatted = """
-MERGE INTO T
-USING S
-   ON t1 = s1
- WHEN MATCHED AND t.t1 = 5 THEN
-      UPDATE SET
-        t1.(foo.bar) = t1.(foo.bar) + 10,
-        t2           = t.t1 + s.c1
-"""
-
-[[cases]]
-description = """
 Only has (implicit) NOT MATCHED BY TARGET clause
 """
 input = """

@@ -82,14 +82,6 @@ SELECT '''line1 'single_quote' "double_quote" \\x41g \\u22FD \\U000022FD'''
 """
 
 [[cases]]
-input = """
-select '''line1 'single_quote' "double_quote" \\x41g \\u22FD \\U000022FD'''
-;"""
-formatted = """
-SELECT '''line1 'single_quote' "double_quote" \\x41g \\u22FD \\U000022FD'''
-"""
-
-[[cases]]
 description = "Basic tests for all the valid escapes"
 input = """
 select

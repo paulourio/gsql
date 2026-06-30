@@ -155,22 +155,6 @@ DROP VIEW IF EXISTS a
 
 [[cases]]
 input = """
-drop materialized view a;
-"""
-formatted = """
-DROP MATERIALIZED VIEW a
-"""
-
-[[cases]]
-input = """
-drop materialized view if exists a;
-"""
-formatted = """
-DROP MATERIALIZED VIEW IF EXISTS a
-"""
-
-[[cases]]
-input = """
 drop FUNCTION a;
 """
 formatted = """

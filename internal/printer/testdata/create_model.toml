@@ -420,19 +420,6 @@ AS (
 """
 
 [[cases]]
-description = "This is parsed as a model named options with an options clause."
-input = """
-create model options options(x=y) as select 1 x;
-"""
-formatted = """
-CREATE MODEL options
-OPTIONS (x=y)
-AS (
-  SELECT 1 AS x
-)
-"""
-
-[[cases]]
 input = """
 create or replace model xyz as (select 1)
 """

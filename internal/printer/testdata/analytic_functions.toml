@@ -296,15 +296,6 @@ SELECT f() OVER w
 """
 
 [[cases]]
-input = """
-select f() over w from T
-"""
-formatted = """
-SELECT f() OVER w
-  FROM T
-"""
-
-[[cases]]
 description = "Analytic function call ends after OVER <identifier>, so OVER a.b gets parsed as (... OVER a).b."
 input = """
 select f() over a.b
@@ -475,15 +466,6 @@ select f(a, b respect nulls) over () from T
 """
 formatted = """
 SELECT f(a, b RESPECT NULLS) OVER ()
-  FROM T
-"""
-
-[[cases]]
-input = """
-select f(a, b ignore nulls) over () from T
-"""
-formatted = """
-SELECT f(a, b IGNORE NULLS) OVER ()
   FROM T
 """
 

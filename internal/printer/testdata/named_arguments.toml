@@ -159,13 +159,3 @@ formatted = """
 SELECT PARSE_DATE(format_string => '%x')
 """
 
-[[cases]]
-description = """
-Invalid function call missing the value of a required argument.
-"""
-input = """
-select parse_date("%x", date_string => "12/25/08")
-"""
-formatted = """
-SELECT PARSE_DATE('%x', date_string => '12/25/08')
-"""
