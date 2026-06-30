@@ -525,8 +525,13 @@ input = """
 """
 formatted = """
 (
-  WITH q1 AS (SELECT 1 x |> WHERE 1)
-  SELECT * FROM q1
+  WITH
+    q1 AS (
+      SELECT 1 AS x
+      |> WHERE 1
+    )
+  SELECT *
+    FROM q1
   |> WHERE 2
 )
 |> WHERE 3
@@ -561,23 +566,23 @@ limit 10
 |> where 1
 """
 formatted = """
-SELECT 1 x
-LIMIT 10
+SELECT 1 AS x
+ LIMIT 10
 |> WHERE 1
 """
 
-# [[cases]]
-# description = "Pipe WHERE after ORDER BY."
-# input = """
-# select 1 x
-# order by 1
-# |> where 1
-# """
-# formatted = """
-# SELECT 1 x
-# ORDER BY 1
-# |> WHERE 1
-# """
+[[cases]]
+description = "Pipe WHERE after ORDER BY."
+input = """
+select 1 x
+order by 1
+|> where 1
+"""
+formatted = """
+SELECT 1 AS x
+ ORDER BY 1
+|> WHERE 1
+"""
 
 # [[cases]]
 # description = "Pipe SELECT basic usage and various modifiers."
@@ -606,31 +611,31 @@ LIMIT 10
 # |> SELECT WITH anonymization 1,2
 # """
 
-# [[cases]]
-# description = "Trailing commas are allowed."
-# input = """
-# select 1,
-# |> select 2,
-# |> select 3,4,
-# """
-# formatted = """
-# SELECT 1,
-# |> SELECT 2,
-# |> SELECT 3,4,
-# """
+[[cases]]
+description = "Trailing commas are allowed."
+input = """
+select 1,
+|> select 2,
+|> select 3,4,
+"""
+formatted = """
+SELECT 1
+|> SELECT 2
+|> SELECT 3, 4
+"""
 
-# [[cases]]
-# description = "Trailing commas are allowed."
-# input = """
-# select 1 x,
-# |> extend 2,
-# |> extend 3, 4,
-# """
-# formatted = """
-# SELECT 1 x,
-# |> EXTEND 2,
-# |> EXTEND 3, 4,
-# """
+[[cases]]
+description = "Trailing commas are allowed."
+input = """
+select 1 x,
+|> extend 2,
+|> extend 3, 4,
+"""
+formatted = """
+SELECT 1 AS x
+|> EXTEND 2
+|> EXTEND 3, 4
+"""
 
 # [[cases]]
 # description = "Pipe EXTEND basic usage with aliases."
@@ -666,27 +671,28 @@ LIMIT 10
 #           (sum(x) OVER ()).*
 # """
 
-# [[cases]]
-# description = "The precedence allows binding .* here."
-# input = """
-# select 1
-# |> EXTEND sum(x) OVER ().*
-# """
-# formatted = """
-# SELECT 1
-# |> EXTEND sum(x) OVER ().*
-# """
+[[cases]]
+description = "The precedence allows binding .* here."
+input = """
+select 1
+|> EXTEND sum(x) OVER ().*
+"""
+formatted = """
+SELECT 1
+|> EXTEND SUM(x) OVER ().*
+"""
 
-# [[cases]]
-# description = "These are disallowed in the analyzer."
-# input = """
-# select 1 x
-# |> extend count(*), sum(x) over ()
-# """
-# formatted = """
-# SELECT 1 x
-# |> EXTEND count(*), sum(x) OVER ()
-# """
+[[cases]]
+description = "These are disallowed in the analyzer."
+input = """
+select 1 x
+|> extend count(*), sum(x) over ()
+"""
+formatted = """
+SELECT 1 AS x
+|> EXTEND COUNT(*),
+          SUM(x) OVER ()
+"""
 
 # [[cases]]
 # description = "Commented out test: LIMIT syntax."
@@ -702,7 +708,7 @@ LIMIT 10
 # |> LIMIT 10
 # |> LIMIT 12 OFFSET 22
 # |> LIMIT @x OFFSET @y
-# |> LIMIT cast(@z AS int64)
+# |> LIMIT CAST(@z AS INT64)
 # """
 
 # [[cases]]
