@@ -440,6 +440,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeJoin(ctx, n.(*sql.PipeJoin))
 	case sql.PipeSelectKind:
 		p.visitPipeSelect(ctx, n.(*sql.PipeSelect))
+	case sql.PipeDistinctKind:
+		p.visitPipeDistinct(ctx, n.(*sql.PipeDistinct))
 
 	// ── print_procedural.go ────────────────────────────────────────────────────────
 

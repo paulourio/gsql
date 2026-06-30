@@ -627,3 +627,37 @@ AS (
   |> CREATE TABLE t3
 )
 """
+
+[[cases]]
+input = """
+SELECT 1 x
+|> DISTINCT
+"""
+formatted = """
+SELECT 1 AS x
+|> DISTINCT
+"""
+
+[[cases]]
+input = """
+CREATE TEMP TABLE t
+AS (SELECT 1 AS a |> DISTINCT);
+"""
+formatted = """
+CREATE TEMP TABLE t
+AS (
+  SELECT 1 AS a
+  |> DISTINCT
+)
+"""
+
+[[cases]]
+input = """
+SELECT (SELECT 1 AS a |> DISTINCT);
+"""
+formatted = """
+SELECT (
+         SELECT 1 AS a
+         |> DISTINCT
+       )
+"""
