@@ -388,3 +388,33 @@ FROM t1
    USING (key)
 |> AS t3
 """
+
+[[cases]]
+input = """
+from t
+|> assert x+1 = 5
+|> assert (select true)
+|> assert false, 'hello'
+|> assert x=y, concat(a,b), 17, "xxxx"
+"""
+formatted = """
+FROM t
+|> ASSERT x + 1 = 5
+|> ASSERT (SELECT true)
+|> ASSERT FALSE, 'hello'
+|> ASSERT x = y, CONCAT(a, b), 17, 'xxxx'
+"""
+
+[[cases]]
+input = """
+from t
+|> assert x,
+|> assert x,y,
+|> assert x,y,z,
+"""
+formatted = """
+FROM t
+|> ASSERT x
+|> ASSERT x, y
+|> ASSERT x, y, z
+"""
