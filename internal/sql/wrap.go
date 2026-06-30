@@ -472,6 +472,8 @@ func Wrap(n googlesql.ASTNode) Node {
 		return newIdentifier(m)
 	case *googlesql.ASTInExpression:
 		return newInExpression(m)
+	case *googlesql.ASTInputTableArgument:
+		return newInputTableArgument(m)
 	case *googlesql.ASTIntLiteral:
 		return newIntLiteral(m)
 	case *googlesql.ASTIntervalExpr:

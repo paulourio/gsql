@@ -134,7 +134,8 @@ func isSimpleExprInner(n sql.ExpressionNode, allowConstructors bool) bool {
 		sql.NumericLiteralKind,
 		sql.ParameterExprKind,
 		sql.SystemVariableExprKind,
-		sql.IdentifierKind:
+		sql.IdentifierKind,
+		sql.InputTableArgumentKind:
 		return true
 	case sql.BytesLiteralKind:
 		b := n.(*sql.BytesLiteral)

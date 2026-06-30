@@ -430,6 +430,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeAs(ctx, n.(*sql.PipeAs))
 	case sql.PipeAssertKind:
 		p.visitPipeAssert(ctx, n.(*sql.PipeAssert))
+	case sql.PipeCallKind:
+		p.visitPipeCall(ctx, n.(*sql.PipeCall))
 	case sql.PipeDropKind:
 		p.visitPipeDrop(ctx, n.(*sql.PipeDrop))
 	case sql.PipeJoinKind:
@@ -467,6 +469,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitForInStatement(ctx, n.(*sql.ForInStatement))
 	case sql.IfStatementKind:
 		p.visitIfStatement(ctx, n.(*sql.IfStatement))
+	case sql.InputTableArgumentKind:
+		p.visitInputTableArgument(ctx, n.(*sql.InputTableArgument))
 	case sql.LabelKind:
 		p.visitLabel(ctx, n.(*sql.Label))
 	case sql.ParameterAssignmentKind:

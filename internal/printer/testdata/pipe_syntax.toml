@@ -424,3 +424,111 @@ FROM t
 |> ASSERT x, y
 |> ASSERT x, y, z
 """
+
+[[cases]]
+description = "All supported ASTTVF argument forms work."
+input = """
+select 1
+|> call f()
+|> call a.b.c(1, x.y, g(), named=>5)
+|> call f(TABLE t, (select 1))
+|> call f(DESCRIPTOR(col))
+|> call f(MODEL m, CONNECTION c)
+"""
+formatted = """
+SELECT 1
+|> CALL f()
+|> CALL a.b.c(1, x.y, g(), named => 5)
+|> CALL f(
+          TABLE t,
+          (SELECT 1)
+        )
+|> CALL f(
+          DESCRIPTOR(col)
+        )
+|> CALL f(
+          MODEL m,
+          CONNECTION c
+        )
+"""
+
+[[cases]]
+input = """
+select 1
+|> call f()
+|> call f(MODEL m, CONNECTION DEFAULT)
+"""
+formatted = """
+SELECT 1
+|> CALL f()
+|> CALL f(
+          MODEL m,
+          CONNECTION DEFAULT
+        )
+"""
+
+[[cases]]
+description = "TVF hints work."
+input = """
+select 1
+|> call f() @{hint=1}
+"""
+formatted = """
+SELECT 1
+|> CALL f() @{hint=1}
+"""
+
+[[cases]]
+description = "Aliases, with or without hints."
+input = """
+select 1
+|> call f() AS x
+|> call g() y
+|> call h() @{hint=1} AS z
+|> call i() @{hint=2} zz
+"""
+formatted = """
+SELECT 1
+|> CALL f() AS x
+|> CALL g() AS y
+|> CALL h() @{hint=1} AS z
+|> CALL i() @{hint=2} AS zz
+"""
+
+[[cases]]
+input = """
+select 1
+|> call f(INPUT TABLE)
+"""
+formatted = """
+SELECT 1
+|> CALL f(INPUT TABLE)
+"""
+
+[[cases]]
+description = "INPUT is a non-reserved keyword, so this works."
+input = """
+select 1
+|> call f(INPUT)
+"""
+formatted = """
+SELECT 1
+|> CALL f(input)
+"""
+
+[[cases]]
+description = "INPUT TABLE will work outside pipe CALL too, but the analyzer will reject it."
+input = """
+from f(INPUT TABLE)
+"""
+formatted = """
+FROM f(INPUT TABLE)
+"""
+
+[[cases]]
+input = """
+select func(name=>INPUT)
+"""
+formatted = """
+SELECT func(name => input)
+"""

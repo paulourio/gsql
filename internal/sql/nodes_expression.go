@@ -673,6 +673,20 @@ func (n *InExpression) InLocation() Node {
 	return Wrap(must(n.raw.InLocation()))
 }
 
+// InputTableArgument wraps *googlesql.ASTInputTableArgument.
+type InputTableArgument struct {
+	baseNode[*googlesql.ASTInputTableArgument]
+}
+
+func newInputTableArgument(r *googlesql.ASTInputTableArgument) *InputTableArgument {
+	if r == nil {
+		return nil
+	}
+	return &InputTableArgument{baseNode[*googlesql.ASTInputTableArgument]{raw: r}}
+}
+
+func (n *InputTableArgument) isExpression() {}
+
 // IntLiteral wraps *googlesql.ASTIntLiteral.
 type IntLiteral struct {
 	baseNode[*googlesql.ASTIntLiteral]

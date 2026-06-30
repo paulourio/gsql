@@ -74,6 +74,16 @@ func (p *Printer) visitPipeAssert(ctx Context, n *sql.PipeAssert) {
 	p.movePast(n)
 }
 
+func (p *Printer) visitPipeCall(ctx Context, n *sql.PipeCall) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.print(pp.keyword("CALL"))
+	pp.acceptNestedLeft(ctx, n.TVF())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
 func (p *Printer) visitPipeDrop(ctx Context, n *sql.PipeDrop) {
 	p.moveBefore(n)
 	p.print("|>")

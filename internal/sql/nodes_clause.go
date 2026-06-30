@@ -102,8 +102,8 @@ func newConnectionClause(r *googlesql.ASTConnectionClause) *ConnectionClause {
 	return &ConnectionClause{baseNode[*googlesql.ASTConnectionClause]{raw: r}}
 }
 
-func (n *ConnectionClause) ConnectionPath() *PathExpression {
-	return newPathExpression(must(n.raw.ConnectionPath()).(*googlesql.ASTPathExpression))
+func (n *ConnectionClause) ConnectionPath() ExpressionNode {
+	return wrapExpr(must(n.raw.ConnectionPath()))
 }
 
 // DescriptorColumn wraps *googlesql.ASTDescriptorColumn.

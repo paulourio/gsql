@@ -252,6 +252,12 @@ func (p *Printer) visitIfStatement(ctx Context, n *sql.IfStatement) {
 	p.print(p.keyword("END IF"))
 }
 
+func (p *Printer) visitInputTableArgument(ctx Context, n *sql.InputTableArgument) {
+	p.moveBefore(n)
+	p.print(p.keyword("INPUT TABLE"))
+	p.movePast(n)
+}
+
 func (p *Printer) visitLabel(ctx Context, n *sql.Label) {
 	p.moveBefore(n)
 	if ctx.Bool(KeyLabelDeclaration) {
