@@ -637,39 +637,48 @@ SELECT 1 AS x
 |> EXTEND 3, 4
 """
 
-# [[cases]]
-# description = "Pipe EXTEND basic usage with aliases."
-# input = """
-# select 1 x
-# |> extend 2 y, 3 AS z
-# |> extend y+z AS yz, pb.f1.f2[3] f3, sqrt(y)
-# |> where true
-# |> extend 1,2,3 as `three`, 4 four
-# """
-# formatted = """
-# SELECT 1 x
-# |> EXTEND 2 y, 3 AS z
-# |> EXTEND y+z AS yz, pb.f1.f2[3] f3, sqrt(y)
-# |> WHERE TRUE
-# |> EXTEND 1,2,3 AS `three`, 4 four
-# """
+[[cases]]
+description = "Pipe EXTEND basic usage with aliases."
+input = """
+select 1 x
+|> extend 2 y, 3 AS z
+|> extend y+z AS yz, pb.f1.f2[3] f3, sqrt(y)
+|> where true
+|> extend 1,2,3 as `three`, 4 four
+"""
+formatted = """
+SELECT 1 AS x
+|> EXTEND 2 AS y,
+          3 AS z
+|> EXTEND y + z       AS yz,
+          pb.f1.f2[3] AS f3,
+          SQRT(y)
+|> WHERE TRUE
+|> EXTEND 1,
+          2,
+          3 AS `three`,
+          4 AS four
+"""
 
-# [[cases]]
-# description = "Dot-star is allowed on EXTEND, with the optional modifiers, including on the output of window functions."
-# input = """
-# select 1
-# |> EXTEND x.*,
-#           f(x).* except(a),
-#           (1+x).* replace(a as b),
-#           (sum(x) OVER ()).*
-# """
-# formatted = """
-# SELECT 1
-# |> EXTEND x.*,
-#           f(x).* EXCEPT(a),
-#           (1+x).* REPLACE(a AS b),
-#           (sum(x) OVER ()).*
-# """
+[[cases]]
+description = "Dot-star is allowed on EXTEND, with the optional modifiers, including on the output of window functions."
+input = """
+select 1
+|> EXTEND x.*,
+          f(x).* except(a),
+          (1+x).* replace(a as b),
+          (sum(x) OVER ()).*
+"""
+formatted = """
+SELECT 1
+|> EXTEND x.*,
+          f(x).* EXCEPT(a),
+          (1 + x).*
+          REPLACE(
+            a AS b
+          ),
+          (SUM(x) OVER ()).*
+"""
 
 [[cases]]
 description = "The precedence allows binding .* here."
