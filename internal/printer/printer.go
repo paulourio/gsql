@@ -428,6 +428,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeAggregate(ctx, n.(*sql.PipeAggregate))
 	case sql.PipeAsKind:
 		p.visitPipeAs(ctx, n.(*sql.PipeAs))
+	case sql.PipeAssertKind:
+		p.visitPipeAssert(ctx, n.(*sql.PipeAssert))
 	case sql.PipeDropKind:
 		p.visitPipeDrop(ctx, n.(*sql.PipeDrop))
 	case sql.PipeJoinKind:

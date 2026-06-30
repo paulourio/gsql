@@ -394,13 +394,19 @@ input = """
 from t
 |> assert x+1 = 5
 |> assert (select true)
+|> assert (select * from unnest(values) as x where x is not null)
 |> assert false, 'hello'
 |> assert x=y, concat(a,b), 17, "xxxx"
 """
 formatted = """
 FROM t
 |> ASSERT x + 1 = 5
-|> ASSERT (SELECT true)
+|> ASSERT (SELECT TRUE)
+|> ASSERT (
+            SELECT *
+              FROM UNNEST(values) AS x
+             WHERE x IS NOT NULL
+          )
 |> ASSERT FALSE, 'hello'
 |> ASSERT x = y, CONCAT(a, b), 17, 'xxxx'
 """

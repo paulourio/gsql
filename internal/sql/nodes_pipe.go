@@ -62,6 +62,14 @@ func (n *PipeAssert) Condition() ExpressionNode {
 	return wrapExpr(must(n.raw.Condition()))
 }
 
+func (n *PipeAssert) MessageList() []ExpressionNode {
+	var result []ExpressionNode
+	for c := range childrenOfType[googlesql.ASTExpressionNode](n) {
+		result = append(result, wrapExpr(c))
+	}
+	return result[1:]
+}
+
 // PipeCall wraps *googlesql.ASTPipeCall.
 type PipeCall struct {
 	baseNode[*googlesql.ASTPipeCall]

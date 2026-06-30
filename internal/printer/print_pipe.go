@@ -59,6 +59,21 @@ func (p *Printer) visitPipeAs(ctx Context, n *sql.PipeAs) {
 	p.movePast(n)
 }
 
+func (p *Printer) visitPipeAssert(ctx Context, n *sql.PipeAssert) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.print(pp.keyword("ASSERT"))
+	pp.acceptNestedLeft(ctx, n.Condition())
+	payloads := n.MessageList()
+	for _, arg := range payloads {
+		pp.print(",")
+		pp.accept(ctx, arg)
+	}
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
 func (p *Printer) visitPipeDrop(ctx Context, n *sql.PipeDrop) {
 	p.moveBefore(n)
 	p.print("|>")
