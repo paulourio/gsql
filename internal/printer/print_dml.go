@@ -74,6 +74,15 @@ func (p *Printer) visitExportDataStatement(ctx Context, n *sql.ExportDataStateme
 	p.movePast(n)
 }
 
+func (p *Printer) visitExportModelStatement(ctx Context, n *sql.ExportModelStatement) {
+	p.moveBefore(n)
+	p.print(p.keyword("EXPORT MODEL") + " ")
+	p.accept(ctx, n.ModelNamePath())
+	p.lnaccept(ctx, n.WithConnectionClause())
+	p.lnaccept(ctx, n.OptionsList())
+	p.movePast(n)
+}
+
 func (p *Printer) visitInsertStatement(ctx Context, n *sql.InsertStatement) {
 	cl := n.ColumnList()
 	pp := p.nest()

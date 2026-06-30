@@ -257,6 +257,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitDeleteStatement(ctx, n.(*sql.DeleteStatement))
 	case sql.ExportDataStatementKind:
 		p.visitExportDataStatement(ctx, n.(*sql.ExportDataStatement))
+	case sql.ExportModelStatementKind:
+		p.visitExportModelStatement(ctx, n.(*sql.ExportModelStatement))
 	case sql.InsertStatementKind:
 		p.visitInsertStatement(ctx, n.(*sql.InsertStatement))
 	case sql.InsertValuesRowKind:
