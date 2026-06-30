@@ -338,6 +338,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitLimit(ctx, n.(*sql.Limit))
 	case sql.LimitOffsetKind:
 		p.visitLimitOffset(ctx, n.(*sql.LimitOffset))
+	case sql.LockModeKind:
+		p.visitLockMode(ctx, n.(*sql.LockMode))
 	case sql.NullOrderKind:
 		p.visitNullOrder(ctx, n.(*sql.NullOrder))
 	case sql.OnClauseKind:
@@ -454,6 +456,10 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeSelect(ctx, n.(*sql.PipeSelect))
 	case sql.PipeDistinctKind:
 		p.visitPipeDistinct(ctx, n.(*sql.PipeDistinct))
+	case sql.PipeExtendKind:
+		p.visitPipeExtend(ctx, n.(*sql.PipeExtend))
+	case sql.PipeWhereKind:
+		p.visitPipeWhere(ctx, n.(*sql.PipeWhere))
 
 	// ── print_procedural.go ────────────────────────────────────────────────────────
 

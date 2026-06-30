@@ -163,3 +163,38 @@ func (p *Printer) visitPipeDistinct(ctx Context, n *sql.PipeDistinct) {
 	p.lnprint("|> DISTINCT")
 	p.movePast(n)
 }
+
+func (p *Printer) visitPipeWhere(ctx Context, n *sql.PipeWhere) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.acceptNestedLeft(ctx, n.Where())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeExtend(ctx Context, n *sql.PipeExtend) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|> EXTEND")
+	pp.acceptNestedLeft(ctx, n.Select())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeExtendSelect(ctx Context, n *sql.Select) {
+	p.moveBefore(n)
+	singleLine := p.maybeSingleLineColumns(n)
+	ctx = ctx.WithValue(KeySingleLineCols, singleLine)
+	if !singleLine {
+		p.println("")
+		p.incDepth()
+	}
+	pp := p.nest()
+	pp.accept(ctx, n.SelectList())
+	p.print(pp.unnest())
+	if !singleLine {
+		p.decDepth()
+	}
+	p.movePast(n)
+}

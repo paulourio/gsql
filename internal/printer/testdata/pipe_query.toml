@@ -109,40 +109,45 @@ SELECT (
        )
 """
 
-# [[cases]]
-# description = "Pipe syntax and FOR UPDATE."
-# input = """
-# from t for update
-# |> where a = 5
-# |> select a, b;
-# """
-# formatted = """
-# FROM t FOR UPDATE
-# |> WHERE a = 5
-# |> SELECT a, b;
-# """
+[[cases]]
+description = "Pipe syntax and FOR UPDATE."
+input = """
+from t for update
+|> where a = 5
+|> select a, b;
+"""
+formatted = """
+FROM t FOR UPDATE
+|> WHERE a = 5
+|> SELECT a, b
+"""
 
-# [[cases]]
-# input = """
-# with q1 as (from t1 for update
-#             |> where key = 5
-#             |> select key, x),
-#      q2 as (from q1
-#             |> extend x*2 as y)
-# from q2
-# |> aggregate sum(y)
-#    group by key;
-# """
-# formatted = """
-# WITH q1 AS (FROM t1 FOR UPDATE
-#             |> WHERE key = 5
-#             |> SELECT key, x),
-#      q2 AS (FROM q1
-#             |> EXTEND x*2 AS y)
-# FROM q2
-# |> aggregate sum(y)
-#    GROUP BY key;
-# """
+[[cases]]
+input = """
+with q1 as (from t1 for update
+            |> where key = 5
+            |> select key, x),
+     q2 as (from q1
+            |> extend x*2 as y)
+from q2
+|> aggregate sum(y)
+   group by key;
+"""
+formatted = """
+WITH
+  q1 AS (
+    FROM t1 FOR UPDATE
+    |> WHERE key = 5
+    |> SELECT key, x
+  ),
+  q2 AS (
+    FROM q1
+    |> EXTEND x * 2 AS y
+  )
+FROM q2
+|> AGGREGATE SUM(y)
+   GROUP BY key
+"""
 
 # [[cases]]
 # input = """

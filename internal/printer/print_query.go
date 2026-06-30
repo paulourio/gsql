@@ -9,7 +9,6 @@ import (
 
 func (p *Printer) visitQuery(ctx Context, n *sql.Query) {
 	pp := p.nest()
-
 	nestedWith := withInsideWith(n)
 	if nestedWith {
 		pp.incDepth()
@@ -19,7 +18,9 @@ func (p *Printer) visitQuery(ctx Context, n *sql.Query) {
 	pp.accept(ctx, n.WithClause())
 	q := n.QueryExpr()
 	pp.accept(ctx, q)
-
+	if lock := n.LockMode(); lock != nil {
+		pp.accept(ctx, lock)
+	}
 	alignClauses := q.Kind() == sql.SelectKind
 	if ob := n.OrderBy(); ob != nil {
 		pp.println("")
@@ -52,6 +53,13 @@ func (p *Printer) visitQuery(ctx Context, n *sql.Query) {
 	for _, op := range n.PipeOperatorList() {
 		p.lnaccept(ctx, op)
 	}
+}
+
+func (p *Printer) visitLockMode(ctx Context, n *sql.LockMode) {
+	p.moveBefore(n)
+	// TODO: Support FOR SHARE if/when added to parser.
+	p.print(p.keyword("FOR UPDATE"))
+	p.movePast(n)
 }
 
 func (p *Printer) visitQueryStatement(ctx Context, n *sql.QueryStatement) {
