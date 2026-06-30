@@ -267,7 +267,7 @@ func loadConfigForDir(dir string) *format.Config {
 
 func isSQLFile(path string) bool {
 	ext := strings.ToLower(filepath.Ext(path))
-	return ext == ".sql" || ext == ".bq" || ext == ".bqsql"
+	return ext == ".sql" || ext == ".bq" || ext == ".bql" || ext == ".tpl"
 }
 
 func maxExit(a, b int) int {
