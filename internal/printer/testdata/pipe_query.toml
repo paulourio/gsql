@@ -17,6 +17,7 @@ string_style = "AS_IS"
 hex_style = "UPPER_CASE"
 
 [[cases]]
+description = "Pipe AS basic usage."
 input = """
 SELECT 1 |> AS t
 """
@@ -26,6 +27,7 @@ SELECT 1
 """
 
 [[cases]]
+description = "Pipe AS with column alias."
 input = """
 SELECT 1 x |> AS t
 """
@@ -35,6 +37,7 @@ SELECT 1 AS x
 """
 
 [[cases]]
+description = "Multiple pipe AS operators."
 input = """
 SELECT 1 |> AS t1 |> AS t2;
 """
@@ -68,6 +71,7 @@ FROM f(INPUT TABLE)
 """
 
 [[cases]]
+description = "Named argument INPUT doesn't clash with INPUT TABLE keyword."
 input = """
 select func(name=>INPUT)
 """
@@ -76,6 +80,7 @@ SELECT func(name => input)
 """
 
 [[cases]]
+description = "Pipe DISTINCT basic usage."
 input = """
 SELECT 1 x
 |> DISTINCT
@@ -86,6 +91,7 @@ SELECT 1 AS x
 """
 
 [[cases]]
+description = "Pipe DISTINCT inside CREATE TEMP TABLE."
 input = """
 CREATE TEMP TABLE t
 AS (SELECT 1 AS a |> DISTINCT);
@@ -99,6 +105,7 @@ AS (
 """
 
 [[cases]]
+description = "Pipe DISTINCT inside subquery."
 input = """
 SELECT (SELECT 1 AS a |> DISTINCT);
 """
@@ -123,6 +130,7 @@ FROM t FOR UPDATE
 """
 
 [[cases]]
+description = "Pipe operators combined with WITH clauses and FOR UPDATE."
 input = """
 with q1 as (from t1 for update
             |> where key = 5
@@ -150,6 +158,7 @@ FROM q2
 """
 
 [[cases]]
+description = "Pipe operators with WINDOW clauses."
 input = """
 from t
 |> select sum(x) over(w), count(*) over (w2)
@@ -203,6 +212,7 @@ FROM t
 """
 
 [[cases]]
+description = "Pipe EXTEND with WINDOW clause and trailing comma."
 input = """
 from t
 |> extend sum(x) over (w),
@@ -215,6 +225,7 @@ FROM t
 """
 
 [[cases]]
+description = "Pipe ORDER BY with various expressions and modifiers."
 input = """
 select 1
 |> order by x
@@ -241,20 +252,21 @@ SELECT 1
 |> ORDER BY x COLLATE 'abc' ASC NULLS LAST
 """
 
-# [[cases]]
-# description = "Trailing commas."
-# input = """
-# select 1
-# |> order by x,
-# |> order by x, y,
-# """
-# formatted = """
-# SELECT 1
-# |> ORDER BY x,
-# |> ORDER BY x, y,
-# """
+[[cases]]
+description = "Trailing commas."
+input = """
+select 1
+|> order by x,
+|> order by x, y,
+"""
+formatted = """
+SELECT 1
+|> ORDER BY x
+|> ORDER BY x, y
+"""
 
 # [[cases]]
+# description = "Parenthesized FROM clause with alias."
 # input = """
 # (FROM t1) q1
 # |> WHERE true
@@ -265,6 +277,7 @@ SELECT 1
 # """
 
 # [[cases]]
+# description = "Parenthesized FROM clause with AS alias."
 # input = """
 # (FROM t1) as q1
 # |> WHERE true
@@ -275,6 +288,7 @@ SELECT 1
 # """
 
 # [[cases]]
+# description = "UNION ALL of parenthesized SELECT statements with aliases."
 # input = """
 # (SELECT * FROM t1) AS q1
 # UNION ALL
@@ -287,6 +301,7 @@ SELECT 1
 # """
 
 # [[cases]]
+# description = "ORDER BY on parenthesized SELECT with alias."
 # input = """
 # (SELECT * FROM t1) AS q1
 # ORDER BY x
@@ -297,6 +312,7 @@ SELECT 1
 # """
 
 # [[cases]]
+# description = "LIMIT on parenthesized SELECT with alias."
 # input = """
 # (SELECT * FROM t1) AS q1
 # LIMIT 10
@@ -307,6 +323,7 @@ SELECT 1
 # """
 
 # [[cases]]
+# description = "Simple parenthesized SELECT with alias."
 # input = """
 # (SELECT 1) AS q
 # """
@@ -315,6 +332,7 @@ SELECT 1
 # """
 
 [[cases]]
+description = "FROM subquery."
 input = """
 FROM (SELECT 1) AS q
 """
@@ -323,6 +341,7 @@ FROM (SELECT 1) AS q
 """
 
 # [[cases]]
+# description = "Nested parenthesized SELECT with alias."
 # input = """
 # (((SELECT 1))) AS q1
 # """
@@ -331,6 +350,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Nested parenthesized SELECT with internal alias."
 # input = """
 # (((SELECT 1) AS q1))
 # """
@@ -339,6 +359,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Nested parenthesized SELECT with multiple aliases."
 # input = """
 # (((SELECT 1) AS q1) AS q2) AS q3
 # """
@@ -360,6 +381,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Pipe WHERE basic usage."
 # input = """
 # select 1,2,3
 # |> where true;
@@ -370,6 +392,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Multiple pipe WHERE operators following standard WHERE."
 # input = """
 # select * from t where x=1
 # |> where y=1
@@ -384,6 +407,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Pipe WHERE inside FROM subquery."
 # input = """
 # select 5
 # from (
@@ -400,6 +424,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Pipe WHERE inside expression subquery."
 # input = """
 # select (select 1 |> where true)
 # """
@@ -408,6 +433,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Pipe WHERE after UNION ALL."
 # input = """
 # select 1
 # union all
@@ -422,6 +448,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Pipe WHERE after UNION ALL, ORDER BY, and LIMIT."
 # input = """
 # select 1
 # union all
@@ -440,6 +467,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Pipe WHERE inside and after WITH clause."
 # input = """
 # WITH q1 AS (select 1 x |> where true)
 # select * from q1
@@ -452,6 +480,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Nested parenthesized query with WITH and pipe WHERE."
 # input = """
 # (
 #   WITH q1 AS (select 1 x |> where 1)
@@ -470,6 +499,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Pipe WHERE inside and after parenthesized UNION ALL."
 # input = """
 # (
 #   select 1
@@ -490,6 +520,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Pipe WHERE after LIMIT."
 # input = """
 # select 1 x
 # limit 10
@@ -502,6 +533,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Pipe WHERE after ORDER BY."
 # input = """
 # select 1 x
 # order by 1
@@ -514,6 +546,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Pipe SELECT basic usage and various modifiers."
 # input = """
 # select 1
 # |> select 1,2,"abc"
@@ -566,6 +599,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Pipe EXTEND basic usage with aliases."
 # input = """
 # select 1 x
 # |> extend 2 y, 3 AS z
@@ -621,6 +655,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: LIMIT syntax."
 # input = """
 # select 1 x
 # |> limit 10
@@ -637,6 +672,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: LIMIT syntax."
 # input = """
 # SELECT
 #   1 AS x
@@ -649,6 +685,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: STATIC_DESCRIBE syntax."
 # input = """
 # from t
 # |> static_describe
@@ -663,6 +700,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: DESCRIBE syntax."
 # input = """
 # from t
 # |> describe
@@ -677,6 +715,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: RENAME syntax."
 # input = """
 # select 1
 # |> RENAME x AS y
@@ -702,6 +741,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: SET syntax."
 # input = """
 # select x
 # |> SET x = 1+2 ,
@@ -712,6 +752,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: SET syntax."
 # input = """
 # select x
 # |> set x = 1+2, y = 3, z = z ,
@@ -733,6 +774,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: LIMIT syntax."
 # input = """
 # select 1 x
 # |> limit 10
@@ -749,6 +791,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: LIMIT syntax."
 # input = """
 # SELECT
 #   1 AS x
@@ -761,6 +804,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: STATIC_DESCRIBE syntax."
 # input = """
 # from t
 # |> static_describe
@@ -775,6 +819,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: DESCRIBE syntax."
 # input = """
 # from t
 # |> describe
@@ -789,6 +834,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: RENAME syntax."
 # input = """
 # select 1
 # |> RENAME x AS y
@@ -814,6 +860,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: SET syntax."
 # input = """
 # select x
 # |> SET x = 1+2 ,
@@ -824,6 +871,7 @@ FROM (SELECT 1) AS q
 # """
 
 # [[cases]]
+# description = "Commented out test: SET syntax."
 # input = """
 # select x
 # |> set x = 1+2, y = 3, z = z ,

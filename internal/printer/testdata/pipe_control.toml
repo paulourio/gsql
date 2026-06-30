@@ -17,6 +17,7 @@ string_style = "AS_IS"
 hex_style = "UPPER_CASE"
 
 [[cases]]
+description = "Pipe ASSERT basic usage with various expressions."
 input = """
 from t
 |> assert x+1 = 5
@@ -39,6 +40,7 @@ FROM t
 """
 
 [[cases]]
+description = "Pipe ASSERT with trailing commas."
 input = """
 from t
 |> assert x,
@@ -53,6 +55,7 @@ FROM t
 """
 
 # [[cases]]
+# description = "Commented out test: FORK syntax."
 # input = """
 # from t
 # |> fork ()
@@ -84,6 +87,7 @@ FROM t
 # """
 
 # [[cases]]
+# description = "Commented out test: IF...ELSE syntax."
 # input = """
 # from t
 # |> IF true THEN ( |> WHERE false )
@@ -106,6 +110,7 @@ FROM t
 # """
 
 # [[cases]]
+# description = "Commented out test: IF...ELSE syntax."
 # input = """
 # from t
 # |> IF x=y THEN ( |> WHERE true )
@@ -167,6 +172,7 @@ FROM t
 # """
 
 # [[cases]]
+# description = "Commented out test: LOG syntax."
 # input = """
 # from t
 # |> LOG
@@ -191,6 +197,7 @@ FROM t
 # """
 
 # [[cases]]
+# description = "Commented out test: TEE syntax."
 # input = """
 # from t
 # |> tee ()
@@ -222,6 +229,7 @@ FROM t
 # """
 
 # [[cases]]
+# description = "Commented out test: TEE syntax."
 # input = """
 # from t
 # |> tee ()

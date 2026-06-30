@@ -17,6 +17,7 @@ string_style = "AS_IS"
 hex_style = "UPPER_CASE"
 
 [[cases]]
+description = "Pipe DROP with trailing commas."
 input = """
 select x
 |> drop a
@@ -33,6 +34,7 @@ SELECT x
 """
 
 [[cases]]
+description = "Pipe CREATE TABLE variants."
 input = """
 from t
 |> CREATE TABLE t2
@@ -49,6 +51,7 @@ FROM t
 """
 
 [[cases]]
+description = "Pipe CREATE TABLE with OPTIONS."
 input = """
 FROM t
 |> CREATE TABLE t2 OPTIONS(key=value)
@@ -60,6 +63,7 @@ FROM t
 """
 
 [[cases]]
+description = "Pipe CREATE TABLE with schema definition."
 input = """
 from t
 |> CREATE TABLE t2 (
@@ -78,6 +82,7 @@ FROM t
 """
 
 [[cases]]
+description = "Pipe CREATE TABLE LIKE and CLONE."
 input = """
     from t
 |> CREATE TABLE t2 LIKE t3
@@ -92,6 +97,7 @@ FROM t
 """
 
 [[cases]]
+description = "Pipe CREATE TABLE with table options (PARTITION, CLUSTER, CONNECTION)."
 input = """
 from t
 |> CREATE TABLE t2
@@ -113,6 +119,7 @@ FROM t
 """
 
 [[cases]]
+description = "Pipe CREATE TABLE inside standard CREATE TABLE AS."
 input = """
 CREATE TABLE t1
 AS

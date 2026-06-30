@@ -17,6 +17,7 @@ string_style = "AS_IS"
 hex_style = "UPPER_CASE"
 
 [[cases]]
+description = "Pipe JOIN and AS."
 input = """
 FROM t1
 |> JOIN t2 USING(key)
@@ -58,6 +59,7 @@ SELECT 1
 """
 
 [[cases]]
+description = "CALL TVF with MODEL and DEFAULT CONNECTION."
 input = """
 select 1
 |> call f()
@@ -101,6 +103,7 @@ SELECT 1
 """
 
 [[cases]]
+description = "CALL TVF with INPUT TABLE argument."
 input = """
 select 1
 |> call f(INPUT TABLE)
@@ -122,6 +125,7 @@ SELECT 1
 """
 
 # [[cases]]
+# description = "Commented out test: TABLESAMPLE syntax."
 # input = """
 # from t
 # |> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
@@ -140,6 +144,7 @@ SELECT 1
 # """
 
 # [[cases]]
+# description = "Commented out test: TABLESAMPLE syntax."
 # input = """
 # from Users
 # |> TABLESAMPLE abc (100 ROWS)
@@ -154,6 +159,7 @@ SELECT 1
 # """
 
 # [[cases]]
+# description = "Commented out test: TABLESAMPLE syntax."
 # input = """
 # FROM Users
 # |> TABLESAMPLE RESERVOIR (1 ROWS)
@@ -166,6 +172,7 @@ SELECT 1
 # """
 
 # [[cases]]
+# description = "Commented out test: TABLESAMPLE syntax."
 # input = """
 # from t
 # |> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
@@ -184,6 +191,7 @@ SELECT 1
 # """
 
 # [[cases]]
+# description = "Commented out test: TABLESAMPLE syntax."
 # input = """
 # from Users
 # |> TABLESAMPLE abc (100 ROWS)
@@ -198,6 +206,7 @@ SELECT 1
 # """
 
 # [[cases]]
+# description = "Commented out test: TABLESAMPLE syntax."
 # input = """
 # FROM Users
 # |> TABLESAMPLE RESERVOIR (1 ROWS)
@@ -210,6 +219,7 @@ SELECT 1
 # """
 
 # [[cases]]
+# description = "Commented out test: WHERE syntax."
 # input = """
 # from t1
 # |> with t2 AS (select * from t3),

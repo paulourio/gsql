@@ -17,6 +17,7 @@ string_style = "AS_IS"
 hex_style = "UPPER_CASE"
 
 [[cases]]
+description = "Basic AGGREGATE with multiple columns and aliases."
 input = """
 select 1 x
 |> AGGREGATE count(*), sum(x) as xx
@@ -29,6 +30,7 @@ SELECT 1 AS x
 """
 
 [[cases]]
+description = "AGGREGATE with GROUP BY expressions."
 input = """
 select 1
 |> AGGREGATE sum(z), 1+count(x+1) GROUP BY x, y+2, 3
@@ -56,6 +58,7 @@ SELECT 1
 """
 
 [[cases]]
+description = "AGGREGATE with hints on GROUP BY."
 input = """
 select 1
 |> AGGREGATE y GROUP @{hint=1} BY x,2,3
@@ -96,6 +99,7 @@ SELECT 1
 """
 
 [[cases]]
+description = "AGGREGATE with ROLLUP, CUBE, and GROUPING SETS."
 input = """
 select 1
 |> AGGREGATE count(*) GROUP BY ROLLUP(x,y)
@@ -162,6 +166,7 @@ SELECT 1
 """
 
 [[cases]]
+description = "AGGREGATE with dot-star and modifiers (EXCEPT, REPLACE)."
 input = """
 select 1
 |> AGGREGATE x.* except (a,b),
@@ -183,6 +188,7 @@ SELECT 1
 """
 
 [[cases]]
+description = "AGGREGATE with ordering modifiers on GROUP BY."
 input = """
 select 1
 |> AGGREGATE
@@ -243,6 +249,7 @@ FROM t
 """
 
 [[cases]]
+description = "GROUP AND ORDER BY with grouping modifiers."
 input = """
 SELECT
   1

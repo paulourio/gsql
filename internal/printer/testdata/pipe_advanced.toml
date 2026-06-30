@@ -96,6 +96,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: PIVOT syntax."
 # input = """
 # FROM t
 # |> PIVOT(SUM(a) FOR b IN (0, 1))
@@ -117,6 +118,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: PIVOT syntax."
 # input = """
 # FROM t
 # |> PIVOT(SUM(a) AS sum_a, SUM(aa) sum_aa, 2+COUNT(b+3)
@@ -140,6 +142,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: UNPIVOT syntax."
 # input = """
 # FROM t
 # |> UNPIVOT (a FOR c IN (x, y))
@@ -216,6 +219,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: UNPIVOT syntax."
 # input = """
 # FROM t
 # |> UNPIVOT (a FOR c IN (x, y))

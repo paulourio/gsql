@@ -32,6 +32,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT OR IGNORE."
 # input = """
 # FROM
 #   t1
@@ -44,6 +45,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT OR REPLACE."
 # input = """
 # FROM
 #   t1
@@ -56,6 +58,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT OR UPDATE."
 # input = """
 # FROM
 #   t1
@@ -68,6 +71,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT syntax."
 # input = """
 # from t1
 # |> INSERT t3 @{hint=1}
@@ -78,6 +82,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT with ASSERT_ROWS_MODIFIED."
 # input = """
 # from t1
 # |> INSERT INTO t3
@@ -90,6 +95,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT with ON CONFLICT."
 # input = """
 # from t1
 # |> INSERT INTO t3
@@ -102,6 +108,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT with ON CONFLICT."
 # input = """
 # from t1
 # |> INSERT INTO t3
@@ -114,6 +121,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT with ON CONFLICT."
 # input = """
 # from t1
 # |> INSERT INTO t3
@@ -126,6 +134,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT with THEN RETURN."
 # input = """
 # from t1
 # |> INSERT INTO t3
@@ -138,6 +147,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT with THEN RETURN."
 # input = """
 # from t1
 # |> INSERT INTO t3
@@ -167,6 +177,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT with ASSERT_ROWS_MODIFIED."
 # input = """
 # INSERT INTO t1
 # FROM t2
@@ -198,6 +209,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT with THEN RETURN."
 # input = """
 # INSERT INTO t1
 # FROM t2
@@ -212,6 +224,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT with THEN RETURN."
 # input = """
 # INSERT INTO t1
 # FROM t2
@@ -245,6 +258,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: INSERT with ASSERT_ROWS_MODIFIED."
 # input = """
 # INSERT INTO t1
 # FROM t2

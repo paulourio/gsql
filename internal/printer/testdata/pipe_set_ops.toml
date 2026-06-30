@@ -91,6 +91,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: SELECT syntax."
 # input = """
 # select 1
 # |> union all (select 2)
@@ -308,6 +309,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: SELECT syntax."
 # input = """
 # select 1
 # |> union all (select 2)

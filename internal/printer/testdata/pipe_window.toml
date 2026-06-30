@@ -17,6 +17,7 @@ string_style = "AS_IS"
 hex_style = "UPPER_CASE"
 
 # [[cases]]
+# description = "Commented out test: WINDOW syntax."
 # input = """
 # select 1
 # |> WINDOW f() OVER (), g() OVER (PARTITION BY x ORDER BY y) x
@@ -79,6 +80,7 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
+# description = "Commented out test: WINDOW syntax."
 # input = """
 # select 1
 # |> WINDOW f() OVER (), g() OVER (PARTITION BY x ORDER BY y) x
