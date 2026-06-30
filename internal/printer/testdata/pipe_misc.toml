@@ -1,0 +1,291 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+[[cases]]
+input = """
+FROM t1
+|> JOIN t2 USING(key)
+|> AS t3
+"""
+formatted = """
+FROM t1
+|> JOIN
+   t2
+   USING (key)
+|> AS t3
+"""
+
+[[cases]]
+description = "All supported ASTTVF argument forms work."
+input = """
+select 1
+|> call f()
+|> call a.b.c(1, x.y, g(), named=>5)
+|> call f(TABLE t, (select 1))
+|> call f(DESCRIPTOR(col))
+|> call f(MODEL m, CONNECTION c)
+"""
+formatted = """
+SELECT 1
+|> CALL f()
+|> CALL a.b.c(1, x.y, g(), named => 5)
+|> CALL f(
+          TABLE t,
+          (SELECT 1)
+        )
+|> CALL f(
+          DESCRIPTOR(col)
+        )
+|> CALL f(
+          MODEL m,
+          CONNECTION c
+        )
+"""
+
+[[cases]]
+input = """
+select 1
+|> call f()
+|> call f(MODEL m, CONNECTION DEFAULT)
+"""
+formatted = """
+SELECT 1
+|> CALL f()
+|> CALL f(
+          MODEL m,
+          CONNECTION DEFAULT
+        )
+"""
+
+[[cases]]
+description = "TVF hints work."
+input = """
+select 1
+|> call f() @{hint=1}
+"""
+formatted = """
+SELECT 1
+|> CALL f() @{hint=1}
+"""
+
+[[cases]]
+description = "Aliases, with or without hints."
+input = """
+select 1
+|> call f() AS x
+|> call g() y
+|> call h() @{hint=1} AS z
+|> call i() @{hint=2} zz
+"""
+formatted = """
+SELECT 1
+|> CALL f() AS x
+|> CALL g() AS y
+|> CALL h() @{hint=1} AS z
+|> CALL i() @{hint=2} AS zz
+"""
+
+[[cases]]
+input = """
+select 1
+|> call f(INPUT TABLE)
+"""
+formatted = """
+SELECT 1
+|> CALL f(INPUT TABLE)
+"""
+
+[[cases]]
+description = "INPUT is a non-reserved keyword, so this works."
+input = """
+select 1
+|> call f(INPUT)
+"""
+formatted = """
+SELECT 1
+|> CALL f(input)
+"""
+
+# [[cases]]
+# input = """
+# from t
+# |> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
+# |> TABLESAMPLE RESERVOIR (cast(100 as int32) ROWS) REPEATABLE(cast(10 as int32))
+# |> TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
+# |> TABLESAMPLE bernoulli (cast(@param1 as int32) ROWS)
+#       REPEATABLE(cast(@param2 as string))
+# """
+# formatted = """
+# FROM t
+# |> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
+# |> TABLESAMPLE RESERVOIR (cast(100 AS int32) ROWS) REPEATABLE(cast(10 AS int32))
+# |> TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
+# |> TABLESAMPLE BERNOULLI (cast(@param1 AS int32) ROWS)
+#       REPEATABLE(cast(@param2 AS string))
+# """
+
+# [[cases]]
+# input = """
+# from Users
+# |> TABLESAMPLE abc (100 ROWS)
+# |> TABLESAMPLE abc (0.1 PERCENT)
+# |> TABLESAMPLE random (10 ROWS PARTITION BY state, zipcode)
+# """
+# formatted = """
+# FROM Users
+# |> TABLESAMPLE abc (100 ROWS)
+# |> TABLESAMPLE abc (0.1 PERCENT)
+# |> TABLESAMPLE random (10 ROWS PARTITION BY state, zipcode)
+# """
+
+# [[cases]]
+# input = """
+# FROM Users
+# |> TABLESAMPLE RESERVOIR (1 ROWS)
+#    WITH WEIGHT {{|weight|AS weight}} {{|REPEATABLE(1)}}
+# """
+# formatted = """
+# FROM Users
+# |> TABLESAMPLE RESERVOIR (1 ROWS)
+#    WITH WEIGHT {{|WEIGHT|AS WEIGHT}} {{|REPEATABLE(1)}}
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
+# |> TABLESAMPLE RESERVOIR (cast(100 as int32) ROWS) REPEATABLE(cast(10 as int32))
+# |> TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
+# |> TABLESAMPLE bernoulli (cast(@param1 as int32) ROWS)
+#       REPEATABLE(cast(@param2 as string))
+# """
+# formatted = """
+# FROM t
+# |> TABLESAMPLE RESERVOIR (100 ROWS) REPEATABLE(10)
+# |> TABLESAMPLE RESERVOIR (cast(100 AS int32) ROWS) REPEATABLE(cast(10 AS int32))
+# |> TABLESAMPLE RESERVOIR (@param1 ROWS) REPEATABLE(@param2)
+# |> TABLESAMPLE BERNOULLI (cast(@param1 AS int32) ROWS)
+#       REPEATABLE(cast(@param2 AS string))
+# """
+
+# [[cases]]
+# input = """
+# from Users
+# |> TABLESAMPLE abc (100 ROWS)
+# |> TABLESAMPLE abc (0.1 PERCENT)
+# |> TABLESAMPLE random (10 ROWS PARTITION BY state, zipcode)
+# """
+# formatted = """
+# FROM Users
+# |> TABLESAMPLE abc (100 ROWS)
+# |> TABLESAMPLE abc (0.1 PERCENT)
+# |> TABLESAMPLE random (10 ROWS PARTITION BY state, zipcode)
+# """
+
+# [[cases]]
+# input = """
+# FROM Users
+# |> TABLESAMPLE RESERVOIR (1 ROWS)
+#    WITH WEIGHT {{|weight|AS weight}} {{|REPEATABLE(1)}}
+# """
+# formatted = """
+# FROM Users
+# |> TABLESAMPLE RESERVOIR (1 ROWS)
+#    WITH WEIGHT {{|WEIGHT|AS WEIGHT}} {{|REPEATABLE(1)}}
+# """
+
+# [[cases]]
+# input = """
+# from t1
+# |> with t2 AS (select * from t3),
+#         t3 AS (from t4 |> where true)
+# |> select abc
+# """
+# formatted = """
+# FROM t1
+# |> WITH t2 AS (SELECT * FROM t3),
+#         t3 AS (FROM t4 |> WHERE TRUE)
+# |> SELECT abc
+# """
+
+# [[cases]]
+# description = "Trailing commas"
+# input = """
+# from t1
+# |> WITH t2 AS (select * from t3),
+# |> WITH t4 AS (from t3),
+#         t5 AS (from t6),
+# |> where true
+# """
+# formatted = """
+# FROM t1
+# |> WITH t2 AS (SELECT * FROM t3),
+# |> WITH t4 AS (FROM t3),
+#         t5 AS (FROM t6),
+# |> WHERE TRUE
+# """
+
+# [[cases]]
+# description = "WITH RECURSIVE"
+# input = """
+# FROM t1
+# |> WITH RECURSIVE t2 AS (from t2),
+#                   t3 AS (from t3),
+# """
+# formatted = """
+# FROM t1
+# |> WITH RECURSIVE t2 AS (FROM t2),
+#                   t3 AS (FROM t3),
+# """
+
+# [[cases]]
+# description = "WITH RECURSIVE with modifiers."
+# input = """
+# FROM t1
+# |> WITH RECURSIVE t2 AS (
+#      FROM t2) WITH DEPTH {{|AS depth}}{{| max 10| between 5 AND 8}}
+# """
+# formatted = """
+# FROM t1
+# |> WITH RECURSIVE t2 AS (
+#      FROM t2) WITH DEPTH {{|AS depth}}{{| max 10| between 5 AND 8}}
+# """
+
+# [[cases]]
+# description = "Pipe WITH inside and after a regular WITH clause."
+# input = """
+# WITH t1 AS (
+#    select 1
+#    |> WITH t2 AS (select 2)
+#    |> WHERE true
+#   )
+# FROM t2
+# |> WITH t3 AS (from t5)
+# |> SELECT x
+# """
+# formatted = """
+# WITH t1 AS (
+#    SELECT 1
+#    |> WITH t2 AS (SELECT 2)
+#    |> WHERE TRUE
+#   )
+# FROM t2
+# |> WITH t3 AS (FROM t5)
+# |> SELECT x
+# """
+

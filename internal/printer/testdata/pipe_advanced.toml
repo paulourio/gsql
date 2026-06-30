@@ -1,0 +1,293 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+# [[cases]]
+# description = "Minimal case"
+# input = """
+# FROM t
+# |> MATCH_RECOGNIZE(
+#   ORDER BY w + z, f(x).y
+#   MEASURES a + sum(b.x) AS m
+#   PATTERN ( a | bc)
+#   DEFINE
+#     a AS f(x)
+# )
+# """
+# formatted = """
+# FROM t
+# |> MATCH_RECOGNIZE(
+#   ORDER BY w + z, f(x).y
+#   MEASURES a + sum(b.x) AS m
+#   PATTERN ( a | bc)
+#   DEFINE
+#     a AS f(x)
+# )
+# """
+
+# [[cases]]
+# description = "Maximal case"
+# input = """
+# FROM t
+# |> MATCH_RECOGNIZE(
+#   PARTITION BY x + y
+#   ORDER BY w + z, f(x).y
+#   MEASURES a + sum(b.x) AS m
+#   AFTER MATCH SKIP TO NEXT ROW
+#   PATTERN ( a | bc)
+#   DEFINE
+#     a AS f(x)
+#   OPTIONS(use_longest_match=true)
+# )
+# |> EXTEND 1 AS x
+# """
+# formatted = """
+# FROM t
+# |> MATCH_RECOGNIZE(
+#   PARTITION BY x + y
+#   ORDER BY w + z, f(x).y
+#   MEASURES a + sum(b.x) AS m
+#   AFTER MATCH SKIP TO NEXT ROW
+#   PATTERN ( a | bc)
+#   DEFINE
+#     a AS f(x)
+#   OPTIONS(use_longest_match=TRUE)
+# )
+# |> EXTEND 1 AS x
+# """
+
+# [[cases]]
+# description = "With alias"
+# input = """
+# FROM t
+# |> MATCH_RECOGNIZE(
+#   PARTITION BY x + y
+#   ORDER BY w + z, f(x).y
+#   MEASURES a + sum(b.x) AS m
+#   PATTERN ( a | bc)
+#   DEFINE
+#     a AS f(x)
+# ) AS m_r
+# """
+# formatted = """
+# FROM t
+# |> MATCH_RECOGNIZE(
+#   PARTITION BY x + y
+#   ORDER BY w + z, f(x).y
+#   MEASURES a + sum(b.x) AS m
+#   PATTERN ( a | bc)
+#   DEFINE
+#     a AS f(x)
+# ) AS m_r
+# """
+
+# [[cases]]
+# input = """
+# FROM t
+# |> PIVOT(SUM(a) FOR b IN (0, 1))
+# """
+# formatted = """
+# FROM t
+# |> PIVOT(SUM(a) FOR b IN (0, 1))
+# """
+
+# [[cases]]
+# description = "Multiple pivot exprs, single IN list item. Pivot output table has alias without AS here."
+# input = """
+# FROM t
+# |> PIVOT(SUM(a), SUM(b) FOR b IN (0)) pivot_table
+# """
+# formatted = """
+# FROM t
+# |> PIVOT(SUM(a), SUM(b) FOR b IN (0)) pivot_table
+# """
+
+# [[cases]]
+# input = """
+# FROM t
+# |> PIVOT(SUM(a) AS sum_a, SUM(aa) sum_aa, 2+COUNT(b+3)
+#          FOR t.x IN (z, x+y xpy, 1 AS one)) AS p
+# """
+# formatted = """
+# FROM t
+# |> PIVOT(SUM(a) AS sum_a, SUM(aa) sum_aa, 2+COUNT(b+3)
+#          FOR t.x IN (z, x+y xpy, 1 AS one)) AS p
+# """
+
+# [[cases]]
+# description = "PIVOT as alias of table produced by a PIVOT clause."
+# input = """
+# FROM t
+# |> PIVOT(a FOR b IN (c)) AS PIVOT
+# """
+# formatted = """
+# FROM t
+# |> PIVOT(a FOR b IN (c)) AS PIVOT
+# """
+
+# [[cases]]
+# input = """
+# FROM t
+# |> UNPIVOT (a FOR c IN (x, y))
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT (a FOR c IN (x, y))
+# """
+
+# [[cases]]
+# description = "Simple UNPIVOT with EXCLUDE NULLS Output has alias without AS."
+# input = """
+# FROM t
+# |> UNPIVOT EXCLUDE NULLS (a FOR c IN (x, y)) unp
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT EXCLUDE NULLS (a FOR c IN (x, y)) unp
+# """
+
+# [[cases]]
+# description = "Simple UNPIVOT with INCLUDE NULLS Output has alias with AS."
+# input = """
+# FROM t
+# |> UNPIVOT INCLUDE NULLS (a FOR c IN (x, y)) AS unp
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT INCLUDE NULLS (a FOR c IN (x, y)) AS unp
+# """
+
+# [[cases]]
+# description = "Simple UNPIVOT with single-element IN-list with parentheses."
+# input = """
+# FROM t
+# |> UNPIVOT((a) FOR b IN (x))
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT((a) FOR b IN (x))
+# """
+
+# [[cases]]
+# description = "Multiple path expressions on the input, string labels on the output."
+# input = """
+# FROM t
+# |> UNPIVOT((a, b.b) FOR a.b.c IN ((f), w AS '1', (x) '2', y "3"))
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT((a, b.b) FOR a.b.c IN ((f), w AS '1', (x) '2', y "3"))
+# """
+
+# [[cases]]
+# description = "Column names with integer labels."
+# input = """
+# FROM t
+# |> UNPIVOT(a FOR e IN (w AS 1, x AS 2))
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT(a FOR e IN (w AS 1, x AS 2))
+# """
+
+# [[cases]]
+# description = "UNPIVOT as alias of table produced by a UNPIVOT clause."
+# input = """
+# FROM t
+# |> UNPIVOT(a FOR b IN (c)) UNPIVOT
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT(a FOR b IN (c)) UNPIVOT
+# """
+
+# [[cases]]
+# input = """
+# FROM t
+# |> UNPIVOT (a FOR c IN (x, y))
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT (a FOR c IN (x, y))
+# """
+
+# [[cases]]
+# description = "Simple UNPIVOT with EXCLUDE NULLS Output has alias without AS."
+# input = """
+# FROM t
+# |> UNPIVOT EXCLUDE NULLS (a FOR c IN (x, y)) unp
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT EXCLUDE NULLS (a FOR c IN (x, y)) unp
+# """
+
+# [[cases]]
+# description = "Simple UNPIVOT with INCLUDE NULLS Output has alias with AS."
+# input = """
+# FROM t
+# |> UNPIVOT INCLUDE NULLS (a FOR c IN (x, y)) AS unp
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT INCLUDE NULLS (a FOR c IN (x, y)) AS unp
+# """
+
+# [[cases]]
+# description = "Simple UNPIVOT with single-element IN-list with parentheses."
+# input = """
+# FROM t
+# |> UNPIVOT((a) FOR b IN (x))
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT((a) FOR b IN (x))
+# """
+
+# [[cases]]
+# description = "Multiple path expressions on the input, string labels on the output."
+# input = """
+# FROM t
+# |> UNPIVOT((a, b.b) FOR a.b.c IN ((f), w AS '1', (x) '2', y "3"))
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT((a, b.b) FOR a.b.c IN ((f), w AS '1', (x) '2', y "3"))
+# """
+
+# [[cases]]
+# description = "Column names with integer labels."
+# input = """
+# FROM t
+# |> UNPIVOT(a FOR e IN (w AS 1, x AS 2))
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT(a FOR e IN (w AS 1, x AS 2))
+# """
+
+# [[cases]]
+# description = "UNPIVOT as alias of table produced by a UNPIVOT clause."
+# input = """
+# FROM t
+# |> UNPIVOT(a FOR b IN (c)) UNPIVOT
+# """
+# formatted = """
+# FROM t
+# |> UNPIVOT(a FOR b IN (c)) UNPIVOT
+# """
+

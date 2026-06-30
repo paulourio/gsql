@@ -1,0 +1,452 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+# [[cases]]
+# description = "Input is a subquery."
+# input = """
+# from t
+# |> recursive union all (select 1)
+# """
+# formatted = """
+# FROM t
+# |> RECURSIVE UNION ALL (SELECT 1)
+# """
+
+# [[cases]]
+# description = "Input is a subpipeline."
+# input = """
+# from t
+# |> recursive union all (
+#   |> extend 1
+# )
+# """
+# formatted = """
+# FROM t
+# |> RECURSIVE UNION ALL (
+#   |> EXTEND 1
+# )
+# """
+
+# [[cases]]
+# description = "note: Expand these combinations into several tests."
+# input = """
+# from t
+# |> recursive {{union|intersect|except}} {{all|distinct}} (select 1)
+# """
+# formatted = """
+# FROM t
+# |> RECURSIVE {{UNION|INTERSECT|EXCEPT}} {{ALL|DISTINCT}} (SELECT 1)
+# """
+
+# [[cases]]
+# description = "Depth modifiers are allowed. note: expand these combinations into several tests."
+# input = """
+# from t
+# |> recursive union all
+#   with depth {{|as d|max 10|between 10 and 12|between 10 and unbounded}}
+#   (select 1)
+# """
+# formatted = """
+# FROM t
+# |> RECURSIVE UNION ALL
+#   WITH depth {{|AS d|max 10|between 10 AND 12|between 10 AND unbounded}}
+#   (SELECT 1)
+# """
+
+# [[cases]]
+# description = "Set operation modifiers are allowed."
+# input = """
+# from t
+# |> {{full|left}} union distinct (select 1)
+# """
+# formatted = """
+# FROM t
+# |> {{FULL|LEFT}} UNION DISTINCT (SELECT 1)
+# """
+
+# [[cases]]
+# description = "FROM clause is interpreted as a subquery, not an invalid subpipeline."
+# input = """
+# from t
+# |> recursive union distinct (from t)
+# """
+# formatted = """
+# FROM t
+# |> RECURSIVE UNION DISTINCT (FROM t)
+# """
+
+# [[cases]]
+# input = """
+# select 1
+# |> union all (select 2)
+# """
+# formatted = """
+# SELECT 1
+# |> UNION ALL (SELECT 2)
+# """
+
+# [[cases]]
+# description = "Hints, and multiple rhs tables."
+# input = """
+# select 1
+# |> union @{hint=1} all (select 2), (select 3)
+# """
+# formatted = """
+# SELECT 1
+# |> UNION @{hint=1} ALL (SELECT 2), (SELECT 3)
+# """
+
+# [[cases]]
+# description = "Complex queries on the rhs, with pipes or without."
+# input = """
+# select 1
+# |> union all
+# (select * from t where x),
+# (select 1 |> where y)
+# """
+# formatted = """
+# SELECT 1
+# |> UNION ALL
+# (SELECT * FROM t WHERE x),
+# (SELECT 1 |> WHERE y)
+# """
+
+# [[cases]]
+# description = "All combinations of simple set ops work as pipe operator keywords."
+# input = """
+# select 1
+# |> {{union|intersect|except}} {{all|distinct}} (select 2)
+# """
+# formatted = """
+# SELECT 1
+# |> {{UNION|INTERSECT|EXCEPT}} {{ALL|DISTINCT}} (SELECT 2)
+# """
+
+# [[cases]]
+# description = "CORRESPONDING modifiers work."
+# input = """
+# select 1
+# |> UNION ALL CORRESPONDING (select 2)
+# |> INTERSECT DISTINCT CORRESPONDING BY (x) (select 3)
+# |> EXCEPT ALL STRICT CORRESPONDING BY (x) (select 4)
+# """
+# formatted = """
+# SELECT 1
+# |> UNION ALL CORRESPONDING (SELECT 2)
+# |> INTERSECT DISTINCT CORRESPONDING BY (x) (SELECT 3)
+# |> EXCEPT ALL STRICT CORRESPONDING BY (x) (SELECT 4)
+# """
+
+# [[cases]]
+# description = "BY NAME modifiers work."
+# input = """
+# select 1
+# |> UNION ALL BY NAME (select 2)
+# |> INTERSECT DISTINCT BY NAME ON (x) (select 3)
+# |> EXCEPT ALL BY NAME ON (x) (select 4)
+# """
+# formatted = """
+# SELECT 1
+# |> UNION ALL BY NAME (SELECT 2)
+# |> INTERSECT DISTINCT BY NAME ON (x) (SELECT 3)
+# |> EXCEPT ALL BY NAME ON (x) (SELECT 4)
+# """
+
+# [[cases]]
+# description = "FULL/LEFT modifiers work at the start of the pipe operator"
+# input = """
+# select 1
+# |> {{FULL|FULL OUTER|LEFT|LEFT OUTER|INNER}} UNION ALL (select 2)
+# """
+# formatted = """
+# SELECT 1
+# |> {{FULL|FULL OUTER|LEFT|LEFT OUTER|INNER}} UNION ALL (SELECT 2)
+# """
+
+# [[cases]]
+# description = "Trailing comma is allowed, single input."
+# input = """
+# select 1
+# |> union all (select 2),
+# """
+# formatted = """
+# SELECT 1
+# |> UNION ALL (SELECT 2),
+# """
+
+# [[cases]]
+# description = "Trailing comma is allowed, multiple inputs."
+# input = """
+# select 1
+# |> intersect distinct (select 2), (select 2),
+# """
+# formatted = """
+# SELECT 1
+# |> INTERSECT DISTINCT (SELECT 2), (SELECT 2),
+# """
+
+# [[cases]]
+# description = "Unparenthesized TABLE clauses in pipe set operations should work."
+# input = """
+# [language_features=NONE,+PIPES]
+# TABLE t1
+# |> {{UNION|INTERSECT|EXCEPT}} {{ALL|DISTINCT}}
+#     TABLE t2,
+#     TABLE t3,
+#     (FROM t4 |> WHERE condition),
+#     (TABLE t5)
+# """
+# formatted = """
+# TABLE t1
+# |> {{UNION|INTERSECT|EXCEPT}} {{ALL|DISTINCT}}
+#     TABLE t2,
+#     TABLE t3,
+#     (FROM t4 |> WHERE condition),
+#     (TABLE t5)
+# """
+
+# [[cases]]
+# description = "TABLE clause at end with or without trailing comma"
+# input = """
+# TABLE t1
+# |>  UNION ALL
+#     TABLE t2 ,
+# """
+# formatted = """
+# TABLE t1
+# |>  UNION ALL
+#     TABLE t2 ,
+# """
+
+# [[cases]]
+# description = "Input is a subquery."
+# input = """
+# from t
+# |> recursive union all (select 1)
+# """
+# formatted = """
+# FROM t
+# |> RECURSIVE UNION ALL (SELECT 1)
+# """
+
+# [[cases]]
+# description = "Input is a subpipeline."
+# input = """
+# from t
+# |> recursive union all (
+#   |> extend 1
+# )
+# """
+# formatted = """
+# FROM t
+# |> RECURSIVE UNION ALL (
+#   |> EXTEND 1
+# )
+# """
+
+# [[cases]]
+# description = "note: Expand these combinations into several tests."
+# input = """
+# from t
+# |> recursive {{union|intersect|except}} {{all|distinct}} (select 1)
+# """
+# formatted = """
+# FROM t
+# |> RECURSIVE {{UNION|INTERSECT|EXCEPT}} {{ALL|DISTINCT}} (SELECT 1)
+# """
+
+# [[cases]]
+# description = "Depth modifiers are allowed. note: expand these combinations into several tests."
+# input = """
+# from t
+# |> recursive union all
+#   with depth {{|as d|max 10|between 10 and 12|between 10 and unbounded}}
+#   (select 1)
+# """
+# formatted = """
+# FROM t
+# |> RECURSIVE UNION ALL
+#   WITH depth {{|AS d|max 10|between 10 AND 12|between 10 AND unbounded}}
+#   (SELECT 1)
+# """
+
+# [[cases]]
+# description = "Set operation modifiers are allowed."
+# input = """
+# from t
+# |> {{full|left}} union distinct (select 1)
+# """
+# formatted = """
+# FROM t
+# |> {{FULL|LEFT}} UNION DISTINCT (SELECT 1)
+# """
+
+# [[cases]]
+# description = "FROM clause is interpreted as a subquery, not an invalid subpipeline."
+# input = """
+# from t
+# |> recursive union distinct (from t)
+# """
+# formatted = """
+# FROM t
+# |> RECURSIVE UNION DISTINCT (FROM t)
+# """
+
+# [[cases]]
+# input = """
+# select 1
+# |> union all (select 2)
+# """
+# formatted = """
+# SELECT 1
+# |> UNION ALL (SELECT 2)
+# """
+
+# [[cases]]
+# description = "Hints, and multiple rhs tables."
+# input = """
+# select 1
+# |> union @{hint=1} all (select 2), (select 3)
+# """
+# formatted = """
+# SELECT 1
+# |> UNION @{hint=1} ALL (SELECT 2), (SELECT 3)
+# """
+
+# [[cases]]
+# description = "Complex queries on the rhs, with pipes or without."
+# input = """
+# select 1
+# |> union all
+# (select * from t where x),
+# (select 1 |> where y)
+# """
+# formatted = """
+# SELECT 1
+# |> UNION ALL
+# (SELECT * FROM t WHERE x),
+# (SELECT 1 |> WHERE y)
+# """
+
+# [[cases]]
+# description = "All combinations of simple set ops work as pipe operator keywords."
+# input = """
+# select 1
+# |> {{union|intersect|except}} {{all|distinct}} (select 2)
+# """
+# formatted = """
+# SELECT 1
+# |> {{UNION|INTERSECT|EXCEPT}} {{ALL|DISTINCT}} (SELECT 2)
+# """
+
+# [[cases]]
+# description = "CORRESPONDING modifiers work."
+# input = """
+# select 1
+# |> UNION ALL CORRESPONDING (select 2)
+# |> INTERSECT DISTINCT CORRESPONDING BY (x) (select 3)
+# |> EXCEPT ALL STRICT CORRESPONDING BY (x) (select 4)
+# """
+# formatted = """
+# SELECT 1
+# |> UNION ALL CORRESPONDING (SELECT 2)
+# |> INTERSECT DISTINCT CORRESPONDING BY (x) (SELECT 3)
+# |> EXCEPT ALL STRICT CORRESPONDING BY (x) (SELECT 4)
+# """
+
+# [[cases]]
+# description = "BY NAME modifiers work."
+# input = """
+# select 1
+# |> UNION ALL BY NAME (select 2)
+# |> INTERSECT DISTINCT BY NAME ON (x) (select 3)
+# |> EXCEPT ALL BY NAME ON (x) (select 4)
+# """
+# formatted = """
+# SELECT 1
+# |> UNION ALL BY NAME (SELECT 2)
+# |> INTERSECT DISTINCT BY NAME ON (x) (SELECT 3)
+# |> EXCEPT ALL BY NAME ON (x) (SELECT 4)
+# """
+
+# [[cases]]
+# description = "FULL/LEFT modifiers work at the start of the pipe operator"
+# input = """
+# select 1
+# |> {{FULL|FULL OUTER|LEFT|LEFT OUTER|INNER}} UNION ALL (select 2)
+# """
+# formatted = """
+# SELECT 1
+# |> {{FULL|FULL OUTER|LEFT|LEFT OUTER|INNER}} UNION ALL (SELECT 2)
+# """
+
+# [[cases]]
+# description = "Trailing comma is allowed, single input."
+# input = """
+# select 1
+# |> union all (select 2),
+# """
+# formatted = """
+# SELECT 1
+# |> UNION ALL (SELECT 2),
+# """
+
+# [[cases]]
+# description = "Trailing comma is allowed, multiple inputs."
+# input = """
+# select 1
+# |> intersect distinct (select 2), (select 2),
+# """
+# formatted = """
+# SELECT 1
+# |> INTERSECT DISTINCT (SELECT 2), (SELECT 2),
+# """
+
+# [[cases]]
+# description = "Unparenthesized TABLE clauses in pipe set operations should work."
+# input = """
+# [language_features=NONE,+PIPES]
+# TABLE t1
+# |> {{UNION|INTERSECT|EXCEPT}} {{ALL|DISTINCT}}
+#     TABLE t2,
+#     TABLE t3,
+#     (FROM t4 |> WHERE condition),
+#     (TABLE t5)
+# """
+# formatted = """
+# TABLE t1
+# |> {{UNION|INTERSECT|EXCEPT}} {{ALL|DISTINCT}}
+#     TABLE t2,
+#     TABLE t3,
+#     (FROM t4 |> WHERE condition),
+#     (TABLE t5)
+# """
+
+# [[cases]]
+# description = "TABLE clause at end with or without trailing comma"
+# input = """
+# TABLE t1
+# |>  UNION ALL
+#     TABLE t2 ,
+# """
+# formatted = """
+# TABLE t1
+# |>  UNION ALL
+#     TABLE t2 ,
+# """
+

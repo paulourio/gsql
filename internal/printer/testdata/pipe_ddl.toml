@@ -1,0 +1,129 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+[[cases]]
+input = """
+select x
+|> drop a
+|> drop a,
+|> drop a,b,c
+|> drop a,b,c,
+"""
+formatted = """
+SELECT x
+|> DROP a
+|> DROP a
+|> DROP a, b, c
+|> DROP a, b, c
+"""
+
+[[cases]]
+input = """
+from t
+|> CREATE TABLE t2
+|> CREATE OR REPLACE TABLE IF NOT EXISTS t3
+|> CREATE TEMP TABLE t4
+|> CREATE PRIVATE TABLE t5
+"""
+formatted = """
+FROM t
+|> CREATE TABLE t2
+|> CREATE OR REPLACE TABLE IF NOT EXISTS t3
+|> CREATE TEMP TABLE t4
+|> CREATE PRIVATE TABLE t5
+"""
+
+[[cases]]
+input = """
+FROM t
+|> CREATE TABLE t2 OPTIONS(key=value)
+"""
+formatted = """
+FROM t
+|> CREATE TABLE t2
+   OPTIONS (key=value)
+"""
+
+[[cases]]
+input = """
+from t
+|> CREATE TABLE t2 (
+      x INT64,
+      y STRING PRIMARY KEY
+    )
+"""
+formatted = """
+FROM t
+|> CREATE TABLE t2
+   (
+     x INT64,
+     y STRING
+       PRIMARY KEY
+   )
+"""
+
+[[cases]]
+input = """
+    from t
+|> CREATE TABLE t2 LIKE t3
+|> CREATE TABLE t2 CLONE t4
+"""
+formatted = """
+FROM t
+|> CREATE TABLE t2
+   LIKE t3
+|> CREATE TABLE t2
+   CLONE t4
+"""
+
+[[cases]]
+input = """
+from t
+|> CREATE TABLE t2
+   PARTITION BY x,y
+   CLUSTER BY a,b
+   WITH CONNECTION abc.def
+   OPTIONS (opt1=2, opt3=abc)
+"""
+formatted = """
+FROM t
+|> CREATE TABLE t2
+   PARTITION BY x, y
+     CLUSTER BY a, b
+   WITH CONNECTION abc.def
+   OPTIONS (
+     opt1 = 2,
+     opt3 = abc
+   )
+"""
+
+[[cases]]
+input = """
+CREATE TABLE t1
+AS
+FROM t2
+|> CREATE TABLE t3
+"""
+formatted = """
+CREATE TABLE t1
+AS (
+  FROM t2
+  |> CREATE TABLE t3
+)
+"""
+

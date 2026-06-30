@@ -195,7 +195,8 @@ Formatting without comment is always idempotent, but formatting code preserving 
 
 #### Pipe syntax
 
-The googlesql parser now supports the pipe query syntax (`|>`). None of the pipe operators are currently formatted by `bqfmt`.
+The googlesql parser now supports the pipe query syntax (`|>`).
+Several pipe operators are currently formatted by `bqfmt`:
 
 - [x] `|> AGGREGATE`
 - [x] `|> AS`

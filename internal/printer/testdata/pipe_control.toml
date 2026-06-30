@@ -1,0 +1,279 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+[[cases]]
+input = """
+from t
+|> assert x+1 = 5
+|> assert (select true)
+|> assert (select * from unnest(values) as x where x is not null)
+|> assert false, 'hello'
+|> assert x=y, concat(a,b), 17, "xxxx"
+"""
+formatted = """
+FROM t
+|> ASSERT x + 1 = 5
+|> ASSERT (SELECT TRUE)
+|> ASSERT (
+            SELECT *
+              FROM UNNEST(values) AS x
+             WHERE x IS NOT NULL
+          )
+|> ASSERT FALSE, 'hello'
+|> ASSERT x = y, CONCAT(a, b), 17, 'xxxx'
+"""
+
+[[cases]]
+input = """
+from t
+|> assert x,
+|> assert x,y,
+|> assert x,y,z,
+"""
+formatted = """
+FROM t
+|> ASSERT x
+|> ASSERT x, y
+|> ASSERT x, y, z
+"""
+
+# [[cases]]
+# input = """
+# from t
+# |> fork ()
+# |> fork ( |> select 1 ),
+#         ( |> select 2+fork   # FORK as an identifier
+#           |> select 3 )
+# """
+# formatted = """
+# FROM t
+# |> FORK ()
+# |> FORK ( |> SELECT 1 ),
+#         ( |> SELECT 2+FORK   # FORK AS an identifier
+#           |> SELECT 3 )
+# """
+
+# [[cases]]
+# description = "Trailing commas"
+# input = """
+# from t
+# |> fork ( |> where true ),
+# |> fork ( |> where 1 ),
+#         (),
+# """
+# formatted = """
+# FROM t
+# |> FORK ( |> WHERE TRUE ),
+# |> FORK ( |> WHERE 1 ),
+#         (),
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> IF true THEN ( |> WHERE false )
+# |> IF x=y THEN ( |> WHERE true )
+#    ELSE ( |> SELECT 1 )
+# |> IF x=y THEN ( |> WHERE true )
+#    ELSEIF x=2 THEN ( |> SELECT 2 )
+#    ELSE ( |> SELECT 1 )
+# |> WHERE true
+# """
+# formatted = """
+# FROM t
+# |> IF TRUE THEN ( |> WHERE FALSE )
+# |> IF x=y THEN ( |> WHERE TRUE )
+#    ELSE ( |> SELECT 1 )
+# |> IF x=y THEN ( |> WHERE TRUE )
+#    ELSEIF x=2 THEN ( |> SELECT 2 )
+#    ELSE ( |> SELECT 1 )
+# |> WHERE TRUE
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> IF x=y THEN ( |> WHERE true )
+#    ELSEIF x=2 THEN ( |> SELECT 2 )
+#    ELSEIF x=3 THEN ( |> SELECT 3 )
+#    ELSE ( |> SELECT 1 )
+# """
+# formatted = """
+# FROM t
+# |> IF x=y THEN ( |> WHERE TRUE )
+#    ELSEIF x=2 THEN ( |> SELECT 2 )
+#    ELSEIF x=3 THEN ( |> SELECT 3 )
+#    ELSE ( |> SELECT 1 )
+# """
+
+# [[cases]]
+# description = "Empty subpipelines"
+# input = """
+# from t
+# |> IF x=y THEN ()
+#    ELSEIF x=2 THEN ()
+#    ELSEIF x=3 THEN ()
+#    ELSE ()
+# """
+# formatted = """
+# FROM t
+# |> IF x=y THEN ()
+#    ELSEIF x=2 THEN ()
+#    ELSEIF x=3 THEN ()
+#    ELSE ()
+# """
+
+# [[cases]]
+# description = "Hints"
+# input = """
+# from t
+# |> IF @{hint=1} x=y THEN ()
+#    ELSE ()
+# """
+# formatted = """
+# FROM t
+# |> IF @{hint=1} x=y THEN ()
+#    ELSE ()
+# """
+
+# [[cases]]
+# description = "Formatting with multi-statement subpipelines"
+# input = """
+# from t
+# |> IF x=y THEN ( |> WHERE true |> SELECT 1)
+#    ELSEIF x=2 THEN ( |> SELECT 2 |> SELECT 3 )
+#    ELSE ( |> SELECT 1 |> SELECT 4 )
+# """
+# formatted = """
+# FROM t
+# |> IF x=y THEN ( |> WHERE TRUE |> SELECT 1)
+#    ELSEIF x=2 THEN ( |> SELECT 2 |> SELECT 3 )
+#    ELSE ( |> SELECT 1 |> SELECT 4 )
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> LOG
+# |> LOG ()
+# |> LOG (|> WHERE true)
+# |> LOG ( |> WHERE false )
+# |> LOG (
+#      |> WHERE x=y
+#      |> AGGREGATE COUNT(*)
+#    )
+# """
+# formatted = """
+# FROM t
+# |> LOG
+# |> LOG ()
+# |> LOG (|> WHERE TRUE)
+# |> LOG ( |> WHERE FALSE )
+# |> LOG (
+#      |> WHERE x=y
+#      |> AGGREGATE COUNT(*)
+#    )
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> tee ()
+# |> tee ( |> select 1 ),
+#         ( |> select 2+tee   # TEE as an identifier
+#           |> select 3 )
+# """
+# formatted = """
+# FROM t
+# |> TEE ()
+# |> TEE ( |> SELECT 1 ),
+#         ( |> SELECT 2+TEE   # TEE AS an identifier
+#           |> SELECT 3 )
+# """
+
+# [[cases]]
+# description = "Trailing commas"
+# input = """
+# from t
+# |> tee ( |> where true ),
+# |> tee ( |> where 1 ),
+#         (),
+# """
+# formatted = """
+# FROM t
+# |> TEE ( |> WHERE TRUE ),
+# |> TEE ( |> WHERE 1 ),
+#         (),
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> tee ()
+# |> tee ( |> select 1 ),
+#         ( |> select 2+tee   # TEE as an identifier
+#           |> select 3 )
+# """
+# formatted = """
+# FROM t
+# |> TEE ()
+# |> TEE ( |> SELECT 1 ),
+#         ( |> SELECT 2+TEE   # TEE AS an identifier
+#           |> SELECT 3 )
+# """
+
+# [[cases]]
+# description = "Trailing commas"
+# input = """
+# from t
+# |> tee ( |> where true ),
+# |> tee ( |> where 1 ),
+#         (),
+# """
+# formatted = """
+# FROM t
+# |> TEE ( |> WHERE TRUE ),
+# |> TEE ( |> WHERE 1 ),
+#         (),
+# """
+
+# [[cases]]
+# description = "WITH in subpipelines."
+# input = """
+# FROM t1
+# |> IF cond THEN (
+#     |> WITH t2 AS (select x)
+#     |> WHERE true
+#    ) ELSE (
+#     |> WHERE x
+#     |> WITH y AS (from t4)
+#     |> SELECT z
+#    )
+# """
+# formatted = """
+# FROM t1
+# |> IF cond THEN (
+#     |> WITH t2 AS (SELECT x)
+#     |> WHERE TRUE
+#    ) ELSE (
+#     |> WHERE x
+#     |> WITH y AS (FROM t4)
+#     |> SELECT z
+#    )
+# """
+

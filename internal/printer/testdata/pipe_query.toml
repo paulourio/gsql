@@ -1,0 +1,816 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+[[cases]]
+input = """
+SELECT 1 |> AS t
+"""
+formatted = """
+SELECT 1
+|> AS t
+"""
+
+[[cases]]
+input = """
+SELECT 1 x |> AS t
+"""
+formatted = """
+SELECT 1 AS x
+|> AS t
+"""
+
+[[cases]]
+input = """
+SELECT 1 |> AS t1 |> AS t2;
+"""
+formatted = """
+SELECT 1
+|> AS t1
+|> AS t2
+"""
+
+[[cases]]
+description = "This case is syntactically correct but semantically wrong, since \"t\" is in the inner scope, won't be visible to the follow up pipe select."
+input = """
+FROM (SELECT 1 AS a |> AS t)
+|> SELECT t.a
+"""
+formatted = """
+FROM (
+       SELECT 1 AS a
+       |> AS t
+     )
+|> SELECT t.a
+"""
+
+[[cases]]
+description = "INPUT TABLE will work outside pipe CALL too, but the analyzer will reject it."
+input = """
+from f(INPUT TABLE)
+"""
+formatted = """
+FROM f(INPUT TABLE)
+"""
+
+[[cases]]
+input = """
+select func(name=>INPUT)
+"""
+formatted = """
+SELECT func(name => input)
+"""
+
+[[cases]]
+input = """
+SELECT 1 x
+|> DISTINCT
+"""
+formatted = """
+SELECT 1 AS x
+|> DISTINCT
+"""
+
+[[cases]]
+input = """
+CREATE TEMP TABLE t
+AS (SELECT 1 AS a |> DISTINCT);
+"""
+formatted = """
+CREATE TEMP TABLE t
+AS (
+  SELECT 1 AS a
+  |> DISTINCT
+)
+"""
+
+[[cases]]
+input = """
+SELECT (SELECT 1 AS a |> DISTINCT);
+"""
+formatted = """
+SELECT (
+         SELECT 1 AS a
+         |> DISTINCT
+       )
+"""
+
+# [[cases]]
+# description = "Pipe syntax and FOR UPDATE."
+# input = """
+# from t for update
+# |> where a = 5
+# |> select a, b;
+# """
+# formatted = """
+# FROM t FOR UPDATE
+# |> WHERE a = 5
+# |> SELECT a, b;
+# """
+
+# [[cases]]
+# input = """
+# with q1 as (from t1 for update
+#             |> where key = 5
+#             |> select key, x),
+#      q2 as (from q1
+#             |> extend x*2 as y)
+# from q2
+# |> aggregate sum(y)
+#    group by key;
+# """
+# formatted = """
+# WITH q1 AS (FROM t1 FOR UPDATE
+#             |> WHERE key = 5
+#             |> SELECT key, x),
+#      q2 AS (FROM q1
+#             |> EXTEND x*2 AS y)
+# FROM q2
+# |> aggregate sum(y)
+#    GROUP BY key;
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> select sum(x) over(w), count(*) over (w2)
+#    window w AS (),
+#           w2 AS (partition by a)
+# |> extend max(y) over (w partition by x)
+#    window w AS (ORDER BY b ROWS CURRENT ROW)
+# """
+# formatted = """
+# FROM t
+# |> SELECT sum(x) OVER(w), count(*) OVER (w2)
+#    WINDOW w AS (),
+#           w2 AS (PARTITION BY a)
+# |> EXTEND max(y) OVER (w PARTITION BY x)
+#    WINDOW w AS (ORDER BY b ROWS CURRENT ROW)
+# """
+
+# [[cases]]
+# description = "Unused window"
+# input = """
+# from t
+# |> select sum(x)
+#    window w AS ()
+# """
+# formatted = """
+# FROM t
+# |> SELECT sum(x)
+#    WINDOW w AS ()
+# """
+
+# [[cases]]
+# description = "Trailing comma on the window list, and the select-list before WINDOW."
+# input = """
+# from t
+# |> select sum(x) over (w),
+#    window w AS (),# Trailing comma on the window list, and the select-list before WINDOW.
+# """
+# formatted = """
+# FROM t
+# |> SELECT sum(x) OVER (w),
+#    WINDOW w AS (),# Trailing comma ON the WINDOW list, AND the SELECT-list before WINDOW.
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> extend sum(x) over (w),
+#    window w AS (),
+# """
+# formatted = """
+# FROM t
+# |> EXTEND sum(x) OVER (w),
+#    WINDOW w AS (),
+# """
+
+# [[cases]]
+# input = """
+# select 1
+# |> order by x
+# |> order by 1, x, y, x+1, sum(x), x() OVER ()
+# |> order @{hint=1} by y
+# |> order by x ASC, y DESC
+# |> order by x COLLATE "abc"
+# |> order by x NULLS FIRST
+# |> order by x COLLATE "abc" ASC NULLS LAST
+# """
+# formatted = """
+# SELECT 1
+# |> ORDER BY x
+# |> ORDER BY 1, x, y, x+1, sum(x), x() OVER ()
+# |> ORDER @{hint=1} BY y
+# |> ORDER BY x ASC, y DESC
+# |> ORDER BY x COLLATE "abc"
+# |> ORDER BY x NULLS FIRST
+# |> ORDER BY x COLLATE "abc" ASC NULLS LAST
+# """
+
+# [[cases]]
+# description = "Trailing commas."
+# input = """
+# select 1
+# |> order by x,
+# |> order by x, y,
+# """
+# formatted = """
+# SELECT 1
+# |> ORDER BY x,
+# |> ORDER BY x, y,
+# """
+
+# [[cases]]
+# input = """
+# (FROM t1) q1
+# |> WHERE true
+# """
+# formatted = """
+# (FROM t1) q1
+# |> WHERE TRUE
+# """
+
+# [[cases]]
+# input = """
+# (FROM t1) as q1
+# |> WHERE true
+# """
+# formatted = """
+# (FROM t1) AS q1
+# |> WHERE TRUE
+# """
+
+# [[cases]]
+# input = """
+# (SELECT * FROM t1) AS q1
+# UNION ALL
+# (SELECT * FROM t2) AS q2
+# """
+# formatted = """
+# (SELECT * FROM t1) AS q1
+# UNION ALL
+# (SELECT * FROM t2) AS q2
+# """
+
+# [[cases]]
+# input = """
+# (SELECT * FROM t1) AS q1
+# ORDER BY x
+# """
+# formatted = """
+# (SELECT * FROM t1) AS q1
+# ORDER BY x
+# """
+
+# [[cases]]
+# input = """
+# (SELECT * FROM t1) AS q1
+# LIMIT 10
+# """
+# formatted = """
+# (SELECT * FROM t1) AS q1
+# LIMIT 10
+# """
+
+# [[cases]]
+# input = """
+# (SELECT 1) AS q
+# """
+# formatted = """
+# (SELECT 1) AS q
+# """
+
+[[cases]]
+input = """
+FROM (SELECT 1) AS q
+"""
+formatted = """
+FROM (SELECT 1) AS q
+"""
+
+# [[cases]]
+# input = """
+# (((SELECT 1))) AS q1
+# """
+# formatted = """
+# (((SELECT 1))) AS q1
+# """
+
+# [[cases]]
+# input = """
+# (((SELECT 1) AS q1))
+# """
+# formatted = """
+# (((SELECT 1) AS q1))
+# """
+
+# [[cases]]
+# input = """
+# (((SELECT 1) AS q1) AS q2) AS q3
+# """
+# formatted = """
+# (((SELECT 1) AS q1) AS q2) AS q3
+# """
+
+# [[cases]]
+# description = "Test another kind of QueryExpression with an alias."
+# input = """
+# (select 1
+#  union all
+#  select 2) AS q
+# """
+# formatted = """
+# (SELECT 1
+#  UNION ALL
+#  SELECT 2) AS q
+# """
+
+# [[cases]]
+# input = """
+# select 1,2,3
+# |> where true;
+# """
+# formatted = """
+# SELECT 1,2,3
+# |> WHERE TRUE;
+# """
+
+# [[cases]]
+# input = """
+# select * from t where x=1
+# |> where y=1
+# |> where y=2
+# ;
+# """
+# formatted = """
+# SELECT * FROM t WHERE x=1
+# |> WHERE y=1
+# |> WHERE y=2
+# ;
+# """
+
+# [[cases]]
+# input = """
+# select 5
+# from (
+#   select 1
+#   |> where true
+# )
+# """
+# formatted = """
+# SELECT 5
+# FROM (
+#   SELECT 1
+#   |> WHERE TRUE
+# )
+# """
+
+# [[cases]]
+# input = """
+# select (select 1 |> where true)
+# """
+# formatted = """
+# SELECT (SELECT 1 |> WHERE TRUE)
+# """
+
+# [[cases]]
+# input = """
+# select 1
+# union all
+# select 2
+# |> where true
+# """
+# formatted = """
+# SELECT 1
+# UNION ALL
+# SELECT 2
+# |> WHERE TRUE
+# """
+
+# [[cases]]
+# input = """
+# select 1
+# union all
+# select 2
+# order by x
+# limit 5
+# |> where false
+# """
+# formatted = """
+# SELECT 1
+# UNION ALL
+# SELECT 2
+# ORDER BY x
+# LIMIT 5
+# |> WHERE FALSE
+# """
+
+# [[cases]]
+# input = """
+# WITH q1 AS (select 1 x |> where true)
+# select * from q1
+# |> where false
+# """
+# formatted = """
+# WITH q1 AS (SELECT 1 x |> WHERE TRUE)
+# SELECT * FROM q1
+# |> WHERE FALSE
+# """
+
+# [[cases]]
+# input = """
+# (
+#   WITH q1 AS (select 1 x |> where 1)
+#   select * from q1
+#   |> where 2
+# )
+# |> where 3
+# """
+# formatted = """
+# (
+#   WITH q1 AS (SELECT 1 x |> WHERE 1)
+#   SELECT * FROM q1
+#   |> WHERE 2
+# )
+# |> WHERE 3
+# """
+
+# [[cases]]
+# input = """
+# (
+#   select 1
+#   UNION ALL
+#   select 2
+#   |> where 2
+# )
+# |> where 3
+# """
+# formatted = """
+# (
+#   SELECT 1
+#   UNION ALL
+#   SELECT 2
+#   |> WHERE 2
+# )
+# |> WHERE 3
+# """
+
+# [[cases]]
+# input = """
+# select 1 x
+# limit 10
+# |> where 1
+# """
+# formatted = """
+# SELECT 1 x
+# LIMIT 10
+# |> WHERE 1
+# """
+
+# [[cases]]
+# input = """
+# select 1 x
+# order by 1
+# |> where 1
+# """
+# formatted = """
+# SELECT 1 x
+# ORDER BY 1
+# |> WHERE 1
+# """
+
+# [[cases]]
+# input = """
+# select 1
+# |> select 1,2,"abc"
+# |> select distinct x
+# |> select as struct x,y
+# |> select as value z
+# |> select as c.TypeName z
+# |> select *, * except(abc), * replace(abc as def)
+# |> select @{hint=1} *, * except(abc), * replace(abc as def)
+# |> select abc.def.*, abc.* except(x)
+# |> select with anonymization 1,2
+# """
+# formatted = """
+# SELECT 1
+# |> SELECT 1,2,"abc"
+# |> SELECT DISTINCT x
+# |> SELECT AS struct x,y
+# |> SELECT AS value z
+# |> SELECT AS c.TypeName z
+# |> SELECT *, * EXCEPT(abc), * REPLACE(abc AS def)
+# |> SELECT @{hint=1} *, * EXCEPT(abc), * REPLACE(abc AS def)
+# |> SELECT abc.def.*, abc.* EXCEPT(x)
+# |> SELECT WITH anonymization 1,2
+# """
+
+# [[cases]]
+# description = "Trailing commas are allowed."
+# input = """
+# select 1,
+# |> select 2,
+# |> select 3,4,
+# """
+# formatted = """
+# SELECT 1,
+# |> SELECT 2,
+# |> SELECT 3,4,
+# """
+
+# [[cases]]
+# description = "Trailing commas are allowed."
+# input = """
+# select 1 x,
+# |> extend 2,
+# |> extend 3, 4,
+# """
+# formatted = """
+# SELECT 1 x,
+# |> EXTEND 2,
+# |> EXTEND 3, 4,
+# """
+
+# [[cases]]
+# input = """
+# select 1 x
+# |> extend 2 y, 3 AS z
+# |> extend y+z AS yz, pb.f1.f2[3] f3, sqrt(y)
+# |> where true
+# |> extend 1,2,3 as `three`, 4 four
+# """
+# formatted = """
+# SELECT 1 x
+# |> EXTEND 2 y, 3 AS z
+# |> EXTEND y+z AS yz, pb.f1.f2[3] f3, sqrt(y)
+# |> WHERE TRUE
+# |> EXTEND 1,2,3 AS `three`, 4 four
+# """
+
+# [[cases]]
+# description = "Dot-star is allowed on EXTEND, with the optional modifiers, including on the output of window functions."
+# input = """
+# select 1
+# |> EXTEND x.*,
+#           f(x).* except(a),
+#           (1+x).* replace(a as b),
+#           (sum(x) OVER ()).*
+# """
+# formatted = """
+# SELECT 1
+# |> EXTEND x.*,
+#           f(x).* EXCEPT(a),
+#           (1+x).* REPLACE(a AS b),
+#           (sum(x) OVER ()).*
+# """
+
+# [[cases]]
+# description = "The precedence allows binding .* here."
+# input = """
+# select 1
+# |> EXTEND sum(x) OVER ().*
+# """
+# formatted = """
+# SELECT 1
+# |> EXTEND sum(x) OVER ().*
+# """
+
+# [[cases]]
+# description = "These are disallowed in the analyzer."
+# input = """
+# select 1 x
+# |> extend count(*), sum(x) over ()
+# """
+# formatted = """
+# SELECT 1 x
+# |> EXTEND count(*), sum(x) OVER ()
+# """
+
+# [[cases]]
+# input = """
+# select 1 x
+# |> limit 10
+# |> limit 12 offset 22
+# |> limit @x offset @y
+# |> limit cast(@z as int64)
+# """
+# formatted = """
+# SELECT 1 x
+# |> LIMIT 10
+# |> LIMIT 12 OFFSET 22
+# |> LIMIT @x OFFSET @y
+# |> LIMIT cast(@z AS int64)
+# """
+
+# [[cases]]
+# input = """
+# SELECT
+#   1 AS x
+# |> LIMIT 1 + 2
+# """
+# formatted = """
+# SELECT
+#   1 AS x
+# |> LIMIT 1 + 2
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> static_describe
+# |> static_describe
+# |> where true
+# """
+# formatted = """
+# FROM t
+# |> STATIC_DESCRIBE
+# |> STATIC_DESCRIBE
+# |> WHERE TRUE
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> describe
+# |> select 123
+# |> describe
+# """
+# formatted = """
+# FROM t
+# |> DESCRIBE
+# |> SELECT 123
+# |> DESCRIBE
+# """
+
+# [[cases]]
+# input = """
+# select 1
+# |> RENAME x AS y
+# |> RENAME `a b` AS `d e`, x AS y, aaa bbb
+# """
+# formatted = """
+# SELECT 1
+# |> RENAME x AS y
+# |> RENAME `a b` AS `d e`, x AS y, aaa bbb
+# """
+
+# [[cases]]
+# description = "Trailing commas"
+# input = """
+# select 1
+# |> RENAME a b,
+# |> RENAME a b, c AS d,
+# """
+# formatted = """
+# SELECT 1
+# |> RENAME a b,
+# |> RENAME a b, c AS d,
+# """
+
+# [[cases]]
+# input = """
+# select x
+# |> SET x = 1+2 ,
+# """
+# formatted = """
+# SELECT x
+# |> SET x = 1+2 ,
+# """
+
+# [[cases]]
+# input = """
+# select x
+# |> set x = 1+2, y = 3, z = z ,
+# """
+# formatted = """
+# SELECT x
+# |> SET x = 1+2, y = 3, z = z ,
+# """
+
+# [[cases]]
+# description = "These are disallowed in the analyzer."
+# input = """
+# select 1 x
+# |> extend count(*), sum(x) over ()
+# """
+# formatted = """
+# SELECT 1 x
+# |> EXTEND count(*), sum(x) OVER ()
+# """
+
+# [[cases]]
+# input = """
+# select 1 x
+# |> limit 10
+# |> limit 12 offset 22
+# |> limit @x offset @y
+# |> limit cast(@z as int64)
+# """
+# formatted = """
+# SELECT 1 x
+# |> LIMIT 10
+# |> LIMIT 12 OFFSET 22
+# |> LIMIT @x OFFSET @y
+# |> LIMIT cast(@z AS int64)
+# """
+
+# [[cases]]
+# input = """
+# SELECT
+#   1 AS x
+# |> LIMIT 1 + 2
+# """
+# formatted = """
+# SELECT
+#   1 AS x
+# |> LIMIT 1 + 2
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> static_describe
+# |> static_describe
+# |> where true
+# """
+# formatted = """
+# FROM t
+# |> STATIC_DESCRIBE
+# |> STATIC_DESCRIBE
+# |> WHERE TRUE
+# """
+
+# [[cases]]
+# input = """
+# from t
+# |> describe
+# |> select 123
+# |> describe
+# """
+# formatted = """
+# FROM t
+# |> DESCRIBE
+# |> SELECT 123
+# |> DESCRIBE
+# """
+
+# [[cases]]
+# input = """
+# select 1
+# |> RENAME x AS y
+# |> RENAME `a b` AS `d e`, x AS y, aaa bbb
+# """
+# formatted = """
+# SELECT 1
+# |> RENAME x AS y
+# |> RENAME `a b` AS `d e`, x AS y, aaa bbb
+# """
+
+# [[cases]]
+# description = "Trailing commas"
+# input = """
+# select 1
+# |> RENAME a b,
+# |> RENAME a b, c AS d,
+# """
+# formatted = """
+# SELECT 1
+# |> RENAME a b,
+# |> RENAME a b, c AS d,
+# """
+
+# [[cases]]
+# input = """
+# select x
+# |> SET x = 1+2 ,
+# """
+# formatted = """
+# SELECT x
+# |> SET x = 1+2 ,
+# """
+
+# [[cases]]
+# input = """
+# select x
+# |> set x = 1+2, y = 3, z = z ,
+# """
+# formatted = """
+# SELECT x
+# |> SET x = 1+2, y = 3, z = z ,
+# """
+
