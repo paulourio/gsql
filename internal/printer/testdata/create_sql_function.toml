@@ -36,7 +36,7 @@ create temp function myfunc ( )
   as ( 42 ) ;
 """
 formatted = """
-CREATE TEMPORARY FUNCTION myfunc()
+CREATE TEMP FUNCTION myfunc()
 AS (
   42
 )
@@ -45,11 +45,11 @@ AS (
 [[cases]]
 description = "CREATE scope modifiers"
 input = """
-create temporary function `myfunc` ( )
+create temp function `myfunc` ( )
   as ( 42 ) ;
 """
 formatted = """
-CREATE TEMPORARY FUNCTION `myfunc`()
+CREATE TEMP FUNCTION `myfunc`()
 AS (
   42
 )
@@ -90,7 +90,7 @@ create temp function if not exists myfunc ( )
   as ( 42 ) ;
 """
 formatted = """
-CREATE TEMPORARY FUNCTION IF NOT EXISTS myfunc()
+CREATE TEMP FUNCTION IF NOT EXISTS myfunc()
 AS (
   42
 )
@@ -343,7 +343,7 @@ input = """
 create temp aggregate function if not exists myfunc();
 """
 formatted = """
-CREATE TEMPORARY AGGREGATE FUNCTION IF NOT EXISTS myfunc()
+CREATE TEMP AGGREGATE FUNCTION IF NOT EXISTS myfunc()
 """
 
 [[cases]]
@@ -352,7 +352,7 @@ input = """
 create temp aggregate function myfunc();
 """
 formatted = """
-CREATE TEMPORARY AGGREGATE FUNCTION myfunc()
+CREATE TEMP AGGREGATE FUNCTION myfunc()
 """
 
 [[cases]]
@@ -361,7 +361,7 @@ input = """
 create or replace temp aggregate function myfunc();
 """
 formatted = """
-CREATE OR REPLACE TEMPORARY AGGREGATE FUNCTION myfunc()
+CREATE OR REPLACE TEMP AGGREGATE FUNCTION myfunc()
 """
 
 [[cases]]
@@ -405,7 +405,7 @@ as (
 )
 """
 formatted = """
-CREATE TEMPORARY FUNCTION my_t1
+CREATE TEMP FUNCTION my_t1
 (
   hash_key     STRING,
   load_date    TIMESTAMP,
@@ -620,11 +620,11 @@ description = """
 Struct return type (b/28942765).
 """
 input = """
-CREATE TEMPORARY FUNCTION MakeStruct(x INT64, y STRING)
+CREATE TEMP FUNCTION MakeStruct(x INT64, y STRING)
 RETURNS STRUCT<x INT64, y STRING> AS (STRUCT(x + 5, SUBSTR(y, 0, 10)));
 """
 formatted = """
-CREATE TEMPORARY FUNCTION MakeStruct
+CREATE TEMP FUNCTION MakeStruct
 (
   x INT64,
   y STRING
@@ -641,12 +641,12 @@ description = """
 Struct return type with field type coercion (b/28942765).
 """
 input = """
-CREATE TEMPORARY FUNCTION StructFromLarger(first INT64, second INT64)
+CREATE TEMP FUNCTION StructFromLarger(first INT64, second INT64)
 RETURNS STRUCT<x DOUBLE> AS
 (IF(first > second, STRUCT(first), STRUCT(second)));
 """
 formatted = """
-CREATE TEMPORARY FUNCTION StructFromLarger
+CREATE TEMP FUNCTION StructFromLarger
 (
   first  INT64,
   second INT64
@@ -667,11 +667,11 @@ description = """
 SQL function with sub-select.
 """
 input = """
-CREATE TEMPORARY FUNCTION CountPositiveElements(arr ARRAY<INT64>)
+CREATE TEMP FUNCTION CountPositiveElements(arr ARRAY<INT64>)
 RETURNS INT64 AS ((SELECT COUNT(*) FROM UNNEST(arr) AS x WHERE x > 0));
 """
 formatted = """
-CREATE TEMPORARY FUNCTION CountPositiveElements
+CREATE TEMP FUNCTION CountPositiveElements
 (
   arr ARRAY<INT64>
 )

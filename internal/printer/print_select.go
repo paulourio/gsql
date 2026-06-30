@@ -141,7 +141,7 @@ func createStatementKeywords(n sql.CreateStatement, agg, recursive bool, object 
 	case sql.Public:
 		b.WriteString("PUBLIC ")
 	case sql.Temporary:
-		b.WriteString("TEMPORARY ")
+		b.WriteString("TEMP ")
 	}
 	if agg {
 		b.WriteString("AGGREGATE ")
@@ -1430,9 +1430,9 @@ func (p *Printer) visitPathExpressionList(ctx Context, n *sql.PathExpressionList
 func (p *Printer) visitPrimaryKeyColumnAttribute(_ Context, n *sql.PrimaryKeyColumnAttribute) {
 	p.moveBefore(n)
 	if n.Enforced() {
-		p.print(p.keyword("ENFORCED"))
+		p.print(p.keyword("PRIMARY KEY"))
 	} else {
-		p.print(p.keyword("NOT ENFORCED"))
+		p.print(p.keyword("PRIMARY KEY NOT ENFORCED"))
 	}
 }
 

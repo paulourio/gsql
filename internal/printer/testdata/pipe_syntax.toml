@@ -532,3 +532,98 @@ select func(name=>INPUT)
 formatted = """
 SELECT func(name => input)
 """
+
+[[cases]]
+input = """
+from t
+|> CREATE TABLE t2
+|> CREATE OR REPLACE TABLE IF NOT EXISTS t3
+|> CREATE TEMP TABLE t4
+|> CREATE PRIVATE TABLE t5
+"""
+formatted = """
+FROM t
+|> CREATE TABLE t2
+|> CREATE OR REPLACE TABLE IF NOT EXISTS t3
+|> CREATE TEMP TABLE t4
+|> CREATE PRIVATE TABLE t5
+"""
+
+[[cases]]
+input = """
+FROM t
+|> CREATE TABLE t2 OPTIONS(key=value)
+"""
+formatted = """
+FROM t
+|> CREATE TABLE t2
+   OPTIONS (key=value)
+"""
+
+[[cases]]
+input = """
+from t
+|> CREATE TABLE t2 (
+      x INT64,
+      y STRING PRIMARY KEY
+    )
+"""
+formatted = """
+FROM t
+|> CREATE TABLE t2
+   (
+     x INT64,
+     y STRING
+       PRIMARY KEY
+   )
+"""
+
+[[cases]]
+input = """
+    from t
+|> CREATE TABLE t2 LIKE t3
+|> CREATE TABLE t2 CLONE t4
+"""
+formatted = """
+FROM t
+|> CREATE TABLE t2
+   LIKE t3
+|> CREATE TABLE t2
+   CLONE t4
+"""
+
+[[cases]]
+input = """
+from t
+|> CREATE TABLE t2
+   PARTITION BY x,y
+   CLUSTER BY a,b
+   WITH CONNECTION abc.def
+   OPTIONS (opt1=2, opt3=abc)
+"""
+formatted = """
+FROM t
+|> CREATE TABLE t2
+   PARTITION BY x, y
+     CLUSTER BY a, b
+   WITH CONNECTION abc.def
+   OPTIONS (
+     opt1 = 2,
+     opt3 = abc
+   )
+"""
+
+[[cases]]
+input = """
+CREATE TABLE t1
+AS
+FROM t2
+|> CREATE TABLE t3
+"""
+formatted = """
+CREATE TABLE t1
+AS (
+  FROM t2
+  |> CREATE TABLE t3
+)
+"""

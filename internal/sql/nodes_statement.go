@@ -732,6 +732,10 @@ func (n *CreateTableStatement) ClusterBy() *ClusterBy {
 	return newClusterBy(must(n.raw.ClusterBy()))
 }
 
+func (n *CreateTableStatement) WithConnectionClause() *WithConnectionClause {
+	return newWithConnectionClause(must(n.raw.WithConnectionClause()))
+}
+
 func (n *CreateTableStatement) OptionsList() *OptionsList {
 	return newOptionsList(must(n.raw.OptionsList()))
 }

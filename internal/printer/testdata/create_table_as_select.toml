@@ -70,7 +70,7 @@ create temp table pkg1.`pkg2`.`t 2` as
 select 1 as a;
 """
 formatted = """
-CREATE TEMPORARY TABLE pkg1.`pkg2`.`t 2`
+CREATE TEMP TABLE pkg1.`pkg2`.`t 2`
 AS (
   SELECT 1 AS a
 )
@@ -106,7 +106,7 @@ create temp table pkg1.`pkg2`.`t 2` as
 select 1 from t2 union all select 2 from t3 cross join t4
 """
 formatted = """
-CREATE TEMPORARY TABLE pkg1.`pkg2`.`t 2`
+CREATE TEMP TABLE pkg1.`pkg2`.`t 2`
 AS (
   SELECT 1
     FROM t2
@@ -175,12 +175,12 @@ AS (
 
 [[cases]]
 input = """
-create temporary table tt
+create temp table tt
 options (x = 5, y = 'abc', z = @param, zz = ident, zzz = @@sysvar)
 as select 2;
 """
 formatted = """
-CREATE TEMPORARY TABLE tt
+CREATE TEMP TABLE tt
 OPTIONS (
   x   = 5,
   y   = 'abc',
@@ -334,7 +334,7 @@ create temp table t(param1 int64, param2 int64) as
 select 1, 2, 3
 """
 formatted = """
-CREATE TEMPORARY TABLE t
+CREATE TEMP TABLE t
 (
   param1 INT64,
   param2 INT64

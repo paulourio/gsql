@@ -432,6 +432,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeAssert(ctx, n.(*sql.PipeAssert))
 	case sql.PipeCallKind:
 		p.visitPipeCall(ctx, n.(*sql.PipeCall))
+	case sql.PipeCreateTableKind:
+		p.visitPipeCreateTable(ctx, n.(*sql.PipeCreateTable))
 	case sql.PipeDropKind:
 		p.visitPipeDrop(ctx, n.(*sql.PipeDrop))
 	case sql.PipeJoinKind:

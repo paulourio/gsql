@@ -353,6 +353,10 @@ func (p *Printer) visitCreateTableStatement(ctx Context, n *sql.CreateTableState
 		p1.println("")
 		p1.print(pp.unnest())
 	}
+	if wc := n.WithConnectionClause(); wc != nil {
+		p1.println("")
+		p1.accept(ctx, wc)
+	}
 	if opt := n.OptionsList(); opt != nil {
 		p1.println("")
 		p1.accept(ctx, opt)

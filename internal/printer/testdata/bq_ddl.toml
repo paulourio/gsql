@@ -510,7 +510,7 @@ SELECT *
 FROM Example;
 """
 formatted = """
-CREATE TEMPORARY TABLE Example
+CREATE TEMP TABLE Example
 (
   x INT64,
   y STRING
@@ -1103,7 +1103,7 @@ AS r\"""
 SELECT multiplyInputs(a, b) FROM (SELECT 3 as a, 2 as b);
 """
 formatted = """
-CREATE TEMPORARY FUNCTION multiplyInputs
+CREATE TEMP FUNCTION multiplyInputs
 (
   x FLOAT64,
   y FLOAT64
@@ -1282,7 +1282,7 @@ CREATE PROCEDURE mydataset.SelectFromTablesAndAppend
   OUT rows_added  INT64
 )
 BEGIN
-  CREATE TEMPORARY TABLE DataForTargetDate
+  CREATE TEMP TABLE DataForTargetDate
   AS (
     SELECT t1.id, t1.x, t2.y
       FROM dataset.partitioned_table1 AS t1
