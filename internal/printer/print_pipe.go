@@ -93,6 +93,16 @@ func (p *Printer) visitPipeCreateTable(ctx Context, n *sql.PipeCreateTable) {
 	p.movePast(n)
 }
 
+func (p *Printer) visitPipeInsert(ctx Context, n *sql.PipeInsert) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.acceptNestedLeft(ctx, n.InsertStatement())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+
 func (p *Printer) visitPipeDrop(ctx Context, n *sql.PipeDrop) {
 	p.moveBefore(n)
 	p.print("|>")

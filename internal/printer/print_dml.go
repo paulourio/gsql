@@ -90,12 +90,25 @@ func (p *Printer) visitInsertStatement(ctx Context, n *sql.InsertStatement) {
 	begin := n.LocationStart()
 	end := n.TargetPath().LocationStart()
 	input := strings.ToUpper(pp.viewErasedInput(begin, end))
+	mode := ""
+	switch n.InsertMode() {
+	case sql.Replace:
+		mode = " OR REPLACE"
+	case sql.UpdateInsertMode:
+		mode = " OR UPDATE"
+	case sql.Ignore:
+		mode = " OR IGNORE"
+	}
 	if strings.Contains(input, "INTO") {
-		pp.print(pp.keyword("INSERT INTO"))
+		pp.print(pp.keyword("INSERT" + mode + " INTO"))
 	} else {
-		pp.print(pp.keyword("INSERT"))
+		pp.print(pp.keyword("INSERT" + mode))
 	}
 	pp.accept(ctx.WithValue(KeyInTableName, true), n.TargetPath())
+	if hint := n.Hint(); hint != nil {
+		pp.print(" ")
+		pp.accept(ctx, hint)
+	}
 	if cl != nil {
 		pp.println("")
 		pp.incDepth()
@@ -106,15 +119,19 @@ func (p *Printer) visitInsertStatement(ctx Context, n *sql.InsertStatement) {
 	if q := n.Query(); q != nil {
 		pp.println("")
 		pp.acceptNested(ctx, q)
-	} else {
+	} else if r := n.Rows(); r != nil {
 		pp.println("")
 		pp.println(pp.keyword("VALUES"))
 		pp.incDepth()
-		pp.accept(ctx, n.Rows())
+		pp.accept(ctx, r)
 		pp.println("")
 		pp.decDepth()
 	}
 	p.print(pp.unnest())
+	if oc := n.OnConflictClause(); oc != nil {
+		p.println("")
+		p.acceptNestedLeft(ctx, oc)
+	}
 	if a := n.AssertRowsModified(); a != nil {
 		p.println("")
 		p.acceptNestedLeft(ctx, a)
@@ -285,9 +302,24 @@ func (p *Printer) visitMergeWhenClauseList(ctx Context, n *sql.MergeWhenClauseLi
 
 func (p *Printer) visitReturningClause(ctx Context, n *sql.ReturningClause) {
 	p.moveBefore(n)
-	p.print(p.keyword("RETURNING"))
-	p.accept(ctx, n.SelectList())
-	p.accept(ctx, n.ActionAlias())
+	begin := n.LocationStart()
+	end := n.SelectList().LocationStart()
+	input := strings.ToUpper(p.viewErasedInput(begin, end))
+	if strings.Contains(input, "THEN") {
+		p.print(p.keyword("THEN RETURN"))
+	} else {
+		p.print(p.keyword("RETURNING"))
+	}
+	if alias := n.ActionAlias(); alias != nil {
+		p.print(p.keyword(" WITH ACTION AS "))
+		p.accept(ctx, alias.Identifier())
+		p.println("")
+		p.incDepth()
+		p.accept(ctx, n.SelectList())
+		p.decDepth()
+	} else {
+		p.accept(ctx, n.SelectList())
+	}
 	p.movePast(n)
 }
 
@@ -376,6 +408,65 @@ func (p *Printer) visitUpdateStatement(ctx Context, n *sql.UpdateStatement) {
 	if r := n.Returning(); r != nil {
 		p.println("")
 		p.acceptNestedLeft(ctx, r)
+	}
+	p.movePast(n)
+}
+
+func (p *Printer) visitOnConflictClause(ctx Context, n *sql.OnConflictClause) {
+	p.moveBefore(n)
+	if ui := n.UpdateItemList(); ui != nil {
+		begin := n.LocationStart()
+		end := ui.LocationStart()
+		input := p.viewErasedInput(begin, end)
+		input = strings.TrimSpace(input)
+		upper := strings.ToUpper(input)
+		
+		doIndex := strings.LastIndex(upper, " DO")
+		if doIndex != -1 && strings.Contains(upper[doIndex:], "UPDATE SET") {
+			target := ""
+			prefix := input[:doIndex]
+			upperPrefix := strings.ToUpper(prefix)
+			conflictIndex := strings.Index(upperPrefix, "CONFLICT")
+			if conflictIndex != -1 {
+				target = strings.TrimSpace(prefix[conflictIndex+len("CONFLICT"):])
+			}
+			p.print(p.keyword("ON CONFLICT"))
+			if target != "" {
+				p.print(" ")
+				p.print(target)
+			}
+			p.print(p.keyword(" DO"))
+			p.println("")
+			p.print(p.keyword("UPDATE SET"))
+		} else {
+			p.print(input)
+		}
+		p.println("")
+		p.incDepth()
+		p.accept(ctx, ui)
+		p.decDepth()
+	} else {
+		input := strings.TrimSpace(p.viewErasedInput(n.LocationStart(), n.LocationEnd()))
+		upper := strings.ToUpper(input)
+		
+		doIndex := strings.LastIndex(upper, " DO")
+		if doIndex != -1 && strings.Contains(upper[doIndex:], "NOTHING") {
+			target := ""
+			prefix := input[:doIndex]
+			upperPrefix := strings.ToUpper(prefix)
+			conflictIndex := strings.Index(upperPrefix, "CONFLICT")
+			if conflictIndex != -1 {
+				target = strings.TrimSpace(prefix[conflictIndex+len("CONFLICT"):])
+			}
+			p.print(p.keyword("ON CONFLICT"))
+			if target != "" {
+				p.print(" ")
+				p.print(target)
+			}
+			p.print(p.keyword(" DO NOTHING"))
+		} else {
+			p.print(input)
+		}
 	}
 	p.movePast(n)
 }

@@ -164,28 +164,6 @@ hex_style = "UPPER_CASE"
 # """
 
 # [[cases]]
-# description = "Simple UNPIVOT with INCLUDE NULLS Output has alias with AS."
-# input = """
-# FROM t
-# |> UNPIVOT INCLUDE NULLS (a FOR c IN (x, y)) AS unp
-# """
-# formatted = """
-# FROM t
-# |> UNPIVOT INCLUDE NULLS (a FOR c IN (x, y)) AS unp
-# """
-
-# [[cases]]
-# description = "Simple UNPIVOT with single-element IN-list with parentheses."
-# input = """
-# FROM t
-# |> UNPIVOT((a) FOR b IN (x))
-# """
-# formatted = """
-# FROM t
-# |> UNPIVOT((a) FOR b IN (x))
-# """
-
-# [[cases]]
 # description = "Multiple path expressions on the input, string labels on the output."
 # input = """
 # FROM t
@@ -193,7 +171,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT((a, b.b) FOR a.b.c IN ((f), w AS '1', (x) '2', y "3"))
+# |> UNPIVOT ((
+#      a, b.b)
+#      FOR a.b.c IN ((f), w AS '1', (x) AS '2', y AS '3')
+#    )
 # """
 
 # [[cases]]
@@ -204,7 +185,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT(a FOR e IN (w AS 1, x AS 2))
+# |> UNPIVOT(
+#      a
+#      FOR e IN (w AS 1, x AS 2)
+#    )
 # """
 
 # [[cases]]
@@ -215,7 +199,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT(a FOR b IN (c)) UNPIVOT
+# |> UNPIVOT(
+#      a
+#      FOR b IN (c)
+#    ) AS unpivot
 # """
 
 # [[cases]]
@@ -226,7 +213,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT (a FOR c IN (x, y))
+# |> UNPIVOT (
+#      a
+#      FOR c IN (x, y)
+#    )
 # """
 
 # [[cases]]
@@ -237,7 +227,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT EXCLUDE NULLS (a FOR c IN (x, y)) unp
+# |> UNPIVOT EXCLUDE NULLS (
+#      a
+#      FOR c IN (x, y)
+#    ) unp
 # """
 
 # [[cases]]
@@ -248,7 +241,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT INCLUDE NULLS (a FOR c IN (x, y)) AS unp
+# |> UNPIVOT INCLUDE NULLS (
+#      a
+#      FOR c IN (x, y)
+#    ) AS unp
 # """
 
 # [[cases]]
@@ -259,7 +255,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT((a) FOR b IN (x))
+# |> UNPIVOT (
+#      (a)
+#      FOR b IN (x)
+#    )
 # """
 
 # [[cases]]
@@ -270,7 +269,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT((a, b.b) FOR a.b.c IN ((f), w AS '1', (x) '2', y "3"))
+# |> UNPIVOT (
+#      (a, b.b)
+#      FOR a.b.c IN ((f), w AS '1', (x) AS '2', y AS '3')
+#    )
 # """
 
 # [[cases]]
@@ -281,7 +283,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT(a FOR e IN (w AS 1, x AS 2))
+# |> UNPIVOT (
+#      a
+#      FOR e IN (w AS 1, x AS 2)
+#    )
 # """
 
 # [[cases]]
@@ -292,6 +297,8 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT(a FOR b IN (c)) UNPIVOT
+# |> UNPIVOT (
+#      a
+#      FOR b IN (c)
+#    ) AS unpivot
 # """
-

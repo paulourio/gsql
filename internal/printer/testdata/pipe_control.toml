@@ -66,9 +66,13 @@ FROM t
 # formatted = """
 # FROM t
 # |> FORK ()
-# |> FORK ( |> SELECT 1 ),
-#         ( |> SELECT 2+FORK   # FORK AS an identifier
-#           |> SELECT 3 )
+# |> FORK (
+#           |> SELECT 1
+#         ),
+#         (
+#           |> SELECT 2 + fork # FORK AS an identifier
+#           |> SELECT 3
+#         )
 # """
 
 # [[cases]]
@@ -81,9 +85,13 @@ FROM t
 # """
 # formatted = """
 # FROM t
-# |> FORK ( |> WHERE TRUE ),
-# |> FORK ( |> WHERE 1 ),
-#         (),
+# |> FORK (
+#           |> WHERE TRUE
+#         )
+# |> FORK (
+#           |> WHERE 1
+#         ),
+#         ()
 # """
 
 # [[cases]]
@@ -100,12 +108,30 @@ FROM t
 # """
 # formatted = """
 # FROM t
-# |> IF TRUE THEN ( |> WHERE FALSE )
-# |> IF x=y THEN ( |> WHERE TRUE )
-#    ELSE ( |> SELECT 1 )
-# |> IF x=y THEN ( |> WHERE TRUE )
-#    ELSEIF x=2 THEN ( |> SELECT 2 )
-#    ELSE ( |> SELECT 1 )
+# |> IF TRUE THEN
+#      (
+#        |> WHERE FALSE
+#      )
+# |> IF x = y THEN
+#      (
+#        |> WHERE TRUE
+#      )
+#    ELSE
+#      (
+#        |> SELECT 1
+#      )
+# |> IF x = y THEN
+#      (
+#        |> WHERE TRUE
+#      )
+#    ELSEIF x = 2 THEN
+#      (
+#        |> SELECT 2
+#      )
+#    ELSE
+#      (
+#        |> SELECT 1
+#      )
 # |> WHERE TRUE
 # """
 
@@ -120,10 +146,22 @@ FROM t
 # """
 # formatted = """
 # FROM t
-# |> IF x=y THEN ( |> WHERE TRUE )
-#    ELSEIF x=2 THEN ( |> SELECT 2 )
-#    ELSEIF x=3 THEN ( |> SELECT 3 )
-#    ELSE ( |> SELECT 1 )
+# |> IF x = y THEN
+#      (
+#        |> WHERE TRUE
+#      )
+#    ELSEIF x = 2 THEN
+#      (
+#        |> SELECT 2
+#      )
+#    ELSEIF x = 3 THEN
+#      (
+#        |> SELECT 3
+#      )
+#    ELSE
+#      (
+#        |> SELECT 1
+#      )
 # """
 
 # [[cases]]
@@ -137,10 +175,14 @@ FROM t
 # """
 # formatted = """
 # FROM t
-# |> IF x=y THEN ()
-#    ELSEIF x=2 THEN ()
-#    ELSEIF x=3 THEN ()
-#    ELSE ()
+# |> IF x = y THEN
+#      ()
+#    ELSEIF x = 2 THEN
+#      ()
+#    ELSEIF x = 3 THEN
+#      ()
+#    ELSE
+#      ()
 # """
 
 # [[cases]]
@@ -152,23 +194,39 @@ FROM t
 # """
 # formatted = """
 # FROM t
-# |> IF @{hint=1} x=y THEN ()
-#    ELSE ()
+# |> IF @{hint=1} x=y THEN
+#      ()
+#    ELSE
+#      ()
 # """
 
 # [[cases]]
 # description = "Formatting with multi-statement subpipelines"
 # input = """
 # from t
-# |> IF x=y THEN ( |> WHERE true |> SELECT 1)
+# |> IF x = y THEN
+#      (
+#        |> WHERE true |> SELECT 1)
 #    ELSEIF x=2 THEN ( |> SELECT 2 |> SELECT 3 )
 #    ELSE ( |> SELECT 1 |> SELECT 4 )
 # """
 # formatted = """
 # FROM t
-# |> IF x=y THEN ( |> WHERE TRUE |> SELECT 1)
-#    ELSEIF x=2 THEN ( |> SELECT 2 |> SELECT 3 )
-#    ELSE ( |> SELECT 1 |> SELECT 4 )
+# |> IF x = y THEN
+#      (
+#        |> WHERE TRUE
+#        |> SELECT 1
+#      )
+#    ELSEIF x = 2 THEN
+#      (
+#        |> SELECT 2
+#        |> SELECT 3
+#      )
+#    ELSE
+#      (
+#        |> SELECT 1
+#        |> SELECT 4
+#      )
 # """
 
 # [[cases]]
@@ -188,12 +246,16 @@ FROM t
 # FROM t
 # |> LOG
 # |> LOG ()
-# |> LOG (|> WHERE TRUE)
-# |> LOG ( |> WHERE FALSE )
 # |> LOG (
-#      |> WHERE x=y
-#      |> AGGREGATE COUNT(*)
-#    )
+#          |> WHERE TRUE
+#        )
+# |> LOG (
+#          |> WHERE FALSE
+#        )
+# |> LOG (
+#          |> WHERE x = y
+#          |> AGGREGATE COUNT(*)
+#        )
 # """
 
 # [[cases]]
@@ -208,9 +270,13 @@ FROM t
 # formatted = """
 # FROM t
 # |> TEE ()
-# |> TEE ( |> SELECT 1 ),
-#         ( |> SELECT 2+TEE   # TEE AS an identifier
-#           |> SELECT 3 )
+# |> TEE (
+#          |> SELECT 1
+#        ),
+#        (
+#          |> SELECT 2 + tee # TEE AS an identifier
+#          |> SELECT 3
+#        )
 # """
 
 # [[cases]]
@@ -223,9 +289,13 @@ FROM t
 # """
 # formatted = """
 # FROM t
-# |> TEE ( |> WHERE TRUE ),
-# |> TEE ( |> WHERE 1 ),
-#         (),
+# |> TEE (
+#          |> WHERE TRUE
+#        )
+# |> TEE (
+#          |> WHERE 1
+#        ),
+#        ()
 # """
 
 # [[cases]]
@@ -240,9 +310,13 @@ FROM t
 # formatted = """
 # FROM t
 # |> TEE ()
-# |> TEE ( |> SELECT 1 ),
-#         ( |> SELECT 2+TEE   # TEE AS an identifier
-#           |> SELECT 3 )
+# |> TEE (
+#          |> SELECT 1
+#        ),
+#        (
+#          |> SELECT 2 + tee # TEE AS an identifier
+#          |> SELECT 3
+#        )
 # """
 
 # [[cases]]
@@ -255,9 +329,13 @@ FROM t
 # """
 # formatted = """
 # FROM t
-# |> TEE ( |> WHERE TRUE ),
-# |> TEE ( |> WHERE 1 ),
-#         (),
+# |> TEE (
+#          |> WHERE TRUE
+#        )
+# |> TEE (
+#          |> WHERE 1
+#        ),
+#        ()
 # """
 
 # [[cases]]
@@ -275,13 +353,21 @@ FROM t
 # """
 # formatted = """
 # FROM t1
-# |> IF cond THEN (
-#     |> WITH t2 AS (SELECT x)
-#     |> WHERE TRUE
-#    ) ELSE (
-#     |> WHERE x
-#     |> WITH y AS (FROM t4)
-#     |> SELECT z
-#    )
+# |> IF cond THEN
+#      (
+#        |> WITH
+#             t2 AS (
+#               SELECT x
+#             )
+#        |> WHERE TRUE
+#      )
+#    ELSE
+#      (
+#        |> WHERE x
+#        |> WITH
+#             y AS (
+#               FROM t4
+#             )
+#        |> SELECT z
+#      )
 # """
-

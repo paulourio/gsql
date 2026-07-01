@@ -210,7 +210,7 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [x] `|> EXTEND`
 - [ ] `|> FORK`
 - [ ] `|> IF`
-- [ ] `|> INSERT`
+- [x] `|> INSERT`
 - [x] `|> JOIN`
 - [x] `|> LIMIT`
 - [ ] `|> LOG`

@@ -1112,6 +1112,8 @@ func newInsertStatement(r *googlesql.ASTInsertStatement) *InsertStatement {
 }
 
 func (n *InsertStatement) isStatement() {}
+func (n *InsertStatement) InsertMode() InsertMode { return must(n.raw.InsertMode()) }
+
 
 func (n *InsertStatement) TargetPath() Node { return Wrap(must(n.raw.TargetPath())) }
 
@@ -1131,6 +1133,14 @@ func (n *InsertStatement) AssertRowsModified() *AssertRowsModified {
 
 func (n *InsertStatement) Returning() *ReturningClause {
 	return newReturningClause(must(n.raw.Returning()))
+}
+
+func (n *InsertStatement) OnConflictClause() *OnConflictClause {
+	return newOnConflictClause(must(n.raw.OnConflict()))
+}
+
+func (n *InsertStatement) Hint() *Hint {
+	return newHint(must(n.raw.Hint()))
 }
 
 // ForInStatement wraps *googlesql.ASTForInStatement.

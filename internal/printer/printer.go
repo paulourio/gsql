@@ -265,6 +265,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitExportModelStatement(ctx, n.(*sql.ExportModelStatement))
 	case sql.InsertStatementKind:
 		p.visitInsertStatement(ctx, n.(*sql.InsertStatement))
+	case sql.OnConflictClauseKind:
+		p.visitOnConflictClause(ctx, n.(*sql.OnConflictClause))
 	case sql.InsertValuesRowKind:
 		p.visitInsertValuesRow(ctx, n.(*sql.InsertValuesRow))
 	case sql.InsertValuesRowListKind:
@@ -454,6 +456,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeDrop(ctx, n.(*sql.PipeDrop))
 	case sql.PipeJoinKind:
 		p.visitPipeJoin(ctx, n.(*sql.PipeJoin))
+	case sql.PipeInsertKind:
+		p.visitPipeInsert(ctx, n.(*sql.PipeInsert))
 	case sql.PipeSelectKind:
 		p.visitPipeSelect(ctx, n.(*sql.PipeSelect))
 	case sql.PipeOrderByKind:
