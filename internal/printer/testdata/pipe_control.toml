@@ -135,34 +135,34 @@ FROM t
 |> WHERE TRUE
 """
 
-# [[cases]]
-# description = "IF...ELSE syntax."
-# input = """
-# from t
-# |> IF x=y THEN ( |> WHERE true )
-#    ELSEIF x=2 THEN ( |> SELECT 2 )
-#    ELSEIF x=3 THEN ( |> SELECT 3 )
-#    ELSE ( |> SELECT 1 )
-# """
-# formatted = """
-# FROM t
-# |> IF x = y THEN
-#      (
-#        |> WHERE TRUE
-#      )
-#    ELSEIF x = 2 THEN
-#      (
-#        |> SELECT 2
-#      )
-#    ELSEIF x = 3 THEN
-#      (
-#        |> SELECT 3
-#      )
-#    ELSE
-#      (
-#        |> SELECT 1
-#      )
-# """
+[[cases]]
+description = "IF...ELSE syntax."
+input = """
+from t
+|> IF x=y THEN ( |> WHERE true )
+   ELSEIF x=2 THEN ( |> SELECT 2 )
+   ELSEIF x=3 THEN ( |> SELECT 3 )
+   ELSE ( |> SELECT 1 )
+"""
+formatted = """
+FROM t
+|> IF x = y THEN
+     (
+       |> WHERE TRUE
+     )
+   ELSEIF x = 2 THEN
+     (
+       |> SELECT 2
+     )
+   ELSEIF x = 3 THEN
+     (
+       |> SELECT 3
+     )
+   ELSE
+     (
+       |> SELECT 1
+     )
+"""
 
 [[cases]]
 description = "Empty subpipelines"
