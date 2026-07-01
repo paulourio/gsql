@@ -48,7 +48,7 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # SELECT 1
-# |> WINDOW x+f(y+z) OVER ()+k
+# |> WINDOW x + f(y + z) OVER () + k
 # """
 
 # [[cases]]
@@ -65,7 +65,7 @@ hex_style = "UPPER_CASE"
 # |> WINDOW x.*,
 #           f(x).* EXCEPT(a),
 #           (1+x).* REPLACE(a AS b),
-#           (sum(x) OVER ()).*
+#           (SUM(x) OVER ()).*
 # """
 
 # [[cases]]
@@ -76,7 +76,7 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # SELECT 1
-# |> WINDOW sum(x) OVER ().*
+# |> WINDOW SUM(x) OVER ().*
 # """
 
 # [[cases]]
@@ -84,12 +84,14 @@ hex_style = "UPPER_CASE"
 # input = """
 # select 1
 # |> WINDOW f() OVER (), g() OVER (PARTITION BY x ORDER BY y) x
-# |> WINDOW 3, h() OVER (ROWS UNBOUNDED PRECEDING) AS z
+# |> WINDOW 3,
+#           h() OVER (ROWS UNBOUNDED PRECEDING) AS z
 # """
 # formatted = """
 # SELECT 1
 # |> WINDOW f() OVER (), g() OVER (PARTITION BY x ORDER BY y) x
-# |> WINDOW 3, h() OVER (ROWS UNBOUNDED PRECEDING) AS z
+# |> WINDOW 3,
+#           h() OVER (ROWS UNBOUNDED PRECEDING) AS z
 # """
 
 # [[cases]]
@@ -100,7 +102,7 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # SELECT 0
-# |> WINDOW 1, x, f()+g(),
+# |> WINDOW 1, x, f() + g()
 # """
 
 # [[cases]]
@@ -111,7 +113,7 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # SELECT 1
-# |> WINDOW x+f(y+z) OVER ()+k
+# |> WINDOW x + f(y + z) OVER () + k
 # """
 
 # [[cases]]
@@ -127,8 +129,11 @@ hex_style = "UPPER_CASE"
 # SELECT 1
 # |> WINDOW x.*,
 #           f(x).* EXCEPT(a),
-#           (1+x).* REPLACE(a AS b),
-#           (sum(x) OVER ()).*
+#           (1 + x).*
+#           REPLACE(
+#             a AS b
+#           ),
+#           (SUM(x) OVER ()).*
 # """
 
 # [[cases]]
@@ -139,6 +144,5 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # SELECT 1
-# |> WINDOW sum(x) OVER ().*
+# |> WINDOW SUM(x) OVER ().*
 # """
-

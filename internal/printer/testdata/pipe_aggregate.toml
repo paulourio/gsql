@@ -285,9 +285,12 @@ FROM x
 # """
 # formatted = """
 # SELECT *
-# FROM GRAPH_TABLE(aml
-#   MATCH (a)
-#   RETURN a GROUP AND ORDER BY x)
+#   FROM GRAPH_TABLE(
+#          aml
+#          MATCH (a)
+#          RETURN a
+#          GROUP AND ORDER BY x
+#        )
 # """
 
 [[cases]]
@@ -323,4 +326,3 @@ SELECT 1
             1 AS one,
             x + y AS xy
 """
-

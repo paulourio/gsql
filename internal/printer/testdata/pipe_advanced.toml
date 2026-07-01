@@ -31,12 +31,13 @@ hex_style = "UPPER_CASE"
 # formatted = """
 # FROM t
 # |> MATCH_RECOGNIZE(
-#   ORDER BY w + z, f(x).y
-#   MEASURES a + sum(b.x) AS m
-#   PATTERN ( a | bc)
-#   DEFINE
-#     a AS f(x)
-# )
+#      ORDER BY w + z,
+#               f(x).y
+#      MEASURES a + SUM(b.x) AS m
+#      PATTERN (a | bc)
+#      DEFINE
+#        a AS f(x)
+#    )
 # """
 
 # [[cases]]
@@ -58,15 +59,16 @@ hex_style = "UPPER_CASE"
 # formatted = """
 # FROM t
 # |> MATCH_RECOGNIZE(
-#   PARTITION BY x + y
-#   ORDER BY w + z, f(x).y
-#   MEASURES a + sum(b.x) AS m
-#   AFTER MATCH SKIP TO NEXT ROW
-#   PATTERN ( a | bc)
-#   DEFINE
-#     a AS f(x)
-#   OPTIONS(use_longest_match=TRUE)
-# )
+#      PARTITION BY x + y
+#      ORDER BY w + z,
+#               f(x).y
+#      MEASURES a + SUM(b.x) AS m
+#      AFTER MATCH SKIP TO NEXT ROW
+#      PATTERN (a | bc)
+#      DEFINE
+#        a AS f(x)
+#      OPTIONS (use_longest_match=TRUE)
+#    )
 # |> EXTEND 1 AS x
 # """
 
@@ -86,13 +88,14 @@ hex_style = "UPPER_CASE"
 # formatted = """
 # FROM t
 # |> MATCH_RECOGNIZE(
-#   PARTITION BY x + y
-#   ORDER BY w + z, f(x).y
-#   MEASURES a + sum(b.x) AS m
-#   PATTERN ( a | bc)
-#   DEFINE
-#     a AS f(x)
-# ) AS m_r
+#      PARTITION BY x + y
+#      ORDER BY w + z,
+#               f(x).y
+#      MEASURES a + SUM(b.x) AS m
+#      PATTERN (a | bc)
+#      DEFINE
+#        a AS f(x)
+#    ) AS m_r
 # """
 
 # [[cases]]
@@ -103,7 +106,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> PIVOT(SUM(a) FOR b IN (0, 1))
+# |> PIVOT (
+#      SUM(a)
+#      FOR b IN (0, 1)
+#    )
 # """
 
 # [[cases]]
@@ -114,7 +120,11 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> PIVOT(SUM(a), SUM(b) FOR b IN (0)) pivot_table
+# |> PIVOT (
+#      SUM(a),
+#      SUM(b)
+#      FOR b IN (0)
+#    ) AS pivot_table
 # """
 
 # [[cases]]
@@ -126,8 +136,12 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> PIVOT(SUM(a) AS sum_a, SUM(aa) sum_aa, 2+COUNT(b+3)
-#          FOR t.x IN (z, x+y xpy, 1 AS one)) AS p
+# |> PIVOT (
+#      SUM(a)  AS sum_a,
+#      SUM(aa) AS sum_aa,
+#      2 + COUNT(b + 3)
+#      FOR t.x IN (z, x + y AS xpy, 1 AS one)
+#    ) AS p
 # """
 
 # [[cases]]
@@ -138,7 +152,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> PIVOT(a FOR b IN (c)) AS PIVOT
+# |> PIVOT(
+#      a
+#      FOR b IN (c)
+#    ) AS pivot
 # """
 
 # [[cases]]
@@ -149,7 +166,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT (a FOR c IN (x, y))
+# |> UNPIVOT (
+#      a
+#      FOR c IN (x, y)
+#    )
 # """
 
 # [[cases]]
@@ -160,7 +180,10 @@ hex_style = "UPPER_CASE"
 # """
 # formatted = """
 # FROM t
-# |> UNPIVOT EXCLUDE NULLS (a FOR c IN (x, y)) unp
+# |> UNPIVOT EXCLUDE NULLS (
+#      a
+#      FOR c IN (x, y)
+#    ) unp
 # """
 
 # [[cases]]

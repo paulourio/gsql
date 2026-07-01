@@ -466,6 +466,10 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeDistinct(ctx, n.(*sql.PipeDistinct))
 	case sql.PipeExtendKind:
 		p.visitPipeExtend(ctx, n.(*sql.PipeExtend))
+	case sql.PipeIfKind:
+		p.visitPipeIf(ctx, n.(*sql.PipeIf))
+	case sql.PipeLogKind:
+		p.visitPipeLog(ctx, n.(*sql.PipeLog))
 	case sql.PipeWhereKind:
 		p.visitPipeWhere(ctx, n.(*sql.PipeWhere))
 	case sql.PipeTablesampleKind:
@@ -486,6 +490,10 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeSetItem(ctx, n.(*sql.PipeSetItem))
 	case sql.PipeSetOperationKind:
 		p.visitPipeSetOperation(ctx, n.(*sql.PipeSetOperation))
+	case sql.PipeForkKind:
+		p.visitPipeFork(ctx, n.(*sql.PipeFork))
+	case sql.PipeTeeKind:
+		p.visitPipeTee(ctx, n.(*sql.PipeTee))
 	case sql.PipeRecursiveUnionKind:
 		p.visitPipeRecursiveUnion(ctx, n.(*sql.PipeRecursiveUnion))
 	case sql.SubpipelineKind:

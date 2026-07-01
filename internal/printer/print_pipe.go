@@ -511,3 +511,210 @@ func (p *Printer) visitPipeRecursiveUnion(ctx Context, n *sql.PipeRecursiveUnion
 	p.print(pp.unnestLeft())
 	p.movePast(n)
 }
+
+func (p *Printer) visitPipeFork(ctx Context, n *sql.PipeFork) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.print("|>")
+	pp.print(pp.keyword("FORK"))
+	if h := n.Hint(); h != nil {
+		pp.print(" ")
+		pp.accept(ctx, h)
+	}
+	subs := n.SubpipelineList()
+	if len(subs) == 0 {
+		pp.print(" ()")
+	} else {
+		pp.print(" ")
+		p2 := pp.nest()
+		for i, sub := range subs {
+			if i > 0 {
+				p2.print(",")
+				p2.println("")
+			}
+			ops := sub.PipeOperatorList()
+			if len(ops) == 0 {
+				p2.print("()")
+			} else {
+				p2.print("(")
+				p2.println("")
+				p3 := p2.nest()
+				p3.incDepth()
+				for j, op := range ops {
+					if j > 0 {
+						p3.println("")
+					}
+					p3.acceptNestedLeft(ctx, op)
+				}
+				p2.print(p3.unnestLeft())
+				p2.println("")
+				p2.print(")")
+			}
+		}
+		pp.print(p2.unnestLeft())
+	}
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeTee(ctx Context, n *sql.PipeTee) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.print("|>")
+	pp.print(pp.keyword("TEE"))
+	if h := n.Hint(); h != nil {
+		pp.print(" ")
+		pp.accept(ctx, h)
+	}
+	subs := n.SubpipelineList()
+	if len(subs) == 0 {
+		pp.print(" ()")
+	} else {
+		pp.print(" ")
+		p2 := pp.nest()
+		for i, sub := range subs {
+			if i > 0 {
+				p2.print(",")
+				p2.println("")
+			}
+			ops := sub.PipeOperatorList()
+			if len(ops) == 0 {
+				p2.print("()")
+			} else {
+				p2.print("(")
+				p2.println("")
+				p3 := p2.nest()
+				p3.incDepth()
+				for j, op := range ops {
+					if j > 0 {
+						p3.println("")
+					}
+					p3.acceptNestedLeft(ctx, op)
+				}
+				p2.print(p3.unnestLeft())
+				p2.println("")
+				p2.print(")")
+			}
+		}
+		pp.print(p2.unnestLeft())
+	}
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeIf(ctx Context, n *sql.PipeIf) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.print("|>")
+
+	cases := n.IfCases()
+	for i, c := range cases {
+		if i == 0 {
+			pp.print(" ")
+			pp.print(pp.keyword("IF"))
+			if h := n.Hint(); h != nil {
+				pp.print(" ")
+				pp.accept(ctx, h)
+			}
+		} else {
+			pp.println("")
+			pp.print("   ")
+			pp.print(pp.keyword("ELSEIF"))
+		}
+
+		pp.print(" ")
+		pp.accept(ctx, c.Condition())
+		pp.print(" ")
+		pp.print(pp.keyword("THEN"))
+
+		p.printSubpipelineBlock(ctx, pp, c.Subpipeline(), "     ")
+	}
+
+	if el := n.ElseSubpipeline(); el != nil {
+		pp.println("")
+		pp.print("   ")
+		pp.print(pp.keyword("ELSE"))
+		p.printSubpipelineBlock(ctx, pp, el, "     ")
+	}
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeLog(ctx Context, n *sql.PipeLog) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.print("|>")
+	pp.print(" ")
+	pp.print(pp.keyword("LOG"))
+	if h := n.Hint(); h != nil {
+		pp.print(" ")
+		pp.accept(ctx, h)
+	}
+
+	sub := n.Subpipeline()
+	if sub == nil {
+		p.print(pp.unnestLeft())
+		p.movePast(n)
+		return
+	}
+	ops := sub.PipeOperatorList()
+	if len(ops) == 0 {
+		pp.print(" ()")
+	} else {
+		pp.print(" ")
+		p2 := pp.nest()
+		p2.print("(")
+		p2.println("")
+		p3 := p2.nest()
+		p3.incDepth()
+		for j, op := range ops {
+			if j > 0 {
+				p3.println("")
+			}
+			p3.acceptNestedLeft(ctx, op)
+		}
+		p2.print(p3.unnestLeft())
+		p2.println("")
+		p2.print(")")
+		pp.print(p2.unnestLeft())
+	}
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+// printSubpipelineBlock prints a subpipeline as an indented parenthesized
+// block.  The indent parameter controls the column position of ( and )
+// relative to the start of the current line in pp.
+//
+// Alignment is resolved internally so that multiple blocks printed into
+// the same parent printer do not interfere with each other through the
+// tabwriter's column tracking.
+func (p *Printer) printSubpipelineBlock(ctx Context, pp *Printer, sub *sql.Subpipeline, indent string) {
+	ops := sub.PipeOperatorList()
+	if len(ops) == 0 {
+		pp.println("")
+		pp.print(indent + "()")
+		return
+	}
+	// Build the subpipeline content using proper nesting, so that the
+	// operators inside are aligned correctly relative to each other.
+	p2 := p.nest()
+	p2.print("(")
+	p2.println("")
+	p3 := p2.nest()
+	p3.incDepth()
+	for j, op := range ops {
+		if j > 0 {
+			p3.println("")
+		}
+		p3.acceptNestedLeft(ctx, op)
+	}
+	p2.print(p3.unnestLeft())
+	p2.println("")
+	p2.print(")")
+	// Resolve the internal alignment (processes \v columns within this
+	// block only) and prefix each line with the indent string.
+	aligned := leftAlignNested(p2.String())
+	pp.println("")
+	pp.print(prefixLines(aligned, indent))
+}
