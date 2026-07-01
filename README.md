@@ -208,12 +208,12 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [x] `|> DROP`
 - [ ] `|> EXPORT DATA`
 - [x] `|> EXTEND`
-- [ ] `|> FORK`
-- [ ] `|> IF`
+- [x] `|> FORK`
+- [x] `|> IF`
 - [x] `|> INSERT`
 - [x] `|> JOIN`
 - [x] `|> LIMIT`
-- [ ] `|> LOG`
+- [x] `|> LOG`
 - [ ] `|> MATCH_RECOGNIZE`
 - [x] `|> ORDER BY`
 - [ ] `|> PIVOT`
@@ -223,8 +223,8 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [x] `|> SET OPERATION` (UNION, INTERSECT, EXCEPT)
 - [x] `|> SET`
 - [x] `|> STATIC_DESCRIBE`
-- [ ] `|> TABLESAMPLE`
-- [ ] `|> TEE`
+- [x] `|> TABLESAMPLE`
+- [x] `|> TEE`
 - [ ] `|> UNPIVOT`
 - [x] `|> WHERE`
 - [ ] `|> WINDOW`
