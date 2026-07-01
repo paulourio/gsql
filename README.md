@@ -217,10 +217,10 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [ ] `|> MATCH_RECOGNIZE`
 - [x] `|> ORDER BY`
 - [ ] `|> PIVOT`
-- [ ] `|> RECURSIVE UNION`
+- [x] `|> RECURSIVE UNION`
 - [x] `|> RENAME`
 - [x] `|> SELECT`
-- [ ] `|> SET OPERATION` (UNION, INTERSECT, EXCEPT)
+- [x] `|> SET OPERATION` (UNION, INTERSECT, EXCEPT)
 - [x] `|> SET`
 - [x] `|> STATIC_DESCRIBE`
 - [ ] `|> TABLESAMPLE`

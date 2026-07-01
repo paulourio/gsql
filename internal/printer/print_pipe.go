@@ -360,6 +360,8 @@ func (p *Printer) printSetOpKeywords(ctx Context, m *sql.SetOperationMetadata, r
 				}
 			case sql.InnerPropagation:
 				p.print(p.keyword("INNER"))
+			case sql.Strict:
+				// STRICT comes after ALL/DISTINCT, handled below.
 			}
 		}
 	}
@@ -389,6 +391,11 @@ func (p *Printer) printSetOpKeywords(ctx Context, m *sql.SetOperationMetadata, r
 		}
 	}
 
+	// STRICT modifier appears after ALL/DISTINCT.
+	if pm := m.ColumnPropagationMode(); sql.Defined(pm) && pm.Value() == sql.Strict {
+		p.print(p.keyword("STRICT"))
+	}
+
 	// Optional column-match suffix.
 	if cm := m.ColumnMatchMode(); sql.Defined(cm) {
 		switch cm.Value() {
@@ -396,16 +403,12 @@ func (p *Printer) printSetOpKeywords(ctx Context, m *sql.SetOperationMetadata, r
 			p.print(p.keyword("CORRESPONDING"))
 		case sql.CorrespondingBy:
 			p.print(p.keyword("CORRESPONDING BY"))
-			p.print("(")
 			p.accept(ctx, m.CorrespondingByColumnList())
-			p.print(")")
 		case sql.ByName:
 			p.print(p.keyword("BY NAME"))
 		case sql.ByNameOn:
 			p.print(p.keyword("BY NAME ON"))
-			p.print("(")
 			p.accept(ctx, m.CorrespondingByColumnList())
-			p.print(")")
 		}
 	}
 }
@@ -448,6 +451,30 @@ func (p *Printer) visitPipeSetOperation(ctx Context, n *sql.PipeSetOperation) {
 			p2.print(",")
 		}
 		p2.println("")
+		if tc, ok := input.(*sql.TableClause); ok {
+			// Unparenthesized TABLE clauses print inline (TABLE t);
+			// parenthesized ones stay inline as (TABLE t).
+			if tc.Parenthesized() {
+				p2.print("(")
+			}
+			p2.print(p2.keyword("TABLE"))
+			p2.accept(ctx, tc.TablePath())
+			if tc.Parenthesized() {
+				p2.print(")")
+			}
+			continue
+		}
+		// A parenthesized Query whose only content is a TABLE clause
+		// (e.g. (TABLE t5)) prints inline as (TABLE t5).
+		if q, ok := input.(*sql.Query); ok && q.Parenthesized() {
+			if tc, ok := q.QueryExpr().(*sql.TableClause); ok {
+				p2.print("(")
+				p2.print(p2.keyword("TABLE"))
+				p2.accept(ctx, tc.TablePath())
+				p2.print(")")
+				continue
+			}
+		}
 		p2.printPipeSetOpInput(ctx, input)
 	}
 	pp.print(p2.unnestLeft())

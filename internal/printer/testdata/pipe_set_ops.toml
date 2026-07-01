@@ -361,36 +361,6 @@ SELECT 1
    )
 """
 
-# [[cases]]
-# description = "CORRESPONDING modifiers work."
-# input = """
-# select 1
-# |> UNION ALL CORRESPONDING (select 2)
-# |> INTERSECT DISTINCT CORRESPONDING BY (x) (select 3)
-# |> EXCEPT ALL STRICT CORRESPONDING BY (x) (select 4)
-# """
-# formatted = """
-# SELECT 1
-# |> UNION ALL CORRESPONDING (SELECT 2)
-# |> INTERSECT DISTINCT CORRESPONDING BY (x) (SELECT 3)
-# |> EXCEPT ALL STRICT CORRESPONDING BY (x) (SELECT 4)
-# """
-
-# [[cases]]
-# description = "BY NAME modifiers work."
-# input = """
-# select 1
-# |> UNION ALL BY NAME (select 2)
-# |> INTERSECT DISTINCT BY NAME ON (x) (select 3)
-# |> EXCEPT ALL BY NAME ON (x) (select 4)
-# """
-# formatted = """
-# SELECT 1
-# |> UNION ALL BY NAME (SELECT 2)
-# |> INTERSECT DISTINCT BY NAME ON (x) (SELECT 3)
-# |> EXCEPT ALL BY NAME ON (x) (SELECT 4)
-# """
-
 [[cases]]
 description = "FULL/LEFT modifiers work at the start of the pipe operator: FULL"
 input = """
@@ -492,135 +462,195 @@ SELECT 1
    )
 """
 
-# [[cases]]
-# description = "Unparenthesized TABLE clauses in pipe set operations should work: UNION ALL"
-# input = """
-# [language_features=NONE,+PIPES]
-# TABLE t1
-# |> UNION ALL
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
-# formatted = """
-# TABLE t1
-# |> UNION ALL
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
+[[cases]]
+description = "CORRESPONDING modifiers work."
+input = """
+select 1
+|> UNION ALL CORRESPONDING (select 2)
+|> INTERSECT DISTINCT CORRESPONDING BY (x) (select 3)
+|> EXCEPT ALL STRICT CORRESPONDING BY (x) (select 4)
+"""
+formatted = """
+SELECT 1
+|> UNION ALL CORRESPONDING
+   (
+     SELECT 2
+   )
+|> INTERSECT DISTINCT CORRESPONDING BY (x)
+   (
+     SELECT 3
+   )
+|> EXCEPT ALL STRICT CORRESPONDING BY (x)
+   (
+     SELECT 4
+   )
+"""
 
-# [[cases]]
-# description = "Unparenthesized TABLE clauses in pipe set operations should work: UNION DISTINCT"
-# input = """
-# [language_features=NONE,+PIPES]
-# TABLE t1
-# |> UNION DISTINCT
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
-# formatted = """
-# TABLE t1
-# |> UNION DISTINCT
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
+[[cases]]
+description = "BY NAME modifiers work."
+input = """
+select 1
+|> UNION ALL BY NAME (select 2)
+|> INTERSECT DISTINCT BY NAME ON (x) (select 3)
+|> EXCEPT ALL BY NAME ON (x) (select 4)
+"""
+formatted = """
+SELECT 1
+|> UNION ALL BY NAME
+   (
+     SELECT 2
+   )
+|> INTERSECT DISTINCT BY NAME ON (x)
+   (
+     SELECT 3
+   )
+|> EXCEPT ALL BY NAME ON (x)
+   (
+     SELECT 4
+   )
+"""
 
-# [[cases]]
-# description = "Unparenthesized TABLE clauses in pipe set operations should work: INTERSECT ALL"
-# input = """
-# [language_features=NONE,+PIPES]
-# TABLE t1
-# |> INTERSECT ALL
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
-# formatted = """
-# TABLE t1
-# |> INTERSECT ALL
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
+[[cases]]
+description = "Unparenthesized TABLE clauses in pipe set operations should work: UNION ALL"
+input = """
+TABLE t1
+|> UNION ALL
+    TABLE t2,
+    TABLE t3,
+    (FROM t4 |> WHERE condition),
+    (TABLE t5)
+"""
+formatted = """
+TABLE t1
+|> UNION ALL
+   TABLE t2,
+   TABLE t3,
+   (
+     FROM t4
+     |> WHERE condition
+   ),
+   (TABLE t5)
+"""
 
-# [[cases]]
-# description = "Unparenthesized TABLE clauses in pipe set operations should work: INTERSECT DISTINCT"
-# input = """
-# [language_features=NONE,+PIPES]
-# TABLE t1
-# |> INTERSECT DISTINCT
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
-# formatted = """
-# TABLE t1
-# |> INTERSECT DISTINCT
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
+[[cases]]
+description = "Unparenthesized TABLE clauses in pipe set operations should work: UNION DISTINCT"
+input = """
+TABLE t1
+|> UNION DISTINCT
+    TABLE t2,
+    TABLE t3,
+    (FROM t4 |> WHERE condition),
+    (TABLE t5)
+"""
+formatted = """
+TABLE t1
+|> UNION DISTINCT
+   TABLE t2,
+   TABLE t3,
+   (
+     FROM t4
+     |> WHERE condition
+   ),
+   (TABLE t5)
+"""
 
-# [[cases]]
-# description = "Unparenthesized TABLE clauses in pipe set operations should work: EXCEPT ALL"
-# input = """
-# [language_features=NONE,+PIPES]
-# TABLE t1
-# |> EXCEPT ALL
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
-# formatted = """
-# TABLE t1
-# |> EXCEPT ALL
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
+[[cases]]
+description = "Unparenthesized TABLE clauses in pipe set operations should work: INTERSECT ALL"
+input = """
+TABLE t1
+|> INTERSECT ALL
+    TABLE t2,
+    TABLE t3,
+    (FROM t4 |> WHERE condition),
+    (TABLE t5)
+"""
+formatted = """
+TABLE t1
+|> INTERSECT ALL
+   TABLE t2,
+   TABLE t3,
+   (
+     FROM t4
+     |> WHERE condition
+   ),
+   (TABLE t5)
+"""
 
-# [[cases]]
-# description = "Unparenthesized TABLE clauses in pipe set operations should work: EXCEPT DISTINCT"
-# input = """
-# [language_features=NONE,+PIPES]
-# TABLE t1
-# |> EXCEPT DISTINCT
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
-# formatted = """
-# TABLE t1
-# |> EXCEPT DISTINCT
-#     TABLE t2,
-#     TABLE t3,
-#     (FROM t4 |> WHERE condition),
-#     (TABLE t5)
-# """
+[[cases]]
+description = "Unparenthesized TABLE clauses in pipe set operations should work: INTERSECT DISTINCT"
+input = """
+TABLE t1
+|> INTERSECT DISTINCT
+    TABLE t2,
+    TABLE t3,
+    (FROM t4 |> WHERE condition),
+    (TABLE t5)
+"""
+formatted = """
+TABLE t1
+|> INTERSECT DISTINCT
+   TABLE t2,
+   TABLE t3,
+   (
+     FROM t4
+     |> WHERE condition
+   ),
+   (TABLE t5)
+"""
 
-# [[cases]]
-# description = "TABLE clause at end with or without trailing comma"
-# input = """
-# TABLE t1
-# |>  UNION ALL
-#     TABLE t2 ,
-# """
-# formatted = """
-# TABLE t1
-# |>  UNION ALL
-#     TABLE t2 ,
-# """
+[[cases]]
+description = "Unparenthesized TABLE clauses in pipe set operations should work: EXCEPT ALL"
+input = """
+TABLE t1
+|> EXCEPT ALL
+    TABLE t2,
+    TABLE t3,
+    (FROM t4 |> WHERE condition),
+    (TABLE t5)
+"""
+formatted = """
+TABLE t1
+|> EXCEPT ALL
+   TABLE t2,
+   TABLE t3,
+   (
+     FROM t4
+     |> WHERE condition
+   ),
+   (TABLE t5)
+"""
+
+[[cases]]
+description = "Unparenthesized TABLE clauses in pipe set operations should work: EXCEPT DISTINCT"
+input = """
+TABLE t1
+|> EXCEPT DISTINCT
+    TABLE t2,
+    TABLE t3,
+    (FROM t4 |> WHERE condition),
+    (TABLE t5)
+"""
+formatted = """
+TABLE t1
+|> EXCEPT DISTINCT
+   TABLE t2,
+   TABLE t3,
+   (
+     FROM t4
+     |> WHERE condition
+   ),
+   (TABLE t5)
+"""
+
+[[cases]]
+description = "TABLE clause at end with or without trailing comma"
+input = """
+TABLE t1
+|>  UNION ALL
+    TABLE t2 ,
+"""
+formatted = """
+TABLE t1
+|> UNION ALL
+   TABLE t2
+"""

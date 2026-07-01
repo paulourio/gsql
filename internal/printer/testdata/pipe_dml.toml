@@ -39,8 +39,7 @@ hex_style = "UPPER_CASE"
 # |> INSERT OR IGNORE INTO t3
 # """
 # formatted = """
-# FROM
-#   t1
+# FROM t1
 # |> INSERT OR IGNORE INTO t3
 # """
 
@@ -52,8 +51,7 @@ hex_style = "UPPER_CASE"
 # |> INSERT OR REPLACE INTO t3
 # """
 # formatted = """
-# FROM
-#   t1
+# FROM t1
 # |> INSERT OR REPLACE INTO t3
 # """
 
@@ -65,8 +63,7 @@ hex_style = "UPPER_CASE"
 # |> INSERT OR UPDATE INTO t3
 # """
 # formatted = """
-# FROM
-#   t1
+# FROM t1
 # |> INSERT OR UPDATE INTO t3
 # """
 
@@ -117,7 +114,9 @@ hex_style = "UPPER_CASE"
 # formatted = """
 # FROM t1
 # |> INSERT INTO t3
-#    ON CONFLICT DO UPDATE SET b = 1
+#    ON CONFLICT DO
+#    UPDATE SET
+#      b = 1
 # """
 
 # [[cases]]
@@ -125,12 +124,14 @@ hex_style = "UPPER_CASE"
 # input = """
 # from t1
 # |> INSERT INTO t3
-#    ON CONFLICT ON UNIQUE CONSTRAINT c1 DO NOTHING
+#    ON CONFLICT ON UNIQUE CONSTRAINT c1 DO
+#    NOTHING
 # """
 # formatted = """
 # FROM t1
 # |> INSERT INTO t3
-#    ON CONFLICT ON UNIQUE CONSTRAINT c1 DO NOTHING
+#    ON CONFLICT ON UNIQUE CONSTRAINT c1 DO
+#    NOTHING
 # """
 
 # [[cases]]
@@ -156,7 +157,8 @@ hex_style = "UPPER_CASE"
 # formatted = """
 # FROM t1
 # |> INSERT INTO t3
-#    THEN RETURN WITH ACTION AS ACTION a,b
+#    THEN RETURN WITH ACTION AS action
+#      a, b
 # """
 
 # [[cases]]
@@ -171,9 +173,11 @@ hex_style = "UPPER_CASE"
 # formatted = """
 # SELECT 1
 # |> INSERT OR REPLACE INTO a.b.c @{hint=1} (c1,c2)
-#    ON CONFLICT DO NOTHING
+#    ON CONFLICT DO
+#    NOTHING
 #    ASSERT_ROWS_MODIFIED 100
-#    THEN RETURN WITH ACTION x,y
+#    THEN RETURN WITH ACTION
+#      x, y
 # """
 
 # [[cases]]
@@ -253,8 +257,8 @@ hex_style = "UPPER_CASE"
 # INSERT INTO t1
 # FROM t2
 # |> INSERT INTO t3
-# THEN RETURN *
-# ASSERT_ROWS_MODIFIED 100
+#    THEN RETURN *
+#    ASSERT_ROWS_MODIFIED 100
 # """
 
 # [[cases]]
@@ -270,7 +274,6 @@ hex_style = "UPPER_CASE"
 # INSERT INTO t1
 # FROM t2
 # |> INSERT INTO t3
-# ASSERT_ROWS_MODIFIED 100
-# THEN RETURN *
+#    ASSERT_ROWS_MODIFIED 100
+#    THEN RETURN *
 # """
-

@@ -250,8 +250,9 @@ func isAlphanum(c byte) bool {
 
 var wordSeparators = map[string]bool{
 	"AND": true,
-	"OR":  true,
+	"BY":  true,
 	"ON":  true,
+	"OR":  true,
 	"IN":  true,
 }
 
