@@ -71,8 +71,12 @@ func (p *Printer) visitAliasedQuery(ctx Context, n *sql.AliasedQuery) {
 		p.decDepth()
 	}
 	p.print(")")
+	if m := n.Modifiers(); m != nil {
+		p.accept(ctx, m)
+	}
 	p.movePast(n)
 }
+
 
 func (p *Printer) visitFromClause(ctx Context, n *sql.FromClause) {
 	var count int
@@ -334,3 +338,31 @@ func (p *Printer) visitAliasedQueryList(ctx Context, n *sql.AliasedQueryList) {
 	}
 	p.movePast(n)
 }
+
+func (p *Printer) visitAliasedQueryModifiers(ctx Context, n *sql.AliasedQueryModifiers) {
+	p.moveBefore(n)
+	p.accept(ctx, n.RecursionDepthModifier())
+	p.movePast(n)
+}
+
+func (p *Printer) visitRecursionDepthModifier(ctx Context, n *sql.RecursionDepthModifier) {
+	p.moveBefore(n)
+	p.print(" " + p.keyword("WITH DEPTH"))
+	if a := n.Alias(); a != nil {
+		p.print(" ")
+		p.accept(ctx, a)
+	}
+	lb := n.LowerBound()
+	ub := n.UpperBound()
+	if lb != nil && lb.Bound() != nil {
+		p.print(" " + p.keyword("BETWEEN") + " ")
+		p.accept(ctx, lb.Bound())
+		p.print(" " + p.keyword("AND") + " ")
+		p.accept(ctx, ub.Bound())
+	} else if ub != nil && ub.Bound() != nil {
+		p.print(" " + p.keyword("MAX") + " ")
+		p.accept(ctx, ub.Bound())
+	}
+	p.movePast(n)
+}
+

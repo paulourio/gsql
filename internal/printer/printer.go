@@ -480,6 +480,13 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeSet(ctx, n.(*sql.PipeSet))
 	case sql.PipeSetItemKind:
 		p.visitPipeSetItem(ctx, n.(*sql.PipeSetItem))
+	case sql.PipeWithKind:
+		p.visitPipeWith(ctx, n.(*sql.PipeWith))
+	case sql.AliasedQueryModifiersKind:
+		p.visitAliasedQueryModifiers(ctx, n.(*sql.AliasedQueryModifiers))
+	case sql.RecursionDepthModifierKind:
+		p.visitRecursionDepthModifier(ctx, n.(*sql.RecursionDepthModifier))
+
 
 	// ── print_procedural.go ────────────────────────────────────────────────────────
 

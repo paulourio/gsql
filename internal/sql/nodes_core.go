@@ -48,6 +48,11 @@ func (n *AliasedQuery) Alias() *Identifier { return newIdentifier(must(n.raw.Ali
 
 func (n *AliasedQuery) Query() *Query { return newQuery(must(n.raw.Query())) }
 
+func (n *AliasedQuery) Modifiers() *AliasedQueryModifiers {
+	return newAliasedQueryModifiers(must(n.raw.Modifiers()))
+}
+
+
 type AssertRowsModified struct {
 	baseNode[*googlesql.ASTAssertRowsModified]
 }
@@ -1370,8 +1375,10 @@ func newAliasedQueryModifiers(r *googlesql.ASTAliasedQueryModifiers) *AliasedQue
 	}
 	return &AliasedQueryModifiers{baseNode[*googlesql.ASTAliasedQueryModifiers]{raw: r}}
 }
+func (n *AliasedQueryModifiers) RecursionDepthModifier() *RecursionDepthModifier {
+	return newRecursionDepthModifier(must(n.raw.RecursionDepthModifier()))
+}
 
-// TableAndColumnInfo wraps *googlesql.ASTTableAndColumnInfo.
 type TableAndColumnInfo struct {
 	baseNode[*googlesql.ASTTableAndColumnInfo]
 }

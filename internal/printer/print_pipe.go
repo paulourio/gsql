@@ -323,3 +323,13 @@ func (p *Printer) visitPipeTablesample(ctx Context, n *sql.PipeTablesample) {
 	p.print(pp.unnestLeft())
 	p.movePast(n)
 }
+
+func (p *Printer) visitPipeWith(ctx Context, n *sql.PipeWith) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.acceptNestedLeft(ctx, n.WithClause())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+

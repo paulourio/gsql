@@ -157,83 +157,128 @@ FROM Users
 |> TABLESAMPLE RANDOM (10 ROWS PARTITION BY state, zipcode)
 """
 
-# [[cases]]
-# description = "Commented out test: WHERE syntax."
-# input = """
-# from t1
-# |> with t2 AS (select * from t3),
-#         t3 AS (from t4 |> where true)
-# |> select abc
-# """
-# formatted = """
-# FROM t1
-# |> WITH t2 AS (SELECT * FROM t3),
-#         t3 AS (FROM t4 |> WHERE TRUE)
-# |> SELECT abc
-# """
+[[cases]]
+description = "Commented out test: WHERE syntax."
+input = """
+from t1
+|> with t2 AS (select * from t3),
+        t3 AS (from t4 |> where true)
+|> select abc
+"""
+formatted = """
+FROM t1
+|> WITH
+     t2 AS (
+       SELECT *
+         FROM t3
+     ),
+     t3 AS (
+       FROM t4
+       |> WHERE TRUE
+     )
+|> SELECT abc
+"""
 
-# [[cases]]
-# description = "Trailing commas"
-# input = """
-# from t1
-# |> WITH t2 AS (select * from t3),
-# |> WITH t4 AS (from t3),
-#         t5 AS (from t6),
-# |> where true
-# """
-# formatted = """
-# FROM t1
-# |> WITH t2 AS (SELECT * FROM t3),
-# |> WITH t4 AS (FROM t3),
-#         t5 AS (FROM t6),
-# |> WHERE TRUE
-# """
+[[cases]]
+description = "Trailing commas"
+input = """
+from t1
+|> WITH t2 AS (select * from t3),
+|> WITH t4 AS (from t3),
+        t5 AS (from t6),
+|> where true
+"""
+formatted = """
+FROM t1
+|> WITH
+     t2 AS (
+       SELECT *
+         FROM t3
+     )
+|> WITH
+     t4 AS (
+       FROM t3
+     ),
+     t5 AS (
+       FROM t6
+     )
+|> WHERE TRUE
+"""
 
-# [[cases]]
-# description = "WITH RECURSIVE"
-# input = """
-# FROM t1
-# |> WITH RECURSIVE t2 AS (from t2),
-#                   t3 AS (from t3),
-# """
-# formatted = """
-# FROM t1
-# |> WITH RECURSIVE t2 AS (FROM t2),
-#                   t3 AS (FROM t3),
-# """
+[[cases]]
+description = "WITH RECURSIVE"
+input = """
+FROM t1
+|> WITH RECURSIVE t2 AS (from t2),
+                  t3 AS (from t3),
+"""
+formatted = """
+FROM t1
+|> WITH RECURSIVE
+     t2 AS (
+       FROM t2
+     ),
+     t3 AS (
+       FROM t3
+     )
+"""
 
-# [[cases]]
-# description = "WITH RECURSIVE with modifiers."
-# input = """
-# FROM t1
-# |> WITH RECURSIVE t2 AS (
-#      FROM t2) WITH DEPTH {{|AS depth}}{{| max 10| between 5 AND 8}}
-# """
-# formatted = """
-# FROM t1
-# |> WITH RECURSIVE t2 AS (
-#      FROM t2) WITH DEPTH {{|AS depth}}{{| max 10| between 5 AND 8}}
-# """
+[[cases]]
+description = "WITH RECURSIVE with depth alias and max."
+input = """
+FROM t1
+|> WITH RECURSIVE t2 AS (
+     FROM t2) WITH DEPTH AS depth MAX 10
+"""
+formatted = """
+FROM t1
+|> WITH RECURSIVE
+     t2 AS (
+       FROM t2
+     ) WITH DEPTH AS depth MAX 10
+"""
 
-# [[cases]]
-# description = "Pipe WITH inside and after a regular WITH clause."
-# input = """
-# WITH t1 AS (
-#    select 1
-#    |> WITH t2 AS (select 2)
-#    |> WHERE true
-#   )
-# FROM t2
-# |> WITH t3 AS (from t5)
-# |> SELECT x
-# """
-# formatted = """
-# WITH t1 AS (
-#    SELECT 1
-#    |> WITH t2 AS (SELECT 2)
-#    |> WHERE TRUE
-#   )
-# FROM t2
-# |> WITH t3 AS (FROM t5)
-# |> SELECT x
-# """
+[[cases]]
+description = "WITH RECURSIVE with depth between."
+input = """
+FROM t1
+|> WITH RECURSIVE t2 AS (
+     FROM t2) WITH DEPTH BETWEEN 5 AND 8
+"""
+formatted = """
+FROM t1
+|> WITH RECURSIVE
+     t2 AS (
+       FROM t2
+     ) WITH DEPTH BETWEEN 5 AND 8
+"""
+
+[[cases]]
+description = "Pipe WITH inside and after a regular WITH clause."
+input = """
+WITH t1 AS (
+   select 1
+   |> WITH t2 AS (select 2)
+   |> WHERE true
+  )
+FROM t2
+|> WITH t3 AS (from t5)
+|> SELECT x
+"""
+formatted = """
+WITH
+  t1 AS (
+    SELECT 1
+    |> WITH
+         t2 AS (
+           SELECT 2
+         )
+    |> WHERE TRUE
+  )
+FROM t2
+|> WITH
+     t3 AS (
+       FROM t5
+     )
+|> SELECT x
+"""
