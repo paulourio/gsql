@@ -333,3 +333,144 @@ func (p *Printer) visitPipeWith(ctx Context, n *sql.PipeWith) {
 	p.movePast(n)
 }
 
+// printSetOpKeywords emits the keywords for a set operation from its metadata:
+// optional propagation modifier (FULL/LEFT/INNER), operation type
+// (UNION/INTERSECT/EXCEPT), optional hint, ALL/DISTINCT quantifier, and
+// optional column-match suffix (CORRESPONDING [BY (…)] / BY NAME [ON (…)]).
+func (p *Printer) printSetOpKeywords(ctx Context, m *sql.SetOperationMetadata, recursive bool) {
+	// Leading propagation modifier (not used in RECURSIVE form).
+	if !recursive {
+		if pm := m.ColumnPropagationMode(); sql.Defined(pm) {
+			switch pm.Value() {
+			case sql.FullPropagation:
+				begin, end := pm.Location()
+				origText := strings.ToUpper(p.viewErasedInput(begin, end))
+				if strings.Contains(origText, "OUTER") {
+					p.print(p.keyword("FULL OUTER"))
+				} else {
+					p.print(p.keyword("FULL"))
+				}
+			case sql.LeftPropagation:
+				begin, end := pm.Location()
+				origText := strings.ToUpper(p.viewErasedInput(begin, end))
+				if strings.Contains(origText, "OUTER") {
+					p.print(p.keyword("LEFT OUTER"))
+				} else {
+					p.print(p.keyword("LEFT"))
+				}
+			case sql.InnerPropagation:
+				p.print(p.keyword("INNER"))
+			}
+		}
+	}
+
+	// Set operation type.
+	if ot := m.OpType(); sql.Defined(ot) {
+		switch ot.Value() {
+		case sql.UnionOp:
+			p.print(p.keyword("UNION"))
+		case sql.ExceptOp:
+			p.print(p.keyword("EXCEPT"))
+		case sql.IntersectOp:
+			p.print(p.keyword("INTERSECT"))
+		}
+	}
+
+	// Optional hint (e.g. @{hint=1}).
+	p.accept(ctx, m.Hint())
+
+	// ALL or DISTINCT.
+	if ad := m.AllOrDistinct(); sql.Defined(ad) {
+		switch ad.Value() {
+		case sql.All:
+			p.print(p.keyword("ALL"))
+		case sql.Distinct:
+			p.print(p.keyword("DISTINCT"))
+		}
+	}
+
+	// Optional column-match suffix.
+	if cm := m.ColumnMatchMode(); sql.Defined(cm) {
+		switch cm.Value() {
+		case sql.Corresponding:
+			p.print(p.keyword("CORRESPONDING"))
+		case sql.CorrespondingBy:
+			p.print(p.keyword("CORRESPONDING BY"))
+			p.print("(")
+			p.accept(ctx, m.CorrespondingByColumnList())
+			p.print(")")
+		case sql.ByName:
+			p.print(p.keyword("BY NAME"))
+		case sql.ByNameOn:
+			p.print(p.keyword("BY NAME ON"))
+			p.print("(")
+			p.accept(ctx, m.CorrespondingByColumnList())
+			p.print(")")
+		}
+	}
+}
+
+// printPipeSetOpInput prints a single input of a pipe set-operation as an
+// indented parenthesised block on p:
+//
+//	(
+//	  <content>
+//	)
+func (p *Printer) printPipeSetOpInput(ctx Context, input sql.Node) {
+	p.println("(")
+	p.incDepth()
+	pp := p.nest()
+	pp.accept(ctx, input)
+	p.print(pp.unnest())
+	p.println("")
+	p.decDepth()
+	p.print(")")
+}
+
+// visitSubpipeline prints a Subpipeline node (a sequence of pipe operators).
+// The surrounding parentheses are handled by the caller (printPipeSetOpInput).
+func (p *Printer) visitSubpipeline(ctx Context, n *sql.Subpipeline) {
+	p.moveBefore(n)
+	for _, op := range n.PipeOperatorList() {
+		p.lnaccept(ctx, op)
+	}
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeSetOperation(ctx Context, n *sql.PipeSetOperation) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.print("|>")
+	p2 := pp.nest()
+	p2.printSetOpKeywords(ctx, n.Metadata(), false)
+	for i, input := range n.Inputs() {
+		if i > 0 {
+			p2.print(",")
+		}
+		p2.println("")
+		p2.printPipeSetOpInput(ctx, input)
+	}
+	pp.print(p2.unnestLeft())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeRecursiveUnion(ctx Context, n *sql.PipeRecursiveUnion) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.print("|>")
+	p2 := pp.nest()
+	p2.print(p2.keyword("RECURSIVE"))
+	p2.printSetOpKeywords(ctx, n.Metadata(), true)
+	// Optional depth modifier (WITH DEPTH …).
+	p2.accept(ctx, n.RecursionDepthModifier())
+	p2.println("")
+	if sub := n.InputSubpipeline(); sql.Defined(sub) {
+		p2.printPipeSetOpInput(ctx, sub)
+	} else {
+		p2.printPipeSetOpInput(ctx, n.InputSubquery())
+	}
+	pp.print(p2.unnestLeft())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}

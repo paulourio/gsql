@@ -424,6 +424,10 @@ func (n *PipeRecursiveUnion) Metadata() *SetOperationMetadata {
 	return newSetOperationMetadata(must(n.raw.Metadata()))
 }
 
+func (n *PipeRecursiveUnion) RecursionDepthModifier() *RecursionDepthModifier {
+	return newRecursionDepthModifier(must(n.raw.RecursionDepthModifier()))
+}
+
 func (n *PipeRecursiveUnion) InputSubpipeline() *Subpipeline {
 	return newSubpipeline(must(n.raw.InputSubpipeline()))
 }

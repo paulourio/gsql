@@ -356,13 +356,21 @@ func (p *Printer) visitRecursionDepthModifier(ctx Context, n *sql.RecursionDepth
 	ub := n.UpperBound()
 	if lb != nil && lb.Bound() != nil {
 		p.print(" " + p.keyword("BETWEEN") + " ")
-		p.accept(ctx, lb.Bound())
+		p.printIntOrUnbounded(ctx, lb)
 		p.print(" " + p.keyword("AND") + " ")
-		p.accept(ctx, ub.Bound())
+		p.printIntOrUnbounded(ctx, ub)
 	} else if ub != nil && ub.Bound() != nil {
 		p.print(" " + p.keyword("MAX") + " ")
-		p.accept(ctx, ub.Bound())
+		p.printIntOrUnbounded(ctx, ub)
 	}
 	p.movePast(n)
+}
+
+func (p *Printer) printIntOrUnbounded(ctx Context, n *sql.IntOrUnbounded) {
+	if n.Bound() != nil {
+		p.accept(ctx, n.Bound())
+	} else {
+		p.print(p.keyword("UNBOUNDED"))
+	}
 }
 

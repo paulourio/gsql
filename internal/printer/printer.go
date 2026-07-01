@@ -480,6 +480,12 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeSet(ctx, n.(*sql.PipeSet))
 	case sql.PipeSetItemKind:
 		p.visitPipeSetItem(ctx, n.(*sql.PipeSetItem))
+	case sql.PipeSetOperationKind:
+		p.visitPipeSetOperation(ctx, n.(*sql.PipeSetOperation))
+	case sql.PipeRecursiveUnionKind:
+		p.visitPipeRecursiveUnion(ctx, n.(*sql.PipeRecursiveUnion))
+	case sql.SubpipelineKind:
+		p.visitSubpipeline(ctx, n.(*sql.Subpipeline))
 	case sql.PipeWithKind:
 		p.visitPipeWith(ctx, n.(*sql.PipeWith))
 	case sql.AliasedQueryModifiersKind:
@@ -1086,7 +1092,11 @@ func (p *Printer) isParenNeeded(n sql.Node) bool {
 					sql.CreateMaterializedViewStatementKind,
 					sql.CreateTableFunctionStatementKind,
 					sql.ExportDataStatementKind,
-					sql.CreateModelStatementKind:
+					sql.CreateModelStatementKind,
+					// Pipe set-op visitors print their own surrounding
+					// parentheses via printPipeSetOpInput.
+					sql.PipeSetOperationKind,
+					sql.PipeRecursiveUnionKind:
 					return false
 				}
 			}
