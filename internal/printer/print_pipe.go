@@ -737,3 +737,13 @@ func (p *Printer) visitPipeMatchRecognize(ctx Context, n *sql.PipeMatchRecognize
 	p.print(pp.unnestLeft())
 	p.movePast(n)
 }
+
+func (p *Printer) visitPipeExportData(ctx Context, n *sql.PipeExportData) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.acceptNestedLeft(ctx.WithValue(KeyInPipeOperator, true), n.ExportDataStatement())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+

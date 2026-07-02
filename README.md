@@ -206,7 +206,7 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [x] `|> DESCRIBE`
 - [x] `|> DISTINCT`
 - [x] `|> DROP`
-- [ ] `|> EXPORT DATA`
+- [x] `|> EXPORT DATA`
 - [x] `|> EXTEND`
 - [x] `|> FORK`
 - [x] `|> IF`

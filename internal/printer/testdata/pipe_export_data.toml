@@ -1,0 +1,90 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+[[cases]]
+description = "The parser doesn't know EXPORT DATA is terminal and can't be followed by more operators."
+input = """
+from t
+|> export data options()
+|> export data options(k1=1, k2=abc)
+|> where true
+"""
+formatted = """
+FROM t
+|> EXPORT DATA
+   OPTIONS ()
+|> EXPORT DATA
+   OPTIONS (
+     k1 = 1,
+     k2 = abc
+   )
+|> WHERE TRUE
+"""
+
+[[cases]]
+description = "Simple EXPORT DATA pipe operator."
+input = """
+from t
+|> export data
+"""
+formatted = """
+FROM t
+|> EXPORT DATA
+"""
+
+[[cases]]
+description = "EXPORT DATA pipe operator with connection and options."
+input = """
+from t
+|> export data with connection abc options(x=5)
+|> export data with connection def
+"""
+formatted = """
+FROM t
+|> EXPORT DATA
+   WITH CONNECTION abc
+   OPTIONS (x=5)
+|> EXPORT DATA
+   WITH CONNECTION def
+"""
+
+[[cases]]
+description = "EXPORT DATA statement with EXPORT DATA pipe operators in its query."
+input = """
+EXPORT DATA AS
+FROM Table
+|> EXPORT DATA
+|> EXPORT DATA
+   OPTIONS (key=value, key_name = ( select 1 from KeyValue where 1 = 1 ))
+"""
+formatted = """
+EXPORT DATA
+AS (
+  FROM Table
+  |> EXPORT DATA
+  |> EXPORT DATA
+     OPTIONS (
+       key      = value,
+       key_name = (
+                    SELECT 1
+                      FROM KeyValue
+                     WHERE 1 = 1
+                  )
+     )
+)
+"""

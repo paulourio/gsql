@@ -64,13 +64,15 @@ func (p *Printer) visitExportDataStatement(ctx Context, n *sql.ExportDataStateme
 	p.print(p.keyword("EXPORT DATA"))
 	p.lnaccept(ctx, n.WithConnectionClause())
 	p.lnaccept(ctx, n.OptionsList())
-	p.println("")
-	p.println(p.keyword("AS") + " (")
-	p1 := p.nest()
-	p1.incDepth()
-	p1.accept(ctx, n.Query())
-	p.println(p1.unnest())
-	p.println(")")
+	if !ctx.Bool(KeyInPipeOperator) {
+		p.println("")
+		p.println(p.keyword("AS") + " (")
+		p1 := p.nest()
+		p1.incDepth()
+		p1.accept(ctx, n.Query())
+		p.println(p1.unnest())
+		p.println(")")
+	}
 	p.movePast(n)
 }
 
