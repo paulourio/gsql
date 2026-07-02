@@ -90,9 +90,9 @@ Formatting without comment is always idempotent, but formatting code preserving 
     - [ ] CREATE SNAPSHOT (generic)
     - [ ] CREATE DATABASE
     - [ ] CREATE CONSTANT
-    - [ ] CREATE CAPACITY - not supported by googlesql
-    - [ ] CREATE RESERVATION - not supported by googlesql
-    - [ ] CREATE ASSIGNMENT - not supported by googlesql
+    - [ ] CREATE CAPACITY
+    - [ ] CREATE RESERVATION
+    - [ ] CREATE ASSIGNMENT
     - [x] ALTER SCHEMA
     - [x] ALTER TABLE
     - [x] ALTER COLUMN
@@ -104,10 +104,10 @@ Formatting without comment is always idempotent, but formatting code preserving 
     - [ ] ALTER APPROX VIEW
     - [ ] ALTER SEQUENCE
     - [ ] ALTER CONNECTION
-    - [ ] ALTER ORGANIZATION - not supported by googlesql
-    - [ ] ALTER PROJECT - not supported by googlesql
-    - [ ] ALTER BI_CAPACITY - not supported by googlesql
-    - [ ] ALTER CAPACITY - not supported by googlesql
+    - [ ] ALTER ORGANIZATION
+    - [ ] ALTER PROJECT
+    - [ ] ALTER BI_CAPACITY
+    - [ ] ALTER CAPACITY
     - [x] DROP SCHEMA
     - [x] DROP TABLE
     - [x] DROP SNAPSHOT TABLE
@@ -124,9 +124,9 @@ Formatting without comment is always idempotent, but formatting code preserving 
     - [ ] DROP CONNECTION
     - [ ] UNDROP (table/schema)
     - [x] RENAME (table/object)
-    - [ ] DROP CAPACITY - not supported by googlesql
-    - [ ] DROP RESERVATION - not supported by googlesql
-    - [ ] DROP ASSIGNMENT - not supported by googlesql
+    - [ ] DROP CAPACITY
+    - [ ] DROP RESERVATION
+    - [ ] DROP ASSIGNMENT
 
 #### Data Manipulation Language (DML)
 
