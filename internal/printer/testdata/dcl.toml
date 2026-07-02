@@ -1,0 +1,156 @@
+[setup]
+[setup.print_options]
+soft_max_cols = 80
+newline_before_clause = true
+align_logical_with_clauses = false
+column_list_trailing_comma = "NEVER"
+indentation = 1
+min_joins_to_separate_in_blocks = 2
+function_name_style = "UPPER_CASE"
+identifier_style = "AS_IS"
+keyword_style = "UPPER_CASE"
+type_style = "UPPER_CASE"
+bool_style = "AS_IS"
+null_style = "AS_IS"
+bytes_style = "AS_IS"
+string_style = "AS_IS"
+hex_style = "UPPER_CASE"
+
+[[cases]]
+description = "GRANT multiple privileges on table"
+input = """
+grant select, update on table foo to 'user@google.com'
+"""
+formatted = """
+GRANT SELECT, UPDATE
+   ON TABLE foo
+   TO 'user@google.com'
+"""
+
+[[cases]]
+description = "GRANT ALL PRIVILEGES on view with multiple grantees"
+input = """
+grant all privileges on view foo to @user1, @@user2, 'mdbuser/bar1', 'mdbuser/bar2'
+"""
+formatted = """
+GRANT ALL PRIVILEGES
+   ON VIEW foo
+   TO @user1,
+      @@user2,
+      'mdbuser/bar1',
+      'mdbuser/bar2'
+"""
+
+[[cases]]
+description = "GRANT SELECT on materialized view"
+input = """
+grant select on materialized view foo to 'user@google.com'
+"""
+formatted = """
+GRANT SELECT
+   ON MATERIALIZED VIEW foo
+   TO 'user@google.com'
+"""
+
+[[cases]]
+description = "REVOKE SELECT on materialized view"
+input = """
+revoke select on materialized view foo from 'user@google.com'
+"""
+formatted = """
+REVOKE SELECT
+    ON MATERIALIZED VIEW foo
+  FROM 'user@google.com'
+"""
+
+[[cases]]
+description = "GRANT ALL on custom target path without target type"
+input = """
+grant all on datascape.foo to 'bar'
+"""
+formatted = """
+GRANT ALL
+   ON datascape.foo
+   TO 'bar'
+"""
+
+[[cases]]
+description = "GRANT columns-specific privileges"
+input = """
+grant select, insert(col1, col2, col3), update(col2) on foo to 'mdbgroup/bar'
+"""
+formatted = """
+GRANT SELECT, INSERT (col1, col2, col3), UPDATE (col2)
+   ON foo
+   TO 'mdbgroup/bar'
+"""
+
+[[cases]]
+description = "GRANT execute on script"
+input = """
+grant execute on script datascape.script_foo to 'group@google.com'
+"""
+formatted = """
+GRANT EXECUTE
+   ON SCRIPT datascape.script_foo
+   TO 'group@google.com'
+"""
+
+[[cases]]
+description = "GRANT multiple grantees with comma"
+input = """
+grant all on foo to 'bar1', 'bar2'
+"""
+formatted = """
+GRANT ALL
+   ON foo
+   TO 'bar1',
+      'bar2'
+"""
+
+[[cases]]
+description = "REVOKE ALL without target type"
+input = """
+revoke all on foo from 'bar'
+"""
+formatted = """
+REVOKE ALL
+    ON foo
+  FROM 'bar'
+"""
+
+[[cases]]
+description = "REVOKE privilege from target table"
+input = """
+revoke delete on table foo from 'mdbuser/bar'
+"""
+formatted = """
+REVOKE DELETE
+    ON TABLE foo
+  FROM 'mdbuser/bar'
+"""
+
+[[cases]]
+description = "REVOKE ALL on table with multiple grantees"
+input = """
+revoke all on table table from 'mdbuser/user', @user2, 'user3', @@user4;
+"""
+formatted = """
+REVOKE ALL
+    ON TABLE table
+  FROM 'mdbuser/user',
+       @user2,
+       'user3',
+       @@user4
+"""
+
+[[cases]]
+description = "REVOKE columns-specific privileges"
+input = """
+revoke delete,update(col2) on view foo from 'mdbgroup/bar'
+"""
+formatted = """
+REVOKE DELETE, UPDATE (col2)
+    ON VIEW foo
+  FROM 'mdbgroup/bar'
+"""

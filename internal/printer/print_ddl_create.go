@@ -807,3 +807,107 @@ func (p *Printer) visitTransformClause(ctx Context, n *sql.TransformClause) {
 	p.decDepth()
 	p.print(")")
 }
+
+func (p *Printer) visitGrantStatement(ctx Context, n *sql.GrantStatement) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp2 := pp.nest()
+	pp2.print(pp2.keyword("GRANT"))
+	pp2.acceptNested(ctx, n.Privileges())
+	pp2.println("")
+	pp2.printOnAndTargetType(n.Privileges().LocationEnd(), n.TargetPath().LocationStart())
+	pp2.accept(ctx, n.TargetPath())
+	pp2.println("")
+	pp2.print(pp2.keyword("TO"))
+	pp2.print("\v")
+	grantees := n.GranteeList().Grantees()
+	for i, e := range grantees {
+		if i > 0 {
+			pp2.print(",")
+			pp2.println("")
+			pp2.print("\v")
+		}
+		pp2.accept(ctx, e)
+	}
+	pp.print(pp2.unnest())
+	p.print(pp.unnest())
+	p.movePast(n)
+}
+
+func (p *Printer) visitRevokeStatement(ctx Context, n *sql.RevokeStatement) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp2 := pp.nest()
+	pp2.print(pp2.keyword("REVOKE"))
+	pp2.acceptNested(ctx, n.Privileges())
+	pp2.println("")
+	pp2.printOnAndTargetType(n.Privileges().LocationEnd(), n.TargetPath().LocationStart())
+	pp2.accept(ctx, n.TargetPath())
+	pp2.println("")
+	pp2.print(pp2.keyword("FROM"))
+	pp2.print("\v")
+	grantees := n.GranteeList().Grantees()
+	for i, e := range grantees {
+		if i > 0 {
+			pp2.print(",")
+			pp2.println("")
+			pp2.print("\v")
+		}
+		pp2.accept(ctx, e)
+	}
+	pp.print(pp2.unnest())
+	p.print(pp.unnest())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPrivileges(ctx Context, n *sql.Privileges) {
+	p.moveBefore(n)
+	if n.IsAllPrivileges() {
+		begin := n.LocationStart()
+		end := n.LocationEnd()
+		input := strings.ToUpper(p.viewErasedInput(begin, end))
+		if strings.Contains(input, "PRIVILEGES") {
+			p.print(p.keyword("ALL PRIVILEGES"))
+		} else {
+			p.print(p.keyword("ALL"))
+		}
+	} else {
+		privs := n.Privileges()
+		for i, priv := range privs {
+			if i > 0 {
+				p.print(", ")
+			}
+			p.accept(ctx, priv)
+		}
+	}
+	p.movePast(n)
+}
+
+func (p *Printer) visitPrivilege(ctx Context, n *sql.Privilege) {
+	p.moveBefore(n)
+	p.print(p.keyword(p.nodeInput(n.PrivilegeAction())))
+	if paths := n.Paths(); paths != nil {
+		p.print(" (")
+		exprs := paths.PathExpressionList()
+		for i, expr := range exprs {
+			if i > 0 {
+				p.print(", ")
+			}
+			p.accept(ctx, expr)
+		}
+		p.print(")")
+	}
+	p.movePast(n)
+}
+
+func (p *Printer) printOnAndTargetType(begin, end int) {
+	input := p.viewErasedInput(begin, end)
+	words := strings.Fields(input)
+	if len(words) > 0 {
+		p.print(p.keyword(words[0]))
+		p.print("\v")
+		for i := 1; i < len(words); i++ {
+			p.print(p.keyword(words[i]) + " ")
+		}
+	}
+}

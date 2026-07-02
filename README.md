@@ -138,8 +138,8 @@ Formatting without comment is always idempotent, but formatting code preserving 
 
 #### Data Control Language (DCL)
 
-- [ ] GRANT
-- [ ] REVOKE
+- [x] GRANT
+- [x] REVOKE
 
 #### Procedural language
 

@@ -188,6 +188,14 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitGrantToClause(ctx, n.(*sql.GrantToClause))
 	case sql.GranteeListKind:
 		p.visitGranteeList(ctx, n.(*sql.GranteeList))
+	case sql.GrantStatementKind:
+		p.visitGrantStatement(ctx, n.(*sql.GrantStatement))
+	case sql.RevokeStatementKind:
+		p.visitRevokeStatement(ctx, n.(*sql.RevokeStatement))
+	case sql.PrivilegesKind:
+		p.visitPrivileges(ctx, n.(*sql.Privileges))
+	case sql.PrivilegeKind:
+		p.visitPrivilege(ctx, n.(*sql.Privilege))
 	case sql.PrimaryKeyKind:
 		if pk, ok := n.(*sql.PrimaryKey); ok {
 			p.visitPrimaryKey(ctx, pk)
