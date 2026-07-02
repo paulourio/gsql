@@ -1466,6 +1466,9 @@ func (p *Printer) visitSelect(ctx Context, n *sql.Select) {
 	case sql.PipeSelectKind:
 		p.visitPipeSelectSelect(ctx, n)
 		return
+	case sql.PipeWindowKind:
+		p.visitPipeWindowSelect(ctx, n)
+		return
 	}
 	p.moveBefore(n)
 	pp := p.nest()

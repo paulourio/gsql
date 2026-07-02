@@ -207,8 +207,36 @@ func (p *Printer) visitPipeExtendSelect(ctx Context, n *sql.Select) {
 		pp.acceptNestedLeft(ctx, win)
 		p.print(strings.TrimLeft(pp.unnestLeft(), "\v"))
 	}
+}
+
+func (p *Printer) visitPipeWindow(ctx Context, n *sql.PipeWindow) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.lnprint("|>")
+	pp.acceptNestedLeft(ctx, n.Select())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeWindowSelect(ctx Context, n *sql.Select) {
+	p.moveBefore(n)
+	p.print(p.keyword("WINDOW"))
+	singleLine := p.maybeSingleLineColumns(n)
+	ctx = ctx.WithValue(KeySingleLineCols, singleLine)
+	pp := p.nest()
+	pp.accept(ctx, n.SelectList())
+	p.print(pp.unnestLeft())
+	if win := n.WindowClause(); win != nil {
+		p.moveBefore(win)
+		p.println("")
+		pp := p.nest()
+		pp.print(pp.keyword("WINDOW") + " ")
+		pp.acceptNestedLeft(ctx, win)
+		p.print(strings.TrimLeft(pp.unnestLeft(), "\v"))
+	}
 	p.movePastLine(n)
 }
+
 
 func (p *Printer) visitPipeSelectSelect(ctx Context, n *sql.Select) {
 	p.moveBefore(n)

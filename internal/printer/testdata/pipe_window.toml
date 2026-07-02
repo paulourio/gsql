@@ -16,133 +16,73 @@ bytes_style = "AS_IS"
 string_style = "AS_IS"
 hex_style = "UPPER_CASE"
 
-# [[cases]]
-# description = "Commented out test: WINDOW syntax."
-# input = """
-# select 1
-# |> WINDOW f() OVER (), g() OVER (PARTITION BY x ORDER BY y) x
-# |> WINDOW 3, h() OVER (ROWS UNBOUNDED PRECEDING) AS z
-# """
-# formatted = """
-# SELECT 1
-# |> WINDOW f() OVER (), g() OVER (PARTITION BY x ORDER BY y) x
-# |> WINDOW 3, h() OVER (ROWS UNBOUNDED PRECEDING) AS z
-# """
+[[cases]]
+description = "Commented out test: WINDOW syntax."
+input = """
+select 1
+|> WINDOW f() OVER (), g() OVER (PARTITION BY x ORDER BY y) x
+|> WINDOW 3, h() OVER (ROWS UNBOUNDED PRECEDING) AS z
+"""
+formatted = """
+SELECT 1
+|> WINDOW f() OVER (),
+          g() OVER (
+            PARTITION BY x
+                ORDER BY y
+          ) AS x
+|> WINDOW 3,
+          h() OVER (ROWS UNBOUNDED PRECEDING) AS z
+"""
 
-# [[cases]]
-# description = "The parser doesn't check that OVER is present.  It accepts any expression. Trailing commas are allowed."
-# input = """
-# select 0
-# |> WINDOW 1, x, f()+g(),
-# """
-# formatted = """
-# SELECT 0
-# |> WINDOW 1, x, f()+g(),
-# """
+[[cases]]
+description = "The parser doesn't check that OVER is present.  It accepts any expression. Trailing commas are allowed."
+input = """
+select 0
+|> WINDOW 1, x, f()+g(),
+"""
+formatted = """
+SELECT 0
+|> WINDOW 1, x, f() + g()
+"""
 
-# [[cases]]
-# description = "OVER precedence works as usual."
-# input = """
-# select 1
-# |> WINDOW x+f(y+z) OVER ()+k
-# """
-# formatted = """
-# SELECT 1
-# |> WINDOW x + f(y + z) OVER () + k
-# """
+[[cases]]
+description = "OVER precedence works as usual."
+input = """
+select 1
+|> WINDOW x+f(y+z) OVER ()+k
+"""
+formatted = """
+SELECT 1
+|> WINDOW x + f(y + z) OVER () + k
+"""
 
-# [[cases]]
-# description = "Dot-star is allowed, with the optional modifiers, including on the output of window functions."
-# input = """
-# select 1
-# |> WINDOW x.*,
-#           f(x).* except(a),
-#           (1+x).* replace(a as b),
-#           (sum(x) OVER ()).*
-# """
-# formatted = """
-# SELECT 1
-# |> WINDOW x.*,
-#           f(x).* EXCEPT(a),
-#           (1+x).* REPLACE(a AS b),
-#           (SUM(x) OVER ()).*
-# """
+[[cases]]
+description = "Dot-star is allowed, with the optional modifiers, including on the output of window functions."
+input = """
+select 1
+|> WINDOW x.*,
+          f(x).* except(a),
+          (1+x).* replace(a as b),
+          (sum(x) OVER ()).*
+"""
+formatted = """
+SELECT 1
+|> WINDOW x.*,
+          f(x).* EXCEPT(a),
+          (1 + x).*
+          REPLACE(
+            a AS b
+          ),
+          (SUM(x) OVER ()).*
+"""
 
-# [[cases]]
-# description = "The precedence allows binding .* here."
-# input = """
-# select 1
-# |> WINDOW sum(x) OVER ().*
-# """
-# formatted = """
-# SELECT 1
-# |> WINDOW SUM(x) OVER ().*
-# """
-
-# [[cases]]
-# description = "Commented out test: WINDOW syntax."
-# input = """
-# select 1
-# |> WINDOW f() OVER (), g() OVER (PARTITION BY x ORDER BY y) x
-# |> WINDOW 3,
-#           h() OVER (ROWS UNBOUNDED PRECEDING) AS z
-# """
-# formatted = """
-# SELECT 1
-# |> WINDOW f() OVER (), g() OVER (PARTITION BY x ORDER BY y) x
-# |> WINDOW 3,
-#           h() OVER (ROWS UNBOUNDED PRECEDING) AS z
-# """
-
-# [[cases]]
-# description = "The parser doesn't check that OVER is present.  It accepts any expression. Trailing commas are allowed."
-# input = """
-# select 0
-# |> WINDOW 1, x, f()+g(),
-# """
-# formatted = """
-# SELECT 0
-# |> WINDOW 1, x, f() + g()
-# """
-
-# [[cases]]
-# description = "OVER precedence works as usual."
-# input = """
-# select 1
-# |> WINDOW x+f(y+z) OVER ()+k
-# """
-# formatted = """
-# SELECT 1
-# |> WINDOW x + f(y + z) OVER () + k
-# """
-
-# [[cases]]
-# description = "Dot-star is allowed, with the optional modifiers, including on the output of window functions."
-# input = """
-# select 1
-# |> WINDOW x.*,
-#           f(x).* except(a),
-#           (1+x).* replace(a as b),
-#           (sum(x) OVER ()).*
-# """
-# formatted = """
-# SELECT 1
-# |> WINDOW x.*,
-#           f(x).* EXCEPT(a),
-#           (1 + x).*
-#           REPLACE(
-#             a AS b
-#           ),
-#           (SUM(x) OVER ()).*
-# """
-
-# [[cases]]
-# description = "The precedence allows binding .* here."
-# input = """
-# select 1
-# |> WINDOW sum(x) OVER ().*
-# """
-# formatted = """
-# SELECT 1
-# |> WINDOW SUM(x) OVER ().*
-# """
+[[cases]]
+description = "The precedence allows binding .* here."
+input = """
+select 1
+|> WINDOW sum(x) OVER ().*
+"""
+formatted = """
+SELECT 1
+|> WINDOW SUM(x) OVER ().*
+"""

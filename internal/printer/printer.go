@@ -500,6 +500,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeTee(ctx, n.(*sql.PipeTee))
 	case sql.PipeRecursiveUnionKind:
 		p.visitPipeRecursiveUnion(ctx, n.(*sql.PipeRecursiveUnion))
+	case sql.PipeWindowKind:
+		p.visitPipeWindow(ctx, n.(*sql.PipeWindow))
 	case sql.SubpipelineKind:
 		p.visitSubpipeline(ctx, n.(*sql.Subpipeline))
 	case sql.PipeWithKind:

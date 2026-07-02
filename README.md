@@ -227,7 +227,7 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [x] `|> TEE`
 - [x] `|> UNPIVOT`
 - [x] `|> WHERE`
-- [ ] `|> WINDOW`
+- [x] `|> WINDOW`
 - [x] `|> WITH`
 
 #### Extensions
