@@ -366,6 +366,10 @@ func newPipeMatchRecognize(r *googlesql.ASTPipeMatchRecognize) *PipeMatchRecogni
 
 func (n *PipeMatchRecognize) isPipeOperator() {}
 
+func (n *PipeMatchRecognize) MatchRecognizeClause() *MatchRecognizeClause {
+	return newMatchRecognizeClause(must(n.raw.MatchRecognize()))
+}
+
 // PipeOrderBy wraps *googlesql.ASTPipeOrderBy.
 type PipeOrderBy struct {
 	baseNode[*googlesql.ASTPipeOrderBy]

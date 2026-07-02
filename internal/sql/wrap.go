@@ -901,7 +901,33 @@ func Wrap(n googlesql.ASTNode) Node {
 	case *googlesql.ASTPipeWith:
 		return newPipeWith(m)
 
+	// ── nodes_match_recognize.go ─────────────────────────────────────────────
+
+	case *googlesql.ASTAfterMatchSkipClause:
+		return newAfterMatchSkipClause(m)
+	case *googlesql.ASTBoundedQuantifier:
+		return newBoundedQuantifier(m)
+	case *googlesql.ASTEmptyRowPattern:
+		return newEmptyRowPattern(m)
+	case *googlesql.ASTFixedQuantifier:
+		return newFixedQuantifier(m)
+	case *googlesql.ASTMatchRecognizeClause:
+		return newMatchRecognizeClause(m)
+	case *googlesql.ASTQuantifierBound:
+		return newQuantifierBound(m)
+	case *googlesql.ASTRowPatternAnchor:
+		return newRowPatternAnchor(m)
+	case *googlesql.ASTRowPatternOperation:
+		return newRowPatternOperation(m)
+	case *googlesql.ASTRowPatternQuantification:
+		return newRowPatternQuantification(m)
+	case *googlesql.ASTRowPatternVariable:
+		return newRowPatternVariable(m)
+	case *googlesql.ASTSymbolQuantifier:
+		return newSymbolQuantifier(m)
+
 	// ── Fallback ──────────────────────────────────────────────────────────────
+
 	default:
 		if po, ok := n.(googlesql.ASTPipeOperatorNode); ok {
 			return newGenericPipeOperatorNode(po)

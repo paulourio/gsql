@@ -75,13 +75,14 @@ SELECT *
 [[cases]]
 description = "Pivot expression with alias"
 input = """
-SELECT * FROM t PIVOT(SUM(a) AS sum_a, COUNT(b) FOR x IN (0, 1));
+SELECT * FROM t PIVOT(SUM(a) AS sum_a, SUM(foo) AS sum_foo, COUNT(b) FOR x IN (0, 1));
 """
 formatted = """
 SELECT *
   FROM t
        PIVOT (
          SUM(a) AS sum_a,
+         SUM(foo) AS sum_foo,
          COUNT(b)
          FOR x IN (0, 1)
        )

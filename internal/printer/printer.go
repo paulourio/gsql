@@ -460,6 +460,10 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitPipeInsert(ctx, n.(*sql.PipeInsert))
 	case sql.PipeSelectKind:
 		p.visitPipeSelect(ctx, n.(*sql.PipeSelect))
+	case sql.PipePivotKind:
+		p.visitPipePivot(ctx, n.(*sql.PipePivot))
+	case sql.PipeUnpivotKind:
+		p.visitPipeUnpivot(ctx, n.(*sql.PipeUnpivot))
 	case sql.PipeOrderByKind:
 		p.visitPipeOrderBy(ctx, n.(*sql.PipeOrderBy))
 	case sql.PipeDistinctKind:
@@ -500,6 +504,8 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitSubpipeline(ctx, n.(*sql.Subpipeline))
 	case sql.PipeWithKind:
 		p.visitPipeWith(ctx, n.(*sql.PipeWith))
+	case sql.PipeMatchRecognizeKind:
+		p.visitPipeMatchRecognize(ctx, n.(*sql.PipeMatchRecognize))
 	case sql.AliasedQueryModifiersKind:
 		p.visitAliasedQueryModifiers(ctx, n.(*sql.AliasedQueryModifiers))
 	case sql.RecursionDepthModifierKind:
@@ -728,6 +734,29 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 		p.visitTypeParameterList(ctx, n.(*sql.TypeParameterList))
 	case sql.UnaryExpressionKind:
 		p.visitUnaryExpression(ctx, n.(*sql.UnaryExpression))
+
+	case sql.MatchRecognizeClauseKind:
+		p.visitMatchRecognizeClause(ctx, n.(*sql.MatchRecognizeClause))
+	case sql.AfterMatchSkipClauseKind:
+		p.visitAfterMatchSkipClause(ctx, n.(*sql.AfterMatchSkipClause))
+	case sql.EmptyRowPatternKind:
+		// Empty pattern — nothing to print.
+	case sql.RowPatternOperationKind:
+		p.visitRowPatternOperation(ctx, n.(*sql.RowPatternOperation))
+	case sql.RowPatternAnchorKind:
+		p.visitRowPatternAnchor(ctx, n.(*sql.RowPatternAnchor))
+	case sql.RowPatternQuantificationKind:
+		p.visitRowPatternQuantification(ctx, n.(*sql.RowPatternQuantification))
+	case sql.SymbolQuantifierKind:
+		p.visitSymbolQuantifier(ctx, n.(*sql.SymbolQuantifier))
+	case sql.BoundedQuantifierKind:
+		p.visitBoundedQuantifier(ctx, n.(*sql.BoundedQuantifier))
+	case sql.FixedQuantifierKind:
+		p.visitFixedQuantifier(ctx, n.(*sql.FixedQuantifier))
+	case sql.QuantifierBoundKind:
+		p.visitQuantifierBound(ctx, n.(*sql.QuantifierBound))
+	case sql.RowPatternVariableKind:
+		p.visitRowPatternVariable(ctx, n.(*sql.RowPatternVariable))
 
 	default:
 		p.addError(&Error{

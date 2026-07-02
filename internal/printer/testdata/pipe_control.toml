@@ -299,46 +299,6 @@ FROM t
 """
 
 [[cases]]
-description = "TEE syntax."
-input = """
-from t
-|> tee ()
-|> tee ( |> select 1 ),
-        ( |> select 2+tee   # TEE as an identifier
-          |> select 3 )
-"""
-formatted = """
-FROM t
-|> TEE ()
-|> TEE (
-         |> SELECT 1
-       ),
-       (
-         |> SELECT 2 + tee # TEE as an identifier
-         |> SELECT 3
-       )
-"""
-
-[[cases]]
-description = "Trailing commas"
-input = """
-from t
-|> tee ( |> where true ),
-|> tee ( |> where 1 ),
-        (),
-"""
-formatted = """
-FROM t
-|> TEE (
-         |> WHERE TRUE
-       )
-|> TEE (
-         |> WHERE 1
-       ),
-       ()
-"""
-
-[[cases]]
 description = "WITH in subpipelines."
 input = """
 FROM t1

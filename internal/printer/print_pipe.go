@@ -718,3 +718,31 @@ func (p *Printer) printSubpipelineBlock(ctx Context, pp *Printer, sub *sql.Subpi
 	pp.println("")
 	pp.print(prefixLines(aligned, indent))
 }
+
+func (p *Printer) visitPipePivot(ctx Context, n *sql.PipePivot) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.print("|>")
+	pp.acceptNestedLeft(ctx.WithValue(KeyInPipeOperator, true), n.PivotClause())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeUnpivot(ctx Context, n *sql.PipeUnpivot) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.print("|>")
+	pp.acceptNestedLeft(ctx.WithValue(KeyInPipeOperator, true), n.UnpivotClause())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}
+
+func (p *Printer) visitPipeMatchRecognize(ctx Context, n *sql.PipeMatchRecognize) {
+	p.moveBefore(n)
+	pp := p.nest()
+	pp.print("|>")
+	// Use acceptNestedLeft because MATCH_RECOGNIZE is a block clause
+	pp.acceptNestedLeft(ctx, n.MatchRecognizeClause())
+	p.print(pp.unnestLeft())
+	p.movePast(n)
+}

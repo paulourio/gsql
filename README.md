@@ -214,9 +214,9 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [x] `|> JOIN`
 - [x] `|> LIMIT`
 - [x] `|> LOG`
-- [ ] `|> MATCH_RECOGNIZE`
+- [x] `|> MATCH_RECOGNIZE`
 - [x] `|> ORDER BY`
-- [ ] `|> PIVOT`
+- [x] `|> PIVOT`
 - [x] `|> RECURSIVE UNION`
 - [x] `|> RENAME`
 - [x] `|> SELECT`
@@ -225,7 +225,7 @@ Several pipe operators are currently formatted by `bqfmt`:
 - [x] `|> STATIC_DESCRIBE`
 - [x] `|> TABLESAMPLE`
 - [x] `|> TEE`
-- [ ] `|> UNPIVOT`
+- [x] `|> UNPIVOT`
 - [x] `|> WHERE`
 - [ ] `|> WINDOW`
 - [x] `|> WITH`

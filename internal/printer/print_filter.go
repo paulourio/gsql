@@ -392,7 +392,9 @@ func (p *Printer) visitPartitionBy(ctx Context, n *sql.PartitionBy) {
 
 func (p *Printer) visitPivotClause(ctx Context, n *sql.PivotClause) {
 	p.moveBefore(n)
-	p.println("")
+	if !ctx.Bool(KeyInPipeOperator) {
+		p.println("")
+	}
 	p.print(p.keyword("PIVOT") + " (")
 	p.println("")
 	p.incDepth()
@@ -543,7 +545,9 @@ func (p *Printer) visitSampleSuffix(ctx Context, n *sql.SampleSuffix) {
 
 func (p *Printer) visitUnpivotClause(ctx Context, n *sql.UnpivotClause) {
 	p.moveBefore(n)
-	p.println("")
+	if !ctx.Bool(KeyInPipeOperator) {
+		p.println("")
+	}
 	switch n.NullFilter() {
 	case sql.UnspecifiedNullFilter:
 		p.println(p.keyword("UNPIVOT") + " (")
