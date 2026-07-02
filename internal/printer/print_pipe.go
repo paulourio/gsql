@@ -102,7 +102,6 @@ func (p *Printer) visitPipeInsert(ctx Context, n *sql.PipeInsert) {
 	p.movePast(n)
 }
 
-
 func (p *Printer) visitPipeDrop(ctx Context, n *sql.PipeDrop) {
 	p.moveBefore(n)
 	p.print("|>")
@@ -214,12 +213,12 @@ func (p *Printer) visitPipeExtendSelect(ctx Context, n *sql.Select) {
 func (p *Printer) visitPipeSelectSelect(ctx Context, n *sql.Select) {
 	p.moveBefore(n)
 	p.print(p.keyword("SELECT"))
-	
+
 	pp := p.nest()
 	if h := n.Hint(); h != nil {
 		pp.accept(ctx, h)
 	}
-	
+
 	singleLine := p.maybeSingleLineColumns(n)
 	ctx = ctx.WithValue(KeySingleLineCols, singleLine)
 
@@ -232,14 +231,14 @@ func (p *Printer) visitPipeSelectSelect(ctx Context, n *sql.Select) {
 	if wm := n.WithModifier(); wm != nil {
 		pp.accept(ctx, wm)
 	}
-	
+
 	if n.Hint() != nil || n.WithModifier() != nil {
 		pp.println("")
 	}
-	
+
 	pp.accept(ctx, n.SelectList())
 	p.print(pp.unnestLeft())
-	
+
 	if win := n.WindowClause(); win != nil {
 		p.moveBefore(win)
 		p.println("")

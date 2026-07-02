@@ -511,7 +511,6 @@ func (p *Printer) visit(ctx Context, n sql.Node, newline bool) {
 	case sql.RecursionDepthModifierKind:
 		p.visitRecursionDepthModifier(ctx, n.(*sql.RecursionDepthModifier))
 
-
 	// ── print_procedural.go ────────────────────────────────────────────────────────
 
 	case sql.BeginEndBlockKind:

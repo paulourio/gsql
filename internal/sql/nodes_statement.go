@@ -1111,9 +1111,8 @@ func newInsertStatement(r *googlesql.ASTInsertStatement) *InsertStatement {
 	return &InsertStatement{baseNode[*googlesql.ASTInsertStatement]{raw: r}}
 }
 
-func (n *InsertStatement) isStatement() {}
+func (n *InsertStatement) isStatement()           {}
 func (n *InsertStatement) InsertMode() InsertMode { return must(n.raw.InsertMode()) }
-
 
 func (n *InsertStatement) TargetPath() Node { return Wrap(must(n.raw.TargetPath())) }
 

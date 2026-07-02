@@ -122,7 +122,7 @@ func newTableClause(r *googlesql.ASTTableClause) *TableClause {
 	return &TableClause{baseNode[*googlesql.ASTTableClause]{raw: r}}
 }
 
-func (n *TableClause) isTableExpression()  {}
+func (n *TableClause) isTableExpression() {}
 func (n *TableClause) isQueryExpression() {}
 
 func (n *TableClause) TablePath() *PathExpression {

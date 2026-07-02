@@ -52,7 +52,6 @@ func (n *AliasedQuery) Modifiers() *AliasedQueryModifiers {
 	return newAliasedQueryModifiers(must(n.raw.Modifiers()))
 }
 
-
 type AssertRowsModified struct {
 	baseNode[*googlesql.ASTAssertRowsModified]
 }
@@ -1349,8 +1348,8 @@ func newAliasedQueryExpression(r *googlesql.ASTAliasedQueryExpression) *AliasedQ
 	return &AliasedQueryExpression{baseNode[*googlesql.ASTAliasedQueryExpression]{raw: r}}
 }
 func (n *AliasedQueryExpression) isQueryExpression() {}
-func (n *AliasedQueryExpression) Alias() *Alias { return newAlias(must(n.raw.Alias())) }
-func (n *AliasedQueryExpression) Query() *Query { return newQuery(must(n.raw.Query())) }
+func (n *AliasedQueryExpression) Alias() *Alias      { return newAlias(must(n.raw.Alias())) }
+func (n *AliasedQueryExpression) Query() *Query      { return newQuery(must(n.raw.Query())) }
 
 // AliasedQueryList wraps *googlesql.ASTAliasedQueryList.
 type AliasedQueryList struct {
@@ -1375,6 +1374,7 @@ func newAliasedQueryModifiers(r *googlesql.ASTAliasedQueryModifiers) *AliasedQue
 	}
 	return &AliasedQueryModifiers{baseNode[*googlesql.ASTAliasedQueryModifiers]{raw: r}}
 }
+
 func (n *AliasedQueryModifiers) RecursionDepthModifier() *RecursionDepthModifier {
 	return newRecursionDepthModifier(must(n.raw.RecursionDepthModifier()))
 }

@@ -77,7 +77,6 @@ func (p *Printer) visitAliasedQuery(ctx Context, n *sql.AliasedQuery) {
 	p.movePast(n)
 }
 
-
 func (p *Printer) visitFromClause(ctx Context, n *sql.FromClause) {
 	var count int
 	p.moveBefore(n)
@@ -373,4 +372,3 @@ func (p *Printer) printIntOrUnbounded(ctx Context, n *sql.IntOrUnbounded) {
 		p.print(p.keyword("UNBOUNDED"))
 	}
 }
-

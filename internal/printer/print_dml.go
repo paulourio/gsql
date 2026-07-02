@@ -420,7 +420,7 @@ func (p *Printer) visitOnConflictClause(ctx Context, n *sql.OnConflictClause) {
 		input := p.viewErasedInput(begin, end)
 		input = strings.TrimSpace(input)
 		upper := strings.ToUpper(input)
-		
+
 		doIndex := strings.LastIndex(upper, " DO")
 		if doIndex != -1 && strings.Contains(upper[doIndex:], "UPDATE SET") {
 			target := ""
@@ -448,7 +448,7 @@ func (p *Printer) visitOnConflictClause(ctx Context, n *sql.OnConflictClause) {
 	} else {
 		input := strings.TrimSpace(p.viewErasedInput(n.LocationStart(), n.LocationEnd()))
 		upper := strings.ToUpper(input)
-		
+
 		doIndex := strings.LastIndex(upper, " DO")
 		if doIndex != -1 && strings.Contains(upper[doIndex:], "NOTHING") {
 			target := ""

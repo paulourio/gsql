@@ -51,6 +51,9 @@ func NewSQLFormatter(opts ...SQLFormatterOption) (*SQLFormatter, error) {
 	if err := lopts.EnableReservableKeyword("QUALIFY", true); err != nil {
 		return nil, fmt.Errorf("unable to enable reservable keyword: %w", err)
 	}
+	if err := lopts.EnableReservableKeyword("MATCH_RECOGNIZE", true); err != nil {
+		return nil, fmt.Errorf("unable to enable reservable keyword: %w", err)
+	}
 	if err := popts.SetLanguageOptions(lopts); err != nil {
 		return nil, fmt.Errorf("unable to set language options: %w", err)
 	}
