@@ -62,6 +62,32 @@ Formatting without comment is always idempotent, but formatting code preserving 
 - [ ] REPLACE_FIELDS / FILTER_FIELDS
 - [ ] Braced constructors (proto)
 
+#### Queries
+
+- [x] `WITH` clause
+- [x] `SELECT`
+- [x] `FROM`
+- [x] `WHERE`
+- [x] `GROUP BY` (including `CUBE`, `ROLLUP`, `GROUPING SETS`)
+- [x] `HAVING`
+- [x] `ORDER BY`
+- [x] `QUALIFY`
+- [x] `WINDOW`
+- [x] Set operators (`UNION`, `INTERSECT`, `EXCEPT`)
+- Table operators
+    - [x] `UNNEST`
+    - [x] `PIVOT`
+    - [x] `UNPIVOT`
+    - [x] `TABLESAMPLE`
+    - [x] `MATCH_RECOGNIZE`
+    - [ ] `GRAPH_TABLE`
+- Joins
+    - [x] `[INNER] JOIN`
+    - [x] `CROSS JOIN`
+    - [x] `FULL [OUTER] JOIN`
+    - [x] `LEFT [OUTER] JOIN`
+    - [x] `RIGHT [OUTER] JOIN`
+
 #### Statements
 
 ##### Data Definition Language (DDL)
