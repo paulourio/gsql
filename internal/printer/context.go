@@ -137,6 +137,8 @@ func (k ContextKey) String() string {
 		return "QueryParameter"
 	case KeySystemVariable:
 		return "SystemVariable"
+	case KeyInPipeOperator:
+		return "InPipeOperator"
 	case KeyInTableName:
 		return "InTableName"
 	case KeyInTypeName:

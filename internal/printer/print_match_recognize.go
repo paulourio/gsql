@@ -3,8 +3,6 @@ package printer
 import (
 	"strings"
 
-	"github.com/goccy/go-googlesql"
-
 	"github.com/paulourio/gsql/internal/sql"
 )
 
@@ -90,11 +88,11 @@ func (p *Printer) visitAfterMatchSkipClause(ctx Context, n *sql.AfterMatchSkipCl
 	p.moveBefore(n)
 	p.print(p.keyword("AFTER MATCH SKIP "))
 	switch n.TargetType() {
-	case googlesql.ASTAfterMatchSkipClauseEnums_AfterMatchSkipTargetTypePastLastRow:
+	case sql.PastLastRow:
 		p.print(p.keyword("PAST LAST ROW"))
-	case googlesql.ASTAfterMatchSkipClauseEnums_AfterMatchSkipTargetTypeToNextRow:
+	case sql.ToNextRow:
 		p.print(p.keyword("TO NEXT ROW"))
-	default:
+	case sql.UnspecifiedSkipTarget:
 		p.print(p.keyword("TO "))
 		if id := n.SkipToVariable(); id != nil {
 			p.accept(ctx, id)
@@ -106,27 +104,27 @@ func (p *Printer) visitAfterMatchSkipClause(ctx Context, n *sql.AfterMatchSkipCl
 func (p *Printer) visitRowPatternOperation(ctx Context, n *sql.RowPatternOperation) {
 	p.moveBefore(n)
 	switch n.OpType() {
-	case googlesql.ASTRowPatternOperationEnums_OperationTypeConcat:
+	case sql.ConcatOp:
 		for i, input := range n.Inputs() {
 			if i > 0 {
 				p.print(" ")
 			}
 			p.accept(ctx, input)
 		}
-	case googlesql.ASTRowPatternOperationEnums_OperationTypeAlternate:
+	case sql.AlternateOp:
 		for i, input := range n.Inputs() {
 			if i > 0 {
 				p.print(" | ")
 			}
 			p.accept(ctx, input)
 		}
-	case googlesql.ASTRowPatternOperationEnums_OperationTypeExclude:
+	case sql.ExcludeOp:
 		p.print("{-")
 		for _, input := range n.Inputs() {
 			p.accept(ctx, input)
 		}
 		p.print("-}")
-	case googlesql.ASTRowPatternOperationEnums_OperationTypePermute:
+	case sql.PermuteOp:
 		p.print(p.keyword("PERMUTE") + "(")
 		for i, input := range n.Inputs() {
 			if i > 0 {
@@ -135,7 +133,7 @@ func (p *Printer) visitRowPatternOperation(ctx Context, n *sql.RowPatternOperati
 			p.accept(ctx, input)
 		}
 		p.print(")")
-	default:
+	case sql.UnspecifiedRowPatternOp:
 		for _, input := range n.Inputs() {
 			p.accept(ctx, input)
 		}
@@ -150,15 +148,17 @@ func (p *Printer) visitRowPatternQuantification(ctx Context, n *sql.RowPatternQu
 	p.movePast(n)
 }
 
-func (p *Printer) visitSymbolQuantifier(ctx Context, n *sql.SymbolQuantifier) {
+func (p *Printer) visitSymbolQuantifier(_ Context, n *sql.SymbolQuantifier) {
 	p.moveBefore(n)
 	switch n.Symbol() {
-	case googlesql.ASTSymbolQuantifierEnums_SymbolQuestionMark:
+	case sql.QuestionMark:
 		p.print("?")
-	case googlesql.ASTSymbolQuantifierEnums_SymbolPlus:
+	case sql.Plus:
 		p.print("+")
-	case googlesql.ASTSymbolQuantifierEnums_SymbolStar:
+	case sql.StarSymbol:
 		p.print("*")
+	case sql.UnspecifiedSymbol:
+		// do nothing
 	}
 	if n.IsReluctant() {
 		p.print("?")
@@ -201,13 +201,15 @@ func (p *Printer) visitQuantifierBound(ctx Context, n *sql.QuantifierBound) {
 	p.movePast(n)
 }
 
-func (p *Printer) visitRowPatternAnchor(ctx Context, n *sql.RowPatternAnchor) {
+func (p *Printer) visitRowPatternAnchor(_ Context, n *sql.RowPatternAnchor) {
 	p.moveBefore(n)
 	switch n.Anchor() {
-	case googlesql.ASTRowPatternAnchorEnums_AnchorStart:
+	case sql.Start:
 		p.print("^")
-	case googlesql.ASTRowPatternAnchorEnums_AnchorEnd:
+	case sql.End:
 		p.print("$")
+	case sql.UnspecifiedAnchor:
+		// do nothing
 	}
 	p.movePast(n)
 }

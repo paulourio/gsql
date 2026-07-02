@@ -268,13 +268,13 @@ func (p *Printer) visitPipeLimitOffset(ctx Context, n *sql.PipeLimitOffset) {
 	p.movePast(n)
 }
 
-func (p *Printer) visitPipeStaticDescribe(ctx Context, n *sql.PipeStaticDescribe) {
+func (p *Printer) visitPipeStaticDescribe(_ Context, n *sql.PipeStaticDescribe) {
 	p.moveBefore(n)
 	p.lnprint("|> " + p.keyword("STATIC_DESCRIBE"))
 	p.movePast(n)
 }
 
-func (p *Printer) visitPipeDescribe(ctx Context, n *sql.PipeDescribe) {
+func (p *Printer) visitPipeDescribe(_ Context, n *sql.PipeDescribe) {
 	p.moveBefore(n)
 	p.lnprint("|> " + p.keyword("DESCRIBE"))
 	p.movePast(n)
@@ -513,59 +513,24 @@ func (p *Printer) visitPipeRecursiveUnion(ctx Context, n *sql.PipeRecursiveUnion
 
 func (p *Printer) visitPipeFork(ctx Context, n *sql.PipeFork) {
 	p.moveBefore(n)
-	pp := p.nest()
-	pp.print("|>")
-	pp.print(pp.keyword("FORK"))
-	if h := n.Hint(); h != nil {
-		pp.print(" ")
-		pp.accept(ctx, h)
-	}
-	subs := n.SubpipelineList()
-	if len(subs) == 0 {
-		pp.print(" ()")
-	} else {
-		pp.print(" ")
-		p2 := pp.nest()
-		for i, sub := range subs {
-			if i > 0 {
-				p2.print(",")
-				p2.println("")
-			}
-			ops := sub.PipeOperatorList()
-			if len(ops) == 0 {
-				p2.print("()")
-			} else {
-				p2.print("(")
-				p2.println("")
-				p3 := p2.nest()
-				p3.incDepth()
-				for j, op := range ops {
-					if j > 0 {
-						p3.println("")
-					}
-					p3.acceptNestedLeft(ctx, op)
-				}
-				p2.print(p3.unnestLeft())
-				p2.println("")
-				p2.print(")")
-			}
-		}
-		pp.print(p2.unnestLeft())
-	}
-	p.print(pp.unnestLeft())
+	p.printPipeForkOrTee(ctx, "FORK", n.Hint(), n.SubpipelineList())
 	p.movePast(n)
 }
 
 func (p *Printer) visitPipeTee(ctx Context, n *sql.PipeTee) {
 	p.moveBefore(n)
+	p.printPipeForkOrTee(ctx, "TEE", n.Hint(), n.SubpipelineList())
+	p.movePast(n)
+}
+
+func (p *Printer) printPipeForkOrTee(ctx Context, keyword string, hint *sql.Hint, subs []*sql.Subpipeline) {
 	pp := p.nest()
 	pp.print("|>")
-	pp.print(pp.keyword("TEE"))
-	if h := n.Hint(); h != nil {
+	pp.print(pp.keyword(keyword))
+	if hint != nil {
 		pp.print(" ")
-		pp.accept(ctx, h)
+		pp.accept(ctx, hint)
 	}
-	subs := n.SubpipelineList()
 	if len(subs) == 0 {
 		pp.print(" ()")
 	} else {
@@ -598,7 +563,6 @@ func (p *Printer) visitPipeTee(ctx Context, n *sql.PipeTee) {
 		pp.print(p2.unnestLeft())
 	}
 	p.print(pp.unnestLeft())
-	p.movePast(n)
 }
 
 func (p *Printer) visitPipeIf(ctx Context, n *sql.PipeIf) {

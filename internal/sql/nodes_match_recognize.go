@@ -60,7 +60,7 @@ func newAfterMatchSkipClause(r *googlesql.ASTAfterMatchSkipClause) *AfterMatchSk
 	return &AfterMatchSkipClause{baseNode[*googlesql.ASTAfterMatchSkipClause]{raw: r}}
 }
 
-func (n *AfterMatchSkipClause) TargetType() googlesql.ASTAfterMatchSkipClauseEnums_AfterMatchSkipTargetType {
+func (n *AfterMatchSkipClause) TargetType() SkipTargetType {
 	return must(n.raw.TargetType())
 }
 
@@ -83,7 +83,7 @@ func newRowPatternOperation(r *googlesql.ASTRowPatternOperation) *RowPatternOper
 	return &RowPatternOperation{baseNode[*googlesql.ASTRowPatternOperation]{raw: r}}
 }
 
-func (n *RowPatternOperation) OpType() googlesql.ASTRowPatternOperationEnums_OperationType {
+func (n *RowPatternOperation) OpType() RowPatternOp {
 	return must(n.raw.OpType())
 }
 
@@ -107,7 +107,7 @@ func newRowPatternAnchor(r *googlesql.ASTRowPatternAnchor) *RowPatternAnchor {
 	return &RowPatternAnchor{baseNode[*googlesql.ASTRowPatternAnchor]{raw: r}}
 }
 
-func (n *RowPatternAnchor) Anchor() googlesql.ASTRowPatternAnchorEnums_Anchor {
+func (n *RowPatternAnchor) Anchor() RowPatternAnchorType {
 	return must(n.raw.Anchor())
 }
 
@@ -143,7 +143,7 @@ func newSymbolQuantifier(r *googlesql.ASTSymbolQuantifier) *SymbolQuantifier {
 	return &SymbolQuantifier{baseNode[*googlesql.ASTSymbolQuantifier]{raw: r}}
 }
 
-func (n *SymbolQuantifier) Symbol() googlesql.ASTSymbolQuantifierEnums_Symbol {
+func (n *SymbolQuantifier) Symbol() QuantifierSymbol {
 	return must(n.raw.Symbol())
 }
 
